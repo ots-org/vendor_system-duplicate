@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.org.enterprise.ots</groupId>
+  <groupId>com.fuso.enterprise.ots</groupId>
   <artifactId>ots-server-system</artifactId>
   <version>18.25-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <!-- IPT modules definition -->
+  <!-- OTS modules definition -->
   <modules>
     <module>ots-server-api</module>
     <module>ots-server-config</module>

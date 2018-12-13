@@ -3,14 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.org.enterprise.ots</groupId>
+		<groupId>com.fuso.enterprise.ots</groupId>
 		<artifactId>ots-server-system</artifactId>
 		<version>18.25-SNAPSHOT</version>
 	</parent>
 	<artifactId>ots-server-war</artifactId>
 	<name>${project.artifactId}</name>
 	<packaging>war</packaging>
-	<description>IPT war Module</description>
+	<description>OTS war Module</description>
 	<properties>
 		<jetty.port>8080</jetty.port>
 	</properties>
@@ -49,12 +49,12 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.org.enterprise.ots</groupId>
+			<groupId>com.fuso.enterprise.ots</groupId>
 			<artifactId>ots-server</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.org.enterprise.ots</groupId>
+			<groupId>com.fuso.enterprise.ots</groupId>
 			<artifactId>ots-server-ws</artifactId>
 			<version>${project.version}</version>
 		</dependency>

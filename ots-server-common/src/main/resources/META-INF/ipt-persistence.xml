@@ -9,17 +9,16 @@
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <validation-mode>AUTO</validation-mode>
 
-    <!-- IPT ENTITY CLASSES -->
-    <class>com.org.enterprise.ots.srv.server.model.entity.TmpShikeisho</class>
-    <class>com.org.enterprise.ots.srv.server.model.entity.TmpShikeishoPart</class>
-    <class>com.org.enterprise.ots.srv.server.model.entity.TmpShikeishoPartEmbedded</class>
-    <class>com.org.enterprise.ots.srv.server.model.entity.ShikeishoDetail</class>
-    <class>com.org.enterprise.ots.srv.server.model.entity.ShikeishoDetailEmbedded</class>
-    <class>com.org.enterprise.ots.srv.server.model.entity.ShikeishoPartDetail</class>
-    <class>com.org.enterprise.ots.srv.server.model.entity.ShikeishoPartDetailEmbedded</class>
-    <!-- <class>com.org.enterprise.ots.srv.server.model.entity.userEntity</class> -->
+    <!-- OTS ENTITY CLASSES -->
+    <class>com.fuso.enterprise.ots.srv.server.model.entity.TmpShikeisho</class>
+    <class>com.fuso.enterprise.ots.srv.server.model.entity.TmpShikeishoPart</class>
+    <class>com.fuso.enterprise.ots.srv.server.model.entity.TmpShikeishoPartEmbedded</class>
+    <class>com.fuso.enterprise.ots.srv.server.model.entity.ShikeishoDetail</class>
+    <class>com.fuso.enterprise.ots.srv.server.model.entity.ShikeishoDetailEmbedded</class>
+    <class>com.fuso.enterprise.ots.srv.server.model.entity.ShikeishoPartDetail</class>
+    <class>com.fuso.enterprise.ots.srv.server.model.entity.ShikeishoPartDetailEmbedded</class>
     
-    <!---IPT ORM FILES -->
+    <!---OTS ORM FILES -->
 
     <mapping-file>META-INF/ipt-sample-orm.xml</mapping-file>
 

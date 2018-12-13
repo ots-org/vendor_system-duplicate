@@ -13,9 +13,9 @@
 
   <!-- Data source Configuration -->
   <bean id="iptDataSource" class="com.microsoft.sqlserver.jdbc.SQLServerDataSource">
-    <property name="user" value="${ipt.datasource.user}" />
-    <property name="password" value="${ipt.datasource.password}" />
-    <property name="URL" value="${ipt.datasource.URL}" />
+    <property name="user" value="${ots.datasource.user}" />
+    <property name="password" value="${ots.datasource.password}" />
+    <property name="URL" value="${ots.datasource.URL}" />
   </bean>
 
   <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">

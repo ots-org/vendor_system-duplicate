@@ -46,10 +46,10 @@
   </bean>
 
  <!--  <bean id="localDateTimeParamConverterProvider"
-    class="com.org.enterprise.ots.srv.server.util.LocalDateTimeParamConverterProvider" />
+    class="com.fuso.enterprise.ots.srv.server.util.LocalDateTimeParamConverterProvider" />
 
   <bean id="localDateParamConverterProvider"
-    class="com.org.enterprise.ots.srv.server.util.LocalDateParamConverterProvider" /> -->
+    class="com.fuso.enterprise.ots.srv.server.util.LocalDateParamConverterProvider" /> -->
 
 
 
@@ -61,10 +61,10 @@
         <!-- run as filter so it is not denied by our own access filters -->
         <property name="runAsFilter" value="true" />
         <property name="basePath" value="/ots/api/OTS/v18_1" />
-        <property name="title" value="Documentation for IPT services" />
-        <property name="description" value="IPT services Documentation" />
-        <property name="contact" value="admin@ipt.com" />
-        <property name="license" value="IPT License" />
+        <property name="title" value="Documentation for OTS services" />
+        <property name="description" value="OTS services Documentation" />
+        <property name="contact" value="admin@ots.com" />
+        <property name="license" value="OTS License" />
         <property name="licenseUrl"
           value="http://ots.com/licenses/LICENSE-2.0.html" />
       </bean>
@@ -72,7 +72,7 @@
     </jaxrs:features>
     <jaxrs:serviceBeans>
       <bean
-        class="com.org.enterprise.ots.srv.rest.ws.service.IPTShikeishyoResourceV18_1WsImpl" />
+        class="com.fuso.enterprise.ots.srv.rest.ws.service.IPTShikeishyoResourceV18_1WsImpl" />
     </jaxrs:serviceBeans>
     <jaxrs:providers>
       <ref bean="iptJaxbJsonProvider" />
