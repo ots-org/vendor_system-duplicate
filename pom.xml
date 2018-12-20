@@ -2,21 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.fuso.enterprise.ots</groupId>
-  <artifactId>ots-server-system</artifactId>
+  <groupId>com.fuso.enterprise.ipt</groupId>
+  <artifactId>ipt-server-system</artifactId>
   <version>18.25-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <!-- OTS modules definition -->
+  <!-- IPT modules definition -->
   <modules>
-    <module>ots-server-api</module>
-    <module>ots-server-config</module>
-    <module>ots-server-db-dist</module>
-    <module>ots-server-common</module>
-    <module>ots-server</module>
-    <module>ots-server-ws</module>
-    <module>ots-server-war</module>
-    <module>ots-server-dist</module>
+    <module>ipt-server-api</module>
+    <module>ipt-server-config</module>
+    <module>ipt-server-db-dist</module>
+    <module>ipt-server-common</module>
+    <module>ipt-server</module>
+    <module>ipt-server-ws</module>
+    <module>ipt-server-war</module>
+    <module>ipt-server-dist</module>
   </modules>
 
   <!-- Dependency libraries versions -->
@@ -236,6 +236,7 @@
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
+	  <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
     </plugins>
