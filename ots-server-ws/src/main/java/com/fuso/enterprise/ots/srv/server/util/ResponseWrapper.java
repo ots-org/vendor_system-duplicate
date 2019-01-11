@@ -1,17 +1,19 @@
 package com.fuso.enterprise.ots.srv.server.util;
 
 import java.io.Serializable;
+import java.util.Map;
 
-public class ResponseWrapper implements Serializable {
-
+public class ResponseWrapper implements Serializable{
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private int code;
-	private String message="";
-	private Object applicationSpecific;
+	private int responseCode;
+	private String responseDescription="";
+	private Object responseData;
+	private Map<String, Object> applicationSpecific;
 	
 	public ResponseWrapper() {
 	}
@@ -19,51 +21,68 @@ public class ResponseWrapper implements Serializable {
 	/**
 	 * @param body
 	 */
-	public ResponseWrapper(Object applicationSpecific) 
+	public ResponseWrapper(Object responseData) 
 	{
-		this.applicationSpecific = applicationSpecific;
+		this.responseData = responseData;
 	}
-	public ResponseWrapper(int code, Object applicationSpecific) 
+	public ResponseWrapper(int responseCode, Object responseData) 
 	{
-		this.code = code;
-		this.applicationSpecific = applicationSpecific;
+		this.responseCode = responseCode;
+		this.responseData = responseData;
 	}
 	
 	/**
-	 * @param ret
-	 * @param error
-	 * @param body
+	 * @param responseCode
+	 * @param responseDescription
+	 * @param responseData
 	 */
-	public ResponseWrapper(int code, String message, Object applicationSpecific) {
-		this.code = code;
-		this.message = message;
-		this.applicationSpecific = applicationSpecific;
+	public ResponseWrapper(int responseCode, String responseDescription, Object responseData) {
+		this.responseCode = responseCode;
+		this.responseDescription = responseDescription;
+		this.responseData = responseData;
 	}
 
 	/**
-	 * @param ret
-	 * @param error
+	 * @param responseCode
+	 * @param responseDescription
 	 */
-	public ResponseWrapper(int code, String error) {
-		this.code = code;
-		this.message = message;
+	public ResponseWrapper(int responseCode, String responseDescription) {
+		this.responseCode = responseCode;
+		this.responseDescription = responseDescription;
+	}
+	
+	
+	public void setResponseCode(int responseCode) {
+		this.responseCode = responseCode;
 	}
 
+	public void setResponseDescription(String responseDescription) {
+		this.responseDescription = responseDescription;
+	}
+
+	public void setResponseData(Object responseData) {
+		this.responseData = responseData;
+	}
+
+	public void setApplicationSpecific(Map<String, Object> applicationSpecific) {
+		this.applicationSpecific = applicationSpecific;
+	}
+	
+	public int getResponseCode() {
+		return responseCode;
+	}
+
+	public String getResponseDescription() {
+		return responseDescription;
+	}
+
+	public Object getResponseData() {
+		return responseData;
+	}
+	
+	public Map<String, Object> getApplicationSpecific() {
+		return this.applicationSpecific;
+	}
 
 	
-
-	public int getCode() {
-		return code;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public Object getApplicationSpecific() {
-		return applicationSpecific;
-	}
-
-	
-
 }

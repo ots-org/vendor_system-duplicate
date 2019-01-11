@@ -1,11 +1,9 @@
 package com.fuso.enterprise.ots.srv.api.service.functional;
 
-import java.util.List;
-
-import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
+import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 
 public interface OTSUserService {
 	
-	List<UserDetails> getUserIDUsers(String userId);
+	UserDataBOResponse getUserIDUsers(String userId);
 
 }

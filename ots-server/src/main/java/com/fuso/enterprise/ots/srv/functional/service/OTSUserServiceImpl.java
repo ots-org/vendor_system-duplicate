@@ -4,21 +4,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
+import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
+import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 
 @Service
 @Transactional
 public class OTSUserServiceImpl implements  OTSUserService{
 	
-private Logger logger = LoggerFactory.getLogger(OTSUserServiceImpl.class);
-	
+
 	private UserServiceDAO userServiceDAO;
 	
 	@Inject
@@ -27,8 +26,15 @@ private Logger logger = LoggerFactory.getLogger(OTSUserServiceImpl.class);
 	}
 
 	@Override
-	public List<UserDetails> getUserIDUsers(String userId) {
-		return userServiceDAO.getUserIdUsers(userId);
+	public UserDataBOResponse getUserIDUsers(String userId) {
+		UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
+		try {
+			List<UserDetails> userDetailList= userServiceDAO.getUserIdUsers(userId);
+			userDataBOResponse.setUserdetails(userDetailList);
+		}catch(Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		return userDataBOResponse;
 	}
 
 }

@@ -58,6 +58,7 @@ public class ServiceExceptionMapper implements ExceptionMapper<Exception>, Messa
 		Map<String, Object> appSpecific = new HashMap<>();
 		Object[] args = null;
 		ResponseState responseState = new ResponseState();
+		ResponseWrapper responseWrapper = new ResponseWrapper();
 		logger.info("Handling exception", exception);
 		Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
 		ErrorEnumeration errorEnumeration = ErrorEnumeration.SYSTEM_ERROR;
@@ -99,8 +100,12 @@ public class ServiceExceptionMapper implements ExceptionMapper<Exception>, Messa
 		responseState.setApplicationSpecific(appSpecific);
 		responseState.setCode(Integer.toString(errorEnumeration.getErrorCode()));
 		responseState.setMessage(resolveErrorMessage(errorEnumeration, args));
+		
+		responseWrapper.setResponseCode(errorEnumeration.getErrorCode());
+		responseWrapper.setResponseDescription(resolveErrorMessage(errorEnumeration, args));
+		responseWrapper.setApplicationSpecific(appSpecific);
 		return Response.status(status).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-				.entity(responseState).build();
+				.entity(responseWrapper).build();
 	}
 
 	private String resolveErrorMessage(ErrorEnumeration errorEnumeration, Object[] args) {

@@ -26,7 +26,7 @@ import com.fuso.enterprise.ots.srv.server.util.AbstractIptDao;
 @Repository
 public class UserServiceDAOImpl extends AbstractIptDao<Users, String> implements UserServiceDAO {
 	
-	private Logger logger = LoggerFactory.getLogger(UserServiceDAOImpl.class);
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
     private JdbcTemplate jdbcTemplate;
@@ -37,27 +37,39 @@ public class UserServiceDAOImpl extends AbstractIptDao<Users, String> implements
     
     @Override
 	public List<UserDetails> getUserIdUsers(String userId) {
-    	if(userId!=null) {
-    		CriteriaBuilder criteriaBuilder = getCriteriaBuilder();
-            CriteriaQuery<Users> criteriaQuery = criteriaBuilder.createQuery(Users.class);
-            Root<Users> root = criteriaQuery.from(Users.class);
-            List<Predicate> predicates = new ArrayList<Predicate>();
-            predicates.add(criteriaBuilder.equal(root.get("userid"), userId));
-          
-            if (!predicates.isEmpty()) {
-                criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
-            }
-            List<Users> userList = null;
-            try {
-            	 userList = super.getResultListByCriteria(criteriaQuery);
-            } catch (NoResultException e) {
-            	throw new BusinessException(e.getMessage(), e);
-            }
-            //@formatter:off
-            return userList.stream().map(users -> convertUserDetailsFromEntityToDomain(users)).collect(Collectors.toList());
-            //@formatter:on
-    	}else {
-    		return null;
+    	List<UserDetails> userDetails = new ArrayList<UserDetails>();
+    	try {
+	    	if(userId!=null) {
+	    		CriteriaBuilder criteriaBuilder = getCriteriaBuilder();
+	            CriteriaQuery<Users> criteriaQuery = criteriaBuilder.createQuery(Users.class);
+	            Root<Users> root = criteriaQuery.from(Users.class);
+	            List<Predicate> predicates = new ArrayList<Predicate>();
+	            predicates.add(criteriaBuilder.equal(root.get("userid"), userId));
+	          
+	            if (!predicates.isEmpty()) {
+	                criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+	            }
+	            List<Users> userList = null;
+	            try {
+	            	 userList = super.getResultListByCriteria(criteriaQuery);
+	            } catch (NoResultException e) {
+	            	logger.error("Exception while fetching data from DB :"+e.getMessage());
+	        		e.printStackTrace();
+	            	throw new BusinessException(e.getMessage(), e);
+	            }
+	            logger.info("Inside Event=1,Class:UserServiceDAOImpl,Method:getUserIDUsers, "
+						+ "UserList Size:" +userList.size());
+	            //@formatter:off
+	            userDetails =  userList.stream().map(users -> convertUserDetailsFromEntityToDomain(users)).collect(Collectors.toList());
+	            return userDetails;
+	            //@formatter:on
+	    	}else {
+	    		return null;
+	    	}
+    	}catch(Exception e) {
+    		logger.error("Exception while fetching data from DB :"+e.getMessage());
+    		e.printStackTrace();
+    		throw new BusinessException(e.getMessage(), e);
     	}
 		
 	}
