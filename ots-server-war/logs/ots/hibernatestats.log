@@ -1,0 +1,120 @@
+2019-01-11 09:57:06,882 [qtp1242969461-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.hibernate.engine.internal.StatisticalLoggingSessionEventListener - Session Metrics {
+    329191942 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    25126898 nanoseconds spent preparing 1 JDBC statements;
+    11454771 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    75074 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2019-01-11 09:59:46,536 [qtp1947683363-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.hibernate.engine.internal.StatisticalLoggingSessionEventListener - Session Metrics {
+    365087277 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    29477922 nanoseconds spent preparing 1 JDBC statements;
+    11595073 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    11172524 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    94766 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2019-01-11 10:45:59,644 [qtp791412502-17][0:0:0:0:0:0:0:1][][][][][][] INFO org.hibernate.engine.internal.StatisticalLoggingSessionEventListener - Session Metrics {
+    1240658898 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2019-01-11 10:49:38,434 [qtp848102479-21][0:0:0:0:0:0:0:1][][][][][][] INFO org.hibernate.engine.internal.StatisticalLoggingSessionEventListener - Session Metrics {
+    21134553557 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2019-01-11 10:50:03,741 [qtp848102479-23][0:0:0:0:0:0:0:1][][][][][][] INFO org.hibernate.engine.internal.StatisticalLoggingSessionEventListener - Session Metrics {
+    20996543303 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    0 nanoseconds spent preparing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    0 nanoseconds spent executing 0 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2019-01-11 10:54:45,523 [qtp2127481101-23][0:0:0:0:0:0:0:1][][][][][][] INFO org.hibernate.engine.internal.StatisticalLoggingSessionEventListener - Session Metrics {
+    513530799 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    15989993 nanoseconds spent preparing 1 JDBC statements;
+    23989297 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    9852777 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    83689 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2019-01-11 10:55:49,479 [qtp2127481101-23][0:0:0:0:0:0:0:1][][][][][][] INFO org.hibernate.engine.internal.StatisticalLoggingSessionEventListener - Session Metrics {
+    426582928 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    2129975 nanoseconds spent preparing 1 JDBC statements;
+    21420774 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    3509619 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    177635 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2019-01-11 11:00:20,449 [qtp74735260-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.hibernate.engine.internal.StatisticalLoggingSessionEventListener - Session Metrics {
+    472730204 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    16395312 nanoseconds spent preparing 1 JDBC statements;
+    35673394 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    7199743 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    71382 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2019-01-11 11:11:42,915 [qtp2018164030-22][0:0:0:0:0:0:0:1][][][][][][] INFO org.hibernate.engine.internal.StatisticalLoggingSessionEventListener - Session Metrics {
+    450528330 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    15468166 nanoseconds spent preparing 1 JDBC statements;
+    21988548 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    8850966 nanoseconds spent executing 1 flushes (flushing a total of 1 entities and 0 collections);
+    76715 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
+2019-01-11 11:34:12,351 [qtp2018164030-16][0:0:0:0:0:0:0:1][][][][][][] INFO org.hibernate.engine.internal.StatisticalLoggingSessionEventListener - Session Metrics {
+    196277302 nanoseconds spent acquiring 1 JDBC connections;
+    0 nanoseconds spent releasing 0 JDBC connections;
+    115688 nanoseconds spent preparing 1 JDBC statements;
+    15687235 nanoseconds spent executing 1 JDBC statements;
+    0 nanoseconds spent executing 0 JDBC batches;
+    0 nanoseconds spent performing 0 L2C puts;
+    0 nanoseconds spent performing 0 L2C hits;
+    0 nanoseconds spent performing 0 L2C misses;
+    0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
+    8615 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
+}
