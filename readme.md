@@ -1,5 +1,5 @@
 # Build Process
-mvn clean install 
+mvn clean instal 
 
 # A folder has to be created on the server to save the uploded PDF files
 # folder name : C:/optfiles/pdf
