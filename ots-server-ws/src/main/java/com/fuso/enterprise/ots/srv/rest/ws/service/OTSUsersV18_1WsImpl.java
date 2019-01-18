@@ -13,7 +13,7 @@ import com.fuso.enterprise.ots.srv.server.util.ResponseWrapper;
 public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	
+	ResponseWrapper responseWrapper ;
 	@Inject
 	private OTSUserService otsUserService;
 
@@ -28,7 +28,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 				logger.info("Inside Event=1,Class:OTSUsersV18_1WsImpl,Method:getUserIDUsers, "
 						+ "UserList Size:" +UserDataBOResponse.getUserdetails().size());
 			}
-			response = buildResponse(UserDataBOResponse);
+			response = responseWrapper.buildResponse(UserDataBOResponse);
 			
 		}catch(BusinessException e) {
 			throw new BusinessException(e.getMessage(), e);
@@ -38,9 +38,6 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		return response;
 	}
 
-	public Response buildResponse(Object data) {
-		ResponseWrapper wrapper = new ResponseWrapper(200, data);
-		return Response.ok(wrapper).build();
-	}
+	
 	
 }

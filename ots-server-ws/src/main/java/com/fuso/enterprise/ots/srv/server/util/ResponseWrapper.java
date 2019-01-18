@@ -3,6 +3,8 @@ package com.fuso.enterprise.ots.srv.server.util;
 import java.io.Serializable;
 import java.util.Map;
 
+import javax.ws.rs.core.Response;
+
 public class ResponseWrapper implements Serializable{
 	
 	/**
@@ -84,5 +86,9 @@ public class ResponseWrapper implements Serializable{
 		return this.applicationSpecific;
 	}
 
+	static public Response buildResponse(Object data) {
+		ResponseWrapper wrapper = new ResponseWrapper(200, data);
+		return Response.ok(wrapper).build();
+	}
 	
 }
