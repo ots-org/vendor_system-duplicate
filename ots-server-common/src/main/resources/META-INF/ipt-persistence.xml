@@ -11,7 +11,12 @@
 
     <!-- IPT ENTITY CLASSES -->
     
-    <class>com.fuso.enterprise.ots.srv.server.model.entity.Users</class>
+    
+    <class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers</class>
+    <class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration</class>
+    <class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole</class>
+    <class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUserMapping</class>
+   
     
     <!---OTS ORM FILES -->
 
