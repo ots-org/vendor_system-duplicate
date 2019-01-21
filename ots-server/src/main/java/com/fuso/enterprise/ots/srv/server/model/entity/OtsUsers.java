@@ -45,7 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsUsers.findByOtsUsersProfilePic", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersProfilePic = :otsUsersProfilePic"),
     @NamedQuery(name = "OtsUsers.findByOtsUsersStatus", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersStatus = :otsUsersStatus"),
     @NamedQuery(name = "OtsUsers.findByOtsUsersTimestamp", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersTimestamp = :otsUsersTimestamp"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersCreated", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersCreated = :otsUsersCreated")})
+    @NamedQuery(name = "OtsUsers.findByOtsUsersCreated", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersCreated = :otsUsersCreated"),
+    @NamedQuery(name = "OtsUsers.findByOtsUsersPassword", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersPassword = :otsUsersPassword"),
+    @NamedQuery(name = "OtsUsers.findByOtsUsersContactNo", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersContactNo = :otsUsersContactNo")})
 public class OtsUsers implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -75,6 +77,10 @@ public class OtsUsers implements Serializable {
     @Column(name = "ots_users_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsUsersCreated;
+    @Column(name = "ots_users_password")
+    private String otsUsersPassword;
+    @Column(name = "ots_users_contact_no")
+    private String otsUsersContactNo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsUserMapping> otsUserMappingCollection;
     @JoinColumn(name = "ots_registration_id", referencedColumnName = "ots_registration_id")
@@ -179,6 +185,22 @@ public class OtsUsers implements Serializable {
 
     public void setOtsUsersCreated(Date otsUsersCreated) {
         this.otsUsersCreated = otsUsersCreated;
+    }
+
+    public String getOtsUsersPassword() {
+        return otsUsersPassword;
+    }
+
+    public void setOtsUsersPassword(String otsUsersPassword) {
+        this.otsUsersPassword = otsUsersPassword;
+    }
+
+    public String getOtsUsersContactNo() {
+        return otsUsersContactNo;
+    }
+
+    public void setOtsUsersContactNo(String otsUsersContactNo) {
+        this.otsUsersContactNo = otsUsersContactNo;
     }
 
     @XmlTransient

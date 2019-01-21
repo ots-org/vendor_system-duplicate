@@ -45,7 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationProfilePic", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationProfilePic = :otsRegistrationProfilePic"),
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationStatus", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationStatus = :otsRegistrationStatus"),
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationTimestamp", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationTimestamp = :otsRegistrationTimestamp"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationCreated", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationCreated = :otsRegistrationCreated")})
+    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationCreated", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationCreated = :otsRegistrationCreated"),
+    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationPassword", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationPassword = :otsRegistrationPassword"),
+    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationContactNo", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationContactNo = :otsRegistrationContactNo")})
 public class OtsRegistration implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -75,6 +77,10 @@ public class OtsRegistration implements Serializable {
     @Column(name = "ots_registration_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsRegistrationCreated;
+    @Column(name = "ots_registration_password")
+    private String otsRegistrationPassword;
+    @Column(name = "ots_registration_contact_no")
+    private String otsRegistrationContactNo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsRegistrationId")
     private Collection<OtsUsers> otsUsersCollection;
     @JoinColumn(name = "ots_user_role_id", referencedColumnName = "ots_user_role_id")
@@ -177,6 +183,22 @@ public class OtsRegistration implements Serializable {
 
     public void setOtsRegistrationCreated(Date otsRegistrationCreated) {
         this.otsRegistrationCreated = otsRegistrationCreated;
+    }
+
+    public String getOtsRegistrationPassword() {
+        return otsRegistrationPassword;
+    }
+
+    public void setOtsRegistrationPassword(String otsRegistrationPassword) {
+        this.otsRegistrationPassword = otsRegistrationPassword;
+    }
+
+    public String getOtsRegistrationContactNo() {
+        return otsRegistrationContactNo;
+    }
+
+    public void setOtsRegistrationContactNo(String otsRegistrationContactNo) {
+        this.otsRegistrationContactNo = otsRegistrationContactNo;
     }
 
     @XmlTransient
