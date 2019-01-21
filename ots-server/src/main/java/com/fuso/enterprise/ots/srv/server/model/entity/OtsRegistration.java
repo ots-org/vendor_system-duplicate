@@ -83,6 +83,9 @@ public class OtsRegistration implements Serializable {
     private String otsRegistrationContactNo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsRegistrationId")
     private Collection<OtsUsers> otsUsersCollection;
+    @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
+    @ManyToOne(optional = false)
+    private OtsProduct otsProductId;
     @JoinColumn(name = "ots_user_role_id", referencedColumnName = "ots_user_role_id")
     @ManyToOne(optional = false)
     private OtsUserRole otsUserRoleId;
@@ -208,6 +211,14 @@ public class OtsRegistration implements Serializable {
 
     public void setOtsUsersCollection(Collection<OtsUsers> otsUsersCollection) {
         this.otsUsersCollection = otsUsersCollection;
+    }
+
+    public OtsProduct getOtsProductId() {
+        return otsProductId;
+    }
+
+    public void setOtsProductId(OtsProduct otsProductId) {
+        this.otsProductId = otsProductId;
     }
 
     public OtsUserRole getOtsUserRoleId() {
