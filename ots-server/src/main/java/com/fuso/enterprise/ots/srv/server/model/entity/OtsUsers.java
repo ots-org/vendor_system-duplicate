@@ -71,12 +71,6 @@ public class OtsUsers implements Serializable {
     private String otsUsersProfilePic;
     @Column(name = "ots_users_status")
     private String otsUsersStatus;
-    @Column(name = "ots_users_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsUsersTimestamp;
-    @Column(name = "ots_users_created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsUsersCreated;
     @Column(name = "ots_users_password")
     private String otsUsersPassword;
     @Column(name = "ots_users_contact_no")
@@ -171,22 +165,6 @@ public class OtsUsers implements Serializable {
 
     public void setOtsUsersStatus(String otsUsersStatus) {
         this.otsUsersStatus = otsUsersStatus;
-    }
-
-    public Date getOtsUsersTimestamp() {
-        return otsUsersTimestamp;
-    }
-
-    public void setOtsUsersTimestamp(Date otsUsersTimestamp) {
-        this.otsUsersTimestamp = otsUsersTimestamp;
-    }
-
-    public Date getOtsUsersCreated() {
-        return otsUsersCreated;
-    }
-
-    public void setOtsUsersCreated(Date otsUsersCreated) {
-        this.otsUsersCreated = otsUsersCreated;
     }
 
     public String getOtsUsersPassword() {

@@ -16,8 +16,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
+import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.AbstractIptDao;
 
@@ -58,19 +62,81 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
     	return userDetails;
 		
 	}
+    
+    
+    public List<UserDetails> getEmailIdUsers(String emailId) {
+    	List<UserDetails> userDetails = new ArrayList<UserDetails>();
+    	try {
+            List<OtsUsers> userList = null;
+            try {
+            	Map<String, Object> queryParameter = new HashMap<>();
+    			queryParameter.put("otsUsersEmailid", emailId);
+    			userList  = super.getResultListByNamedQuery("OtsUsers.findByOtsUsersEmailid", queryParameter);
+            } catch (NoResultException e) {
+            	logger.error("Exception while fetching data from DB :"+e.getMessage());
+        		e.printStackTrace();
+            	throw new BusinessException(e.getMessage(), e);
+            }
+            
+            userDetails =  userList.stream().map(otsUsers -> convertUserDetailsFromEntityToDomain(otsUsers)).collect(Collectors.toList());
+    	}catch(Exception e) {
+    		logger.error("Exception while fetching data from DB :"+e.getMessage());
+    		e.printStackTrace();
+    		throw new BusinessException(e.getMessage(), e);
+    	}
+    	return userDetails;
+		
+	}
+    
+    
+    @Override
+	public UserDataBOResponse addNewUser(AddUserDataBORequest addUserDataBORequest) {
+		 List<UserDetails> userDetails = new ArrayList<UserDetails>();
+		 UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
+	 		try{
+		 		OtsUsers userEntity=new OtsUsers();
+				userEntity.setOtsUsersFirstname(addUserDataBORequest.getRequestData().getFirstName());
+				userEntity.setOtsUsersLastname(addUserDataBORequest.getRequestData().getLastName());
+				userEntity.setOtsUsersAddr1(addUserDataBORequest.getRequestData().getAddress1());
+				userEntity.setOtsUsersAddr2(addUserDataBORequest.getRequestData().getAddress2());
+				userEntity.setOtsUsersPincode(addUserDataBORequest.getRequestData().getPincode());
+				userEntity.setOtsUsersPassword(addUserDataBORequest.getRequestData().getUsrPassword());
+				userEntity.setOtsUsersEmailid(addUserDataBORequest.getRequestData().getEmailId());
+				userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
+				OtsUserRole otsUserRole = new OtsUserRole();
+				otsUserRole.setOtsUserRoleId(Integer.parseInt(addUserDataBORequest.getRequestData().getUserRoleId()));
+				userEntity.setOtsUserRoleId(otsUserRole);
+			    userEntity.setOtsUsersStatus(addUserDataBORequest.getRequestData().getUsrStatus());
+				userEntity.setOtsUsersProfilePic(addUserDataBORequest.getRequestData().getProfilePic());
+				OtsRegistration otsRegistration = new OtsRegistration();
+				otsRegistration.setOtsRegistrationId(Integer.parseInt(addUserDataBORequest.getRequestData().getRegistrationId()));
+				userEntity.setOtsRegistrationId(otsRegistration);
+				try{
+					super.getEntityManager().merge(userEntity);
+				}catch (NoResultException e) {
+					logger.error("Exception while Inserting data to DB :"+e.getMessage());
+		    		e.printStackTrace();
+		        	throw new BusinessException(e.getMessage(), e);
+				}
+				userDetails = getEmailIdUsers(addUserDataBORequest.getRequestData().getEmailId());
+				userDataBOResponse.setUserdetails(userDetails);
+				logger.info("Inside Event=1004,Class:UserServiceDAOImpl,Method:addNewUser, "
+  						+ "userDetails Size:" +userDetails.size());
+			}catch (NoResultException e) {
+	           	logger.error("Exception while Inserting data to DB :"+e.getMessage());
+	       		e.printStackTrace();
+	           	throw new BusinessException(e.getMessage(), e);
+			}
+			return  userDataBOResponse;
+	}
+    
 
     private UserDetails convertUserDetailsFromEntityToDomain(OtsUsers otsUsers) {
         UserDetails userDetails = new UserDetails();
-        userDetails.setFirstname(otsUsers.getOtsUsersFirstname());
-        userDetails.setLastname(otsUsers.getOtsUsersLastname());
-        userDetails.setAddress(otsUsers.getOtsUsersAddr1()+","+otsUsers.getOtsUsersAddr2());
-        userDetails.setEmailId(otsUsers.getOtsUsersEmailid());
-        userDetails.setUsrStatus(otsUsers.getOtsUsersStatus());
+        userDetails.setUserId(otsUsers.getOtsUsersId().toString());
+        userDetails.setFirstName(otsUsers.getOtsUsersFirstname());
+        userDetails.setLastName(otsUsers.getOtsUsersLastname());
         return userDetails;
     }
 
-   
-
-	
-	
 }
