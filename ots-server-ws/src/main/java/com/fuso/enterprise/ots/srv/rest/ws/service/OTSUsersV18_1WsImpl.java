@@ -30,7 +30,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			UserDataBOResponse = otsUserService.getUserIDUsers(userId);
 			if(UserDataBOResponse!=null) {
 				logger.info("Inside Event=1,Class:OTSUsersV18_1WsImpl,Method:getUserIDUsers, "
-						+ "UserList Size:" +UserDataBOResponse.getUserdetails().size());
+						+ "UserList Size:" +UserDataBOResponse.getUserDetails().size());
 			}
 			response = responseWrapper.buildResponse(UserDataBOResponse);
 			
@@ -52,7 +52,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			UserDataBOResponse = otsUserService.addNewUser(addUserDataBORequest);
 			if (UserDataBOResponse != null) {
 				logger.info("Inside Event=1004,Class:OTSUsersV18_1WsImpl,Method:addNewUser, " + "UserList Size:"
-						+ UserDataBOResponse.getUserdetails().size());
+						+ UserDataBOResponse.getUserDetails().size());
 			}
 			response = responseWrapper.buildResponse(UserDataBOResponse);
 			} catch (BusinessException e) {

@@ -119,7 +119,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 		        	throw new BusinessException(e.getMessage(), e);
 				}
 				userDetails = getEmailIdUsers(addUserDataBORequest.getRequestData().getEmailId());
-				userDataBOResponse.setUserdetails(userDetails);
+				userDataBOResponse.setUserDetails(userDetails);
 				logger.info("Inside Event=1004,Class:UserServiceDAOImpl,Method:addNewUser, "
   						+ "userDetails Size:" +userDetails.size());
 			}catch (NoResultException e) {

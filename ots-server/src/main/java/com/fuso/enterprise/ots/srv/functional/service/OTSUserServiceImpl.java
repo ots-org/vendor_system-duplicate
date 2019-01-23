@@ -36,7 +36,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
 		try {
 			List<UserDetails> userDetailList= userServiceDAO.getUserIdUsers(userId);
-			userDataBOResponse.setUserdetails(userDetailList);
+			userDataBOResponse.setUserDetails(userDetailList);
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
