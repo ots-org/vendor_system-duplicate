@@ -10,14 +10,21 @@
     <validation-mode>AUTO</validation-mode>
 
     <!-- IPT ENTITY CLASSES -->
-	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers</class>
-	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration</class>
-	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole</class>
-	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUserMapping</class>
-	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsCustomerProduct</class>
-	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct</class>
-   <!---OTS ORM FILES -->
-
+    
+    
+  		<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers</class>
+    	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration</class>
+   		<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUserMapping</class>
+   		<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUseRole</class>
+    	<class>com.fuso.enterprise.ots.srv.server.model.entity.Users</class>
+ 		<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct</class>
+    	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsCustomerProduct</class>
+   
+    
+    <!---OTS ORM FILES -->
+	<mapping-file>META-INF/ipt-sample-orm.xml</mapping-file>
+   
+	
   </persistence-unit>
 
 </persistence>

@@ -5,41 +5,12 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
 	version="2.0">
 	<description>OTS ORM mappings</description>
-	<named-query name="getUserForApproval">
-		<query>
-	   		SELECT
-				  users  
-			FROM
-				Users users
-				
-			WHERE
-				users.userid = :userId
-				AND users.user_status = :userStatus
-				
-    	</query>
-	</named-query>
-	<named-query name="getUserCheck">
-		<query>
-	   		SELECT
-				  users  
-			FROM
-				Users users
-				
-			WHERE
-				users.userid = :userId
-    	</query>
-	</named-query>
-	<named-query name="userForApproval">
-		<query>
-	   		SELECT
-				  users  
-			FROM
-				Users users
-				
-			WHERE
-				users.userid = :userId
-    	</query>
-	</named-query>
-	
-		
+	  <named-query name="OtsUsers.findByUserOtsRoleId">
+		<query>SELECT o 
+		FROM 
+			OtsUsers o, OtsUserRole r	
+		WHERE 
+			r.otsUserRoleId = :otsUserRoleId
+		</query>
+	</named-query> 			
 </entity-mappings>

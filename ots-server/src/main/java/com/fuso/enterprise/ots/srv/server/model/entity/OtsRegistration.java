@@ -45,9 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationProfilePic", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationProfilePic = :otsRegistrationProfilePic"),
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationStatus", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationStatus = :otsRegistrationStatus"),
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationTimestamp", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationTimestamp = :otsRegistrationTimestamp"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationCreated", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationCreated = :otsRegistrationCreated"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationPassword", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationPassword = :otsRegistrationPassword"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationContactNo", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationContactNo = :otsRegistrationContactNo")})
+    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationCreated", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationCreated = :otsRegistrationCreated")})
 public class OtsRegistration implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -77,15 +75,8 @@ public class OtsRegistration implements Serializable {
     @Column(name = "ots_registration_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsRegistrationCreated;
-    @Column(name = "ots_registration_password")
-    private String otsRegistrationPassword;
-    @Column(name = "ots_registration_contact_no")
-    private String otsRegistrationContactNo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsRegistrationId")
     private Collection<OtsUsers> otsUsersCollection;
-    @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
-    @ManyToOne(optional = false)
-    private OtsProduct otsProductId;
     @JoinColumn(name = "ots_user_role_id", referencedColumnName = "ots_user_role_id")
     @ManyToOne(optional = false)
     private OtsUserRole otsUserRoleId;
@@ -188,22 +179,6 @@ public class OtsRegistration implements Serializable {
         this.otsRegistrationCreated = otsRegistrationCreated;
     }
 
-    public String getOtsRegistrationPassword() {
-        return otsRegistrationPassword;
-    }
-
-    public void setOtsRegistrationPassword(String otsRegistrationPassword) {
-        this.otsRegistrationPassword = otsRegistrationPassword;
-    }
-
-    public String getOtsRegistrationContactNo() {
-        return otsRegistrationContactNo;
-    }
-
-    public void setOtsRegistrationContactNo(String otsRegistrationContactNo) {
-        this.otsRegistrationContactNo = otsRegistrationContactNo;
-    }
-
     @XmlTransient
     public Collection<OtsUsers> getOtsUsersCollection() {
         return otsUsersCollection;
@@ -211,14 +186,6 @@ public class OtsRegistration implements Serializable {
 
     public void setOtsUsersCollection(Collection<OtsUsers> otsUsersCollection) {
         this.otsUsersCollection = otsUsersCollection;
-    }
-
-    public OtsProduct getOtsProductId() {
-        return otsProductId;
-    }
-
-    public void setOtsProductId(OtsProduct otsProductId) {
-        this.otsProductId = otsProductId;
     }
 
     public OtsUserRole getOtsUserRoleId() {

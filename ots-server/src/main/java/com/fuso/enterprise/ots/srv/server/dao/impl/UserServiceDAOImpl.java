@@ -1,4 +1,3 @@
-
 package com.fuso.enterprise.ots.srv.server.dao.impl;
 
 import java.util.ArrayList;
@@ -14,15 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
+import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
-import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
-import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
-import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
+import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration;
-import com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole;
-import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole;import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.AbstractIptDao;
 
 @Repository
@@ -62,9 +59,9 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
     	return userDetails;
 		
 	}
-    
-    
-    public List<UserDetails> getEmailIdUsers(String emailId) {
+
+    @Override
+   	public List<UserDetails> getEmailIdUsers(String emailId) {
     	List<UserDetails> userDetails = new ArrayList<UserDetails>();
     	try {
             List<OtsUsers> userList = null;
@@ -139,4 +136,9 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         return userDetails;
     }
 
+	@Override
+	public List<UserDetails> getUserListbasedonrole(String userRoleId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

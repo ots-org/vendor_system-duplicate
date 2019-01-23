@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.ParameterExpression;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
+
 public interface GenericDao<T, PK extends Serializable> {
 
 	void save(T entity);
@@ -51,5 +53,7 @@ public interface GenericDao<T, PK extends Serializable> {
 	Object getResultByNativeQuery(String nativeQueryString, Map<String, Object> queryParameters);
 
 	String getIdByNamedQuery(String queryName, Map<String, Object> queryParameters);
+
+
 
 }

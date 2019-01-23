@@ -18,6 +18,7 @@ import javax.persistence.criteria.ParameterExpression;
 
 import org.springframework.stereotype.Repository;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 
@@ -333,4 +334,5 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
 			throw new BusinessException(exp, ErrorEnumeration.SYSTEM_ERROR);
 		}
 	}
+
 }

@@ -42,7 +42,7 @@ public class DateUtils {
         }
     }
 
-    private static String parseDate(Date date) {
+    public static String parseDate(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(date);
     }

@@ -1,9 +1,12 @@
 package com.fuso.enterprise.ots.srv.server.util;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 
 public abstract class AbstractIptDao<T, PK extends Serializable> extends GenericDaoImpl<T, PK> {
 
@@ -16,5 +19,7 @@ public abstract class AbstractIptDao<T, PK extends Serializable> extends Generic
 	public void setEntityManager(EntityManager entityManager) {
 		super.setEntityManager(entityManager);
 	}
+
+
 
 }

@@ -12,10 +12,10 @@ public class UserDataBOResponse {
 		return userDetails;
 	}
 
+	public void setUserdetails(List<UserDetails> userDetails) {
+		this.userDetails = userDetails;
+	}
 	public void setUserDetails(List<UserDetails> userDetails) {
 		this.userDetails = userDetails;
 	}
-
-	
-	
 }
