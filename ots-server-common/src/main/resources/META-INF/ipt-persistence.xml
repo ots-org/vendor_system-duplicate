@@ -10,18 +10,14 @@
     <validation-mode>AUTO</validation-mode>
 
     <!-- IPT ENTITY CLASSES -->
-    
-    
-    <class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers</class>
-    <class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration</class>
-    <class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole</class>
-    <class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUserMapping</class>
-   
-    
-    <!---OTS ORM FILES -->
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUserMapping</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsCustomerProduct</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct</class>
+   <!---OTS ORM FILES -->
 
-   
-	
   </persistence-unit>
 
 </persistence>
