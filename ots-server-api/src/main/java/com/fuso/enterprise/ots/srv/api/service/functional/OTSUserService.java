@@ -4,7 +4,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
-
+import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
 public interface OTSUserService {
 	
 	UserDataBOResponse getUserIDUsers(String userId);
@@ -12,5 +12,7 @@ public interface OTSUserService {
 	UserDataBOResponse addNewUser(AddUserDataBORequest addUserDataBORequest);
 
 	MapUsersDataBOResponse mappUser(MapUsersDataBORequest mapUsersDataBORequest);
+
+	UserDataBOResponse getUserDetails(RequestBOUserBySearch requestBOUserBySearch);
 
 }

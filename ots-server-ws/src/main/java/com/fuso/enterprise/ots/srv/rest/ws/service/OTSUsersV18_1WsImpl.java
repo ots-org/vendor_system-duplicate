@@ -3,8 +3,10 @@ package com.fuso.enterprise.ots.srv.rest.ws.service;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
+import org.jvnet.hk2.annotations.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.annotation.Validated;
 
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
@@ -13,6 +15,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.util.ResponseWrapper;
+import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
 
 public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	
@@ -81,6 +84,49 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			throw new BusinessException(e.getMessage(), e);
 		}
 		return response;
+	}
+
+	@Override
+	public Response getUserDetails(RequestBOUserBySearch requestBOUserBySearch) {		
+	if(!requestBOUserBySearch.getRequestData().getSearchKey().isEmpty()|| !requestBOUserBySearch.getRequestData().getSearchKey().isEmpty())
+		{ 
+			Response response =null;
+			logger.info("Inside Event=1008,Class:OTSUsersV18_1WsImpl, Method:getUserDetails, RequestBOUserBySearch:"+requestBOUserBySearch);
+			UserDataBOResponse UserDataBOResponse = new UserDataBOResponse();
+			try {
+				UserDataBOResponse = otsUserService.getUserDetails(requestBOUserBySearch);
+				if(UserDataBOResponse!=null) {
+					logger.info("Inside Event=1008,Class:OTSUsersV18_1WsImpl,Method:getUserDetails, "
+							+ "UserList Size:" +UserDataBOResponse.getUserDetails().size());
+				}
+				if(UserDataBOResponse.getUserDetails().size() == 0) {
+					response = buildResponse("input is not present in DB");
+				}else{
+					response = buildResponse(UserDataBOResponse,"Successfull");
+				}
+				
+			}catch(BusinessException e) {
+				throw new BusinessException(e.getMessage(), e);
+			}catch(Throwable e) {
+				throw new BusinessException(e.getMessage(), e);
+			}
+		
+			return response;
+		}else
+		{
+			Response response = buildResponse("Check Input");
+			return response;
+		}
+	}
+
+	public Response buildResponse(Object data,String description) {
+		ResponseWrapper wrapper = new ResponseWrapper(200,description, data);
+		return Response.ok(wrapper).build();
+	}
+	
+	public Response buildResponse(String description) {
+		ResponseWrapper wrapper = new ResponseWrapper(600,description);
+		return Response.ok(wrapper).build();
 	}
 
 }

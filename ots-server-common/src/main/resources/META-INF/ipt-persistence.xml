@@ -18,6 +18,8 @@
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct</class>
    <!---OTS ORM FILES -->
 
+	<mapping-file>META-INF/ipt-sample-orm.xml</mapping-file>
+	
   </persistence-unit>
 
 </persistence>

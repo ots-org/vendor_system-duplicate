@@ -52,6 +52,9 @@ public class UserDetails {
 	 @Size(max = 100)
 	 private String UserRoleId;
 
+	 @Size(max = 100)
+     private String Password;
+
 	public String getUserId() {
 		return userId;
 	}
@@ -163,7 +166,15 @@ public class UserDetails {
 	public void setRegistrationId(String registrationId) {
 		this.registrationId = registrationId;
 	}
+	
+    public String getPassword() {
+		return Password;
+	}
 
+	public void setPassword(String password) {
+		Password = password;
+	}
+ 
 	public String getUserRoleId() {
 		return UserRoleId;
 	}

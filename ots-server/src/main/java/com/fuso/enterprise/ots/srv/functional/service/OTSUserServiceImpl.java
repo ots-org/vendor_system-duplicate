@@ -12,23 +12,27 @@ import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
+import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.UserMapDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
+import com.fuso.enterprise.ots.srv.server.dao.UserServiceUtilityDAO;
 
 @Service
 @Transactional
 public class OTSUserServiceImpl implements  OTSUserService{
-	
+
 
 	private UserServiceDAO userServiceDAO;
 	private UserMapDAO userMapDAO;
-	
+	private UserServiceUtilityDAO userServiceUtilityDAO;
+
 	@Inject
-	public OTSUserServiceImpl(UserServiceDAO userServiceDAO,UserMapDAO userMapDAO) {
+	public OTSUserServiceImpl(UserServiceDAO userServiceDAO,UserMapDAO userMapDAO,UserServiceUtilityDAO userServiceUtilityDAO) {
 		this.userServiceDAO=userServiceDAO;
 		this.userMapDAO=userMapDAO;
+		this.userServiceUtilityDAO = userServiceUtilityDAO;
 	}
 
 	@Override
@@ -49,6 +53,18 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		try {
 			userDataBOResponse = userServiceDAO.addNewUser(addUserDataBORequest);
 		} catch (Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		return userDataBOResponse;
+	}
+
+	@Override
+	public UserDataBOResponse getUserDetails(RequestBOUserBySearch requestBOUserBySearch) {
+		UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
+		try {
+			List<UserDetails> userDetailList= userServiceUtilityDAO.getUserDetails(requestBOUserBySearch);
+			userDataBOResponse.setUserDetails(userDetailList);
+		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		return userDataBOResponse;
