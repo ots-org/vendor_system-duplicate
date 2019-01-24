@@ -1,0 +1,429 @@
+2019-01-11 09:56:06,264 [qtp1242969461-20][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 1
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Upgrade-Insecure-Requests=[1], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 09:56:06,320 [qtp1242969461-20][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 09:56:06,750 [qtp1242969461-20][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"responseCode":1001,"responseDescription":"Input parameter incorrect","applicationSpecific":{"resolvedMessage":"2001, getUserIDUsers.arg0- may not be null"}}
+2019-01-11 09:56:06,750 [qtp1242969461-20][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 1
+Response-Code: 400
+Content-Type: application/json
+Headers: {Content-Type=[application/json], Date=[Fri, 11 Jan 2019 04:26:06 GMT]}
+Payload: {"responseCode":1001,"responseDescription":"Input parameter incorrect","applicationSpecific":{"resolvedMessage":"2001, getUserIDUsers.arg0- may not be null"}}
+--------------------------------------
+2019-01-11 09:56:32,591 [qtp1242969461-17][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 2
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], Cache-Control=[max-age=0], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Upgrade-Insecure-Requests=[1], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 09:56:32,591 [qtp1242969461-17][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 09:56:53,137 [qtp1242969461-17][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"responseCode":1001,"responseDescription":"Input parameter incorrect","applicationSpecific":{"resolvedMessage":"2001, getUserIDUsers.arg0- may not be null"}}
+2019-01-11 09:56:53,137 [qtp1242969461-17][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 2
+Response-Code: 400
+Content-Type: application/json
+Headers: {Content-Type=[application/json], Date=[Fri, 11 Jan 2019 04:26:53 GMT]}
+Payload: {"responseCode":1001,"responseDescription":"Input parameter incorrect","applicationSpecific":{"resolvedMessage":"2001, getUserIDUsers.arg0- may not be null"}}
+--------------------------------------
+2019-01-11 09:57:05,787 [qtp1242969461-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 3
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?userId=null
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Upgrade-Insecure-Requests=[1], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 09:57:05,787 [qtp1242969461-18][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 09:57:06,901 [qtp1242969461-18][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"responseCode":200,"responseDescription":"","responseData":{"userdetails":[]}}
+2019-01-11 09:57:06,902 [qtp1242969461-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 3
+Response-Code: 200
+Content-Type: application/json
+Headers: {Content-Type=[application/json], Date=[Fri, 11 Jan 2019 04:27:06 GMT]}
+Payload: {"responseCode":200,"responseDescription":"","responseData":{"userdetails":[]}}
+--------------------------------------
+2019-01-11 09:59:45,639 [qtp1947683363-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 1
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?userId=3
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 09:59:45,671 [qtp1947683363-18][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 09:59:46,821 [qtp1947683363-18][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"responseCode":200,"responseDescription":"","responseData":{"userdetails":[{"firstname":"sreedharan","lastname":"Appaswamy","adsAuthentication":false}]}}
+2019-01-11 09:59:46,822 [qtp1947683363-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 1
+Response-Code: 200
+Content-Type: application/json
+Headers: {Content-Type=[application/json], Date=[Fri, 11 Jan 2019 04:29:46 GMT]}
+Payload: {"responseCode":200,"responseDescription":"","responseData":{"userdetails":[{"firstname":"sreedharan","lastname":"Appaswamy","adsAuthentication":false}]}}
+--------------------------------------
+2019-01-11 10:08:27,191 [qtp1506648430-21][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 1
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?userId=3
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:08:27,387 [qtp1506648430-21][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:08:27,387 [qtp1506648430-21][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 1
+Response-Code: 415
+Content-Type: 
+Headers: {Date=[Fri, 11 Jan 2019 04:38:27 GMT], Content-Length=[0]}
+--------------------------------------
+2019-01-11 10:08:38,135 [qtp1506648430-22][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 2
+Address: http://localhost:8080/ots/api/v18_1/api-docs/swagger.json
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json;charset=utf-8,*/*], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:08:38,215 [qtp1506648430-22][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"swagger":"2.0","info":{"description":"OTS services Documentation","version":"1.0.0","title":"Documentation for OTS services","contact":{"name":"admin@ots.com"},"license":{"name":"OTS License","url":"http://ots.com/licenses/LICENSE-2.0.html"}},"basePath":"/ots/api/v18_1","tags":[{"name":"OTSUsersV18_1Ws"}],"paths":{"/users/get-userID-users":{"get":{"tags":["OTSUsersV18_1Ws"],"summary":"get-userID-users","description":"This operation will give the list of user based on userID","operationId":"getUserIDUsers","produces":["application/json"],"parameters":[{"in":"body","name":"body","description":"userDataBORequest","required":true,"schema":{"$ref":"#/definitions/UserDataBORequest"}}],"responses":{"default":{"description":"SUCCESS"}}}}},"definitions":{"UserDataBORequest":{"type":"object","properties":{"userId":{"type":"string"}}}}}
+2019-01-11 10:08:38,215 [qtp1506648430-22][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 2
+Response-Code: 200
+Content-Type: application/json
+Headers: {Date=[Fri, 11 Jan 2019 04:38:38 GMT], Content-Type=[application/json]}
+Payload: {"swagger":"2.0","info":{"description":"OTS services Documentation","version":"1.0.0","title":"Documentation for OTS services","contact":{"name":"admin@ots.com"},"license":{"name":"OTS License","url":"http://ots.com/licenses/LICENSE-2.0.html"}},"basePath":"/ots/api/v18_1","tags":[{"name":"OTSUsersV18_1Ws"}],"paths":{"/users/get-userID-users":{"get":{"tags":["OTSUsersV18_1Ws"],"summary":"get-userID-users","description":"This operation will give the list of user based on userID","operationId":"getUserIDUsers","produces":["application/json"],"parameters":[{"in":"body","name":"body","description":"userDataBORequest","required":true,"schema":{"$ref":"#/definitions/UserDataBORequest"}}],"responses":{"default":{"description":"SUCCESS"}}}}},"definitions":{"UserDataBORequest":{"type":"object","properties":{"userId":{"type":"string"}}}}}
+--------------------------------------
+2019-01-11 10:08:54,253 [qtp1506648430-23][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 3
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users
+Http-Method: GET
+Content-Type: application/x-www-form-urlencoded
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], content-type=[application/x-www-form-urlencoded], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:08:54,253 [qtp1506648430-23][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:08:54,253 [qtp1506648430-23][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 3
+Response-Code: 415
+Content-Type: 
+Headers: {Date=[Fri, 11 Jan 2019 04:38:54 GMT], Content-Length=[0]}
+--------------------------------------
+2019-01-11 10:09:02,753 [qtp1506648430-21][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 4
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users
+Http-Method: GET
+Content-Type: application/x-www-form-urlencoded
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], content-type=[application/x-www-form-urlencoded], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:09:02,769 [qtp1506648430-21][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:09:02,769 [qtp1506648430-21][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 4
+Response-Code: 415
+Content-Type: 
+Headers: {Date=[Fri, 11 Jan 2019 04:39:02 GMT], Content-Length=[0]}
+--------------------------------------
+2019-01-11 10:09:16,603 [qtp1506648430-19][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 5
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users
+Http-Method: GET
+Content-Type: application/x-www-form-urlencoded
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], content-type=[application/x-www-form-urlencoded], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:09:16,603 [qtp1506648430-19][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:09:16,603 [qtp1506648430-19][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 5
+Response-Code: 415
+Content-Type: 
+Headers: {Date=[Fri, 11 Jan 2019 04:39:16 GMT], Content-Length=[0]}
+--------------------------------------
+2019-01-11 10:09:29,686 [qtp1506648430-22][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 6
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users
+Http-Method: GET
+Content-Type: application/x-www-form-urlencoded
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], content-type=[application/x-www-form-urlencoded], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:09:29,686 [qtp1506648430-22][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:09:29,686 [qtp1506648430-22][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 6
+Response-Code: 415
+Content-Type: 
+Headers: {Date=[Fri, 11 Jan 2019 04:39:29 GMT], Content-Length=[0]}
+--------------------------------------
+2019-01-11 10:09:32,053 [qtp1506648430-20][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 7
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users
+Http-Method: GET
+Content-Type: application/x-www-form-urlencoded
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], content-type=[application/x-www-form-urlencoded], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:09:32,068 [qtp1506648430-20][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:09:32,068 [qtp1506648430-20][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 7
+Response-Code: 415
+Content-Type: 
+Headers: {Date=[Fri, 11 Jan 2019 04:39:32 GMT], Content-Length=[0]}
+--------------------------------------
+2019-01-11 10:10:09,203 [qtp1506648430-19][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 8
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users
+Http-Method: GET
+Content-Type: application/x-www-form-urlencoded
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], content-type=[application/x-www-form-urlencoded], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:10:09,207 [qtp1506648430-19][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:10:09,207 [qtp1506648430-19][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 8
+Response-Code: 415
+Content-Type: 
+Headers: {Date=[Fri, 11 Jan 2019 04:40:09 GMT], Content-Length=[0]}
+--------------------------------------
+2019-01-11 10:45:50,904 [qtp791412502-19][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 1
+Address: http://localhost:8080/ots/api/v18_1/api-docs/swagger.json
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json;charset=utf-8,*/*], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:45:51,164 [qtp791412502-19][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"swagger":"2.0","info":{"description":"OTS services Documentation","version":"1.0.0","title":"Documentation for OTS services","contact":{"name":"admin@ots.com"},"license":{"name":"OTS License","url":"http://ots.com/licenses/LICENSE-2.0.html"}},"basePath":"/ots/api/v18_1","tags":[{"name":"OTSUsersV18_1Ws"}],"paths":{"/users/get-userID-users":{"get":{"tags":["OTSUsersV18_1Ws"],"summary":"get-userID-users","description":"This operation will give the list of user based on userID","operationId":"getUserIDUsers","produces":["application/json"],"parameters":[{"name":"userId","in":"query","description":"userId","required":true,"type":"string"}],"responses":{"default":{"description":"SUCCESS"}}}}}}
+2019-01-11 10:45:51,164 [qtp791412502-19][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 1
+Response-Code: 200
+Content-Type: application/json
+Headers: {Date=[Fri, 11 Jan 2019 05:15:51 GMT], Content-Type=[application/json]}
+Payload: {"swagger":"2.0","info":{"description":"OTS services Documentation","version":"1.0.0","title":"Documentation for OTS services","contact":{"name":"admin@ots.com"},"license":{"name":"OTS License","url":"http://ots.com/licenses/LICENSE-2.0.html"}},"basePath":"/ots/api/v18_1","tags":[{"name":"OTSUsersV18_1Ws"}],"paths":{"/users/get-userID-users":{"get":{"tags":["OTSUsersV18_1Ws"],"summary":"get-userID-users","description":"This operation will give the list of user based on userID","operationId":"getUserIDUsers","produces":["application/json"],"parameters":[{"name":"userId","in":"query","description":"userId","required":true,"type":"string"}],"responses":{"default":{"description":"SUCCESS"}}}}}}
+--------------------------------------
+2019-01-11 10:45:57,960 [qtp791412502-17][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 2
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?userId=3
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:45:57,976 [qtp791412502-17][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:46:03,605 [qtp791412502-17][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"responseCode":1001,"responseDescription":"Input parameter incorrect","applicationSpecific":{"resolvedMessage":"org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection"}}
+2019-01-11 10:46:03,605 [qtp791412502-17][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 2
+Response-Code: 400
+Content-Type: application/json
+Headers: {Content-Type=[application/json], Date=[Fri, 11 Jan 2019 05:16:03 GMT]}
+Payload: {"responseCode":1001,"responseDescription":"Input parameter incorrect","applicationSpecific":{"resolvedMessage":"org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection"}}
+--------------------------------------
+2019-01-11 10:49:17,067 [qtp848102479-21][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 1
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?userId=3
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:49:17,098 [qtp848102479-21][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:49:35,723 [qtp848102479-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 2
+Address: http://localhost:8080/ots/api/v18_1/api-docs/swagger.json
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json;charset=utf-8,*/*], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:49:36,151 [qtp848102479-18][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"swagger":"2.0","info":{"description":"OTS services Documentation","version":"1.0.0","title":"Documentation for OTS services","contact":{"name":"admin@ots.com"},"license":{"name":"OTS License","url":"http://ots.com/licenses/LICENSE-2.0.html"}},"basePath":"/ots/api/v18_1","tags":[{"name":"OTSUsersV18_1Ws"}],"paths":{"/users/get-userID-users":{"get":{"tags":["OTSUsersV18_1Ws"],"summary":"get-userID-users","description":"This operation will give the list of user based on userID","operationId":"getUserIDUsers","produces":["application/json"],"parameters":[{"name":"userId","in":"query","description":"userId","required":true,"type":"string"}],"responses":{"default":{"description":"SUCCESS"}}}}}}
+2019-01-11 10:49:36,152 [qtp848102479-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 2
+Response-Code: 200
+Content-Type: application/json
+Headers: {Date=[Fri, 11 Jan 2019 05:19:36 GMT], Content-Type=[application/json]}
+Payload: {"swagger":"2.0","info":{"description":"OTS services Documentation","version":"1.0.0","title":"Documentation for OTS services","contact":{"name":"admin@ots.com"},"license":{"name":"OTS License","url":"http://ots.com/licenses/LICENSE-2.0.html"}},"basePath":"/ots/api/v18_1","tags":[{"name":"OTSUsersV18_1Ws"}],"paths":{"/users/get-userID-users":{"get":{"tags":["OTSUsersV18_1Ws"],"summary":"get-userID-users","description":"This operation will give the list of user based on userID","operationId":"getUserIDUsers","produces":["application/json"],"parameters":[{"name":"userId","in":"query","description":"userId","required":true,"type":"string"}],"responses":{"default":{"description":"SUCCESS"}}}}}}
+--------------------------------------
+2019-01-11 10:49:42,731 [qtp848102479-23][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 3
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?userId=3
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:49:42,731 [qtp848102479-23][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:49:54,133 [qtp848102479-21][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"responseCode":1001,"responseDescription":"Input parameter incorrect","applicationSpecific":{"resolvedMessage":"org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection"}}
+2019-01-11 10:49:54,133 [qtp848102479-21][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 1
+Response-Code: 400
+Content-Type: application/json
+Headers: {Content-Type=[application/json], Date=[Fri, 11 Jan 2019 05:19:54 GMT]}
+Payload: {"responseCode":1001,"responseDescription":"Input parameter incorrect","applicationSpecific":{"resolvedMessage":"org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection"}}
+--------------------------------------
+2019-01-11 10:50:18,344 [qtp848102479-23][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"responseCode":1001,"responseDescription":"Input parameter incorrect","applicationSpecific":{"resolvedMessage":"org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection"}}
+2019-01-11 10:50:18,344 [qtp848102479-23][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 3
+Response-Code: 400
+Content-Type: application/json
+Headers: {Content-Type=[application/json], Date=[Fri, 11 Jan 2019 05:20:18 GMT]}
+Payload: {"responseCode":1001,"responseDescription":"Input parameter incorrect","applicationSpecific":{"resolvedMessage":"org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection"}}
+--------------------------------------
+2019-01-11 10:54:35,366 [qtp2127481101-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 1
+Address: http://localhost:8080/ots/api/v18_1/api-docs/swagger.json
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json;charset=utf-8,*/*], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:54:35,599 [qtp2127481101-18][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"swagger":"2.0","info":{"description":"OTS services Documentation","version":"1.0.0","title":"Documentation for OTS services","contact":{"name":"admin@ots.com"},"license":{"name":"OTS License","url":"http://ots.com/licenses/LICENSE-2.0.html"}},"basePath":"/ots/api/v18_1","tags":[{"name":"OTSUsersV18_1Ws"}],"paths":{"/users/get-userID-users":{"get":{"tags":["OTSUsersV18_1Ws"],"summary":"get-userID-users","description":"This operation will give the list of user based on userID","operationId":"getUserIDUsers","produces":["application/json"],"parameters":[{"name":"userId","in":"query","description":"userId","required":true,"type":"string"}],"responses":{"default":{"description":"SUCCESS"}}}}}}
+2019-01-11 10:54:35,599 [qtp2127481101-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 1
+Response-Code: 200
+Content-Type: application/json
+Headers: {Date=[Fri, 11 Jan 2019 05:24:35 GMT], Content-Type=[application/json]}
+Payload: {"swagger":"2.0","info":{"description":"OTS services Documentation","version":"1.0.0","title":"Documentation for OTS services","contact":{"name":"admin@ots.com"},"license":{"name":"OTS License","url":"http://ots.com/licenses/LICENSE-2.0.html"}},"basePath":"/ots/api/v18_1","tags":[{"name":"OTSUsersV18_1Ws"}],"paths":{"/users/get-userID-users":{"get":{"tags":["OTSUsersV18_1Ws"],"summary":"get-userID-users","description":"This operation will give the list of user based on userID","operationId":"getUserIDUsers","produces":["application/json"],"parameters":[{"name":"userId","in":"query","description":"userId","required":true,"type":"string"}],"responses":{"default":{"description":"SUCCESS"}}}}}}
+--------------------------------------
+2019-01-11 10:54:44,370 [qtp2127481101-23][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 2
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?userId=3
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:54:44,370 [qtp2127481101-23][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:54:45,528 [qtp2127481101-23][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:54:45,528 [qtp2127481101-23][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 2
+Response-Code: 204
+Content-Type: application/json
+Headers: {Date=[Fri, 11 Jan 2019 05:24:45 GMT], Content-Length=[0]}
+--------------------------------------
+2019-01-11 10:55:38,059 [qtp2127481101-23][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 3
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?userId=3
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 10:55:38,059 [qtp2127481101-23][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:56:14,352 [qtp2127481101-23][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 10:56:14,352 [qtp2127481101-23][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 3
+Response-Code: 204
+Content-Type: application/json
+Headers: {Date=[Fri, 11 Jan 2019 05:26:14 GMT], Content-Length=[0]}
+--------------------------------------
+2019-01-11 11:00:11,742 [qtp74735260-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 1
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?userId=3
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 11:00:11,774 [qtp74735260-18][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 11:00:20,677 [qtp74735260-18][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"responseCode":200,"responseDescription":"","responseData":{"userdetails":[{"firstname":"user1","lastname":"name1","adsAuthentication":false}]}}
+2019-01-11 11:00:20,677 [qtp74735260-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 1
+Response-Code: 200
+Content-Type: application/json
+Headers: {Content-Type=[application/json], Date=[Fri, 11 Jan 2019 05:30:20 GMT]}
+Payload: {"responseCode":200,"responseDescription":"","responseData":{"userdetails":[{"firstname":"user1","lastname":"name1","adsAuthentication":false}]}}
+--------------------------------------
+2019-01-11 11:11:34,090 [qtp2018164030-17][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 1
+Address: http://localhost:8080/ots/api/v18_1/api-docs/swagger.json
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json;charset=utf-8,*/*], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 11:11:34,487 [qtp2018164030-17][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"swagger":"2.0","info":{"description":"OTS services Documentation","version":"1.0.0","title":"Documentation for OTS services","contact":{"name":"admin@ots.com"},"license":{"name":"OTS License","url":"http://ots.com/licenses/LICENSE-2.0.html"}},"basePath":"/ots/api/v18_1","tags":[{"name":"OTSUsersV18_1Ws"}],"paths":{"/users/get-userID-users":{"get":{"tags":["OTSUsersV18_1Ws"],"summary":"get-userID-users","description":"This operation will give the list of user based on userID","operationId":"getUserIDUsers","produces":["application/json"],"parameters":[{"name":"userId","in":"query","description":"userId","required":true,"type":"string"}],"responses":{"default":{"description":"SUCCESS"}}}}}}
+2019-01-11 11:11:34,487 [qtp2018164030-17][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 1
+Response-Code: 200
+Content-Type: application/json
+Headers: {Date=[Fri, 11 Jan 2019 05:41:34 GMT], Content-Type=[application/json]}
+Payload: {"swagger":"2.0","info":{"description":"OTS services Documentation","version":"1.0.0","title":"Documentation for OTS services","contact":{"name":"admin@ots.com"},"license":{"name":"OTS License","url":"http://ots.com/licenses/LICENSE-2.0.html"}},"basePath":"/ots/api/v18_1","tags":[{"name":"OTSUsersV18_1Ws"}],"paths":{"/users/get-userID-users":{"get":{"tags":["OTSUsersV18_1Ws"],"summary":"get-userID-users","description":"This operation will give the list of user based on userID","operationId":"getUserIDUsers","produces":["application/json"],"parameters":[{"name":"userId","in":"query","description":"userId","required":true,"type":"string"}],"responses":{"default":{"description":"SUCCESS"}}}}}}
+--------------------------------------
+2019-01-11 11:11:41,791 [qtp2018164030-22][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 2
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?userId=3
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[application/json], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Referer=[http://localhost:8080/ots/swagger-ui/index.html?url=/ots/api/v18_1/api-docs/swagger.json], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 11:11:41,806 [qtp2018164030-22][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 11:11:42,965 [qtp2018164030-22][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"responseCode":200,"responseDescription":"","responseData":{"userdetails":[{"firstname":"user1","lastname":"name1","adsAuthentication":false}]}}
+2019-01-11 11:11:42,967 [qtp2018164030-22][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 2
+Response-Code: 200
+Content-Type: application/json
+Headers: {Content-Type=[application/json], Date=[Fri, 11 Jan 2019 05:41:42 GMT]}
+Payload: {"responseCode":200,"responseDescription":"","responseData":{"userdetails":[{"firstname":"user1","lastname":"name1","adsAuthentication":false}]}}
+--------------------------------------
+2019-01-11 11:34:12,074 [qtp2018164030-16][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 3
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users?userId=null
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], Cache-Control=[max-age=0], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Upgrade-Insecure-Requests=[1], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 11:34:12,074 [qtp2018164030-16][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 11:34:12,354 [qtp2018164030-16][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"responseCode":200,"responseDescription":"","responseData":{"userdetails":[]}}
+2019-01-11 11:34:12,354 [qtp2018164030-16][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 3
+Response-Code: 200
+Content-Type: application/json
+Headers: {Content-Type=[application/json], Date=[Fri, 11 Jan 2019 06:04:12 GMT]}
+Payload: {"responseCode":200,"responseDescription":"","responseData":{"userdetails":[]}}
+--------------------------------------
+2019-01-11 11:34:19,290 [qtp2018164030-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingInInterceptor - Inbound Message
+----------------------------
+ID: 4
+Address: http://localhost:8080/ots/api/v18_1/users/get-userID-users
+Http-Method: GET
+Content-Type: 
+Headers: {Accept=[text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8], accept-encoding=[gzip, deflate, br], Accept-Language=[en-US,en;q=0.9], connection=[keep-alive], Content-Type=[null], Host=[localhost:8080], Upgrade-Insecure-Requests=[1], User-Agent=[Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36]}
+--------------------------------------
+2019-01-11 11:34:19,290 [qtp2018164030-18][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - 
+2019-01-11 11:34:19,374 [qtp2018164030-18][0:0:0:0:0:0:0:1][][][][][][] INFO JAXRSPAYLOAD - {"responseCode":1001,"responseDescription":"Input parameter incorrect","applicationSpecific":{"resolvedMessage":"2001, getUserIDUsers.arg0- may not be null"}}
+2019-01-11 11:34:19,376 [qtp2018164030-18][0:0:0:0:0:0:0:1][][][][][][] INFO org.apache.cxf.interceptor.LoggingOutInterceptor - Outbound Message
+---------------------------
+ID: 4
+Response-Code: 400
+Content-Type: application/json
+Headers: {Content-Type=[application/json], Date=[Fri, 11 Jan 2019 06:04:19 GMT]}
+Payload: {"responseCode":1001,"responseDescription":"Input parameter incorrect","applicationSpecific":{"resolvedMessage":"2001, getUserIDUsers.arg0- may not be null"}}
+--------------------------------------
