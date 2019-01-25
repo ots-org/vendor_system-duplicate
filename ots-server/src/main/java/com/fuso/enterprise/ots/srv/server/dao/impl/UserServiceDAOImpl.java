@@ -17,6 +17,8 @@ import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
@@ -136,7 +138,50 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         userDetails.setUserId(otsUsers.getOtsUsersId().toString());
         userDetails.setFirstName(otsUsers.getOtsUsersFirstname());
         userDetails.setLastName(otsUsers.getOtsUsersLastname());
+		userDetails.setContactNo(otsUsers.getOtsUsersContactNo());
+        userDetails.setAddress1(otsUsers.getOtsUsersAddr1());
+        userDetails.setAddress2(otsUsers.getOtsUsersAddr2());
+        userDetails.setPincode(otsUsers.getOtsUsersPincode());
+        userDetails.setUserRoleId(otsUsers.getOtsUserRoleId().getOtsUserRoleId().toString());
+        userDetails.setEmailId(otsUsers.getOtsUsersEmailid()); 
+        userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic());
+        userDetails.setUsrStatus(otsUsers.getOtsUsersStatus());
+        userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic());
+        userDetails.setProductId(otsUsers.getOtsCustomerProductCollection().toString());
+        userDetails.setMappedTo(otsUsers.getOtsUserMappingCollection().toString());   
+        userDetails.setUsrPassword(otsUsers.getOtsUsersPassword());
+     
         return userDetails;
     }
+
+	@Override
+	public LoginUserResponse otsLoginAuthentication(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
+		String EmailId = loginAuthenticationBOrequest.getRequestData().getEmailId();
+		String Password = loginAuthenticationBOrequest.getRequestData().getPassword();
+		LoginUserResponse loginUserResponse = new LoginUserResponse();
+		UserDetails userDetails = new UserDetails();
+    	try{
+          OtsUsers userData = null;
+            try {
+            	Map<String, Object> queryParameter = new HashMap<>();
+    			queryParameter.put("otsUsersEmailid", EmailId);
+    			userData  = super.getResultByNamedQuery("OtsUsers.findByOtsUsersEmailid", queryParameter);  			
+            }catch (NoResultException e) {
+            	logger.error("Exception while fetching data from DB :"+e.getMessage());
+        		e.printStackTrace();
+            	throw new BusinessException(e.getMessage(), e);
+            }
+            logger.info("Inside Event=1,Class:UserServiceDAOImpl,Method:getUserIDUsers, "
+					+ "UserData:" +userData);           
+            userDetails =  convertUserDetailsFromEntityToDomain(userData);
+            loginUserResponse.setUserDetails(userDetails);                   
+    	}catch(Exception e) {
+    		logger.error("Exception while fetching data from DB :"+e.getMessage());
+    		e.printStackTrace();
+    		throw new BusinessException(e.getMessage(), e);
+    	}
+    	return loginUserResponse;
+		
+	}
 
 }

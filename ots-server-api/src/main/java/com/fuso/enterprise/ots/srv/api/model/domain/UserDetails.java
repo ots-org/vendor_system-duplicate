@@ -51,9 +51,39 @@ public class UserDetails {
 	    
 	 @Size(max = 100)
 	 private String UserRoleId;
-
+ 
+	@Size(max = 100)
+	 private String mappedTo;
+	 
 	 @Size(max = 100)
-     private String Password;
+	 private String productPrice;
+	 
+	 @Size(max = 100)
+	 private String productId;	 
+	 
+	 public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+	public String getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(String productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public String getMappedTo() {
+		return mappedTo;
+	 }
+
+	 public void setMappedTo(String mappedTo) {
+		this.mappedTo = mappedTo;
+	 }
 
 	public String getUserId() {
 		return userId;
@@ -165,16 +195,7 @@ public class UserDetails {
 
 	public void setRegistrationId(String registrationId) {
 		this.registrationId = registrationId;
-	}
-	
-    public String getPassword() {
-		return Password;
-	}
-
-	public void setPassword(String password) {
-		Password = password;
-	}
- 
+	}	
 	public String getUserRoleId() {
 		return UserRoleId;
 	}

@@ -11,7 +11,9 @@ import com.fuso.enterprise.ots.srv.api.model.domain.RegistorToUserDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
@@ -110,5 +112,14 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		return getNewRegistrationResponse;	
 	}
 
+	@Override
+	public LoginUserResponse otsLoginAuthentication(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
+		
+		try {
+			return userServiceDAO.otsLoginAuthentication(loginAuthenticationBOrequest);
+            } catch (Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+	}
 
 }

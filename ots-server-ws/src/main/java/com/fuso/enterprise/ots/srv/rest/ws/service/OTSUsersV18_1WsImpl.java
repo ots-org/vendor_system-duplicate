@@ -8,9 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.LoginAuthenticationModel;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
@@ -96,7 +99,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	if(!requestBOUserBySearch.getRequestData().getSearchKey().isEmpty()|| !requestBOUserBySearch.getRequestData().getSearchKey().isEmpty())
 		{ 
 			Response response =null;
-			logger.info("Inside Event=1008,Class:OTSUsersV18_1WsImpl, Method:getUserDetails, RequestBOUserBySearch:"+requestBOUserBySearch);
+			logger.info("Inside Event=VM1-T18 and VM1-T13,Class:OTSUsersV18_1WsImpl, Method:getUserDetails, RequestBOUserBySearch:"+requestBOUserBySearch);
 			UserDataBOResponse UserDataBOResponse = new UserDataBOResponse();
 			try {
 				UserDataBOResponse = otsUserService.getUserDetails(requestBOUserBySearch);
@@ -178,4 +181,42 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		return Response.ok(wrapper).build();
 	}
 
+	@Override
+	public Response otsLoginAuthentication(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
+		
+		System.out.println("loginUserRequest++++++++++++++++++1"+loginAuthenticationBOrequest.getRequestData().getPassword());
+		
+		
+		if(!loginAuthenticationBOrequest.getRequestData().getEmailId().isEmpty()|| !loginAuthenticationBOrequest.getRequestData().getPassword().isEmpty())
+		{ 
+			Response response =null;
+			logger.info("Inside Event=VM1-T28,Class:OTSUsersV18_1WsImpl, Method:otsLoginAuthentication, loginAuthenticationBOrequest:"+loginAuthenticationBOrequest);
+			LoginUserResponse loginUserResponse = new LoginUserResponse();
+			try {
+				loginUserResponse = otsUserService.otsLoginAuthentication(loginAuthenticationBOrequest);
+				if(loginUserResponse!=null) {
+					logger.info("Inside Event=1008,Class:OTSUsersV18_1WsImpl,Method:getUserDetails, "
+							+ "UserData" +loginUserResponse.getUserDetails());
+					System.out.println("loginUserResponse++++++++++++++++++2"+loginUserResponse.getUserDetails().getUsrPassword());
+				}
+				LoginAuthenticationModel loginAuth = new LoginAuthenticationModel();
+				if(loginUserResponse.getUserDetails().getEmailId().isEmpty()||!loginAuthenticationBOrequest.getRequestData().getPassword().equals(loginUserResponse.getUserDetails().getUsrPassword())) {
+					response = buildResponse("Password is Incorrect");
+				}else{
+					response = buildResponse(loginUserResponse,"Successfull");
+				}
+				
+			}catch(BusinessException e) {
+				throw new BusinessException(e.getMessage(), e);
+			}catch(Throwable e) {
+				throw new BusinessException(e.getMessage(), e);
+			}
+		
+			return response;
+		}else
+		{
+			Response response = buildResponse("Check Input");
+			return response;
+		}
+	}
 }

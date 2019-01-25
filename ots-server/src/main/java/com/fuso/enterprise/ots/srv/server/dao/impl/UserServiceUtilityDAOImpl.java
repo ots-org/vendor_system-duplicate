@@ -98,7 +98,7 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	   	userDetails.setRegistrationId(users.getOtsRegistrationId().getOtsRegistrationId().toString());
 	   	userDetails.setUserRoleId(users.getOtsUserRoleId().getOtsUserRoleId().toString());
 	   	userDetails.setUsrStatus(users.getOtsUsersStatus());
-	   	userDetails.setPassword(users.getOtsUsersPassword());
+	   	userDetails.setUsrPassword(users.getOtsUsersPassword()); 
 	   	return userDetails;
    }
 
