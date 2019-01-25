@@ -183,10 +183,6 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 
 	@Override
 	public Response otsLoginAuthentication(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
-		
-		System.out.println("loginUserRequest++++++++++++++++++1"+loginAuthenticationBOrequest.getRequestData().getPassword());
-		
-		
 		if(!loginAuthenticationBOrequest.getRequestData().getEmailId().isEmpty()|| !loginAuthenticationBOrequest.getRequestData().getPassword().isEmpty())
 		{ 
 			Response response =null;
@@ -197,7 +193,6 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 				if(loginUserResponse!=null) {
 					logger.info("Inside Event=1008,Class:OTSUsersV18_1WsImpl,Method:getUserDetails, "
 							+ "UserData" +loginUserResponse.getUserDetails());
-					System.out.println("loginUserResponse++++++++++++++++++2"+loginUserResponse.getUserDetails().getUsrPassword());
 				}
 				LoginAuthenticationModel loginAuth = new LoginAuthenticationModel();
 				if(loginUserResponse.getUserDetails().getEmailId().isEmpty()||!loginAuthenticationBOrequest.getRequestData().getPassword().equals(loginUserResponse.getUserDetails().getUsrPassword())) {
