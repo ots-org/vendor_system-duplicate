@@ -13,6 +13,11 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
+import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
+
+import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.util.ResponseWrapper;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
@@ -117,6 +122,50 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			Response response = buildResponse("Check Input");
 			return response;
 		}
+	}
+
+	@Override
+	public Response addUserRegistration( AddNewBORequest addNewBORequest) {
+		Response response;
+		logger.info("Inside Event=1001,Class:OTSUsersV18_1WsImpl, addUserRegistration, "
+				+ "addNewBORequest:"+addNewBORequest.getRequestData().getEmailId()+",FirstName:"+addNewBORequest.getRequestData().getFirstName()+",LastName:"+addNewBORequest.getRequestData().getLastName());
+		UserRegistrationResponce userRegistrationResponce = new UserRegistrationResponce();
+		try {
+			userRegistrationResponce.setEmailId(otsUserService.addUserRegistration(addNewBORequest));  
+			if(!userRegistrationResponce.getEmailId().isEmpty()) {
+				logger.info("Inside Event=1001,Class:OTSUsersV18_1WsImpl,Method:addUserRegistration, "
+						+ "UserEmail:" +userRegistrationResponce.getEmailId());
+			}
+			response = responseWrapper.buildResponse(userRegistrationResponce.getEmailId(),"User Successfully Added for Registration");
+		}catch(BusinessException e) {
+			throw new BusinessException(e.getMessage(), e);
+		}catch(Throwable e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		return response;
+	}
+
+	@Override
+	public Response getNewRegistration(MappedToBORequest mappedToBORequest) {
+		Response response = null;
+		String strMessage = "There Are No Mapped Users";
+		logger.info("Inside Event=1002,Class:OTSUsersV18_1WsImpl, addUserRegistration, "
+				+ "addNewBORequest, getMappedUser for UserId:"+mappedToBORequest.getRequestData().getMappedTo());
+		GetNewRegistrationResponse getNewRegistrationResponse = new GetNewRegistrationResponse();
+		try {
+			getNewRegistrationResponse = otsUserService.getNewRegistration(mappedToBORequest.getRequestData().getMappedTo());
+			if(!getNewRegistrationResponse.getRegistorToUserDetails().isEmpty()) {
+				logger.info("Inside Event=1002,Class:OTSUsersV18_1WsImpl,Method:getNewRegistration, "
+						+ "UserListSize:" + getNewRegistrationResponse.getRegistorToUserDetails().size());
+				strMessage ="User Retrieved Succesfully";
+			}
+			response = responseWrapper.buildResponse(getNewRegistrationResponse.getRegistorToUserDetails(),strMessage);
+		}catch(BusinessException e) {
+			throw new BusinessException(e.getMessage(), e);
+		}catch(Throwable e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		return response;
 	}
 
 	public Response buildResponse(Object data,String description) {

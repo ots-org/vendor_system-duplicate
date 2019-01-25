@@ -91,4 +91,9 @@ public class ResponseWrapper implements Serializable{
 		return Response.ok(wrapper).build();
 	}
 	
+	static public Response buildResponse(Object data,String responseDescription) {
+		ResponseWrapper wrapper = new ResponseWrapper(200,responseDescription, data);
+		return Response.ok(wrapper).build();
+	}
+	
 }

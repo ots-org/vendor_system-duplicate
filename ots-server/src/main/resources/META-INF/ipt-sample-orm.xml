@@ -12,5 +12,16 @@
 		WHERE 
 			r.otsUserRoleId = :otsUserRoleId
 		</query>
-	</named-query> 			
+	</named-query> 	
+
+	<named-query name="OtsUsers.findByRegistrationTable">
+		<query>SELECT r 
+		FROM 
+			OtsRegistration r,OtsUsers o
+		WHERE 
+			o.otsUsersId = :otsUsersMappedTo 
+		AND
+			r.otsRegistrationStatus = 'Active'
+		</query>
+	</named-query> 		
 </entity-mappings>

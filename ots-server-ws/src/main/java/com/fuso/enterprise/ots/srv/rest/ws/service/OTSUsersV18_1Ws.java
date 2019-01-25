@@ -12,6 +12,10 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
@@ -53,6 +57,18 @@ public interface OTSUsersV18_1Ws {
 	@ApiOperation(value = "getUserDetails", notes = "Getting User Request Based On Name, Email and getUserDetails", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getUserDetails(@ApiParam(value = "request", required = true) @NotNull  @Valid RequestBOUserBySearch  requestBOUserBySearch);		
+
+	@POST
+    @Path("/addUserRegistration")
+	@ApiOperation(value = "UserRegistration", notes = "This operation will help to register the user", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response addUserRegistration(@NotNull @RequestBody AddNewBORequest addNewBORequest);
+	
+	@POST
+    @Path("/getNewRegistration")
+	@ApiOperation(value = "getNewRegistration", notes = "This operation will give the list of user based on MappedTo", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getNewRegistration(@NotNull @RequestBody MappedToBORequest mappedToBORequest);
 
 		
 }
