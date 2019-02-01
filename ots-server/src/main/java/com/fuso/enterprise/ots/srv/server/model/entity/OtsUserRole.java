@@ -36,9 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsUserRole.findByOtsUserRoleId", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleId = :otsUserRoleId"),
     @NamedQuery(name = "OtsUserRole.findByOtsUserRoleCode", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleCode = :otsUserRoleCode"),
     @NamedQuery(name = "OtsUserRole.findByOtsUserRoleName", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleName = :otsUserRoleName"),
-    @NamedQuery(name = "OtsUserRole.findByOtsUserRoleStatus", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleStatus = :otsUserRoleStatus"),
-    @NamedQuery(name = "OtsUserRole.findByOtsUserRoleTimestamp", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleTimestamp = :otsUserRoleTimestamp"),
-    @NamedQuery(name = "OtsUserRole.findByOtsUserRoleCreated", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleCreated = :otsUserRoleCreated")})
+    @NamedQuery(name = "OtsUserRole.findByOtsUserRoleStatus", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleStatus = :otsUserRoleStatus")})
 public class OtsUserRole implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,12 +50,6 @@ public class OtsUserRole implements Serializable {
     private String otsUserRoleName;
     @Column(name = "ots_user_role_status")
     private String otsUserRoleStatus;
-    @Column(name = "ots_user_role_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsUserRoleTimestamp;
-    @Column(name = "ots_user_role_created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsUserRoleCreated;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
     private Collection<OtsUsers> otsUsersCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
@@ -102,22 +94,7 @@ public class OtsUserRole implements Serializable {
         this.otsUserRoleStatus = otsUserRoleStatus;
     }
 
-    public Date getOtsUserRoleTimestamp() {
-        return otsUserRoleTimestamp;
-    }
-
-    public void setOtsUserRoleTimestamp(Date otsUserRoleTimestamp) {
-        this.otsUserRoleTimestamp = otsUserRoleTimestamp;
-    }
-
-    public Date getOtsUserRoleCreated() {
-        return otsUserRoleCreated;
-    }
-
-    public void setOtsUserRoleCreated(Date otsUserRoleCreated) {
-        this.otsUserRoleCreated = otsUserRoleCreated;
-    }
-
+    
     @XmlTransient
     public Collection<OtsUsers> getOtsUsersCollection() {
         return otsUsersCollection;

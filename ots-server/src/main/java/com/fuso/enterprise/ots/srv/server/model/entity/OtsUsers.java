@@ -83,8 +83,12 @@ public class OtsUsers implements Serializable {
     private OtsUserRole otsUserRoleId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsCustomerProduct> otsCustomerProductCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
+    private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersMappedTo")
     private Collection<OtsRegistration> otsRegistrationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
+    private Collection<OtsProductStock> otsProductStockCollection;
 
     public OtsUsers() {
     }
@@ -216,12 +220,30 @@ public class OtsUsers implements Serializable {
     }
 
     @XmlTransient
+    public Collection<OtsProductStockHistory> getOtsProductStockHistoryCollection() {
+        return otsProductStockHistoryCollection;
+    }
+
+    public void setOtsProductStockHistoryCollection(Collection<OtsProductStockHistory> otsProductStockHistoryCollection) {
+        this.otsProductStockHistoryCollection = otsProductStockHistoryCollection;
+    }
+
+    @XmlTransient
     public Collection<OtsRegistration> getOtsRegistrationCollection() {
         return otsRegistrationCollection;
     }
 
     public void setOtsRegistrationCollection(Collection<OtsRegistration> otsRegistrationCollection) {
         this.otsRegistrationCollection = otsRegistrationCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsProductStock> getOtsProductStockCollection() {
+        return otsProductStockCollection;
+    }
+
+    public void setOtsProductStockCollection(Collection<OtsProductStock> otsProductStockCollection) {
+        this.otsProductStockCollection = otsProductStockCollection;
     }
 
     @Override
@@ -248,5 +270,5 @@ public class OtsUsers implements Serializable {
     public String toString() {
         return "com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers[ otsUsersId=" + otsUsersId + " ]";
     }
-
+    
 }

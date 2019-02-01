@@ -16,6 +16,8 @@
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUserMapping</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsCustomerProduct</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductStock</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductStockHistory</class>
    <!---OTS ORM FILES -->
 
 	<mapping-file>META-INF/ipt-sample-orm.xml</mapping-file>
