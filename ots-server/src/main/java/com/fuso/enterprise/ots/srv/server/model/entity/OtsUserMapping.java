@@ -33,7 +33,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "OtsUserMapping.findAll", query = "SELECT o FROM OtsUserMapping o"),
     @NamedQuery(name = "OtsUserMapping.findByOtsUserMappingId", query = "SELECT o FROM OtsUserMapping o WHERE o.otsUserMappingId = :otsUserMappingId"),
     @NamedQuery(name = "OtsUserMapping.findByOtsMappedTo", query = "SELECT o FROM OtsUserMapping o WHERE o.otsMappedTo = :otsMappedTo")})
-   
 public class OtsUserMapping implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -70,7 +69,6 @@ public class OtsUserMapping implements Serializable {
         this.otsMappedTo = otsMappedTo;
     }
 
-    
     public OtsUsers getOtsUsersId() {
         return otsUsersId;
     }

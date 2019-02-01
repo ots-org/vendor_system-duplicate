@@ -37,8 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsProduct.findByOtsProductName", query = "SELECT o FROM OtsProduct o WHERE o.otsProductName = :otsProductName"),
     @NamedQuery(name = "OtsProduct.findByOtsProductDescription", query = "SELECT o FROM OtsProduct o WHERE o.otsProductDescription = :otsProductDescription"),
     @NamedQuery(name = "OtsProduct.findByOtsProductStatus", query = "SELECT o FROM OtsProduct o WHERE o.otsProductStatus = :otsProductStatus"),
-    @NamedQuery(name = "OtsProduct.findByOtsProductTimestamp", query = "SELECT o FROM OtsProduct o WHERE o.otsProductTimestamp = :otsProductTimestamp"),
-    @NamedQuery(name = "OtsProduct.findByOtsProductCreated", query = "SELECT o FROM OtsProduct o WHERE o.otsProductCreated = :otsProductCreated")})
+    @NamedQuery(name = "OtsProduct.findByOtsProductPrice", query = "SELECT o FROM OtsProduct o WHERE o.otsProductPrice = :otsProductPrice")})
 public class OtsProduct implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,16 +51,16 @@ public class OtsProduct implements Serializable {
     private String otsProductDescription;
     @Column(name = "ots_product_status")
     private String otsProductStatus;
-    @Column(name = "ots_product_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsProductTimestamp;
-    @Column(name = "ots_product_created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsProductCreated;
+    @Column(name = "ots_product_price")
+    private Long otsProductPrice;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsCustomerProduct> otsCustomerProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
+    private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsRegistration> otsRegistrationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
+    private Collection<OtsProductStock> otsProductStockCollection;
 
     public OtsProduct() {
     }
@@ -102,20 +101,12 @@ public class OtsProduct implements Serializable {
         this.otsProductStatus = otsProductStatus;
     }
 
-    public Date getOtsProductTimestamp() {
-        return otsProductTimestamp;
+    public Long getOtsProductPrice() {
+        return otsProductPrice;
     }
 
-    public void setOtsProductTimestamp(Date otsProductTimestamp) {
-        this.otsProductTimestamp = otsProductTimestamp;
-    }
-
-    public Date getOtsProductCreated() {
-        return otsProductCreated;
-    }
-
-    public void setOtsProductCreated(Date otsProductCreated) {
-        this.otsProductCreated = otsProductCreated;
+    public void setOtsProductPrice(Long otsProductPrice) {
+        this.otsProductPrice = otsProductPrice;
     }
 
     @XmlTransient
@@ -128,12 +119,30 @@ public class OtsProduct implements Serializable {
     }
 
     @XmlTransient
+    public Collection<OtsProductStockHistory> getOtsProductStockHistoryCollection() {
+        return otsProductStockHistoryCollection;
+    }
+
+    public void setOtsProductStockHistoryCollection(Collection<OtsProductStockHistory> otsProductStockHistoryCollection) {
+        this.otsProductStockHistoryCollection = otsProductStockHistoryCollection;
+    }
+
+    @XmlTransient
     public Collection<OtsRegistration> getOtsRegistrationCollection() {
         return otsRegistrationCollection;
     }
 
     public void setOtsRegistrationCollection(Collection<OtsRegistration> otsRegistrationCollection) {
         this.otsRegistrationCollection = otsRegistrationCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsProductStock> getOtsProductStockCollection() {
+        return otsProductStockCollection;
+    }
+
+    public void setOtsProductStockCollection(Collection<OtsProductStock> otsProductStockCollection) {
+        this.otsProductStockCollection = otsProductStockCollection;
     }
 
     @Override

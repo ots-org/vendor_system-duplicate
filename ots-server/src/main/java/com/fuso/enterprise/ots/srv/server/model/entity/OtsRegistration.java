@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.fuso.enterprise.ots.srv.server.model.entity;
 
 import java.io.Serializable;
@@ -44,8 +45,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationEmailid", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationEmailid = :otsRegistrationEmailid"),
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationProfilePic", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationProfilePic = :otsRegistrationProfilePic"),
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationStatus", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationStatus = :otsRegistrationStatus"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationTimestamp", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationTimestamp = :otsRegistrationTimestamp"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationCreated", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationCreated = :otsRegistrationCreated"),
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationPassword", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationPassword = :otsRegistrationPassword"),
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationContactNo", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationContactNo = :otsRegistrationContactNo")})
 public class OtsRegistration implements Serializable {
@@ -71,12 +70,6 @@ public class OtsRegistration implements Serializable {
     private String otsRegistrationProfilePic;
     @Column(name = "ots_registration_status")
     private String otsRegistrationStatus;
-    @Column(name = "ots_registration_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsRegistrationTimestamp;
-    @Column(name = "ots_registration_created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsRegistrationCreated;
     @Column(name = "ots_registration_password")
     private String otsRegistrationPassword;
     @Column(name = "ots_registration_contact_no")
@@ -172,22 +165,6 @@ public class OtsRegistration implements Serializable {
         this.otsRegistrationStatus = otsRegistrationStatus;
     }
 
-    public Date getOtsRegistrationTimestamp() {
-        return otsRegistrationTimestamp;
-    }
-
-    public void setOtsRegistrationTimestamp(Date otsRegistrationTimestamp) {
-        this.otsRegistrationTimestamp = otsRegistrationTimestamp;
-    }
-
-    public Date getOtsRegistrationCreated() {
-        return otsRegistrationCreated;
-    }
-
-    public void setOtsRegistrationCreated(Date otsRegistrationCreated) {
-        this.otsRegistrationCreated = otsRegistrationCreated;
-    }
-
     public String getOtsRegistrationPassword() {
         return otsRegistrationPassword;
     }
@@ -261,5 +238,5 @@ public class OtsRegistration implements Serializable {
     public String toString() {
         return "com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration[ otsRegistrationId=" + otsRegistrationId + " ]";
     }
-    
+
 }

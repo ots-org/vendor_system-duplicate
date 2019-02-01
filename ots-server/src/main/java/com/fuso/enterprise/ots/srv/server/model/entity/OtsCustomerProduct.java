@@ -32,9 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "OtsCustomerProduct.findAll", query = "SELECT o FROM OtsCustomerProduct o"),
     @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductId", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductId = :otsCustomerProductId"),
-    @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductPrice", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductPrice = :otsCustomerProductPrice"),
-    @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerTimestamp", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerTimestamp = :otsCustomerTimestamp"),
-    @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerCreated", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerCreated = :otsCustomerCreated")})
+    @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductPrice", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductPrice = :otsCustomerProductPrice")})
 public class OtsCustomerProduct implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,12 +42,6 @@ public class OtsCustomerProduct implements Serializable {
     private Integer otsCustomerProductId;
     @Column(name = "ots_customer_product_price")
     private String otsCustomerProductPrice;
-    @Column(name = "ots_customer_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsCustomerTimestamp;
-    @Column(name = "ots_customer_created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsCustomerCreated;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
     @ManyToOne(optional = false)
     private OtsProduct otsProductId;
@@ -78,22 +70,6 @@ public class OtsCustomerProduct implements Serializable {
 
     public void setOtsCustomerProductPrice(String otsCustomerProductPrice) {
         this.otsCustomerProductPrice = otsCustomerProductPrice;
-    }
-
-    public Date getOtsCustomerTimestamp() {
-        return otsCustomerTimestamp;
-    }
-
-    public void setOtsCustomerTimestamp(Date otsCustomerTimestamp) {
-        this.otsCustomerTimestamp = otsCustomerTimestamp;
-    }
-
-    public Date getOtsCustomerCreated() {
-        return otsCustomerCreated;
-    }
-
-    public void setOtsCustomerCreated(Date otsCustomerCreated) {
-        this.otsCustomerCreated = otsCustomerCreated;
     }
 
     public OtsProduct getOtsProductId() {
