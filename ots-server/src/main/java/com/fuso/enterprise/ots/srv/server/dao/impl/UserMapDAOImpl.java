@@ -26,8 +26,8 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 	}
 	
 	@Override
-	public MapUsersDataBOResponse mappUser(MapUsersDataBORequest mapUsersDataBORequest) {
-		MapUsersDataBOResponse userMappingBOResponse = new MapUsersDataBOResponse();
+	public String mappUser(MapUsersDataBORequest mapUsersDataBORequest) {
+		String responseData;
 		try{
 			OtsUserMapping userMappEntity=new OtsUserMapping();
 			OtsUsers otsUsers = new OtsUsers();
@@ -42,14 +42,14 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 	    		e.printStackTrace();
 	        	throw new BusinessException(e.getMessage(), e);
 			}
-			userMappingBOResponse.setMappedMessage("User Mapped Successfully");
+			responseData="User Mapped Successfully";
 			logger.info("Inside Event=1005,Class:UserMapDAOImpl,Method:mappUser");
 		}catch (NoResultException e) {
         	logger.error("Exception while Inserting data to DB  :"+e.getMessage());
     		e.printStackTrace();
         	throw new BusinessException(e.getMessage(), e);
         }
-		return  userMappingBOResponse;
+		return  responseData;
 	}
 		
 }

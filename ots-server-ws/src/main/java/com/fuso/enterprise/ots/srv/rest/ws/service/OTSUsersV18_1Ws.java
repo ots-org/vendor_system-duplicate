@@ -18,6 +18,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
@@ -76,5 +77,11 @@ public interface OTSUsersV18_1Ws {
 	@ApiOperation(value = "getUserDetails", notes = "Api For Login Users Using EmailId and Password", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response otsLoginAuthentication(@ApiParam(value = "request", required = true) @NotNull  @Valid LoginAuthenticationBOrequest  loginAuthenticationBOrequest);		
+	
+	@POST
+	@Path("MapUserProduct")
+	@ApiOperation(value = "MapUserProduct", notes = "This operation will add New user ", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response mapUserProduct(@ApiParam(value = "request", required = true) @NotNull @Valid CustomerProductDataBORequest customerProductDataBORequest);
 	
 }

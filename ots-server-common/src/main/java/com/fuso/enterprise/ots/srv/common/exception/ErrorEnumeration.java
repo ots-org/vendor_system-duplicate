@@ -10,7 +10,10 @@ public enum ErrorEnumeration {
     USER_INSERT(1005,"err.user.inserting"),
     USERID_AVAILED(1006,"err.user.availed"),
 	USER_UPDATE_FAILURE(1006,"user.update.failed"),
-	SUPPLIER_ALREADY_AVAILABLE(1006,"err.user.availed");
+	SUPPLIER_ALREADY_AVAILABLE(1006,"err.user.availed"),
+	USER_MAPPING_PRODUCT_FAILURE(100,"err.user.mapping.product.failure"),
+	ADD_USER_FAILURE(1004,"err.user.add.failure"), 
+	USER_MAPPINGTO_FAILURE(1005,"err.user.mapp.failure");
 	
     ErrorEnumeration(int errorCode, String messageKey) {
         this.errorCode = errorCode;

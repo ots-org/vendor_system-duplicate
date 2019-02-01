@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import com.fuso.enterprise.ots.srv.api.model.domain.LoginAuthenticationModel;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
@@ -22,6 +23,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationRespon
 
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
+import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.util.ResponseWrapper;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
 
@@ -65,9 +67,10 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 				logger.info("Inside Event=1004,Class:OTSUsersV18_1WsImpl,Method:addNewUser, " + "UserList Size:"
 						+ UserDataBOResponse.getUserDetails().size());
 			}
-			response = responseWrapper.buildResponse(UserDataBOResponse);
+			response = responseWrapper.buildResponse(UserDataBOResponse,"Successfull");
+			
 			} catch (BusinessException e) {
-			throw new BusinessException(e.getMessage(), e);
+				throw new BusinessException(e, ErrorEnumeration.ADD_USER_FAILURE);
 		    } catch (Throwable e) {
 			throw new BusinessException(e.getMessage(), e);
 		    }
@@ -76,20 +79,19 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 
 	@Override
 	public Response mappUser(MapUsersDataBORequest mapUsersDataBORequest) {
+		String responseData;
 		Response response;
-		MapUsersDataBOResponse userMappingBOResponse = new MapUsersDataBOResponse();
 		logger.info("Inside Event=1005,Class:OTSUsersV18_1WsImpl, Method:mappUser, UserId:" + mapUsersDataBORequest.getRequestData().getUserId());
 	  try {
-			userMappingBOResponse = otsUserService.mappUser(mapUsersDataBORequest);
-			if (userMappingBOResponse != null) {
-				logger.info("Inside Event=1005,Class:OTSUsersV18_1WsImpl,Method:mappUser, " + "UserList Size:"
-						+ userMappingBOResponse.getMappedMessage());
+		  responseData = otsUserService.mappUser(mapUsersDataBORequest);
+			if (responseData != null) {
+				logger.info("Inside Event=1005,Class:OTSUsersV18_1WsImpl,Method:mappUser, " + "Successfull");
 			}
-			response = responseWrapper.buildResponse(userMappingBOResponse);
+			response = buildResponse(200,responseData);
 		} catch (BusinessException e) {
-			throw new BusinessException(e.getMessage(), e);
+			throw new BusinessException(e, ErrorEnumeration.USER_MAPPINGTO_FAILURE);
 		} catch (Throwable e) {
-			throw new BusinessException(e.getMessage(), e);
+			throw new BusinessException(e, ErrorEnumeration.USER_MAPPINGTO_FAILURE);
 		}
 		return response;
 	}
@@ -108,7 +110,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 							+ "UserList Size:" +UserDataBOResponse.getUserDetails().size());
 				}
 				if(UserDataBOResponse.getUserDetails().size() == 0) {
-					response = buildResponse("input is not present in DB");
+					response = buildResponse(600,"input is not present in DB");
 				}else{
 					response = buildResponse(UserDataBOResponse,"Successfull");
 				}
@@ -122,7 +124,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			return response;
 		}else
 		{
-			Response response = buildResponse("Check Input");
+			Response response = buildResponse(600,"Check Input");
 			return response;
 		}
 	}
@@ -171,15 +173,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		return response;
 	}
 
-	public Response buildResponse(Object data,String description) {
-		ResponseWrapper wrapper = new ResponseWrapper(200,description, data);
-		return Response.ok(wrapper).build();
-	}
 	
-	public Response buildResponse(String description) {
-		ResponseWrapper wrapper = new ResponseWrapper(600,description);
-		return Response.ok(wrapper).build();
-	}
 
 	@Override
 	public Response otsLoginAuthentication(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
@@ -196,7 +190,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 				}
 				LoginAuthenticationModel loginAuth = new LoginAuthenticationModel();
 				if(loginUserResponse.getUserDetails().getEmailId().isEmpty()||!loginAuthenticationBOrequest.getRequestData().getPassword().equals(loginUserResponse.getUserDetails().getUsrPassword())) {
-					response = buildResponse("Password is Incorrect");
+					response = buildResponse(600,"Password is Incorrect");
 				}else{
 					response = buildResponse(loginUserResponse,"Successfull");
 				}
@@ -210,8 +204,38 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			return response;
 		}else
 		{
-			Response response = buildResponse("Check Input");
+			Response response = buildResponse(600,"Check Input");
 			return response;
 		}
+	}
+
+	@Override
+	public Response mapUserProduct(CustomerProductDataBORequest customerProductDataBORequest) {
+		String responseData;
+		Response response =null;
+		logger.info("Inside Event=1006,Class:OTSUsersV18_1WsImpl, Method:mapUserProduct, UserId:" + customerProductDataBORequest.getRequestData().getUserId());
+		try {
+		  responseData =otsUserService.mapUserProduct(customerProductDataBORequest);
+			if (responseData != null) {
+				logger.info("Inside Event=1006,Class:OTSUsersV18_1WsImpl,Method:mapUserProduct " + "Successfull");
+			}
+			response = buildResponse(200,responseData);
+		} catch (BusinessException e) {
+			throw new BusinessException(e, ErrorEnumeration.USER_MAPPING_PRODUCT_FAILURE);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.USER_MAPPING_PRODUCT_FAILURE);
+		}
+	  return response;
+	}
+	
+	
+	public Response buildResponse(Object data,String description) {
+		ResponseWrapper wrapper = new ResponseWrapper(200,description, data);
+		return Response.ok(wrapper).build();
+	}
+	
+	public Response buildResponse(int code,String description) {
+		ResponseWrapper wrapper = new ResponseWrapper(code,description);
+		return Response.ok(wrapper).build();
 	}
 }

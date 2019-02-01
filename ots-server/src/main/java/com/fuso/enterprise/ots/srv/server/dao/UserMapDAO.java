@@ -5,8 +5,6 @@ import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 
 public interface UserMapDAO {
 
-	MapUsersDataBOResponse mappUser(MapUsersDataBORequest mapUsersDataBORequest);
-	
-	
+	String mappUser(MapUsersDataBORequest mapUsersDataBORequest);
 
 }

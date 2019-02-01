@@ -1,6 +1,7 @@
 package com.fuso.enterprise.ots.srv.api.service.functional;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
@@ -17,7 +18,7 @@ public interface OTSUserService {
 
 	UserDataBOResponse addNewUser(AddUserDataBORequest addUserDataBORequest);
 
-	MapUsersDataBOResponse mappUser(MapUsersDataBORequest mapUsersDataBORequest);
+	String mappUser(MapUsersDataBORequest mapUsersDataBORequest);
 
 	UserDataBOResponse getUserDetails(RequestBOUserBySearch requestBOUserBySearch);
 
@@ -26,5 +27,8 @@ public interface OTSUserService {
 	GetNewRegistrationResponse getNewRegistration(String mappedTo);
 
 	LoginUserResponse otsLoginAuthentication(LoginAuthenticationBOrequest  loginAuthenticationBOrequest);
+
+	String mapUserProduct(CustomerProductDataBORequest customerProductDataBORequest);
+
 	
 }

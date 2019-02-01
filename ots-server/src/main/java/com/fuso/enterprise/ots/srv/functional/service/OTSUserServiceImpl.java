@@ -11,6 +11,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.RegistorToUserDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
@@ -22,7 +23,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
-
+import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserMapDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserRegistrationDao;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
@@ -37,13 +38,16 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	private UserMapDAO userMapDAO;
 	private UserServiceUtilityDAO userServiceUtilityDAO;
 	private UserRegistrationDao userRegistrationDao;
+	private MapUserProductDAO mapUserProductDAO;
 
 	@Inject
-	public OTSUserServiceImpl(UserServiceDAO userServiceDAO,UserMapDAO userMapDAO,UserServiceUtilityDAO userServiceUtilityDAO,UserRegistrationDao userRegistrationDao) {
+	public OTSUserServiceImpl(UserServiceDAO userServiceDAO,UserMapDAO userMapDAO,UserServiceUtilityDAO userServiceUtilityDAO,UserRegistrationDao userRegistrationDao,
+			MapUserProductDAO mapUserProductDAO) {
 		this.userServiceDAO=userServiceDAO;
 		this.userMapDAO=userMapDAO;
 		this.userServiceUtilityDAO = userServiceUtilityDAO;
 		this.userRegistrationDao =userRegistrationDao ;
+		this.mapUserProductDAO=mapUserProductDAO;
 	}
 
 	@Override
@@ -82,14 +86,14 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	}
 
 	@Override
-	public MapUsersDataBOResponse mappUser(MapUsersDataBORequest mapUsersDataBORequest) {
-		MapUsersDataBOResponse userMappingBOResponse = new MapUsersDataBOResponse();
+	public String mappUser(MapUsersDataBORequest mapUsersDataBORequest) {
+		String responseData;
 		try {
-			userMappingBOResponse = userMapDAO.mappUser(mapUsersDataBORequest);
+			responseData = userMapDAO.mappUser(mapUsersDataBORequest);
             } catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
-		return userMappingBOResponse;
+		return responseData;
 	}
 
 	@Override
@@ -120,6 +124,17 @@ public class OTSUserServiceImpl implements  OTSUserService{
             } catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
+	}
+
+	@Override
+	public String mapUserProduct(CustomerProductDataBORequest customerProductDataBORequest) {
+		String responseData;
+		try {
+			responseData = mapUserProductDAO.mapUserProduct(customerProductDataBORequest);
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		return responseData;
 	}
 
 }
