@@ -74,16 +74,16 @@ public class OtsRegistration implements Serializable {
     private String otsRegistrationPassword;
     @Column(name = "ots_registration_contact_no")
     private String otsRegistrationContactNo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsRegistrationId")
+    @OneToMany(mappedBy = "otsRegistrationId")
     private Collection<OtsUsers> otsUsersCollection;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private OtsProduct otsProductId;
     @JoinColumn(name = "ots_user_role_id", referencedColumnName = "ots_user_role_id")
     @ManyToOne(optional = false)
     private OtsUserRole otsUserRoleId;
     @JoinColumn(name = "ots_users_mapped_to", referencedColumnName = "ots_users_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private OtsUsers otsUsersMappedTo;
 
     public OtsRegistration() {

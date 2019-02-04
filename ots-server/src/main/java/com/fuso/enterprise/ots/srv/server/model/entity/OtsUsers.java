@@ -76,7 +76,7 @@ public class OtsUsers implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsUserMapping> otsUserMappingCollection;
     @JoinColumn(name = "ots_registration_id", referencedColumnName = "ots_registration_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private OtsRegistration otsRegistrationId;
     @JoinColumn(name = "ots_user_role_id", referencedColumnName = "ots_user_role_id")
     @ManyToOne(optional = false)
@@ -85,7 +85,7 @@ public class OtsUsers implements Serializable {
     private Collection<OtsCustomerProduct> otsCustomerProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersMappedTo")
+    @OneToMany(mappedBy = "otsUsersMappedTo")
     private Collection<OtsRegistration> otsRegistrationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsProductStock> otsProductStockCollection;

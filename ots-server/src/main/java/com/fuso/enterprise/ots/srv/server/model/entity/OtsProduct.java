@@ -57,7 +57,7 @@ public class OtsProduct implements Serializable {
     private Collection<OtsCustomerProduct> otsCustomerProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
+    @OneToMany(mappedBy = "otsProductId")
     private Collection<OtsRegistration> otsRegistrationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsProductStock> otsProductStockCollection;
