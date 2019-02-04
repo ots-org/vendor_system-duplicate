@@ -29,16 +29,16 @@ import com.fuso.enterprise.ots.srv.server.util.AbstractIptDao;
 
 @Repository
 public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> implements UserServiceDAO {
-	
+
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	
+
 	@Autowired
     private JdbcTemplate jdbcTemplate;
-	
+
     public UserServiceDAOImpl() {
         super(OtsUsers.class);
     }
-    
+
     @Override
 	public List<UserDetails> getUserIdUsers(String userId) {
     	List<UserDetails> userDetails = new ArrayList<UserDetails>();
@@ -62,10 +62,10 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
     		throw new BusinessException(e.getMessage(), e);
     	}
     	return userDetails;
-		
+
 	}
-    
-    
+
+
     public List<UserDetails> getEmailIdUsers(String emailId) {
     	List<UserDetails> userDetails = new ArrayList<UserDetails>();
     	try {
@@ -79,7 +79,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         		e.printStackTrace();
             	throw new BusinessException(e.getMessage(), e);
             }
-            
+
             userDetails =  userList.stream().map(otsUsers -> convertUserDetailsFromEntityToDomain(otsUsers)).collect(Collectors.toList());
     	}catch(Exception e) {
     		logger.error("Exception while fetching data from DB :"+e.getMessage());
@@ -87,10 +87,10 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
     		throw new BusinessException(e.getMessage(), e);
     	}
     	return userDetails;
-		
+
 	}
-    
-    
+
+
     @Override
 	public UserDataBOResponse addNewUser(AddUserDataBORequest addUserDataBORequest) {
 		 List<UserDetails> userDetails = new ArrayList<UserDetails>();
@@ -131,7 +131,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 			}
 			return  userDataBOResponse;
 	}
-    
+
 
     private UserDetails convertUserDetailsFromEntityToDomain(OtsUsers otsUsers) {
         UserDetails userDetails = new UserDetails();
@@ -143,14 +143,12 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         userDetails.setAddress2(otsUsers.getOtsUsersAddr2());
         userDetails.setPincode(otsUsers.getOtsUsersPincode());
         userDetails.setUserRoleId(otsUsers.getOtsUserRoleId().getOtsUserRoleId().toString());
-        userDetails.setEmailId(otsUsers.getOtsUsersEmailid()); 
+        userDetails.setEmailId(otsUsers.getOtsUsersEmailid());
         userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic());
         userDetails.setUsrStatus(otsUsers.getOtsUsersStatus());
         userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic());
-        userDetails.setProductId(otsUsers.getOtsCustomerProductCollection().toString());
-        userDetails.setMappedTo(otsUsers.getOtsUserMappingCollection().toString());   
         userDetails.setUsrPassword(otsUsers.getOtsUsersPassword());
-     
+
         return userDetails;
     }
 
@@ -165,23 +163,23 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
             try {
             	Map<String, Object> queryParameter = new HashMap<>();
     			queryParameter.put("otsUsersEmailid", EmailId);
-    			userData  = super.getResultByNamedQuery("OtsUsers.findByOtsUsersEmailid", queryParameter);  			
+    			userData  = super.getResultByNamedQuery("OtsUsers.findByOtsUsersEmailid", queryParameter);
             }catch (NoResultException e) {
             	logger.error("Exception while fetching data from DB :"+e.getMessage());
         		e.printStackTrace();
             	throw new BusinessException(e.getMessage(), e);
             }
             logger.info("Inside Event=1,Class:UserServiceDAOImpl,Method:getUserIDUsers, "
-					+ "UserData:" +userData);           
+					+ "UserData:" +userData);
             userDetails =  convertUserDetailsFromEntityToDomain(userData);
-            loginUserResponse.setUserDetails(userDetails);                   
+            loginUserResponse.setUserDetails(userDetails);
     	}catch(Exception e) {
     		logger.error("Exception while fetching data from DB :"+e.getMessage());
     		e.printStackTrace();
     		throw new BusinessException(e.getMessage(), e);
     	}
     	return loginUserResponse;
-		
+
 	}
 
 }
