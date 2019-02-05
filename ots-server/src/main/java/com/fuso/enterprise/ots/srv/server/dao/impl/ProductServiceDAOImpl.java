@@ -82,12 +82,20 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 	@Override
 	public String addOrUpdateProduct(AddorUpdateProductBORequest addorUpdateProductBORequest) {
 		String responseData;
-		try{OtsProduct otsProduct = new OtsProduct();
-			otsProduct.setOtsProductId(Integer.parseInt(addorUpdateProductBORequest.getRequestData().getProductId()));
-			otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
-			otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
-			otsProduct.setOtsProductPrice(Long.parseLong(addorUpdateProductBORequest.getRequestData().getProductPrice()));
-			otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
+		try{
+			OtsProduct otsProduct = new OtsProduct();
+			if(addorUpdateProductBORequest.getRequestData().getProductId().isEmpty()||addorUpdateProductBORequest.getRequestData().getProductId().equalsIgnoreCase("string")) { 
+				otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
+				otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
+				otsProduct.setOtsProductPrice(Long.parseLong(addorUpdateProductBORequest.getRequestData().getProductPrice()));
+				otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
+				}else {
+					otsProduct.setOtsProductId(Integer.parseInt(addorUpdateProductBORequest.getRequestData().getProductId()));
+					otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
+					otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
+					otsProduct.setOtsProductPrice(Long.parseLong(addorUpdateProductBORequest.getRequestData().getProductPrice()));
+					otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
+					}
 			try {
 				super.getEntityManager().merge(otsProduct);
 			}catch (NoResultException e) {
