@@ -32,8 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "OtsProductStockHistory.findAll", query = "SELECT o FROM OtsProductStockHistory o"),
     @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryId", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryId = :otsProductStockHistoryId"),
-    @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryQty", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryQty = :otsProductStockHistoryQty"),
-    @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryCol", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryCol = :otsProductStockHistoryCol")})
+    @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryQty", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryQty = :otsProductStockHistoryQty")})
 public class OtsProductStockHistory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,8 +42,6 @@ public class OtsProductStockHistory implements Serializable {
     private Integer otsProductStockHistoryId;
     @Column(name = "ots_product_stock_history_qty")
     private String otsProductStockHistoryQty;
-    @Column(name = "ots_product_stock_history_col")
-    private String otsProductStockHistoryCol;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
     @ManyToOne(optional = false)
     private OtsProduct otsProductId;
@@ -73,14 +70,6 @@ public class OtsProductStockHistory implements Serializable {
 
     public void setOtsProductStockHistoryQty(String otsProductStockHistoryQty) {
         this.otsProductStockHistoryQty = otsProductStockHistoryQty;
-    }
-
-    public String getOtsProductStockHistoryCol() {
-        return otsProductStockHistoryCol;
-    }
-
-    public void setOtsProductStockHistoryCol(String otsProductStockHistoryCol) {
-        this.otsProductStockHistoryCol = otsProductStockHistoryCol;
     }
 
     public OtsProduct getOtsProductId() {

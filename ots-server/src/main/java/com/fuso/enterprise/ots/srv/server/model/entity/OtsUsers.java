@@ -73,6 +73,12 @@ public class OtsUsers implements Serializable {
     private String otsUsersPassword;
     @Column(name = "ots_users_contact_no")
     private String otsUsersContactNo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsDistributorId")
+    private Collection<OtsOrder> otsOrderCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
+    private Collection<OtsOrder> otsOrderCollection1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsAssignedId")
+    private Collection<OtsOrder> otsOrderCollection2;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsUserMapping> otsUserMappingCollection;
     @JoinColumn(name = "ots_registration_id", referencedColumnName = "ots_registration_id")
@@ -85,6 +91,8 @@ public class OtsUsers implements Serializable {
     private Collection<OtsCustomerProduct> otsCustomerProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
+    private Collection<OtsStockDistOb> otsStockDistObCollection;
     @OneToMany(mappedBy = "otsUsersMappedTo")
     private Collection<OtsRegistration> otsRegistrationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
@@ -186,6 +194,33 @@ public class OtsUsers implements Serializable {
     }
 
     @XmlTransient
+    public Collection<OtsOrder> getOtsOrderCollection() {
+        return otsOrderCollection;
+    }
+
+    public void setOtsOrderCollection(Collection<OtsOrder> otsOrderCollection) {
+        this.otsOrderCollection = otsOrderCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsOrder> getOtsOrderCollection1() {
+        return otsOrderCollection1;
+    }
+
+    public void setOtsOrderCollection1(Collection<OtsOrder> otsOrderCollection1) {
+        this.otsOrderCollection1 = otsOrderCollection1;
+    }
+
+    @XmlTransient
+    public Collection<OtsOrder> getOtsOrderCollection2() {
+        return otsOrderCollection2;
+    }
+
+    public void setOtsOrderCollection2(Collection<OtsOrder> otsOrderCollection2) {
+        this.otsOrderCollection2 = otsOrderCollection2;
+    }
+
+    @XmlTransient
     public Collection<OtsUserMapping> getOtsUserMappingCollection() {
         return otsUserMappingCollection;
     }
@@ -226,6 +261,15 @@ public class OtsUsers implements Serializable {
 
     public void setOtsProductStockHistoryCollection(Collection<OtsProductStockHistory> otsProductStockHistoryCollection) {
         this.otsProductStockHistoryCollection = otsProductStockHistoryCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsStockDistOb> getOtsStockDistObCollection() {
+        return otsStockDistObCollection;
+    }
+
+    public void setOtsStockDistObCollection(Collection<OtsStockDistOb> otsStockDistObCollection) {
+        this.otsStockDistObCollection = otsStockDistObCollection;
     }
 
     @XmlTransient
