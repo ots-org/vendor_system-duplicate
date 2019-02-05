@@ -4,11 +4,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.RegistorToUserDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.UserMapping;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
@@ -32,7 +36,7 @@ import com.fuso.enterprise.ots.srv.server.dao.UserServiceUtilityDAO;
 @Service
 @Transactional
 public class OTSUserServiceImpl implements  OTSUserService{
-
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private UserServiceDAO userServiceDAO;
 	private UserMapDAO userMapDAO;
@@ -65,8 +69,51 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	@Override
 	public UserDataBOResponse addNewUser(AddUserDataBORequest addUserDataBORequest) {
 		UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
+		
+		MapUsersDataBORequest mapUsersDataBORequest = new MapUsersDataBORequest();
+		CustomerProductDataBORequest customerProductDataBORequest = new CustomerProductDataBORequest();
+		
+		UserMapping userMapping = new UserMapping();
+		CustomerProductDetails customerProductDetails = new CustomerProductDetails();
 		try {
+			/*
+			 * Adding new user and return back the user object
+			 */
 			userDataBOResponse = userServiceDAO.addNewUser(addUserDataBORequest);
+			String responseGenerateduserId = userDataBOResponse.getUserDetails().get(0).getUserId();
+			
+			/*
+			 * End of add user
+			 */
+			
+			/*
+			 * Mapping the child user to the parent user 
+			 */
+			userMapping.setMappedTo(addUserDataBORequest.getRequestData().getMappedTo());
+			userMapping.setUserId(responseGenerateduserId);
+			mapUsersDataBORequest.setRequestData(userMapping);
+			String userMappingStatus = mappUser(mapUsersDataBORequest);
+			logger.info("Inside Event=1004,Class:OTSUserServiceImpl,Method:addNewUser, "
+					+ "User Mapping  status : " + userMappingStatus);
+			/*
+			 * End of mapping 
+			 */
+			
+			/*
+			 * Add customer product price 
+			 */
+			customerProductDetails.setUserId(responseGenerateduserId);
+			customerProductDetails.setProductPrice(addUserDataBORequest.getRequestData().getProductPrice());
+			customerProductDetails.setProductId(addUserDataBORequest.getRequestData().getProductId());
+			customerProductDataBORequest.setRequestData(customerProductDetails);
+			String userProductMappingStatus = mapUserProduct(customerProductDataBORequest);
+			/*
+			 * End of product price mapping to user
+			 */
+			
+			logger.info("Inside Event=1004,Class:OTSUserServiceImpl,Method:addNewUser, "
+					+ "Map User Product price status : " + userProductMappingStatus);
+			
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}

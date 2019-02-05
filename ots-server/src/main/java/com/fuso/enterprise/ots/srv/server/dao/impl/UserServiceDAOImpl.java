@@ -111,16 +111,28 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 			    userEntity.setOtsUsersStatus(addUserDataBORequest.getRequestData().getUsrStatus());
 				userEntity.setOtsUsersProfilePic(addUserDataBORequest.getRequestData().getProfilePic());
 				OtsRegistration otsRegistration = new OtsRegistration();
-				otsRegistration.setOtsRegistrationId(Integer.parseInt(addUserDataBORequest.getRequestData().getRegistrationId()));
-				userEntity.setOtsRegistrationId(otsRegistration);
+				
+				if(addUserDataBORequest.getRequestData().getRegistrationId()!=null ) {
+					try {
+						int registrationID = Integer.parseInt(addUserDataBORequest.getRequestData().getRegistrationId());
+						otsRegistration.setOtsRegistrationId(registrationID);
+						userEntity.setOtsRegistrationId(otsRegistration);
+					}catch(Exception e){
+						userEntity.setOtsRegistrationId(null);
+					}					
+	 			}
+				
 				try{
-					super.getEntityManager().merge(userEntity);
+					super.getEntityManager().persist(userEntity);
+					super.getEntityManager().flush();
 				}catch (NoResultException e) {
 					logger.error("Exception while Inserting data to DB :"+e.getMessage());
 		    		e.printStackTrace();
 		        	throw new BusinessException(e.getMessage(), e);
 				}
-				userDetails = getEmailIdUsers(addUserDataBORequest.getRequestData().getEmailId());
+				userEntity.getOtsUsersId();
+				//userDetails = getEmailIdUsers(addUserDataBORequest.getRequestData().getEmailId());
+				userDetails.add(convertUserDetailsFromEntityToDomain(userEntity));
 				userDataBOResponse.setUserDetails(userDetails);
 				logger.info("Inside Event=1004,Class:UserServiceDAOImpl,Method:addNewUser, "
   						+ "userDetails Size:" +userDetails.size());

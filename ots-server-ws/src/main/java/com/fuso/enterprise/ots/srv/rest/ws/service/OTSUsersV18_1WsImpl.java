@@ -61,7 +61,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		logger.info("Inside Event=1004,Class:OTSUsersV18_1WsImpl, Method:addNewUser, UserDataBORequest:"
 				+ addUserDataBORequest.getRequestData().getFirstName());
 		UserDataBOResponse UserDataBOResponse = new UserDataBOResponse();
-		try {
+		try{
 			UserDataBOResponse = otsUserService.addNewUser(addUserDataBORequest);
 			if (UserDataBOResponse != null) {
 				logger.info("Inside Event=1004,Class:OTSUsersV18_1WsImpl,Method:addNewUser, " + "UserList Size:"
@@ -69,12 +69,12 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			}
 			response = responseWrapper.buildResponse(UserDataBOResponse,"Successfull");
 			
-			} catch (BusinessException e) {
-				throw new BusinessException(e, ErrorEnumeration.ADD_USER_FAILURE);
-		    } catch (Throwable e) {
-			throw new BusinessException(e.getMessage(), e);
-		    }
-		      return response;
+		}catch (BusinessException e){
+			throw new BusinessException(e, ErrorEnumeration.ADD_USER_FAILURE);
+	    }catch (Throwable e) {
+	    	throw new BusinessException(e.getMessage(), e);
+	    }
+		return response;
 	}
 
 	@Override
