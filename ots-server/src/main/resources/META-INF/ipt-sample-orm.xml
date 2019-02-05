@@ -23,5 +23,13 @@
 		AND
 			r.otsRegistrationStatus = 'Active'
 		</query>
+	</named-query> 	
+	
+	<named-query name="OtsProduct.findByPattrenMatching">
+		<query>SELECT o 
+		FROM 
+		OtsProduct o 
+		WHERE o.otsProductName LIKE :FirstLetter
+		</query>
 	</named-query> 		
 </entity-mappings>
