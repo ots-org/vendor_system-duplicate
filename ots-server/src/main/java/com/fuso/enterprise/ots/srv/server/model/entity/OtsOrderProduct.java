@@ -50,9 +50,9 @@ public class OtsOrderProduct implements Serializable {
     @Column(name = "ots_delivered_qty")
     private Integer otsDeliveredQty;
     @Column(name = "ots_order_product_cost")
-    private String otsOrderProductCost;
+    private Long otsOrderProductCost;
     @Column(name = "ots_order_product_status")
-    private Long otsOrderProductStatus;
+    private String otsOrderProductStatus;
     @Column(name = "ots_order_product_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderProductTimestamp;
@@ -97,19 +97,19 @@ public class OtsOrderProduct implements Serializable {
         this.otsDeliveredQty = otsDeliveredQty;
     }
 
-    public String getOtsOrderProductCost() {
+    public Long getOtsOrderProductCost() {
         return otsOrderProductCost;
     }
 
-    public void setOtsOrderProductCost(String otsOrderProductCost) {
+    public void setOtsOrderProductCost(Long otsOrderProductCost) {
         this.otsOrderProductCost = otsOrderProductCost;
     }
 
-    public Long getOtsOrderProductStatus() {
+    public String getOtsOrderProductStatus() {
         return otsOrderProductStatus;
     }
 
-    public void setOtsOrderProductStatus(Long otsOrderProductStatus) {
+    public void setOtsOrderProductStatus(String otsOrderProductStatus) {
         this.otsOrderProductStatus = otsOrderProductStatus;
     }
 
