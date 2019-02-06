@@ -123,7 +123,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 	 			}
 				
 				try{
-					if(addUserDataBORequest.getRequestData().getUserId().isEmpty()) {
+					if(addUserDataBORequest.getRequestData().getUserId().isEmpty() ||addUserDataBORequest.getRequestData().getUserId().equalsIgnoreCase("string") ) {
 						super.getEntityManager().persist(userEntity);
 						super.getEntityManager().flush();
 					}else {
