@@ -15,6 +15,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserMapping;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
@@ -24,6 +25,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
@@ -32,6 +34,7 @@ import com.fuso.enterprise.ots.srv.server.dao.UserMapDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserRegistrationDao;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceUtilityDAO;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration;
 
 @Service
 @Transactional
@@ -182,6 +185,35 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			throw new BusinessException(e.getMessage(), e);
 		}
 		return responseData;
+	}
+
+	@Override
+	public ApproveRegistrationResponse approveRegistration(ApproveRegistrationBORequest approveRegistrationBORequest) {
+		ApproveRegistrationResponse approveRegistrationResponse = new ApproveRegistrationResponse();
+		AddUserDataBORequest addUserDataBORequest = new AddUserDataBORequest();
+		if(approveRegistrationBORequest.getRequestData().getRegistrationId() != null) {
+			/*
+			 * Transform the userDetail object based on registrationID from registration
+			 */
+			addUserDataBORequest.setRequestData(userRegistrationDao.fetchUserDetailsfromRegistration(approveRegistrationBORequest.getRequestData().getRegistrationId()));
+			
+			/*
+			 * AddNewUser from registration
+			 */
+			addNewUser(addUserDataBORequest);
+			
+			/*
+			 * fetcing OTSRegistration Object for approve status
+			 */
+			OtsRegistration otsRegistration = new OtsRegistration();
+			otsRegistration = userRegistrationDao.fetOtsRegistrationBasedonRegisterID(Integer.parseInt(approveRegistrationBORequest.getRequestData().getRegistrationId()));
+			
+			/*
+			 * Making Registration table as active
+			 */
+			approveRegistrationResponse =userRegistrationDao.approveRegistration(otsRegistration);
+		}
+		return approveRegistrationResponse;
 	}
 
 }

@@ -18,6 +18,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
@@ -83,5 +84,11 @@ public interface OTSUsersV18_1Ws {
 	@ApiOperation(value = "MapUserProduct", notes = "This operation will add New user ", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response mapUserProduct(@ApiParam(value = "request", required = true) @NotNull @Valid CustomerProductDataBORequest customerProductDataBORequest);
+	
+	@POST
+	@Path("/approveRegistration")
+	@ApiOperation(value = "approveRegistration", notes = "This Operation will approve the registeration", response= Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response approveRegistration(@ApiParam(value = "request", required = true) @NotNull @Valid ApproveRegistrationBORequest approveRegistrationBORequest );
 	
 }

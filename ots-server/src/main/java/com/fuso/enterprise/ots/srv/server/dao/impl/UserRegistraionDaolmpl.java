@@ -16,7 +16,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.RegistorToUserDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.UserRegistrationDao;
@@ -97,6 +99,52 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
     	return userDetails;
 	}
 	
+	@Override
+	public UserDetails fetchUserDetailsfromRegistration(String registrationId) {
+		UserDetails userDetails = new UserDetails();
+		List<OtsRegistration> otsRegistrationList = new ArrayList<OtsRegistration>();
+		try {
+        	Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsRegistrationId", Integer.parseInt(registrationId));
+			otsRegistrationList  = super.getResultListByNamedQuery("OtsRegistration.findByOtsRegistrationId", queryParameter);
+		} catch (NoResultException e) {
+        	logger.error("Exception while fetching data from DB :"+e.getMessage());
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+        }
+		userDetails =  convertUserDetailsFromOtsRegistrationEntityToDomain(otsRegistrationList.get(0));
+		return userDetails;
+	}
+	
+	@Override
+	public OtsRegistration fetOtsRegistrationBasedonRegisterID(Integer registrationId) {
+		List<OtsRegistration> otsRegistrationList = new ArrayList<OtsRegistration>();
+		try {
+        	Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsRegistrationId", registrationId);
+			otsRegistrationList  = super.getResultListByNamedQuery("OtsRegistration.findByOtsRegistrationId", queryParameter);
+		} catch (NoResultException e) {
+        	logger.error("Exception while fetching data from DB :"+e.getMessage());
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+        }
+		return otsRegistrationList.get(0);
+	}
+	
+	@Override
+	public ApproveRegistrationResponse approveRegistration(OtsRegistration otsRegistration) {
+		ApproveRegistrationResponse approveRegistrationResponse = new ApproveRegistrationResponse();
+		try {
+			  otsRegistration.setOtsRegistrationStatus("Active");
+	    	  super.getEntityManager().merge(otsRegistration);
+	      }catch(Exception e){
+	    	  e.printStackTrace(); 
+	    	  throw new BusinessException(e.getMessage(), e);
+	      }
+		
+		return approveRegistrationResponse;
+	}
+	
 	private RegistorToUserDetails convertUserDetailsFromEntityToDomain(OtsRegistration otsRegistration) {
 		RegistorToUserDetails registorToUserDetails = new RegistorToUserDetails();           
 		registorToUserDetails.setFirstName(otsRegistration.getOtsRegistrationFirstname());
@@ -113,6 +161,29 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
         registorToUserDetails.setPassword(otsRegistration.getOtsRegistrationPassword());            
         return registorToUserDetails;
     }
+	
+	private UserDetails convertUserDetailsFromOtsRegistrationEntityToDomain(OtsRegistration otsRegistration) {
+		UserDetails userDetails = new UserDetails();
+		userDetails.setFirstName(otsRegistration.getOtsRegistrationFirstname());
+		userDetails.setLastName(otsRegistration.getOtsRegistrationLastname());
+		userDetails.setAddress1(otsRegistration.getOtsRegistrationAddr1());
+		userDetails.setAddress2(otsRegistration.getOtsRegistrationAddr2());
+		userDetails.setPincode(otsRegistration.getOtsRegistrationPincode());
+		//userDetails.setPhonenumber(otsRegistration.getOtsRegistrationContactNo());
+		userDetails.setEmailId(otsRegistration.getOtsRegistrationEmailid());
+		userDetails.setUserRoleId(otsRegistration.getOtsUserRoleId().getOtsUserRoleId().toString());
+		userDetails.setProductId(otsRegistration.getOtsProductId().getOtsProductId().toString());
+		//userDetails.setStatus(otsRegistration.getOtsRegistrationStatus());
+		userDetails.setMappedTo(otsRegistration.getOtsUsersMappedTo().getOtsUsersId().toString());
+		//userDetails.setPassword(otsRegistration.getOtsRegistrationPassword());            
+        return userDetails;
+    }
+
+	
+
+	
+
+	
 	
 }
 
