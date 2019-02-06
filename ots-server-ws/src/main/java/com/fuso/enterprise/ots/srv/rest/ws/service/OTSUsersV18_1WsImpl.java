@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import com.fuso.enterprise.ots.srv.api.model.domain.LoginAuthenticationModel;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
@@ -19,6 +20,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
 
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
@@ -226,6 +228,23 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			throw new BusinessException(e, ErrorEnumeration.USER_MAPPING_PRODUCT_FAILURE);
 		}
 	  return response;
+	}
+	
+	@Override
+	public Response approveRegistration(ApproveRegistrationBORequest approveRegistrationBORequest) {
+		Response response = null;
+		logger.info("Inside Event=1003,Class:OTSUsersV18_1WsImpl, approveRegistration, "
+			+ "ApproveRegistrationBODomineRequest, approveRegistration for UserId:"+approveRegistrationBORequest.getRequestData().getRegistrationId());
+		
+		ApproveRegistrationResponse approveRegistrationResponse = new ApproveRegistrationResponse();
+		try {
+			approveRegistrationResponse = otsUserService.approveRegistration(approveRegistrationBORequest);
+		}catch(BusinessException e) {
+			throw new BusinessException(e.getMessage(), e);
+		}catch(Throwable e) {
+			throw new BusinessException(e.getMessage(), e);
+		}		
+		return response;
 	}
 	
 	
