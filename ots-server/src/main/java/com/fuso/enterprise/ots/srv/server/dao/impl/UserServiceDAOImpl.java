@@ -123,8 +123,14 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 	 			}
 				
 				try{
-					super.getEntityManager().persist(userEntity);
-					super.getEntityManager().flush();
+					if(addUserDataBORequest.getRequestData().getUserId().isEmpty()) {
+						super.getEntityManager().persist(userEntity);
+						super.getEntityManager().flush();
+					}else {
+						userEntity.setOtsUsersId(Integer.parseInt(addUserDataBORequest.getRequestData().getUserId()));	
+						super.getEntityManager().merge(userEntity);
+						super.getEntityManager().flush();
+					}
 				}catch (NoResultException e) {
 					logger.error("Exception while Inserting data to DB :"+e.getMessage());
 		    		e.printStackTrace();
