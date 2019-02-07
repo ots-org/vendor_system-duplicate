@@ -223,4 +223,15 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		return approveRegistrationResponse;
 	}
 
+	@Override
+	public UserDataBOResponse getUserDetailsByMapped(String MappedTo) {
+		UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
+		try {
+			List<UserDetails> userDetailList= userServiceUtilityDAO.getUserDetailsByMapped(MappedTo);
+			userDataBOResponse.setUserDetails(userDetailList);
+		}catch(Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		return userDataBOResponse;
+	}
 }

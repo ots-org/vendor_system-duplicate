@@ -102,4 +102,30 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	   	return userDetails;
    }
 
+	 @Override
+		public List<UserDetails> getUserDetailsByMapped(String MappedTo) {
+	    	List<UserDetails> userDetails = new ArrayList<UserDetails>();
+	    	try {
+	            List<OtsUsers> userList = null;
+	            try {
+	            	Map<String, Object> queryParameter = new HashMap<>();
+	    			queryParameter.put("MappedTo", Integer.parseInt(MappedTo));
+	    			userList  = super.getResultListByNamedQuery("OtsUsers.findByUserOtsbyMappedTo", queryParameter);
+	            } catch (NoResultException e) {
+	            	logger.error("Exception while fetching data from DB :"+e.getMessage());
+	        		e.printStackTrace();
+	            	throw new BusinessException(e.getMessage(), e);
+	            }
+	            logger.info("Inside Event=1,Class:UserServiceUtilityDAOImpl,Method:getUserDetailsByMapped, "
+						+ "UserList Size:" +userList.size());
+	            userDetails =  userList.stream().map(otsUsers -> convertUserDetailsFromEntityToDomain(otsUsers)).collect(Collectors.toList());
+	    	}catch(Exception e) {
+	    		logger.error("Exception while fetching data from DB :"+e.getMessage());
+	    		e.printStackTrace();
+	    		throw new BusinessException(e.getMessage(), e);
+	    	}
+	    	return userDetails;
+			
+		}
+
 }

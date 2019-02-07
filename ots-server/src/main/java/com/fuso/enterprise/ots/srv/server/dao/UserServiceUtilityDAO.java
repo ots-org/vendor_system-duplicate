@@ -10,4 +10,6 @@ public interface UserServiceUtilityDAO  {
 
 	List<UserDetails> getUserDetails(RequestBOUserBySearch requestBOUserBySearch);
 
+	List<UserDetails> getUserDetailsByMapped(String mappedTo);
+
 }

@@ -31,5 +31,13 @@
 		OtsProduct o 
 		WHERE o.otsProductName LIKE :FirstLetter
 		</query>
+	</named-query>
+	<named-query name="OtsUsers.findByUserOtsbyMappedTo">
+		<query>select m.otsUsersId 
+		from
+			OtsUserMapping m 
+		 where 
+		  	m.otsMappedTo = :MappedTo
+		</query>
 	</named-query> 		
 </entity-mappings>

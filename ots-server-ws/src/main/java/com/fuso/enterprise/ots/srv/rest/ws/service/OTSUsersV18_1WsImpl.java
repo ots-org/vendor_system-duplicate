@@ -260,4 +260,39 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		ResponseWrapper wrapper = new ResponseWrapper(code,description);
 		return Response.ok(wrapper).build();
 	}
+	
+
+	@Override
+	public Response getUserDetailsByMapped(MappedToBORequest mappedToBORequest) {
+		try {	
+			if(!mappedToBORequest.getRequestData().getMappedTo().isEmpty())
+				{
+					Response response =null;
+					logger.info("Inside Event=1,Class:OTSUsersV18_1WsImpl, Method:getUserDetailsByMapped, mappedToBORequest:"+mappedToBORequest);
+					UserDataBOResponse UserDataBOResponse = new UserDataBOResponse();
+	
+					UserDataBOResponse = otsUserService.getUserDetailsByMapped(mappedToBORequest.getRequestData().getMappedTo());
+					if(UserDataBOResponse!=null) {
+						logger.info("Inside Event=1,Class:OTSUsersV18_1WsImpl,Method:getUserIDUsers, "
+									+ "UserList Size:" +UserDataBOResponse.getUserDetails().size());
+						response = responseWrapper.buildResponse(UserDataBOResponse);
+						return response;
+					}else {
+						response = responseWrapper.buildResponse("No One is Mapped");
+						return response;
+					}
+			
+		}else
+		{
+			Response response = buildResponse(600,"Please Check your Input");
+			return response;
+		}
+	
+		}catch(BusinessException e) {
+			throw new BusinessException(ErrorEnumeration.Mapped_to_value_is_empty);
+		}catch(Throwable e) {
+			throw new BusinessException(ErrorEnumeration.Mapped_to_value_is_empty);
+		}
+		
+	}
 }

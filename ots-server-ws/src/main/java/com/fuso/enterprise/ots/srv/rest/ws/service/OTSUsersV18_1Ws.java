@@ -91,4 +91,10 @@ public interface OTSUsersV18_1Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response approveRegistration(@ApiParam(value = "request", required = true) @NotNull @Valid ApproveRegistrationBORequest approveRegistrationBORequest );
 	
+	@POST
+    @Path("/getUserDetailsByMapped")
+	@ApiOperation(value = "getUserDetailsByMapped", notes = "Getting All the details of mapped Users", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getUserDetailsByMapped(@ApiParam(value = "request", required = true) @NotNull  @Valid MappedToBORequest mappedToBORequest);		
+	
 }
