@@ -27,19 +27,19 @@ public class ProductStockHistoryDaoImpl extends AbstractIptDao<OtsProductStockHi
 
 	@Override
 	public void addProductStockHistory(AddProductStockBORequest addProductStockBORequest) {
-		try {
-		OtsProductStockHistory otsProductStockHistory = new OtsProductStockHistory();
-			
-		 OtsProduct otsProduct = new OtsProduct();
-		 otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequest().getProductId()));
-		 otsProductStockHistory.setOtsProductId (otsProduct);
-		 
-		 OtsUsers otsUsers = new OtsUsers();
-		 otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequest().getUsersId()));
-		 otsProductStockHistory.setOtsUsersId(otsUsers);
-		 
-		 otsProductStockHistory.setOtsProductStockHistoryQty(addProductStockBORequest.getRequest().getProductStockQty());
-		 super.getEntityManager().merge(otsProductStockHistory);
+		try{
+			OtsProductStockHistory otsProductStockHistory = new OtsProductStockHistory();
+				
+			 OtsProduct otsProduct = new OtsProduct();
+			 otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequest().getProductId()));
+			 otsProductStockHistory.setOtsProductId (otsProduct);
+			 
+			 OtsUsers otsUsers = new OtsUsers();
+			 otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequest().getUsersId()));
+			 otsProductStockHistory.setOtsUsersId(otsUsers);
+			 
+			 otsProductStockHistory.setOtsProductStockHistoryQty(addProductStockBORequest.getRequest().getProductStockQty());
+			 super.getEntityManager().merge(otsProductStockHistory);
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}

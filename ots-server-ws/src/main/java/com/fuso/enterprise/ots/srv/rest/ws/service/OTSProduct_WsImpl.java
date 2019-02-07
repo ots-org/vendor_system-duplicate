@@ -82,30 +82,24 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 	public Response addProductStock(AddProductStockBORequest addStockProductBORequest) {
 		Response response = null;
 		if(!addStockProductBORequest.getRequest().getProductId().isEmpty() || !addStockProductBORequest.getRequest().getProductStockQty().isEmpty() 
-			||	!addStockProductBORequest.getRequest().getProductStockQty().isEmpty() || !addStockProductBORequest.getRequest().getProductStockStatus().isEmpty()) 
-		{
-		
-		logger.info("Inside Event=1014,Class:OTSProduct_WsImpl, Method:addProductStock, UserDataBORequest:"
+			||	!addStockProductBORequest.getRequest().getProductStockQty().isEmpty() || !addStockProductBORequest.getRequest().getProductStockStatus().isEmpty()){
+			logger.info("Inside Event=1014,Class:OTSProduct_WsImpl, Method:addProductStock, UserDataBORequest:"
 				+ addStockProductBORequest);
-		try {
-		String StrResponse = otsProductService.addOrUpdateProductStock(addStockProductBORequest);;
-			if (StrResponse != null) {
-				logger.info("Inside Event=1014,Class:OTSProduct_WsImpl,Method:addProductStock, " + "Response"
-						+ StrResponse);
-			}
-			response = buildResponse(200,"SUCCESS");
-		
+			try {
+				String StrResponse = otsProductService.addOrUpdateProductStock(addStockProductBORequest);
+				if (StrResponse != null) {
+					logger.info("Inside Event=1014,Class:OTSProduct_WsImpl,Method:addProductStock, " + "Response"
+							+ StrResponse);
+				}
+				response = buildResponse(200,"SUCCESS");
 			} catch (BusinessException e) {
 				throw new BusinessException(e, ErrorEnumeration.UpdationFailuer);
 		    } catch (Throwable e) {
 		    	throw new BusinessException(e, ErrorEnumeration.UpdationFailuer);
 		    }
-		      return response;						
-	}else {
-		
-		response = buildResponse(600,"Check YOUR INPUT");
+		}else{
+			response = buildResponse(600,"Please check the data provided");
+		}
 		return response;
-	}
-	
 	}
 }

@@ -6,8 +6,6 @@ public class AddProductStock {
 	
 	private String ProductStockStatus;
 	
-	private String ProdcutStockCreated; 
-	
 	private String UsersId; 
 	
 	private String ProductId;
@@ -24,12 +22,7 @@ public class AddProductStock {
 	public void setProductStockStatus(String productStockStatus) {
 		ProductStockStatus = productStockStatus;
 	}
-	public String getProdcutStockCreated() {
-		return ProdcutStockCreated;
-	}
-	public void setProdcutStockCreated(String prodcutStockCreated) {
-		ProdcutStockCreated = prodcutStockCreated;
-	}
+	
 	public String getUsersId() {
 		return UsersId;
 	}

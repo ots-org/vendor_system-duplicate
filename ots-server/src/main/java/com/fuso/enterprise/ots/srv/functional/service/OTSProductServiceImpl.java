@@ -59,12 +59,14 @@ public class OTSProductServiceImpl implements OTSProductService {
 	
 	@Override
 	public String addOrUpdateProductStock(AddProductStockBORequest addProductBORequest) {
-		
+		String strResponse = "";
 		try {
+			strResponse = productStockDao.addProductStock(addProductBORequest);
 			productStockHistoryDao.addProductStockHistory(addProductBORequest);	
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
-		}	return productStockDao.addProductStock(addProductBORequest);
+		}	
+		return strResponse;
 	}
 
 }
