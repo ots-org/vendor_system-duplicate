@@ -141,7 +141,7 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 	    	  e.printStackTrace(); 
 	    	  throw new BusinessException(e.getMessage(), e);
 	      }
-		
+		approveRegistrationResponse.setFirstName(otsRegistration.getOtsRegistrationFirstname());
 		return approveRegistrationResponse;
 	}
 	

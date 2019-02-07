@@ -239,10 +239,13 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		ApproveRegistrationResponse approveRegistrationResponse = new ApproveRegistrationResponse();
 		try {
 			approveRegistrationResponse = otsUserService.approveRegistration(approveRegistrationBORequest);
+			if(!approveRegistrationResponse.getFirstName().isEmpty()) {
+			response = buildResponse(approveRegistrationResponse.getFirstName(),"Successfully approved. User can login with his credentials");
+			}
 		}catch(BusinessException e) {
-			throw new BusinessException(e.getMessage(), e);
+			throw new BusinessException(e,ErrorEnumeration.APPROVE_REGISTRATION_FAILURE);
 		}catch(Throwable e) {
-			throw new BusinessException(e.getMessage(), e);
+			throw new BusinessException(e,ErrorEnumeration.APPROVE_REGISTRATION_FAILURE);
 		}		
 		return response;
 	}

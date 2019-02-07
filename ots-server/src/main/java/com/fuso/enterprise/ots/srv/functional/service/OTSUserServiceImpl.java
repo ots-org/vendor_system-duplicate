@@ -191,12 +191,13 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	public ApproveRegistrationResponse approveRegistration(ApproveRegistrationBORequest approveRegistrationBORequest) {
 		ApproveRegistrationResponse approveRegistrationResponse = new ApproveRegistrationResponse();
 		AddUserDataBORequest addUserDataBORequest = new AddUserDataBORequest();
+		try {
 		if(approveRegistrationBORequest.getRequestData().getRegistrationId() != null) {
 			/*
 			 * Transform the userDetail object based on registrationID from registration
 			 */
 			addUserDataBORequest.setRequestData(userRegistrationDao.fetchUserDetailsfromRegistration(approveRegistrationBORequest.getRequestData().getRegistrationId()));
-			
+			if(addUserDataBORequest.getRequestData().getUserRoleId().equals("4")) {
 			/*
 			 * AddNewUser from registration
 			 */
@@ -212,7 +213,13 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			 * Making Registration table as active
 			 */
 			approveRegistrationResponse =userRegistrationDao.approveRegistration(otsRegistration);
+			}else {
+				approveRegistrationResponse.setMessage(addUserDataBORequest.getRequestData().getUserRoleId());
+			}
 		}
+		 } catch (Exception e) {
+				throw new BusinessException(e.getMessage(), e);
+		 }
 		return approveRegistrationResponse;
 	}
 

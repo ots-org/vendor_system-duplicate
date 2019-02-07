@@ -15,7 +15,8 @@ public enum ErrorEnumeration {
 	ADD_USER_FAILURE(1004,"err.user.add.failure"), 
 	USER_MAPPINGTO_FAILURE(1005,"err.user.mapp.failure"),
 	GET_PRODUCT_LIST_FAILURE(1012,"err.get.productlist.failure"), 
-	ADD_UPDATE_PRODUCT_FAILURE(1011,"err.add.update.product.failure");
+	ADD_UPDATE_PRODUCT_FAILURE(1011,"err.add.update.product.failure"),
+	APPROVE_REGISTRATION_FAILURE(1003,"err.approve.register.failure");
 	
     ErrorEnumeration(int errorCode, String messageKey) {
         this.errorCode = errorCode;
