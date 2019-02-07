@@ -39,5 +39,17 @@
 		 where 
 		  	m.otsMappedTo = :MappedTo
 		</query>
-	</named-query> 		
+	</named-query> 	
+	<named-query name="OtsProduct.findByOtsProductIdAndUserId">
+		 <query>
+		SELECT
+			 s
+		FROM 
+			OtsProductStock s 
+		WHERE
+			s.otsUsersId = :otsUsersId 	
+		AND
+			s.otsProductId = :otsProductId	
+		</query> 
+	</named-query>		
 </entity-mappings>

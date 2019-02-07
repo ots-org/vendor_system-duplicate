@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
+import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
@@ -77,4 +78,34 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 		return Response.ok(wrapper).build();
 	}
 
+	@Override
+	public Response addProductStock(AddProductStockBORequest addStockProductBORequest) {
+		Response response = null;
+		if(!addStockProductBORequest.getRequest().getProductId().isEmpty() || !addStockProductBORequest.getRequest().getProductStockQty().isEmpty() 
+			||	!addStockProductBORequest.getRequest().getProductStockQty().isEmpty() || !addStockProductBORequest.getRequest().getProductStockStatus().isEmpty()) 
+		{
+		
+		logger.info("Inside Event=1014,Class:OTSProduct_WsImpl, Method:addProductStock, UserDataBORequest:"
+				+ addStockProductBORequest);
+		try {
+		String StrResponse = otsProductService.addOrUpdateProductStock(addStockProductBORequest);;
+			if (StrResponse != null) {
+				logger.info("Inside Event=1014,Class:OTSProduct_WsImpl,Method:addProductStock, " + "Response"
+						+ StrResponse);
+			}
+			response = buildResponse(200,"SUCCESS");
+		
+			} catch (BusinessException e) {
+				throw new BusinessException(e, ErrorEnumeration.UpdationFailuer);
+		    } catch (Throwable e) {
+		    	throw new BusinessException(e, ErrorEnumeration.UpdationFailuer);
+		    }
+		      return response;						
+	}else {
+		
+		response = buildResponse(600,"Check YOUR INPUT");
+		return response;
+	}
+	
+	}
 }

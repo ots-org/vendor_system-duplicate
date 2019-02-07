@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
 import io.swagger.annotations.Api;
@@ -37,5 +38,11 @@ public interface OTSProduct_Ws {
 	@ApiOperation(value = "addOrUpdateProduct", notes = "adding or updating ProductDetails", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response addOrUpdateProduct(@ApiParam(value = "request", required = true) @NotNull  @Valid AddorUpdateProductBORequest  addorUpdateProductBORequest);
+
+	@POST
+	@Path("/addProductStock")
+	@ApiOperation(value = "addOrUpdateProduct", notes = "This operation will add New product stock ", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response addProductStock(@ApiParam(value = "request", required = true) @NotNull @Valid AddProductStockBORequest addStockProductBORequest);
 
 }
