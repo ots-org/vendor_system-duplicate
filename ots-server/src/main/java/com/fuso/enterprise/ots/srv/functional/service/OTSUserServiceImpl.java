@@ -190,37 +190,31 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	@Override
 	public ApproveRegistrationResponse approveRegistration(ApproveRegistrationBORequest approveRegistrationBORequest) {
 		ApproveRegistrationResponse approveRegistrationResponse = new ApproveRegistrationResponse();
-		AddUserDataBORequest addUserDataBORequest = new AddUserDataBORequest();
-		try {
-		if(approveRegistrationBORequest.getRequestData().getRegistrationId() != null) {
-			/*
-			 * Transform the userDetail object based on registrationID from registration
-			 */
-			addUserDataBORequest.setRequestData(userRegistrationDao.fetchUserDetailsfromRegistration(approveRegistrationBORequest.getRequestData().getRegistrationId()));
-			if(addUserDataBORequest.getRequestData().getUserRoleId().equals("4")) {
-			/*
-			 * AddNewUser from registration
-			 */
-			addNewUser(addUserDataBORequest);
-			
-			/*
-			 * fetcing OTSRegistration Object for approve status
-			 */
-			OtsRegistration otsRegistration = new OtsRegistration();
-			otsRegistration = userRegistrationDao.fetOtsRegistrationBasedonRegisterID(Integer.parseInt(approveRegistrationBORequest.getRequestData().getRegistrationId()));
-			
-			/*
-			 * Making Registration table as active
-			 */
-			approveRegistrationResponse =userRegistrationDao.approveRegistration(otsRegistration);
-			}else {
-				approveRegistrationResponse.setMessage(addUserDataBORequest.getRequestData().getUserRoleId());
-			}
-		}
-		 } catch (Exception e) {
-				throw new BusinessException(e.getMessage(), e);
-		 }
-		return approveRegistrationResponse;
+				AddUserDataBORequest addUserDataBORequest = new AddUserDataBORequest();
+				try {
+					if(approveRegistrationBORequest.getRequestData().getRegistrationId() != null) {
+					/*
+					* Transform the userDetail object based on registrationID from registration
+					*/
+					addUserDataBORequest.setRequestData(userRegistrationDao.fetchUserDetailsfromRegistration(approveRegistrationBORequest.getRequestData().getRegistrationId()));
+					/*
+					* AddNewUser from registration
+					*/
+					addNewUser(addUserDataBORequest);
+					/*
+					* fetching OTSRegistration Object for approve status
+					*/
+					OtsRegistration otsRegistration = new OtsRegistration();
+					otsRegistration = userRegistrationDao.fetOtsRegistrationBasedonRegisterID(Integer.parseInt(approveRegistrationBORequest.getRequestData().getRegistrationId()));
+					/*
+					* Making Registration table as active
+					*/
+					approveRegistrationResponse =userRegistrationDao.approveRegistration(otsRegistration);
+				}
+				} catch (Exception e) {
+					throw new BusinessException(e.getMessage(), e);
+				}
+				return approveRegistrationResponse;
 	}
 
 	@Override
