@@ -40,6 +40,7 @@ public class ProductStockHistoryDaoImpl extends AbstractIptDao<OtsProductStockHi
 			 
 			 otsProductStockHistory.setOtsProductStockHistoryQty(addProductStockBORequest.getRequest().getProductStockQty());
 			 super.getEntityManager().merge(otsProductStockHistory);
+			 logger.info("Inside Event=1014,Class:ProductStockHistoryDaoImpl,Method:addProductStockHistory ");
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
