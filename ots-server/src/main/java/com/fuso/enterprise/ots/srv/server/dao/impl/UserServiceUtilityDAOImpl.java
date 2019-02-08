@@ -61,6 +61,7 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	            case "UserRoleId":
 						            queryParameter.put("otsUserRoleId", Integer.parseInt(searchvalue));
 									userList  = super.getResultListByNamedQuery("OtsUsers.findByUserOtsRoleId", queryParameter);
+								
 									break;
 	            default:
 	            					return null;
@@ -70,6 +71,7 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 						+ "UserList Size:" +userList.size());
 	            //@formatter:off
 	            userDetails =  userList.stream().map(OtsUsers -> convertUserDetailsFromEntityToDomain(OtsUsers)).collect(Collectors.toList());
+	            System.out.println("+++++++++++++++++"+userDetails);
 	            return userDetails;
 	            //@formatter:on
     	}catch (NoResultException e) {
@@ -95,8 +97,6 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	   	userDetails.setEmailId(users.getOtsUsersEmailid());
 	   	userDetails.setProfilePic(users.getOtsUsersProfilePic());
 	   	userDetails.setUsrStatus(users.getOtsUsersStatus());
-	   	userDetails.setRegistrationId(users.getOtsRegistrationId().getOtsRegistrationId().toString());
-	   	userDetails.setUserRoleId(users.getOtsUserRoleId().getOtsUserRoleId().toString());
 	   	userDetails.setUsrStatus(users.getOtsUsersStatus());
 	   	userDetails.setUsrPassword(users.getOtsUsersPassword()); 
 	   	return userDetails;
@@ -116,7 +116,7 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	        		e.printStackTrace();
 	            	throw new BusinessException(e.getMessage(), e);
 	            }
-	            logger.info("Inside Event=1,Class:UserServiceUtilityDAOImpl,Method:getUserDetailsByMapped, "
+	            logger.info("Inside Event=1008,Class:UserServiceUtilityDAOImpl,Method:getUserDetailsByMapped, "
 						+ "UserList Size:" +userList.size());
 	            userDetails =  userList.stream().map(otsUsers -> convertUserDetailsFromEntityToDomain(otsUsers)).collect(Collectors.toList());
 	    	}catch(Exception e) {
