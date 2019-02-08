@@ -21,7 +21,7 @@
 		WHERE 
 			o.otsUsersId = :otsUsersMappedTo 
 		AND
-			r.otsRegistrationStatus = 'Active'
+			r.otsRegistrationStatus = 'New'
 		</query>
 	</named-query> 	
 	
@@ -51,5 +51,16 @@
 		AND
 			s.otsProductId = :otsProductId	
 		</query> 
-	</named-query>		
+	</named-query>	
+	
+	<named-query name="OtsRegistration.matchEmailidPhoneNumber">
+		<query>SELECT r 
+		FROM 
+			OtsRegistration r
+		WHERE 
+			r.otsRegistrationContactNo = :otsRegistrationContactNo 
+		OR
+			r.otsRegistrationEmailid = :otsRegistrationEmailid
+		</query>
+	</named-query> 	
 </entity-mappings>

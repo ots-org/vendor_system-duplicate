@@ -19,7 +19,8 @@ public enum ErrorEnumeration {
 	APPROVE_REGISTRATION_FAILURE(1003,"err.approve.register.failure"),
 	Mapped_to_value_is_empty(1006,"err.in.MappedTo"),
 	UpdationFailuer(1009,"err.in.productstock"),
-	User_Not_exists(1014,"err.in.usernotexists")
+	User_Not_exists(1014,"err.in.usernotexists"),
+	USR_REGISTER_failure(1001,"err.user.register.failure");
 	;
 	
     ErrorEnumeration(int errorCode, String messageKey) {

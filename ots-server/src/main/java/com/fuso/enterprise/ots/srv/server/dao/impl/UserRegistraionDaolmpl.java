@@ -39,9 +39,27 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
     public UserRegistraionDaolmpl() {
         super(OtsRegistration.class);
     }
-
+    
+    @Override
+   	public List<OtsRegistration> addUserRegistrationEmailPhonenumber(AddNewBORequest addNewBORequest) {
+   		List<OtsRegistration> userList = null;	
+   		String otsRegistrationContactNo = addNewBORequest.getRequestData().getPhonenumber();
+   		String otsRegistrationEmailid =  addNewBORequest.getRequestData().getEmailId();
+   		 try {
+   			Map<String, Object> queryParameter = new HashMap<>();
+   			queryParameter.put("otsRegistrationContactNo", otsRegistrationContactNo);
+   			queryParameter.put("otsRegistrationEmailid",otsRegistrationEmailid);
+   			userList  = super.getResultListByNamedQuery("OtsRegistration.matchEmailidPhoneNumber", queryParameter);
+   		 } catch (NoResultException e) {
+            	logger.error("Exception while fetching data from DB :"+e.getMessage());
+        		e.printStackTrace();
+            	throw new BusinessException(e.getMessage(), e);
+            }
+   		return userList;
+   	}
+    
 	@Override
-	public String  addUserRegistration(AddNewBORequest addNewBORequest) {
+	public  UserRegistrationResponce addUserRegistration(AddNewBORequest addNewBORequest) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		UserRegistrationResponce userRegistrationResponce = new UserRegistrationResponce();
 		OtsRegistration otsRegistration = new OtsRegistration();
@@ -71,7 +89,8 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 	    	  e.printStackTrace(); 
 	    	  throw new BusinessException(e.getMessage(), e);
 	      }
-        return addNewBORequest.getRequestData().getEmailId();
+			userRegistrationResponce.setEmailId(addNewBORequest.getRequestData().getEmailId());
+	        return userRegistrationResponce;
 	}
 	
 	@Override

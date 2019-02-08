@@ -138,17 +138,17 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 				+ "addNewBORequest:"+addNewBORequest.getRequestData().getEmailId()+",FirstName:"+addNewBORequest.getRequestData().getFirstName()+",LastName:"+addNewBORequest.getRequestData().getLastName());
 		UserRegistrationResponce userRegistrationResponce = new UserRegistrationResponce();
 		try {
-			userRegistrationResponce.setEmailId(otsUserService.addUserRegistration(addNewBORequest));  
+			userRegistrationResponce = otsUserService.addUserRegistration(addNewBORequest);  
 			if(!userRegistrationResponce.getEmailId().isEmpty()) {
-				logger.info("Inside Event=1001,Class:OTSUsersV18_1WsImpl,Method:addUserRegistration, "
-						+ "UserEmail:" +userRegistrationResponce.getEmailId());
-			}
+					logger.info("Inside Event=1001,Class:OTSUsersV18_1WsImpl,Method:addUserRegistration, "
+							+ "UserEmail:" +userRegistrationResponce.getEmailId());
+				}
 			response = responseWrapper.buildResponse(userRegistrationResponce.getEmailId(),"User Successfully Added for Registration");
-		}catch(BusinessException e) {
-			throw new BusinessException(e.getMessage(), e);
-		}catch(Throwable e) {
-			throw new BusinessException(e.getMessage(), e);
-		}
+			}catch(BusinessException e) {
+				throw new BusinessException(e,ErrorEnumeration.USR_REGISTER_failure);
+				}catch(Throwable e) {
+				throw new BusinessException(e,ErrorEnumeration.USR_REGISTER_failure);
+			}
 		return response;
 	}
 

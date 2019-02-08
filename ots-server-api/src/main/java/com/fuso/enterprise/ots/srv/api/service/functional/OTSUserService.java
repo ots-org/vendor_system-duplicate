@@ -24,7 +24,7 @@ public interface OTSUserService {
 
 	UserDataBOResponse getUserDetails(RequestBOUserBySearch requestBOUserBySearch);
 
-	String addUserRegistration(AddNewBORequest addNewBORequest);
+	UserRegistrationResponce addUserRegistration(AddNewBORequest addNewBORequest);
 
 	GetNewRegistrationResponse getNewRegistration(String mappedTo);
 
