@@ -82,7 +82,7 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 	public Response addProductStock(AddProductStockBORequest addStockProductBORequest) {
 		Response response = null;
 		if(!addStockProductBORequest.getRequest().getProductId().isEmpty() || !addStockProductBORequest.getRequest().getProductStockQty().isEmpty() 
-			||	!addStockProductBORequest.getRequest().getProductStockQty().isEmpty() || !addStockProductBORequest.getRequest().getProductStockStatus().isEmpty()){
+			||	!addStockProductBORequest.getRequest().getProductStockStatus().isEmpty() || !addStockProductBORequest.getRequest().getProductStockStatus().isEmpty()){
 			logger.info("Inside Event=1014,Class:OTSProduct_WsImpl, Method:addProductStock, UserDataBORequest:"
 				+ addStockProductBORequest);
 			try {
