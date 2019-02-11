@@ -8,12 +8,11 @@
 	  <named-query name="OtsUsers.findByUserOtsRoleId">
 		<query>SELECT o 
 		FROM 
-			OtsUsers o, OtsUserRole r	
+			OtsUsers o	
 		WHERE 
-			r.otsUserRoleId = :otsUserRoleId
+			o.otsUserRoleId = :otsUserRoleId
 		</query>
 	</named-query> 	
-
 	<named-query name="OtsUsers.findByRegistrationTable">
 		<query>SELECT r 
 		FROM 

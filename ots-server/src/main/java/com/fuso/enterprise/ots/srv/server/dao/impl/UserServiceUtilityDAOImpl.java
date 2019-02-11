@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.NoResultException;
-
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,9 +59,10 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 									userList  = super.getResultListByNamedQuery("OtsUsers.findByOtsUsersEmailid", queryParameter);
 								    break;
 	            case "UserRoleId":
-						            queryParameter.put("otsUserRoleId", Integer.parseInt(searchvalue));
+									OtsUserRole otsUserRole = new OtsUserRole();
+	            					otsUserRole.setOtsUserRoleId(Integer.parseInt(searchvalue));
+	            					queryParameter.put("otsUserRoleId", otsUserRole);
 									userList  = super.getResultListByNamedQuery("OtsUsers.findByUserOtsRoleId", queryParameter);
-								
 									break;
 	            default:
 	            					return null;
