@@ -62,4 +62,35 @@
 			r.otsRegistrationEmailid = :otsRegistrationEmailid
 		</query>
 	</named-query> 	
+	
+	<named-query name="OtsProductStock.fetchOpenBalance">
+		<query>SELECT COUNT(o)
+		FROM 
+			OtsStockDistOb o
+		WHERE 
+			o.otsUsersId = :otsUsersId 
+		</query>
+	</named-query> 
+	
+		<named-query name="OtsProductStock.fetchActualQuantity">
+		<query>SELECT COUNT(a) 
+		FROM 
+			OtsProductStock a
+		WHERE 
+			a.otsUsersId = :otsUsersId 
+		</query>
+	</named-query>
+	
+	<named-query name="OtsOrder.fetchOtsSoldProducts">
+		<query>SELECT COUNT(o)
+		FROM 
+			OtsOrder o
+		WHERE 
+			o.otsDistributorId = :otsUsersId 
+		AND
+			o.otsOrderDeliveredDt = :otsOrderDeliveredDt
+		AND
+			o.otsOrderStatus= 'COMPLETED'
+		</query>
+	</named-query> 
 </entity-mappings>

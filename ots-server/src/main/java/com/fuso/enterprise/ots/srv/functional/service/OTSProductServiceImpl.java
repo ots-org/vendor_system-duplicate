@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockList;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.GetProductStockListBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -67,6 +69,20 @@ public class OTSProductServiceImpl implements OTSProductService {
 			throw new BusinessException(e.getMessage(), e);
 		}	
 		return strResponse;
+	}
+	@Override
+	public GetProductStockListBOResponse getProductStockList(GetProductStockList getProductStockList) {
+		//String responseDatausingqeury;
+		GetProductStockListBOResponse getProductStockListBOResponse =new GetProductStockListBOResponse();
+		try {
+			//fetch data using userid
+			//responseDatausingqeury =productServiceDAO.fetchdataforproduct(getProductStockList);
+			//
+			getProductStockListBOResponse= productStockDao.getProductStockList(getProductStockList);
+		}catch(Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}	
+		return getProductStockListBOResponse;
 	}
 
 }

@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockList;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.GetProductStockListBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -99,6 +101,23 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 		    }
 		}else{
 			response = buildResponse(600,"Please check the data provided");
+		}
+		return response;
+	}
+
+	@Override
+	public Response getProductStockList(GetProductStockList getProductStockList) {
+		Response response = null;
+		GetProductStockListBOResponse GetProductStockListBOResponse = new GetProductStockListBOResponse();
+		if(!getProductStockList.getRequestData().getUserId().isEmpty()) {
+			try {
+				GetProductStockListBOResponse=otsProductService.getProductStockList(getProductStockList);
+				response = responseWrapper.buildResponse(GetProductStockListBOResponse,"Successfull");
+			}catch(BusinessException e) {
+				throw new BusinessException(e.getMessage(), e);
+			}catch(Throwable e) {
+				throw new BusinessException(e.getMessage(), e);
+			}
 		}
 		return response;
 	}

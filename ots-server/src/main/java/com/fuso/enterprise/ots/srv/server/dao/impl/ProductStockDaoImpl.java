@@ -1,5 +1,8 @@
 package com.fuso.enterprise.ots.srv.server.dao.impl;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +15,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockList;
+import com.fuso.enterprise.ots.srv.api.service.response.GetProductStockListBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockDao;
@@ -65,6 +70,61 @@ public class ProductStockDaoImpl extends AbstractIptDao<OtsProductStock, String>
 		}
 		logger.info("Inside Event=1014,Class:OTSProduct_WsImpl,Method:ProductStockDaoImpl ");
 		return "Stock Updated Scuccessfully";
+	}
+
+	@Override
+	public GetProductStockListBOResponse getProductStockList(GetProductStockList getProductStockList) {
+		long otsOpenBalance;
+		long otsActualQuantity;
+		long otsSoldProducts;
+		long otsClosingBalance;
+		java.util.Date date = new java.util.Date();
+		Date otsOrderDeliveredDt = new Date(date.getYear(), date.getMonth(), date.getDate());
+		GetProductStockListBOResponse getProductStockListBOResponse = new GetProductStockListBOResponse();
+		 OtsUsers OtsUsers= new OtsUsers();
+   		 OtsUsers.setOtsUsersId(Integer.parseInt(getProductStockList.getRequestData().getUserId())); 
+		try { 
+			Map<String, Object> queryParameter = new HashMap<>();
+   			queryParameter.put("otsUsersId", OtsUsers);
+   			otsOpenBalance= super.countByNamedQuery("OtsProductStock.fetchOpenBalance", queryParameter);
+   		    getProductStockListBOResponse.setOtsOpenBalance(otsOpenBalance);
+		} catch (NoResultException e) {
+        	logger.error("Exception while fetching data from DB :"+e.getMessage());
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+		}
+		
+		try { 
+			Map<String, Object> queryParameter = new HashMap<>();
+   			queryParameter.put("otsUsersId",  OtsUsers);
+   			otsActualQuantity= super.countByNamedQuery("OtsProductStock.fetchActualQuantity", queryParameter);
+   		    getProductStockListBOResponse.setOtsActualQuantity(otsActualQuantity);
+		} catch (NoResultException e) {
+        	logger.error("Exception while fetching data from DB :"+e.getMessage());
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+		}
+ 
+		try { 
+			Map<String, Object> queryParameter = new HashMap<>();
+   			queryParameter.put("otsOrderDeliveredDt", otsOrderDeliveredDt);
+   			queryParameter.put("otsUsersId",  OtsUsers);
+   			otsSoldProducts= super.countByNamedQuery("OtsOrder.fetchOtsSoldProducts", queryParameter);
+   			getProductStockListBOResponse.setOtsSoldProducts(otsSoldProducts);
+		} catch (NoResultException e) {
+        	logger.error("Exception while fetching data from DB :"+e.getMessage());
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+		}
+		try {
+			otsClosingBalance = otsOpenBalance + otsActualQuantity - otsSoldProducts;
+			getProductStockListBOResponse.setOtsClosingBalance(otsClosingBalance);
+		} catch (NoResultException e) {
+        	logger.error("Exception while fetching data from DB :"+e.getMessage());
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+		}
+		return getProductStockListBOResponse;
 	}
 		
 }

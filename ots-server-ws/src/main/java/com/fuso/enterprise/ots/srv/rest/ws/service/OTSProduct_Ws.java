@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockList;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,4 +46,9 @@ public interface OTSProduct_Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response addProductStock(@ApiParam(value = "request", required = true) @NotNull @Valid AddProductStockBORequest addStockProductBORequest);
 
+	@POST
+	@Path("/getProductStockList")
+	@ApiOperation(value = "getProductStock", notes = "This operation will fetch details about product stock ", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getProductStockList(@ApiParam(value = "request", required = true) @NotNull @Valid GetProductStockList getProductStockList);
 }
