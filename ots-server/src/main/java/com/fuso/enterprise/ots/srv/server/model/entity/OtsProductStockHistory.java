@@ -42,12 +42,16 @@ public class OtsProductStockHistory implements Serializable {
     private Integer otsProductStockHistoryId;
     @Column(name = "ots_product_stock_history_qty")
     private String otsProductStockHistoryQty;
+    @Column(name = "ots_product_stock_add_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsProductStockAddDate;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
     @ManyToOne(optional = false)
     private OtsProduct otsProductId;
     @JoinColumn(name = "ots_users_id", referencedColumnName = "ots_users_id")
     @ManyToOne(optional = false)
     private OtsUsers otsUsersId;
+    
 
     public OtsProductStockHistory() {
     }
@@ -70,6 +74,14 @@ public class OtsProductStockHistory implements Serializable {
 
     public void setOtsProductStockHistoryQty(String otsProductStockHistoryQty) {
         this.otsProductStockHistoryQty = otsProductStockHistoryQty;
+    }
+    
+    public Date getOtsProductStockAddDate() {
+        return otsProductStockAddDate;
+    }
+
+    public void setOtsProductStockAddDate(Date otsProductStockAddDate) {
+        this.otsProductStockAddDate = otsProductStockAddDate;
     }
 
     public OtsProduct getOtsProductId() {

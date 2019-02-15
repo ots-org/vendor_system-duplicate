@@ -61,5 +61,15 @@
 		OR
 			r.otsRegistrationEmailid = :otsRegistrationEmailid
 		</query>
+	</named-query> 
+	<named-query name="OtsOrder.fetchOtsSoldProducts">
+		<query>SELECT o
+		FROM 
+			OtsOrderProduct o
+		WHERE 
+			o.otsOrderId = :otsOrderId 
+		AND
+			o.otsProductId= :otsProductId
+		</query>
 	</named-query> 	
 </entity-mappings>

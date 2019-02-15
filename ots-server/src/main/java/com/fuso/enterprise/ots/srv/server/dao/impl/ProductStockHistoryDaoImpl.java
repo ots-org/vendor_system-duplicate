@@ -1,5 +1,11 @@
 package com.fuso.enterprise.ots.srv.server.dao.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TemporalType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockHistoryDao;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct;
@@ -44,6 +51,34 @@ public class ProductStockHistoryDaoImpl extends AbstractIptDao<OtsProductStockHi
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
+	}
+	
+	@Override
+	public long getOtsProductStockAddition(Integer otsProductId,
+			GetProductStockListRequest getProductStockListRequest) {
+		int prodcutStockQuantityDated = 0;
+		List<OtsProductStockHistory> otsProductStockHistory = new ArrayList<OtsProductStockHistory>();
+		try {
+			OtsUsers OtsUsers= new OtsUsers();
+			OtsProduct otsProduct= new OtsProduct();
+			OtsUsers.setOtsUsersId(Integer.parseInt(getProductStockListRequest.getRequestData().getUserId()));
+			otsProduct.setOtsProductId(otsProductId);
+			otsProductStockHistory = super.getEntityManager()
+					.createQuery("from OtsProductStockHistory where  otsUsersId = ?1 and otsProductId = ?2 and otsProductStockAddDate = ?3  ", OtsProductStockHistory.class)
+					.setParameter(1,OtsUsers)
+					.setParameter(2,otsProduct)
+					.setParameter(3,getProductStockListRequest.getRequestData().getTodaysDate(), TemporalType.DATE)
+					.getResultList();
+			for(int i=0;i<otsProductStockHistory.size();i++) {
+				prodcutStockQuantityDated += Integer.parseInt(otsProductStockHistory.get(i).getOtsProductStockHistoryQty());
+			}
+			
+   		} catch (NoResultException e) {
+	    	logger.error("Exception while fetching data from DB :"+e.getMessage());
+			e.printStackTrace();
+			throw new BusinessException(e.getMessage(), e);
+	    }
+		return prodcutStockQuantityDated;
 	}
 	
 
