@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+	xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	<description>OTS ORM mappings</description>
+	  <named-query name="OtsUsers.findByUserOtsRoleId">
+		<query>SELECT o 
+		FROM 
+			OtsUsers o	
+		WHERE 
+			o.otsUserRoleId = :otsUserRoleId
+		</query>
+	</named-query> 	
+	<named-query name="OtsUsers.findByRegistrationTable">
+		<query>SELECT r 
+		FROM 
+			OtsRegistration r,OtsUsers o
+		WHERE 
+			o.otsUsersId = :otsUsersMappedTo 
+		AND
+			r.otsRegistrationStatus = 'New'
+		</query>
+	</named-query> 	
+	
+	<named-query name="OtsProduct.findByPattrenMatching">
+		<query>SELECT o 
+		FROM 
+		OtsProduct o 
+		WHERE o.otsProductName LIKE :FirstLetter
+		</query>
+	</named-query>
+	<named-query name="OtsUsers.findByUserOtsbyMappedTo">
+		<query>select m.otsUsersId 
+		from
+			OtsUserMapping m 
+		 where 
+		  	m.otsMappedTo = :MappedTo
+		</query>
+	</named-query> 	
+	<named-query name="OtsProduct.findByOtsProductIdAndUserId">
+		 <query>
+		SELECT
+			 s
+		FROM 
+			OtsProductStock s 
+		WHERE
+			s.otsUsersId = :otsUsersId 	
+		AND
+			s.otsProductId = :otsProductId	
+		</query> 
+	</named-query>	
+	
+	<named-query name="OtsRegistration.matchEmailidPhoneNumber">
+		<query>SELECT r 
+		FROM 
+			OtsRegistration r
+		WHERE 
+			r.otsRegistrationContactNo = :otsRegistrationContactNo 
+		OR
+			r.otsRegistrationEmailid = :otsRegistrationEmailid
+		</query>
+	</named-query> 	
+</entity-mappings>
