@@ -38,9 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsBill.findByOtsBillAmount", query = "SELECT o FROM OtsBill o WHERE o.otsBillAmount = :otsBillAmount"),
     @NamedQuery(name = "OtsBill.findByOtsBillAmountReceived", query = "SELECT o FROM OtsBill o WHERE o.otsBillAmountReceived = :otsBillAmountReceived"),
     @NamedQuery(name = "OtsBill.findByOtsBillGenerated", query = "SELECT o FROM OtsBill o WHERE o.otsBillGenerated = :otsBillGenerated"),
-    @NamedQuery(name = "OtsBill.findByOtsBillStatus", query = "SELECT o FROM OtsBill o WHERE o.otsBillStatus = :otsBillStatus"),
-    @NamedQuery(name = "OtsBill.findByOtsBillTimestamp", query = "SELECT o FROM OtsBill o WHERE o.otsBillTimestamp = :otsBillTimestamp"),
-    @NamedQuery(name = "OtsBill.findByOtsBillCreated", query = "SELECT o FROM OtsBill o WHERE o.otsBillCreated = :otsBillCreated")})
+    @NamedQuery(name = "OtsBill.findByOtsBillStatus", query = "SELECT o FROM OtsBill o WHERE o.otsBillStatus = :otsBillStatus")})
 public class OtsBill implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,12 +56,6 @@ public class OtsBill implements Serializable {
     private String otsBillGenerated;
     @Column(name = "ots_bill_status")
     private String otsBillStatus;
-    @Column(name = "ots_bill_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsBillTimestamp;
-    @Column(name = "ots_bill_created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsBillCreated;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsBillId")
     private Collection<OtsOrder> otsOrderCollection;
 
@@ -120,22 +112,6 @@ public class OtsBill implements Serializable {
 
     public void setOtsBillStatus(String otsBillStatus) {
         this.otsBillStatus = otsBillStatus;
-    }
-
-    public Date getOtsBillTimestamp() {
-        return otsBillTimestamp;
-    }
-
-    public void setOtsBillTimestamp(Date otsBillTimestamp) {
-        this.otsBillTimestamp = otsBillTimestamp;
-    }
-
-    public Date getOtsBillCreated() {
-        return otsBillCreated;
-    }
-
-    public void setOtsBillCreated(Date otsBillCreated) {
-        this.otsBillCreated = otsBillCreated;
     }
 
     @XmlTransient

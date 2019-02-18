@@ -76,6 +76,8 @@
         class="com.fuso.enterprise.ots.srv.rest.ws.service.OTSUsersV18_1WsImpl" />
         <bean
         class="com.fuso.enterprise.ots.srv.rest.ws.service.OTSProduct_WsImpl" />
+        <bean
+        class="com.fuso.enterprise.ots.srv.rest.ws.service.OTSBill_WsImpl" />
      </jaxrs:serviceBeans>
     <jaxrs:providers>
       <ref bean="iptJaxbJsonProvider" />
