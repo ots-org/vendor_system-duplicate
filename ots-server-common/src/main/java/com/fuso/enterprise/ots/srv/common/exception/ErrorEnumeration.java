@@ -21,7 +21,10 @@ public enum ErrorEnumeration {
 	UpdationFailuer(1009,"err.in.productstock"),
 	User_Not_exists(1014,"err.in.usernotexists"),
 	USR_REGISTER_failure(1001,"err.user.register.failure"),
-	ADD_UPDATE_BILL_FAILURE(1021,"err.add.update.bill.failure");
+	ADD_UPDATE_BILL_FAILURE(1021,"err.add.update.bill.failure"),
+	FAILURE_ORDER_GET(1004,"err.ordrer.get"),
+	ERROR_IN_ORDER_INSERTION(1006,"err.in.ordertable"),
+	ERROR_IN_ORDER_PRODUCT_INSERTION(1006,"err.in.orderproducttable");
 	
     ErrorEnumeration(int errorCode, String messageKey) {
         this.errorCode = errorCode;

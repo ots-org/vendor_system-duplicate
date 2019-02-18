@@ -2,16 +2,13 @@ package com.fuso.enterprise.ots.srv.server.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.NoResultException;
 import javax.persistence.TemporalType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -44,7 +41,7 @@ public class ProductStockHistoryDaoImpl extends AbstractIptDao<OtsProductStockHi
 			 OtsUsers otsUsers = new OtsUsers();
 			 otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequest().getUsersId()));
 			 otsProductStockHistory.setOtsUsersId(otsUsers);
-			 
+			 otsProductStockHistory.setOtsProductStockAddDate(addProductStockBORequest.getRequest().getProductStockAddDate());
 			 otsProductStockHistory.setOtsProductStockHistoryQty(addProductStockBORequest.getRequest().getProductStockQty());
 			 super.getEntityManager().merge(otsProductStockHistory);
 			 logger.info("Inside Event=1014,Class:ProductStockHistoryDaoImpl,Method:addProductStockHistory ");

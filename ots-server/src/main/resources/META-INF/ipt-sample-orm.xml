@@ -72,4 +72,33 @@
 			o.otsProductId= :otsProductId
 		</query>
 	</named-query> 	
+	
+		<named-query name="OtsOrder.GetOrderListByTime">
+		<query>SELECT o 
+		FROM 
+			OtsOrder o
+		WHERE 
+			(o.otsOrderDt BETWEEN :FromDate AND :ToDate) 
+		AND
+			(o.otsDistributorId = :DistributorsId)
+		</query>
+	</named-query> 	 
+	<named-query name="OtsOrder.getOrderIdByDistrubitorId">
+		<query>SELECT o 
+		FROM 
+			OtsOrder o
+		WHERE 
+			o.otsDistributorId = :otsDistributorId
+		AND
+			o.otsOrderStatus =:Status
+		</query>
+	</named-query>
+	<named-query name="OtsOrderProduct.GetOrderByDistrubutorIdAndStatus">
+		<query>SELECT o 
+		FROM 
+			OtsOrderProduct o
+		WHERE 
+			o.otsOrderId = :otsOrderId
+		</query>
+	</named-query>
 </entity-mappings>

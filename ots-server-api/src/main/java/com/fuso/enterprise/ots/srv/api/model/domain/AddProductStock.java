@@ -1,7 +1,11 @@
 package com.fuso.enterprise.ots.srv.api.model.domain;
 
+import java.sql.Date;
+
 public class AddProductStock {
 
+	private Date ProductStockAddDate;
+	
 	private String ProductStockQty; 
 	
 	private String ProductStockStatus;
@@ -9,6 +13,7 @@ public class AddProductStock {
 	private String UsersId; 
 	
 	private String ProductId;
+	
 	
 	public String getProductStockQty() {
 		return ProductStockQty;
@@ -34,5 +39,11 @@ public class AddProductStock {
 	}
 	public void setProductId(String productId) {
 		ProductId = productId;
+	}
+	public Date getProductStockAddDate() {
+		return ProductStockAddDate;
+	}
+	public void setProductStockAddDate(Date productStockAddDate) {
+		ProductStockAddDate = productStockAddDate;
 	}
 }

@@ -29,6 +29,8 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 	@Autowired
     private JdbcTemplate jdbcTemplate;
 	
+	
+	
 	public BillServiceDAOImpl() {
 		super(OtsBill.class);
 		// TODO Auto-generated constructor stub

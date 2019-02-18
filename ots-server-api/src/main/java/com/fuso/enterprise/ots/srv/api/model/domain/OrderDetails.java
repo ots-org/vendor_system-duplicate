@@ -35,6 +35,17 @@ public class OrderDetails {
 	 
 	 @Size(max = 20)
 	 private String billId;
+	 
+	 @Size(max = 20)
+	 private String CreatedBy;
+
+	public String getCreatedBy() {
+		return CreatedBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		CreatedBy = createdBy;
+	}
 
 	public String getOrderId() {
 		return orderId;
@@ -123,6 +134,7 @@ public class OrderDetails {
 	public void setBillId(String billId) {
 		this.billId = billId;
 	}
+
 	 
 	 
 	 
