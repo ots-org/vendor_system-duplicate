@@ -65,6 +65,7 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 		OtsRegistration otsRegistration = new OtsRegistration();
 		OtsUsers otsUsers = new OtsUsers();
 	      try {
+	    	  otsRegistration.setOtsRegistrationId(Integer.parseInt(addNewBORequest.getRequestData().getRegistrationId()));
 	    	  otsRegistration.setOtsRegistrationFirstname(addNewBORequest.getRequestData().getFirstName());
 	    	  otsRegistration.setOtsRegistrationLastname(addNewBORequest.getRequestData().getLastName());
 	    	  otsRegistration.setOtsRegistrationContactNo(addNewBORequest.getRequestData().getPhonenumber());
