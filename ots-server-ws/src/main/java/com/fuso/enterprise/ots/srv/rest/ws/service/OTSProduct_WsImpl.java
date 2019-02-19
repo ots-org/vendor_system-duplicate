@@ -112,7 +112,11 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 		if(!getProductStockListRequest.getRequestData().getUserId().isEmpty()) {
 			try {
 				GetProductStockListBOResponse=otsProductService.getProductStockList(getProductStockListRequest);
-				response = responseWrapper.buildResponse(GetProductStockListBOResponse,"Successfull");
+				if(!GetProductStockListBOResponse.getProductStockDetail().isEmpty()) {
+					response = responseWrapper.buildResponse(GetProductStockListBOResponse,"Successfull");
+				}else {
+				    response = responseWrapper.buildResponse("We do not have DATA for this Request,please check the input");
+				}
 			}catch(BusinessException e) {
 				throw new BusinessException(e.getMessage(), e);
 			}catch(Throwable e) {
