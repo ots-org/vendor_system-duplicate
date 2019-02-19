@@ -13,9 +13,6 @@ public class AddUserDetails {
     @Size(max = 40)
     private String emailId;
 
-    @Size(max = 10)
-    private String status;
-
     @Size(max = 15)
     private String phonenumber;
 
@@ -63,13 +60,6 @@ public class AddUserDetails {
 		this.emailId = emailId;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public String getPhonenumber() {
 		return phonenumber;

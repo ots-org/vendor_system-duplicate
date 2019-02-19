@@ -82,8 +82,12 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 	    	  OtsProduct otsProduct = new OtsProduct();
 	          otsProduct.setOtsProductId(Integer.parseInt(addNewBORequest.getRequestData().getProductId()));
 	          otsRegistration.setOtsProductId(otsProduct);
-	    	  otsRegistration.setOtsRegistrationStatus(addNewBORequest.getRequestData().getStatus());
+	    	  otsRegistration.setOtsRegistrationStatus("New");
+              if(addNewBORequest.getRequestData().getPassword().equalsIgnoreCase("")|| addNewBORequest.getRequestData().getPassword()==null) {
+            	  otsRegistration.setOtsRegistrationPassword("Password");  
+              }else {
 	    	  otsRegistration.setOtsRegistrationPassword(addNewBORequest.getRequestData().getPassword());
+              }
 	    	  super.getEntityManager().merge(otsRegistration);
 	      }catch(Exception e){
 	    	  e.printStackTrace(); 
@@ -165,36 +169,26 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 	}
 	
 	private RegistorToUserDetails convertUserDetailsFromEntityToDomain(OtsRegistration otsRegistration) {
-		RegistorToUserDetails registorToUserDetails = new RegistorToUserDetails();           
-		registorToUserDetails.setFirstName(otsRegistration.getOtsRegistrationFirstname());
-		registorToUserDetails.setLastName(otsRegistration.getOtsRegistrationLastname());
-		registorToUserDetails.setAddress1(otsRegistration.getOtsRegistrationAddr1());
-		registorToUserDetails.setAddress2(otsRegistration.getOtsRegistrationAddr2());
-		registorToUserDetails.setPincode(otsRegistration.getOtsRegistrationPincode());
-       	registorToUserDetails.setPhonenumber(otsRegistration.getOtsRegistrationContactNo());
-		registorToUserDetails.setEmailId(otsRegistration.getOtsRegistrationEmailid());
-       	registorToUserDetails.setUserRoleId(otsRegistration.getOtsUserRoleId().getOtsUserRoleId().toString());
-       	registorToUserDetails.setProductId(otsRegistration.getOtsProductId().getOtsProductId().toString());
-		registorToUserDetails.setStatus(otsRegistration.getOtsRegistrationStatus());
-        registorToUserDetails.setMappedTo(otsRegistration.getOtsUsersMappedTo().getOtsUsersId().toString());
-        registorToUserDetails.setPassword(otsRegistration.getOtsRegistrationPassword());            
+		RegistorToUserDetails registorToUserDetails = new RegistorToUserDetails();   
+		registorToUserDetails.setRegistrationId(otsRegistration.getOtsRegistrationId().toString());
         return registorToUserDetails;
     }
 	
 	private UserDetails convertUserDetailsFromOtsRegistrationEntityToDomain(OtsRegistration otsRegistration) {
 		UserDetails userDetails = new UserDetails();
+		userDetails.setRegistrationId(otsRegistration.getOtsRegistrationId().toString());
 		userDetails.setFirstName(otsRegistration.getOtsRegistrationFirstname());
 		userDetails.setLastName(otsRegistration.getOtsRegistrationLastname());
 		userDetails.setAddress1(otsRegistration.getOtsRegistrationAddr1());
 		userDetails.setAddress2(otsRegistration.getOtsRegistrationAddr2());
 		userDetails.setPincode(otsRegistration.getOtsRegistrationPincode());
-		//userDetails.setPhonenumber(otsRegistration.getOtsRegistrationContactNo());
+		userDetails.setContactNo(otsRegistration.getOtsRegistrationContactNo());
 		userDetails.setEmailId(otsRegistration.getOtsRegistrationEmailid());
 		userDetails.setUserRoleId(otsRegistration.getOtsUserRoleId().getOtsUserRoleId().toString());
 		userDetails.setProductId(otsRegistration.getOtsProductId().getOtsProductId().toString());
-		//userDetails.setStatus(otsRegistration.getOtsRegistrationStatus());
+		userDetails.setUsrStatus(otsRegistration.getOtsRegistrationStatus());
 		userDetails.setMappedTo(otsRegistration.getOtsUsersMappedTo().getOtsUsersId().toString());
-		//userDetails.setPassword(otsRegistration.getOtsRegistrationPassword());            
+		userDetails.setUsrPassword(otsRegistration.getOtsRegistrationPassword());            
         return userDetails;
     }
 

@@ -21,12 +21,6 @@ public class ProductDetails {
 	 @Size(max = 20)
 	 private String productPrice;
 	 
-	 @Size(max = 100)
-	 private String productTimestamp;
-	 
-	 @Size(max = 100)
-	 private String productCreated;
-
 	public String getProductId() {
 		return productId;
 	}
@@ -65,22 +59,6 @@ public class ProductDetails {
 
 	public void setProductPrice(String productPrice) {
 		this.productPrice = productPrice;
-	}
-
-	public String getProductTimestamp() {
-		return productTimestamp;
-	}
-
-	public void setProductTimestamp(String productTimestamp) {
-		this.productTimestamp = productTimestamp;
-	}
-
-	public String getProductCreated() {
-		return productCreated;
-	}
-
-	public void setProductCreated(String productCreated) {
-		this.productCreated = productCreated;
 	}
 
 }

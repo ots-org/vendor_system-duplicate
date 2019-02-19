@@ -102,13 +102,14 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 				userEntity.setOtsUsersAddr1(addUserDataBORequest.getRequestData().getAddress1());
 				userEntity.setOtsUsersAddr2(addUserDataBORequest.getRequestData().getAddress2());
 				userEntity.setOtsUsersPincode(addUserDataBORequest.getRequestData().getPincode());
+				userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
 				userEntity.setOtsUsersPassword(addUserDataBORequest.getRequestData().getUsrPassword());
-				userEntity.setOtsUsersEmailid(addUserDataBORequest.getRequestData().getEmailId());
+				 userEntity.setOtsUsersEmailid(addUserDataBORequest.getRequestData().getEmailId());
 				userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
 				OtsUserRole otsUserRole = new OtsUserRole();
 				otsUserRole.setOtsUserRoleId(Integer.parseInt(addUserDataBORequest.getRequestData().getUserRoleId()));
 				userEntity.setOtsUserRoleId(otsUserRole);
-			    userEntity.setOtsUsersStatus(addUserDataBORequest.getRequestData().getUsrStatus());
+			    userEntity.setOtsUsersStatus("Active");
 				userEntity.setOtsUsersProfilePic(addUserDataBORequest.getRequestData().getProfilePic());
 				OtsRegistration otsRegistration = new OtsRegistration();
 				
