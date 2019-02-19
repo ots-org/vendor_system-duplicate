@@ -37,6 +37,8 @@ public class OrderDAOImpl extends AbstractIptDao<OtsOrder, String> implements Or
 	public List<OtsOrder> getOrderList(Integer otsProductId,GetProductStockListRequest getProductStockListRequest) {
 		List<OtsOrder> orderList = null;
 		try {
+			logger.info("Inside Event=1015,Class:OrderDAOImpl, Method:getOrderList, getProductStockListRequest:"
+					+ getProductStockListRequest+"otsProductId:"+otsProductId);
 			OtsUsers OtsUsers= new OtsUsers();
 			OtsProduct otsProduct= new OtsProduct();
 			OtsUsers.setOtsUsersId(Integer.parseInt(getProductStockListRequest.getRequestData().getUserId()));

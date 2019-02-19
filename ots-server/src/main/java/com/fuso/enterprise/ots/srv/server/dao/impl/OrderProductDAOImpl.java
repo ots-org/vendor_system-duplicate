@@ -46,6 +46,8 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 	public long getListOfDeliverdQuantityOfDay(List<OtsOrder> orderList, Integer otsProductId) {
 		int orderProductList = 0;
 		try {
+			logger.info("Inside Event=1015,Class:OrderProductDAOImpl, Method:getListOfDeliverdQuantityOfDay, orderList:"
+					+ orderList + "otsProductId: "+otsProductId);
 			Iterator<OtsOrder> iterator = orderList.iterator();
 			OtsProduct otsProduct= new OtsProduct();
 			otsProduct.setOtsProductId(otsProductId);

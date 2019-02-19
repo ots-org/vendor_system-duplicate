@@ -56,6 +56,8 @@ public class ProductStockHistoryDaoImpl extends AbstractIptDao<OtsProductStockHi
 		int prodcutStockQuantityDated = 0;
 		List<OtsProductStockHistory> otsProductStockHistory = new ArrayList<OtsProductStockHistory>();
 		try {
+			logger.info("Inside Event=1015,Class:ProductStockHistoryDaoImpl, Method:getOtsProductStockAddition, otsProductId:"
+					+ otsProductId + "getProductStockListRequest: "+getProductStockListRequest.getRequestData().getUserId()+ "date"+ getProductStockListRequest.getRequestData().getTodaysDate());
 			OtsUsers OtsUsers= new OtsUsers();
 			OtsProduct otsProduct= new OtsProduct();
 			OtsUsers.setOtsUsersId(Integer.parseInt(getProductStockListRequest.getRequestData().getUserId()));

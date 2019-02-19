@@ -63,7 +63,6 @@ public class StockDistObDAOImpl extends AbstractIptDao<OtsStockDistOb, String> i
 	}
 
 	@Override
-	//public List<OtsStockDistOb> fetchOpeningBalance(OtsProduct otsProduct, GetProductStockListRequest getProductStockListRequest) {
 	public List<OtsStockDistOb> fetchOpeningBalance(GetProductStockListRequest getProductStockListRequest) {
 		// TODO Auto-generated method stub
 		List<OtsStockDistOb> otsStocDist = new ArrayList<OtsStockDistOb>();
@@ -75,6 +74,8 @@ public class StockDistObDAOImpl extends AbstractIptDao<OtsStockDistOb, String> i
 					.setParameter(3,getProductStockListRequest.getRequestData().getTodaysDate(), TemporalType.DATE)
 					.getSingleResult();
 			otsStocDist = Integer.parseInt(otsStocDist.getOtsStockDistOpeningBalance());*/
+			logger.info("Inside Event=1015,Class:StockDistObDAOImpl, Method:fetchOpeningBalance, getProductStockListRequest:"
+					+ getProductStockListRequest.getRequestData().getUserId()+"date"+getProductStockListRequest.getRequestData().getTodaysDate());
 			OtsUsers OtsUsers= new OtsUsers();
 			OtsUsers.setOtsUsersId(Integer.parseInt(getProductStockListRequest.getRequestData().getUserId()));
 			otsStocDist = super.getEntityManager()

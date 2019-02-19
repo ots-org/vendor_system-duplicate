@@ -111,6 +111,8 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 		GetProductStockListBOResponse GetProductStockListBOResponse = new GetProductStockListBOResponse();
 		if(!getProductStockListRequest.getRequestData().getUserId().isEmpty()) {
 			try {
+				logger.info("Inside Event=1015,Class:OTSProduct_WsImpl, Method:getProductStockList, getProductStockListRequest userId:"
+						+ getProductStockListRequest.getRequestData().getUserId()+ "getProductStockListRequest date"+getProductStockListRequest.getRequestData().getTodaysDate());
 				GetProductStockListBOResponse=otsProductService.getProductStockList(getProductStockListRequest);
 				if(!GetProductStockListBOResponse.getProductStockDetail().isEmpty()) {
 					response = responseWrapper.buildResponse(GetProductStockListBOResponse,"Successfull");
