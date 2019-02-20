@@ -19,10 +19,12 @@
 			OtsRegistration r,OtsUsers o
 		WHERE 
 			o.otsUsersId = :otsUsersMappedTo 
+		AND	
+			r.otsUsersMappedTo = :otsUsersMappedTo
 		AND
 			r.otsRegistrationStatus = 'New'
 		</query>
-	</named-query> 	
+	</named-query>
 	
 	<named-query name="OtsProduct.findByPattrenMatching">
 		<query>SELECT o 
