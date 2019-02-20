@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 public class AddUserDetails {
     
 	@Size(max = 20)
-    private String registrationId;
+    private Integer registrationId;
 	
 	@Size(max = 20)
     private String firstName;
@@ -32,18 +32,18 @@ public class AddUserDetails {
     private String pincode;
     
     @Size(max = 5)
-    private String productId;
+    private Integer productId;
 
     
     private String userRoleId;
     
     private String password;
     
-    public String getRegistrationId() {
+    public Integer getRegistrationId() {
 		return registrationId;
 	}
 
-	public void setRegistrationId(String registrationId) {
+	public void setRegistrationId(Integer registrationId) {
 		this.registrationId = registrationId;
 	}
 	public String getFirstName() {
@@ -111,11 +111,11 @@ public class AddUserDetails {
 		this.pincode = pincode;
 	}
 
-	public String getProductId() {
+   	public Integer getProductId() {
 		return productId;
 	}
 
-	public void setProductId(String productId) {
+	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}
 

@@ -36,17 +36,23 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 			/*
 			 * setting users object for user mapping
 			 */
+			OtsCustomerProduct userProductEntity=new OtsCustomerProduct();
 			OtsUsers otsUsers = new OtsUsers();
 			otsUsers.setOtsUsersId(Integer.parseInt(customerProductDataBORequest.getRequestData().getUserId()));
+			userProductEntity.setOtsUsersId(otsUsers);
 			/*
 			 * setting Product object for product mapping
 			 */
 			OtsProduct otsProduct = new OtsProduct();
-			otsProduct.setOtsProductId(Integer.parseInt(customerProductDataBORequest.getRequestData().getProductId()));
-			
-			OtsCustomerProduct userProductEntity=new OtsCustomerProduct();
-			userProductEntity.setOtsUsersId(otsUsers);
-			userProductEntity.setOtsProductId(otsProduct);
+			if(customerProductDataBORequest.getRequestData().getProductId()!=null) {
+				try {
+					otsProduct.setOtsProductId(Integer.parseInt(customerProductDataBORequest.getRequestData().getProductId()));
+					userProductEntity.setOtsProductId(otsProduct);
+               }catch (Exception e) {
+            	   otsProduct.setOtsProductId(null);
+            	   userProductEntity.setOtsProductId(otsProduct);
+				}
+			}
 			userProductEntity.setOtsCustomerProductPrice(customerProductDataBORequest.getRequestData().getProductPrice());
 			try {
 				super.getEntityManager().merge(userProductEntity);

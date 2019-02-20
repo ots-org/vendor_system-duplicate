@@ -65,7 +65,7 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 		OtsRegistration otsRegistration = new OtsRegistration();
 		OtsUsers otsUsers = new OtsUsers();
 	      try {
-	    	  otsRegistration.setOtsRegistrationId(Integer.parseInt(addNewBORequest.getRequestData().getRegistrationId()));
+	    	  otsRegistration.setOtsRegistrationId(addNewBORequest.getRequestData().getRegistrationId());
 	    	  otsRegistration.setOtsRegistrationFirstname(addNewBORequest.getRequestData().getFirstName());
 	    	  otsRegistration.setOtsRegistrationLastname(addNewBORequest.getRequestData().getLastName());
 	    	  otsRegistration.setOtsRegistrationContactNo(addNewBORequest.getRequestData().getPhonenumber());
@@ -81,15 +81,40 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 	    	  otsRegistration.setOtsUsersMappedTo(otsUsers);
 	    	  
 	    	  OtsProduct otsProduct = new OtsProduct();
-	          otsProduct.setOtsProductId(Integer.parseInt(addNewBORequest.getRequestData().getProductId()));
-	          otsRegistration.setOtsProductId(otsProduct);
+	    	  if((addNewBORequest.getRequestData().getProductId()!= null) && addNewBORequest.getRequestData().getProductId()!=0 ) {
+					try {
+						 otsProduct.setOtsProductId(addNewBORequest.getRequestData().getProductId());
+						 otsRegistration.setOtsProductId(otsProduct);
+					}catch(Exception e){
+						 otsProduct.setOtsProductId(null);
+						 otsRegistration.setOtsProductId(otsProduct);
+					}					
+	 			}
+	          
 	    	  otsRegistration.setOtsRegistrationStatus("New");
+	    	  /*
+	    	   * checking password is empty or not, if it is empty setting default password as "Password" 
+	    	   */
               if(addNewBORequest.getRequestData().getPassword().equalsIgnoreCase("")|| addNewBORequest.getRequestData().getPassword()==null) {
             	  otsRegistration.setOtsRegistrationPassword("Password");  
               }else {
 	    	  otsRegistration.setOtsRegistrationPassword(addNewBORequest.getRequestData().getPassword());
               }
-	    	  super.getEntityManager().merge(otsRegistration);
+              /*
+               * checking RegistrationId is empty or not
+               */
+              if(addNewBORequest.getRequestData().getRegistrationId()!=null || addNewBORequest.getRequestData().getRegistrationId()!=0 ) {
+					try{
+						 otsRegistration.setOtsRegistrationId(addNewBORequest.getRequestData().getRegistrationId());
+						super.getEntityManager().merge(otsRegistration);
+						
+					}catch(Exception e) {
+						otsRegistration.setOtsRegistrationId(null);
+						super.getEntityManager().persist(otsRegistration);
+						
+					}
+				}
+	    	  
 	      }catch(Exception e){
 	    	  e.printStackTrace(); 
 	    	  throw new BusinessException(e.getMessage(), e);
@@ -186,7 +211,7 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 		userDetails.setContactNo(otsRegistration.getOtsRegistrationContactNo());
 		userDetails.setEmailId(otsRegistration.getOtsRegistrationEmailid());
 		userDetails.setUserRoleId(otsRegistration.getOtsUserRoleId().getOtsUserRoleId().toString());
-		userDetails.setProductId(otsRegistration.getOtsProductId().getOtsProductId().toString());
+		userDetails.setProductId(otsRegistration.getOtsProductId()==null?null:otsRegistration.getOtsProductId().toString());
 		userDetails.setUsrStatus(otsRegistration.getOtsRegistrationStatus());
 		userDetails.setMappedTo(otsRegistration.getOtsUsersMappedTo().getOtsUsersId().toString());
 		userDetails.setUsrPassword(otsRegistration.getOtsRegistrationPassword());            
