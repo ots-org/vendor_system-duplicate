@@ -103,4 +103,15 @@
 			o.otsOrderId = :otsOrderId
 		</query>
 	</named-query>
+	<named-query name="OtsLatLon.getLatLongByUserId">
+		<query>SELECT o 
+		FROM 
+			OtsLatLon o
+		WHERE 
+			o.otsUsersusersId = :otsUserId 
+			AND 
+		o.otsLatLonId = (select max(o.otsLatLonId) FROM OtsLatLon o WHERE o.otsUsersusersId = :otsUserId )
+		
+		</query>
+	</named-query>
 </entity-mappings>

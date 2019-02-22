@@ -24,7 +24,9 @@ public enum ErrorEnumeration {
 	ADD_UPDATE_BILL_FAILURE(1021,"err.add.update.bill.failure"),
 	FAILURE_ORDER_GET(1004,"err.ordrer.get"),
 	ERROR_IN_ORDER_INSERTION(1006,"err.in.ordertable"),
-	ERROR_IN_ORDER_PRODUCT_INSERTION(1006,"err.in.orderproducttable");
+	ERROR_IN_ORDER_PRODUCT_INSERTION(1006,"err.in.orderproducttable"),
+	ADD_EMP_LATLONG_FAILURE(1022,"err.in.emplatlongtable"), 
+	GET_EMP_LATLONG_FAILURE(1022,"err.in.getemplatlong");
 	
     ErrorEnumeration(int errorCode, String messageKey) {
         this.errorCode = errorCode;

@@ -33,9 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "OtsLatLon.findAll", query = "SELECT o FROM OtsLatLon o"),
     @NamedQuery(name = "OtsLatLon.findByOtsLatLonId", query = "SELECT o FROM OtsLatLon o WHERE o.otsLatLonId = :otsLatLonId"),
     @NamedQuery(name = "OtsLatLon.findByOtsLatitude", query = "SELECT o FROM OtsLatLon o WHERE o.otsLatitude = :otsLatitude"),
-    @NamedQuery(name = "OtsLatLon.findByOtsLongitude", query = "SELECT o FROM OtsLatLon o WHERE o.otsLongitude = :otsLongitude"),
-    @NamedQuery(name = "OtsLatLon.findByOtsLatLonCreated", query = "SELECT o FROM OtsLatLon o WHERE o.otsLatLonCreated = :otsLatLonCreated"),
-    @NamedQuery(name = "OtsLatLon.findByOtsLatLonTimestamp", query = "SELECT o FROM OtsLatLon o WHERE o.otsLatLonTimestamp = :otsLatLonTimestamp")})
+    @NamedQuery(name = "OtsLatLon.findByOtsLongitude", query = "SELECT o FROM OtsLatLon o WHERE o.otsLongitude = :otsLongitude")})
+  
 public class OtsLatLon implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,12 +46,6 @@ public class OtsLatLon implements Serializable {
     private String otsLatitude;
     @Column(name = "ots_longitude")
     private String otsLongitude;
-    @Column(name = "ots_lat_lon_created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsLatLonCreated;
-    @Column(name = "ots_lat_lon_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsLatLonTimestamp;
     @JoinColumn(name = "ots_usersusers_id", referencedColumnName = "ots_users_id")
     @ManyToOne(optional = false)
     private OtsUsers otsUsersusersId;
@@ -88,22 +81,7 @@ public class OtsLatLon implements Serializable {
         this.otsLongitude = otsLongitude;
     }
 
-    public Date getOtsLatLonCreated() {
-        return otsLatLonCreated;
-    }
-
-    public void setOtsLatLonCreated(Date otsLatLonCreated) {
-        this.otsLatLonCreated = otsLatLonCreated;
-    }
-
-    public Date getOtsLatLonTimestamp() {
-        return otsLatLonTimestamp;
-    }
-
-    public void setOtsLatLonTimestamp(Date otsLatLonTimestamp) {
-        this.otsLatLonTimestamp = otsLatLonTimestamp;
-    }
-
+   
     public OtsUsers getOtsUsersusersId() {
         return otsUsersusersId;
     }
