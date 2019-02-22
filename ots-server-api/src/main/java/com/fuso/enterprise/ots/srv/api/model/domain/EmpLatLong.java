@@ -5,9 +5,6 @@ import javax.validation.constraints.Size;
 public class EmpLatLong {
 	
 	@Size(max = 20)
-	private String latLongId;
-	
-	@Size(max = 20)
 	private String latitude;
 	
 	@Size(max = 20)
@@ -15,14 +12,6 @@ public class EmpLatLong {
 	
 	@Size(max = 20)
 	private String userId;
-
-	public String getLatLongId() {
-		return latLongId;
-	}
-
-	public void setLatLongId(String latLongId) {
-		this.latLongId = latLongId;
-	}
 
 	public String getLatitude() {
 		return latitude;
