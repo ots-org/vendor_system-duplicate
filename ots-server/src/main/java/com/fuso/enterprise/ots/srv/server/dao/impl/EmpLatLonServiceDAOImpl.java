@@ -79,9 +79,10 @@ public class EmpLatLonServiceDAOImpl extends AbstractIptDao<OtsLatLon, String> i
 
 	private EmpLatLong convertUserDetailsFromEntityToDomain(OtsLatLon otsLatLonRes) {
 			EmpLatLong empLatLong=new EmpLatLong();
-			empLatLong.setUserId(otsLatLonRes.getOtsUsersusersId().getOtsUsersId().toString());
-			empLatLong.setLatitude(otsLatLonRes.getOtsLatitude());
-			empLatLong.setLongitude(otsLatLonRes.getOtsLongitude());
+			empLatLong.setLatLongId((otsLatLonRes.getOtsLatLonId())==null?null:otsLatLonRes.getOtsLatLonId().toString());
+			empLatLong.setUserId((otsLatLonRes.getOtsUsersusersId())==null?null:otsLatLonRes.getOtsUsersusersId().getOtsUsersId().toString());
+			empLatLong.setLatitude((otsLatLonRes.getOtsLatitude())==null?null:otsLatLonRes.getOtsLatitude());
+			empLatLong.setLongitude(otsLatLonRes.getOtsLongitude()==null?null:otsLatLonRes.getOtsLongitude());
 			return empLatLong;
 	}
 

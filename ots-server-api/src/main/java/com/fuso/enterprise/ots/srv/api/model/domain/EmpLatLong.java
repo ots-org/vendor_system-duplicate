@@ -5,6 +5,17 @@ import javax.validation.constraints.Size;
 public class EmpLatLong {
 	
 	@Size(max = 20)
+	private String LatLongId;
+	
+	public String getLatLongId() {
+		return LatLongId;
+	}
+
+	public void setLatLongId(String latLongId) {
+		LatLongId = latLongId;
+	}
+
+	@Size(max = 20)
 	private String latitude;
 	
 	@Size(max = 20)

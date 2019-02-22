@@ -115,11 +115,11 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 	
 	private ProductDetails convertProductDetailsFromEntityToDomain(OtsProduct otsProduct) {
 		ProductDetails productDetails = new ProductDetails();
-		productDetails.setProductId(otsProduct.getOtsProductId().toString());
-		productDetails.setProductName(otsProduct.getOtsProductName());
-		productDetails.setProductDescription(otsProduct.getOtsProductDescription());
-		productDetails.setProductPrice(otsProduct.getOtsProductPrice().toString());
-		productDetails.setProductStatus(otsProduct.getOtsProductStatus());
+		productDetails.setProductId(otsProduct.getOtsProductId()==null?null:otsProduct.getOtsProductId().toString());
+		productDetails.setProductName(otsProduct.getOtsProductName()==null?null:otsProduct.getOtsProductName());
+		productDetails.setProductDescription(otsProduct.getOtsProductDescription()==null?null:otsProduct.getOtsProductDescription());
+		productDetails.setProductPrice(otsProduct.getOtsProductPrice()==null?null:otsProduct.getOtsProductPrice().toString());
+		productDetails.setProductStatus(otsProduct.getOtsProductStatus()==null?null:otsProduct.getOtsProductStatus());
 		return productDetails;
 	}
 

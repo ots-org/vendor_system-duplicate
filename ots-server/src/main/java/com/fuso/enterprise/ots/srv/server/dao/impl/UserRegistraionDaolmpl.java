@@ -202,19 +202,19 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 	
 	private UserDetails convertUserDetailsFromOtsRegistrationEntityToDomain(OtsRegistration otsRegistration) {
 		UserDetails userDetails = new UserDetails();
-		userDetails.setRegistrationId(otsRegistration.getOtsRegistrationId().toString());
+		userDetails.setRegistrationId(otsRegistration.getOtsRegistrationId()==null?null:otsRegistration.getOtsRegistrationId().toString());
 		userDetails.setFirstName(otsRegistration.getOtsRegistrationFirstname());
-		userDetails.setLastName(otsRegistration.getOtsRegistrationLastname());
-		userDetails.setAddress1(otsRegistration.getOtsRegistrationAddr1());
-		userDetails.setAddress2(otsRegistration.getOtsRegistrationAddr2());
-		userDetails.setPincode(otsRegistration.getOtsRegistrationPincode());
-		userDetails.setContactNo(otsRegistration.getOtsRegistrationContactNo());
-		userDetails.setEmailId(otsRegistration.getOtsRegistrationEmailid());
-		userDetails.setUserRoleId(otsRegistration.getOtsUserRoleId().getOtsUserRoleId().toString());
+		userDetails.setLastName(otsRegistration.getOtsRegistrationLastname()==null?null:otsRegistration.getOtsRegistrationLastname());
+		userDetails.setAddress1(otsRegistration.getOtsRegistrationAddr1()==null?null:otsRegistration.getOtsRegistrationAddr1());
+		userDetails.setAddress2(otsRegistration.getOtsRegistrationAddr2()==null?null:otsRegistration.getOtsRegistrationAddr2());
+		userDetails.setPincode(otsRegistration.getOtsRegistrationPincode()==null?null:otsRegistration.getOtsRegistrationPincode());
+		userDetails.setContactNo(otsRegistration.getOtsRegistrationContactNo()==null?null:otsRegistration.getOtsRegistrationContactNo());
+		userDetails.setEmailId(otsRegistration.getOtsRegistrationEmailid()==null?null:otsRegistration.getOtsRegistrationEmailid());
+		userDetails.setUserRoleId(otsRegistration.getOtsUserRoleId().getOtsUserRoleId()==null?null:otsRegistration.getOtsUserRoleId().getOtsUserRoleId().toString());
 		userDetails.setProductId(otsRegistration.getOtsProductId()==null?null:otsRegistration.getOtsProductId().toString());
-		userDetails.setUsrStatus(otsRegistration.getOtsRegistrationStatus());
-		userDetails.setMappedTo(otsRegistration.getOtsUsersMappedTo().getOtsUsersId().toString());
-		userDetails.setUsrPassword(otsRegistration.getOtsRegistrationPassword());            
+		userDetails.setUsrStatus(otsRegistration.getOtsRegistrationStatus()==null?null:otsRegistration.getOtsRegistrationStatus());
+		userDetails.setMappedTo(otsRegistration.getOtsUsersMappedTo().getOtsUsersId()==null?null:otsRegistration.getOtsUsersMappedTo().getOtsUsersId().toString());
+		userDetails.setUsrPassword(otsRegistration.getOtsRegistrationPassword()==null?null:otsRegistration.getOtsRegistrationPassword());            
         return userDetails;
     }
 

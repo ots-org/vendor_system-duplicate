@@ -74,12 +74,12 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 
 	private BillDetails convertUserDetailsFromEntityToDomain(OtsBill otsBill) {
 		BillDetails billDetails = new BillDetails();
-		billDetails.setBillId(otsBill.getOtsBillId());
-		billDetails.setBillNumber(otsBill.getOtsBillNumber().toString());
-		billDetails.setBillAmount(otsBill.getOtsBillAmount().toString());
-		billDetails.setBillAmountReceived(otsBill.getOtsBillAmountReceived().toString());
-		billDetails.setBillGenerated(otsBill.getOtsBillGenerated());
-		billDetails.setBillStatus(otsBill.getOtsBillStatus());
+		billDetails.setBillId(otsBill.getOtsBillId()==null?null:otsBill.getOtsBillId());
+		billDetails.setBillNumber((otsBill.getOtsBillNumber())==null?null:otsBill.getOtsBillNumber().toString());
+		billDetails.setBillAmount((otsBill.getOtsBillAmount())==null?null:otsBill.getOtsBillAmount().toString());
+		billDetails.setBillAmountReceived(otsBill.getOtsBillAmountReceived()==null?null:otsBill.getOtsBillAmountReceived().toString());
+		billDetails.setBillGenerated(otsBill.getOtsBillGenerated()==null?null:otsBill.getOtsBillGenerated());
+		billDetails.setBillStatus(otsBill.getOtsBillStatus()==null?null:otsBill.getOtsBillStatus());
 		return billDetails;
 	}
 	

@@ -81,25 +81,20 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
         	throw new BusinessException(e.getMessage(), e);
         }
 	}
-
-
-
-
-
+	
 	 private UserDetails convertUserDetailsFromEntityToDomain(OtsUsers users) {
 
 	   	UserDetails userDetails = new UserDetails();
-	   	userDetails.setUserId(Integer.toString(users.getOtsUsersId()));
-	   	userDetails.setFirstName(users.getOtsUsersFirstname());
-	   	userDetails.setLastName(users.getOtsUsersLastname());
-	   	userDetails.setAddress1(users.getOtsUsersAddr1());
-	   	userDetails.setAddress2(users.getOtsUsersAddr2());
-	   	userDetails.setPincode(users.getOtsUsersPincode());
-	   	userDetails.setEmailId(users.getOtsUsersEmailid());
-	   	userDetails.setProfilePic(users.getOtsUsersProfilePic());
-	   	userDetails.setUsrStatus(users.getOtsUsersStatus());
-	   	userDetails.setUsrStatus(users.getOtsUsersStatus());
-	   	userDetails.setUsrPassword(users.getOtsUsersPassword()); 
+	   	userDetails.setUserId(users.getOtsUsersId()==null?null:users.getOtsUsersId().toString());
+	   	userDetails.setFirstName(users.getOtsUsersFirstname()==null?null:users.getOtsUsersFirstname());
+	   	userDetails.setLastName(users.getOtsUsersLastname()==null?null:users.getOtsUsersLastname());
+	   	userDetails.setAddress1(users.getOtsUsersAddr1()==null?null:users.getOtsUsersAddr1());
+	   	userDetails.setAddress2(users.getOtsUsersAddr2()==null?null:users.getOtsUsersAddr2());
+	   	userDetails.setPincode(users.getOtsUsersPincode()==null?null:users.getOtsUsersPincode());
+	   	userDetails.setEmailId(users.getOtsUsersEmailid()==null?null:users.getOtsUsersEmailid());
+	   	userDetails.setProfilePic(users.getOtsUsersProfilePic()==null?null:users.getOtsUsersProfilePic());
+	   	userDetails.setUsrStatus(users.getOtsUsersStatus()==null?null:users.getOtsUsersStatus());
+	   	userDetails.setUsrPassword(users.getOtsUsersPassword()==null?null:users.getOtsUsersPassword()); 
 	   	return userDetails;
    }
 

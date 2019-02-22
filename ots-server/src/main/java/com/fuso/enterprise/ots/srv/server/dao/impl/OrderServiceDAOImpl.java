@@ -174,8 +174,6 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		OtsUsers EmployeeId = new OtsUsers();
 		EmployeeId.setOtsUsersId(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getAssignedId()));
 		otsOrder.setOtsAssignedId(EmployeeId);
-		
-		otsOrder.setOtsOrderNumber(addOrUpdateOrderProductBOrequest.getRequest().getOrderNumber());	
 		otsOrder.setOtsOrderCost(Long.parseLong(addOrUpdateOrderProductBOrequest.getRequest().getOrderCost()));
 		otsOrder.setOtsOrderStatus(addOrUpdateOrderProductBOrequest.getRequest().getOrderStatus());
 		otsOrder.setOtsOrderDeliveryDt(Date.valueOf(addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()));

@@ -67,13 +67,6 @@ public class StockDistObDAOImpl extends AbstractIptDao<OtsStockDistOb, String> i
 		// TODO Auto-generated method stub
 		List<OtsStockDistOb> otsStocDist = new ArrayList<OtsStockDistOb>();
 		try {
-			/*OtsStockDistOb otsStocDist = super.getEntityManager()
-					.createQuery("from OtsStockDistOb where  otsUsersId = ?1 and otsProductId = ?2 and otsStockDistObStockdt = ?3  ", OtsStockDistOb.class)
-					.setParameter(1,OtsUsers)
-					.setParameter(2,otsProduct)
-					.setParameter(3,getProductStockListRequest.getRequestData().getTodaysDate(), TemporalType.DATE)
-					.getSingleResult();
-			otsStocDist = Integer.parseInt(otsStocDist.getOtsStockDistOpeningBalance());*/
 			logger.info("Inside Event=1015,Class:StockDistObDAOImpl, Method:fetchOpeningBalance, getProductStockListRequest:"
 					+ getProductStockListRequest.getRequestData().getUserId()+"date"+getProductStockListRequest.getRequestData().getTodaysDate());
 			OtsUsers OtsUsers= new OtsUsers();

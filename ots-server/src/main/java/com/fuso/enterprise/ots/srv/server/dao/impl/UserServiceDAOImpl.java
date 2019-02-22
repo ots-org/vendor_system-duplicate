@@ -157,19 +157,18 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 
     private UserDetails convertUserDetailsFromEntityToDomain(OtsUsers otsUsers) {
         UserDetails userDetails = new UserDetails();
-        userDetails.setUserId(otsUsers.getOtsUsersId().toString());
-        userDetails.setFirstName(otsUsers.getOtsUsersFirstname());
-        userDetails.setLastName(otsUsers.getOtsUsersLastname());
-		userDetails.setContactNo(otsUsers.getOtsUsersContactNo());
-        userDetails.setAddress1(otsUsers.getOtsUsersAddr1());
-        userDetails.setAddress2(otsUsers.getOtsUsersAddr2());
-        userDetails.setPincode(otsUsers.getOtsUsersPincode());
-        userDetails.setUserRoleId(otsUsers.getOtsUserRoleId().getOtsUserRoleId().toString());
-        userDetails.setEmailId(otsUsers.getOtsUsersEmailid());
-        userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic());
-        userDetails.setUsrStatus(otsUsers.getOtsUsersStatus());
-        userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic());
-        userDetails.setUsrPassword(otsUsers.getOtsUsersPassword());
+        userDetails.setUserId(otsUsers.getOtsUsersId()==null?null:otsUsers.getOtsUsersId().toString());
+        userDetails.setFirstName(otsUsers.getOtsUsersFirstname()==null?null:otsUsers.getOtsUsersFirstname());
+        userDetails.setLastName(otsUsers.getOtsUsersLastname()==null?null:otsUsers.getOtsUsersLastname());
+		userDetails.setContactNo(otsUsers.getOtsUsersContactNo()==null?null:otsUsers.getOtsUsersContactNo());
+        userDetails.setAddress1(otsUsers.getOtsUsersAddr1()==null?null:otsUsers.getOtsUsersAddr1());
+        userDetails.setAddress2(otsUsers.getOtsUsersAddr2()==null?null:otsUsers.getOtsUsersAddr2());
+        userDetails.setPincode(otsUsers.getOtsUsersPincode()==null?null:otsUsers.getOtsUsersPincode());
+        userDetails.setUserRoleId(otsUsers.getOtsUserRoleId().getOtsUserRoleId()==null?null:otsUsers.getOtsUserRoleId().getOtsUserRoleId().toString());
+        userDetails.setEmailId(otsUsers.getOtsUsersEmailid()==null?null:otsUsers.getOtsUsersEmailid());
+        userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic()==null?null:otsUsers.getOtsUsersProfilePic());
+        userDetails.setUsrStatus(otsUsers.getOtsUsersStatus()==null?null:otsUsers.getOtsUsersStatus());
+        userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
 
         return userDetails;
     }
