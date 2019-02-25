@@ -1,18 +1,23 @@
 	package com.fuso.enterprise.ots.srv.server.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.NoResultException;
+
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsCustomerProduct;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -81,11 +86,10 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
         	throw new BusinessException(e.getMessage(), e);
         }
 	}
-	
-	 private UserDetails convertUserDetailsFromEntityToDomain(OtsUsers users) {
 
+	private UserDetails convertUserDetailsFromEntityToDomain(OtsUsers users) {
 	   	UserDetails userDetails = new UserDetails();
-	   	userDetails.setUserId(users.getOtsUsersId()==null?null:users.getOtsUsersId().toString());
+	   	userDetails.setUserId(users.getOtsUsersId()==null?null:Integer.toString(users.getOtsUsersId()));
 	   	userDetails.setFirstName(users.getOtsUsersFirstname()==null?null:users.getOtsUsersFirstname());
 	   	userDetails.setLastName(users.getOtsUsersLastname()==null?null:users.getOtsUsersLastname());
 	   	userDetails.setAddress1(users.getOtsUsersAddr1()==null?null:users.getOtsUsersAddr1());
@@ -94,7 +98,18 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	   	userDetails.setEmailId(users.getOtsUsersEmailid()==null?null:users.getOtsUsersEmailid());
 	   	userDetails.setProfilePic(users.getOtsUsersProfilePic()==null?null:users.getOtsUsersProfilePic());
 	   	userDetails.setUsrStatus(users.getOtsUsersStatus()==null?null:users.getOtsUsersStatus());
+	   	userDetails.setUsrStatus(users.getOtsUsersStatus()==null?null:users.getOtsUsersStatus());
 	   	userDetails.setUsrPassword(users.getOtsUsersPassword()==null?null:users.getOtsUsersPassword()); 
+	   	
+	   	List<OtsCustomerProduct> customerProductDetails = new ArrayList(users.getOtsCustomerProductCollection());
+	   	
+	   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
+	   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
+	   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
+	   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
+	   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
+	   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
+	   	}
 	   	return userDetails;
    }
 

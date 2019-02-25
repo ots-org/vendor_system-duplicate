@@ -5,7 +5,21 @@ public class CustomerProductDetails {
 	String userId;
 	String productId;
 	String productPrice;
+	String productname;
+	String customerProductId;
 	
+	public String getCustomerProductId() {
+		return customerProductId;
+	}
+	public void setCustomerProductId(String customerProductId) {
+		this.customerProductId = customerProductId;
+	}
+	public String getProductname() {
+		return productname;
+	}
+	public void setProductname(String productname) {
+		this.productname = productname;
+	}
 	public String getUserId() {
 		return userId;
 	}

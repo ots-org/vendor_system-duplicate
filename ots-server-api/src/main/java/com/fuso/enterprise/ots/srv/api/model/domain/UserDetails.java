@@ -1,11 +1,15 @@
 
 package com.fuso.enterprise.ots.srv.api.model.domain;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class UserDetails {
+public class UserDetails<OtsCustomerProduct> {
 
 	 @Size(max = 10)
 	 private String userId;
@@ -59,9 +63,11 @@ public class UserDetails {
 	 private String productPrice;
 	 
 	 @Size(max = 100)
-	 private String productId;	 
+	 private String productId;	
 	 
-	 public String getProductId() {
+	private List<CustomerProductDetails> CustomerProductDetails = new ArrayList<>();
+
+	public String getProductId() {
 		return productId;
 	}
 
@@ -204,6 +210,13 @@ public class UserDetails {
 		UserRoleId = userRoleId;
 	}
 
-     
+	public List<CustomerProductDetails> getCustomerProductDetails() {
+		return CustomerProductDetails;
+	}
+
+	public void setCustomerProductDetails(List<CustomerProductDetails> customerProductDetails) {
+		CustomerProductDetails = customerProductDetails;
+	}
+  
 	
 }
