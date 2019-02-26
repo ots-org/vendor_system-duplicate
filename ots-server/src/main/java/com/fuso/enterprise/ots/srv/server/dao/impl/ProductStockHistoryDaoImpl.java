@@ -35,14 +35,14 @@ public class ProductStockHistoryDaoImpl extends AbstractIptDao<OtsProductStockHi
 			OtsProductStockHistory otsProductStockHistory = new OtsProductStockHistory();
 				
 			 OtsProduct otsProduct = new OtsProduct();
-			 otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequest().getProductId()));
+			 otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequestData().getProductId()));
 			 otsProductStockHistory.setOtsProductId (otsProduct);
 			 
 			 OtsUsers otsUsers = new OtsUsers();
-			 otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequest().getUsersId()));
+			 otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequestData().getUsersId()));
 			 otsProductStockHistory.setOtsUsersId(otsUsers);
-			 otsProductStockHistory.setOtsProductStockAddDate(addProductStockBORequest.getRequest().getProductStockAddDate());
-			 otsProductStockHistory.setOtsProductStockHistoryQty(addProductStockBORequest.getRequest().getProductStockQty());
+			 otsProductStockHistory.setOtsProductStockAddDate(addProductStockBORequest.getRequestData().getProductStockAddDate());
+			 otsProductStockHistory.setOtsProductStockHistoryQty(addProductStockBORequest.getRequestData().getProductStockQty());
 			 super.getEntityManager().merge(otsProductStockHistory);
 			 logger.info("Inside Event=1014,Class:ProductStockHistoryDaoImpl,Method:addProductStockHistory ");
 		}catch(Exception e) {
