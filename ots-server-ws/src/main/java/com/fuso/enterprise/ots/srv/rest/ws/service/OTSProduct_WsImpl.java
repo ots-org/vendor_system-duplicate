@@ -10,7 +10,9 @@ import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.GetProductBOStockResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetProductStockListBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
@@ -83,8 +85,8 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 	@Override
 	public Response addProductStock(AddProductStockBORequest addStockProductBORequest) {
 		Response response = null;
-		if(!addStockProductBORequest.getRequest().getProductId().isEmpty() || !addStockProductBORequest.getRequest().getProductStockQty().isEmpty() 
-			||	!addStockProductBORequest.getRequest().getProductStockStatus().isEmpty() || !addStockProductBORequest.getRequest().getProductStockStatus().isEmpty()){
+		if(!addStockProductBORequest.getRequestData().getProductId().isEmpty() || !addStockProductBORequest.getRequestData().getProductStockQty().isEmpty() 
+			||	!addStockProductBORequest.getRequestData().getProductStockStatus().isEmpty() || !addStockProductBORequest.getRequestData().getProductStockStatus().isEmpty()){
 			logger.info("Inside Event=1014,Class:OTSProduct_WsImpl, Method:addProductStock, UserDataBORequest:"
 				+ addStockProductBORequest);
 			try {
@@ -125,6 +127,25 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 				throw new BusinessException(e.getMessage(), e);
 			}
 		}
+		return response;
+	}
+
+	@Override
+	public Response getProductStock(GetProductStockRequest getProductStockRequest) {
+		Response response = null;
+		GetProductBOStockResponse getProductBOStockResponse = new GetProductBOStockResponse();
+			try {
+				getProductBOStockResponse = otsProductService.getProductStockByUidAndPid(getProductStockRequest);
+				if(!(getProductBOStockResponse.getProductStockId() == null)) {
+					response = responseWrapper.buildResponse(getProductBOStockResponse,"Successfull");
+				}else {
+					response = responseWrapper.buildResponse(400,"stock npt found");
+				}				
+			}catch(BusinessException e) {
+				throw new BusinessException(e.getMessage(), e);
+			}catch(Throwable e) {
+				throw new BusinessException(e.getMessage(), e);
+			}
 		return response;
 	}
 }

@@ -114,4 +114,14 @@
 		
 		</query>
 	</named-query>
+	<named-query name="OtsProductStock.getQuantityById">
+		<query>SELECT o
+		FROM 
+			OtsProductStock o
+		WHERE 
+			o.otsUsersId = :DistributorId 
+		AND
+			o.otsProductId= :ProductId
+		</query>
+	</named-query>
 </entity-mappings>

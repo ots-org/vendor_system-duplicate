@@ -13,7 +13,9 @@ import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.GetProductBOStockResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetProductStockListBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -101,6 +103,17 @@ public class OTSProductServiceImpl implements OTSProductService {
 		}
 		getProductStockListBOResponse.setProductStockDetail(ProductStockDetailList);
 		return getProductStockListBOResponse;
+	}
+	
+	@Override
+	public GetProductBOStockResponse getProductStockByUidAndPid(GetProductStockRequest getProductStockRequest) {
+		try {
+		GetProductBOStockResponse getProductBOStockResponse = new GetProductBOStockResponse();
+		getProductBOStockResponse = productStockDao.getProductStockByUidAndPid(getProductStockRequest);
+		return getProductBOStockResponse;
+		}catch(Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
 	}
 
 }

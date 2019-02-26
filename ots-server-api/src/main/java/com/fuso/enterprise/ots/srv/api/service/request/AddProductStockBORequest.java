@@ -4,13 +4,15 @@ import com.fuso.enterprise.ots.srv.api.model.domain.AddProductStock;
 
 public class AddProductStockBORequest {
 
-	private AddProductStock request;
+	private AddProductStock requestData;
 
-	public AddProductStock getRequest() {
-		return request;
+	public AddProductStock getRequestData() {
+		return requestData;
 	}
 
-	public void setRequest(AddProductStock request) {
-		this.request = request;
+	public void setRequestData(AddProductStock requestData) {
+		this.requestData = requestData;
 	}
+
+	
 }

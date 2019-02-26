@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
+import com.fuso.enterprise.ots.srv.api.service.response.GetProductBOStockResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockDao;
@@ -37,26 +39,26 @@ public class ProductStockDaoImpl extends AbstractIptDao<OtsProductStock, String>
 	public String addProductStock(AddProductStockBORequest addProductStockBORequest) {
 		OtsProductStock otsProductStock = new OtsProductStock();		
 		OtsProduct otsProduct = new OtsProduct();
-		otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequest().getProductId()));				
+		otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequestData().getProductId()));				
 		OtsUsers otsUsers = new OtsUsers();
-		otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequest().getUsersId()));				
+		otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequestData().getUsersId()));				
 	 	Map<String, Object> queryParameter = new HashMap<>();		
 	 	queryParameter.put("otsUsersId",otsUsers );		
 		queryParameter.put("otsProductId", otsProduct);		
 		try {
 			otsProductStock = super.getResultByNamedQuery("OtsProduct.findByOtsProductIdAndUserId", queryParameter) ;			
-			Integer stock = Integer.valueOf(addProductStockBORequest.getRequest().getProductStockQty());
+			Integer stock = Integer.valueOf(addProductStockBORequest.getRequestData().getProductStockQty());
 			stock = stock + Integer.valueOf(otsProductStock.getOtsProdcutStockActQty());
 			otsProductStock.setOtsProdcutStockId(otsProductStock.getOtsProdcutStockId());
 			otsProductStock.setOtsProdcutStockActQty(stock.toString());
 			super.getEntityManager().merge(otsProductStock);
 			
 		}catch (NoResultException e) {
-			otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequest().getUsersId()));
+			otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequestData().getUsersId()));
 			otsProductStock.setOtsUsersId(otsUsers);		 
-			otsProductStock.setOtsProdcutStockActQty(addProductStockBORequest.getRequest().getProductStockQty());
-			otsProductStock.setOtsProdcutStockStatus(addProductStockBORequest.getRequest().getProductStockStatus());
-			otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequest().getProductId()));
+			otsProductStock.setOtsProdcutStockActQty(addProductStockBORequest.getRequestData().getProductStockQty());
+			otsProductStock.setOtsProdcutStockStatus(addProductStockBORequest.getRequestData().getProductStockStatus());
+			otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequestData().getProductId()));
 			otsProductStock.setOtsProductId (otsProduct);
 			super.getEntityManager().merge(otsProductStock);
 		}catch (Exception e) {
@@ -65,6 +67,42 @@ public class ProductStockDaoImpl extends AbstractIptDao<OtsProductStock, String>
 		}
 		logger.info("Inside Event=1014,Class:OTSProduct_WsImpl,Method:ProductStockDaoImpl ");
 		return "Stock Updated Scuccessfully";
+	}
+
+	@Override
+	public GetProductBOStockResponse getProductStockByUidAndPid(GetProductStockRequest getProductStockRequest) {
+		GetProductBOStockResponse getProductBOStockResponse = new GetProductBOStockResponse();
+		OtsProductStock otsProductStock = new OtsProductStock();
+		try {
+		 	Map<String, Object> queryParameter = new HashMap<>();	
+		 	
+		 	OtsUsers UserId = new OtsUsers();
+		 	UserId.setOtsUsersId(Integer.valueOf(getProductStockRequest.getRequestData().getDistributorId()));
+		 	
+		 	OtsProduct otsProductId = new OtsProduct();
+		 	otsProductId.setOtsProductId(Integer.valueOf(getProductStockRequest.getRequestData().getProductId()));
+		 	
+		 	queryParameter.put("DistributorId",UserId);		
+			queryParameter.put("ProductId",otsProductId );
+			otsProductStock = super.getResultByNamedQuery("OtsProductStock.getQuantityById", queryParameter);
+			getProductBOStockResponse = convertProductStockEntityToModel(otsProductStock);
+		} catch (BusinessException e) {
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_GETPRODUCTSTOCK);
+	    } catch (Throwable e) {
+	    	throw new BusinessException(e, ErrorEnumeration.ERROR_IN_GETPRODUCTSTOCK);
+	    }
+    	return getProductBOStockResponse;
+	}
+	
+	private GetProductBOStockResponse convertProductStockEntityToModel(OtsProductStock otsProductStock)
+	{
+		GetProductBOStockResponse getProductBOStockResponse = new GetProductBOStockResponse();
+		getProductBOStockResponse.setProductId(otsProductStock.getOtsProductId().getOtsProductId().toString());
+		getProductBOStockResponse.setProductStockId(otsProductStock.getOtsProdcutStockId().toString());
+		getProductBOStockResponse.setStockQuantity(otsProductStock.getOtsProdcutStockActQty());
+		getProductBOStockResponse.setProductStockStatus(otsProductStock.getOtsProdcutStockStatus());
+		getProductBOStockResponse.setUserId(otsProductStock.getOtsUsersId().getOtsUsersId().toString());
+		return getProductBOStockResponse;
 	}
 		
 }
