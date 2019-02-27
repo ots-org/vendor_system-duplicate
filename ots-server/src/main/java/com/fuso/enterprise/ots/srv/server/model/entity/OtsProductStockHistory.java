@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "OtsProductStockHistory.findAll", query = "SELECT o FROM OtsProductStockHistory o"),
     @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryId", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryId = :otsProductStockHistoryId"),
-    @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryQty", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryQty = :otsProductStockHistoryQty")})
+    @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryQty", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryQty = :otsProductStockHistoryQty"),
+    @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockAddDate", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockAddDate = :otsProductStockAddDate")})
 public class OtsProductStockHistory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,8 +43,14 @@ public class OtsProductStockHistory implements Serializable {
     private Integer otsProductStockHistoryId;
     @Column(name = "ots_product_stock_history_qty")
     private String otsProductStockHistoryQty;
-    @Column(name = "ots_product_stock_add_date")
+    @Column(name = "ots_product_stock_history_created")
     @Temporal(TemporalType.TIMESTAMP)
+    private Date otsProductStockHistoryCreated;
+    @Column(name = "ots_product_stock_history_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsProductStockHistoryTimestamp;
+    @Column(name = "ots_product_stock_add_date")
+    @Temporal(TemporalType.DATE)
     private Date otsProductStockAddDate;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
     @ManyToOne(optional = false)

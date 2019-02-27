@@ -42,7 +42,7 @@ public class OtsStockDistOb implements Serializable {
     @Column(name = "ots_stock_dist_ob_id")
     private Integer otsStockDistObId;
     @Column(name = "ots_stock_dist_ob_stockdt")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date otsStockDistObStockdt;
     @Column(name = "ots_stock_dist_opening_balance")
     private String otsStockDistOpeningBalance;

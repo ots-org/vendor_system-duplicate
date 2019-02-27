@@ -73,7 +73,7 @@ public class OtsOrder implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderCreated;
     @JoinColumn(name = "ots_bill_id", referencedColumnName = "ots_bill_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private OtsBill otsBillId;
     @JoinColumn(name = "ots_distributor_id", referencedColumnName = "ots_users_id")
     @ManyToOne(optional = false)

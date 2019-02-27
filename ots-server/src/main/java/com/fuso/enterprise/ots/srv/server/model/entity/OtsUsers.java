@@ -73,30 +73,30 @@ public class OtsUsers implements Serializable {
     private String otsUsersPassword;
     @Column(name = "ots_users_contact_no")
     private String otsUsersContactNo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsDistributorId")
-    private Collection<OtsOrder> otsOrderCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
-    private Collection<OtsOrder> otsOrderCollection1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsAssignedId")
-    private Collection<OtsOrder> otsOrderCollection2;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsUserMapping> otsUserMappingCollection;
-    @JoinColumn(name = "ots_registration_id", referencedColumnName = "ots_registration_id")
-    @ManyToOne
-    private OtsRegistration otsRegistrationId;
-    @JoinColumn(name = "ots_user_role_id", referencedColumnName = "ots_user_role_id")
-    @ManyToOne(optional = false)
-    private OtsUserRole otsUserRoleId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsCustomerProduct> otsCustomerProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsStockDistOb> otsStockDistObCollection;
-    @OneToMany(mappedBy = "otsUsersMappedTo")
-    private Collection<OtsRegistration> otsRegistrationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersusersId")
+    private Collection<OtsLatLon> otsLatLonCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsProductStock> otsProductStockCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsDistributorId")
+    private Collection<OtsOrder> otsOrderCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
+    private Collection<OtsOrder> otsOrderCollection1;
+    @JoinColumn(name = "ots_registration_id", referencedColumnName = "ots_registration_id")
+    @ManyToOne
+    private OtsRegistration otsRegistrationId;
+    @JoinColumn(name = "ots_user_role_id", referencedColumnName = "ots_user_role_id")
+    @ManyToOne(optional = false)
+    private OtsUserRole otsUserRoleId;
+    @OneToMany(mappedBy = "otsUsersMappedTo")
+    private Collection<OtsRegistration> otsRegistrationCollection;
 
     public OtsUsers() {
     }
@@ -194,55 +194,12 @@ public class OtsUsers implements Serializable {
     }
 
     @XmlTransient
-    public Collection<OtsOrder> getOtsOrderCollection() {
-        return otsOrderCollection;
-    }
-
-    public void setOtsOrderCollection(Collection<OtsOrder> otsOrderCollection) {
-        this.otsOrderCollection = otsOrderCollection;
-    }
-
-    @XmlTransient
-    public Collection<OtsOrder> getOtsOrderCollection1() {
-        return otsOrderCollection1;
-    }
-
-    public void setOtsOrderCollection1(Collection<OtsOrder> otsOrderCollection1) {
-        this.otsOrderCollection1 = otsOrderCollection1;
-    }
-
-    @XmlTransient
-    public Collection<OtsOrder> getOtsOrderCollection2() {
-        return otsOrderCollection2;
-    }
-
-    public void setOtsOrderCollection2(Collection<OtsOrder> otsOrderCollection2) {
-        this.otsOrderCollection2 = otsOrderCollection2;
-    }
-
-    @XmlTransient
     public Collection<OtsUserMapping> getOtsUserMappingCollection() {
         return otsUserMappingCollection;
     }
 
     public void setOtsUserMappingCollection(Collection<OtsUserMapping> otsUserMappingCollection) {
         this.otsUserMappingCollection = otsUserMappingCollection;
-    }
-
-    public OtsRegistration getOtsRegistrationId() {
-        return otsRegistrationId;
-    }
-
-    public void setOtsRegistrationId(OtsRegistration otsRegistrationId) {
-        this.otsRegistrationId = otsRegistrationId;
-    }
-
-    public OtsUserRole getOtsUserRoleId() {
-        return otsUserRoleId;
-    }
-
-    public void setOtsUserRoleId(OtsUserRole otsUserRoleId) {
-        this.otsUserRoleId = otsUserRoleId;
     }
 
     @XmlTransient
@@ -273,12 +230,12 @@ public class OtsUsers implements Serializable {
     }
 
     @XmlTransient
-    public Collection<OtsRegistration> getOtsRegistrationCollection() {
-        return otsRegistrationCollection;
+    public Collection<OtsLatLon> getOtsLatLonCollection() {
+        return otsLatLonCollection;
     }
 
-    public void setOtsRegistrationCollection(Collection<OtsRegistration> otsRegistrationCollection) {
-        this.otsRegistrationCollection = otsRegistrationCollection;
+    public void setOtsLatLonCollection(Collection<OtsLatLon> otsLatLonCollection) {
+        this.otsLatLonCollection = otsLatLonCollection;
     }
 
     @XmlTransient
@@ -288,6 +245,49 @@ public class OtsUsers implements Serializable {
 
     public void setOtsProductStockCollection(Collection<OtsProductStock> otsProductStockCollection) {
         this.otsProductStockCollection = otsProductStockCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsOrder> getOtsOrderCollection() {
+        return otsOrderCollection;
+    }
+
+    public void setOtsOrderCollection(Collection<OtsOrder> otsOrderCollection) {
+        this.otsOrderCollection = otsOrderCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsOrder> getOtsOrderCollection1() {
+        return otsOrderCollection1;
+    }
+
+    public void setOtsOrderCollection1(Collection<OtsOrder> otsOrderCollection1) {
+        this.otsOrderCollection1 = otsOrderCollection1;
+    }
+
+    public OtsRegistration getOtsRegistrationId() {
+        return otsRegistrationId;
+    }
+
+    public void setOtsRegistrationId(OtsRegistration otsRegistrationId) {
+        this.otsRegistrationId = otsRegistrationId;
+    }
+
+    public OtsUserRole getOtsUserRoleId() {
+        return otsUserRoleId;
+    }
+
+    public void setOtsUserRoleId(OtsUserRole otsUserRoleId) {
+        this.otsUserRoleId = otsUserRoleId;
+    }
+
+    @XmlTransient
+    public Collection<OtsRegistration> getOtsRegistrationCollection() {
+        return otsRegistrationCollection;
+    }
+
+    public void setOtsRegistrationCollection(Collection<OtsRegistration> otsRegistrationCollection) {
+        this.otsRegistrationCollection = otsRegistrationCollection;
     }
 
     @Override

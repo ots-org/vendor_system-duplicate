@@ -43,7 +43,7 @@ public class OtsCustomerProduct implements Serializable {
     @Column(name = "ots_customer_product_price")
     private String otsCustomerProductPrice;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private OtsProduct otsProductId;
     @JoinColumn(name = "ots_users_id", referencedColumnName = "ots_users_id")
     @ManyToOne(optional = false)
