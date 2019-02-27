@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -73,8 +74,8 @@ public class OtsUsers implements Serializable {
     private String otsUsersPassword;
     @Column(name = "ots_users_contact_no")
     private String otsUsersContactNo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
-    private Collection<OtsUserMapping> otsUserMappingCollection;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
+    private OtsUserMapping otsUserMapping;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsCustomerProduct> otsCustomerProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
@@ -89,12 +90,16 @@ public class OtsUsers implements Serializable {
     private Collection<OtsOrder> otsOrderCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
     private Collection<OtsOrder> otsOrderCollection1;
+    @OneToMany(mappedBy = "otsAssignedId")
+    private Collection<OtsOrder> otsOrderCollection2;
     @JoinColumn(name = "ots_registration_id", referencedColumnName = "ots_registration_id")
     @ManyToOne
     private OtsRegistration otsRegistrationId;
     @JoinColumn(name = "ots_user_role_id", referencedColumnName = "ots_user_role_id")
     @ManyToOne(optional = false)
     private OtsUserRole otsUserRoleId;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
+    private OtsCustomerOutstanding otsCustomerOutstanding;
     @OneToMany(mappedBy = "otsUsersMappedTo")
     private Collection<OtsRegistration> otsRegistrationCollection;
 
@@ -193,13 +198,12 @@ public class OtsUsers implements Serializable {
         this.otsUsersContactNo = otsUsersContactNo;
     }
 
-    @XmlTransient
-    public Collection<OtsUserMapping> getOtsUserMappingCollection() {
-        return otsUserMappingCollection;
+    public OtsUserMapping getOtsUserMapping() {
+        return otsUserMapping;
     }
 
-    public void setOtsUserMappingCollection(Collection<OtsUserMapping> otsUserMappingCollection) {
-        this.otsUserMappingCollection = otsUserMappingCollection;
+    public void setOtsUserMapping(OtsUserMapping otsUserMapping) {
+        this.otsUserMapping = otsUserMapping;
     }
 
     @XmlTransient
@@ -265,6 +269,15 @@ public class OtsUsers implements Serializable {
         this.otsOrderCollection1 = otsOrderCollection1;
     }
 
+    @XmlTransient
+    public Collection<OtsOrder> getOtsOrderCollection2() {
+        return otsOrderCollection2;
+    }
+
+    public void setOtsOrderCollection2(Collection<OtsOrder> otsOrderCollection2) {
+        this.otsOrderCollection2 = otsOrderCollection2;
+    }
+
     public OtsRegistration getOtsRegistrationId() {
         return otsRegistrationId;
     }
@@ -279,6 +292,14 @@ public class OtsUsers implements Serializable {
 
     public void setOtsUserRoleId(OtsUserRole otsUserRoleId) {
         this.otsUserRoleId = otsUserRoleId;
+    }
+
+    public OtsCustomerOutstanding getOtsCustomerOutstanding() {
+        return otsCustomerOutstanding;
+    }
+
+    public void setOtsCustomerOutstanding(OtsCustomerOutstanding otsCustomerOutstanding) {
+        this.otsCustomerOutstanding = otsCustomerOutstanding;
     }
 
     @XmlTransient

@@ -82,7 +82,7 @@ public class OtsOrder implements Serializable {
     @ManyToOne(optional = false)
     private OtsUsers otsCustomerId;
     @JoinColumn(name = "ots_assigned_id", referencedColumnName = "ots_users_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private OtsUsers otsAssignedId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsOrderId")
     private Collection<OtsOrderProduct> otsOrderProductCollection;
