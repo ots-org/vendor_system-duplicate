@@ -58,7 +58,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
             }
             logger.info("Inside Event=1,Class:UserServiceDAOImpl,Method:getUserIDUsers, "
 					+ "UserList Size:" +userList.size());
-            userDetails =  userList.stream().map(otsUsers -> convertUserDetailsFromEntityToDomain(otsUsers)).collect(Collectors.toList());
+            userDetails =  userList.stream().map(otsUsers -> convertUserDetailsFromEntityToDomainwithCustomerproduct(otsUsers)).collect(Collectors.toList());
     	}catch(Exception e) {
     		logger.error("Exception while fetching data from DB :"+e.getMessage());
     		e.printStackTrace();
@@ -83,7 +83,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
             	throw new BusinessException(e.getMessage(), e);
             }
 
-            userDetails =  userList.stream().map(otsUsers -> convertUserDetailsFromEntityToDomain(otsUsers)).collect(Collectors.toList());
+            userDetails =  userList.stream().map(otsUsers -> convertUserDetailsFromEntityToDomainwithCustomerproduct(otsUsers)).collect(Collectors.toList());
     	}catch(Exception e) {
     		logger.error("Exception while fetching data from DB :"+e.getMessage());
     		e.printStackTrace();
@@ -172,6 +172,26 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic()==null?null:otsUsers.getOtsUsersProfilePic());
         userDetails.setUsrStatus(otsUsers.getOtsUsersStatus()==null?null:otsUsers.getOtsUsersStatus());
         userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
+  
+        
+        return userDetails;
+    }
+    
+    
+    private UserDetails convertUserDetailsFromEntityToDomainwithCustomerproduct(OtsUsers otsUsers) {
+        UserDetails userDetails = new UserDetails();
+        userDetails.setUserId(otsUsers.getOtsUsersId()==null?null:otsUsers.getOtsUsersId().toString());
+        userDetails.setFirstName(otsUsers.getOtsUsersFirstname()==null?null:otsUsers.getOtsUsersFirstname());
+        userDetails.setLastName(otsUsers.getOtsUsersLastname()==null?null:otsUsers.getOtsUsersLastname());
+		userDetails.setContactNo(otsUsers.getOtsUsersContactNo()==null?null:otsUsers.getOtsUsersContactNo());
+        userDetails.setAddress1(otsUsers.getOtsUsersAddr1()==null?null:otsUsers.getOtsUsersAddr1());
+        userDetails.setAddress2(otsUsers.getOtsUsersAddr2()==null?null:otsUsers.getOtsUsersAddr2());
+        userDetails.setPincode(otsUsers.getOtsUsersPincode()==null?null:otsUsers.getOtsUsersPincode());
+        userDetails.setUserRoleId(otsUsers.getOtsUserRoleId().getOtsUserRoleId()==null?null:otsUsers.getOtsUserRoleId().getOtsUserRoleId().toString());
+        userDetails.setEmailId(otsUsers.getOtsUsersEmailid()==null?null:otsUsers.getOtsUsersEmailid());
+        userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic()==null?null:otsUsers.getOtsUsersProfilePic());
+        userDetails.setUsrStatus(otsUsers.getOtsUsersStatus()==null?null:otsUsers.getOtsUsersStatus());
+        userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
 
         List<OtsCustomerProduct> customerProductDetails = new ArrayList(otsUsers.getOtsCustomerProductCollection());
 	   	
@@ -186,6 +206,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         
         return userDetails;
     }
+
 
 	@Override
 	public LoginUserResponse otsLoginAuthentication(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
@@ -206,7 +227,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
             }
             logger.info("Inside Event=1,Class:UserServiceDAOImpl,Method:getUserIDUsers, "
 					+ "UserData:" +userData);
-            userDetails =  convertUserDetailsFromEntityToDomain(userData);
+            userDetails =  convertUserDetailsFromEntityToDomainwithCustomerproduct(userData);
             loginUserResponse.setUserDetails(userDetails);
     	}catch(Exception e) {
     		logger.error("Exception while fetching data from DB :"+e.getMessage());
