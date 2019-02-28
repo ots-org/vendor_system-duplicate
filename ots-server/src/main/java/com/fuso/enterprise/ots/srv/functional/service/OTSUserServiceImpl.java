@@ -105,11 +105,15 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			/*
 			 * Add customer product price 
 			 */
-			customerProductDetails.setUserId(responseGenerateduserId);
-			customerProductDetails.setProductPrice(addUserDataBORequest.getRequestData().getProductPrice());
-			customerProductDetails.setProductId(addUserDataBORequest.getRequestData().getProductId());
-			customerProductDataBORequest.setRequestData(customerProductDetails);
-			String userProductMappingStatus = mapUserProduct(customerProductDataBORequest);
+			String userProductMappingStatus = "";
+			if(addUserDataBORequest.getRequestData().getProductId()!=null) {
+				customerProductDetails.setUserId(responseGenerateduserId);
+				customerProductDetails.setProductPrice(addUserDataBORequest.getRequestData().getProductPrice());
+				customerProductDetails.setProductId(addUserDataBORequest.getRequestData().getProductId());
+				customerProductDataBORequest.setRequestData(customerProductDetails);
+				userProductMappingStatus = mapUserProduct(customerProductDataBORequest);
+			}
+			
 			/*
 			 * End of product price mapping to user
 			 */
