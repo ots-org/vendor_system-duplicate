@@ -77,16 +77,15 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		logger.info("Inside Event=1020,Class:OTSProduct_WsImpl, Method:getOrderByStatusAndDistributor, getOrderByStatusRequest:"
 				+ getOrderByStatusRequest);
 		try {
-		if(!getOrderByStatusRequest.getRequest().getDistrubitorId().equals(null))  {	
-			orderProductBOResponse = oTSOrderService.getOrderByStatusAndDistributor(getOrderByStatusRequest);
+			if(!getOrderByStatusRequest.getRequest().getDistrubitorId().equals(null))  {	
+				orderProductBOResponse = oTSOrderService.getOrderByStatusAndDistributor(getOrderByStatusRequest);
 				if (!orderProductBOResponse.getOrderList().isEmpty()) {
 					logger.info("Inside Event=1011,Class:OTSProduct_WsImpl,Method:getOrderList, " + "Successfull");
 					response = buildResponse(orderProductBOResponse,"Successfull");
-				}else
-				{
+				}else{
 					response = buildResponse(600,"No Order For You");
 				}
-		}
+			}
 				else {
 					response = buildResponse(1001,"Check input");
 				}

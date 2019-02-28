@@ -15,13 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
+import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsCustomerProduct;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
@@ -138,7 +141,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 				}catch (NoResultException e) {
 					logger.error("Exception while Inserting data to DB :"+e.getMessage());
 		    		e.printStackTrace();
-		        	throw new BusinessException(e.getMessage(), e);
+		    		throw new BusinessException(e,ErrorEnumeration.VALUE_ALREDY_EXISTS);
 				}
 				userEntity.getOtsUsersId();
 				//userDetails = getEmailIdUsers(addUserDataBORequest.getRequestData().getEmailId());
@@ -170,6 +173,17 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         userDetails.setUsrStatus(otsUsers.getOtsUsersStatus()==null?null:otsUsers.getOtsUsersStatus());
         userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
 
+        List<OtsCustomerProduct> customerProductDetails = new ArrayList(otsUsers.getOtsCustomerProductCollection());
+	   	
+	   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
+	   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
+	   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
+	   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
+	   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
+	   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
+	   	}
+        
+        
         return userDetails;
     }
 

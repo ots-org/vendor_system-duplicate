@@ -21,6 +21,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
+import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.dao.UserRegistrationDao;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration;
@@ -65,7 +66,6 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 		OtsRegistration otsRegistration = new OtsRegistration();
 		OtsUsers otsUsers = new OtsUsers();
 	      try {
-	    	  otsRegistration.setOtsRegistrationId(addNewBORequest.getRequestData().getRegistrationId());
 	    	  otsRegistration.setOtsRegistrationFirstname(addNewBORequest.getRequestData().getFirstName());
 	    	  otsRegistration.setOtsRegistrationLastname(addNewBORequest.getRequestData().getLastName());
 	    	  otsRegistration.setOtsRegistrationContactNo(addNewBORequest.getRequestData().getPhonenumber());
@@ -101,23 +101,16 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 	    	  otsRegistration.setOtsRegistrationPassword(addNewBORequest.getRequestData().getPassword());
               }
               /*
-               * checking RegistrationId is empty or not
+               *inserting registration value
                */
-              if(addNewBORequest.getRequestData().getRegistrationId()!=null || addNewBORequest.getRequestData().getRegistrationId()!=0 ) {
-					try{
-						 otsRegistration.setOtsRegistrationId(addNewBORequest.getRequestData().getRegistrationId());
-						super.getEntityManager().merge(otsRegistration);
-						
+					try{					
+						super.getEntityManager().merge(otsRegistration);						
 					}catch(Exception e) {
-						otsRegistration.setOtsRegistrationId(null);
-						super.getEntityManager().persist(otsRegistration);
-						
-					}
-				}
-	    	  
+						throw new BusinessException(e,ErrorEnumeration.VALUE_ALREDY_EXISTS);
+					}	  
 	      }catch(Exception e){
 	    	  e.printStackTrace(); 
-	    	  throw new BusinessException(e.getMessage(), e);
+	    	  throw new BusinessException(e,ErrorEnumeration.VALUE_ALREDY_EXISTS);
 	      }
 			userRegistrationResponce.setEmailId(addNewBORequest.getRequestData().getEmailId());
 	        return userRegistrationResponce;
@@ -225,14 +218,7 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 		userDetails.setMappedTo(otsRegistration.getOtsUsersMappedTo().getOtsUsersId()==null?null:otsRegistration.getOtsUsersMappedTo().getOtsUsersId().toString());
 		userDetails.setUsrPassword(otsRegistration.getOtsRegistrationPassword()==null?null:otsRegistration.getOtsRegistrationPassword());            
         return userDetails;
-    }
-
-	
-
-	
-
-	
-	
+    }	
 }
 
 

@@ -53,18 +53,18 @@ public class OtsProduct implements Serializable {
     private String otsProductStatus;
     @Column(name = "ots_product_price")
     private Long otsProductPrice;
-    @OneToMany(mappedBy = "otsProductId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsCustomerProduct> otsCustomerProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsStockDistOb> otsStockDistObCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
-    private Collection<OtsProductStock> otsProductStockCollection;
     @OneToMany(mappedBy = "otsProductId")
     private Collection<OtsRegistration> otsRegistrationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsOrderProduct> otsOrderProductCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
+    private Collection<OtsProductStock> otsProductStockCollection;
 
     public OtsProduct() {
     }
@@ -141,15 +141,6 @@ public class OtsProduct implements Serializable {
     }
 
     @XmlTransient
-    public Collection<OtsProductStock> getOtsProductStockCollection() {
-        return otsProductStockCollection;
-    }
-
-    public void setOtsProductStockCollection(Collection<OtsProductStock> otsProductStockCollection) {
-        this.otsProductStockCollection = otsProductStockCollection;
-    }
-
-    @XmlTransient
     public Collection<OtsRegistration> getOtsRegistrationCollection() {
         return otsRegistrationCollection;
     }
@@ -165,6 +156,15 @@ public class OtsProduct implements Serializable {
 
     public void setOtsOrderProductCollection(Collection<OtsOrderProduct> otsOrderProductCollection) {
         this.otsOrderProductCollection = otsOrderProductCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsProductStock> getOtsProductStockCollection() {
+        return otsProductStockCollection;
+    }
+
+    public void setOtsProductStockCollection(Collection<OtsProductStock> otsProductStockCollection) {
+        this.otsProductStockCollection = otsProductStockCollection;
     }
 
     @Override

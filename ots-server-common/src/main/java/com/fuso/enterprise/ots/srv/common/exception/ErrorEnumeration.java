@@ -27,7 +27,8 @@ public enum ErrorEnumeration {
 	ERROR_IN_ORDER_PRODUCT_INSERTION(1006,"err.in.orderproducttable"),
 	ADD_EMP_LATLONG_FAILURE(1022,"err.in.emplatlongtable"), 
 	GET_EMP_LATLONG_FAILURE(1022,"err.in.getemplatlong"),
-	ERROR_IN_GETPRODUCTSTOCK(1006,"err.in.getproductstock");
+	ERROR_IN_GETPRODUCTSTOCK(1006,"err.in.getproductstock"),
+	VALUE_ALREDY_EXISTS(1006,"err.in.reg");
 	
     ErrorEnumeration(int errorCode, String messageKey) {
         this.errorCode = errorCode;

@@ -45,9 +45,6 @@ public class UserDetails<OtsCustomerProduct> {
 	 private String profilePic;
 	    
 	 @Size(max = 100)
-	 private String usersTimestamp;
-	    
-	 @Size(max = 100)
 	 private String usersCreated;
 
 	 @Size(max = 100)
@@ -177,14 +174,6 @@ public class UserDetails<OtsCustomerProduct> {
 
 	public void setProfilePic(String profilePic) {
 		this.profilePic = profilePic;
-	}
-
-	public String getUsersTimestamp() {
-		return usersTimestamp;
-	}
-
-	public void setUsersTimestamp(String usersTimestamp) {
-		this.usersTimestamp = usersTimestamp;
 	}
 
 	public String getUsersCreated() {

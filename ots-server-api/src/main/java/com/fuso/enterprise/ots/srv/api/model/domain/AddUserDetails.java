@@ -4,8 +4,6 @@ import javax.validation.constraints.Size;
 
 public class AddUserDetails {
     
-	@Size(max = 20)
-    private Integer registrationId;
 	
 	@Size(max = 20)
     private String firstName;
@@ -38,14 +36,7 @@ public class AddUserDetails {
     private String userRoleId;
     
     private String password;
-    
-    public Integer getRegistrationId() {
-		return registrationId;
-	}
-
-	public void setRegistrationId(Integer registrationId) {
-		this.registrationId = registrationId;
-	}
+  
 	public String getFirstName() {
 		return firstName;
 	}

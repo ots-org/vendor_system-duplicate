@@ -171,13 +171,26 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		CustomerId.setOtsUsersId(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getCustomerId()));
 		otsOrder.setOtsCustomerId(CustomerId); 
 		
+		if(addOrUpdateOrderProductBOrequest.getRequest().getAssignedId()==null)
+		{
+			otsOrder.setOtsAssignedId(null);
+		}else {
 		OtsUsers EmployeeId = new OtsUsers();
 		EmployeeId.setOtsUsersId(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getAssignedId()));
 		otsOrder.setOtsAssignedId(EmployeeId);
+		}
 		otsOrder.setOtsOrderCost(Long.parseLong(addOrUpdateOrderProductBOrequest.getRequest().getOrderCost()));
 		otsOrder.setOtsOrderStatus(addOrUpdateOrderProductBOrequest.getRequest().getOrderStatus());
-		otsOrder.setOtsOrderDeliveryDt(Date.valueOf(addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()));
 		otsOrder.setOtsOrderDeliveredDt(Date.valueOf(addOrUpdateOrderProductBOrequest.getRequest().getDeliverdDate()));
+		
+		if(addOrUpdateOrderProductBOrequest.getRequest().getDeliverdDate()==null)
+		{
+			otsOrder.setOtsOrderDeliveredDt(null);
+		}else
+		{
+		otsOrder.setOtsOrderDeliveryDt(Date.valueOf(addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()));
+		}
+		
 		 
 		return otsOrder;
 	}
@@ -197,15 +210,27 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		otsOrder.setOtsCustomerId(CustomerId); 
 		
 		OtsUsers EmployeeId = new OtsUsers();
+		if(updateOrderDetailsRequest.getRequest().getAssignedId()==null)
+		{
+			otsOrder.setOtsAssignedId(null);
+		}else {	
 		EmployeeId.setOtsUsersId(Integer.parseInt(updateOrderDetailsRequest.getRequest().getAssignedId()));
 		otsOrder.setOtsAssignedId(EmployeeId);
+		}
 		
 		otsOrder.setOtsOrderNumber(updateOrderDetailsRequest.getRequest().getOrderNumber());	
 		otsOrder.setOtsOrderCost(Long.parseLong(updateOrderDetailsRequest.getRequest().getOrderCost()));
 		otsOrder.setOtsOrderStatus(updateOrderDetailsRequest.getRequest().getOrderStatus());
 		otsOrder.setOtsOrderDeliveryDt(Date.valueOf(updateOrderDetailsRequest.getRequest().getDeliveryDate()));
-		otsOrder.setOtsOrderDeliveredDt(Date.valueOf(updateOrderDetailsRequest.getRequest().getDeliverdDate()));
-		 
+	
+		if(updateOrderDetailsRequest.getRequest().getDeliverdDate()==null)
+		{
+			otsOrder.setOtsOrderDeliveredDt(null);
+		}else
+		{
+		otsOrder.setOtsOrderDeliveryDt(Date.valueOf(updateOrderDetailsRequest.getRequest().getDeliverdDate()));
+		}
+		
 		super.getEntityManager().merge(otsOrder);
 		return "Inseted";
 	}catch(Exception e){
