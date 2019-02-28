@@ -102,9 +102,9 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 	private OrderDetails convertOrderDetailsFromEntityToDomain(OtsOrder otsOrder) {
 		OrderDetails orderDetails =  new OrderDetails() ;
 		orderDetails.setOrderId((otsOrder.getOtsOrderId()==null)?null:otsOrder.getOtsOrderId().toString());
-		orderDetails.setDistributorId((otsOrder.getOtsDistributorId().getOtsUsersId()==null)?null:otsOrder.getOtsDistributorId().getOtsUsersId().toString());
-		orderDetails.setCustomerId(otsOrder.getOtsCustomerId().getOtsUsersId()==null?null:otsOrder.getOtsCustomerId().getOtsUsersId().toString());
-		orderDetails.setAssignedId(otsOrder.getOtsAssignedId().getOtsUsersId()==null?null:otsOrder.getOtsAssignedId().getOtsUsersId().toString());
+		orderDetails.setDistributorId((otsOrder.getOtsDistributorId()==null)?null:otsOrder.getOtsDistributorId().getOtsUsersId().toString());
+		orderDetails.setCustomerId(otsOrder.getOtsCustomerId()==null?null:otsOrder.getOtsCustomerId().getOtsUsersId().toString());
+		orderDetails.setAssignedId(otsOrder.getOtsAssignedId()==null?null:otsOrder.getOtsAssignedId().getOtsUsersId().toString());
 		orderDetails.setOrderCost(otsOrder.getOtsOrderCost()==null?null:otsOrder.getOtsOrderCost().toString());
 		orderDetails.setOrderDate(otsOrder.getOtsOrderDt()==null?null:otsOrder.getOtsOrderDt().toString());
 		orderDetails.setOrderDeliverdDate(otsOrder.getOtsOrderDeliveredDt()==null?null:otsOrder.getOtsOrderDeliveredDt().toString());
