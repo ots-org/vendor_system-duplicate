@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryId", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryId = :otsProductStockHistoryId"),
     @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryQty", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryQty = :otsProductStockHistoryQty"),
     @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockAddDate", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockAddDate = :otsProductStockAddDate")})
+	@NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockOrderId", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockOrderId = :otsProductStockOrderId")})
 public class OtsProductStockHistory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,6 +53,8 @@ public class OtsProductStockHistory implements Serializable {
     @Column(name = "ots_product_stock_add_date")
     @Temporal(TemporalType.DATE)
     private Date otsProductStockAddDate;
+    @Column(name = "ots_product_stock_order_id")
+    private String otsProductStockOrderId;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
     @ManyToOne(optional = false)
     private OtsProduct otsProductId;
@@ -89,6 +92,14 @@ public class OtsProductStockHistory implements Serializable {
 
     public void setOtsProductStockAddDate(Date otsProductStockAddDate) {
         this.otsProductStockAddDate = otsProductStockAddDate;
+    }
+
+    public String getOtsProductStockOrderId() {
+        return otsProductStockOrderId;
+    }
+
+    public void setOtsProductStockOrderId(String otsProductStockOrderId) {
+        this.otsProductStockOrderId = otsProductStockOrderId;
     }
 
     public OtsProduct getOtsProductId() {
