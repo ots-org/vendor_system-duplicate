@@ -195,6 +195,8 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 		registorToUserDetails.setFirstName(otsRegistration.getOtsRegistrationFirstname()==null?null:otsRegistration.getOtsRegistrationFirstname());
 		registorToUserDetails.setPhonenumber(otsRegistration.getOtsRegistrationContactNo()==null?null:otsRegistration.getOtsRegistrationContactNo());
 		registorToUserDetails.setPincode(otsRegistration.getOtsRegistrationPincode()==null?null:otsRegistration.getOtsRegistrationPincode());
+		registorToUserDetails.setMappedTo(otsRegistration.getOtsUsersMappedTo().getOtsUsersId()==null?null:otsRegistration.getOtsUsersMappedTo().getOtsUsersId().toString());
+		registorToUserDetails.setProductId(otsRegistration.getOtsProductId()==null?null:otsRegistration.getOtsProductId().getOtsProductId().toString());
 		registorToUserDetails.setPassword(otsRegistration.getOtsRegistrationPassword()==null?null:otsRegistration.getOtsRegistrationPassword());
 		registorToUserDetails.setStatus(otsRegistration.getOtsRegistrationStatus()==null?null:otsRegistration.getOtsRegistrationStatus());
 		registorToUserDetails.setEmailId(otsRegistration.getOtsRegistrationEmailid()==null?null:otsRegistration.getOtsRegistrationEmailid());

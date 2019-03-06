@@ -55,8 +55,12 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 			}
 			userProductEntity.setOtsCustomerProductPrice(customerProductDataBORequest.getRequestData().getProductPrice());
 			try {
-				int customerProdcutId = Integer.parseInt(customerProductDataBORequest.getRequestData().getCustomerProductId());
-				userProductEntity.setOtsCustomerProductId(customerProdcutId);
+				try {
+					int customerProdcutId = Integer.parseInt(customerProductDataBORequest.getRequestData().getCustomerProductId());
+					userProductEntity.setOtsCustomerProductId(customerProdcutId);
+				}catch(Exception e) {
+					userProductEntity.setOtsCustomerProductId(null);
+				}
 				super.getEntityManager().merge(userProductEntity);
 			}catch (NoResultException e) {
 				logger.error("Exception while Inserting data to DB :"+e.getMessage());
@@ -67,8 +71,6 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 	    		e.printStackTrace();
 	        	throw new BusinessException(e.getMessage(), e);
 			}
-			
-			
 			responseData="User Product Mapped Successfully";
 			logger.info("Inside Event=1006,Class:MapUserProductDAOImpl,Method:mapUserProduct"+"Successfull");
 		}catch (Exception e) {

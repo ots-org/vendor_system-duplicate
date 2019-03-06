@@ -105,6 +105,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			/*
 			 * Add customer product price 
 			 */
+			
 			String userProductMappingStatus = "";
 			if(addUserDataBORequest.getRequestData().getProductId()!=null) {
 				customerProductDetails.setUserId(responseGenerateduserId);
@@ -207,6 +208,8 @@ public class OTSUserServiceImpl implements  OTSUserService{
 					* Transform the userDetail object based on registrationID from registration
 					*/
 					addUserDataBORequest.setRequestData(userRegistrationDao.fetchUserDetailsfromRegistration(approveRegistrationBORequest.getRequestData().getRegistrationId()));
+					addUserDataBORequest.getRequestData().setProductPrice(approveRegistrationBORequest.getRequestData().getProductPrice());
+					addUserDataBORequest.getRequestData().setProductId(approveRegistrationBORequest.getRequestData().getProductId());
 					/*
 					* AddNewUser from registration
 					*/
