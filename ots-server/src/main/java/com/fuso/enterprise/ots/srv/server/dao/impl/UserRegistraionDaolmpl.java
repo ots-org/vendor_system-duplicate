@@ -123,9 +123,15 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
     		List<OtsRegistration> userList = null;		
             try {
             	Map<String, Object> queryParameter = new HashMap<>();
-    			queryParameter.put("otsUsersMappedTo", Integer.parseInt(mappedTo));
-    			userList  = super.getResultListByNamedQuery("OtsUsers.findByRegistrationTable", queryParameter);
-    		} catch (NoResultException e) {
+    			if(!(mappedTo.equals("1")))
+    			{
+    				queryParameter.put("otsUsersMappedTo", Integer.parseInt(mappedTo));
+    				userList  = super.getResultListByNamedQuery("OtsUsers.findByRegistrationTable", queryParameter);}
+    			else
+    			{
+    				queryParameter.put("otsRegistrationStatus", "New");
+        			userList  = super.getResultListByNamedQuery("OtsRegistration.findByOtsRegistrationStatus", queryParameter);}
+    			} catch (NoResultException e) {
             	logger.error("Exception while fetching data from DB :"+e.getMessage());
         		e.printStackTrace();
             	throw new BusinessException(e.getMessage(), e);
