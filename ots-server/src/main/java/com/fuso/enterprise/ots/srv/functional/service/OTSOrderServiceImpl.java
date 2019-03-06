@@ -6,6 +6,8 @@ import java.util.List;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
@@ -15,6 +17,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProdu
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderProductBOResponse;
@@ -136,6 +139,22 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
 		} catch (Throwable e) {
 			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+		}
+		return Response;
+	}
+
+
+	@Override
+	public String updateAssginedOrder(UpdateForAssgineBOrequest  updateForAssgineBOrequest) {
+		String Response;
+		try {
+			Response = orderServiceDAO.updateAssginedOrder(updateForAssgineBOrequest);;
+		}catch(Exception e){
+			e.printStackTrace();
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
 		}
 		return Response;
 	}

@@ -6,11 +6,14 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderProductBOResponse;
@@ -144,5 +147,25 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
 		}
 		 return response;
-	}	
+	}
+
+	@Override
+	public Response updateAssginedOrder(UpdateForAssgineBOrequest  updateForAssgineBOrequest) {
+		Response response = null;
+		logger.info("Inside Event=1018,Class:OTSOrder_WsImpl,Method:UpdateOrder,addOrUpdateOrderProductBOrequest " + updateForAssgineBOrequest);
+		
+		try {	
+			String ResponseValue = oTSOrderService.updateAssginedOrder(updateForAssgineBOrequest);;
+			response = buildResponse(200,ResponseValue);
+		}catch(Exception e){
+			e.printStackTrace();
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		}
+		 return response;
+	}
+
+		
 }

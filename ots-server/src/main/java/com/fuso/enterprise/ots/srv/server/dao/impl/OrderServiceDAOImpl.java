@@ -15,12 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OrderDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
@@ -240,6 +242,35 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		e.printStackTrace();
 		logger.error("Error in inserting order in order table"+e.getMessage());
 		throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		}
+	}
+
+	@Override
+	public String updateAssginedOrder(UpdateForAssgineBOrequest  updateForAssgineBOrequest) {
+		try {
+			OtsOrder otsOrder = new OtsOrder();  
+			Map<String, Object> queryParameter = new HashMap<>();
+			
+			queryParameter.put("otsOrderId",Integer.parseInt( updateForAssgineBOrequest.getRequest().getOrderId()));
+			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
+			
+			OtsUsers AssginedId = new OtsUsers();
+			AssginedId.setOtsUsersId(Integer.parseInt(updateForAssgineBOrequest.getRequest().getAssignedId()));
+			otsOrder.setOtsAssignedId(AssginedId);
+			
+			otsOrder.setOtsOrderStatus(updateForAssgineBOrequest.getRequest().getOrderStatus());
+			otsOrder.setOtsOrderDeliveryDt(Date.valueOf(updateForAssgineBOrequest.getRequest().getDeliveryDate()));
+			
+			String Response = "OrderId "+ updateForAssgineBOrequest.getRequest().getOrderId() +" Is updated";
+			return Response;
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("Error in inserting order in order table"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			logger.error("Error in inserting order in order table"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
 		}
 	}
 
