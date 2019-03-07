@@ -4,6 +4,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.UpdateOrderDetailsModelRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
@@ -19,4 +20,6 @@ public interface OTSOrderService {
 	String addOrUpdateOrderProduct(AddOrUpdateOnlyOrderProductRequest AddOrUpdateOnlyOrderProductRequest); 
 	String UpdateOrder(UpdateOrderDetailsRequest updateOrderDetailsRequest);
 	String updateAssginedOrder(UpdateForAssgineBOrequest  updateForAssgineBOrequest);
+	OrderProductBOResponse getAssginedOrder(GetAssginedOrderBORequest getAssginedOrderBORequest);
+	
 }

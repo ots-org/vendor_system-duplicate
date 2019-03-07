@@ -124,4 +124,14 @@
 			o.otsProductId= :ProductId
 		</query>
 	</named-query>
+	<named-query name="OtsOrder.getAssginedOrder">
+		<query>SELECT o 
+		FROM 
+			OtsOrder o 
+		WHERE 
+			o.otsAssignedId = :otsAssignedId
+		AND
+			o.otsOrderStatus = :otsOrderStatus
+		</query>
+	</named-query>
 </entity-mappings>

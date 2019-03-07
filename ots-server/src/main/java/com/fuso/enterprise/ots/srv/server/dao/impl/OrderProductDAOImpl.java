@@ -81,11 +81,11 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 			}catch(Exception e){
 				e.printStackTrace();
 				logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
-				throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);}
+				throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);}
 			catch (Throwable e) {
 				e.printStackTrace();
 				logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
-				throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);
+				throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 				}
 
 			otsOrderDetails =  OrderList.stream().map(OtsOrderProduct -> convertOrderDetailsFromEntityToDomain(OtsOrderProduct)).collect(Collectors.toList());; 

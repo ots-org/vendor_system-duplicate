@@ -19,11 +19,13 @@ import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OrderDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
+import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
@@ -130,8 +132,8 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
             } catch (NoResultException e) {
             	logger.error("Exception while fetching data from DB :"+e.getMessage());
         		e.printStackTrace();
-            	throw new BusinessException(e.getMessage(), e);
-            }otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
+            	throw new BusinessException(e.getMessage(), e);}
+            otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
     	}catch(Exception e){
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
 		} catch (Throwable e) {
@@ -274,6 +276,27 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		}
 	}
 
+	@Override
+	public List<OrderDetails> getAssginedOrder(GetAssginedOrderBORequest getAssginedOrderBORequest) {
+		try {
+			List<OtsOrder> OrderList = new ArrayList<OtsOrder>() ;
+			List<OrderDetails> otsOrderDetails = new ArrayList<OrderDetails>();
 	
+			Map<String, Object> queryParameter = new HashMap<>();
+			
+			OtsUsers AssginedId = new OtsUsers();
+			AssginedId.setOtsUsersId(Integer.parseInt(getAssginedOrderBORequest.getRequest().getEmployeeId()));	
+			queryParameter.put("otsAssignedId",AssginedId);
+			queryParameter.put("otsOrderStatus",getAssginedOrderBORequest.getRequest().getStatus());
+			
+			OrderList = super.getResultListByNamedQuery("OtsOrder.getAssginedOrder", queryParameter);
+			otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
+			return otsOrderDetails;}
+		catch(Exception e){
+				throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);}
+		catch (Throwable e) {
+				throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);}
+	}
+
 
 }

@@ -15,6 +15,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.UpdateOrderDetailsModelReque
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
@@ -157,6 +158,28 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
 		}
 		return Response;
+	}
+
+
+	@Override
+	public OrderProductBOResponse getAssginedOrder(GetAssginedOrderBORequest getAssginedOrderBORequest) {
+		
+		try {
+			OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
+			List<OrderDetails> OrderDetailsList = orderServiceDAO.getAssginedOrder(getAssginedOrderBORequest);
+			List<OrderDetailsAndProductDetails> GetOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
+			for (int i = 0; i <OrderDetailsList.size() ; i++)
+			{
+			List<OrderProductDetails> OrderProductDetailsList = orderProductDao.getUserByStatuesAndDistributorId(OrderDetailsList.get(i));
+			GetOrderDetailsAndProductDetails.add(AddProductAndOrderDetailsIntoResponse(OrderDetailsList.get(i),OrderProductDetailsList));
+			}
+			orderProductBOResponse.setOrderList(GetOrderDetailsAndProductDetails);
+			return orderProductBOResponse;
+		}catch(Exception e){
+			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);
+		} catch (Throwable e) {
+			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);
+		}
 	}
 
 

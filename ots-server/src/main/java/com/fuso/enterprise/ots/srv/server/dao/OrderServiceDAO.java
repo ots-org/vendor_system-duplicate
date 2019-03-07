@@ -6,10 +6,12 @@ import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
+import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsBill;
 
 public interface OrderServiceDAO {
@@ -20,4 +22,5 @@ public interface OrderServiceDAO {
 	Integer insertOrderAndGetOrderId(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest);
 	String UpdateOrder(UpdateOrderDetailsRequest updateOrderDetailsRequest);
 	String updateAssginedOrder(UpdateForAssgineBOrequest updateForAssgineBOrequest);
+	List<OrderDetails> getAssginedOrder(GetAssginedOrderBORequest getAssginedOrderBORequest);
 }

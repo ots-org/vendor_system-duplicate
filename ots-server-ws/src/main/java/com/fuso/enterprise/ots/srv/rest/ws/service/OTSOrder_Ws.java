@@ -16,6 +16,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
 
 import io.swagger.annotations.Api;
@@ -66,5 +67,11 @@ public interface OTSOrder_Ws {
 	@ApiOperation(value = "getOrder", notes = "update order for employee", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response updateAssginedOrder(@ApiParam(value = "request", required = true) @NotNull  @Valid UpdateForAssgineBOrequest  updateForAssgineBOrequest);
+	
+	@POST
+    @Path("/getAssginedOrder")
+	@ApiOperation(value = "getOrder", notes = "get Assgined order for employee", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getAssginedOrder(@ApiParam(value = "request", required = true) @NotNull  @Valid GetAssginedOrderBORequest  getAssginedOrderBORequest);
 	
 }
