@@ -14,6 +14,7 @@ public class AddProductStock {
 	
 	private String ProductId;
 	
+	private String OrderId;
 	
 	public String getProductStockQty() {
 		return ProductStockQty;
@@ -46,4 +47,12 @@ public class AddProductStock {
 	public void setProductStockAddDate(Date productStockAddDate) {
 		ProductStockAddDate = productStockAddDate;
 	}
+	public String getOrderId() {
+		return OrderId;
+	}
+	public void setOrderId(String orderId) {
+		OrderId = orderId;
+	}
+	
+	
 }

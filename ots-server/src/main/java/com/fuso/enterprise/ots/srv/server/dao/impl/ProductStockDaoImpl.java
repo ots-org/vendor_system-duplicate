@@ -68,6 +68,32 @@ public class ProductStockDaoImpl extends AbstractIptDao<OtsProductStock, String>
 		logger.info("Inside Event=1014,Class:OTSProduct_WsImpl,Method:ProductStockDaoImpl ");
 		return "Stock Updated Scuccessfully";
 	}
+	
+	@Override
+	public String updateProductStockQuantity(AddProductStockBORequest addProductStockBORequest) {
+		OtsProductStock otsProductStock = new OtsProductStock();		
+		OtsProduct otsProduct = new OtsProduct();
+		otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequestData().getProductId()));				
+		OtsUsers otsUsers = new OtsUsers();
+		otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequestData().getUsersId()));				
+	 	Map<String, Object> queryParameter = new HashMap<>();		
+	 	queryParameter.put("otsUsersId",otsUsers );		
+		queryParameter.put("otsProductId", otsProduct);		
+		try {
+			otsProductStock = super.getResultByNamedQuery("OtsProduct.findByOtsProductIdAndUserId", queryParameter) ;			
+			Integer stock = Integer.valueOf(addProductStockBORequest.getRequestData().getProductStockQty());
+			stock =Integer.valueOf(otsProductStock.getOtsProdcutStockActQty())-stock;
+			otsProductStock.setOtsProdcutStockId(otsProductStock.getOtsProdcutStockId());
+			otsProductStock.setOtsProdcutStockActQty(stock.toString());
+			super.getEntityManager().merge(otsProductStock);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+	    	throw new BusinessException(e, ErrorEnumeration.User_Not_exists);
+		}
+		return "Stock Quntity Updated Scuccessfully";
+		
+	}
 
 	@Override
 	public GetProductBOStockResponse getProductStockByUidAndPid(GetProductStockRequest getProductStockRequest) {

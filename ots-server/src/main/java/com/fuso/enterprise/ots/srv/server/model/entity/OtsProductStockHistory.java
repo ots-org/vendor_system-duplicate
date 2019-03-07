@@ -44,12 +44,6 @@ public class OtsProductStockHistory implements Serializable {
     private Integer otsProductStockHistoryId;
     @Column(name = "ots_product_stock_history_qty")
     private String otsProductStockHistoryQty;
-    @Column(name = "ots_product_stock_history_created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsProductStockHistoryCreated;
-    @Column(name = "ots_product_stock_history_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsProductStockHistoryTimestamp;
     @Column(name = "ots_product_stock_add_date")
     @Temporal(TemporalType.DATE)
     private Date otsProductStockAddDate;

@@ -9,6 +9,14 @@ public class OrderedProductDetails {
 	private String ProductStatus;
 	private String DeliveredQty;
 
+	
+	public String getDeliveredQty() {
+		return DeliveredQty;
+	}
+	public void setDeliveredQty(String deliveredQty) {
+		DeliveredQty = deliveredQty;
+	}
+	
 	public String getOrderdId() {
 		return OrderdId;
 	}

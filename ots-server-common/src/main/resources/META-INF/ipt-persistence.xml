@@ -23,6 +23,7 @@
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsOrderProduct</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsStockDistOb</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsLatLon</class>
+		<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsCustomerOutstanding</class>
    <!---OTS ORM FILES -->
 
 	<mapping-file>META-INF/ipt-sample-orm.xml</mapping-file>

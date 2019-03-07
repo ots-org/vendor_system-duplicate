@@ -1,12 +1,16 @@
 package com.fuso.enterprise.ots.srv.functional.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
+import java.util.List;
+import java.sql.Date;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.AddProductStock;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetails;
@@ -15,9 +19,10 @@ import com.fuso.enterprise.ots.srv.api.model.domain.UpdateOrderDetailsModelReque
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
-import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
@@ -26,18 +31,25 @@ import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
+import com.fuso.enterprise.ots.srv.server.dao.ProductStockDao;
+import com.fuso.enterprise.ots.srv.server.dao.ProductStockHistoryDao;
 
 @Service
 @Transactional
 public class OTSOrderServiceImpl implements OTSOrderService {
+	private static final java.sql.Date Date = null;
 	private OrderServiceDAO orderServiceDAO; 
 	private OrderProductDAO orderProductDao;
+	private ProductStockHistoryDao productStockHistoryDao;
+	private ProductStockDao productStockDao;
 
 	@Inject
-	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao)
+	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao)
 	{
 		this.orderServiceDAO = orderServiceDAO ;
 		this.orderProductDao = orderProductDao;
+		this.productStockHistoryDao=productStockHistoryDao;
+		this.productStockDao=productStockDao;
 	}
 
 	
@@ -115,12 +127,28 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	@Override
 	public String addOrUpdateOrderProduct(AddOrUpdateOnlyOrderProductRequest addOrUpdateOnlyOrderProductRequest) {
 		String Response;
+		String distributorId;
+		AddProductStockBORequest addProductStockBORequest=new AddProductStockBORequest();
+		AddProductStock addProductStock=new AddProductStock();
 		try {
-			for(int i=0 ; i < addOrUpdateOnlyOrderProductRequest.getProductList().size() ;i++)
-			{
-				 orderProductDao.addOrUpdateOrderProduct(addOrUpdateOnlyOrderProductRequest.getProductList().get(i));
+			for(int i=0 ; i < addOrUpdateOnlyOrderProductRequest.getProductList().size() ;i++){
+				distributorId =orderProductDao.addOrUpdateOrderProduct(addOrUpdateOnlyOrderProductRequest.getProductList().get(i));
+			    /*
+			     * fetching current date
+			     */
+				Date date = new Date(0);
+				long d = System.currentTimeMillis();
+				date.setTime(d);
+			    addProductStock.setUsersId(distributorId);
+				addProductStock.setProductId(addOrUpdateOnlyOrderProductRequest.getProductList().get(i).getProductId());
+				addProductStock.setProductStockQty(addOrUpdateOnlyOrderProductRequest.getProductList().get(i).getOts_delivered_qty());
+				addProductStock.setOrderId(addOrUpdateOnlyOrderProductRequest.getProductList().get(i).getOrderdId());
+				addProductStock.setProductStockAddDate(date);
+				addProductStockBORequest.setRequestData(addProductStock);
+				productStockHistoryDao.addProductStockHistory(addProductStockBORequest);	
+				productStockDao.updateProductStockQuantity(addProductStockBORequest);
 			}
-			Response = "Updated For OrderId"+addOrUpdateOnlyOrderProductRequest.getProductList().get(0).getOrderdId();
+			Response = "Updated For OrderId"+""+addOrUpdateOnlyOrderProductRequest.getProductList().get(0).getOrderdId();
 		}catch(Exception e){
 			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
 		} catch (Throwable e) {

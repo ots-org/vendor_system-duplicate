@@ -124,7 +124,27 @@
 			o.otsProductId= :ProductId
 		</query>
 	</named-query>
-	<named-query name="OtsOrder.getAssginedOrder">
+	
+	<named-query name="OtsCustomerOutstanding.findByOtscustomerId">
+		<query>SELECT o
+		FROM 
+			OtsCustomerOutstanding o
+		WHERE 
+			o.otsCustomerId = :customerId 
+		
+		</query>
+	</named-query>
+	<named-query name="OtsProductOrder.fetchDistributorId">
+		<query>SELECT p
+		FROM 
+			OtsOrderProduct p
+		WHERE 
+			p.otsOrderId = :otsOrderId
+		AND
+			p.otsProductId = :otsProductId
+		</query>
+	</named-query>
+<named-query name="OtsOrder.getAssginedOrder">
 		<query>SELECT o 
 		FROM 
 			OtsOrder o 

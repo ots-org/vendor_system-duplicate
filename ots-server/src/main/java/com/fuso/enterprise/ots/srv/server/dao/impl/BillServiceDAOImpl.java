@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.fuso.enterprise.ots.srv.api.model.domain.BillDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.BillDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.BillDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.BillServiceDAO;
@@ -64,7 +65,7 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 	        	throw new BusinessException(e.getMessage(), e);
 	        }
 			logger.info("Inside Event=1021,Class:BillServiceDAOImpl,Method:addOrUpdateBill:"+billDetailsBOResponse);
-		}catch (NoResultException e) {
+		}catch (Exception e) {
         	logger.error("Exception while Inserting data to DB  :"+e.getMessage());
     		e.printStackTrace();
         	throw new BusinessException(e.getMessage(), e);
@@ -82,8 +83,5 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 		billDetails.setBillStatus(otsBill.getOtsBillStatus()==null?null:otsBill.getOtsBillStatus());
 		return billDetails;
 	}
-	
-	
-	
 
 }

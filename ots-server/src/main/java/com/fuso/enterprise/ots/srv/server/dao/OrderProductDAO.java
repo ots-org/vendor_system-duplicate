@@ -7,6 +7,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderedProductDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsOrder;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsOrderProduct;
 
 public interface OrderProductDAO {
 

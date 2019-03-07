@@ -4,27 +4,36 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSBillService;
 import com.fuso.enterprise.ots.srv.api.service.request.BillDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.BillDetailsBOResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.BillServiceDAO;
+import com.fuso.enterprise.ots.srv.server.dao.CustomerOutstandingAmtDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsBill;
 @Service
 @Transactional
 public class OTSBillServiceImpl implements OTSBillService {
+private Logger logger = LoggerFactory.getLogger(getClass());
 private BillServiceDAO billServiceDAO;
 private OrderServiceDAO orderServiceDAO;
+private CustomerOutstandingAmtDAO customerOutstandingAmtDAO;
 	
 	@Inject
-	public OTSBillServiceImpl(BillServiceDAO billServiceDAO,OrderServiceDAO orderServiceDAO) {
+	public OTSBillServiceImpl(BillServiceDAO billServiceDAO,OrderServiceDAO orderServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO) {
 		this.billServiceDAO=billServiceDAO;
 		this.orderServiceDAO=orderServiceDAO;
+		this.customerOutstandingAmtDAO=customerOutstandingAmtDAO;
 	}
 	@Override
 	public BillDetailsBOResponse addOrUpdateBill(BillDetailsBORequest billDetailsBORequest) {
@@ -43,5 +52,26 @@ private OrderServiceDAO orderServiceDAO;
 		}
 		return billDetailsBOResponse;
 	}
-
+	
+	@Override
+	public String updateCustomerOutstandingAmt(CustomerOutstandingBORequest customerOutstandingBORequest) {
+		String responseData;
+		try {
+			responseData = customerOutstandingAmtDAO.updateCustomerOutstandingAmt(customerOutstandingBORequest);
+            } catch (Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		return responseData;
+	}
+	
+	@Override
+	public GetCustomerOutstandingAmtBOResponse getCustomerOutstandingAmt(GetCustomerOutstandingAmtBORequest getCustomerOutstandingAmtBORequest) {
+		GetCustomerOutstandingAmtBOResponse customerOutstandingAmtResponse = new GetCustomerOutstandingAmtBOResponse();
+		try {
+			customerOutstandingAmtResponse = customerOutstandingAmtDAO.getCustomerOutstandingAmt(getCustomerOutstandingAmtBORequest);
+            } catch (Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		return customerOutstandingAmtResponse;
+	}
 }

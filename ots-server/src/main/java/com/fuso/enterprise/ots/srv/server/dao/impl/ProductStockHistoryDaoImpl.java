@@ -43,6 +43,7 @@ public class ProductStockHistoryDaoImpl extends AbstractIptDao<OtsProductStockHi
 			 otsProductStockHistory.setOtsUsersId(otsUsers);
 			 otsProductStockHistory.setOtsProductStockAddDate(addProductStockBORequest.getRequestData().getProductStockAddDate());
 			 otsProductStockHistory.setOtsProductStockHistoryQty(addProductStockBORequest.getRequestData().getProductStockQty());
+			 otsProductStockHistory.setOtsProductStockOrderId(addProductStockBORequest.getRequestData().getOrderId());
 			 super.getEntityManager().merge(otsProductStockHistory);
 			 logger.info("Inside Event=1014,Class:ProductStockHistoryDaoImpl,Method:addProductStockHistory ");
 		}catch(Exception e) {

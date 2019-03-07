@@ -32,9 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "OtsCustomerOutstanding.findAll", query = "SELECT o FROM OtsCustomerOutstanding o"),
     @NamedQuery(name = "OtsCustomerOutstanding.findByOtsCustomerOutstandingId", query = "SELECT o FROM OtsCustomerOutstanding o WHERE o.otsCustomerOutstandingId = :otsCustomerOutstandingId"),
-    @NamedQuery(name = "OtsCustomerOutstanding.findByOtsCustomerOutstandingAmt", query = "SELECT o FROM OtsCustomerOutstanding o WHERE o.otsCustomerOutstandingAmt = :otsCustomerOutstandingAmt"),
-    @NamedQuery(name = "OtsCustomerOutstanding.findByOtsCustomerOutstandingTimestamp", query = "SELECT o FROM OtsCustomerOutstanding o WHERE o.otsCustomerOutstandingTimestamp = :otsCustomerOutstandingTimestamp"),
-    @NamedQuery(name = "OtsCustomerOutstanding.findByOtsCustomerOutstandingCreated", query = "SELECT o FROM OtsCustomerOutstanding o WHERE o.otsCustomerOutstandingCreated = :otsCustomerOutstandingCreated")})
+    @NamedQuery(name = "OtsCustomerOutstanding.findByOtsCustomerOutstandingAmt", query = "SELECT o FROM OtsCustomerOutstanding o WHERE o.otsCustomerOutstandingAmt = :otsCustomerOutstandingAmt")})
+   
 public class OtsCustomerOutstanding implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,12 +43,6 @@ public class OtsCustomerOutstanding implements Serializable {
     private Integer otsCustomerOutstandingId;
     @Column(name = "ots_customer_outstanding_amt")
     private Long otsCustomerOutstandingAmt;
-    @Column(name = "ots_customer_outstanding_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsCustomerOutstandingTimestamp;
-    @Column(name = "ots_customer_outstanding_created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsCustomerOutstandingCreated;
     @JoinColumn(name = "ots_customer_id", referencedColumnName = "ots_users_id")
     @OneToOne(optional = false)
     private OtsUsers otsCustomerId;
@@ -75,22 +68,6 @@ public class OtsCustomerOutstanding implements Serializable {
 
     public void setOtsCustomerOutstandingAmt(Long otsCustomerOutstandingAmt) {
         this.otsCustomerOutstandingAmt = otsCustomerOutstandingAmt;
-    }
-
-    public Date getOtsCustomerOutstandingTimestamp() {
-        return otsCustomerOutstandingTimestamp;
-    }
-
-    public void setOtsCustomerOutstandingTimestamp(Date otsCustomerOutstandingTimestamp) {
-        this.otsCustomerOutstandingTimestamp = otsCustomerOutstandingTimestamp;
-    }
-
-    public Date getOtsCustomerOutstandingCreated() {
-        return otsCustomerOutstandingCreated;
-    }
-
-    public void setOtsCustomerOutstandingCreated(Date otsCustomerOutstandingCreated) {
-        this.otsCustomerOutstandingCreated = otsCustomerOutstandingCreated;
     }
 
     public OtsUsers getOtsCustomerId() {
