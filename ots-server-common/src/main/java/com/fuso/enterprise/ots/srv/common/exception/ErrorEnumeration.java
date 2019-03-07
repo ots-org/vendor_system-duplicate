@@ -28,7 +28,7 @@ public enum ErrorEnumeration {
 	ADD_EMP_LATLONG_FAILURE(1022,"err.in.emplatlongtable"), 
 	GET_EMP_LATLONG_FAILURE(1022,"err.in.getemplatlong"),
 	ERROR_IN_GETPRODUCTSTOCK(1006,"err.in.getproductstock"),
-    VALUE_ALREDY_EXISTS(1006,"err.in.reg");
+    VALUE_ALREDY_EXISTS(1006,"err.in.reg"),
 	UPDATE_CUSTOMER_OUTSTANDINGAMT_FAILURE(1022,"err.in.updateCustomerOutstandingAmt"),
 	GET_CUSTOMER_OUTSTANDINGAMT_FAILURE(1022,"err.in.getCustomerOutstandingAmt"),
 	GET_CUSTOMER_OUTSTANDINGAMT_FAILURE_WRONG_INPUT(1022,"err.in.getCustomerOutstandingAmtwithInput");
