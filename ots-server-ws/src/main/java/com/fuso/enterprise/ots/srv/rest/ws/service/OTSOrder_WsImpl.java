@@ -7,9 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
@@ -187,6 +189,23 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 			e.printStackTrace();
 			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);
 		}
+		 return response;
+	}
+
+	@Override
+	public Response closeOrder(CloseOrderBORequest closeOrderBORequest) {
+		Response response = null;
+		try {	
+			String ResponseDate = oTSOrderService.closeOrder(closeOrderBORequest);
+			response = buildResponse(200,ResponseDate);
+		}catch(Exception e){
+			e.printStackTrace();
+			throw new BusinessException(e, ErrorEnumeration.ORDER_CLOSE);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			throw new BusinessException(e, ErrorEnumeration.ORDER_CLOSE);
+		}
+		
 		 return response;
 	}
 

@@ -144,7 +144,7 @@
 			p.otsProductId = :otsProductId
 		</query>
 	</named-query>
-<named-query name="OtsOrder.getAssginedOrder">
+	<named-query name="OtsOrder.getAssginedOrder">
 		<query>SELECT o 
 		FROM 
 			OtsOrder o 
@@ -152,6 +152,14 @@
 			o.otsAssignedId = :otsAssignedId
 		AND
 			o.otsOrderStatus = :otsOrderStatus
+		</query>
+	</named-query>
+	<named-query name="OtsOrderProduct.findByotsOrderId">
+		<query>SELECT p
+		FROM 
+			OtsOrderProduct p
+		WHERE 
+			p.otsOrderId = :otsOrderId
 		</query>
 	</named-query>
 </entity-mappings>

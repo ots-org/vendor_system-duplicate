@@ -12,14 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.AddProductStock;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.OrderedProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UpdateOrderDetailsModelRequest;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
@@ -42,6 +45,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	private OrderProductDAO orderProductDao;
 	private ProductStockHistoryDao productStockHistoryDao;
 	private ProductStockDao productStockDao;
+	private OrderDetails orderDetails;
 
 	@Inject
 	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao)
@@ -63,17 +67,18 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			throw new BusinessException(e.getMessage(), e);
 		}
 	}
+	
 	@Override
 	public OrderProductBOResponse getOrderByStatusAndDistributor(GetOrderByStatusRequest getOrderByStatusRequest) {	
-		try {
-			OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
-			List<OrderDetails> OrderDetailsList = orderServiceDAO.getOrderIdByDistributorId(getOrderByStatusRequest);
-			List<OrderDetailsAndProductDetails> GetOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
-			for (int i = 0; i <OrderDetailsList.size() ; i++)
-			{
+	try {
+		OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
+		List<OrderDetails> OrderDetailsList = orderServiceDAO.getOrderIdByDistributorId(getOrderByStatusRequest);
+		List<OrderDetailsAndProductDetails> GetOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
+		for (int i = 0; i <OrderDetailsList.size() ; i++)
+		{
 			List<OrderProductDetails> OrderProductDetailsList = orderProductDao.getUserByStatuesAndDistributorId(OrderDetailsList.get(i));
 			GetOrderDetailsAndProductDetails.add(AddProductAndOrderDetailsIntoResponse(OrderDetailsList.get(i),OrderProductDetailsList));
-			}
+		}
 			orderProductBOResponse.setOrderList(GetOrderDetailsAndProductDetails);
 			return orderProductBOResponse;
 		}catch(Exception e){
@@ -106,8 +111,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			try {
 				for(int i=0 ; i <addOrUpdateOrderProductBOrequest.getRequest().getProductList().size() ; i++)
 				{
-					orderProductDao.insertOrdrerProductByOrderId(orderId, addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(i));	
-				}
+					orderProductDao.insertOrdrerProductByOrderId(orderId, addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(i));}
 				Response = "Order Placed and OrderId Is"+orderId;
 				return Response;
 			}catch(Exception e){
@@ -191,7 +195,6 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 
 	@Override
 	public OrderProductBOResponse getAssginedOrder(GetAssginedOrderBORequest getAssginedOrderBORequest) {
-		
 		try {
 			OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
 			List<OrderDetails> OrderDetailsList = orderServiceDAO.getAssginedOrder(getAssginedOrderBORequest);
@@ -211,4 +214,43 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	}
 
 
+	@Override
+	public String closeOrder(CloseOrderBORequest closeOrderBORequest) {
+		orderDetails = new OrderDetails();
+		/*Update the Status As close in Order Table*/
+		orderDetails = orderServiceDAO.closeOrder(closeOrderBORequest);
+		/*Get All the Product Details For Particular Order*/
+		try {
+			List<OrderProductDetails> ProductList = orderProductDao.getProductListByOrderId(closeOrderBORequest.getRequest().getOrderId());
+			
+			AddOrUpdateOnlyOrderProductRequest addOrUpdateOnlyOrderProductRequest = new AddOrUpdateOnlyOrderProductRequest();
+			
+			List<OrderedProductDetails> orderedProductDetails = new ArrayList<OrderedProductDetails>();
+			
+			for(int i=0;i<ProductList.size() ; i++) {
+				OrderedProductDetails orderedProductDetailstemp = new OrderedProductDetails();
+				
+				orderedProductDetailstemp.setOrderdId(ProductList.get(i).getOtsOrderId());
+				orderedProductDetailstemp.setDeliveredQty(ProductList.get(i).getOtsDeliveredQty());
+				orderedProductDetailstemp.setProductId(ProductList.get(i).getOtsProductId());
+				orderedProductDetailstemp.setOrderProductId(ProductList.get(i).getOtsOrderProductId());
+				orderedProductDetailstemp.setOrderedQty(ProductList.get(i).getOtsOrderedQty());
+				orderedProductDetailstemp.setProductCost(ProductList.get(i).getOtsOrderProductCost());
+				orderedProductDetailstemp.setProductStatus("close");
+				
+				orderedProductDetails.add(i,orderedProductDetailstemp);
+				
+			}
+			addOrUpdateOnlyOrderProductRequest.setProductList(orderedProductDetails);
+			addOrUpdateOrderProduct(addOrUpdateOnlyOrderProductRequest);
+			String Response = "Order Has been closed for OrderId "+closeOrderBORequest.getRequest().getOrderId();
+			return Response;}
+		catch(Exception e){
+			e.printStackTrace();
+			throw new BusinessException(e, ErrorEnumeration.ORDER_CLOSE);}
+		catch (Throwable e) {
+			e.printStackTrace();
+			throw new BusinessException(e, ErrorEnumeration.ORDER_CLOSE);}	
+		}
+	
 }

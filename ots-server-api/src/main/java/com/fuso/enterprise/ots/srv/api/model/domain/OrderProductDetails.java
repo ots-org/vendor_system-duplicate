@@ -14,6 +14,16 @@ public class OrderProductDetails {
     private String otsOrderId;
 
     private String otsProductId;
+    
+    private String ProductName;
+
+	public String getProductName() {
+		return ProductName;
+	}
+
+	public void setProductName(String productName) {
+		ProductName = productName;
+	}
 
 	public String getOtsOrderProductId() {
 		return otsOrderProductId;

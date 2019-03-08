@@ -14,8 +14,10 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
 
@@ -73,5 +75,11 @@ public interface OTSOrder_Ws {
 	@ApiOperation(value = "getOrder", notes = "get Assgined order for employee", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getAssginedOrder(@ApiParam(value = "request", required = true) @NotNull  @Valid GetAssginedOrderBORequest  getAssginedOrderBORequest);
+	
+	@POST
+    @Path("/closeOrder")
+	@ApiOperation(value = "getOrder", notes = "Closeing Order", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response closeOrder(@ApiParam(value = "request", required = true) @NotNull  @Valid CloseOrderBORequest closeOrderBORequest);
 	
 }

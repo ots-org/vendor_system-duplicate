@@ -16,9 +16,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
@@ -217,21 +219,25 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		{
 			otsOrder.setOtsAssignedId(null);
 		}else {	
-		EmployeeId.setOtsUsersId(Integer.parseInt(updateOrderDetailsRequest.getRequest().getAssignedId()));
-		otsOrder.setOtsAssignedId(EmployeeId);
+			EmployeeId.setOtsUsersId(Integer.parseInt(updateOrderDetailsRequest.getRequest().getAssignedId()));
+			otsOrder.setOtsAssignedId(EmployeeId);
 		}
 		
-		otsOrder.setOtsOrderNumber(updateOrderDetailsRequest.getRequest().getOrderNumber());	
-		otsOrder.setOtsOrderCost(Long.parseLong(updateOrderDetailsRequest.getRequest().getOrderCost()));
-		otsOrder.setOtsOrderStatus(updateOrderDetailsRequest.getRequest().getOrderStatus());
-		otsOrder.setOtsOrderDeliveryDt(Date.valueOf(updateOrderDetailsRequest.getRequest().getDeliveryDate()));
+			otsOrder.setOtsOrderNumber(updateOrderDetailsRequest.getRequest().getOrderNumber());
+			try {
+				otsOrder.setOtsOrderCost(Long.parseLong(updateOrderDetailsRequest.getRequest().getOrderCost()));
+			}catch(Exception e) {
+				otsOrder.setOtsOrderCost(null);
+			}
+			otsOrder.setOtsOrderStatus(updateOrderDetailsRequest.getRequest().getOrderStatus());
+			otsOrder.setOtsOrderDeliveryDt(Date.valueOf(updateOrderDetailsRequest.getRequest().getDeliveryDate()));
 	
 		if(updateOrderDetailsRequest.getRequest().getDeliverdDate()==null)
 		{
 			otsOrder.setOtsOrderDeliveredDt(null);
-		}else
-		{
-		otsOrder.setOtsOrderDeliveryDt(Date.valueOf(updateOrderDetailsRequest.getRequest().getDeliverdDate()));
+		}
+		else{
+			otsOrder.setOtsOrderDeliveryDt(Date.valueOf(updateOrderDetailsRequest.getRequest().getDeliverdDate()));
 		}
 		
 		super.getEntityManager().merge(otsOrder);
@@ -289,7 +295,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			queryParameter.put("otsAssignedId",AssginedId);
 			queryParameter.put("otsOrderStatus",getAssginedOrderBORequest.getRequest().getStatus());
 			
-			OrderList = super.getResultListByNamedQuery("OtsOrder.getAssginedOrder", queryParameter);
+			
 			otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
 			return otsOrderDetails;}
 		catch(Exception e){
@@ -298,5 +304,32 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 				throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);}
 	}
 
+	@Override
+	public OrderDetails closeOrder(CloseOrderBORequest closeOrderBORequest) {
+		try {
+		OtsOrder otsOrder = new OtsOrder();  
+		OrderDetails otsOrderDetails = new OrderDetails();
+
+		Map<String, Object> queryParameter = new HashMap<>();
+		
+		OtsOrder OtsOrder = new OtsOrder();
+		
+		queryParameter.put("otsOrderId",Integer.parseInt( closeOrderBORequest.getRequest().getOrderId()));
+		otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
+	
+		otsOrder.setOtsOrderDeliveredDt(Date.valueOf(closeOrderBORequest.getRequest().getDeliveredDate()));
+		otsOrder.setOtsOrderStatus(closeOrderBORequest.getRequest().getOrderStatus());
+        otsOrderDetails =  convertOrderDetailsFromEntityToDomain(otsOrder);
+
+		return otsOrderDetails;
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ORDER_CLOSE);}
+		catch (Throwable e) {
+			e.printStackTrace();
+			logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ORDER_CLOSE);}	
+		}
 
 }

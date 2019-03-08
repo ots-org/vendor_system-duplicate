@@ -15,5 +15,5 @@ public interface OrderProductDAO {
 	List<OrderProductDetails> getUserByStatuesAndDistributorId(OrderDetails orderDetails);
 	String insertOrdrerProductByOrderId(Integer orderId,OrderedProductDetails orderedProductDetails);
 	String addOrUpdateOrderProduct(OrderedProductDetails orderedProductDetails);
-	
+	List<OrderProductDetails> getProductListByOrderId(String orderId);
 }

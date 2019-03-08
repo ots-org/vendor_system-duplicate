@@ -4,23 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.persistence.NoResultException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderedProductDetails;
-import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
@@ -43,7 +38,7 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 	}
 
 		@Override
-	public long getListOfDeliverdQuantityOfDay(List<OtsOrder> orderList, Integer otsProductId) {
+		public long getListOfDeliverdQuantityOfDay(List<OtsOrder> orderList, Integer otsProductId) {
 		int orderProductList = 0;
 		try {
 			logger.info("Inside Event=1015,Class:OrderProductDAOImpl, Method:getListOfDeliverdQuantityOfDay, orderList:"
@@ -85,8 +80,7 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 			catch (Throwable e) {
 				e.printStackTrace();
 				logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
-				throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
-				}
+				throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);}
 
 			otsOrderDetails =  OrderList.stream().map(OtsOrderProduct -> convertOrderDetailsFromEntityToDomain(OtsOrderProduct)).collect(Collectors.toList());; 
 			return otsOrderDetails;
@@ -96,6 +90,7 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 			OrderProductDetails orderDetails =  new OrderProductDetails() ;
 			orderDetails.setOtsOrderId((otsOrderProduct.getOtsOrderId().getOtsOrderId()==null?null:otsOrderProduct.getOtsOrderId().getOtsOrderId().toString()));
 			orderDetails.setOtsDeliveredQty(otsOrderProduct.getOtsDeliveredQty()==null?null:otsOrderProduct.getOtsDeliveredQty().toString());
+			orderDetails.setProductName(otsOrderProduct.getOtsProductId().getOtsProductName());
 			orderDetails.setOtsOrderProductCost(otsOrderProduct.getOtsOrderProductCost()==null?null:otsOrderProduct.getOtsOrderProductCost().toString());
 			orderDetails.setOtsOrderedQty(otsOrderProduct.getOtsOrderedQty()==null?null:otsOrderProduct.getOtsOrderedQty().toString()); 
 			orderDetails.setOtsOrderProductStatus(otsOrderProduct.getOtsOrderProductStatus()==null?null:otsOrderProduct.getOtsOrderProductStatus().toString());
@@ -106,86 +101,107 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 
 		@Override
 		public String insertOrdrerProductByOrderId(Integer orderId,OrderedProductDetails orderedProductDetails) {
-			try {
-				OtsOrderProduct otsOrderProduct = new OtsOrderProduct();
+		try {
+			OtsOrderProduct otsOrderProduct = new OtsOrderProduct();
 				
-				OtsOrder OtsorderId = new OtsOrder();
-				OtsorderId.setOtsOrderId(orderId);
-				otsOrderProduct.setOtsOrderId(OtsorderId);
+			OtsOrder OtsorderId = new OtsOrder();
+			OtsorderId.setOtsOrderId(orderId);
+			otsOrderProduct.setOtsOrderId(OtsorderId);
 				
-				OtsProduct  ProductId= new OtsProduct();
-				ProductId.setOtsProductId(Integer.parseInt(orderedProductDetails.getProductId()));
-				otsOrderProduct.setOtsProductId(ProductId);
-				otsOrderProduct.setOtsOrderedQty(Integer.parseInt(orderedProductDetails.getOrderedQty()));
-				otsOrderProduct.setOtsOrderProductStatus(orderedProductDetails.getProductStatus());
-				otsOrderProduct.setOtsOrderProductCost(Long.valueOf(orderedProductDetails.getProductCost()));
-				otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(orderedProductDetails.getOts_delivered_qty()));
-				save(otsOrderProduct);
-				return "Inserted";
-			}catch(Exception e){
-				e.printStackTrace();
-				logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
-				throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);}
-			catch (Throwable e) {
-				e.printStackTrace();
-				logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
-				throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);
-				}	
+			OtsProduct  ProductId= new OtsProduct();
+			ProductId.setOtsProductId(Integer.parseInt(orderedProductDetails.getProductId()));
+			otsOrderProduct.setOtsProductId(ProductId);
+			otsOrderProduct.setOtsOrderedQty(Integer.parseInt(orderedProductDetails.getOrderedQty()));
+			otsOrderProduct.setOtsOrderProductStatus(orderedProductDetails.getProductStatus());
+			otsOrderProduct.setOtsOrderProductCost(Long.valueOf(orderedProductDetails.getProductCost()));
+			otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(orderedProductDetails.getOts_delivered_qty()));
+			save(otsOrderProduct);
+			return "Inserted";
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);}
+		catch (Throwable e) {
+			e.printStackTrace();
+			logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);
+			}	
 		}
 
 		@Override
 		public String addOrUpdateOrderProduct(OrderedProductDetails orderedProductDetails) {
-				String distributorId;
-			try {
-				OtsOrderProduct otsOrderProduct = new OtsOrderProduct();
+		String distributorId;
+		try {
+			OtsOrderProduct otsOrderProduct = new OtsOrderProduct();
 				
-				Map<String, Object> queryParameter = new HashMap<>();
-				OtsOrder OtsorderId = new OtsOrder();
-				OtsorderId.setOtsOrderId(Integer.parseInt(orderedProductDetails.getOrderdId()));
+			Map<String, Object> queryParameter = new HashMap<>();
+			OtsOrder OtsorderId = new OtsOrder();
+			OtsorderId.setOtsOrderId(Integer.parseInt(orderedProductDetails.getOrderdId()));
 				
-				OtsProduct otsProduct = new OtsProduct();
-				otsProduct.setOtsProductId(Integer.parseInt(orderedProductDetails.getProductId()));
-				/*
-				 * fetching distributor id by passing orderId and productId
-				 */
-				queryParameter.put("otsOrderId",OtsorderId);
-				queryParameter.put("otsProductId",otsProduct);
+			OtsProduct otsProduct = new OtsProduct();
+			otsProduct.setOtsProductId(Integer.parseInt(orderedProductDetails.getProductId()));
+			/*
+			* fetching distributor id by passing orderId and productId
+			*/
+			queryParameter.put("otsOrderId",OtsorderId);
+			queryParameter.put("otsProductId",otsProduct);
 				
-				otsOrderProduct = super.getResultByNamedQuery("OtsProductOrder.fetchDistributorId", queryParameter);
-				/*
-				 * assigning result distributorId  to distributorId variable
-				 */
-				distributorId=otsOrderProduct.getOtsOrderId().getOtsDistributorId().getOtsUsersId().toString();
+			otsOrderProduct = super.getResultByNamedQuery("OtsProductOrder.fetchDistributorId", queryParameter);
+			/*
+				* assigning result distributorId  to distributorId variable
+			 */
+			distributorId=otsOrderProduct.getOtsOrderId().getOtsDistributorId().getOtsUsersId().toString();
 				
-				otsOrderProduct.setOtsOrderId(OtsorderId);
+			otsOrderProduct.setOtsOrderId(OtsorderId);
 			
-				OtsProduct  ProductId= new OtsProduct();
-				ProductId.setOtsProductId(Integer.parseInt(orderedProductDetails.getProductId()));
-				otsOrderProduct.setOtsProductId(ProductId);
-				otsOrderProduct.setOtsOrderedQty(Integer.parseInt(orderedProductDetails.getOrderedQty()));
-				otsOrderProduct.setOtsOrderProductStatus(orderedProductDetails.getProductStatus());
-				otsOrderProduct.setOtsOrderProductCost(Long.valueOf(orderedProductDetails.getProductCost()));
-				otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(orderedProductDetails.getOts_delivered_qty()));
-				if(orderedProductDetails.getOrderProductId()==null) {
-					System.out.println("Inserted");
-					save(otsOrderProduct);
-					//return "Inserted";
-				}else {
-					System.out.println("Updated");
-					otsOrderProduct.setOtsOrderProductId(Integer.parseInt(orderedProductDetails.getOrderProductId()));
-					super.getEntityManager().merge(otsOrderProduct);
-					//return "Updated";
-				}
-				return distributorId;
-			}catch(Exception e){
-				e.printStackTrace();
-				logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
-				throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);}
-			catch (Throwable e) {
-				e.printStackTrace();
-				logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
-				throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);
-			}	
-			
-		}
+			OtsProduct  ProductId= new OtsProduct();
+			ProductId.setOtsProductId(Integer.parseInt(orderedProductDetails.getProductId()));
+			otsOrderProduct.setOtsProductId(ProductId);
+			otsOrderProduct.setOtsOrderedQty(Integer.parseInt(orderedProductDetails.getOrderedQty()));
+			otsOrderProduct.setOtsOrderProductStatus(orderedProductDetails.getProductStatus());
+			otsOrderProduct.setOtsOrderProductCost(Long.valueOf(orderedProductDetails.getProductCost()));
+			otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(orderedProductDetails.getOts_delivered_qty()));
+			if(orderedProductDetails.getOrderProductId()==null) {
+			System.out.println("Inserted");
+			save(otsOrderProduct);
+			//return "Inserted";
+			}else {
+			System.out.println("Updated");
+			otsOrderProduct.setOtsOrderProductId(Integer.parseInt(orderedProductDetails.getOrderProductId()));
+			super.getEntityManager().merge(otsOrderProduct);
+			//return "Updated";
+			}
+			return distributorId;}
+		catch(Exception e){
+			e.printStackTrace();
+			logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);}
+		catch (Throwable e) {
+			e.printStackTrace();
+			logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);
+		}		
+	}
+		
+	@Override
+	public List<OrderProductDetails> getProductListByOrderId(String orderId) {
+	try {
+		List<OrderProductDetails> otsOrderDetails = new ArrayList<>();
+		List<OtsOrderProduct> ProductList = new ArrayList<>();
+		Map<String, Object> queryParameter = new HashMap<>();
+		OtsOrder otsOrder = new OtsOrder();
+		otsOrder.setOtsOrderId(Integer.valueOf(orderId));
+		queryParameter.put("otsOrderId",otsOrder);
+		ProductList = super.getResultListByNamedQuery("OtsOrderProduct.findByotsOrderId", queryParameter);
+		otsOrderDetails = ProductList.stream().map(OtsOrderProduct -> convertOrderDetailsFromEntityToDomain(OtsOrderProduct)).collect(Collectors.toList());; 
+		return otsOrderDetails;}
+	catch(Exception e){
+		e.printStackTrace();
+		logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+		throw new BusinessException(e, ErrorEnumeration.ORDER_CLOSE);}
+	catch (Throwable e) {
+		e.printStackTrace();
+		logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+		throw new BusinessException(e, ErrorEnumeration.ORDER_CLOSE);}	
+	}
 }

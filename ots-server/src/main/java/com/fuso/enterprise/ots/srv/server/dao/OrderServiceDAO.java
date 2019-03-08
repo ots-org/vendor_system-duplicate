@@ -3,9 +3,11 @@ package com.fuso.enterprise.ots.srv.server.dao;
 import java.util.List;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
@@ -23,4 +25,5 @@ public interface OrderServiceDAO {
 	String UpdateOrder(UpdateOrderDetailsRequest updateOrderDetailsRequest);
 	String updateAssginedOrder(UpdateForAssgineBOrequest updateForAssgineBOrequest);
 	List<OrderDetails> getAssginedOrder(GetAssginedOrderBORequest getAssginedOrderBORequest);
+	OrderDetails closeOrder(CloseOrderBORequest closeOrderBORequest);
 }

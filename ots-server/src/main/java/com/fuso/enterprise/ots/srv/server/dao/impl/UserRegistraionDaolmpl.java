@@ -55,7 +55,7 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
             	logger.error("Exception while fetching data from DB :"+e.getMessage());
         		e.printStackTrace();
             	throw new BusinessException(e.getMessage(), e);
-            }
+         }
    		return userList;
    	}
     

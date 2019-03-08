@@ -154,12 +154,17 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	@Override
 	public UserRegistrationResponce addUserRegistration( AddNewBORequest addNewBORequest) {
 		UserRegistrationResponce userRegistrationResponce = null;
+		try {
 		if(addNewBORequest != null) {
 			List<OtsRegistration> UserRegistrationEmailPhonenumber = userRegistrationDao.addUserRegistrationEmailPhonenumber(addNewBORequest);
-			
+				
 			if(UserRegistrationEmailPhonenumber.size() == 0) {
-				userRegistrationResponce = userRegistrationDao.addUserRegistration(addNewBORequest);
+					userRegistrationResponce = userRegistrationDao.addUserRegistration(addNewBORequest);
+				}
 			}
+		}
+		catch(Exception e) {
+			throw new BusinessException(e.getMessage(), e);
 		}
 		return userRegistrationResponce;
 	}
