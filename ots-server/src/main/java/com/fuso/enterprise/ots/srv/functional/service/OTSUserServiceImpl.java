@@ -28,6 +28,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
+import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserMapDAO;
@@ -71,6 +72,9 @@ public class OTSUserServiceImpl implements  OTSUserService{
 
 	@Override
 	public UserDataBOResponse addNewUser(AddUserDataBORequest addUserDataBORequest) {
+		
+		Integer flag = userRegistrationDao.CheckForExists(addUserDataBORequest);
+		
 		UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
 		
 		MapUsersDataBORequest mapUsersDataBORequest = new MapUsersDataBORequest();
@@ -79,49 +83,51 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		UserMapping userMapping = new UserMapping();
 		CustomerProductDetails customerProductDetails = new CustomerProductDetails();
 		try {
-			/*
-			 * Adding new user and return back the user object
-			 */
-			userDataBOResponse = userServiceDAO.addNewUser(addUserDataBORequest);
-			String responseGenerateduserId = userDataBOResponse.getUserDetails().get(0).getUserId();
-			
-			/*
-			 * End of add user
-			 */
-			
-			/*
-			 * Mapping the child user to the parent user 
-			 */
-			userMapping.setMappedTo(addUserDataBORequest.getRequestData().getMappedTo());
-			userMapping.setUserId(responseGenerateduserId);
-			mapUsersDataBORequest.setRequestData(userMapping);
-			String userMappingStatus = mappUser(mapUsersDataBORequest);
-			logger.info("Inside Event=1004,Class:OTSUserServiceImpl,Method:addNewUser, "
-					+ "User Mapping  status : " + userMappingStatus);
-			/*
-			 * End of mapping 
-			 */
-			
-			/*
-			 * Add customer product price 
-			 */
-			
-			String userProductMappingStatus = "";
-			if(addUserDataBORequest.getRequestData().getProductId()!=null) {
-				customerProductDetails.setUserId(responseGenerateduserId);
-				customerProductDetails.setProductPrice(addUserDataBORequest.getRequestData().getProductPrice());
-				customerProductDetails.setProductId(addUserDataBORequest.getRequestData().getProductId());
-				customerProductDataBORequest.setRequestData(customerProductDetails);
-				userProductMappingStatus = mapUserProduct(customerProductDataBORequest);
-			}
-			
-			/*
-			 * End of product price mapping to user
-			 */
-			
-			logger.info("Inside Event=1004,Class:OTSUserServiceImpl,Method:addNewUser, "
-					+ "Map User Product price status : " + userProductMappingStatus);
-			
+			if(flag == 0){
+				/*
+				 * Adding new user and return back the user object
+				 */
+				userDataBOResponse = userServiceDAO.addNewUser(addUserDataBORequest);
+				String responseGenerateduserId = userDataBOResponse.getUserDetails().get(0).getUserId();
+				
+				/*
+				 * End of add user
+				 */
+				
+				/*
+				 * Mapping the child user to the parent user 
+				 */
+				userMapping.setMappedTo(addUserDataBORequest.getRequestData().getMappedTo());
+				userMapping.setUserId(responseGenerateduserId);
+				mapUsersDataBORequest.setRequestData(userMapping);
+				String userMappingStatus = mappUser(mapUsersDataBORequest);
+				logger.info("Inside Event=1004,Class:OTSUserServiceImpl,Method:addNewUser, "
+						+ "User Mapping  status : " + userMappingStatus);
+				/*
+				 * End of mapping 
+				 */
+				
+				/*
+				 * Add customer product price 
+				 */
+				
+				String userProductMappingStatus = "";
+				if(addUserDataBORequest.getRequestData().getProductId()!=null) {
+					customerProductDetails.setUserId(responseGenerateduserId);
+					customerProductDetails.setProductPrice(addUserDataBORequest.getRequestData().getProductPrice());
+					customerProductDetails.setProductId(addUserDataBORequest.getRequestData().getProductId());
+					customerProductDataBORequest.setRequestData(customerProductDetails);
+					userProductMappingStatus = mapUserProduct(customerProductDataBORequest);
+				}
+				
+				/*
+				 * End of product price mapping to user
+				 */
+				
+				logger.info("Inside Event=1004,Class:OTSUserServiceImpl,Method:addNewUser, "
+						+ "Map User Product price status : " + userProductMappingStatus);}
+			else {
+							return null;}
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
@@ -155,16 +161,19 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	public UserRegistrationResponce addUserRegistration( AddNewBORequest addNewBORequest) {
 		UserRegistrationResponce userRegistrationResponce = null;
 		try {
-		if(addNewBORequest != null) {
-			List<OtsRegistration> UserRegistrationEmailPhonenumber = userRegistrationDao.addUserRegistrationEmailPhonenumber(addNewBORequest);
-				
-			if(UserRegistrationEmailPhonenumber.size() == 0) {
+			if(addNewBORequest != null) {
+				Integer flag = userServiceDAO.CheckForExists(addNewBORequest);
+				if(flag == 0)
+				{
 					userRegistrationResponce = userRegistrationDao.addUserRegistration(addNewBORequest);
+				}else
+				{
+					return null;
 				}
 			}
 		}
 		catch(Exception e) {
-			throw new BusinessException(e.getMessage(), e);
+			throw new BusinessException(e,ErrorEnumeration.USR_REGISTER_failure);
 		}
 		return userRegistrationResponce;
 	}
@@ -183,8 +192,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	}
 
 	@Override
-	public LoginUserResponse otsLoginAuthentication(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
-		
+	public LoginUserResponse otsLoginAuthentication(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {	
 		try {
 			return userServiceDAO.otsLoginAuthentication(loginAuthenticationBOrequest);
             } catch (Exception e) {
@@ -205,34 +213,32 @@ public class OTSUserServiceImpl implements  OTSUserService{
 
 	@Override
 	public ApproveRegistrationResponse approveRegistration(ApproveRegistrationBORequest approveRegistrationBORequest) {
-		ApproveRegistrationResponse approveRegistrationResponse = new ApproveRegistrationResponse();
-				AddUserDataBORequest addUserDataBORequest = new AddUserDataBORequest();
-				try {
-					if(approveRegistrationBORequest.getRequestData().getRegistrationId() != null) {
-					/*
-					* Transform the userDetail object based on registrationID from registration
-					*/
-					addUserDataBORequest.setRequestData(userRegistrationDao.fetchUserDetailsfromRegistration(approveRegistrationBORequest.getRequestData().getRegistrationId()));
-					addUserDataBORequest.getRequestData().setProductPrice(approveRegistrationBORequest.getRequestData().getProductPrice());
-					addUserDataBORequest.getRequestData().setProductId(approveRegistrationBORequest.getRequestData().getProductId());
-					/*
-					* AddNewUser from registration
-					*/
-					addNewUser(addUserDataBORequest);
-					/*
-					* fetching OTSRegistration Object for approve status
-					*/
-					OtsRegistration otsRegistration = new OtsRegistration();
-					otsRegistration = userRegistrationDao.fetOtsRegistrationBasedonRegisterID(Integer.parseInt(approveRegistrationBORequest.getRequestData().getRegistrationId()));
-					/*
-					* Making Registration table as active
-					*/
-					approveRegistrationResponse =userRegistrationDao.approveRegistration(otsRegistration);
-				}
-				} catch (Exception e) {
-					throw new BusinessException(e.getMessage(), e);
-				}
-				return approveRegistrationResponse;
+	ApproveRegistrationResponse approveRegistrationResponse = new ApproveRegistrationResponse();
+	AddUserDataBORequest addUserDataBORequest = new AddUserDataBORequest();
+	try {
+		if(approveRegistrationBORequest.getRequestData().getRegistrationId() != null) {
+		/*
+		* Transform the userDetail object based on registrationID from registration
+			*/
+			addUserDataBORequest.setRequestData(userRegistrationDao.fetchUserDetailsfromRegistration(approveRegistrationBORequest.getRequestData().getRegistrationId()));
+			addUserDataBORequest.getRequestData().setProductPrice(approveRegistrationBORequest.getRequestData().getProductPrice());
+			addUserDataBORequest.getRequestData().setProductId(approveRegistrationBORequest.getRequestData().getProductId());
+			/*
+			* AddNewUser from registration
+			*/
+			addNewUser(addUserDataBORequest);
+			/*
+			* fetching OTSRegistration Object for approve status
+			*/
+			OtsRegistration otsRegistration = new OtsRegistration();
+			otsRegistration = userRegistrationDao.fetOtsRegistrationBasedonRegisterID(Integer.parseInt(approveRegistrationBORequest.getRequestData().getRegistrationId()));
+			/*
+			* Making Registration table as active
+			*/
+			approveRegistrationResponse =userRegistrationDao.approveRegistration(otsRegistration);}
+		} catch (Exception e) {
+				throw new BusinessException(e.getMessage(), e);}
+		return approveRegistrationResponse;
 	}
 
 	@Override

@@ -68,14 +68,15 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			if (UserDataBOResponse != null) {
 				logger.info("Inside Event=1004,Class:OTSUsersV18_1WsImpl,Method:addNewUser, " + "UserList Size:"
 						+ UserDataBOResponse.getUserDetails().size());
-			}
-			response = responseWrapper.buildResponse(UserDataBOResponse,"Successfull");
-			
+				response = responseWrapper.buildResponse(UserDataBOResponse,"Successfull");
+			}else
+			{
+				response = responseWrapper.buildResponse(UserDataBOResponse,"User Details are already present In DB");
+			}		
 		}catch (BusinessException e){
-			throw new BusinessException(e, ErrorEnumeration.ADD_USER_FAILURE);
+			throw new BusinessException(e, ErrorEnumeration.USR_REGISTER_failure);
 	    }catch (Throwable e) {
-	    	throw new BusinessException(e.getMessage(), e);
-	    }
+	    	throw new BusinessException(e, ErrorEnumeration.USR_REGISTER_failure);	    }
 		return response;
 	}
 
@@ -167,10 +168,8 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 				strMessage ="User Retrieved Succesfully";
 			}
 			response = responseWrapper.buildResponse(getNewRegistrationResponse.getRegistorToUserDetails(),strMessage);
-		}catch(BusinessException e) {
-			throw new BusinessException(e.getMessage(), e);
-		}catch(Throwable e) {
-			throw new BusinessException(e.getMessage(), e);
+		}catch(Exception e) {
+			throw new BusinessException(e,ErrorEnumeration.USR_REGISTER_failure);
 		}
 		return response;
 	}

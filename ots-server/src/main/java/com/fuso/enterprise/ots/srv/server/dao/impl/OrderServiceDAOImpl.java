@@ -284,24 +284,25 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 
 	@Override
 	public List<OrderDetails> getAssginedOrder(GetAssginedOrderBORequest getAssginedOrderBORequest) {
-		try {
-			List<OtsOrder> OrderList = new ArrayList<OtsOrder>() ;
-			List<OrderDetails> otsOrderDetails = new ArrayList<OrderDetails>();
+	try {
+		List<OtsOrder> OrderList = new ArrayList<OtsOrder>() ;
+		List<OrderDetails> otsOrderDetails = new ArrayList<OrderDetails>();
 	
-			Map<String, Object> queryParameter = new HashMap<>();
+		Map<String, Object> queryParameter = new HashMap<>();
+		String Status = getAssginedOrderBORequest.getRequest().getStatus();
+		OtsUsers AssginedId = new OtsUsers();
+		AssginedId.setOtsUsersId(Integer.parseInt(getAssginedOrderBORequest.getRequest().getEmployeeId()));	
+		queryParameter.put("otsAssignedId",AssginedId);
+		queryParameter.put("otsOrderStatus",Status);
 			
-			OtsUsers AssginedId = new OtsUsers();
-			AssginedId.setOtsUsersId(Integer.parseInt(getAssginedOrderBORequest.getRequest().getEmployeeId()));	
-			queryParameter.put("otsAssignedId",AssginedId);
-			queryParameter.put("otsOrderStatus",getAssginedOrderBORequest.getRequest().getStatus());
-			
-			
-			otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
-			return otsOrderDetails;}
-		catch(Exception e){
-				throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);}
-		catch (Throwable e) {
-				throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);}
+		OrderList = super.getResultListByNamedQuery("OtsOrder.getAssginedOrder", queryParameter);
+		otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
+		return otsOrderDetails;
+		}
+	catch(Exception e){
+			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);}
+	catch (Throwable e) {
+			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);}
 	}
 
 	@Override

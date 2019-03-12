@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
+import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
@@ -201,9 +202,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 	   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
 	   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
 	   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
-	   	}
-        
-        
+	   	}       
         return userDetails;
     }
 
@@ -237,5 +236,23 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
     	return loginUserResponse;
 
 	}
+
+	@Override
+	public Integer CheckForExists(AddNewBORequest addNewBORequest) {
+    	UserDetails userDetails = new UserDetails();
+    	Integer flag = 0;
+            OtsUsers userList = null;
+            try {
+            	Map<String, Object> queryParameter = new HashMap<>();
+    			queryParameter.put("otsEmailId", addNewBORequest.getRequestData().getEmailId());
+    			queryParameter.put("otsPhonenumber",addNewBORequest.getRequestData().getPhonenumber());
+    			userList  = super.getResultByNamedQuery("OtsUsers.CheckForRegistration", queryParameter);
+    			flag = 1;
+            } catch (Exception e) {
+            	flag = 0;
+            }
+    	return flag;
+	}
+
 
 }

@@ -39,24 +39,27 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 
 	@Override
 	public BillDetailsBOResponse addOrUpdateBill(BillDetailsBORequest billDetailsBORequest) {
+		String BillNumber;
 		List<BillDetails> billDetails = new ArrayList<BillDetails>();
 		BillDetailsBOResponse billDetailsBOResponse=new BillDetailsBOResponse();
 		try{
 			OtsBill otsBill = new OtsBill();
-			otsBill.setOtsBillNumber(billDetailsBORequest.getRequestData().getBillNumber());
 			otsBill.setOtsBillAmount(Long.parseLong(billDetailsBORequest.getRequestData().getBillAmount()));
 			otsBill.setOtsBillAmountReceived(Long.parseLong(billDetailsBORequest.getRequestData().getBillAmountReceived()));
 			otsBill.setOtsBillGenerated(billDetailsBORequest.getRequestData().getBillGenerated());
-			otsBill.setOtsBillStatus(billDetailsBORequest.getRequestData().getBillStatus());
+			otsBill.setOtsBillStatus("Active");
 			try {
 				if(billDetailsBORequest.getRequestData().getBillId()==0 || billDetailsBORequest.getRequestData().getBillId()==null) {
 					super.getEntityManager().persist(otsBill);
 					super.getEntityManager().flush();
+					BillNumber = "OtsBill-"+otsBill.getOtsBillId();
+					otsBill.setOtsBillNumber(BillNumber);
+					super.getEntityManager().merge(otsBill);
 				}else{
 					otsBill.setOtsBillId(billDetailsBORequest.getRequestData().getBillId());
 					super.getEntityManager().merge(otsBill);
-					super.getEntityManager().flush();
 				}
+				super.getEntityManager().flush();
 			   billDetails.add(convertUserDetailsFromEntityToDomain(otsBill));
 			   billDetailsBOResponse.setBillDetails(billDetails);
 			}catch (NoResultException e) {
@@ -76,11 +79,9 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 	private BillDetails convertUserDetailsFromEntityToDomain(OtsBill otsBill) {
 		BillDetails billDetails = new BillDetails();
 		billDetails.setBillId(otsBill.getOtsBillId()==null?null:otsBill.getOtsBillId());
-		billDetails.setBillNumber((otsBill.getOtsBillNumber())==null?null:otsBill.getOtsBillNumber().toString());
 		billDetails.setBillAmount((otsBill.getOtsBillAmount())==null?null:otsBill.getOtsBillAmount().toString());
 		billDetails.setBillAmountReceived(otsBill.getOtsBillAmountReceived()==null?null:otsBill.getOtsBillAmountReceived().toString());
 		billDetails.setBillGenerated(otsBill.getOtsBillGenerated()==null?null:otsBill.getOtsBillGenerated());
-		billDetails.setBillStatus(otsBill.getOtsBillStatus()==null?null:otsBill.getOtsBillStatus());
 		return billDetails;
 	}
 

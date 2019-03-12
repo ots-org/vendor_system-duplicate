@@ -195,20 +195,20 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 
 	@Override
 	public OrderProductBOResponse getAssginedOrder(GetAssginedOrderBORequest getAssginedOrderBORequest) {
-		try {
-			OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
-			List<OrderDetails> OrderDetailsList = orderServiceDAO.getAssginedOrder(getAssginedOrderBORequest);
-			List<OrderDetailsAndProductDetails> GetOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
-			for (int i = 0; i <OrderDetailsList.size() ; i++)
-			{
+	try {
+		OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
+		List<OrderDetails> OrderDetailsList = orderServiceDAO.getAssginedOrder(getAssginedOrderBORequest);
+		List<OrderDetailsAndProductDetails> GetOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
+		for (int i = 0; i <OrderDetailsList.size() ; i++)
+		{
 			List<OrderProductDetails> OrderProductDetailsList = orderProductDao.getUserByStatuesAndDistributorId(OrderDetailsList.get(i));
 			GetOrderDetailsAndProductDetails.add(AddProductAndOrderDetailsIntoResponse(OrderDetailsList.get(i),OrderProductDetailsList));
-			}
-			orderProductBOResponse.setOrderList(GetOrderDetailsAndProductDetails);
-			return orderProductBOResponse;
-		}catch(Exception e){
-			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);
-		} catch (Throwable e) {
+		}
+		orderProductBOResponse.setOrderList(GetOrderDetailsAndProductDetails);
+		return orderProductBOResponse;}
+	catch(Exception e){
+			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);}
+	catch (Throwable e) {
 			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);
 		}
 	}

@@ -162,4 +162,24 @@
 			p.otsOrderId = :otsOrderId
 		</query>
 	</named-query>
+	<named-query name="OtsUsers.CheckForRegistration">
+		<query>SELECT o 
+		FROM 
+			OtsUsers o	
+		WHERE 
+			o.otsUsersEmailid = :otsEmailId
+		OR
+			o.otsUsersContactNo = :otsPhonenumber
+		</query>
+	</named-query> 	
+		<named-query name="OtsRegistration.CheckForRegistration">
+		<query>SELECT o 
+		FROM 
+			OtsRegistration o	
+		WHERE 
+			o.otsRegistrationEmailid = :otsEmailId
+		OR
+			o.otsRegistrationEmailid = :otsPhonenumber
+		</query>
+	</named-query> 
 </entity-mappings>

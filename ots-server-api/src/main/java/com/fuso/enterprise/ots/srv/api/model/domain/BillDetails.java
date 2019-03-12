@@ -11,9 +11,6 @@ public class BillDetails {
 	 private Integer billId;
 	 
 	 @Size(max = 20)
-	 private String billNumber;
-	 
-	 @Size(max = 20)
 	 private String billAmount;
 	 
 	 @Size(max = 20)
@@ -21,9 +18,6 @@ public class BillDetails {
 	 
 	 @Size(max = 20)
 	 private String billGenerated;
-	 
-	 @Size(max = 20)
-	 private String billStatus;
 	 
 	 @Size(max = 20)
 	 private List<ListOfOrderId> orderId;
@@ -34,14 +28,6 @@ public class BillDetails {
 
 	public void setBillId(Integer billId) {
 		this.billId = billId;
-	}
-
-	public String getBillNumber() {
-		return billNumber;
-	}
-
-	public void setBillNumber(String billNumber) {
-		this.billNumber = billNumber;
 	}
 
 	public String getBillAmount() {
@@ -66,14 +52,6 @@ public class BillDetails {
 
 	public void setBillGenerated(String billGenerated) {
 		this.billGenerated = billGenerated;
-	}
-
-	public String getBillStatus() {
-		return billStatus;
-	}
-
-	public void setBillStatus(String billStatus) {
-		this.billStatus = billStatus;
 	}
 
 	public List<ListOfOrderId> getOrderId() {

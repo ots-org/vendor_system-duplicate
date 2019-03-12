@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.fuso.enterprise.ots.srv.api.model.domain.RegistorToUserDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -41,55 +42,37 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
         super(OtsRegistration.class);
     }
     
-    @Override
-   	public List<OtsRegistration> addUserRegistrationEmailPhonenumber(AddNewBORequest addNewBORequest) {
-   		List<OtsRegistration> userList = null;	
-   		String otsRegistrationContactNo = addNewBORequest.getRequestData().getPhonenumber();
-   		String otsRegistrationEmailid =  addNewBORequest.getRequestData().getEmailId();
-   		 try {
-   			Map<String, Object> queryParameter = new HashMap<>();
-   			queryParameter.put("otsRegistrationContactNo", otsRegistrationContactNo);
-   			queryParameter.put("otsRegistrationEmailid",otsRegistrationEmailid);
-   			userList  = super.getResultListByNamedQuery("OtsRegistration.matchEmailidPhoneNumber", queryParameter);
-   		 } catch (NoResultException e) {
-            	logger.error("Exception while fetching data from DB :"+e.getMessage());
-        		e.printStackTrace();
-            	throw new BusinessException(e.getMessage(), e);
-         }
-   		return userList;
-   	}
-    
 	@Override
 	public  UserRegistrationResponce addUserRegistration(AddNewBORequest addNewBORequest) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		UserRegistrationResponce userRegistrationResponce = new UserRegistrationResponce();
 		OtsRegistration otsRegistration = new OtsRegistration();
 		OtsUsers otsUsers = new OtsUsers();
-	      try {
-	    	  otsRegistration.setOtsRegistrationFirstname(addNewBORequest.getRequestData().getFirstName());
-	    	  otsRegistration.setOtsRegistrationLastname(addNewBORequest.getRequestData().getLastName());
-	    	  otsRegistration.setOtsRegistrationContactNo(addNewBORequest.getRequestData().getPhonenumber());
-	    	  otsRegistration.setOtsRegistrationAddr1(addNewBORequest.getRequestData().getAddress1());
-	    	  otsRegistration.setOtsRegistrationAddr2(addNewBORequest.getRequestData().getAddress2());
-	    	  otsRegistration.setOtsRegistrationPincode(addNewBORequest.getRequestData().getPincode());
-	    	  OtsUserRole otsUserRole = new OtsUserRole();
-	    	  otsUserRole.setOtsUserRoleId(Integer.parseInt(addNewBORequest.getRequestData().getUserRoleId()));
-	    	  otsRegistration.setOtsUserRoleId(otsUserRole);
-	    	  otsRegistration.setOtsRegistrationEmailid(addNewBORequest.getRequestData().getEmailId()); 
+	    try {
+	    	otsRegistration.setOtsRegistrationFirstname(addNewBORequest.getRequestData().getFirstName());
+	    	otsRegistration.setOtsRegistrationLastname(addNewBORequest.getRequestData().getLastName());
+	    	otsRegistration.setOtsRegistrationContactNo(addNewBORequest.getRequestData().getPhonenumber());
+	    	otsRegistration.setOtsRegistrationAddr1(addNewBORequest.getRequestData().getAddress1());
+	    	otsRegistration.setOtsRegistrationAddr2(addNewBORequest.getRequestData().getAddress2());
+	    	otsRegistration.setOtsRegistrationPincode(addNewBORequest.getRequestData().getPincode());
+	    	OtsUserRole otsUserRole = new OtsUserRole();
+	    	otsUserRole.setOtsUserRoleId(Integer.parseInt(addNewBORequest.getRequestData().getUserRoleId()));
+	    	otsRegistration.setOtsUserRoleId(otsUserRole);
+	    	otsRegistration.setOtsRegistrationEmailid(addNewBORequest.getRequestData().getEmailId()); 
 	    	  
-	    	  otsUsers.setOtsUsersId(Integer.parseInt(addNewBORequest.getRequestData().getMappedTo()));
-	    	  otsRegistration.setOtsUsersMappedTo(otsUsers);
+	    	otsUsers.setOtsUsersId(Integer.parseInt(addNewBORequest.getRequestData().getMappedTo()));
+	    	otsRegistration.setOtsUsersMappedTo(otsUsers);
 	    	  
-	    	  OtsProduct otsProduct = new OtsProduct();
-	    	  if((addNewBORequest.getRequestData().getProductId()!= null) && addNewBORequest.getRequestData().getProductId()!=0 ) {
-					try {
-						 otsProduct.setOtsProductId(addNewBORequest.getRequestData().getProductId());
-						 otsRegistration.setOtsProductId(otsProduct);
-					}catch(Exception e){
-						 otsProduct.setOtsProductId(null);
-						 otsRegistration.setOtsProductId(otsProduct);
-					}					
-	 			}
+	    	OtsProduct otsProduct = new OtsProduct();
+	    	if((addNewBORequest.getRequestData().getProductId()!= null) && addNewBORequest.getRequestData().getProductId()!=0 ) {
+			try {
+				otsProduct.setOtsProductId(addNewBORequest.getRequestData().getProductId());
+				otsRegistration.setOtsProductId(otsProduct);
+			}catch(Exception e){
+				otsProduct.setOtsProductId(null);
+				otsRegistration.setOtsProductId(otsProduct);
+				}					
+	 		}
 	          
 	    	  otsRegistration.setOtsRegistrationStatus("New");
 	    	  /*
@@ -103,11 +86,11 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
               /*
                *inserting registration value
                */
-					try{					
-						super.getEntityManager().merge(otsRegistration);						
-					}catch(Exception e) {
-						throw new BusinessException(e,ErrorEnumeration.VALUE_ALREDY_EXISTS);
-					}	  
+			try{					
+					super.getEntityManager().merge(otsRegistration);						
+				}catch(Exception e) {
+				throw new BusinessException(e,ErrorEnumeration.VALUE_ALREDY_EXISTS);
+				}	  
 	      }catch(Exception e){
 	    	  e.printStackTrace(); 
 	    	  throw new BusinessException(e,ErrorEnumeration.VALUE_ALREDY_EXISTS);
@@ -227,6 +210,23 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 		userDetails.setUsrPassword(otsRegistration.getOtsRegistrationPassword()==null?null:otsRegistration.getOtsRegistrationPassword());            
         return userDetails;
     }	
+	
+	@Override
+	public Integer CheckForExists(AddUserDataBORequest addUserDataBORequest) {
+    	UserDetails userDetails = new UserDetails();
+    	Integer flag = 0;
+    	OtsRegistration userList = null;
+            try {
+            	Map<String, Object> queryParameter = new HashMap<>();
+    			queryParameter.put("otsEmailId", addUserDataBORequest.getRequestData().getEmailId());
+    			queryParameter.put("otsPhonenumber",addUserDataBORequest.getRequestData().getContactNo());
+    			userList  = super.getResultByNamedQuery("OtsRegistration.CheckForRegistration", queryParameter);
+    			flag = 1;
+            } catch (Exception e) {
+            	flag = 0;
+            }
+    	return flag;
+	}
 }
 
 

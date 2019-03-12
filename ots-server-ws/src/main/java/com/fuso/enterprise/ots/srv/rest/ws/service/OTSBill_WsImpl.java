@@ -27,7 +27,7 @@ public class OTSBill_WsImpl implements OTSBill_Ws {
 		Response response = null;
 		BillDetailsBOResponse billDetailsBOResponse = new BillDetailsBOResponse();
 		logger.info("Inside Event=1021,Class:OTSBill_WsImpl, Method:addOrUpdateBill, billDetailsBORequest:"
-				+ billDetailsBORequest.getRequestData().getBillNumber());
+				+ billDetailsBORequest.getRequestData());
 		try {
 			billDetailsBOResponse = otsBillService.addOrUpdateBill(billDetailsBORequest);
 			if (billDetailsBOResponse != null) {
