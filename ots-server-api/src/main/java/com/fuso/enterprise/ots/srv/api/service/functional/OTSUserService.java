@@ -35,6 +35,8 @@ public interface OTSUserService {
 	ApproveRegistrationResponse approveRegistration(ApproveRegistrationBORequest approveRegistrationBORequest);
 
 	UserDataBOResponse getUserDetailsByMapped(String mappedTo);
+	
+	UserDataBOResponse checkForUserExistsOrNot(AddUserDataBORequest addUserDataBORequest);
 
 	
 }

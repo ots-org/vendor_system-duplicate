@@ -64,7 +64,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 				+ addUserDataBORequest.getRequestData().getFirstName());
 		UserDataBOResponse UserDataBOResponse = new UserDataBOResponse();
 		try{
-			UserDataBOResponse = otsUserService.addNewUser(addUserDataBORequest);
+			UserDataBOResponse = otsUserService.checkForUserExistsOrNot(addUserDataBORequest);
 			if (UserDataBOResponse != null) {
 				logger.info("Inside Event=1004,Class:OTSUsersV18_1WsImpl,Method:addNewUser, " + "UserList Size:"
 						+ UserDataBOResponse.getUserDetails().size());

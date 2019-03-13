@@ -108,7 +108,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 				userEntity.setOtsUsersPincode(addUserDataBORequest.getRequestData().getPincode());
 				userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
 				userEntity.setOtsUsersPassword(addUserDataBORequest.getRequestData().getUsrPassword());
-				 userEntity.setOtsUsersEmailid(addUserDataBORequest.getRequestData().getEmailId());
+				userEntity.setOtsUsersEmailid(addUserDataBORequest.getRequestData().getEmailId());
 				userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
 				OtsUserRole otsUserRole = new OtsUserRole();
 				otsUserRole.setOtsUserRoleId(Integer.parseInt(addUserDataBORequest.getRequestData().getUserRoleId()));

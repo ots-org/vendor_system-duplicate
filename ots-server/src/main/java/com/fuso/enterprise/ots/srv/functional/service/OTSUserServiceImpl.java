@@ -71,19 +71,31 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	}
 
 	@Override
+	public UserDataBOResponse checkForUserExistsOrNot(AddUserDataBORequest addUserDataBORequest) {
+		UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
+		try {
+			Integer flag = userRegistrationDao.CheckForExists(addUserDataBORequest);
+			if(flag == 0){
+				return userDataBOResponse = addNewUser(addUserDataBORequest);
+			}else {
+				return null;
+			}
+		}catch(Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+	}
+	
+	@Override
 	public UserDataBOResponse addNewUser(AddUserDataBORequest addUserDataBORequest) {
-		
-		Integer flag = userRegistrationDao.CheckForExists(addUserDataBORequest);
-		
+				
 		UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
 		
 		MapUsersDataBORequest mapUsersDataBORequest = new MapUsersDataBORequest();
 		CustomerProductDataBORequest customerProductDataBORequest = new CustomerProductDataBORequest();
-		
+	
 		UserMapping userMapping = new UserMapping();
 		CustomerProductDetails customerProductDetails = new CustomerProductDetails();
 		try {
-			if(flag == 0){
 				/*
 				 * Adding new user and return back the user object
 				 */
@@ -125,9 +137,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 				 */
 				
 				logger.info("Inside Event=1004,Class:OTSUserServiceImpl,Method:addNewUser, "
-						+ "Map User Product price status : " + userProductMappingStatus);}
-			else {
-							return null;}
+						+ "Map User Product price status : " + userProductMappingStatus);
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
