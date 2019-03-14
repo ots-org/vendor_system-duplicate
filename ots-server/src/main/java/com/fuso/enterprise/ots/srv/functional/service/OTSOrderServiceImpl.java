@@ -145,7 +145,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				date.setTime(d);
 			    addProductStock.setUsersId(distributorId);
 				addProductStock.setProductId(addOrUpdateOnlyOrderProductRequest.getProductList().get(i).getProductId());
-				addProductStock.setProductStockQty(addOrUpdateOnlyOrderProductRequest.getProductList().get(i).getOts_delivered_qty());
+				addProductStock.setProductStockQty(addOrUpdateOnlyOrderProductRequest.getProductList().get(i).getOrderedQty());
 				addProductStock.setOrderId(addOrUpdateOnlyOrderProductRequest.getProductList().get(i).getOrderdId());
 				addProductStock.setProductStockAddDate(date);
 				addProductStockBORequest.setRequestData(addProductStock);

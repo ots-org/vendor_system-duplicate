@@ -64,7 +64,7 @@ public class ProductStockHistoryDaoImpl extends AbstractIptDao<OtsProductStockHi
 			OtsUsers.setOtsUsersId(Integer.parseInt(getProductStockListRequest.getRequestData().getUserId()));
 			otsProduct.setOtsProductId(otsProductId);
 			otsProductStockHistory = super.getEntityManager()
-					.createQuery("from OtsProductStockHistory where  otsUsersId = ?1 and otsProductId = ?2 and otsProductStockAddDate = ?3  ", OtsProductStockHistory.class)
+					.createQuery("from OtsProductStockHistory where  otsUsersId = ?1 and otsProductId = ?2 and otsProductStockAddDate = ?3  and otsProductStockOrderId = null", OtsProductStockHistory.class)
 					.setParameter(1,OtsUsers)
 					.setParameter(2,otsProduct)
 					.setParameter(3,getProductStockListRequest.getRequestData().getTodaysDate(), TemporalType.DATE)
