@@ -13,6 +13,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProdu
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
@@ -209,5 +210,24 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		 return response;
 	}
 
+
+	@Override
+	public Response getCustomerOrderStatus(GetCustomerOrderByStatusBOrequest getCustomerOrderByStatusBOrequest) {
+		logger.info("Inside Event=1030,Class:OTSOrder_WsImpl,Method:getCustomerOrderStatus,getCustomerOrderByStatusBOrequest " + getCustomerOrderByStatusBOrequest);
+		OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
+		Response response = null;	
+		try {
+			orderProductBOResponse = oTSOrderService.getCustomerOrderStatus(getCustomerOrderByStatusBOrequest);
+			if(orderProductBOResponse.getOrderList().size() == 0) {
+				response = buildResponse(400,"No Order For You");
+			}else {
+				response = buildResponse(orderProductBOResponse,"Successfull");
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);
+		}
+		return response;
+	}
 		
 }

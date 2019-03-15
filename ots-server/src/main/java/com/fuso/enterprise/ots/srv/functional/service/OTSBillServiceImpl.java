@@ -1,5 +1,6 @@
 package com.fuso.enterprise.ots.srv.functional.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,17 +10,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.BillOrderModelDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
+import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSBillService;
 import com.fuso.enterprise.ots.srv.api.service.request.BillDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetBillByOrderIdBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.BillDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.BillDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.BillServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.CustomerOutstandingAmtDAO;
+import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
+import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsBill;
 @Service
 @Transactional
@@ -28,13 +36,18 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 private BillServiceDAO billServiceDAO;
 private OrderServiceDAO orderServiceDAO;
 private CustomerOutstandingAmtDAO customerOutstandingAmtDAO;
+private OrderProductDAO orderProductDAO;
+private UserServiceDAO userServiceDAO;
 	
-	@Inject
-	public OTSBillServiceImpl(BillServiceDAO billServiceDAO,OrderServiceDAO orderServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO) {
-		this.billServiceDAO=billServiceDAO;
-		this.orderServiceDAO=orderServiceDAO;
-		this.customerOutstandingAmtDAO=customerOutstandingAmtDAO;
-	}
+@Inject
+public OTSBillServiceImpl(BillServiceDAO billServiceDAO,OrderServiceDAO orderServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO) {
+	this.billServiceDAO=billServiceDAO;
+	this.orderServiceDAO=orderServiceDAO;
+	this.customerOutstandingAmtDAO=customerOutstandingAmtDAO;
+	this.orderProductDAO = orderProductDAO;
+	this.userServiceDAO = userServiceDAO;
+	
+}
 	@Override
 	public BillDetailsBOResponse addOrUpdateBill(BillDetailsBORequest billDetailsBORequest) {
 		BillDetailsBOResponse billDetailsBOResponse = new BillDetailsBOResponse();
@@ -73,5 +86,44 @@ private CustomerOutstandingAmtDAO customerOutstandingAmtDAO;
 			throw new BusinessException(e.getMessage(), e);
 		}
 		return customerOutstandingAmtResponse;
+	}
+	
+	@Override
+	public BillDataBOResponse getBillDetailsByOrderId(GetBillByOrderIdBORequest getBillByOrderIdBORequest) {
+		BillDataBOResponse billDataBOResponse = new BillDataBOResponse();
+		try {
+		billDataBOResponse = billServiceDAO.getBillDetailsByOrderId(getBillByOrderIdBORequest);
+		List<OrderDetails> OrderDetails = orderServiceDAO.getListOrderForBill(billDataBOResponse.getGetBillDetails());
+		
+		List<BillOrderModelDetails> billOrderModelDetailsList = new ArrayList<BillOrderModelDetails>();
+		
+		for(int i = 0 ; i<OrderDetails.size() ; i++) {
+			BillOrderModelDetails billOrderModelDetails = new BillOrderModelDetails();
+
+			billOrderModelDetails.setDelivaryDate(OrderDetails.get(i).getOrderDeliveryDate());
+			billOrderModelDetails.setDeliverdDate(OrderDetails.get(i).getOrderDeliverdDate());
+			billOrderModelDetails.setOrderNumber(OrderDetails.get(i).getOrderNumber());
+			billOrderModelDetails.setOrderStatus(OrderDetails.get(i).getStatus());
+			billOrderModelDetails.setOrderCost(OrderDetails.get(i).getOrderCost());
+			
+			UserDetails DistriutorDetails,CustomerDetails,EmployeeDetails ;
+			DistriutorDetails = userServiceDAO.getUserDetails(Integer.parseInt(OrderDetails.get(i).getDistributorId()));
+			CustomerDetails = userServiceDAO.getUserDetails(Integer.parseInt(OrderDetails.get(i).getCustomerId()));
+			EmployeeDetails = userServiceDAO.getUserDetails(Integer.parseInt(OrderDetails.get(i).getAssignedId()));
+			billOrderModelDetails.setOrderId(OrderDetails.get(i).getOrderId());
+			billOrderModelDetails.setDistriutorDetails(DistriutorDetails);
+			billOrderModelDetails.setCustomerDetails(CustomerDetails);
+			billOrderModelDetails.setEmployeeDetails(EmployeeDetails);
+			
+			billOrderModelDetails.setOrderProductDetails(orderProductDAO.getProductListByOrderId(OrderDetails.get(i).getOrderId()));
+		
+			billOrderModelDetailsList.add(i,billOrderModelDetails);
+			
+		}
+		billDataBOResponse.getGetBillDetails().setBillOrderModelDetailsList(billOrderModelDetailsList);
+		}catch(Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		return billDataBOResponse;
 	}
 }

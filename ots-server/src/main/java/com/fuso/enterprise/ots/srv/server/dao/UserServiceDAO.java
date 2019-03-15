@@ -19,4 +19,5 @@ public interface UserServiceDAO {
 	
 	Integer CheckForExists(AddNewBORequest addNewBORequest);
 	
+	UserDetails getUserDetails(Integer userId);
 }

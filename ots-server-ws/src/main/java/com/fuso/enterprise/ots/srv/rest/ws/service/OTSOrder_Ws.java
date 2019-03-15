@@ -19,6 +19,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProdu
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
 
 import io.swagger.annotations.Api;
@@ -81,5 +82,11 @@ public interface OTSOrder_Ws {
 	@ApiOperation(value = "getOrder", notes = "Closeing Order", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response closeOrder(@ApiParam(value = "request", required = true) @NotNull  @Valid CloseOrderBORequest closeOrderBORequest);
+	
+	@POST
+    @Path("/getCustomerOrderStatus")
+	@ApiOperation(value = "getOrder", notes = "get Order For Customer By status", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getCustomerOrderStatus(@ApiParam(value = "request", required = true) @NotNull  @Valid GetCustomerOrderByStatusBOrequest getCustomerOrderByStatusBOrequest);
 	
 }

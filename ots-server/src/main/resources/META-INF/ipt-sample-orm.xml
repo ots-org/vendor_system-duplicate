@@ -182,4 +182,22 @@
 			o.otsRegistrationEmailid = :otsPhonenumber
 		</query>
 	</named-query> 
+	<named-query name="OtsOrder.getOrderListForBillID">
+		<query>SELECT o 
+		FROM 
+			OtsOrder o 
+		WHERE
+			 o.otsBillId = :otsBillId
+		</query>
+	</named-query>
+	<named-query name="OtsOrder.getOrderIdByCustomerId">
+		<query>SELECT o 
+		FROM 
+			OtsOrder o
+		WHERE 
+			o.otsCustomerId = :otsCustomerId
+		AND
+			o.otsOrderStatus =:Status
+		</query>
+	</named-query>
 </entity-mappings>

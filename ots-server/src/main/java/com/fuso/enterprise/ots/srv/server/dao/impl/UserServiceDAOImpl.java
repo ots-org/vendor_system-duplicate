@@ -253,6 +253,21 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
             }
     	return flag;
 	}
-
+	@Override
+	public UserDetails getUserDetails(Integer userId) {
+			UserDetails userDetails = new UserDetails();
+			try {
+			OtsUsers userList = null;
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsUsersId", userId);
+			userList = super.getResultByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
+			userDetails = convertUserDetailsFromEntityToDomain(userList);
+		}catch(Exception e) {
+			logger.error("Exception while fetching data from DB :"+e.getMessage());
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+		}
+			return userDetails;
+	}
 
 }

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSBillService;
 import com.fuso.enterprise.ots.srv.api.service.request.BillDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetBillByOrderIdBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.BillDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
@@ -101,4 +102,15 @@ public class OTSBill_WsImpl implements OTSBill_Ws {
 		ResponseWrapper wrapper = new ResponseWrapper(code,description);
 		return Response.ok(wrapper).build();
 	    }
+
+	    @Override
+		public Response getBillByOrderId(GetBillByOrderIdBORequest getBillByOrderIdBORequest) {
+	    	Response response = null;
+	    	try {
+		    	response = responseWrapper.buildResponse(otsBillService.getBillDetailsByOrderId(getBillByOrderIdBORequest),"Successfull");}
+		    	catch(Exception e) {
+		    	response = buildResponse(600,"Bill doesn't have any Order");
+	    	}
+			return response;
+		}
 }

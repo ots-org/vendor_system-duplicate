@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fuso.enterprise.ots.srv.api.service.request.BillDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetBillByOrderIdBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
 
@@ -47,4 +48,11 @@ public interface OTSBill_Ws {
 	@ApiOperation(value = "getCustomerOutstandingAmt", notes = "getting customer outstanding Amount", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getCustomerOutstandingAmt(@ApiParam(value = "request", required = true) @NotNull  @Valid GetCustomerOutstandingAmtBORequest  getCustomerOutstandingAmtBORequest);
+
+	@POST
+    @Path("/getBillByOrderNumber")
+	@ApiOperation(value = "getBillByOrderNumber", notes = "getting bill Details using Bill Number", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getBillByOrderId(@ApiParam(value = "request", required = true) @NotNull  @Valid GetBillByOrderIdBORequest  getBillByOrderIdBORequest);
+
 }

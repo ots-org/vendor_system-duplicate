@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
+import com.fuso.enterprise.ots.srv.api.model.domain.GetBillDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
@@ -26,4 +28,7 @@ public interface OrderServiceDAO {
 	String updateAssginedOrder(UpdateForAssgineBOrequest updateForAssgineBOrequest);
 	List<OrderDetails> getAssginedOrder(GetAssginedOrderBORequest getAssginedOrderBORequest);
 	OrderDetails closeOrder(CloseOrderBORequest closeOrderBORequest);
+	List<OrderDetails> getListOrderForBill(GetBillDetails BillDetails);
+	List<OrderDetails> getCustomerOrderStatus(GetCustomerOrderByStatusBOrequest getCustomerOrderByStatusBOrequest);
+
 }

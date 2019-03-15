@@ -17,11 +17,13 @@ import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
+import com.fuso.enterprise.ots.srv.api.model.domain.GetBillDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OrderDetailsBORequest;
@@ -333,4 +335,53 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			throw new BusinessException(e, ErrorEnumeration.ORDER_CLOSE);}	
 		}
 
+	
+	@Override
+	public List<OrderDetails> getListOrderForBill(GetBillDetails BillDetails){
+		logger.info("Inside Event=1031,Class:OrderServiceDAOImpl,Method:getCustomerOrderStatus,BillDetails " + BillDetails);
+		try
+		{
+			List<OtsOrder> OrderList = new ArrayList<OtsOrder>();
+			List<OrderDetails> OrderDetails = new ArrayList<OrderDetails>();;
+			Map<String, Object> queryParameter = new HashMap<>();
+			
+			OtsBill BillId = new OtsBill();
+			BillId.setOtsBillId(Integer.valueOf(BillDetails.getBillId()));
+			
+			queryParameter.put("otsBillId", BillId);
+			OrderList = super.getResultListByNamedQuery("OtsOrder.getOrderListForBillID", queryParameter);
+			OrderDetails = OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
+			return OrderDetails;
+		}catch(Exception e) {
+			e.printStackTrace();
+			logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ORDER_CLOSE);
+		}
+	}
+
+	@Override
+	public List<OrderDetails> getCustomerOrderStatus(GetCustomerOrderByStatusBOrequest getCustomerOrderByStatusBOrequest) {
+		logger.info("Inside Event=1030,Class:OrderServiceDAOImpl,Method:getCustomerOrderStatus,getCustomerOrderByStatusBOrequest " + getCustomerOrderByStatusBOrequest);
+		List<OrderDetails> otsOrderDetails = new ArrayList<OrderDetails>();
+    	try {   
+    		List<OtsOrder> OrderList = new ArrayList<OtsOrder>() ;
+            try {
+            	Map<String, Object> queryParameter = new HashMap<>();
+            	OtsUsers CustomerId = new OtsUsers();
+            	CustomerId.setOtsUsersId(Integer.parseInt(getCustomerOrderByStatusBOrequest.getRequest().getCustomerId()));
+    			queryParameter.put("otsCustomerId", CustomerId);
+    			queryParameter.put("Status", getCustomerOrderByStatusBOrequest.getRequest().getStatus());
+    			OrderList  = super.getResultListByNamedQuery("OtsOrder.getOrderIdByCustomerId", queryParameter);
+            } catch (NoResultException e) {
+            	logger.error("Exception while fetching data from DB :"+e.getMessage());
+        		e.printStackTrace();
+            	throw new BusinessException(e.getMessage(), e);}
+            otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
+    	}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		}
+    	return otsOrderDetails;
+	}
 }
