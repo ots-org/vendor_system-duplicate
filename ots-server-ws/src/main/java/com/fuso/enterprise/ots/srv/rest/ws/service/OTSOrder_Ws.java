@@ -89,4 +89,10 @@ public interface OTSOrder_Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getCustomerOrderStatus(@ApiParam(value = "request", required = true) @NotNull  @Valid GetCustomerOrderByStatusBOrequest getCustomerOrderByStatusBOrequest);
 	
+	@POST
+    @Path("/getOrderDetailsByDate")
+	@ApiOperation(value = "getOrder", notes = "get Order For Customer By status", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getOrderDetailsByDate(@ApiParam(value = "request", required = true) @NotNull  @Valid GetOrderBORequest  getOrderBORequest);
+	
 }

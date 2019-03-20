@@ -229,5 +229,33 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		}
 		return response;
 	}
+
+	@Override
+	public Response getOrderDetailsByDate(GetOrderBORequest getOrderBORequest) {
+		OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
+		Response response = null;
+		logger.info("Inside Event=1011,Class:OTSOrder_WsImpl, Method:getOrderList, addorUpdateProductBORequest:"
+				+ getOrderBORequest);
+		try {
+			if(!getOrderBORequest.getRequest().getDistributorsId().equals(null)&&
+					!getOrderBORequest.getRequest().getFromTime().equals(null)&&
+					!getOrderBORequest.getRequest().getToTime().equals(null)){	
+				orderProductBOResponse = oTSOrderService.getOrderDetailsByDate(getOrderBORequest);
+				if (!oTSOrderService.getOrderBydate(getOrderBORequest).getOrderDetails().get(0).equals(null)) {
+					logger.info("Inside Event=1011,Class:OTSProduct_WsImpl,Method:getOrderList, " + "Successfull");
+					response = buildResponse(orderProductBOResponse,"Successfull");
+				}else{
+					response = buildResponse(600,"No order from"+getOrderBORequest.getRequest().getFromTime()+"To"+getOrderBORequest.getRequest().getToTime());
+				}
+			}else{
+				response = buildResponse(1001,"Check input");
+			}
+		} catch (BusinessException e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		}
+		return response;
+	}
 		
 }

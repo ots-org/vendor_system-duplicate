@@ -22,4 +22,5 @@ public interface OTSOrderService {
 	OrderProductBOResponse getAssginedOrder(GetAssginedOrderBORequest getAssginedOrderBORequest);
 	String closeOrder(CloseOrderBORequest closeOrderBORequest);
 	OrderProductBOResponse getCustomerOrderStatus(GetCustomerOrderByStatusBOrequest getCustomerOrderByStatusBOrequest);
+	OrderProductBOResponse getOrderDetailsByDate(GetOrderBORequest getOrderBORequest);
 }

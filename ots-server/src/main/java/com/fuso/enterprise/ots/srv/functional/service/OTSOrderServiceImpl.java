@@ -273,5 +273,26 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 		}
 	}
+
+
+	@Override
+	public OrderProductBOResponse getOrderDetailsByDate(GetOrderBORequest getOrderBORequest) {
+		OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
+		List<OrderDetailsAndProductDetails> GetOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
+		try {
+			List<OrderDetails> OrderDetailsList = orderServiceDAO.getOrderBydate(getOrderBORequest);
+			for (int i = 0; i <OrderDetailsList.size() ; i++)
+			{
+				List<OrderProductDetails> OrderProductDetailsList = orderProductDao.getUserByStatuesAndDistributorId(OrderDetailsList.get(i));
+				GetOrderDetailsAndProductDetails.add(AddProductAndOrderDetailsIntoResponse(OrderDetailsList.get(i),OrderProductDetailsList));
+			}
+			orderProductBOResponse.setOrderList(GetOrderDetailsAndProductDetails);
+			return orderProductBOResponse;
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		}
+	}
 	
 }
