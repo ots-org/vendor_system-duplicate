@@ -15,6 +15,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
+import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
@@ -256,6 +257,19 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 		}
 		return response;
+	}
+
+	@Override
+	public Response getListOfOrderByDateRequest(GetListOfOrderByDateBORequest getListOfOrderByDateBORequest) {
+		Response response;
+		try {
+			response = buildResponse(oTSOrderService.getListOfOrderByDate(getListOfOrderByDateBORequest),"Successfull");
+			return response;
+		}catch (BusinessException e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		}
 	}
 		
 }

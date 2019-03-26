@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fuso.enterprise.ots.srv.api.model.domain.AddProductStock;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
+import com.fuso.enterprise.ots.srv.api.model.domain.CompleteOrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
@@ -27,8 +28,10 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
+import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderProductBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -37,6 +40,7 @@ import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockDao;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockHistoryDao;
+import com.fuso.enterprise.ots.srv.server.dao.impl.UserServiceDAOImpl;
 
 @Service
 @Transactional
@@ -47,14 +51,16 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	private ProductStockHistoryDao productStockHistoryDao;
 	private ProductStockDao productStockDao;
 	private OrderDetails orderDetails;
+	private UserServiceDAOImpl userServiceDAOImpl;
 
 	@Inject
-	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao)
+	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAOImpl)
 	{
 		this.orderServiceDAO = orderServiceDAO ;
 		this.orderProductDao = orderProductDao;
 		this.productStockHistoryDao=productStockHistoryDao;
 		this.productStockDao=productStockDao;
+		this.userServiceDAOImpl = userServiceDAOImpl;
 	}
 
 	
@@ -288,6 +294,27 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			}
 			orderProductBOResponse.setOrderList(GetOrderDetailsAndProductDetails);
 			return orderProductBOResponse;
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		}
+	}
+
+
+	@Override
+	public GetListOfOrderByDateBOResponse getListOfOrderByDate(
+			GetListOfOrderByDateBORequest getListOfOrderByDateBORequest) {
+		try{
+			GetListOfOrderByDateBOResponse getListOfOrderByDateBOResponse = new GetListOfOrderByDateBOResponse();
+			List<CompleteOrderDetails> orderDetails = orderServiceDAO.getListOfOrderByDate(getListOfOrderByDateBORequest);
+			for(int i = 0 ; i<orderDetails.size() ; i++) {
+				orderDetails.get(i).setCustomerDetails(userServiceDAOImpl.getUserDetails(Integer.valueOf(orderDetails.get(i).getCustomerId())));
+				orderDetails.get(i).setDistributorDetails(userServiceDAOImpl.getUserDetails(Integer.valueOf(orderDetails.get(i).getDistributorId())));
+				orderDetails.get(i).setEmployeeDetails(userServiceDAOImpl.getUserDetails(Integer.valueOf(orderDetails.get(i).getDistributorId())));
+			}
+			getListOfOrderByDateBOResponse.setCompleteOrderDetails(orderDetails);
+			return getListOfOrderByDateBOResponse;
 		}catch(Exception e){
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 		} catch (Throwable e) {

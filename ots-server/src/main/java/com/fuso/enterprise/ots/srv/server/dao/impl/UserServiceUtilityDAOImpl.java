@@ -100,7 +100,7 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	   	userDetails.setUsrStatus(users.getOtsUsersStatus()==null?null:users.getOtsUsersStatus());
 	   	userDetails.setUsrStatus(users.getOtsUsersStatus()==null?null:users.getOtsUsersStatus());
 	   	userDetails.setUsrPassword(users.getOtsUsersPassword()==null?null:users.getOtsUsersPassword()); 
-	   	
+	   	userDetails.setContactNo(users.getOtsUsersContactNo()==null?null:users.getOtsUsersContactNo());
 	   	List<OtsCustomerProduct> customerProductDetails = new ArrayList(users.getOtsCustomerProductCollection());
 	   	
 	   	for(int i=0 ; i<customerProductDetails.size() ; i++) {

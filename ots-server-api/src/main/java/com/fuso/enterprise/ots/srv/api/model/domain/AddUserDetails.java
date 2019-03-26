@@ -3,8 +3,7 @@ package com.fuso.enterprise.ots.srv.api.model.domain;
 import javax.validation.constraints.Size;
 
 public class AddUserDetails {
-    
-	
+  
 	@Size(max = 20)
     private String firstName;
 

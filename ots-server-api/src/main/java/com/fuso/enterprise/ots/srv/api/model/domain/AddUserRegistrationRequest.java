@@ -11,7 +11,4 @@ public class AddUserRegistrationRequest {
 	public void setAddUserDetails(AddUserDetails addUserDetails) {
 		this.addUserDetails = addUserDetails;
 	}
-
-
-	
 }

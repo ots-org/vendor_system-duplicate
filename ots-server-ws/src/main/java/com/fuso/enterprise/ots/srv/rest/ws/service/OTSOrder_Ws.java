@@ -21,6 +21,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
+import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -95,4 +96,10 @@ public interface OTSOrder_Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getOrderDetailsByDate(@ApiParam(value = "request", required = true) @NotNull  @Valid GetOrderBORequest  getOrderBORequest);
 	
+	@POST
+    @Path("/getListOfOrderByDate")
+	@ApiOperation(value = "getOrder", notes = "get Order For Customer By status", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getListOfOrderByDateRequest(@ApiParam(value = "request", required = true) @NotNull  @Valid GetListOfOrderByDateBORequest  getListOfOrderByDateBORequest);
+
 }

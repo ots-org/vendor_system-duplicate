@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class UserDetails<OtsCustomerProduct> {
+public class UserDetails {
 
 	 @Size(max = 10)
 	 private String userId;
