@@ -317,8 +317,6 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 
 		Map<String, Object> queryParameter = new HashMap<>();
 		
-		OtsOrder OtsOrder = new OtsOrder();
-		
 		queryParameter.put("otsOrderId",Integer.parseInt( closeOrderBORequest.getRequest().getOrderId()));
 		otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
 	
@@ -404,7 +402,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 	    			orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforCustomer", queryParameter);
 					break;
 				
-				case "Distrbutor":
+				case "Distributor":
 					queryParameter.put("otsDistributorId", userId);
 	    			queryParameter.put("FromDate",getListOfOrderByDateBORequest.getRequest().getStartDate());
 	    			queryParameter.put("ToDate",getListOfOrderByDateBORequest.getRequest().getEndDate());
