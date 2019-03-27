@@ -191,7 +191,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		}
 			otsOrder.setOtsOrderCost(Long.parseLong(addOrUpdateOrderProductBOrequest.getRequest().getOrderCost()));
 			otsOrder.setOtsOrderStatus(addOrUpdateOrderProductBOrequest.getRequest().getOrderStatus());
-
+			otsOrder.setOtsOrderDt(Date.valueOf(addOrUpdateOrderProductBOrequest.getRequest().getOrderDate()));
 		if(addOrUpdateOrderProductBOrequest.getRequest().getDeliverdDate()==null)
 		{
 			otsOrder.setOtsOrderDeliveredDt(null);
