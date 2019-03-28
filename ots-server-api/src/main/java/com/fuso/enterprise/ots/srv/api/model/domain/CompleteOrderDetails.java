@@ -1,5 +1,7 @@
 package com.fuso.enterprise.ots.srv.api.model.domain;
 
+import java.util.List;
+
 import javax.validation.constraints.Size;
 
 public class CompleteOrderDetails {
@@ -47,6 +49,17 @@ public class CompleteOrderDetails {
 	 
 	 @Size(max = 20)
 	 private String CreatedBy;
+	
+	 @Size(max = 20)
+	 List<OrderProductDetails> OrderProductDetails;
+
+	public List<OrderProductDetails> getOrderProductDetails() {
+		return OrderProductDetails;
+	}
+
+	public void setOrderProductDetails(List<OrderProductDetails> orderProductDetails) {
+		OrderProductDetails = orderProductDetails;
+	}
 
 	public String getCreatedBy() {
 		return CreatedBy;

@@ -144,7 +144,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		try {
 			for(int i=0 ; i < addOrUpdateOnlyOrderProductRequest.getProductList().size() ;i++){
 				distributorId =orderProductDao.addOrUpdateOrderProduct(addOrUpdateOnlyOrderProductRequest.getProductList().get(i));
-			    /*
+			    /* 	
 			     * fetching current date
 			     */
 				Date date = new Date(0);
@@ -312,6 +312,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				orderDetails.get(i).setCustomerDetails(userServiceDAOImpl.getUserDetails(Integer.valueOf(orderDetails.get(i).getCustomerId())));
 				orderDetails.get(i).setDistributorDetails(userServiceDAOImpl.getUserDetails(Integer.valueOf(orderDetails.get(i).getDistributorId())));
 				orderDetails.get(i).setEmployeeDetails(userServiceDAOImpl.getUserDetails(Integer.valueOf(orderDetails.get(i).getDistributorId())));
+				orderDetails.get(i).setOrderProductDetails(orderProductDao.getProductListByOrderId(orderDetails.get(i).getOrderId()));
 			}
 			getListOfOrderByDateBOResponse.setCompleteOrderDetails(orderDetails);
 			return getListOfOrderByDateBOResponse;
