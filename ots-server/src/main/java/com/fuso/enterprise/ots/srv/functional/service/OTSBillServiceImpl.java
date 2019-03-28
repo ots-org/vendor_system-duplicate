@@ -16,18 +16,22 @@ import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSBillService;
 import com.fuso.enterprise.ots.srv.api.service.request.BillDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.BillReportBasedOnDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetBillByOrderIdBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.BillDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.BillDetailsBOResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.BillReportByDateBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.BillServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.CustomerOutstandingAmtDAO;
+import com.fuso.enterprise.ots.srv.server.dao.OrderDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
+import com.fuso.enterprise.ots.srv.server.dao.impl.OrderDAOImpl;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsBill;
 @Service
 @Transactional
@@ -38,14 +42,16 @@ private OrderServiceDAO orderServiceDAO;
 private CustomerOutstandingAmtDAO customerOutstandingAmtDAO;
 private OrderProductDAO orderProductDAO;
 private UserServiceDAO userServiceDAO;
+private OrderDAO orderDAO;
 	
 @Inject
-public OTSBillServiceImpl(BillServiceDAO billServiceDAO,OrderServiceDAO orderServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO) {
+public OTSBillServiceImpl(BillServiceDAO billServiceDAO,OrderServiceDAO orderServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO,OrderDAO orderDAO) {
 	this.billServiceDAO=billServiceDAO;
 	this.orderServiceDAO=orderServiceDAO;
 	this.customerOutstandingAmtDAO=customerOutstandingAmtDAO;
 	this.orderProductDAO = orderProductDAO;
 	this.userServiceDAO = userServiceDAO;
+	this.orderDAO=orderDAO;
 	
 }
 	@Override
@@ -125,5 +131,15 @@ public OTSBillServiceImpl(BillServiceDAO billServiceDAO,OrderServiceDAO orderSer
 			throw new BusinessException(e.getMessage(), e);
 		}
 		return billDataBOResponse;
+	}
+	@Override
+	public BillReportByDateBOResponse getBillReportByDate(BillReportBasedOnDateBORequest billReportBasedOnDateBORequest) {
+		BillReportByDateBOResponse billIdResponse=new BillReportByDateBOResponse();
+		try {
+			billIdResponse=billServiceDAO.getBillReportByDate(billReportBasedOnDateBORequest);
+		}catch(Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		return billIdResponse;
 	}
 }

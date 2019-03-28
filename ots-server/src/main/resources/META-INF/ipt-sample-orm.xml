@@ -218,5 +218,16 @@
 		AND
 			(o.otsDistributorId = :otsDistributorId)
 		</query>
-	</named-query>	 
+	</named-query>	
+	
+	<named-query name="OTSBill.findBillNumber">
+		<query>SELECT o 
+		FROM 
+			OtsBill o
+		WHERE 
+			(o.otsBillCreated BETWEEN :fromDate AND :toDate) 
+		
+		</query>
+	</named-query>
+	
 </entity-mappings>

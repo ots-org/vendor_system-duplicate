@@ -56,6 +56,11 @@ public class OtsBill implements Serializable {
     private String otsBillGenerated;
     @Column(name = "ots_bill_status")
     private String otsBillStatus;
+    
+    @Column(name = "ots_bill_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsBillCreated;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsBillId")
     private Collection<OtsOrder> otsOrderCollection;
 
@@ -114,7 +119,16 @@ public class OtsBill implements Serializable {
         this.otsBillStatus = otsBillStatus;
     }
 
-    @XmlTransient
+    
+    public Date getOtsBillCreated() {
+		return otsBillCreated;
+	}
+
+	public void setOtsBillCreated(Date otsBillCreated) {
+		this.otsBillCreated = otsBillCreated;
+	}
+
+	@XmlTransient
     public Collection<OtsOrder> getOtsOrderCollection() {
         return otsOrderCollection;
     }

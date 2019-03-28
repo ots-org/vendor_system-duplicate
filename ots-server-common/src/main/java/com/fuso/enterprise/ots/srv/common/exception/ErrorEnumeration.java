@@ -32,7 +32,8 @@ public enum ErrorEnumeration {
 	UPDATE_CUSTOMER_OUTSTANDINGAMT_FAILURE(1022,"err.in.updateCustomerOutstandingAmt"),
 	GET_CUSTOMER_OUTSTANDINGAMT_FAILURE(1022,"err.in.getCustomerOutstandingAmt"),
 	GET_CUSTOMER_OUTSTANDINGAMT_FAILURE_WRONG_INPUT(1022,"err.in.getCustomerOutstandingAmtwithInput"),
-	ORDER_CLOSE(1006,"err.in.order.close");
+	ORDER_CLOSE(1006,"err.in.order.close"),
+	GET_BILL_REPORT_BY_DATE(1021,"err.in.getbillreportbydate");
 	
     ErrorEnumeration(int errorCode, String messageKey) {
         this.errorCode = errorCode;

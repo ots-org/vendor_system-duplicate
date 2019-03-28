@@ -8,10 +8,12 @@ import org.slf4j.LoggerFactory;
 
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSBillService;
 import com.fuso.enterprise.ots.srv.api.service.request.BillDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.BillReportBasedOnDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetBillByOrderIdBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.BillDetailsBOResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.BillReportByDateBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -111,6 +113,21 @@ public class OTSBill_WsImpl implements OTSBill_Ws {
 		    	catch(Exception e) {
 		    	response = buildResponse(600,"Bill doesn't have any Order");
 	    	}
+			return response;
+		}
+
+		@Override
+		public Response getBillReportByDate(BillReportBasedOnDateBORequest billReportBasedOnDateBORequest) {
+			Response response = null;
+			BillReportByDateBOResponse billIdResponse=new BillReportByDateBOResponse();
+			try {
+				billIdResponse=otsBillService.getBillReportByDate(billReportBasedOnDateBORequest);
+				response = responseWrapper.buildResponse(billIdResponse,"Successfull");
+			} catch (BusinessException e) {
+				throw new BusinessException(e, ErrorEnumeration.GET_BILL_REPORT_BY_DATE);
+			} catch (Throwable e) {
+				throw new BusinessException(e, ErrorEnumeration.GET_BILL_REPORT_BY_DATE);
+			}
 			return response;
 		}
 }
