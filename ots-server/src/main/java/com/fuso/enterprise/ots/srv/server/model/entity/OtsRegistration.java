@@ -73,6 +73,8 @@ public class OtsRegistration implements Serializable {
     private String otsRegistrationPassword;
     @Column(name = "ots_registration_contact_no")
     private String otsRegistrationContactNo;
+    @Column(name = "ots_device_token")
+    private String otsDeviceToken;
     @OneToMany(mappedBy = "otsRegistrationId")
     private Collection<OtsUsers> otsUsersCollection;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
@@ -179,6 +181,14 @@ public class OtsRegistration implements Serializable {
     public void setOtsRegistrationContactNo(String otsRegistrationContactNo) {
         this.otsRegistrationContactNo = otsRegistrationContactNo;
     }
+    
+    public String getOtsDeviceToken() {
+		return otsDeviceToken;
+	}
+
+	public void setOtsDeviceToken(String otsDeviceToken) {
+		this.otsDeviceToken = otsDeviceToken;
+	}
 
     @XmlTransient
     public Collection<OtsUsers> getOtsUsersCollection() {

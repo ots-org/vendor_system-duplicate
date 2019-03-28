@@ -52,6 +52,16 @@ public class RegistorToUserDetails {
     @Size(max = 5)
     private String password;
 
+    private String deviceToken;
+    
+	public String getDeviceToken() {
+		return deviceToken;
+	}
+
+	public void setDeviceToken(String deviceToken) {
+		this.deviceToken = deviceToken;
+	}
+
 	public String getUserid() {
 		return userid;
 	}

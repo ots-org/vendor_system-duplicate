@@ -2,7 +2,7 @@ package com.fuso.enterprise.ots.srv.api.service.response;
 
 public class ApproveRegistrationResponse {
 	
-private String firstName;
+    private String firstName;
 	
 	private String message ; 
 

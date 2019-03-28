@@ -35,6 +35,8 @@ public class AddUserDetails {
     private String userRoleId;
     
     private String password;
+    
+    private String deviceToken;
   
 	public String getFirstName() {
 		return firstName;
@@ -123,6 +125,14 @@ public class AddUserDetails {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getDeviceToken() {
+		return deviceToken;
+	}
+
+	public void setDeviceToken(String deviceToken) {
+		this.deviceToken = deviceToken;
 	}
 
     

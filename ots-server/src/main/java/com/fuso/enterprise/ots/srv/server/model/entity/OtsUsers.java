@@ -73,7 +73,9 @@ public class OtsUsers implements Serializable {
     private String otsUsersPassword;
     @Column(name = "ots_users_contact_no")
     private String otsUsersContactNo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
+    @Column(name = "ots_device_token")
+    private String otsDeviceToken;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsUserMapping> otsUserMappingCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsCustomerProduct> otsCustomerProductCollection;
@@ -192,6 +194,14 @@ public class OtsUsers implements Serializable {
     public void setOtsUsersContactNo(String otsUsersContactNo) {
         this.otsUsersContactNo = otsUsersContactNo;
     }
+    
+    public String getOtsDeviceToken() {
+		return otsDeviceToken;
+	}
+
+	public void setOtsDeviceToken(String otsDeviceToken) {
+		this.otsDeviceToken = otsDeviceToken;
+	}
 
     @XmlTransient
     public Collection<OtsUserMapping> getOtsUserMappingCollection() {

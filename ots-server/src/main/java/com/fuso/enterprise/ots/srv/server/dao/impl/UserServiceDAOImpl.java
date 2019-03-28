@@ -115,6 +115,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 				userEntity.setOtsUserRoleId(otsUserRole);
 			    userEntity.setOtsUsersStatus("Active");
 				userEntity.setOtsUsersProfilePic(addUserDataBORequest.getRequestData().getProfilePic());
+				userEntity.setOtsDeviceToken(addUserDataBORequest.getRequestData().getDeviceToken());
 				OtsRegistration otsRegistration = new OtsRegistration();
 				
 				if(addUserDataBORequest.getRequestData().getRegistrationId()!=null ) {

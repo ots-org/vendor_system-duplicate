@@ -62,6 +62,18 @@ public class UserDetails {
 	 @Size(max = 100)
 	 private String productId;	
 	 
+	 @Size(max = 100)
+	 private String DeviceToken;
+	 
+	 
+	public String getDeviceToken() {
+		return DeviceToken;
+	}
+
+	public void setDeviceToken(String deviceToken) {
+		DeviceToken = deviceToken;
+	}
+
 	private List<CustomerProductDetails> CustomerProductDetails = new ArrayList<>();
 
 	public String getProductId() {
