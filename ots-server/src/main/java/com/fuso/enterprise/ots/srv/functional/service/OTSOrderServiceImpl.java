@@ -80,6 +80,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	try {
 		OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
 		List<OrderDetails> OrderDetailsList = orderServiceDAO.getOrderIdByDistributorId(getOrderByStatusRequest);
+		System.out.println(OrderDetailsList.get(0).getOrderDate()+"service");
 		List<OrderDetailsAndProductDetails> GetOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
 		for (int i = 0; i <OrderDetailsList.size() ; i++)
 		{
@@ -106,6 +107,9 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		orderDetailsAndProductDetails.setOrderCost(orderDetails.getOrderCost());
 		orderDetailsAndProductDetails.setOrderStatus(orderDetails.getStatus());
 		orderDetailsAndProductDetails.setOrderdProducts(OrderProductDetails);
+		orderDetailsAndProductDetails.setDelivaryDate(orderDetails.getOrderDeliveryDate());
+		orderDetailsAndProductDetails.setOrderDate(orderDetails.getOrderDate());
+		orderDetailsAndProductDetails.setDelivaredDate(orderDetails.getOrderDeliverdDate());
 		return orderDetailsAndProductDetails;
 	}
 

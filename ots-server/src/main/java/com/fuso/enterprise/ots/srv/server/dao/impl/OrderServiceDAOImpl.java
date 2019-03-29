@@ -100,6 +100,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
             	throw new BusinessException(e.getMessage(), e);
             }
             otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
+    	
     	}catch(Exception e) {
 			logger.error("Error in  order table"+e.getMessage());
     		e.printStackTrace();
@@ -112,11 +113,13 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 	private OrderDetails convertOrderDetailsFromEntityToDomain(OtsOrder otsOrder) {
 		OrderDetails orderDetails =  new OrderDetails() ;
 		orderDetails.setOrderId((otsOrder.getOtsOrderId()==null)?null:otsOrder.getOtsOrderId().toString());
+		orderDetails.setOrderDate((otsOrder.getOtsOrderDt()==null)?null:otsOrder.getOtsOrderDt().toString());
+		orderDetails.setOrderDeliveryDate((otsOrder.getOtsOrderDeliveryDt()==null)?null:otsOrder.getOtsOrderDeliveryDt().toString());
 		orderDetails.setDistributorId((otsOrder.getOtsDistributorId()==null)?null:otsOrder.getOtsDistributorId().getOtsUsersId().toString());
 		orderDetails.setCustomerId(otsOrder.getOtsCustomerId()==null?null:otsOrder.getOtsCustomerId().getOtsUsersId().toString());
 		orderDetails.setAssignedId(otsOrder.getOtsAssignedId()==null?null:otsOrder.getOtsAssignedId().getOtsUsersId().toString());
 		orderDetails.setOrderCost(otsOrder.getOtsOrderCost()==null?null:otsOrder.getOtsOrderCost().toString());
-		orderDetails.setOrderDate(otsOrder.getOtsOrderDt()==null?null:otsOrder.getOtsOrderDt().toString());
+		
 		orderDetails.setOrderDeliverdDate(otsOrder.getOtsOrderDeliveredDt()==null?null:otsOrder.getOtsOrderDeliveredDt().toString());
 		orderDetails.setCreatedBy(otsOrder.getOtsOrderCreated()==null?null:otsOrder.getOtsOrderCreated().toString());
 		orderDetails.setStatus(otsOrder.getOtsOrderStatus()==null?null:otsOrder.getOtsOrderStatus());
@@ -140,6 +143,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
         		e.printStackTrace();
             	throw new BusinessException(e.getMessage(), e);}
             otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
+    	    System.out.println(otsOrderDetails.get(0).getOrderDate()+"DAO");
     	}catch(Exception e){
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
 		} catch (Throwable e) {
@@ -424,6 +428,9 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 	private CompleteOrderDetails convertCompleteOrderDetailsFromEntityToDomain(OtsOrder otsOrder) {
 		CompleteOrderDetails orderDetails =  new CompleteOrderDetails() ;
 		orderDetails.setOrderId((otsOrder.getOtsOrderId()==null)?null:otsOrder.getOtsOrderId().toString());
+		orderDetails.setOrderDate((otsOrder.getOtsOrderDt()==null)?null:otsOrder.getOtsOrderDt().toString());
+		orderDetails.setOrderDeliveryDate((otsOrder.getOtsOrderDeliveryDt()==null)?null:otsOrder.getOtsOrderDeliveryDt().toString());
+		orderDetails.setOrderDeliverdDate((otsOrder.getOtsOrderDeliveredDt()==null)?null:otsOrder.getOtsOrderDeliveredDt().toString());
 		orderDetails.setDistributorId((otsOrder.getOtsDistributorId()==null)?null:otsOrder.getOtsDistributorId().getOtsUsersId().toString());
 		orderDetails.setCustomerId(otsOrder.getOtsCustomerId()==null?null:otsOrder.getOtsCustomerId().getOtsUsersId().toString());
 		orderDetails.setAssignedId(otsOrder.getOtsAssignedId()==null?null:otsOrder.getOtsAssignedId().getOtsUsersId().toString());
@@ -432,6 +439,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		orderDetails.setOrderDeliverdDate(otsOrder.getOtsOrderDeliveredDt()==null?null:otsOrder.getOtsOrderDeliveredDt().toString());
 		orderDetails.setCreatedBy(otsOrder.getOtsOrderCreated()==null?null:otsOrder.getOtsOrderCreated().toString());
 		orderDetails.setStatus(otsOrder.getOtsOrderStatus()==null?null:otsOrder.getOtsOrderStatus());
+		orderDetails.setOrderDeliveryDate(otsOrder.getOtsOrderDeliveryDt()==null?null:otsOrder.getOtsOrderDeliveryDt().toString());
 		return orderDetails;		
 	}
 }

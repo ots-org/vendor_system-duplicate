@@ -20,6 +20,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
+import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderProductBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -87,6 +88,8 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		try {
 			if(!getOrderByStatusRequest.getRequest().getDistrubitorId().equals(null))  {	
 				orderProductBOResponse = oTSOrderService.getOrderByStatusAndDistributor(getOrderByStatusRequest);
+				System.out.println(orderProductBOResponse.getOrderList().get(0).getOrderDate()+"in WS");
+				
 				if (!orderProductBOResponse.getOrderList().isEmpty()) {
 					logger.info("Inside Event=1011,Class:OTSProduct_WsImpl,Method:getOrderList, " + "Successfull");
 					response = buildResponse(orderProductBOResponse,"Successfull");
@@ -103,6 +106,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 			} catch (Throwable e) {
 				throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 			}
+		System.out.println("++++++"+orderProductBOResponse.getOrderList().get(1).getDelivaryDate());
 		return response;
 	}
 
@@ -262,8 +266,10 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	@Override
 	public Response getListOfOrderByDateRequest(GetListOfOrderByDateBORequest getListOfOrderByDateBORequest) {
 		Response response;
+		GetListOfOrderByDateBOResponse getListOfOrderByDateBOResponse = new GetListOfOrderByDateBOResponse();
 		try {
-			response = buildResponse(oTSOrderService.getListOfOrderByDate(getListOfOrderByDateBORequest),"Successfull");
+			getListOfOrderByDateBOResponse=oTSOrderService.getListOfOrderByDate(getListOfOrderByDateBORequest);
+			response = buildResponse(getListOfOrderByDateBOResponse,"Successfull");
 			return response;
 		}catch (BusinessException e) {
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
