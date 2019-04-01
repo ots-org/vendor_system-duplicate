@@ -106,7 +106,6 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 			} catch (Throwable e) {
 				throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 			}
-		System.out.println("++++++"+orderProductBOResponse.getOrderList().get(1).getDelivaryDate());
 		return response;
 	}
 

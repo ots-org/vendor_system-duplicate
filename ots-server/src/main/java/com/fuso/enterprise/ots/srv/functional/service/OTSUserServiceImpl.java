@@ -36,6 +36,7 @@ import com.fuso.enterprise.ots.srv.server.dao.UserRegistrationDao;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceUtilityDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration;
+import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
 
 @Service
 @Transactional
@@ -47,7 +48,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	private UserServiceUtilityDAO userServiceUtilityDAO;
 	private UserRegistrationDao userRegistrationDao;
 	private MapUserProductDAO mapUserProductDAO;
-
+	private FcmPushNotification fcmPushNotification;
 	@Inject
 	public OTSUserServiceImpl(UserServiceDAO userServiceDAO,UserMapDAO userMapDAO,UserServiceUtilityDAO userServiceUtilityDAO,UserRegistrationDao userRegistrationDao,
 			MapUserProductDAO mapUserProductDAO) {
@@ -237,6 +238,8 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			* AddNewUser from registration
 			*/
 			addNewUser(addUserDataBORequest);
+			fcmPushNotification.sendPushNotification(addUserDataBORequest.getRequestData().getDeviceToken(),"Registration for Bislary" , "Your registration Succesful,please login to your account");
+
 			/*
 			* fetching OTSRegistration Object for approve status
 			*/

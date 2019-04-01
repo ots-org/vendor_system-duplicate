@@ -5,6 +5,16 @@ public class LoginAuthenticationModel {
 	private String EmailId;
 	
 	private String Password;
+	
+	private String DevicrToken;
+
+	public String getDevicrToken() {
+		return DevicrToken;
+	}
+
+	public void setDevicrToken(String devicrToken) {
+		DevicrToken = devicrToken;
+	}
 
 	public String getEmailId() {
 		return EmailId;

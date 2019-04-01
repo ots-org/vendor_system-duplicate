@@ -19,6 +19,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetail
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderedProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UpdateOrderDetailsModelRequest;
+import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
@@ -41,6 +42,8 @@ import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockDao;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockHistoryDao;
 import com.fuso.enterprise.ots.srv.server.dao.impl.UserServiceDAOImpl;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
+import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
 
 @Service
 @Transactional
@@ -52,6 +55,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	private ProductStockDao productStockDao;
 	private OrderDetails orderDetails;
 	private UserServiceDAOImpl userServiceDAOImpl;
+	private FcmPushNotification fcmPushNotification;
 
 	@Inject
 	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAOImpl)
@@ -122,8 +126,17 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			try {
 				for(int i=0 ; i <addOrUpdateOrderProductBOrequest.getRequest().getProductList().size() ; i++)
 				{
-					orderProductDao.insertOrdrerProductByOrderId(orderId, addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(i));}
+					orderProductDao.insertOrdrerProductByOrderId(orderId, addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(i));
+				}
 				Response = "Order Placed and OrderId Is"+orderId;
+				UserDetails User = new UserDetails();
+				User = userServiceDAOImpl.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId()));
+				System.out.println("+++++++++"+User.getDeviceToken());
+				try {
+					fcmPushNotification.sendPushNotification(User.getDeviceToken(),"Registration for Bislary" , "Your registration Succesful,please login to your account");
+				}catch(Exception e) {
+					return Response;
+				}
 				return Response;
 			}catch(Exception e){
 				throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
@@ -179,6 +192,13 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		try {
 			orderServiceDAO.UpdateOrder(updateOrderDetailsRequest);
 			Response = "Updated For OrderId"+updateOrderDetailsRequest.getRequest().getOrderId();
+			try {
+				UserDetails User;
+				User = userServiceDAOImpl.getUserDetails(Integer.parseInt(updateOrderDetailsRequest.getRequest().getAssignedId()));
+				fcmPushNotification.sendPushNotification(User.getDeviceToken(),"Registration for Bislary" , "Your registration Succesful,please login to your account");
+			}catch(Exception e) {
+				return Response;
+			}
 		}catch(Exception e){
 			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
 		} catch (Throwable e) {
@@ -242,7 +262,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				OrderedProductDetails orderedProductDetailstemp = new OrderedProductDetails();
 				
 				orderedProductDetailstemp.setOrderdId(ProductList.get(i).getOtsOrderId());
-				orderedProductDetailstemp.setDeliveredQty(ProductList.get(i).getOtsOrderedQty());
+				orderedProductDetailstemp.setDeliveredQty(ProductList.get(i).getOtsDeliveredQty());
 				orderedProductDetailstemp.setProductId(ProductList.get(i).getOtsProductId());
 				orderedProductDetailstemp.setOrderProductId(ProductList.get(i).getOtsOrderProductId());
 				orderedProductDetailstemp.setOrderedQty(ProductList.get(i).getOtsOrderedQty());
@@ -250,7 +270,8 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				orderedProductDetailstemp.setProductStatus("close");
 				
 				orderedProductDetails.add(i,orderedProductDetailstemp);
-				}
+				
+			}
 			addOrUpdateOnlyOrderProductRequest.setProductList(orderedProductDetails);
 			addOrUpdateOrderProduct(addOrUpdateOnlyOrderProductRequest);
 			String Response = "Order Has been closed for OrderId "+closeOrderBORequest.getRequest().getOrderId();

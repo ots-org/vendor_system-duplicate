@@ -174,8 +174,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic()==null?null:otsUsers.getOtsUsersProfilePic());
         userDetails.setUsrStatus(otsUsers.getOtsUsersStatus()==null?null:otsUsers.getOtsUsersStatus());
         userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
-  
-        
+        userDetails.setDeviceToken(otsUsers.getOtsDeviceToken()==null?null:otsUsers.getOtsDeviceToken());
         return userDetails;
     }
     
@@ -220,6 +219,8 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
             	Map<String, Object> queryParameter = new HashMap<>();
     			queryParameter.put("otsUsersEmailid", EmailId);
     			userData  = super.getResultByNamedQuery("OtsUsers.findByOtsUsersEmailid", queryParameter);
+    			userData.setOtsDeviceToken(loginAuthenticationBOrequest.getRequestData().getDevicrToken());
+    			super.getEntityManager().merge(userData);
             }catch (NoResultException e) {
             	logger.error("Exception while fetching data from DB :"+e.getMessage());
         		e.printStackTrace();
