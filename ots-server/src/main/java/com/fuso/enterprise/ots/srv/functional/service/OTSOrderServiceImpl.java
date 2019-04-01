@@ -242,7 +242,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				OrderedProductDetails orderedProductDetailstemp = new OrderedProductDetails();
 				
 				orderedProductDetailstemp.setOrderdId(ProductList.get(i).getOtsOrderId());
-				orderedProductDetailstemp.setDeliveredQty(ProductList.get(i).getOtsDeliveredQty());
+				orderedProductDetailstemp.setDeliveredQty(ProductList.get(i).getOtsOrderedQty());
 				orderedProductDetailstemp.setProductId(ProductList.get(i).getOtsProductId());
 				orderedProductDetailstemp.setOrderProductId(ProductList.get(i).getOtsOrderProductId());
 				orderedProductDetailstemp.setOrderedQty(ProductList.get(i).getOtsOrderedQty());
@@ -250,8 +250,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				orderedProductDetailstemp.setProductStatus("close");
 				
 				orderedProductDetails.add(i,orderedProductDetailstemp);
-				
-			}
+				}
 			addOrUpdateOnlyOrderProductRequest.setProductList(orderedProductDetails);
 			addOrUpdateOrderProduct(addOrUpdateOnlyOrderProductRequest);
 			String Response = "Order Has been closed for OrderId "+closeOrderBORequest.getRequest().getOrderId();
