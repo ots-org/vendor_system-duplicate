@@ -6,6 +6,8 @@ public class GetProductStockListDomain {
 	
 	private String userId;
 	
+	private String productId;
+	
 	private Date todaysDate;
 	
 	public Date getTodaysDate() {
@@ -14,6 +16,14 @@ public class GetProductStockListDomain {
 
 	public void setTodaysDate(Date todaysDate) {
 		this.todaysDate = todaysDate;
+	}
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 
 	public String getUserId() {

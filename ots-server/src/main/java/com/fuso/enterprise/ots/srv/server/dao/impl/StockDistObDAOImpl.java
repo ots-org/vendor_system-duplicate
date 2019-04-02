@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.StockDistObDAO;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsProductStock;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsStockDistOb;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
@@ -69,12 +70,15 @@ public class StockDistObDAOImpl extends AbstractIptDao<OtsStockDistOb, String> i
 		try {
 			logger.info("Inside Event=1015,Class:StockDistObDAOImpl, Method:fetchOpeningBalance, getProductStockListRequest:"
 					+ getProductStockListRequest.getRequestData().getUserId()+"date"+getProductStockListRequest.getRequestData().getTodaysDate());
-			OtsUsers OtsUsers= new OtsUsers();
-			OtsUsers.setOtsUsersId(Integer.parseInt(getProductStockListRequest.getRequestData().getUserId()));
+			OtsUsers otsUsers= new OtsUsers();
+			otsUsers.setOtsUsersId(Integer.parseInt(getProductStockListRequest.getRequestData().getUserId()));
+			OtsProduct otsProduct = new OtsProduct();
+			otsProduct.setOtsProductId(Integer.parseInt(getProductStockListRequest.getRequestData().getProductId()));
 			otsStocDist = super.getEntityManager()
-					.createQuery("from OtsStockDistOb where  otsUsersId = ?1 and otsStockDistObStockdt = ?2  ", OtsStockDistOb.class)
-					.setParameter(1,OtsUsers)
+					.createQuery("from OtsStockDistOb where  otsUsersId = ?1 and otsStockDistObStockdt = ?2 and otsProductId = ?3 ", OtsStockDistOb.class)
+					.setParameter(1,otsUsers)
 					.setParameter(2,getProductStockListRequest.getRequestData().getTodaysDate(), TemporalType.DATE)
+					.setParameter(3,otsProduct)
 					.getResultList();
 			
 			

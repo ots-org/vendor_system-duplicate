@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.GetProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductStockDetail;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
@@ -87,17 +89,48 @@ public class OTSProductServiceImpl implements OTSProductService {
 		GetProductStockListBOResponse getProductStockListBOResponse =new GetProductStockListBOResponse();
 		List<ProductStockDetail>  ProductStockDetailList = new ArrayList<ProductStockDetail>();
 		try {
-			List<OtsStockDistOb> otsStockDistObList  = stockDistObDAO.fetchOpeningBalance(getProductStockListRequest);
-			for (OtsStockDistOb otsStockDistOb: otsStockDistObList) {
+			/**
+			 * looping based on product list items 
+			 */
+			ProductDetailsBORequest productDetailsBORequest = new ProductDetailsBORequest();
+			GetProductDetails getProductDetails = new GetProductDetails();
+			getProductDetails.setSearchKey("All");
+			getProductDetails.setSearchvalue("");
+			productDetailsBORequest.setRequestData(getProductDetails);
+			List<ProductDetails> otsProductList = getProductList(productDetailsBORequest).getProductDetails();
+			
+			for (ProductDetails productDetailItem: otsProductList) {
 				ProductStockDetail ProductStockDetail = new ProductStockDetail();
-				ProductStockDetail.setProductName(otsStockDistOb.getOtsProductId().getOtsProductName());
-				ProductStockDetail.setProductId(otsStockDistOb.getOtsProductId().getOtsProductId());
-				ProductStockDetail.setOtsProductOpenBalance(Long.parseLong(otsStockDistOb.getOtsStockDistOpeningBalance()));
-				ProductStockDetail.setOtsProductStockAddition(productStockHistoryDao.getOtsProductStockAddition(otsStockDistOb.getOtsProductId().getOtsProductId(),getProductStockListRequest));
-				List<OtsOrder> orderList = orderDAO.getOrderList(otsStockDistOb.getOtsProductId().getOtsProductId(),getProductStockListRequest);
-				ProductStockDetail.setOtsProductOrderDelivered(orderProductDAO.getListOfDeliverdQuantityOfDay(orderList,otsStockDistOb.getOtsProductId().getOtsProductId()));
+				ProductStockDetail.setProductName(productDetailItem.getProductName());
+				ProductStockDetail.setProductId(Long.parseLong(productDetailItem.getProductId()));
+				
+				/*
+				 * fetching opening balance 
+				 */
+				getProductStockListRequest.getRequestData().setProductId(productDetailItem.getProductId());
+				List<OtsStockDistOb> otsStockDistObList  = stockDistObDAO.fetchOpeningBalance(getProductStockListRequest);
+				if(otsStockDistObList.size()>0) 
+					ProductStockDetail.setOtsProductOpenBalance(Long.parseLong(otsStockDistObList.get(0).getOtsStockDistOpeningBalance()));
+				else
+					ProductStockDetail.setOtsProductOpenBalance(0);
+				
+				/*
+				 * fetching stock added 
+				 */
+				ProductStockDetail.setOtsProductStockAddition(productStockHistoryDao.getOtsProductStockAddition(Integer.parseInt(productDetailItem.getProductId()),getProductStockListRequest));
+				
+				/*
+				 * fetch sold quantity
+				 */
+				List<OtsOrder> orderList = orderDAO.getOrderList(Integer.parseInt(productDetailItem.getProductId()),getProductStockListRequest);
+				if(orderList.size()>0)
+					ProductStockDetail.setOtsProductOrderDelivered(orderProductDAO.getListOfDeliverdQuantityOfDay(orderList,Integer.parseInt(productDetailItem.getProductId())));
+				else
+					ProductStockDetail.setOtsProductOrderDelivered(0);
+				
 				ProductStockDetailList.add(ProductStockDetail);
 			}
+			
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
