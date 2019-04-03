@@ -177,6 +177,19 @@ public class OTSUserServiceImpl implements  OTSUserService{
 				if(flag == 0)
 				{
 					userRegistrationResponce = userRegistrationDao.addUserRegistration(addNewBORequest);
+					try {
+						/*To send Notification to Distributor when user get registor*/
+						UserDetails User;
+						User = userServiceDAO.getUserDetails(Integer.parseInt(addNewBORequest.getRequestData().getMappedTo()));
+						System.out.println(User.getDeviceToken());
+						fcmPushNotification.sendPushNotification(User.getDeviceToken(),"Bislary APP" , "User Is requesting for registration");
+						/*To send Notification to Admin when user get registor*/
+						User = userServiceDAO.getUserDetails(1);
+						fcmPushNotification.sendPushNotification(User.getDeviceToken(),"Bislary APP" , "User Is requesting for registration");
+					}catch(Exception e) {
+						return userRegistrationResponce;
+					}
+					
 				}else
 				{
 					return null;
