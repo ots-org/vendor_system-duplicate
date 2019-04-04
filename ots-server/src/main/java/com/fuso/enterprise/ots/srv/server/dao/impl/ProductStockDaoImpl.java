@@ -130,5 +130,38 @@ public class ProductStockDaoImpl extends AbstractIptDao<OtsProductStock, String>
 		getProductBOStockResponse.setUserId(otsProductStock.getOtsUsersId().getOtsUsersId().toString());
 		return getProductBOStockResponse;
 	}
-		
+	
+	@Override
+	public String removeProductStock(AddProductStockBORequest addProductStockBORequest) {
+		OtsProductStock otsProductStock = new OtsProductStock();		
+		OtsProduct otsProduct = new OtsProduct();
+		otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequestData().getProductId()));				
+		OtsUsers otsUsers = new OtsUsers();
+		otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequestData().getUsersId()));				
+	 	Map<String, Object> queryParameter = new HashMap<>();		
+	 	queryParameter.put("otsUsersId",otsUsers );		
+		queryParameter.put("otsProductId", otsProduct);		
+		try {
+			otsProductStock = super.getResultByNamedQuery("OtsProduct.findByOtsProductIdAndUserId", queryParameter) ;			
+			Long stock = Long.valueOf(otsProductStock.getOtsProdcutStockActQty());
+			stock = stock - Long.valueOf(addProductStockBORequest.getRequestData().getProductStockQty());
+			otsProductStock.setOtsProdcutStockId(otsProductStock.getOtsProdcutStockId());
+			otsProductStock.setOtsProdcutStockActQty(stock.toString());
+			super.getEntityManager().merge(otsProductStock);
+			
+		}catch (NoResultException e) {
+			otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequestData().getUsersId()));
+			otsProductStock.setOtsUsersId(otsUsers);		 
+			otsProductStock.setOtsProdcutStockActQty(addProductStockBORequest.getRequestData().getProductStockQty());
+			otsProductStock.setOtsProdcutStockStatus(addProductStockBORequest.getRequestData().getProductStockStatus());
+			otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequestData().getProductId()));
+			otsProductStock.setOtsProductId (otsProduct);
+			super.getEntityManager().merge(otsProductStock);
+		}catch (Exception e) {
+			e.printStackTrace();
+	    	throw new BusinessException(e, ErrorEnumeration.User_Not_exists);
+		}
+		logger.info("Inside Event=1014,Class:OTSProduct_WsImpl,Method:removeProductStock");
+		return "Stock Updated Scuccessfully";
+	}
 }

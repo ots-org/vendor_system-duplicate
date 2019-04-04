@@ -43,7 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsOrder.findByOtsOrderDeliveredDt", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderDeliveredDt = :otsOrderDeliveredDt"),
     @NamedQuery(name = "OtsOrder.findByOtsOrderStatus", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderStatus = :otsOrderStatus"),
     @NamedQuery(name = "OtsOrder.findByOtsOrderTimestamp", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderTimestamp = :otsOrderTimestamp"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderCreated", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderCreated = :otsOrderCreated")})
+    @NamedQuery(name = "OtsOrder.findByOtsOrderCreated", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderCreated = :otsOrderCreated"),
+    @NamedQuery(name = "OtsOrder.findByOtsOrderAmountReceived", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderAmountReceived = :otsOrderAmountReceived")})
 public class OtsOrder implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -66,6 +67,8 @@ public class OtsOrder implements Serializable {
     private Date otsOrderDeliveredDt;
     @Column(name = "ots_order_status")
     private String otsOrderStatus;
+    @Column(name = "ots_order_amount_received")
+    private Long otsOrderAmountReceived;
     @Column(name = "ots_order_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderTimestamp;
@@ -198,7 +201,15 @@ public class OtsOrder implements Serializable {
         this.otsAssignedId = otsAssignedId;
     }
 
-    @XmlTransient
+	public Long getOtsOrderAmountReceived() {
+		return otsOrderAmountReceived;
+	}
+
+	public void setOtsOrderAmountReceived(Long otsOrderAmountReceived) {
+		this.otsOrderAmountReceived = otsOrderAmountReceived;
+	}
+
+	@XmlTransient
     public Collection<OtsOrderProduct> getOtsOrderProductCollection() {
         return otsOrderProductCollection;
     }

@@ -15,6 +15,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusB
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
@@ -34,4 +35,5 @@ public interface OrderServiceDAO {
 	List<OrderDetails> getListOrderForBill(GetBillDetails BillDetails);
 	List<OrderDetails> getCustomerOrderStatus(GetCustomerOrderByStatusBOrequest getCustomerOrderByStatusBOrequest);
 	List<CompleteOrderDetails> getListOfOrderByDate(GetListOfOrderByDateBORequest getListOfOrderByDateBORequest);
+	OrderDetails SalesVocher(SaleVocherBoRequest saleVocherBoRequest);
 }

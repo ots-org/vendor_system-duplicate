@@ -29,6 +29,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBOReq
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OrderDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
@@ -441,5 +442,29 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		orderDetails.setStatus(otsOrder.getOtsOrderStatus()==null?null:otsOrder.getOtsOrderStatus());
 		orderDetails.setOrderDeliveryDate(otsOrder.getOtsOrderDeliveryDt()==null?null:otsOrder.getOtsOrderDeliveryDt().toString());
 		return orderDetails;		
+	}
+
+	@Override
+	public OrderDetails SalesVocher(SaleVocherBoRequest saleVocherBoRequest) {
+		OrderDetails otsOrderDetails = new OrderDetails();
+		try {
+			OtsOrder otsOrder = new OtsOrder();  	
+			Map<String, Object> queryParameter = new HashMap<>();
+			
+			queryParameter.put("otsOrderId",Integer.parseInt( saleVocherBoRequest.getRequest().getOrderId()));
+			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
+			
+			otsOrder.setOtsOrderAmountReceived(Long.parseLong(saleVocherBoRequest.getRequest().getAmountReceived()));
+			otsOrder.setOtsOrderCost(Long.parseLong(saleVocherBoRequest.getRequest().getAmountReceived()));
+			otsOrder.setOtsOrderStatus("Sales Vocher Genrted");
+			super.getEntityManager().merge(otsOrder);
+			otsOrderDetails = convertOrderDetailsFromEntityToDomain(otsOrder);
+			
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		}
+		return otsOrderDetails;
 	}
 }

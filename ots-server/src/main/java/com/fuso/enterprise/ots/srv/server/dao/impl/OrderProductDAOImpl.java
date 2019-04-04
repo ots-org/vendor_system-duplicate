@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetailsSaleVocher;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderedProductDetails;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
@@ -204,4 +205,60 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 		logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
 		throw new BusinessException(e, ErrorEnumeration.ORDER_CLOSE);}	
 	}
+	
+	@Override
+	public String addOrUpdateOrderProductsaleVocher(OrderProductDetailsSaleVocher orderedProductDetails) {
+	String distributorId;
+	try {
+		OtsOrderProduct otsOrderProduct = new OtsOrderProduct();
+			
+		Map<String, Object> queryParameter = new HashMap<>();
+		OtsOrder OtsorderId = new OtsOrder();
+		OtsorderId.setOtsOrderId(Integer.parseInt(orderedProductDetails.getOrderdId()));
+			
+		OtsProduct otsProduct = new OtsProduct();
+		otsProduct.setOtsProductId(Integer.parseInt(orderedProductDetails.getProductId()));
+		/*
+		* fetching distributor id by passing orderId and productId
+		*/
+		queryParameter.put("otsOrderId",OtsorderId);
+		queryParameter.put("otsProductId",otsProduct);
+			
+		otsOrderProduct = super.getResultByNamedQuery("OtsProductOrder.fetchDistributorId", queryParameter);
+		/*
+			* assigning result distributorId  to distributorId variable
+		 */
+		distributorId=otsOrderProduct.getOtsOrderId().getOtsDistributorId().getOtsUsersId().toString();
+			
+		otsOrderProduct.setOtsOrderId(OtsorderId);
+		
+		OtsProduct  ProductId= new OtsProduct();
+		ProductId.setOtsProductId(Integer.parseInt(orderedProductDetails.getProductId()));
+		otsOrderProduct.setOtsProductId(ProductId);
+		otsOrderProduct.setOtsOrderedQty(Integer.parseInt(orderedProductDetails.getOrderedQty()));
+		otsOrderProduct.setOtsOrderProductStatus(orderedProductDetails.getProductStatus());
+		otsOrderProduct.setOtsOrderProductCost(Long.valueOf(orderedProductDetails.getProductCost()));
+		otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(orderedProductDetails.getOts_delivered_qty()));
+		otsOrderProduct.setOtsReceivedCans(Integer.valueOf(orderedProductDetails.getReceivedQty()));
+		if(orderedProductDetails.getOrderProductId()==null) {
+		System.out.println("Inserted");
+		save(otsOrderProduct);
+		//return "Inserted";
+		}else {
+		System.out.println("Updated");
+		otsOrderProduct.setOtsOrderProductId(Integer.parseInt(orderedProductDetails.getOrderProductId()));
+		super.getEntityManager().merge(otsOrderProduct);
+		//return "Updated";
+		}
+		return distributorId;}
+	catch(Exception e){
+		e.printStackTrace();
+		logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+		throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);}
+	catch (Throwable e) {
+		e.printStackTrace();
+		logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+		throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);
+	}		
+}
 }

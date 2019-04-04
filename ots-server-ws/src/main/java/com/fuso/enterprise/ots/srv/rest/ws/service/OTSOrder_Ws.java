@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
@@ -101,5 +102,11 @@ public interface OTSOrder_Ws {
 	@ApiOperation(value = "getOrder", notes = "get Order For Customer By status", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getListOfOrderByDateRequest(@ApiParam(value = "request", required = true) @NotNull  @Valid GetListOfOrderByDateBORequest  getListOfOrderByDateBORequest);
+
+	@POST
+    @Path("/saleVocher")
+	@ApiOperation(value = "getOrder", notes = "Inserting the data when closeing order or derliverd the product to customer", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response saleVocher(@ApiParam(value = "request", required = true) @NotNull  @Valid SaleVocherBoRequest  saleVocherBoRequest);
 
 }

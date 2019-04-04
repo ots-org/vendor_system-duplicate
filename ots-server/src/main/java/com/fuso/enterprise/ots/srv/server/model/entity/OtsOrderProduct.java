@@ -53,6 +53,8 @@ public class OtsOrderProduct implements Serializable {
     private Long otsOrderProductCost;
     @Column(name = "ots_order_product_status")
     private String otsOrderProductStatus;
+    @Column(name = "ots_received_cans")
+    private Integer otsReceivedCans;
     @Column(name = "ots_order_product_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderProductTimestamp;
@@ -145,7 +147,15 @@ public class OtsOrderProduct implements Serializable {
         this.otsProductId = otsProductId;
     }
 
-    @Override
+    public Integer getOtsReceivedCans() {
+		return otsReceivedCans;
+	}
+
+	public void setOtsReceivedCans(Integer otsReceivedCans) {
+		this.otsReceivedCans = otsReceivedCans;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (otsOrderProductId != null ? otsOrderProductId.hashCode() : 0);

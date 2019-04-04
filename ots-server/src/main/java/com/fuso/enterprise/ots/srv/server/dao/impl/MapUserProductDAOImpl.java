@@ -40,6 +40,8 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 			OtsUsers otsUsers = new OtsUsers();
 			otsUsers.setOtsUsersId(Integer.parseInt(customerProductDataBORequest.getRequestData().getUserId()));
 			userProductEntity.setOtsUsersId(otsUsers);
+			userProductEntity.setOtsCustomerProductBalCan(customerProductDataBORequest.getRequestData().getCustomerBalanceCan());
+			userProductEntity.setOtsCustomerProductPrice(customerProductDataBORequest.getRequestData().getProductPrice());
 			/*
 			 * setting Product object for product mapping
 			 */
@@ -71,6 +73,53 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 	    		e.printStackTrace();
 	        	throw new BusinessException(e.getMessage(), e);
 			}
+			responseData="User Product Mapped Successfully";
+			logger.info("Inside Event=1006,Class:MapUserProductDAOImpl,Method:mapUserProduct"+"Successfull");
+		}catch (Exception e) {
+        	logger.error("Exception while Inserting data to DB  :"+e.getMessage());
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+        }
+		return  responseData;
+	}
+	
+	@Override
+	public String UpdateBySaleVocher(CustomerProductDataBORequest customerProductDataBORequest) {
+		String responseData;
+		try{
+			/*
+			 * setting users object for user mapping
+			 */
+			OtsCustomerProduct otsCustomerProduct = new OtsCustomerProduct();
+			
+			OtsUsers otsUsers = new OtsUsers();
+			otsUsers.setOtsUsersId(Integer.parseInt(customerProductDataBORequest.getRequestData().getUserId()));
+			otsCustomerProduct.setOtsUsersId(otsUsers);
+			
+			OtsProduct otsProduct = new OtsProduct();
+			otsProduct.setOtsProductId(Integer.parseInt(customerProductDataBORequest.getRequestData().getProductId()));
+			otsCustomerProduct.setOtsProductId(otsProduct);
+			
+			otsCustomerProduct.setOtsCustomerProductDefault("NO");
+			Map<String, Object> queryParameter = new HashMap<>();
+			
+			queryParameter.put("otsUsersId",otsUsers);
+			queryParameter.put("otsProductId",otsProduct);
+			queryParameter.put("otsCustomerProductDefault","no");
+			try {
+				otsCustomerProduct = super.getResultByNamedQuery("OtsCustomerProduct.getCustomerProductDetails", queryParameter);
+				otsCustomerProduct.setOtsCustomerProductBalCan(customerProductDataBORequest.getRequestData().getCustomerBalanceCan());
+				otsCustomerProduct.setOtsCustomerProductPrice(customerProductDataBORequest.getRequestData().getProductPrice());
+				super.getEntityManager().merge(otsCustomerProduct);
+			}catch(Exception e) {
+					
+				
+				otsCustomerProduct.setOtsCustomerProductBalCan(customerProductDataBORequest.getRequestData().getCustomerBalanceCan());
+				otsCustomerProduct.setOtsCustomerProductPrice(customerProductDataBORequest.getRequestData().getProductPrice());
+				super.getEntityManager().persist(otsCustomerProduct);
+			}
+			
+			
 			responseData="User Product Mapped Successfully";
 			logger.info("Inside Event=1006,Class:MapUserProductDAOImpl,Method:mapUserProduct"+"Successfull");
 		}catch (Exception e) {

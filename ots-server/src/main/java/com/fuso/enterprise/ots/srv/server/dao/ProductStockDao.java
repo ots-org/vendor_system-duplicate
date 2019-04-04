@@ -12,5 +12,6 @@ public interface ProductStockDao  {
 	String addProductStock(AddProductStockBORequest addProductStockBORequest);
 	GetProductBOStockResponse getProductStockByUidAndPid(GetProductStockRequest getProductStockRequest );
 	String updateProductStockQuantity(AddProductStockBORequest addProductStockBORequest);
+	String removeProductStock(AddProductStockBORequest addProductStockBORequest);
 	
 }

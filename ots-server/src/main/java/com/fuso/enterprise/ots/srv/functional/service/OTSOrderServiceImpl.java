@@ -14,9 +14,12 @@ import com.fuso.enterprise.ots.srv.api.model.domain.AddProductStock;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.CompleteOrderDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.CustomerOutstandingDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetailsSaleVocher;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderedProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UpdateOrderDetailsModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
@@ -25,8 +28,11 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProdu
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
@@ -37,10 +43,12 @@ import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderProductBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
+import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockDao;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockHistoryDao;
+import com.fuso.enterprise.ots.srv.server.dao.impl.CustomerOutstandingAmtDAOImpl;
 import com.fuso.enterprise.ots.srv.server.dao.impl.UserServiceDAOImpl;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
@@ -55,16 +63,19 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	private ProductStockDao productStockDao;
 	private OrderDetails orderDetails;
 	private UserServiceDAOImpl userServiceDAOImpl;
+	private MapUserProductDAO mapUserProductDAO;
 	private FcmPushNotification fcmPushNotification;
-
+	private CustomerOutstandingAmtDAOImpl customerOutstandingAmtDAOImpl;
 	@Inject
-	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAOImpl)
+	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAOImpl,CustomerOutstandingAmtDAOImpl customerOutstandingAmtDAOImpl,MapUserProductDAO mapUserProductDAO)
 	{
 		this.orderServiceDAO = orderServiceDAO ;
 		this.orderProductDao = orderProductDao;
 		this.productStockHistoryDao=productStockHistoryDao;
 		this.productStockDao=productStockDao;
 		this.userServiceDAOImpl = userServiceDAOImpl;
+		this.customerOutstandingAmtDAOImpl = customerOutstandingAmtDAOImpl;
+		this.mapUserProductDAO = mapUserProductDAO;
 	}
 
 	
@@ -360,6 +371,65 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		} catch (Throwable e) {
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 		}
+	}
+
+
+	@Override
+	public String SalesVocher(SaleVocherBoRequest saleVocherBoRequest) {
+		try {
+			
+			CustomerOutstandingBORequest customerOutstandingBORequest = new CustomerOutstandingBORequest();
+			orderDetails = orderServiceDAO.SalesVocher(saleVocherBoRequest);
+			
+			
+			CustomerOutstandingDetails customerOutstandingDetails = new CustomerOutstandingDetails();
+			customerOutstandingDetails.setCustomerId(saleVocherBoRequest.getRequest().getCustomerId());
+			customerOutstandingDetails.setCustomerOutstandingAmt(saleVocherBoRequest.getRequest().getOutstandingAmount());
+			customerOutstandingBORequest.setRequestData(customerOutstandingDetails);
+			
+			customerOutstandingAmtDAOImpl.updateCustomerOutstandingAmt(customerOutstandingBORequest);
+			
+			CustomerProductDataBORequest customerProductDataBORequest = new CustomerProductDataBORequest();
+			OrderProductDetailsSaleVocher orderedProductDetails = new OrderProductDetailsSaleVocher();
+			CustomerProductDetails customerProductDetails = new CustomerProductDetails();
+			
+	
+			AddProductStockBORequest addProductStockBORequest = new AddProductStockBORequest();
+			AddProductStock addProductStock = new AddProductStock();
+			
+			for(int i = 0 ; i< saleVocherBoRequest.getRequest().getOrderProductlist().size() ; i++) {
+				orderedProductDetails.setProductId(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProdcutId());
+				orderedProductDetails.setOrderdId(saleVocherBoRequest.getRequest().getOrderId());
+				orderedProductDetails.setOrderedQty(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getOrderQty());
+				orderedProductDetails.setDeliveredQty(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getDeliveredQty());
+				orderedProductDetails.setProductCost(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost());
+				orderedProductDetails.setReceivedQty(saleVocherBoRequest.getRequest().getAmountReceived());
+				orderProductDao.addOrUpdateOrderProductsaleVocher(orderedProductDetails);
+				
+				customerProductDetails.setProductId(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProdcutId());
+				customerProductDetails.setUserId(saleVocherBoRequest.getRequest().getCustomerId());
+				customerProductDetails.setCustomerBalanceCan(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductbalanceQty());
+				customerProductDetails.setProductPrice(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost());
+				customerProductDataBORequest.setRequestData(customerProductDetails);
+				mapUserProductDAO.UpdateBySaleVocher(customerProductDataBORequest);
+				
+				addProductStock.setOrderId(saleVocherBoRequest.getRequest().getOrderId());
+				addProductStock.setUsersId(orderDetails.getDistributorId());
+				addProductStock.setProductStockQty(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getDeliveredQty());
+				addProductStock.setProductStockStatus("Active");
+				addProductStock.setProductId(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProdcutId());
+				
+				addProductStockBORequest.setRequestData(addProductStock);
+				
+				productStockHistoryDao.addProductStockHistory(addProductStockBORequest);
+				productStockDao.removeProductStock(addProductStockBORequest);
+			}
+		}catch (BusinessException e) {
+			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
+		}
+		return "Updated";
 	}
 	
 }

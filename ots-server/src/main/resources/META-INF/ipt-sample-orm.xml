@@ -230,4 +230,17 @@
 		</query>
 	</named-query>
 	
+	<named-query name="OtsCustomerProduct.getCustomerProductDetails">
+		<query>SELECT o 
+		FROM 
+			OtsCustomerProduct o
+		WHERE 
+			o.otsProductId = :otsProductId
+		AND
+			o.otsUsersId =:otsUsersId
+		AND
+			o.otsCustomerProductDefault = :otsCustomerProductDefault
+		</query>
+	</named-query>
+	
 </entity-mappings>

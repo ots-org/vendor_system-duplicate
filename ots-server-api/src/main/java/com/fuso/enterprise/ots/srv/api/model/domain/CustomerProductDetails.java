@@ -7,7 +7,21 @@ public class CustomerProductDetails {
 	String productPrice;
 	String productname;
 	String customerProductId;
+	String ProductDefault;
+	String CustomerBalanceCan;
 	
+	public String getProductDefault() {
+		return ProductDefault;
+	}
+	public void setProductDefault(String productDefault) {
+		ProductDefault = productDefault;
+	}
+	public String getCustomerBalanceCan() {
+		return CustomerBalanceCan;
+	}
+	public void setCustomerBalanceCan(String customerBalanceCan) {
+		CustomerBalanceCan = customerBalanceCan;
+	}
 	public String getCustomerProductId() {
 		return customerProductId;
 	}

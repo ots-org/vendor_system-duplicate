@@ -1,6 +1,11 @@
 package com.fuso.enterprise.ots.srv.server.dao.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.TemporalType;
@@ -12,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
+import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockHistoryDao;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsProductStockHistory;
@@ -19,7 +25,9 @@ import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.AbstractIptDao;
 @Repository
 public class ProductStockHistoryDaoImpl extends AbstractIptDao<OtsProductStockHistory, String> implements ProductStockHistoryDao{
-	
+	private static final DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    Date localDate = new Date();
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
@@ -44,10 +52,13 @@ public class ProductStockHistoryDaoImpl extends AbstractIptDao<OtsProductStockHi
 			 otsProductStockHistory.setOtsProductStockAddDate(addProductStockBORequest.getRequestData().getProductStockAddDate());
 			 otsProductStockHistory.setOtsProductStockHistoryQty(addProductStockBORequest.getRequestData().getProductStockQty());
 			 otsProductStockHistory.setOtsProductStockOrderId(addProductStockBORequest.getRequestData().getOrderId());
+			 otsProductStockHistory.setOtsProductStockAddDate(localDate);
 			 super.getEntityManager().merge(otsProductStockHistory);
 			 logger.info("Inside Event=1014,Class:ProductStockHistoryDaoImpl,Method:addProductStockHistory ");
-		}catch(Exception e) {
-			throw new BusinessException(e.getMessage(), e);
+		}catch (BusinessException e) {
+			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
 		}
 	}
 	

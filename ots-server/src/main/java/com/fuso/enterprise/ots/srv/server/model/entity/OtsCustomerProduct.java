@@ -42,6 +42,10 @@ public class OtsCustomerProduct implements Serializable {
     private Integer otsCustomerProductId;
     @Column(name = "ots_customer_product_price")
     private String otsCustomerProductPrice;
+    @Column(name = "ots_customer_product_bal_can")
+    private String otsCustomerProductBalCan;
+    @Column(name = "ots_customer_product_default")
+    private String otsCustomerProductDefault;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
     @ManyToOne
     private OtsProduct otsProductId;
@@ -88,7 +92,23 @@ public class OtsCustomerProduct implements Serializable {
         this.otsUsersId = otsUsersId;
     }
 
-    @Override
+    public String getOtsCustomerProductBalCan() {
+		return otsCustomerProductBalCan;
+	}
+
+	public void setOtsCustomerProductBalCan(String otsCustomerProductBalCant) {
+		this.otsCustomerProductBalCan = otsCustomerProductBalCant;
+	}
+
+	public String getOtsCustomerProductDefault() {
+		return otsCustomerProductDefault;
+	}
+
+	public void setOtsCustomerProductDefault(String otsCustomerProductDefault) {
+		this.otsCustomerProductDefault = otsCustomerProductDefault;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (otsCustomerProductId != null ? otsCustomerProductId.hashCode() : 0);

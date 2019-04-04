@@ -18,6 +18,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
@@ -274,6 +275,22 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 		} catch (Throwable e) {
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		}
+	}
+
+	@Override
+	public Response saleVocher(SaleVocherBoRequest saleVocherBoRequest) {
+		Response response;
+		logger.info("Inside Event=1035,Class:OTSOrder_WsImpl, Method:saleVocher, saleVocherBoRequest:"
+				+ saleVocherBoRequest);
+		try {
+			oTSOrderService.SalesVocher(saleVocherBoRequest);
+			response = buildResponse("updated","Successfull");
+			return response;
+		}catch (BusinessException e) {
+			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
 		}
 	}
 		
