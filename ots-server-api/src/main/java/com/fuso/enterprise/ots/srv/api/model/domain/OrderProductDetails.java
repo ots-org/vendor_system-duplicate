@@ -16,6 +16,8 @@ public class OrderProductDetails {
     private String otsProductId;
     
     private String ProductName;
+    
+    private String BalanceCan;
 
 	public String getProductName() {
 		return ProductName;
@@ -79,5 +81,13 @@ public class OrderProductDetails {
 
 	public void setOtsProductId(String otsProductId) {
 		this.otsProductId = otsProductId;
+	}
+
+	public String getBalanceCan() {
+		return BalanceCan;
+	}
+
+	public void setBalanceCan(String balanceCan) {
+		BalanceCan = balanceCan;
 	}
 }

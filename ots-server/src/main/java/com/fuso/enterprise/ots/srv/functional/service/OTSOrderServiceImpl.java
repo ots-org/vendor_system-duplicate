@@ -16,6 +16,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.CompleteOrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerOutstandingDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.GetCustomerOutstandingAmt;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
@@ -35,19 +36,23 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
+import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderProductBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
+import com.fuso.enterprise.ots.srv.server.dao.CustomerOutstandingAmtDAO;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockDao;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockHistoryDao;
+import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.impl.CustomerOutstandingAmtDAOImpl;
 import com.fuso.enterprise.ots.srv.server.dao.impl.UserServiceDAOImpl;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
@@ -62,19 +67,19 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	private ProductStockHistoryDao productStockHistoryDao;
 	private ProductStockDao productStockDao;
 	private OrderDetails orderDetails;
-	private UserServiceDAOImpl userServiceDAOImpl;
+	private UserServiceDAO userServiceDAO;
 	private MapUserProductDAO mapUserProductDAO;
 	private FcmPushNotification fcmPushNotification;
-	private CustomerOutstandingAmtDAOImpl customerOutstandingAmtDAOImpl;
+	private CustomerOutstandingAmtDAO customerOutstandingAmtDAO;
 	@Inject
-	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAOImpl,CustomerOutstandingAmtDAOImpl customerOutstandingAmtDAOImpl,MapUserProductDAO mapUserProductDAO)
+	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,MapUserProductDAO mapUserProductDAO)
 	{
 		this.orderServiceDAO = orderServiceDAO ;
 		this.orderProductDao = orderProductDao;
 		this.productStockHistoryDao=productStockHistoryDao;
 		this.productStockDao=productStockDao;
-		this.userServiceDAOImpl = userServiceDAOImpl;
-		this.customerOutstandingAmtDAOImpl = customerOutstandingAmtDAOImpl;
+		this.userServiceDAO = userServiceDAO;
+		this.customerOutstandingAmtDAO = customerOutstandingAmtDAO;
 		this.mapUserProductDAO = mapUserProductDAO;
 	}
 
@@ -128,7 +133,37 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		return orderDetailsAndProductDetails;
 	}
 
-
+	private OrderDetailsAndProductDetails GetProductAndOrderDetails(OrderDetails orderDetails,List<OrderProductDetails> OrderProductDetails,String CustomerAmount)
+	{
+		OrderDetailsAndProductDetails orderDetailsAndProductDetails = new OrderDetailsAndProductDetails();
+		orderDetailsAndProductDetails.setOrderId(orderDetails.getOrderId());
+		orderDetailsAndProductDetails.setDistributorId(orderDetails.getDistributorId());
+		orderDetailsAndProductDetails.setCustomerId(orderDetails.getCustomerId());
+		orderDetailsAndProductDetails.setOrderNumber(orderDetails.getOrderNumber());
+		orderDetailsAndProductDetails.setAssignedId(orderDetails.getAssignedId());
+		orderDetailsAndProductDetails.setOrderCost(orderDetails.getOrderCost());
+		orderDetailsAndProductDetails.setOrderStatus(orderDetails.getStatus());
+		orderDetailsAndProductDetails.setOrderdProducts(OrderProductDetails);
+		CustomerProductDetails customerProductDetails = new CustomerProductDetails();
+		for(int i=0 ; i<OrderProductDetails.size() ; i++) {
+			try {
+				customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(OrderProductDetails.get(i).getOtsOrderProductId(),orderDetails.getCustomerId());
+				orderDetailsAndProductDetails.getOrderdProducts().get(i).setBalanceCan(customerProductDetails.getCustomerBalanceCan());
+			}catch(Exception e) {
+				orderDetailsAndProductDetails.getOrderdProducts().get(i).setBalanceCan("0");
+			}
+		}
+		orderDetailsAndProductDetails.setDelivaryDate(orderDetails.getOrderDeliveryDate());
+		orderDetailsAndProductDetails.setOrderDate(orderDetails.getOrderDate());
+		orderDetailsAndProductDetails.setDelivaredDate(orderDetails.getOrderDeliverdDate());
+		orderDetailsAndProductDetails.setOutStandingAmount(CustomerAmount);
+		orderDetailsAndProductDetails.setDistributorDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getDistributorId())));
+		orderDetailsAndProductDetails.setCustomerDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId())));
+		orderDetailsAndProductDetails.setEmployeeDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getAssignedId())));
+		
+		return orderDetailsAndProductDetails;
+	}
+	
 	@Override
 	public String insertOrderAndProduct(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
 		String Response;
@@ -141,7 +176,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				}
 				Response = "Order Placed and OrderId Is"+orderId;
 				UserDetails User = new UserDetails();
-				User = userServiceDAOImpl.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId()));
+				User = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId()));
 				System.out.println("+++++++++"+User.getDeviceToken());
 				try {
 					fcmPushNotification.sendPushNotification(User.getDeviceToken(),"Registration for Bislary" , "Your registration Succesful,please login to your account");
@@ -205,7 +240,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			Response = "Updated For OrderId"+updateOrderDetailsRequest.getRequest().getOrderId();
 			try {
 				UserDetails User;
-				User = userServiceDAOImpl.getUserDetails(Integer.parseInt(updateOrderDetailsRequest.getRequest().getAssignedId()));
+				User = userServiceDAO.getUserDetails(Integer.parseInt(updateOrderDetailsRequest.getRequest().getAssignedId()));
 				fcmPushNotification.sendPushNotification(User.getDeviceToken(),"Registration for Bislary" , "Your registration Succesful,please login to your account");
 			}catch(Exception e) {
 				return Response;
@@ -248,10 +283,18 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
 		List<OrderDetails> OrderDetailsList = orderServiceDAO.getAssginedOrder(getAssginedOrderBORequest);
 		List<OrderDetailsAndProductDetails> GetOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
-		for (int i = 0; i <OrderDetailsList.size() ; i++)
+		GetCustomerOutstandingAmt getCustomerOutstandingAmt = new GetCustomerOutstandingAmt();
+		GetCustomerOutstandingAmtBORequest getCustomerOutstandingAmtBORequest = new GetCustomerOutstandingAmtBORequest();
+		CustomerProductDetails customerProductDetails = new CustomerProductDetails();		
+		for (int i = 0; i <OrderDetailsList.size(); i++)
 		{
-			List<OrderProductDetails> OrderProductDetailsList = orderProductDao.getUserByStatuesAndDistributorId(OrderDetailsList.get(i));
-			GetOrderDetailsAndProductDetails.add(AddProductAndOrderDetailsIntoResponse(OrderDetailsList.get(i),OrderProductDetailsList));
+			getCustomerOutstandingAmt.setCustomerId(OrderDetailsList.get(i).getCustomerId());
+			getCustomerOutstandingAmtBORequest.setRequestData(getCustomerOutstandingAmt);
+			String CustomerAmount = customerOutstandingAmtDAO.getCustomerOutstandingAmt(getCustomerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();	
+		
+			List<OrderProductDetails> orderProductDetailsList = orderProductDao.getProductListByOrderId(OrderDetailsList.get(i).getOrderId());
+			GetOrderDetailsAndProductDetails.add(i,GetProductAndOrderDetails(OrderDetailsList.get(i),orderProductDetailsList,CustomerAmount));
+			CustomerAmount = null;
 		}
 		orderProductBOResponse.setOrderList(GetOrderDetailsAndProductDetails);
 		return orderProductBOResponse;}
@@ -261,7 +304,6 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);
 		}
 	}
-
 
 	@Override
 	public String closeOrder(CloseOrderBORequest closeOrderBORequest) {
@@ -359,9 +401,9 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			GetListOfOrderByDateBOResponse getListOfOrderByDateBOResponse = new GetListOfOrderByDateBOResponse();
 			List<CompleteOrderDetails> orderDetails = orderServiceDAO.getListOfOrderByDate(getListOfOrderByDateBORequest);
 			for(int i = 0 ; i<orderDetails.size() ; i++) {
-				orderDetails.get(i).setCustomerDetails(userServiceDAOImpl.getUserDetails(Integer.valueOf(orderDetails.get(i).getCustomerId())));
-				orderDetails.get(i).setDistributorDetails(userServiceDAOImpl.getUserDetails(Integer.valueOf(orderDetails.get(i).getDistributorId())));
-				orderDetails.get(i).setEmployeeDetails(userServiceDAOImpl.getUserDetails(Integer.valueOf(orderDetails.get(i).getDistributorId())));
+				orderDetails.get(i).setCustomerDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getCustomerId())));
+				orderDetails.get(i).setDistributorDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getDistributorId())));
+				orderDetails.get(i).setEmployeeDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getDistributorId())));
 				orderDetails.get(i).setOrderProductDetails(orderProductDao.getProductListByOrderId(orderDetails.get(i).getOrderId()));
 			}
 			getListOfOrderByDateBOResponse.setCompleteOrderDetails(orderDetails);
@@ -387,7 +429,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			customerOutstandingDetails.setCustomerOutstandingAmt(saleVocherBoRequest.getRequest().getOutstandingAmount());
 			customerOutstandingBORequest.setRequestData(customerOutstandingDetails);
 			
-			customerOutstandingAmtDAOImpl.updateCustomerOutstandingAmt(customerOutstandingBORequest);
+			customerOutstandingAmtDAO.updateCustomerOutstandingAmt(customerOutstandingBORequest);
 			
 			CustomerProductDataBORequest customerProductDataBORequest = new CustomerProductDataBORequest();
 			OrderProductDetailsSaleVocher orderedProductDetails = new OrderProductDetailsSaleVocher();

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
@@ -42,6 +43,7 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 			userProductEntity.setOtsUsersId(otsUsers);
 			userProductEntity.setOtsCustomerProductBalCan(customerProductDataBORequest.getRequestData().getCustomerBalanceCan());
 			userProductEntity.setOtsCustomerProductPrice(customerProductDataBORequest.getRequestData().getProductPrice());
+			userProductEntity.setOtsCustomerProductDefault("Yes");
 			/*
 			 * setting Product object for product mapping
 			 */
@@ -112,8 +114,6 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 				otsCustomerProduct.setOtsCustomerProductPrice(customerProductDataBORequest.getRequestData().getProductPrice());
 				super.getEntityManager().merge(otsCustomerProduct);
 			}catch(Exception e) {
-					
-				
 				otsCustomerProduct.setOtsCustomerProductBalCan(customerProductDataBORequest.getRequestData().getCustomerBalanceCan());
 				otsCustomerProduct.setOtsCustomerProductPrice(customerProductDataBORequest.getRequestData().getProductPrice());
 				super.getEntityManager().persist(otsCustomerProduct);
@@ -130,4 +130,50 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 		return  responseData;
 	}
 
+	@Override
+	public CustomerProductDetails getCustomerProductDetailsByUserIdandProductId(String productId,String customerId) {
+		CustomerProductDetails customerProductDetails = new CustomerProductDetails();
+		try{
+			/*
+			 * setting users object for user mapping
+			 */
+			OtsCustomerProduct otsCustomerProduct = new OtsCustomerProduct();
+			
+			OtsUsers otsUsers = new OtsUsers();
+			otsUsers.setOtsUsersId(Integer.parseInt(customerId));
+			otsCustomerProduct.setOtsUsersId(otsUsers);
+			
+			OtsProduct otsProduct = new OtsProduct();
+			otsProduct.setOtsProductId(Integer.parseInt(productId));
+			otsCustomerProduct.setOtsProductId(otsProduct);
+				
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsUsersId",otsUsers);
+			queryParameter.put("otsProductId",otsProduct);
+			queryParameter.put("otsCustomerProductDefault","no");
+			try {
+				otsCustomerProduct = super.getResultByNamedQuery("OtsCustomerProduct.getCustomerProductDetails", queryParameter);
+				customerProductDetails = convertCustomerDetailsEntityToModel( otsCustomerProduct);
+			}catch (Exception e) {
+	        	return null;
+	        }
+			logger.info("Inside Event=1006,Class:MapUserProductDAOImpl,Method:mapUserProduct"+"Successfull");
+		}catch (Exception e) {
+        	logger.error("Exception while Inserting data to DB  :"+e.getMessage());
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+        }
+		return  customerProductDetails;
+	}
+	
+	public CustomerProductDetails convertCustomerDetailsEntityToModel(OtsCustomerProduct otsCustomerProduct) {
+		CustomerProductDetails customerProductDetails = new CustomerProductDetails();
+		customerProductDetails.setCustomerBalanceCan(otsCustomerProduct.getOtsCustomerProductBalCan());
+		customerProductDetails.setProductPrice(otsCustomerProduct.getOtsCustomerProductPrice());
+		customerProductDetails.setProductId(otsCustomerProduct.getOtsProductId().toString());
+		customerProductDetails.setProductDefault(otsCustomerProduct.getOtsCustomerProductDefault());
+		customerProductDetails.setUserId(otsCustomerProduct.getOtsUsersId().toString());
+		return customerProductDetails;
+		
+	}
 }

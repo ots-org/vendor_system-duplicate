@@ -38,6 +38,9 @@ public class OrderDetails {
 	 
 	 @Size(max = 20)
 	 private String CreatedBy;
+	 
+	 @Size(max = 20)
+	 private String OrderNumber;
 
 	public String getCreatedBy() {
 		return CreatedBy;

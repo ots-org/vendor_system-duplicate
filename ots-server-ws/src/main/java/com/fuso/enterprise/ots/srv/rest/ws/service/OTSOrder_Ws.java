@@ -104,7 +104,7 @@ public interface OTSOrder_Ws {
 	Response getListOfOrderByDateRequest(@ApiParam(value = "request", required = true) @NotNull  @Valid GetListOfOrderByDateBORequest  getListOfOrderByDateBORequest);
 
 	@POST
-    @Path("/saleVocher")
+    @Path("/salesVocher")
 	@ApiOperation(value = "getOrder", notes = "Inserting the data when closeing order or derliverd the product to customer", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response saleVocher(@ApiParam(value = "request", required = true) @NotNull  @Valid SaleVocherBoRequest  saleVocherBoRequest);

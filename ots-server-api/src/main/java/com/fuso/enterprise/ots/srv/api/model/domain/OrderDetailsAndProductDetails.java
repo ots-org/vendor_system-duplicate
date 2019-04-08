@@ -20,8 +20,36 @@ public class OrderDetailsAndProductDetails {
     private String DeliveredQty;
     private String OrderProductCost;
     private String OrderProductStatus;
-    private List<OrderProductDetails> OrderdProducts;
+    private String OutStandingAmount;
+    private UserDetails DistributorDetails;
+    private UserDetails EmployeeDetails;
+    private UserDetails CustomerDetails;
+    private List<OrderProductDetails> OrderdProducts;    
     
+	public UserDetails getDistributorDetails() {
+		return DistributorDetails;
+	}
+	public void setDistributorDetails(UserDetails distributorDetails) {
+		DistributorDetails = distributorDetails;
+	}
+	public UserDetails getEmployeeDetails() {
+		return EmployeeDetails;
+	}
+	public void setEmployeeDetails(UserDetails employeeDetails) {
+		EmployeeDetails = employeeDetails;
+	}
+	public UserDetails getCustomerDetails() {
+		return CustomerDetails;
+	}
+	public void setCustomerDetails(UserDetails customerDetails) {
+		CustomerDetails = customerDetails;
+	}
+	public String getOutStandingAmount() {
+		return OutStandingAmount;
+	}
+	public void setOutStandingAmount(String outStandingAmount) {
+		OutStandingAmount = outStandingAmount;
+	}
 	public List<OrderProductDetails> getOrderdProducts() {
 		return OrderdProducts;
 	}

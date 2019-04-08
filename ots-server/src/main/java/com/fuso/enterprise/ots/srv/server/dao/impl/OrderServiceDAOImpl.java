@@ -120,7 +120,6 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		orderDetails.setCustomerId(otsOrder.getOtsCustomerId()==null?null:otsOrder.getOtsCustomerId().getOtsUsersId().toString());
 		orderDetails.setAssignedId(otsOrder.getOtsAssignedId()==null?null:otsOrder.getOtsAssignedId().getOtsUsersId().toString());
 		orderDetails.setOrderCost(otsOrder.getOtsOrderCost()==null?null:otsOrder.getOtsOrderCost().toString());
-		
 		orderDetails.setOrderDeliverdDate(otsOrder.getOtsOrderDeliveredDt()==null?null:otsOrder.getOtsOrderDeliveredDt().toString());
 		orderDetails.setCreatedBy(otsOrder.getOtsOrderCreated()==null?null:otsOrder.getOtsOrderCreated().toString());
 		orderDetails.setStatus(otsOrder.getOtsOrderStatus()==null?null:otsOrder.getOtsOrderStatus());
@@ -294,24 +293,52 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 	@Override
 	public List<OrderDetails> getAssginedOrder(GetAssginedOrderBORequest getAssginedOrderBORequest) {
 	try {
-		List<OtsOrder> OrderList = new ArrayList<OtsOrder>() ;
+		List<OtsOrder> orderList = new ArrayList<OtsOrder>() ;
 		List<OrderDetails> otsOrderDetails = new ArrayList<OrderDetails>();
 	
 		Map<String, Object> queryParameter = new HashMap<>();
-		String Status = getAssginedOrderBORequest.getRequest().getStatus();
 		OtsUsers AssginedId = new OtsUsers();
 		AssginedId.setOtsUsersId(Integer.parseInt(getAssginedOrderBORequest.getRequest().getEmployeeId()));	
+		
 		queryParameter.put("otsAssignedId",AssginedId);
-		queryParameter.put("otsOrderStatus",Status);
+		queryParameter.put("otsOrderStatus",getAssginedOrderBORequest.getRequest().getStatus());
 			
-		OrderList = super.getResultListByNamedQuery("OtsOrder.getAssginedOrder", queryParameter);
-		otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
+		orderList = super.getResultListByNamedQuery("OtsOrder.getAssginedOrder", queryParameter);
+		otsOrderDetails =  orderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
 		return otsOrderDetails;
 		}
 	catch(Exception e){
 			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);}
 	catch (Throwable e) {
 			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);}
+	}
+	
+	@Override
+	public List<OrderDetails> getCustomerOrderStatus(GetCustomerOrderByStatusBOrequest getCustomerOrderByStatusBOrequest) {
+		logger.info("Inside Event=1030,Class:OrderServiceDAOImpl,Method:getCustomerOrderStatus,getCustomerOrderByStatusBOrequest " + getCustomerOrderByStatusBOrequest);
+		List<OrderDetails> otsOrderDetails = new ArrayList<OrderDetails>();
+    	try {   
+    		List<OtsOrder> OrderList = new ArrayList<OtsOrder>() ;
+            try {
+            	Map<String, Object> queryParameter = new HashMap<>();
+            	OtsUsers CustomerId = new OtsUsers();
+            	CustomerId.setOtsUsersId(Integer.parseInt(getCustomerOrderByStatusBOrequest.getRequest().getCustomerId()));
+    			
+            	queryParameter.put("otsCustomerId", CustomerId);
+    			queryParameter.put("Status", getCustomerOrderByStatusBOrequest.getRequest().getStatus());
+    			
+    			OrderList  = super.getResultListByNamedQuery("OtsOrder.getOrderIdByCustomerId", queryParameter);
+            } catch (NoResultException e) {
+            	logger.error("Exception while fetching data from DB :"+e.getMessage());
+        		e.printStackTrace();
+            	throw new BusinessException(e.getMessage(), e);}
+            otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
+    	}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		}
+    	return otsOrderDetails;
 	}
 
 	@Override
@@ -364,31 +391,6 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		}
 	}
 
-	@Override
-	public List<OrderDetails> getCustomerOrderStatus(GetCustomerOrderByStatusBOrequest getCustomerOrderByStatusBOrequest) {
-		logger.info("Inside Event=1030,Class:OrderServiceDAOImpl,Method:getCustomerOrderStatus,getCustomerOrderByStatusBOrequest " + getCustomerOrderByStatusBOrequest);
-		List<OrderDetails> otsOrderDetails = new ArrayList<OrderDetails>();
-    	try {   
-    		List<OtsOrder> OrderList = new ArrayList<OtsOrder>() ;
-            try {
-            	Map<String, Object> queryParameter = new HashMap<>();
-            	OtsUsers CustomerId = new OtsUsers();
-            	CustomerId.setOtsUsersId(Integer.parseInt(getCustomerOrderByStatusBOrequest.getRequest().getCustomerId()));
-    			queryParameter.put("otsCustomerId", CustomerId);
-    			queryParameter.put("Status", getCustomerOrderByStatusBOrequest.getRequest().getStatus());
-    			OrderList  = super.getResultListByNamedQuery("OtsOrder.getOrderIdByCustomerId", queryParameter);
-            } catch (NoResultException e) {
-            	logger.error("Exception while fetching data from DB :"+e.getMessage());
-        		e.printStackTrace();
-            	throw new BusinessException(e.getMessage(), e);}
-            otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
-    	}catch(Exception e){
-			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
-		} catch (Throwable e) {
-			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
-		}
-    	return otsOrderDetails;
-	}
 
 	@Override
 	public List<CompleteOrderDetails> getListOfOrderByDate(GetListOfOrderByDateBORequest getListOfOrderByDateBORequest) {
@@ -456,7 +458,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			
 			otsOrder.setOtsOrderAmountReceived(Long.parseLong(saleVocherBoRequest.getRequest().getAmountReceived()));
 			otsOrder.setOtsOrderCost(Long.parseLong(saleVocherBoRequest.getRequest().getAmountReceived()));
-			otsOrder.setOtsOrderStatus("Sales Vocher Genrted");
+			otsOrder.setOtsOrderStatus("Genrated");
 			super.getEntityManager().merge(otsOrder);
 			otsOrderDetails = convertOrderDetailsFromEntityToDomain(otsOrder);
 			

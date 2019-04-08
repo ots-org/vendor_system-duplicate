@@ -64,27 +64,29 @@ public class CustomerOutstandingAmtDAOImpl extends AbstractIptDao<OtsCustomerOut
 	public GetCustomerOutstandingAmtBOResponse getCustomerOutstandingAmt(GetCustomerOutstandingAmtBORequest getCustomerOutstandingAmtBORequest) {
 		List<CustomerOutstandingDetails>  customerOutstandingDetails=new ArrayList<CustomerOutstandingDetails>();
 		GetCustomerOutstandingAmtBOResponse customerOutstandingAmtResponse = new GetCustomerOutstandingAmtBOResponse();
-		   try {
+		OtsUsers otsUsers = new OtsUsers();
+		otsUsers.setOtsUsersId(Integer.parseInt(getCustomerOutstandingAmtBORequest.getRequestData().getCustomerId()));   
+		try {
         	OtsCustomerOutstanding otsCustomerOutstanding=new OtsCustomerOutstanding();
 			Map<String, Object> queryParameter = new HashMap<>();
-			OtsUsers otsUsers = new OtsUsers();
-			otsUsers.setOtsUsersId(Integer.parseInt(getCustomerOutstandingAmtBORequest.getRequestData().getCustomerId()));
+			
 			queryParameter.put("customerId", otsUsers);
 			otsCustomerOutstanding=super.getResultByNamedQuery("OtsCustomerOutstanding.findByOtscustomerId", queryParameter);
 			customerOutstandingDetails.add(convertCustomerOutstandingDetailsFromEntityToDomain(otsCustomerOutstanding));
 			customerOutstandingAmtResponse.setCustomerOutstandingAmount(customerOutstandingDetails);
         }catch (NoResultException e) {
-        	logger.error("Exception while fetching data from DB :"+e.getMessage());
-    		e.printStackTrace();
-    		throw new BusinessException(e.getMessage(), e);
-
+        	OtsCustomerOutstanding otsCustomerOutstanding = new OtsCustomerOutstanding();
+        	otsCustomerOutstanding.setOtsCustomerId(otsUsers);
+        	super.getEntityManager().persist(otsCustomerOutstanding);
+        	customerOutstandingDetails.add(convertCustomerOutstandingDetailsFromEntityToDomain(otsCustomerOutstanding));
+			customerOutstandingAmtResponse.setCustomerOutstandingAmount(customerOutstandingDetails);
         }
 		return customerOutstandingAmtResponse;
 	}
 	private CustomerOutstandingDetails convertCustomerOutstandingDetailsFromEntityToDomain(OtsCustomerOutstanding otsCustomerOutstanding) {
 		CustomerOutstandingDetails customerOutstandingDetails=new CustomerOutstandingDetails();
 		customerOutstandingDetails.setCustomerId((otsCustomerOutstanding.getOtsCustomerId())==null?null:otsCustomerOutstanding.getOtsCustomerId().getOtsUsersId().toString());
-		customerOutstandingDetails.setCustomerOutstandingAmt((otsCustomerOutstanding.getOtsCustomerOutstandingAmt())==null?null:otsCustomerOutstanding.getOtsCustomerOutstandingAmt().toString());
+		customerOutstandingDetails.setCustomerOutstandingAmt((otsCustomerOutstanding.getOtsCustomerOutstandingAmt())==null?"0":otsCustomerOutstanding.getOtsCustomerOutstandingAmt().toString());
 		return customerOutstandingDetails;
 	}
 }

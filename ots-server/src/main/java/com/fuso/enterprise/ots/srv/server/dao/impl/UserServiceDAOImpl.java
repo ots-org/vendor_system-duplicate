@@ -201,6 +201,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 	   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
 	   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
 	   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
+	   		tempcustomerProductDetails.setProductDefault(customerProductDetails.get(i).getOtsCustomerProductDefault()==null?null:customerProductDetails.get(i).getOtsCustomerProductDefault().toString());
 	   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
 	   	}       
         return userDetails;
