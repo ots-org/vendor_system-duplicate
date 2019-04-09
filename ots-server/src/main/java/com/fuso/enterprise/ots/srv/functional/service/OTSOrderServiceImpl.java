@@ -258,14 +258,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	public String updateAssginedOrder(UpdateForAssgineBOrequest  updateForAssgineBOrequest) {
 		String Response;
 		try {
-			Response = orderServiceDAO.updateAssginedOrder(updateForAssgineBOrequest);
-	try {
-				UserDetails User;
-				User = userServiceDAOImpl.getUserDetails(Integer.parseInt(updateForAssgineBOrequest.getRequest().getAssignedId()));
-				fcmPushNotification.sendPushNotification(User.getDeviceToken(),"Bislary APP" , "Please Check For the Update On Orders");
-			}catch(Exception e) {
-				return Response;
-			}
+			Response = orderServiceDAO.updateAssginedOrder(updateForAssgineBOrequest);;
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
@@ -335,14 +328,6 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			addOrUpdateOnlyOrderProductRequest.setProductList(orderedProductDetails);
 			addOrUpdateOrderProduct(addOrUpdateOnlyOrderProductRequest);
 			String Response = "Order Has been closed for OrderId "+closeOrderBORequest.getRequest().getOrderId();
-			try {
-				UserDetails User;
-				User = userServiceDAOImpl.getUserDetails(Integer.parseInt(orderDetails.getDistributorId()));
-				fcmPushNotification.sendPushNotification(User.getDeviceToken(),"Bislary APP" , "Please Check For the close Orders");
-				System.out.println("Check"+orderDetails.getDistributorId()+User.getDeviceToken());
-			}catch(Exception e) {
-				return Response;
-			}
 			return Response;}
 		catch(Exception e){
 			e.printStackTrace();
