@@ -181,11 +181,23 @@ public class OTSUserServiceImpl implements  OTSUserService{
 						/*To send Notification to Distributor when user get registor*/
 						UserDetails User;
 						User = userServiceDAO.getUserDetails(Integer.parseInt(addNewBORequest.getRequestData().getMappedTo()));
-						System.out.println(User.getDeviceToken());
-						fcmPushNotification.sendPushNotification(User.getDeviceToken(),"Bislary APP" , "User Is requesting for registration");
+						if(addNewBORequest.getRequestData().getUserRoleId().equals("4")) {
+						String notification = "Registration request from "+addNewBORequest.getRequestData().getFirstName()+" "+addNewBORequest.getRequestData().getLastName()+" as customer click to approve or reject";
+						fcmPushNotification.sendPushNotification(User.getDeviceId(),"Bislari APP" , notification);
 						/*To send Notification to Admin when user get registor*/
 						User = userServiceDAO.getUserDetails(1);
-						fcmPushNotification.sendPushNotification(User.getDeviceToken(),"Bislary APP" , "User Is requesting for registration");
+						fcmPushNotification.sendPushNotification(User.getDeviceId(),"Bislari APP" , notification);
+						}else if(addNewBORequest.getRequestData().getUserRoleId().equals("3")){
+							String notification = "Registration request from "+addNewBORequest.getRequestData().getFirstName()+" "+addNewBORequest.getRequestData().getLastName()+" as Employee click to approve or reject";
+							fcmPushNotification.sendPushNotification(User.getDeviceId(),"Bislari APP" , notification);
+							/*To send Notification to Admin when user get registor*/
+							User = userServiceDAO.getUserDetails(1);
+							fcmPushNotification.sendPushNotification(User.getDeviceId(),"Bislari APP" , notification);	
+						}else if(addNewBORequest.getRequestData().getUserRoleId().equals("2")) {
+							String notification = "Registration request from "+addNewBORequest.getRequestData().getFirstName()+" "+addNewBORequest.getRequestData().getLastName()+" as Distributor click to approve or reject";
+							fcmPushNotification.sendPushNotification(User.getDeviceId(),"Bislari APP" , notification);
+						}
+						
 					}catch(Exception e) {
 						return userRegistrationResponce;
 					}
@@ -251,7 +263,8 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			* AddNewUser from registration
 			*/
 			addNewUser(addUserDataBORequest);
-			fcmPushNotification.sendPushNotification(addUserDataBORequest.getRequestData().getDeviceToken(),"Registration for Bislary" , "Your registration Succesful,please login to your account");
+			String notification ="Your Request have been approved";
+			fcmPushNotification.sendPushNotification(addUserDataBORequest.getRequestData().getDeviceId(),"Registration for Bislari" , notification);
 
 			/*
 			* fetching OTSRegistration Object for approve status

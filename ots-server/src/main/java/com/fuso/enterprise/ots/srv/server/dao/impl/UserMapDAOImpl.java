@@ -34,7 +34,6 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 			otsUsers.setOtsUsersId(Integer.parseInt(mapUsersDataBORequest.getRequestData().getUserId()));
 			userMappEntity.setOtsUsersId(otsUsers);
 			userMappEntity.setOtsMappedTo(Integer.parseInt(mapUsersDataBORequest.getRequestData().getMappedTo()));
-			
 			try {
 				super.getEntityManager().merge(userMappEntity);
 			}catch (NoResultException e) {

@@ -27,7 +27,7 @@ public interface OrderServiceDAO {
 	void updateOrderwithBillID(OtsBill otsBill, List<ListOfOrderId> listOfOrderId);
 	List<OrderDetails> getOrderBydate(GetOrderBORequest getOrderBORequest);
 	List<OrderDetails> getOrderIdByDistributorId(GetOrderByStatusRequest getOrderByStatusRequest);
-	Integer insertOrderAndGetOrderId(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest);
+	OrderDetails insertOrderAndGetOrderId(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest);
 	String UpdateOrder(UpdateOrderDetailsRequest updateOrderDetailsRequest);
 	String updateAssginedOrder(UpdateForAssgineBOrequest updateForAssgineBOrequest);
 	List<OrderDetails> getAssginedOrder(GetAssginedOrderBORequest getAssginedOrderBORequest);
@@ -36,4 +36,5 @@ public interface OrderServiceDAO {
 	List<OrderDetails> getCustomerOrderStatus(GetCustomerOrderByStatusBOrequest getCustomerOrderByStatusBOrequest);
 	List<CompleteOrderDetails> getListOfOrderByDate(GetListOfOrderByDateBORequest getListOfOrderByDateBORequest);
 	OrderDetails SalesVocher(SaleVocherBoRequest saleVocherBoRequest);
+	OrderDetails GetOrderDetailsByOrderId(String OrderId);
 }

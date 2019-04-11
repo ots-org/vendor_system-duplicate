@@ -123,6 +123,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		orderDetails.setOrderDeliverdDate(otsOrder.getOtsOrderDeliveredDt()==null?null:otsOrder.getOtsOrderDeliveredDt().toString());
 		orderDetails.setCreatedBy(otsOrder.getOtsOrderCreated()==null?null:otsOrder.getOtsOrderCreated().toString());
 		orderDetails.setStatus(otsOrder.getOtsOrderStatus()==null?null:otsOrder.getOtsOrderStatus());
+		orderDetails.setOrderNumber(otsOrder.getOtsOrderNumber()==null?null:otsOrder.getOtsOrderNumber());
 		return orderDetails;		
 	}
 
@@ -153,7 +154,8 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 	}
 
 	@Override
-	public Integer insertOrderAndGetOrderId(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
+	public OrderDetails insertOrderAndGetOrderId(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
+		OrderDetails orderDetails = new OrderDetails();
 		try {
 			OtsOrder otsOrder = convertDomainToOrderEntity(addOrUpdateOrderProductBOrequest);
 			save(otsOrder);
@@ -161,7 +163,9 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			String OrderNumber = "ORD-"+otsOrder.getOtsOrderId().toString();
 			//int OrderId = otsOrder.getOtsOrderId();
 			otsOrder.setOtsOrderNumber(OrderNumber);
-			return otsOrder.getOtsOrderId();
+			super.getEntityManager().merge(otsOrder);
+			orderDetails = convertOrderDetailsFromEntityToDomain(otsOrder);
+			return orderDetails;
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.error("Error in inserting order in order table"+e.getMessage());
@@ -443,6 +447,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		orderDetails.setCreatedBy(otsOrder.getOtsOrderCreated()==null?null:otsOrder.getOtsOrderCreated().toString());
 		orderDetails.setStatus(otsOrder.getOtsOrderStatus()==null?null:otsOrder.getOtsOrderStatus());
 		orderDetails.setOrderDeliveryDate(otsOrder.getOtsOrderDeliveryDt()==null?null:otsOrder.getOtsOrderDeliveryDt().toString());
+		orderDetails.setOrderNumber(otsOrder.getOtsOrderNumber()==null?null:otsOrder.getOtsOrderNumber());
 		return orderDetails;		
 	}
 
@@ -455,7 +460,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			
 			queryParameter.put("otsOrderId",Integer.parseInt( saleVocherBoRequest.getRequest().getOrderId()));
 			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
-			
+			otsOrder.setOtsOrderDeliveredDt(saleVocherBoRequest.getRequest().getDeliverdDate());
 			otsOrder.setOtsOrderAmountReceived(Long.parseLong(saleVocherBoRequest.getRequest().getAmountReceived()));
 			otsOrder.setOtsOrderCost(Long.parseLong(saleVocherBoRequest.getRequest().getAmountReceived()));
 			otsOrder.setOtsOrderStatus("Genrated");
@@ -468,5 +473,27 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 		}
 		return otsOrderDetails;
+	}
+	
+	@Override
+	public OrderDetails GetOrderDetailsByOrderId(String OrderId) {
+		OrderDetails otsOrderDetails = new OrderDetails();
+		OtsOrder otsOrder = new OtsOrder();  
+		try {
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsOrderId",Integer.parseInt(OrderId));
+			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
+			otsOrderDetails = convertOrderDetailsFromEntityToDomain(otsOrder);
+			return otsOrderDetails;
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("Error in inserting order in order table"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			logger.error("Error in inserting order in order table"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		}
+		
 	}
 }

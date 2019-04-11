@@ -166,20 +166,27 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	
 	@Override
 	public String insertOrderAndProduct(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
+		OrderDetails otsOrderDetails = new OrderDetails();
 		String Response;
 		try {
-			Integer orderId = orderServiceDAO.insertOrderAndGetOrderId(addOrUpdateOrderProductBOrequest);
+			otsOrderDetails = orderServiceDAO.insertOrderAndGetOrderId(addOrUpdateOrderProductBOrequest);
 			try {
 				for(int i=0 ; i <addOrUpdateOrderProductBOrequest.getRequest().getProductList().size() ; i++)
 				{
-					orderProductDao.insertOrdrerProductByOrderId(orderId, addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(i));
+					orderProductDao.insertOrdrerProductByOrderId(Integer.parseInt(otsOrderDetails.getOrderId()), addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(i));
 				}
-				Response = "Order Placed and OrderId Is"+orderId;
-				UserDetails User = new UserDetails();
-				User = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId()));
-				System.out.println("+++++++++"+User.getDeviceToken());
+				Response = "Order Placed and OrderId Is "+otsOrderDetails.getOrderId();
+				UserDetails user = new UserDetails();
+				user = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId()));
+				UserDetails Customer = new UserDetails();
+				Customer = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getCustomerId()));
+
 				try {
-					fcmPushNotification.sendPushNotification(User.getDeviceToken(),"Registration for Bislary" , "Your registration Succesful,please login to your account");
+					String notification = otsOrderDetails.getOrderNumber() + " had been placed by " + Customer.getFirstName()+" "+Customer.getLastName()+" and requested delivery date is "+addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()+" please click here to assign the Employee for order";
+					fcmPushNotification.sendPushNotification(user.getDeviceId(),"Bislari App" ,notification);
+					notification = "Order Placed : Your order "+otsOrderDetails.getOrderNumber()+" had been placed";
+					fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"Bislari App" ,notification);
+					 
 				}catch(Exception e) {
 					return Response;
 				}
@@ -241,7 +248,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			try {
 				UserDetails User;
 				User = userServiceDAO.getUserDetails(Integer.parseInt(updateOrderDetailsRequest.getRequest().getAssignedId()));
-				fcmPushNotification.sendPushNotification(User.getDeviceToken(),"Registration for Bislary" , "Your registration Succesful,please login to your account");
+				fcmPushNotification.sendPushNotification(User.getDeviceId(),"Bisleri Apps" , "Your registration Succesful,please login to your account");
 			}catch(Exception e) {
 				return Response;
 			}
@@ -257,8 +264,23 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	@Override
 	public String updateAssginedOrder(UpdateForAssgineBOrequest  updateForAssgineBOrequest) {
 		String Response;
+		OrderDetails otsOrderDetails = new OrderDetails();
 		try {
-			Response = orderServiceDAO.updateAssginedOrder(updateForAssgineBOrequest);;
+			Response = orderServiceDAO.updateAssginedOrder(updateForAssgineBOrequest);
+			try {
+				otsOrderDetails = orderServiceDAO.GetOrderDetailsByOrderId(updateForAssgineBOrequest.getRequest().getOrderId());
+				UserDetails Employee;
+				Employee = userServiceDAO.getUserDetails(Integer.parseInt(updateForAssgineBOrequest.getRequest().getAssignedId()));
+				
+				String Notification = otsOrderDetails.getOrderNumber()+" have been assigned to you, please click to view the order details ";
+				fcmPushNotification.sendPushNotification(Employee.getDeviceId(),"Bislari app" , Notification);
+				
+				UserDetails customer = userServiceDAO.getUserDetails(Integer.getInteger(otsOrderDetails.getCustomerId()));
+				Notification =" Order Placed : Your order "+ otsOrderDetails.getOrderNumber()+" has been confirmed and will be delivered on or before "+otsOrderDetails.getOrderDeliveryDate();
+				fcmPushNotification.sendPushNotification(customer.getDeviceId(),"Bislari app" , Notification);
+			}catch(Exception e) {
+				return Response;
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
@@ -408,7 +430,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			CustomerOutstandingBORequest customerOutstandingBORequest = new CustomerOutstandingBORequest();
 			orderDetails = orderServiceDAO.SalesVocher(saleVocherBoRequest);
 			
-			
+		
 			CustomerOutstandingDetails customerOutstandingDetails = new CustomerOutstandingDetails();
 			customerOutstandingDetails.setCustomerId(saleVocherBoRequest.getRequest().getCustomerId());
 			customerOutstandingDetails.setCustomerOutstandingAmt(saleVocherBoRequest.getRequest().getOutstandingAmount());
@@ -450,6 +472,19 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				
 				productStockHistoryDao.addProductStockHistory(addProductStockBORequest);
 				productStockDao.removeProductStock(addProductStockBORequest);
+				try {
+					UserDetails distributor;
+					distributor = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getDistributorId()));
+					String notification ="The order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+saleVocherBoRequest.getRequest().getDeliverdDate();
+					fcmPushNotification.sendPushNotification(distributor.getDeviceId(),"Bisleri Apps" , notification);
+					
+					UserDetails Customer;
+					Customer = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId()));
+					notification = "Your order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+ saleVocherBoRequest.getRequest().getDeliverdDate();						
+					fcmPushNotification.sendPushNotification(distributor.getDeviceId(),"Bisleri Apps" , notification);
+				}catch(Exception e) {
+					return "Updated";
+				}
 			}
 		}catch (BusinessException e) {
 			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);

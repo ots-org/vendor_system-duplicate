@@ -1,5 +1,6 @@
 package com.fuso.enterprise.ots.srv.api.model.domain;
 
+import java.util.Date;
 import java.util.List;
 
 public class SaleVocherModelRequest {
@@ -14,10 +15,18 @@ public class SaleVocherModelRequest {
 	
 	private String outstandingAmount;
 	
+	private Date DeliverdDate;
+	
 	private List<OrderProductListRequest> orderProductlist;
 
-	
-	
+	public Date getDeliverdDate() {
+		return DeliverdDate;
+	}
+
+	public void setDeliverdDate(Date deliverdDate) {
+		DeliverdDate = deliverdDate;
+	}
+
 	public String getOrderId() {
 		return OrderId;
 	}

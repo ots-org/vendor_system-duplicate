@@ -59,7 +59,7 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 	    	otsUserRole.setOtsUserRoleId(Integer.parseInt(addNewBORequest.getRequestData().getUserRoleId()));
 	    	otsRegistration.setOtsUserRoleId(otsUserRole);
 	    	otsRegistration.setOtsRegistrationEmailid(addNewBORequest.getRequestData().getEmailId()); 
-	    	otsRegistration.setOtsDeviceToken(addNewBORequest.getRequestData().getDeviceToken());
+	    	otsRegistration.setOtsDeviceToken(addNewBORequest.getRequestData().getDeviceId());
 	    	otsUsers.setOtsUsersId(Integer.parseInt(addNewBORequest.getRequestData().getMappedTo()));
 	    	otsRegistration.setOtsUsersMappedTo(otsUsers);
 	    	  
@@ -190,7 +190,7 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 		registorToUserDetails.setStatus(otsRegistration.getOtsRegistrationStatus()==null?null:otsRegistration.getOtsRegistrationStatus());
 		registorToUserDetails.setEmailId(otsRegistration.getOtsRegistrationEmailid()==null?null:otsRegistration.getOtsRegistrationEmailid());
 		registorToUserDetails.setUserRoleId(otsRegistration.getOtsUserRoleId().getOtsUserRoleId().toString());
-		registorToUserDetails.setDeviceToken(otsRegistration.getOtsDeviceToken());
+		registorToUserDetails.setDeviceId(otsRegistration.getOtsDeviceToken());
 		return registorToUserDetails;
     }
 	
@@ -209,7 +209,7 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 		userDetails.setUsrStatus(otsRegistration.getOtsRegistrationStatus()==null?null:otsRegistration.getOtsRegistrationStatus());
 		userDetails.setMappedTo(otsRegistration.getOtsUsersMappedTo().getOtsUsersId()==null?null:otsRegistration.getOtsUsersMappedTo().getOtsUsersId().toString());
 		userDetails.setUsrPassword(otsRegistration.getOtsRegistrationPassword()==null?null:otsRegistration.getOtsRegistrationPassword());            
-		userDetails.setDeviceToken(otsRegistration.getOtsDeviceToken());
+		userDetails.setDeviceId(otsRegistration.getOtsDeviceToken());
 		return userDetails;
     }	
 	

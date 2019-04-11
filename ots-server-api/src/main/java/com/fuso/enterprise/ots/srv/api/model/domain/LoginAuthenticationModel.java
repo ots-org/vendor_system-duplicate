@@ -6,14 +6,14 @@ public class LoginAuthenticationModel {
 	
 	private String Password;
 	
-	private String DevicrToken;
+	private String deviceId;
 
-	public String getDevicrToken() {
-		return DevicrToken;
+	public String getDeviceId() {
+		return deviceId;
 	}
 
-	public void setDevicrToken(String devicrToken) {
-		DevicrToken = devicrToken;
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
 	}
 
 	public String getEmailId() {

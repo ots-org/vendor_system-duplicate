@@ -63,15 +63,16 @@ public class UserDetails {
 	 private String productId;	
 	 
 	 @Size(max = 100)
-	 private String DeviceToken;
+	 private String DeviceId;
 	 
 	 
-	public String getDeviceToken() {
-		return DeviceToken;
+
+	public String getDeviceId() {
+		return DeviceId;
 	}
 
-	public void setDeviceToken(String deviceToken) {
-		DeviceToken = deviceToken;
+	public void setDeviceId(String deviceId) {
+		DeviceId = deviceId;
 	}
 
 	private List<CustomerProductDetails> CustomerProductDetails = new ArrayList<>();
