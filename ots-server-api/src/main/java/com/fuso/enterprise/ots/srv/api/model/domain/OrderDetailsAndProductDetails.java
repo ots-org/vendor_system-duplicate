@@ -21,6 +21,9 @@ public class OrderDetailsAndProductDetails {
     private String OrderProductCost;
     private String OrderProductStatus;
     private String OutStandingAmount;
+    private String amountRecived;
+    private String orderOutStanding;
+    private String balanceCan;
     private UserDetails DistributorDetails;
     private UserDetails EmployeeDetails;
     private UserDetails CustomerDetails;
@@ -151,6 +154,24 @@ public class OrderDetailsAndProductDetails {
 	}
 	public void setOrderProductId(String orderProductId) {
 		OrderProductId = orderProductId;
+	}
+	public String getAmountRecived() {
+		return amountRecived;
+	}
+	public void setAmountRecived(String amountRecived) {
+		this.amountRecived = amountRecived;
+	}
+	public String getOrderOutStanding() {
+		return orderOutStanding;
+	}
+	public void setOrderOutStanding(String orderOutStanding) {
+		this.orderOutStanding = orderOutStanding;
+	}
+	public String getBalanceCan() {
+		return balanceCan;
+	}
+	public void setBalanceCan(String balanceCan) {
+		this.balanceCan = balanceCan;
 	}
 	
 	

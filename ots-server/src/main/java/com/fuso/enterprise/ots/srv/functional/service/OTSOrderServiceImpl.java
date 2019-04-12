@@ -28,6 +28,7 @@ import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
@@ -143,7 +144,9 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		orderDetailsAndProductDetails.setAssignedId(orderDetails.getAssignedId());
 		orderDetailsAndProductDetails.setOrderCost(orderDetails.getOrderCost());
 		orderDetailsAndProductDetails.setOrderStatus(orderDetails.getStatus());
+		orderDetailsAndProductDetails.setAmountRecived(orderDetails.getAmountRecived());
 		orderDetailsAndProductDetails.setOrderdProducts(OrderProductDetails);
+		orderDetailsAndProductDetails.setOrderOutStanding(orderDetails.getOutstandingAmount());
 		CustomerProductDetails customerProductDetails = new CustomerProductDetails();
 		for(int i=0 ; i<OrderProductDetails.size() ; i++) {
 			try {
@@ -300,7 +303,6 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		List<OrderDetailsAndProductDetails> GetOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
 		GetCustomerOutstandingAmt getCustomerOutstandingAmt = new GetCustomerOutstandingAmt();
 		GetCustomerOutstandingAmtBORequest getCustomerOutstandingAmtBORequest = new GetCustomerOutstandingAmtBORequest();
-		CustomerProductDetails customerProductDetails = new CustomerProductDetails();		
 		for (int i = 0; i <OrderDetailsList.size(); i++)
 		{
 			getCustomerOutstandingAmt.setCustomerId(OrderDetailsList.get(i).getCustomerId());
@@ -403,7 +405,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 
 	@Override
 	public GetListOfOrderByDateBOResponse getListOfOrderByDate(
-			GetListOfOrderByDateBORequest getListOfOrderByDateBORequest) {
+															GetListOfOrderByDateBORequest getListOfOrderByDateBORequest) {
 		try{
 			GetListOfOrderByDateBOResponse getListOfOrderByDateBOResponse = new GetListOfOrderByDateBOResponse();
 			List<CompleteOrderDetails> orderDetails = orderServiceDAO.getListOfOrderByDate(getListOfOrderByDateBORequest);
@@ -492,6 +494,33 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
 		}
 		return "Updated";
+	}
+
+	@Override
+	public OrderProductBOResponse orderReportByDate(GetOrderBORequest getOrderBORequest) {
+		try {
+			OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
+			List<OrderDetails> OrderDetailsList = orderServiceDAO.getOrderReportByDate(getOrderBORequest);
+			List<OrderDetailsAndProductDetails> GetOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
+			GetCustomerOutstandingAmt getCustomerOutstandingAmt = new GetCustomerOutstandingAmt();
+			GetCustomerOutstandingAmtBORequest getCustomerOutstandingAmtBORequest = new GetCustomerOutstandingAmtBORequest();		
+			for (int i = 0; i <OrderDetailsList.size(); i++)
+			{
+				getCustomerOutstandingAmt.setCustomerId(OrderDetailsList.get(i).getCustomerId());
+				getCustomerOutstandingAmtBORequest.setRequestData(getCustomerOutstandingAmt);
+				String CustomerAmount = customerOutstandingAmtDAO.getCustomerOutstandingAmt(getCustomerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();	
+			
+				List<OrderProductDetails> orderProductDetailsList = orderProductDao.getProductListByOrderId(OrderDetailsList.get(i).getOrderId());
+				GetOrderDetailsAndProductDetails.add(i,GetProductAndOrderDetails(OrderDetailsList.get(i),orderProductDetailsList,CustomerAmount));
+				CustomerAmount = null;
+			}
+			orderProductBOResponse.setOrderList(GetOrderDetailsAndProductDetails);
+			return orderProductBOResponse;
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		}
 	}
 	
 }

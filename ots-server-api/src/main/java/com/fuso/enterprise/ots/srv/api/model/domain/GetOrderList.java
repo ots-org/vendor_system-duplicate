@@ -4,28 +4,36 @@ import java.sql.Date;
 
 public class GetOrderList {
 
-	private String DistributorsId;
-	private Date FromTime;
-	private Date ToTime;
-
+	private String distributorsId;
+	private Date fromTime;
+	private Date toTime;
+	private String status;
 	
 	public String getDistributorsId() {
-		return DistributorsId;
+		return distributorsId;
 	}
 	public void setDistributorsId(String distributorsId) {
-		DistributorsId = distributorsId;
+		this.distributorsId = distributorsId;
 	}
 	public Date getFromTime() {
-		return FromTime;
+		return fromTime;
 	}
 	public void setFromTime(Date fromTime) {
-		FromTime = fromTime;
+		this.fromTime = fromTime;
 	}
 	public Date getToTime() {
-		return ToTime;
+		return toTime;
 	}
 	public void setToTime(Date toTime) {
-		ToTime = toTime;
+		this.toTime = toTime;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
 
 }
