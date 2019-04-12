@@ -1,6 +1,9 @@
 package com.fuso.enterprise.ots.srv.functional.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -9,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.CustomerOutstanding;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.GetCustomerOutstandingAmt;
 import com.fuso.enterprise.ots.srv.api.model.domain.RegistorToUserDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserMapping;
@@ -17,10 +22,12 @@ import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.OutstandingCustomerResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
@@ -30,12 +37,14 @@ import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationRespon
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
+import com.fuso.enterprise.ots.srv.server.dao.CustomerOutstandingAmtDAO;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserMapDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserRegistrationDao;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceUtilityDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
 
 @Service
@@ -49,6 +58,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	private UserRegistrationDao userRegistrationDao;
 	private MapUserProductDAO mapUserProductDAO;
 	private FcmPushNotification fcmPushNotification;
+	private CustomerOutstandingAmtDAO customerOutstandingAmtDAO;
 	@Inject
 	public OTSUserServiceImpl(UserServiceDAO userServiceDAO,UserMapDAO userMapDAO,UserServiceUtilityDAO userServiceUtilityDAO,UserRegistrationDao userRegistrationDao,
 			MapUserProductDAO mapUserProductDAO) {
@@ -57,6 +67,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		this.userServiceUtilityDAO = userServiceUtilityDAO;
 		this.userRegistrationDao =userRegistrationDao ;
 		this.mapUserProductDAO=mapUserProductDAO;
+		this.customerOutstandingAmtDAO = customerOutstandingAmtDAO;
 	}
 
 	@Override
@@ -290,5 +301,39 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			throw new BusinessException(e.getMessage(), e);
 		}
 		return userDataBOResponse;
+	}
+
+	@Override
+	public OutstandingCustomerResponse getOutstandingData(String distributorId) {
+		OutstandingCustomerResponse outstandingCustomerResponse = new OutstandingCustomerResponse();
+		try {
+			List<CustomerOutstanding> customerOutstandingList = new ArrayList<CustomerOutstanding>();
+			List<UserDetails> userDetails = getUserDetailsByMapped(distributorId).getUserDetails();
+			for(int i=0 ; i<userDetails.size() ; i++) {
+				CustomerOutstanding custOuts = new CustomerOutstanding();
+				custOuts.setCustomerId(Integer.parseInt(userDetails.get(i).getUserId()));
+				custOuts.setCustomerName(userDetails.get(i).getFirstName());
+				
+				GetCustomerOutstandingAmtBORequest customerOutstandingAmtBORequest = new GetCustomerOutstandingAmtBORequest();
+				GetCustomerOutstandingAmt customerOutstandingAmt = new GetCustomerOutstandingAmt();
+				customerOutstandingAmt.setCustomerId(userDetails.get(i).getUserId());
+				customerOutstandingAmtBORequest.setRequestData(customerOutstandingAmt);
+				
+				String custOutAmt = "0";
+				try {
+					custOutAmt = customerOutstandingAmtDAO.getCustomerOutstandingAmt(customerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();
+				}catch(Exception e) {
+					logger.error("Inside Event=1004,Class:OTSUserServiceImpl,Method:getOutstandingData, "
+							+ "User Outstanding Amount  error for customer id  : " + userDetails.get(i).getFirstName());
+				}
+				custOuts.setOutstandingAmount(custOutAmt);
+				custOuts.setOutstandingCan("0");
+				customerOutstandingList.add(custOuts);
+			}
+			outstandingCustomerResponse.setCustomerOutstandingList(customerOutstandingList);
+		}catch(Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		return outstandingCustomerResponse;
 	}
 }

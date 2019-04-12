@@ -17,9 +17,11 @@ import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequ
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.OutstandingCustomerResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
 
@@ -294,4 +296,28 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		}
 		
 	}
+
+	@Override
+	public Response getCustomerOutstandingData(OutstandingRequest outstandingRequest) {
+		// TODO Auto-generated method stub
+		if(!outstandingRequest.getDistributorId().isEmpty()){
+			Response response =null;
+			logger.info("Inside Event=12,Class:OTSUsersV18_1WsImpl, getCustomerOutstandingData, OutstandingRequest.ditributorID:"+outstandingRequest.getDistributorId());
+			OutstandingCustomerResponse outstandingCustomerResponse = new OutstandingCustomerResponse();
+			outstandingCustomerResponse =  otsUserService.getOutstandingData(outstandingRequest.getDistributorId());
+			if(outstandingCustomerResponse!=null) {
+				logger.info("Inside Event=12,Class:OTSUsersV18_1WsImpl,getCustomerOutstandingData, "
+							+ "Customer List Size:" +outstandingCustomerResponse.getCustomerOutstandingList().size());
+				response = responseWrapper.buildResponse(outstandingCustomerResponse);
+				return response;
+			}else {
+				response = responseWrapper.buildResponse("No customer mapped for the distributor to show the outstanding amount");
+				return response;
+			}
+		}else{
+			Response response = buildResponse(600,"Please Check your Input");
+			return response;
+		}
+	}
+	
 }

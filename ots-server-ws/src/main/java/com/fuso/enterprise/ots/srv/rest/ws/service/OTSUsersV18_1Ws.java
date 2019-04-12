@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
@@ -95,6 +96,12 @@ public interface OTSUsersV18_1Ws {
     @Path("/getUserDetailsByMapped")
 	@ApiOperation(value = "getUserDetailsByMapped", notes = "Getting All the details of mapped Users", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
-	Response getUserDetailsByMapped(@ApiParam(value = "request", required = true) @NotNull  @Valid MappedToBORequest mappedToBORequest);		
+	Response getUserDetailsByMapped(@ApiParam(value = "request", required = true) @NotNull  @Valid MappedToBORequest mappedToBORequest);
+	
+	@POST
+    @Path("/getCustomerOutstandingData")
+	@ApiOperation(value = "getCustomerOutstandingData", notes = "Getting customer outstanding amount and cans", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getCustomerOutstandingData(@ApiParam(value = "request", required = true) @NotNull  @Valid OutstandingRequest outstandingRequest);
 	
 }
