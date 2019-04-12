@@ -319,15 +319,24 @@ public class OTSUserServiceImpl implements  OTSUserService{
 				customerOutstandingAmt.setCustomerId(userDetails.get(i).getUserId());
 				customerOutstandingAmtBORequest.setRequestData(customerOutstandingAmt);
 				
+				UserDetails User = userServiceDAO.getUserDetails(Integer.parseInt(userDetails.get(i).getUserId()));
+				
 				String custOutAmt = "0";
+				String custOutCan = "0";
 				try {
 					custOutAmt = customerOutstandingAmtDAO.getCustomerOutstandingAmt(customerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();
 				}catch(Exception e) {
 					logger.error("Inside Event=1004,Class:OTSUserServiceImpl,Method:getOutstandingData, "
 							+ "User Outstanding Amount  error for customer id  : " + userDetails.get(i).getFirstName());
 				}
+				try {
+					custOutCan = User.getCustomerProductDetails().get(0).getCustomerBalanceCan();
+				}catch(Exception e) {
+					logger.error("Inside Event=1004,Class:OTSUserServiceImpl,Method:getOutstandingData, "
+							+ "User Outstanding can  error for customer id  : " + userDetails.get(i).getFirstName());
+				}
 				custOuts.setOutstandingAmount(custOutAmt);
-				custOuts.setOutstandingCan("0");
+				custOuts.setOutstandingCan(custOutCan);
 				customerOutstandingList.add(custOuts);
 			}
 			outstandingCustomerResponse.setCustomerOutstandingList(customerOutstandingList);
