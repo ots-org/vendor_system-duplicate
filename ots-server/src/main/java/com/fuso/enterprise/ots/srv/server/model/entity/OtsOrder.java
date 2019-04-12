@@ -67,6 +67,10 @@ public class OtsOrder implements Serializable {
     private Date otsOrderDeliveredDt;
     @Column(name = "ots_order_status")
     private String otsOrderStatus;
+    @Column(name = "ots_order_balance_can")
+    private String otsOrderBalanceCan;
+    @Column(name = "ots_order_outstanding_amount")
+    private String otsOrderOutstandingAmount;
     @Column(name = "ots_order_amount_received")
     private Long otsOrderAmountReceived;
     @Column(name = "ots_order_timestamp")
@@ -207,6 +211,22 @@ public class OtsOrder implements Serializable {
 
 	public void setOtsOrderAmountReceived(Long otsOrderAmountReceived) {
 		this.otsOrderAmountReceived = otsOrderAmountReceived;
+	}
+	
+	public String getOtsOrderBalanceCan() {
+		return otsOrderBalanceCan;
+	}
+
+	public void setOtsOrderBalanceCan(String otsOrderBalanceCan) {
+		this.otsOrderBalanceCan = otsOrderBalanceCan;
+	}
+
+	public String getOtsOrderOutstandingAmount() {
+		return otsOrderOutstandingAmount;
+	}
+
+	public void setOtsOrderOutstandingAmount(String otsOrderOutstandingAmount) {
+		this.otsOrderOutstandingAmount = otsOrderOutstandingAmount;
 	}
 
 	@XmlTransient

@@ -124,6 +124,10 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		orderDetails.setCreatedBy(otsOrder.getOtsOrderCreated()==null?null:otsOrder.getOtsOrderCreated().toString());
 		orderDetails.setStatus(otsOrder.getOtsOrderStatus()==null?null:otsOrder.getOtsOrderStatus());
 		orderDetails.setOrderNumber(otsOrder.getOtsOrderNumber()==null?null:otsOrder.getOtsOrderNumber());
+		orderDetails.setBalanceCan(otsOrder.getOtsOrderBalanceCan());
+		orderDetails.setOutstandingAmount(otsOrder.getOtsOrderOutstandingAmount());
+		orderDetails.setAmountRecived(otsOrder.getOtsOrderAmountReceived().toString());
+		orderDetails.setOrderNumber(otsOrder.getOtsOrderNumber());
 		return orderDetails;		
 	}
 
@@ -448,6 +452,8 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		orderDetails.setStatus(otsOrder.getOtsOrderStatus()==null?null:otsOrder.getOtsOrderStatus());
 		orderDetails.setOrderDeliveryDate(otsOrder.getOtsOrderDeliveryDt()==null?null:otsOrder.getOtsOrderDeliveryDt().toString());
 		orderDetails.setOrderNumber(otsOrder.getOtsOrderNumber()==null?null:otsOrder.getOtsOrderNumber());
+		orderDetails.setOrderBalanceCan(otsOrder.getOtsOrderBalanceCan()==null?null:otsOrder.getOtsOrderBalanceCan());
+		orderDetails.setOrderOutstandingAmount(otsOrder.getOtsOrderBalanceCan()==null?null:otsOrder.getOtsOrderBalanceCan());
 		return orderDetails;		
 	}
 
@@ -495,5 +501,27 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
 		}
 		
+	}
+
+	@Override
+	public List<OrderDetails> getOrderReportByDate(GetOrderBORequest getOrderBORequest) {
+		try {
+			List<OrderDetails> orderDetails = new ArrayList<OrderDetails>();
+			List<OtsOrder> orderList = new ArrayList<OtsOrder>();
+			Map<String, Object> queryParameter = new HashMap<>();
+	    	OtsUsers distributorId = new OtsUsers();
+	    	distributorId.setOtsUsersId(Integer.parseInt(getOrderBORequest.getRequest().getDistributorsId()));
+			queryParameter.put("DistributorId", distributorId);
+	    	queryParameter.put("startDate",getOrderBORequest.getRequest().getFromTime());
+	    	queryParameter.put("endDate",getOrderBORequest.getRequest().getToTime());
+	    	queryParameter.put("status",getOrderBORequest.getRequest().getStatus());
+	    	orderList  = super.getResultListByNamedQuery("OtsOrder.GetOrderListForDistributorByDateAndStatus", queryParameter);
+	    	orderDetails =  orderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
+			return orderDetails;
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		}
 	}
 }

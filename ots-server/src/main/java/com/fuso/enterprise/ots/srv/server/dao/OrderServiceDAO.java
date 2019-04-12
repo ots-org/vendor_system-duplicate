@@ -37,4 +37,6 @@ public interface OrderServiceDAO {
 	List<CompleteOrderDetails> getListOfOrderByDate(GetListOfOrderByDateBORequest getListOfOrderByDateBORequest);
 	OrderDetails SalesVocher(SaleVocherBoRequest saleVocherBoRequest);
 	OrderDetails GetOrderDetailsByOrderId(String OrderId);
+	List<OrderDetails> getOrderReportByDate(GetOrderBORequest getOrderBORequest);
+	
 }

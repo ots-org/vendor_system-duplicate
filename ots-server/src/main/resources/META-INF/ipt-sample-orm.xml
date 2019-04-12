@@ -243,4 +243,16 @@
 		</query>
 	</named-query>
 	
+	<named-query name="OtsOrder.GetOrderListForDistributorByDateAndStatus">
+		<query>SELECT o
+		FROM    
+			OtsOrder o
+		WHERE
+			(o.otsOrderDeliveredDt >= :startDate AND  :endDate >=o.otsOrderDeliveredDt) 
+		AND
+	        otsOrderStatus = :status
+	    AND 
+	    	otsDistributorId = :DistributorId
+		</query>
+	</named-query>
 </entity-mappings>

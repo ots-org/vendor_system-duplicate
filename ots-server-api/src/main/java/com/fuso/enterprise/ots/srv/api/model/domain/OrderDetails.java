@@ -41,6 +41,39 @@ public class OrderDetails {
 	 
 	 @Size(max = 20)
 	 private String OrderNumber;
+	 
+	 @Size(max = 20)
+	 private String amountRecived;
+	 
+	 @Size(max = 20)
+	 private String balanceCan;
+	 
+	 @Size(max = 20)
+	 private String outstandingAmount;
+
+	public String getAmountRecived() {
+		return amountRecived;
+	}
+
+	public void setAmountRecived(String amountRecived) {
+		this.amountRecived = amountRecived;
+	}
+
+	public String getBalanceCan() {
+		return balanceCan;
+	}
+
+	public void setBalanceCan(String balanceCan) {
+		this.balanceCan = balanceCan;
+	}
+
+	public String getOutstandingAmount() {
+		return outstandingAmount;
+	}
+
+	public void setOutstandingAmount(String outstandingAmount) {
+		this.outstandingAmount = outstandingAmount;
+	}
 
 	public String getCreatedBy() {
 		return CreatedBy;
