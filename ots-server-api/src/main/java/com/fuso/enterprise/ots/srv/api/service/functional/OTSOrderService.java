@@ -6,7 +6,6 @@ import com.fuso.enterprise.ots.srv.api.model.domain.CompleteOrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
-import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;

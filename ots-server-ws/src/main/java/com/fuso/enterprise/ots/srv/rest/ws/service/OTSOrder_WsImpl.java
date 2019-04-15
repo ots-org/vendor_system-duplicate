@@ -11,7 +11,6 @@ import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
-import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
@@ -295,18 +294,17 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		}
 	}
 
-	@Override
-	public Response InsertOrderScheduler(AddSchedulerBORequest addSchedulerBORequest) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Response orderReportByDate(GetOrderBORequest getOrderBORequest) {
-		// TODO Auto-generated method stub
-		Response response;
-		response = buildResponse(oTSOrderService.orderReportByDate(getOrderBORequest),"Successfull");
-		return response;
-	}
-		
+		try {
+				Response response;
+				response = buildResponse(oTSOrderService.orderReportByDate(getOrderBORequest),"Successfull");
+				return response;
+			}catch (BusinessException e) {
+				throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+			} catch (Throwable e) {
+				throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+			}
+		}	
 }
