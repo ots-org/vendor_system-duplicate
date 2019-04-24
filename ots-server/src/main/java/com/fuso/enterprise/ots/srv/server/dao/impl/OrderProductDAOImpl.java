@@ -52,7 +52,12 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 				Map<String, Object> queryParameter = new HashMap<>();
 				queryParameter.put("otsOrderId", otsOrder);
 				queryParameter.put("otsProductId", otsProduct);
-				OtsOrderProduct otsOrderProduct = super.getResultByNamedQuery("OtsOrder.fetchOtsSoldProducts", queryParameter);
+				OtsOrderProduct otsOrderProduct = new OtsOrderProduct();
+				try {
+					 otsOrderProduct = super.getResultByNamedQuery("OtsOrder.fetchOtsSoldProducts", queryParameter);
+				}catch(NoResultException e) {
+					otsOrderProduct.setOtsDeliveredQty(0);
+				}
 				orderProductList += otsOrderProduct.getOtsDeliveredQty();
 			}
 		} catch (NoResultException e) {
