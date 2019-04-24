@@ -33,6 +33,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
@@ -310,34 +311,42 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			List<CustomerOutstanding> customerOutstandingList = new ArrayList<CustomerOutstanding>();
 			List<UserDetails> userDetails = getUserDetailsByMapped(distributorId).getUserDetails();
 			for(int i=0 ; i<userDetails.size() ; i++) {
-				CustomerOutstanding custOuts = new CustomerOutstanding();
-				custOuts.setCustomerId(Integer.parseInt(userDetails.get(i).getUserId()));
-				custOuts.setCustomerName(userDetails.get(i).getFirstName());
-				
-				GetCustomerOutstandingAmtBORequest customerOutstandingAmtBORequest = new GetCustomerOutstandingAmtBORequest();
-				GetCustomerOutstandingAmt customerOutstandingAmt = new GetCustomerOutstandingAmt();
-				customerOutstandingAmt.setCustomerId(userDetails.get(i).getUserId());
-				customerOutstandingAmtBORequest.setRequestData(customerOutstandingAmt);
-				
-				UserDetails User = userServiceDAO.getUserDetails(Integer.parseInt(userDetails.get(i).getUserId()));
-				
-				String custOutAmt = "0";
-				String custOutCan = "0";
-				try {
-					custOutAmt = customerOutstandingAmtDAO.getCustomerOutstandingAmt(customerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();
-				}catch(Exception e) {
-					logger.error("Inside Event=1004,Class:OTSUserServiceImpl,Method:getOutstandingData, "
-							+ "User Outstanding Amount  error for customer id  : " + userDetails.get(i).getFirstName());
+				if(userDetails.get(i).getUserRoleId().equals("4")) {
+					CustomerOutstanding custOuts = new CustomerOutstanding();
+					custOuts.setCustomerId(Integer.parseInt(userDetails.get(i).getUserId()));
+					custOuts.setCustomerName(userDetails.get(i).getFirstName());
+					
+					GetCustomerOutstandingAmtBORequest customerOutstandingAmtBORequest = new GetCustomerOutstandingAmtBORequest();
+					GetCustomerOutstandingAmt customerOutstandingAmt = new GetCustomerOutstandingAmt();
+					customerOutstandingAmt.setCustomerId(userDetails.get(i).getUserId());
+					customerOutstandingAmtBORequest.setRequestData(customerOutstandingAmt);
+					
+					UserDetails User = userServiceDAO.getUserDetails(Integer.parseInt(userDetails.get(i).getUserId()));
+					GetCustomerOutstandingAmtBOResponse getCustomerOutstandingAmtBOResponse = new GetCustomerOutstandingAmtBOResponse();
+					String custOutAmt = "0";
+					String custOutCan = "0";
+					try {
+						System.out.println("custOutAmt is before " +custOutAmt);
+						getCustomerOutstandingAmtBOResponse = customerOutstandingAmtDAO.getCustomerOutstandingAmt(customerOutstandingAmtBORequest);
+						
+						/*custOutAmt = customerOutstandingAmtDAO.getCustomerOutstandingAmt(customerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();*/
+						custOuts.setOutstandingAmount(getCustomerOutstandingAmtBOResponse.getCustomerOutstandingAmount().get(i).getCustomerOutstandingAmt());
+						System.out.println("afte func " +custOutAmt);
+					}catch(Exception e) {
+						logger.error("Inside Event=1004,Class:OTSUserServiceImpl,Method:getOutstandingData, "
+								+ "User Outstanding Amount  error for customer id  : " + userDetails.get(i).getFirstName());
+					}
+					try {
+						custOutCan = User.getCustomerProductDetails().get(0).getCustomerBalanceCan();
+						custOuts.setOutstandingCan(custOutCan);
+					}catch(Exception e) {
+						logger.error("Inside Event=1004,Class:OTSUserServiceImpl,Method:getOutstandingData, "
+								+ "User Outstanding can  error for customer id  : " + userDetails.get(i).getFirstName());
+					}
+					
+					
+					customerOutstandingList.add(custOuts);
 				}
-				try {
-					custOutCan = User.getCustomerProductDetails().get(0).getCustomerBalanceCan();
-				}catch(Exception e) {
-					logger.error("Inside Event=1004,Class:OTSUserServiceImpl,Method:getOutstandingData, "
-							+ "User Outstanding can  error for customer id  : " + userDetails.get(i).getFirstName());
-				}
-				custOuts.setOutstandingAmount(custOutAmt);
-				custOuts.setOutstandingCan(custOutCan);
-				customerOutstandingList.add(custOuts);
 			}
 			outstandingCustomerResponse.setCustomerOutstandingList(customerOutstandingList);
 		}catch(Exception e) {

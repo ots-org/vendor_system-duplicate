@@ -62,11 +62,13 @@ public class CustomerOutstandingAmtDAOImpl extends AbstractIptDao<OtsCustomerOut
 	
 	@Override
 	public GetCustomerOutstandingAmtBOResponse getCustomerOutstandingAmt(GetCustomerOutstandingAmtBORequest getCustomerOutstandingAmtBORequest) {
+		System.out.println("inside the func " );
 		List<CustomerOutstandingDetails>  customerOutstandingDetails=new ArrayList<CustomerOutstandingDetails>();
 		GetCustomerOutstandingAmtBOResponse customerOutstandingAmtResponse = new GetCustomerOutstandingAmtBOResponse();
 		OtsUsers otsUsers = new OtsUsers();
 		otsUsers.setOtsUsersId(Integer.parseInt(getCustomerOutstandingAmtBORequest.getRequestData().getCustomerId()));   
 		try {
+			System.out.println("inside the try block of func");
         	OtsCustomerOutstanding otsCustomerOutstanding=new OtsCustomerOutstanding();
 			Map<String, Object> queryParameter = new HashMap<>();
 			

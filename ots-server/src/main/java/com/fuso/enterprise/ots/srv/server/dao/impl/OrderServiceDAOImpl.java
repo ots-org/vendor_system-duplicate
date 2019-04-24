@@ -468,8 +468,8 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
 			otsOrder.setOtsOrderDeliveredDt(saleVocherBoRequest.getRequest().getDeliverdDate());
 			otsOrder.setOtsOrderAmountReceived(Long.parseLong(saleVocherBoRequest.getRequest().getAmountReceived()));
-			otsOrder.setOtsOrderCost(Long.parseLong(saleVocherBoRequest.getRequest().getAmountReceived()));
-			otsOrder.setOtsOrderStatus("Genrated");
+			otsOrder.setOtsOrderCost(Long.parseLong(saleVocherBoRequest.getRequest().getOrderCost()));
+			otsOrder.setOtsOrderStatus("close");
 			super.getEntityManager().merge(otsOrder);
 			otsOrderDetails = convertOrderDetailsFromEntityToDomain(otsOrder);
 			
