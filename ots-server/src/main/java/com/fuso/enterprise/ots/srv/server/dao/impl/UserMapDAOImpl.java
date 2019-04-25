@@ -1,5 +1,8 @@
 package com.fuso.enterprise.ots.srv.server.dao.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
@@ -51,4 +54,23 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 		return  responseData;
 	}
 		
+	@Override
+	public String getMappedDistributor(String userId) {
+		String responseData;
+		try{
+			OtsUserMapping userMappEntity=new OtsUserMapping();
+			OtsUsers otsUsers = new OtsUsers();
+			otsUsers.setOtsUsersId(Integer.parseInt(userId));
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsUsersId", otsUsers);
+			userMappEntity = super.getResultByNamedQuery("OtsUserMapping.getDistributorId", queryParameter);
+			responseData = userMappEntity.getOtsUserMappingId().toString();
+			logger.info("Inside Event=1005,Class:UserMapDAOImpl,Method:mappUser");
+		}catch (NoResultException e) {
+        	logger.error("Exception while Inserting data to DB  :"+e.getMessage());
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+        }
+		return  responseData;
+	}
 }

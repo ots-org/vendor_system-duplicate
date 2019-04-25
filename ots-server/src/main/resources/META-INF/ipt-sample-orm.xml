@@ -263,4 +263,12 @@
 			o.otsUsersId =:otsUsersId
 		</query>
 	</named-query>
+	<named-query name="OtsUserMapping.getDistributorId">
+		<query>SELECT o 
+		FROM 
+			OtsUserMapping o
+		WHERE 
+			o.otsUsersId =:otsUsersId
+		</query>
+	</named-query>
 </entity-mappings>

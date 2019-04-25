@@ -7,4 +7,6 @@ public interface UserMapDAO {
 
 	String mappUser(MapUsersDataBORequest mapUsersDataBORequest);
 
+	String getMappedDistributor(String userId);
+
 }

@@ -65,7 +65,16 @@ public class UserDetails {
 	 @Size(max = 100)
 	 private String DeviceId;
 	 
-	 
+	 @Size(max = 100)
+	 private String DistributorId;
+
+	public String getDistributorId() {
+		return DistributorId;
+	}
+
+	public void setDistributorId(String distributorId) {
+		DistributorId = distributorId;
+	}
 
 	public String getDeviceId() {
 		return DeviceId;

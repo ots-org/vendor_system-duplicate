@@ -246,7 +246,13 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	@Override
 	public LoginUserResponse otsLoginAuthentication(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {	
 		try {
-			return userServiceDAO.otsLoginAuthentication(loginAuthenticationBOrequest);
+			LoginUserResponse loginUserResponse = new LoginUserResponse();
+			loginUserResponse = userServiceDAO.otsLoginAuthentication(loginAuthenticationBOrequest);
+			if(loginUserResponse.getUserDetails().getUserRoleId().equals("4")||loginUserResponse.getUserDetails().getUserRoleId().equals("3")) {
+				String did = userMapDAO.getMappedDistributor(loginUserResponse.getUserDetails().getUserId());
+				loginUserResponse.getUserDetails().setDistributorId(did);
+			}
+			return loginUserResponse;
             } catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
@@ -328,7 +334,6 @@ public class OTSUserServiceImpl implements  OTSUserService{
 					UserDetails User = userServiceDAO.getUserDetails(Integer.parseInt(userDetails.get(i).getUserId()));
 					GetCustomerOutstandingAmtBOResponse getCustomerOutstandingAmtBOResponse = new GetCustomerOutstandingAmtBOResponse();
 					String custOutAmt = "0";
-					String custOutCan = "0";
 					try {
 						System.out.println("custOutAmt is before " +custOutAmt);
 						getCustomerOutstandingAmtBOResponse = customerOutstandingAmtDAO.getCustomerOutstandingAmt(customerOutstandingAmtBORequest);
