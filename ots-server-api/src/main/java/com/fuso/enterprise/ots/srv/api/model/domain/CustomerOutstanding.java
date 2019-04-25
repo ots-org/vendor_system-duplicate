@@ -1,5 +1,7 @@
 package com.fuso.enterprise.ots.srv.api.model.domain;
 
+import java.util.List;
+
 import javax.validation.constraints.Size;
 
 public class CustomerOutstanding {
@@ -15,6 +17,16 @@ public class CustomerOutstanding {
 	 
 	 @Size(max = 10)
 	 private String outstandingCan ;
+	 
+	 private List<BalanceCan> balanceCan;
+
+	public List<BalanceCan> getBalanceCan() {
+		return balanceCan;
+	}
+
+	public void setBalanceCan(List<BalanceCan> balanceCan) {
+		this.balanceCan = balanceCan;
+	}
 
 	public int getCustomerId() {
 		return customerId;

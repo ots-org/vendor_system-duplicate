@@ -12,9 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.BalanceCan;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerOutstanding;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetCustomerOutstandingAmt;
+import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.RegistorToUserDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserMapping;
@@ -40,6 +42,7 @@ import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
 import com.fuso.enterprise.ots.srv.server.dao.CustomerOutstandingAmtDAO;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
+import com.fuso.enterprise.ots.srv.server.dao.ProductServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserMapDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserRegistrationDao;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
@@ -52,7 +55,6 @@ import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
 @Transactional
 public class OTSUserServiceImpl implements  OTSUserService{
 	private Logger logger = LoggerFactory.getLogger(getClass());
-
 	private UserServiceDAO userServiceDAO;
 	private UserMapDAO userMapDAO;
 	private UserServiceUtilityDAO userServiceUtilityDAO;
@@ -60,15 +62,17 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	private MapUserProductDAO mapUserProductDAO;
 	private FcmPushNotification fcmPushNotification;
 	private CustomerOutstandingAmtDAO customerOutstandingAmtDAO;
+	private ProductServiceDAO productServiceDAO;
 	@Inject
-	public OTSUserServiceImpl(UserServiceDAO userServiceDAO,UserMapDAO userMapDAO,UserServiceUtilityDAO userServiceUtilityDAO,UserRegistrationDao userRegistrationDao,
-			MapUserProductDAO mapUserProductDAO) {
+	public OTSUserServiceImpl(UserServiceDAO userServiceDAO,UserMapDAO userMapDAO,UserServiceUtilityDAO userServiceUtilityDAO,UserRegistrationDao userRegistrationDao,ProductServiceDAO productServiceDAO,
+			MapUserProductDAO mapUserProductDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO) {
 		this.userServiceDAO=userServiceDAO;
 		this.userMapDAO=userMapDAO;
 		this.userServiceUtilityDAO = userServiceUtilityDAO;
 		this.userRegistrationDao =userRegistrationDao ;
 		this.mapUserProductDAO=mapUserProductDAO;
 		this.customerOutstandingAmtDAO = customerOutstandingAmtDAO;
+		this.productServiceDAO = productServiceDAO;
 	}
 
 	@Override
@@ -330,21 +334,23 @@ public class OTSUserServiceImpl implements  OTSUserService{
 						getCustomerOutstandingAmtBOResponse = customerOutstandingAmtDAO.getCustomerOutstandingAmt(customerOutstandingAmtBORequest);
 						
 						/*custOutAmt = customerOutstandingAmtDAO.getCustomerOutstandingAmt(customerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();*/
-						custOuts.setOutstandingAmount(getCustomerOutstandingAmtBOResponse.getCustomerOutstandingAmount().get(i).getCustomerOutstandingAmt());
+						custOuts.setOutstandingAmount(getCustomerOutstandingAmtBOResponse.getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt());
 						System.out.println("afte func " +custOutAmt);
 					}catch(Exception e) {
 						logger.error("Inside Event=1004,Class:OTSUserServiceImpl,Method:getOutstandingData, "
 								+ "User Outstanding Amount  error for customer id  : " + userDetails.get(i).getFirstName());
 					}
 					try {
-						custOutCan = User.getCustomerProductDetails().get(0).getCustomerBalanceCan();
-						custOuts.setOutstandingCan(custOutCan);
+						List<BalanceCan> balanceCan = mapUserProductDAO.getBalanceCanByUserId(userDetails.get(i).getUserId().toString());
+						for(int j =0 ;j<balanceCan.size() ; j++) {
+							ProductDetails productDetails = productServiceDAO.getProductDetils(balanceCan.get(j).getProductId());
+							balanceCan.get(j).setProductName(productDetails.getProductName());
+						}
+						custOuts.setBalanceCan(balanceCan);
 					}catch(Exception e) {
 						logger.error("Inside Event=1004,Class:OTSUserServiceImpl,Method:getOutstandingData, "
 								+ "User Outstanding can  error for customer id  : " + userDetails.get(i).getFirstName());
 					}
-					
-					
 					customerOutstandingList.add(custOuts);
 				}
 			}

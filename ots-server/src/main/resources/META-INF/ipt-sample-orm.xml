@@ -255,4 +255,12 @@
 	    	otsDistributorId = :DistributorId
 		</query>
 	</named-query>
+	<named-query name="OtsCustomerProduct.getBalanceCan">
+		<query>SELECT o 
+		FROM 
+			OtsCustomerProduct o
+		WHERE 
+			o.otsUsersId =:otsUsersId
+		</query>
+	</named-query>
 </entity-mappings>

@@ -1,7 +1,10 @@
 package com.fuso.enterprise.ots.srv.server.dao.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.NoResultException;
 
@@ -11,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.BalanceCan;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
@@ -174,6 +179,45 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 		customerProductDetails.setProductDefault(otsCustomerProduct.getOtsCustomerProductDefault());
 		customerProductDetails.setUserId(otsCustomerProduct.getOtsUsersId().toString());
 		return customerProductDetails;
+		
+	}
+	
+	@Override
+	public List<BalanceCan> getBalanceCanByUserId(String customerId) {
+		List<BalanceCan> balanceCan = new ArrayList<BalanceCan>();
+		List<OtsCustomerProduct> otsCustomerProductList =  new ArrayList<OtsCustomerProduct>();
+		try{
+			/*
+			 * setting users object for user mapping
+			 */
+			
+			OtsCustomerProduct otsCustomerProduct = new OtsCustomerProduct();
+			OtsUsers otsUsers = new OtsUsers();
+			otsUsers.setOtsUsersId(Integer.parseInt(customerId));
+			otsCustomerProduct.setOtsUsersId(otsUsers);
+				
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsUsersId",otsUsers);
+			try {
+				otsCustomerProductList = super.getResultListByNamedQuery("OtsCustomerProduct.getBalanceCan", queryParameter);
+			}catch (Exception e) {
+	        	return null;
+	        }
+			logger.info("Inside Event=1006,Class:MapUserProductDAOImpl,Method:mapUserProduct"+"Successfull");
+		}catch (Exception e) {
+        	logger.error("Exception while Inserting data to DB  :"+e.getMessage());
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+        }
+		balanceCan =  otsCustomerProductList.stream().map(OtsCustomerProduct -> convertEntityToBalanceCan(OtsCustomerProduct)).collect(Collectors.toList());
+		return  balanceCan;
+	}
+	
+	public BalanceCan convertEntityToBalanceCan(OtsCustomerProduct otsCustomerProduct) {
+		BalanceCan balanceCan = new BalanceCan();
+		balanceCan.setBalanceCan(otsCustomerProduct.getOtsCustomerProductBalCan());
+		balanceCan.setProductId(otsCustomerProduct.getOtsProductId().getOtsProductId().toString());
+		return balanceCan;
 		
 	}
 }
