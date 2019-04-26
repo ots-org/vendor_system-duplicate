@@ -130,6 +130,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		orderDetailsAndProductDetails.setDelivaryDate(orderDetails.getOrderDeliveryDate());
 		orderDetailsAndProductDetails.setOrderDate(orderDetails.getOrderDate());
 		orderDetailsAndProductDetails.setDelivaredDate(orderDetails.getOrderDeliverdDate());
+		orderDetailsAndProductDetails.setCustomerDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId()))); 
 		return orderDetailsAndProductDetails;
 	}
 

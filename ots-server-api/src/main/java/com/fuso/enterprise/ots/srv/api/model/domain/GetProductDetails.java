@@ -3,7 +3,14 @@ package com.fuso.enterprise.ots.srv.api.model.domain;
 public class GetProductDetails {
 	String searchKey;
 	String searchvalue;
+	String distributorId;
 	
+	public String getDistributorId() {
+		return distributorId;
+	}
+	public void setDistributorId(String distributorId) {
+		this.distributorId = distributorId;
+	}
 	public String getSearchKey() {
 		return searchKey;
 	}

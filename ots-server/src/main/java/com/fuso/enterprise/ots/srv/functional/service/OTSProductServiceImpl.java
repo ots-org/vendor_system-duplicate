@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.GetProductRequestModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductStockDetail;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
@@ -53,7 +54,19 @@ public class OTSProductServiceImpl implements OTSProductService {
 	public ProductDetailsBOResponse getProductList(ProductDetailsBORequest productDetailsBORequest) {
 		ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
 		try {
-			productDetailsBOResponse = productServiceDAO.getProductList(productDetailsBORequest);
+			GetProductStockRequest getProductStockRequest = new GetProductStockRequest();
+			productDetailsBOResponse.setProductDetails( productServiceDAO.getProductList(productDetailsBORequest).getProductDetails());
+			for(int i=0 ;i<productDetailsBOResponse.getProductDetails().size();i++) {
+				GetProductRequestModel getProductRequestModel = new GetProductRequestModel();
+				getProductRequestModel.setDistributorId(productDetailsBORequest.getRequestData().getDistributorId());
+				getProductRequestModel.setProductId(productDetailsBOResponse.getProductDetails().get(i).getProductId());
+				getProductStockRequest.setRequestData(getProductRequestModel);
+				GetProductBOStockResponse getProductBOStockResponse = productStockDao.getProductStockByUidAndPid(getProductStockRequest);
+				productDetailsBOResponse.getProductDetails().get(i).setStock("YES");
+				if(getProductBOStockResponse.getStockQuantity().equals("0")) {
+					productDetailsBOResponse.getProductDetails().get(i).setStock("NO");
+				}
+			}
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}

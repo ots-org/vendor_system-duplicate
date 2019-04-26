@@ -237,7 +237,6 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
     		throw new BusinessException(e.getMessage(), e);
     	}
     	return loginUserResponse;
-
 	}
 
 	@Override

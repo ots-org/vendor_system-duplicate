@@ -82,8 +82,6 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
 		Response response = null;
 		
-		response = buildResponse(orderProductBOResponse,"Successfull");
-		
 		logger.info("Inside Event=1020,Class:OTSProduct_WsImpl, Method:getOrderByStatusAndDistributor, getOrderByStatusRequest:"
 				+ getOrderByStatusRequest);
 		try {

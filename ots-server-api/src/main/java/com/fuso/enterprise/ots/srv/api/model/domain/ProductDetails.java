@@ -21,6 +21,9 @@ public class ProductDetails {
 	 @Size(max = 20)
 	 private String productPrice;
 	 
+	 @Size(max = 20)
+	 private String Stock;
+	 
 	public String getProductId() {
 		return productId;
 	}
@@ -59,6 +62,14 @@ public class ProductDetails {
 
 	public void setProductPrice(String productPrice) {
 		this.productPrice = productPrice;
+	}
+
+	public String getStock() {
+		return Stock;
+	}
+
+	public void setStock(String stock) {
+		Stock = stock;
 	}
 
 }
