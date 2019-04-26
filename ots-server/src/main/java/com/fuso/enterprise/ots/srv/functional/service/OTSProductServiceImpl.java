@@ -61,7 +61,12 @@ public class OTSProductServiceImpl implements OTSProductService {
 				getProductRequestModel.setDistributorId(productDetailsBORequest.getRequestData().getDistributorId());
 				getProductRequestModel.setProductId(productDetailsBOResponse.getProductDetails().get(i).getProductId());
 				getProductStockRequest.setRequestData(getProductRequestModel);
-				GetProductBOStockResponse getProductBOStockResponse = productStockDao.getProductStockByUidAndPid(getProductStockRequest);
+				GetProductBOStockResponse getProductBOStockResponse = new GetProductBOStockResponse();
+				try {
+					getProductBOStockResponse = productStockDao.getProductStockByUidAndPid(getProductStockRequest);
+				}catch(Exception e) {
+					getProductBOStockResponse.setStockQuantity("0");
+				}
 				productDetailsBOResponse.getProductDetails().get(i).setStock("YES");
 				if(getProductBOStockResponse.getStockQuantity().equals("0")) {
 					productDetailsBOResponse.getProductDetails().get(i).setStock("NO");
