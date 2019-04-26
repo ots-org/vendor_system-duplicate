@@ -250,7 +250,7 @@
 		WHERE
 			(o.otsOrderDeliveredDt >= :startDate AND  :endDate >=o.otsOrderDeliveredDt) 
 		AND
-	        otsOrderStatus = :status
+	        otsOrderStatus in ('Generated','close')
 	    AND 
 	    	otsDistributorId = :DistributorId
 		</query>
