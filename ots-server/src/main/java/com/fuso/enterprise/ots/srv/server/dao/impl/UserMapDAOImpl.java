@@ -64,7 +64,7 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 			Map<String, Object> queryParameter = new HashMap<>();
 			queryParameter.put("otsUsersId", otsUsers);
 			userMappEntity = super.getResultByNamedQuery("OtsUserMapping.getDistributorId", queryParameter);
-			responseData = userMappEntity.getOtsUserMappingId().toString();
+			responseData = userMappEntity.getOtsMappedTo().toString();
 			logger.info("Inside Event=1005,Class:UserMapDAOImpl,Method:mappUser");
 		}catch (NoResultException e) {
         	logger.error("Exception while Inserting data to DB  :"+e.getMessage());
