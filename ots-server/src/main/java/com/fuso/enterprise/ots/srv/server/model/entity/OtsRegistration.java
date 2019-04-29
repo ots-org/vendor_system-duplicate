@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.fuso.enterprise.ots.srv.server.model.entity;
 
 import java.io.Serializable;
@@ -45,7 +44,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationProfilePic", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationProfilePic = :otsRegistrationProfilePic"),
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationStatus", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationStatus = :otsRegistrationStatus"),
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationPassword", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationPassword = :otsRegistrationPassword"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationContactNo", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationContactNo = :otsRegistrationContactNo")})
+    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationContactNo", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationContactNo = :otsRegistrationContactNo"),
+    @NamedQuery(name = "OtsRegistration.findByOtsDeviceToken", query = "SELECT o FROM OtsRegistration o WHERE o.otsDeviceToken = :otsDeviceToken")})
 public class OtsRegistration implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -181,14 +181,14 @@ public class OtsRegistration implements Serializable {
     public void setOtsRegistrationContactNo(String otsRegistrationContactNo) {
         this.otsRegistrationContactNo = otsRegistrationContactNo;
     }
-    
-    public String getOtsDeviceToken() {
-		return otsDeviceToken;
-	}
 
-	public void setOtsDeviceToken(String otsDeviceToken) {
-		this.otsDeviceToken = otsDeviceToken;
-	}
+    public String getOtsDeviceToken() {
+        return otsDeviceToken;
+    }
+
+    public void setOtsDeviceToken(String otsDeviceToken) {
+        this.otsDeviceToken = otsDeviceToken;
+    }
 
     @XmlTransient
     public Collection<OtsUsers> getOtsUsersCollection() {
@@ -247,5 +247,5 @@ public class OtsRegistration implements Serializable {
     public String toString() {
         return "com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration[ otsRegistrationId=" + otsRegistrationId + " ]";
     }
-
+    
 }

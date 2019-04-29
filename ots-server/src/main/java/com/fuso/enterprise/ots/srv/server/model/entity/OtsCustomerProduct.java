@@ -32,7 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "OtsCustomerProduct.findAll", query = "SELECT o FROM OtsCustomerProduct o"),
     @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductId", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductId = :otsCustomerProductId"),
-    @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductPrice", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductPrice = :otsCustomerProductPrice")})
+    @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductPrice", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductPrice = :otsCustomerProductPrice"),
+    @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductDefault", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductDefault = :otsCustomerProductDefault"),
+    @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductBalCan", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductBalCan = :otsCustomerProductBalCan")})
 public class OtsCustomerProduct implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,10 +44,10 @@ public class OtsCustomerProduct implements Serializable {
     private Integer otsCustomerProductId;
     @Column(name = "ots_customer_product_price")
     private String otsCustomerProductPrice;
-    @Column(name = "ots_customer_product_bal_can")
-    private String otsCustomerProductBalCan;
     @Column(name = "ots_customer_product_default")
     private String otsCustomerProductDefault;
+    @Column(name = "ots_customer_product_bal_can")
+    private Integer otsCustomerProductBalCan;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
     @ManyToOne
     private OtsProduct otsProductId;
@@ -76,6 +78,22 @@ public class OtsCustomerProduct implements Serializable {
         this.otsCustomerProductPrice = otsCustomerProductPrice;
     }
 
+    public String getOtsCustomerProductDefault() {
+        return otsCustomerProductDefault;
+    }
+
+    public void setOtsCustomerProductDefault(String otsCustomerProductDefault) {
+        this.otsCustomerProductDefault = otsCustomerProductDefault;
+    }
+
+    public Integer getOtsCustomerProductBalCan() {
+        return otsCustomerProductBalCan;
+    }
+
+    public void setOtsCustomerProductBalCan(Integer otsCustomerProductBalCan) {
+        this.otsCustomerProductBalCan = otsCustomerProductBalCan;
+    }
+
     public OtsProduct getOtsProductId() {
         return otsProductId;
     }
@@ -92,23 +110,7 @@ public class OtsCustomerProduct implements Serializable {
         this.otsUsersId = otsUsersId;
     }
 
-    public String getOtsCustomerProductBalCan() {
-		return otsCustomerProductBalCan;
-	}
-
-	public void setOtsCustomerProductBalCan(String otsCustomerProductBalCant) {
-		this.otsCustomerProductBalCan = otsCustomerProductBalCant;
-	}
-
-	public String getOtsCustomerProductDefault() {
-		return otsCustomerProductDefault;
-	}
-
-	public void setOtsCustomerProductDefault(String otsCustomerProductDefault) {
-		this.otsCustomerProductDefault = otsCustomerProductDefault;
-	}
-
-	@Override
+    @Override
     public int hashCode() {
         int hash = 0;
         hash += (otsCustomerProductId != null ? otsCustomerProductId.hashCode() : 0);

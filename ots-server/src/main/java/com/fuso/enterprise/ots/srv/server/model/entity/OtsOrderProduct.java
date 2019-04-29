@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductCost", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductCost = :otsOrderProductCost"),
     @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductStatus", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductStatus = :otsOrderProductStatus"),
     @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductTimestamp", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductTimestamp = :otsOrderProductTimestamp"),
-    @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductCreated", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductCreated = :otsOrderProductCreated")})
+    @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductCreated", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductCreated = :otsOrderProductCreated"),
+    @NamedQuery(name = "OtsOrderProduct.findByOtsReceivedCans", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsReceivedCans = :otsReceivedCans")})
 public class OtsOrderProduct implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,14 +54,14 @@ public class OtsOrderProduct implements Serializable {
     private Long otsOrderProductCost;
     @Column(name = "ots_order_product_status")
     private String otsOrderProductStatus;
-    @Column(name = "ots_received_cans")
-    private Integer otsReceivedCans;
     @Column(name = "ots_order_product_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderProductTimestamp;
     @Column(name = "ots_order_product_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderProductCreated;
+    @Column(name = "ots_received_cans")
+    private Integer otsReceivedCans;
     @JoinColumn(name = "ots_order_id", referencedColumnName = "ots_order_id")
     @ManyToOne(optional = false)
     private OtsOrder otsOrderId;
@@ -131,6 +132,14 @@ public class OtsOrderProduct implements Serializable {
         this.otsOrderProductCreated = otsOrderProductCreated;
     }
 
+    public Integer getOtsReceivedCans() {
+        return otsReceivedCans;
+    }
+
+    public void setOtsReceivedCans(Integer otsReceivedCans) {
+        this.otsReceivedCans = otsReceivedCans;
+    }
+
     public OtsOrder getOtsOrderId() {
         return otsOrderId;
     }
@@ -147,15 +156,7 @@ public class OtsOrderProduct implements Serializable {
         this.otsProductId = otsProductId;
     }
 
-    public Integer getOtsReceivedCans() {
-		return otsReceivedCans;
-	}
-
-	public void setOtsReceivedCans(Integer otsReceivedCans) {
-		this.otsReceivedCans = otsReceivedCans;
-	}
-
-	@Override
+    @Override
     public int hashCode() {
         int hash = 0;
         hash += (otsOrderProductId != null ? otsOrderProductId.hashCode() : 0);

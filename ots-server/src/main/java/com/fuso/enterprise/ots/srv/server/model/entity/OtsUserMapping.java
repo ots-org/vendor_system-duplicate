@@ -14,9 +14,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,7 +43,7 @@ public class OtsUserMapping implements Serializable {
     @Column(name = "ots_mapped_to")
     private Integer otsMappedTo;
     @JoinColumn(name = "ots_users_id", referencedColumnName = "ots_users_id")
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private OtsUsers otsUsersId;
 
     public OtsUserMapping() {

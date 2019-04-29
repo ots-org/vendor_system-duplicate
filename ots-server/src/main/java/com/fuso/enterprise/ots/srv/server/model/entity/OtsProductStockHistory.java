@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryId", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryId = :otsProductStockHistoryId"),
     @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryQty", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryQty = :otsProductStockHistoryQty"),
     @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockAddDate", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockAddDate = :otsProductStockAddDate"),
-	@NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockOrderId", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockOrderId = :otsProductStockOrderId")})
+    @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockOrderId", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockOrderId = :otsProductStockOrderId")})
 public class OtsProductStockHistory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,7 +55,6 @@ public class OtsProductStockHistory implements Serializable {
     @JoinColumn(name = "ots_users_id", referencedColumnName = "ots_users_id")
     @ManyToOne(optional = false)
     private OtsUsers otsUsersId;
-
 
     public OtsProductStockHistory() {
     }
@@ -136,5 +135,5 @@ public class OtsProductStockHistory implements Serializable {
     public String toString() {
         return "com.fuso.enterprise.ots.srv.server.model.entity.OtsProductStockHistory[ otsProductStockHistoryId=" + otsProductStockHistoryId + " ]";
     }
-
+    
 }

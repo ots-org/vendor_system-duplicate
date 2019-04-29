@@ -44,7 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsOrder.findByOtsOrderStatus", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderStatus = :otsOrderStatus"),
     @NamedQuery(name = "OtsOrder.findByOtsOrderTimestamp", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderTimestamp = :otsOrderTimestamp"),
     @NamedQuery(name = "OtsOrder.findByOtsOrderCreated", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderCreated = :otsOrderCreated"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderAmountReceived", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderAmountReceived = :otsOrderAmountReceived")})
+    @NamedQuery(name = "OtsOrder.findByOtsOrderAmountReceived", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderAmountReceived = :otsOrderAmountReceived"),
+    @NamedQuery(name = "OtsOrder.findByOtsOrderBalanceCan", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderBalanceCan = :otsOrderBalanceCan"),
+    @NamedQuery(name = "OtsOrder.findByOtsOrderOutstandingAmount", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderOutstandingAmount = :otsOrderOutstandingAmount")})
 public class OtsOrder implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -63,22 +65,22 @@ public class OtsOrder implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderDeliveryDt;
     @Column(name = "ots_order_delivered_dt")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date otsOrderDeliveredDt;
     @Column(name = "ots_order_status")
     private String otsOrderStatus;
-    @Column(name = "ots_order_balance_can")
-    private String otsOrderBalanceCan;
-    @Column(name = "ots_order_outstanding_amount")
-    private String otsOrderOutstandingAmount;
-    @Column(name = "ots_order_amount_received")
-    private Long otsOrderAmountReceived;
     @Column(name = "ots_order_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderTimestamp;
     @Column(name = "ots_order_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderCreated;
+    @Column(name = "ots_order_amount_received")
+    private Long otsOrderAmountReceived;
+    @Column(name = "ots_order_balance_can")
+    private String otsOrderBalanceCan;
+    @Column(name = "ots_order_outstanding_amount")
+    private String otsOrderOutstandingAmount;
     @JoinColumn(name = "ots_bill_id", referencedColumnName = "ots_bill_id")
     @ManyToOne
     private OtsBill otsBillId;
@@ -89,7 +91,7 @@ public class OtsOrder implements Serializable {
     @ManyToOne(optional = false)
     private OtsUsers otsCustomerId;
     @JoinColumn(name = "ots_assigned_id", referencedColumnName = "ots_users_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private OtsUsers otsAssignedId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsOrderId")
     private Collection<OtsOrderProduct> otsOrderProductCollection;
@@ -173,6 +175,30 @@ public class OtsOrder implements Serializable {
         this.otsOrderCreated = otsOrderCreated;
     }
 
+    public Long getOtsOrderAmountReceived() {
+        return otsOrderAmountReceived;
+    }
+
+    public void setOtsOrderAmountReceived(Long otsOrderAmountReceived) {
+        this.otsOrderAmountReceived = otsOrderAmountReceived;
+    }
+
+    public String getOtsOrderBalanceCan() {
+        return otsOrderBalanceCan;
+    }
+
+    public void setOtsOrderBalanceCan(String otsOrderBalanceCan) {
+        this.otsOrderBalanceCan = otsOrderBalanceCan;
+    }
+
+    public String getOtsOrderOutstandingAmount() {
+        return otsOrderOutstandingAmount;
+    }
+
+    public void setOtsOrderOutstandingAmount(String otsOrderOutstandingAmount) {
+        this.otsOrderOutstandingAmount = otsOrderOutstandingAmount;
+    }
+
     public OtsBill getOtsBillId() {
         return otsBillId;
     }
@@ -205,31 +231,7 @@ public class OtsOrder implements Serializable {
         this.otsAssignedId = otsAssignedId;
     }
 
-	public Long getOtsOrderAmountReceived() {
-		return otsOrderAmountReceived;
-	}
-
-	public void setOtsOrderAmountReceived(Long otsOrderAmountReceived) {
-		this.otsOrderAmountReceived = otsOrderAmountReceived;
-	}
-	
-	public String getOtsOrderBalanceCan() {
-		return otsOrderBalanceCan;
-	}
-
-	public void setOtsOrderBalanceCan(String otsOrderBalanceCan) {
-		this.otsOrderBalanceCan = otsOrderBalanceCan;
-	}
-
-	public String getOtsOrderOutstandingAmount() {
-		return otsOrderOutstandingAmount;
-	}
-
-	public void setOtsOrderOutstandingAmount(String otsOrderOutstandingAmount) {
-		this.otsOrderOutstandingAmount = otsOrderOutstandingAmount;
-	}
-
-	@XmlTransient
+    @XmlTransient
     public Collection<OtsOrderProduct> getOtsOrderProductCollection() {
         return otsOrderProductCollection;
     }

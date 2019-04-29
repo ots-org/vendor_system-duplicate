@@ -46,7 +46,7 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 			OtsUsers otsUsers = new OtsUsers();
 			otsUsers.setOtsUsersId(Integer.parseInt(customerProductDataBORequest.getRequestData().getUserId()));
 			userProductEntity.setOtsUsersId(otsUsers);
-			userProductEntity.setOtsCustomerProductBalCan(customerProductDataBORequest.getRequestData().getCustomerBalanceCan());
+			userProductEntity.setOtsCustomerProductBalCan(Integer.parseInt(customerProductDataBORequest.getRequestData().getCustomerBalanceCan()));
 			userProductEntity.setOtsCustomerProductPrice(customerProductDataBORequest.getRequestData().getProductPrice());
 			userProductEntity.setOtsCustomerProductDefault("Yes");
 			/*
@@ -115,11 +115,11 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 			queryParameter.put("otsCustomerProductDefault","no");
 			try {
 				otsCustomerProduct = super.getResultByNamedQuery("OtsCustomerProduct.getCustomerProductDetails", queryParameter);
-				otsCustomerProduct.setOtsCustomerProductBalCan(customerProductDataBORequest.getRequestData().getCustomerBalanceCan());
+				otsCustomerProduct.setOtsCustomerProductBalCan(Integer.parseInt(customerProductDataBORequest.getRequestData().getCustomerBalanceCan()));
 				otsCustomerProduct.setOtsCustomerProductPrice(customerProductDataBORequest.getRequestData().getProductPrice());
 				super.getEntityManager().merge(otsCustomerProduct);
 			}catch(Exception e) {
-				otsCustomerProduct.setOtsCustomerProductBalCan(customerProductDataBORequest.getRequestData().getCustomerBalanceCan());
+				otsCustomerProduct.setOtsCustomerProductBalCan(Integer.parseInt(customerProductDataBORequest.getRequestData().getCustomerBalanceCan()));
 				otsCustomerProduct.setOtsCustomerProductPrice(customerProductDataBORequest.getRequestData().getProductPrice());
 				super.getEntityManager().persist(otsCustomerProduct);
 			}
@@ -173,7 +173,7 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public CustomerProductDetails convertCustomerDetailsEntityToModel(OtsCustomerProduct otsCustomerProduct) {
 		CustomerProductDetails customerProductDetails = new CustomerProductDetails();
-		customerProductDetails.setCustomerBalanceCan(otsCustomerProduct.getOtsCustomerProductBalCan());
+		customerProductDetails.setCustomerBalanceCan(otsCustomerProduct.getOtsCustomerProductBalCan()+"");
 		customerProductDetails.setProductPrice(otsCustomerProduct.getOtsCustomerProductPrice());
 		customerProductDetails.setProductId(otsCustomerProduct.getOtsProductId().toString());
 		customerProductDetails.setProductDefault(otsCustomerProduct.getOtsCustomerProductDefault());
@@ -215,7 +215,7 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public BalanceCan convertEntityToBalanceCan(OtsCustomerProduct otsCustomerProduct) {
 		BalanceCan balanceCan = new BalanceCan();
-		balanceCan.setBalanceCan(otsCustomerProduct.getOtsCustomerProductBalCan());
+		balanceCan.setBalanceCan(otsCustomerProduct.getOtsCustomerProductBalCan()+"");
 		balanceCan.setProductId(otsCustomerProduct.getOtsProductId().getOtsProductId().toString());
 		return balanceCan;
 		

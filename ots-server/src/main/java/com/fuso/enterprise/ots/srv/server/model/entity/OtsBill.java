@@ -9,12 +9,13 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -38,7 +39,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsBill.findByOtsBillAmount", query = "SELECT o FROM OtsBill o WHERE o.otsBillAmount = :otsBillAmount"),
     @NamedQuery(name = "OtsBill.findByOtsBillAmountReceived", query = "SELECT o FROM OtsBill o WHERE o.otsBillAmountReceived = :otsBillAmountReceived"),
     @NamedQuery(name = "OtsBill.findByOtsBillGenerated", query = "SELECT o FROM OtsBill o WHERE o.otsBillGenerated = :otsBillGenerated"),
-    @NamedQuery(name = "OtsBill.findByOtsBillStatus", query = "SELECT o FROM OtsBill o WHERE o.otsBillStatus = :otsBillStatus")})
+    @NamedQuery(name = "OtsBill.findByOtsBillStatus", query = "SELECT o FROM OtsBill o WHERE o.otsBillStatus = :otsBillStatus"),
+    @NamedQuery(name = "OtsBill.findByOtsbillIGST", query = "SELECT o FROM OtsBill o WHERE o.otsbillIGST = :otsbillIGST"),
+    @NamedQuery(name = "OtsBill.findByOtsbillSGST", query = "SELECT o FROM OtsBill o WHERE o.otsbillSGST = :otsbillSGST"),
+    @NamedQuery(name = "OtsBill.findByOtsBillOutstandingAmt", query = "SELECT o FROM OtsBill o WHERE o.otsBillOutstandingAmt = :otsBillOutstandingAmt")})
 public class OtsBill implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -60,8 +64,16 @@ public class OtsBill implements Serializable {
     @Column(name = "ots_bill_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsBillCreated;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsBillId")
+    @Column(name = "ots_bill_IGST")
+    private Long otsbillIGST;
+    @Column(name = "ots_bill_SGST")
+    private Long otsbillSGST;
+    @Column(name = "ots_bill_outstanding_amt")
+    private Long otsBillOutstandingAmt;
+    @JoinColumn(name = "ots_customer_id", referencedColumnName = "ots_users_id")
+    @ManyToOne(optional = false)
+    private OtsUsers otsCustomerId;
+    @OneToMany(mappedBy = "otsBillId")
     private Collection<OtsOrder> otsOrderCollection;
 
     public OtsBill() {
@@ -121,14 +133,46 @@ public class OtsBill implements Serializable {
 
     
     public Date getOtsBillCreated() {
-		return otsBillCreated;
-	}
+        return otsBillCreated;
+    }
 
-	public void setOtsBillCreated(Date otsBillCreated) {
-		this.otsBillCreated = otsBillCreated;
-	}
+    public void setOtsBillCreated(Date otsBillCreated) {
+        this.otsBillCreated = otsBillCreated;
+    }
 
-	@XmlTransient
+    public Long getOtsbillIGST() {
+        return otsbillIGST;
+    }
+
+    public void setOtsbillIGST(Long otsbillIGST) {
+        this.otsbillIGST = otsbillIGST;
+    }
+
+    public Long getOtsbillSGST() {
+        return otsbillSGST;
+    }
+
+    public void setOtsbillSGST(Long otsbillSGST) {
+        this.otsbillSGST = otsbillSGST;
+    }
+
+    public Long getOtsBillOutstandingAmt() {
+        return otsBillOutstandingAmt;
+    }
+
+    public void setOtsBillOutstandingAmt(Long otsBillOutstandingAmt) {
+        this.otsBillOutstandingAmt = otsBillOutstandingAmt;
+    }
+
+    public OtsUsers getOtsCustomerId() {
+        return otsCustomerId;
+    }
+
+    public void setOtsCustomerId(OtsUsers otsCustomerId) {
+        this.otsCustomerId = otsCustomerId;
+    }
+
+    @XmlTransient
     public Collection<OtsOrder> getOtsOrderCollection() {
         return otsOrderCollection;
     }
