@@ -226,6 +226,8 @@
 			OtsBill o
 		WHERE 
 			(o.otsBillCreated BETWEEN :fromDate AND :toDate) 
+		AND 
+			(o.otsCustomerId = :otsCustomerId)
 		
 		</query>
 	</named-query>

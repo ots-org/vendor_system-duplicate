@@ -6,7 +6,17 @@ public class BillReportBasedOnDate {
 
 	Date FromDate;
 	Date ToDate;
+	String customerId;
 		
+	
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
+
 	public Date getFromDate() {
 		return FromDate;
 	}

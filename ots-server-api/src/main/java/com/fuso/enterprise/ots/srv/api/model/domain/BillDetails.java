@@ -20,6 +20,18 @@ public class BillDetails {
 	 private String billGenerated;
 	 
 	 @Size(max = 20)
+	 private String IGST;
+	 
+	 @Size(max = 20)
+	 private String CGST;
+	 
+	 @Size(max = 20)
+	 private String outstandingAmount;
+	 
+	 @Size(max = 20)
+	 private Integer customerId;
+	 
+	 @Size(max = 20)
 	 private List<ListOfOrderId> orderId;
 
 	public Integer getBillId() {
@@ -61,5 +73,39 @@ public class BillDetails {
 	public void setOrderId(List<ListOfOrderId> orderId) {
 		this.orderId = orderId;
 	}
+
+	public String getIGST() {
+		return IGST;
+	}
+
+	public void setIGST(String iGST) {
+		IGST = iGST;
+	}
+
+	public String getCGST() {
+		return CGST;
+	}
+
+	public void setCGST(String cGST) {
+		CGST = cGST;
+	}
+
+	public String getOutstandingAmount() {
+		return outstandingAmount;
+	}
+
+	public void setOutstandingAmount(String outstandingAmount) {
+		this.outstandingAmount = outstandingAmount;
+	}
+
+	public Integer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+	
+	
 
 }

@@ -8,6 +8,29 @@ public class ListOfBillId {
 	String billAmountReceived;
 	String billGenerated;
 	String billStatus;
+	String iGST;
+	String CGST;
+	String outstandingAmount;
+	
+	
+	public String getiGST() {
+		return iGST;
+	}
+	public void setiGST(String iGST) {
+		this.iGST = iGST;
+	}
+	public String getCGST() {
+		return CGST;
+	}
+	public void setCGST(String cGST) {
+		CGST = cGST;
+	}
+	public String getOutstandingAmount() {
+		return outstandingAmount;
+	}
+	public void setOutstandingAmount(String outstandingAmount) {
+		this.outstandingAmount = outstandingAmount;
+	}
 	public String getBillId() {
 		return billId;
 	}

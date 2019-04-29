@@ -59,6 +59,12 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 			otsBill.setOtsBillGenerated(billDetailsBORequest.getRequestData().getBillGenerated());
 			otsBill.setOtsBillStatus("Active");
 			otsBill.setOtsBillCreated(createDate);
+			otsBill.setOtsbillIGST(Long.parseLong(billDetailsBORequest.getRequestData().getIGST()));
+			otsBill.setOtsbillSGST(Long.parseLong(billDetailsBORequest.getRequestData().getCGST()));
+			otsBill.setOtsBillOutstandingAmt(Long.parseLong(billDetailsBORequest.getRequestData().getOutstandingAmount()));
+			OtsUsers otsUser = new OtsUsers();
+			otsUser.setOtsUsersId(billDetailsBORequest.getRequestData().getCustomerId());
+			otsBill.setOtsCustomerId(otsUser);
 			try {
 				if(billDetailsBORequest.getRequestData().getBillId()==0 || billDetailsBORequest.getRequestData().getBillId()==null) {
 					super.getEntityManager().persist(otsBill);
@@ -136,6 +142,9 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 			Map<String, Object> queryParameter = new HashMap<>();
 			queryParameter.put("fromDate",billReportBasedOnDateBORequest.getRequestData().getFromDate());
 			queryParameter.put("toDate", billReportBasedOnDateBORequest.getRequestData().getToDate());
+			OtsUsers otsuser = new OtsUsers();
+			otsuser.setOtsUsersId(Integer.parseInt(billReportBasedOnDateBORequest.getRequestData().getCustomerId()));
+			queryParameter.put("otsCustomerId", otsuser);
 			otsBill = super.getResultListByNamedQuery("OTSBill.findBillNumber", queryParameter);
 			//listOfBillId = convertListOfBillIdFromEntityToDomain(otsBill);
 			listOfBillId =  otsBill.stream().map(otsBillList -> convertListOfBillIdFromEntityToDomain(otsBillList)).collect(Collectors.toList());
@@ -157,6 +166,9 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 		listOfBillId.setBillAmountReceived(otsBillList.getOtsBillAmountReceived().toString());
 		listOfBillId.setBillGenerated(otsBillList.getOtsBillGenerated());
 		listOfBillId.setBillStatus(otsBillList.getOtsBillStatus());
+		listOfBillId.setCGST(otsBillList.getOtsbillSGST()+"");
+		listOfBillId.setiGST(otsBillList.getOtsbillIGST()+"");
+		listOfBillId.setOutstandingAmount(otsBillList.getOtsBillOutstandingAmt()+"");
 		return listOfBillId;
 	}
 
