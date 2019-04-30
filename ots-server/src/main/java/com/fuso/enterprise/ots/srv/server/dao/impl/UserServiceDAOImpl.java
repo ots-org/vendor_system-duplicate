@@ -107,7 +107,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 				userEntity.setOtsUsersAddr2(addUserDataBORequest.getRequestData().getAddress2());
 				userEntity.setOtsUsersPincode(addUserDataBORequest.getRequestData().getPincode());
 				userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
-				userEntity.setOtsUsersPassword(addUserDataBORequest.getRequestData().getUsrPassword());
+				userEntity.setOtsUsersPassword(addUserDataBORequest.getRequestData().getUsrPassword()==null?"Password":addUserDataBORequest.getRequestData().getUsrPassword());
 				userEntity.setOtsUsersEmailid(addUserDataBORequest.getRequestData().getEmailId());
 				userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
 				OtsUserRole otsUserRole = new OtsUserRole();
@@ -117,7 +117,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 				userEntity.setOtsUsersProfilePic(addUserDataBORequest.getRequestData().getProfilePic());
 				userEntity.setOtsDeviceToken(addUserDataBORequest.getRequestData().getDeviceId());
 				OtsRegistration otsRegistration = new OtsRegistration();
-				
+
 				if(addUserDataBORequest.getRequestData().getRegistrationId()!=null ) {
 					try {
 						int registrationID = Integer.parseInt(addUserDataBORequest.getRequestData().getRegistrationId());
@@ -125,13 +125,13 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 						userEntity.setOtsRegistrationId(otsRegistration);
 					}catch(Exception e){
 						userEntity.setOtsRegistrationId(null);
-					}					
+					}
 	 			}
-				
+
 				try{
 					if(addUserDataBORequest.getRequestData().getUserId()!=null || addUserDataBORequest.getRequestData().getUserId()!="" || addUserDataBORequest.getRequestData().getUserId()!="0" ) {
 						try{
-							userEntity.setOtsUsersId(Integer.parseInt(addUserDataBORequest.getRequestData().getUserId()));	
+							userEntity.setOtsUsersId(Integer.parseInt(addUserDataBORequest.getRequestData().getUserId()));
 							super.getEntityManager().merge(userEntity);
 							super.getEntityManager().flush();
 						}catch(Exception e) {
@@ -177,8 +177,8 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         userDetails.setDeviceId(otsUsers.getOtsDeviceToken()==null?null:otsUsers.getOtsDeviceToken());
         return userDetails;
     }
-    
-    
+
+
     private UserDetails convertUserDetailsFromEntityToDomainwithCustomerproduct(OtsUsers otsUsers) {
         UserDetails userDetails = new UserDetails();
         userDetails.setUserId(otsUsers.getOtsUsersId()==null?null:otsUsers.getOtsUsersId().toString());
@@ -195,7 +195,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
 
         List<OtsCustomerProduct> customerProductDetails = new ArrayList(otsUsers.getOtsCustomerProductCollection());
-	   	
+
 	   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
 	   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
 	   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
@@ -203,7 +203,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 	   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
 	   		tempcustomerProductDetails.setProductDefault(customerProductDetails.get(i).getOtsCustomerProductDefault()==null?null:customerProductDetails.get(i).getOtsCustomerProductDefault().toString());
 	   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
-	   	}       
+	   	}
         return userDetails;
     }
 
