@@ -18,6 +18,16 @@ public class OrderProductDetails {
     private String ProductName;
     
     private String BalanceCan;
+    
+    private String emptyCanRecived;
+
+	public String getEmptyCanRecived() {
+		return emptyCanRecived;
+	}
+
+	public void setEmptyCanRecived(String emptyCanRecived) {
+		this.emptyCanRecived = emptyCanRecived;
+	}
 
 	public String getProductName() {
 		return ProductName;

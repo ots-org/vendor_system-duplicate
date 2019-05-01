@@ -27,8 +27,15 @@ public class OrderDetailsAndProductDetails {
     private UserDetails DistributorDetails;
     private UserDetails EmployeeDetails;
     private UserDetails CustomerDetails;
-    private List<OrderProductDetails> OrderdProducts;    
+    private List<OrderProductDetails> OrderdProducts;  
+    private String emptyCanRecived;
     
+	public String getEmptyCanRecived() {
+		return emptyCanRecived;
+	}
+	public void setEmptyCanRecived(String emptyCanRecived) {
+		this.emptyCanRecived = emptyCanRecived;
+	}
 	public UserDetails getDistributorDetails() {
 		return DistributorDetails;
 	}

@@ -102,6 +102,7 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 			orderDetails.setOtsOrderProductStatus(otsOrderProduct.getOtsOrderProductStatus()==null?null:otsOrderProduct.getOtsOrderProductStatus().toString());
 			orderDetails.setOtsOrderProductId(otsOrderProduct.getOtsOrderProductId()==null?null:otsOrderProduct.getOtsOrderProductId().toString());
 			orderDetails.setOtsProductId(otsOrderProduct.getOtsProductId().getOtsProductId()==null?null:otsOrderProduct.getOtsProductId().getOtsProductId().toString());
+			orderDetails.setEmptyCanRecived(otsOrderProduct.getOtsReceivedCans()==null?null:otsOrderProduct.getOtsReceivedCans().toString());
 			return orderDetails;		
 		}
 

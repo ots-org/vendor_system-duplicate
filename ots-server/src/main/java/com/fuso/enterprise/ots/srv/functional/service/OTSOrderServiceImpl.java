@@ -163,7 +163,6 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		orderDetailsAndProductDetails.setDistributorDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getDistributorId())));
 		orderDetailsAndProductDetails.setCustomerDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId())));
 		orderDetailsAndProductDetails.setEmployeeDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getAssignedId())));
-
 		return orderDetailsAndProductDetails;
 	}
 
@@ -454,7 +453,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				orderedProductDetails.setOrderedQty(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getOrderQty());
 				orderedProductDetails.setDeliveredQty(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getDeliveredQty());
 				orderedProductDetails.setProductCost(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost());
-				orderedProductDetails.setReceivedQty(saleVocherBoRequest.getRequest().getAmountReceived());
+				orderedProductDetails.setReceivedQty(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getEmptyCan());
 				orderProductDao.addOrUpdateOrderProductsaleVocher(orderedProductDetails);
 
 				customerProductDetails.setProductId(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProdcutId());
@@ -501,7 +500,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		try {
 			OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
 			List<OrderDetails> OrderDetailsList = orderServiceDAO.getOrderReportByDate(getOrderBORequest);
-			List<OrderDetailsAndProductDetails> GetOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
+			List<OrderDetailsAndProductDetails> getOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
 			GetCustomerOutstandingAmt getCustomerOutstandingAmt = new GetCustomerOutstandingAmt();
 			GetCustomerOutstandingAmtBORequest getCustomerOutstandingAmtBORequest = new GetCustomerOutstandingAmtBORequest();
 			for (int i = 0; i <OrderDetailsList.size(); i++)
@@ -511,10 +510,10 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				String CustomerAmount = customerOutstandingAmtDAO.getCustomerOutstandingAmt(getCustomerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();
 
 				List<OrderProductDetails> orderProductDetailsList = orderProductDao.getProductListByOrderId(OrderDetailsList.get(i).getOrderId());
-				GetOrderDetailsAndProductDetails.add(i,GetProductAndOrderDetails(OrderDetailsList.get(i),orderProductDetailsList,CustomerAmount));
+				getOrderDetailsAndProductDetails.add(i,GetProductAndOrderDetails(OrderDetailsList.get(i),orderProductDetailsList,CustomerAmount));
 				CustomerAmount = null;
 			}
-			orderProductBOResponse.setOrderList(GetOrderDetailsAndProductDetails);
+			orderProductBOResponse.setOrderList(getOrderDetailsAndProductDetails);
 			return orderProductBOResponse;
 		}catch(Exception e){
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
