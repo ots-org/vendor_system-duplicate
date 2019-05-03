@@ -246,7 +246,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 			
 			OrderDetails orderDetails = orderServiceDAO.GetOrderDetailsByOrderId(getProductDetailsForBillRequst.getRequest().getOrderId().get(0));
 			billProductDetailsResponse.setCustomerDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.getCustomerId())));
-			billProductDetailsResponse.setCustomerDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.getDistributorId())));
+			billProductDetailsResponse.setDistributorDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.getDistributorId())));
 			billProductDetailsResponse.setProductDeatils(ProductResponse);
 			return billProductDetailsResponse;
 		}catch (Exception e) {
