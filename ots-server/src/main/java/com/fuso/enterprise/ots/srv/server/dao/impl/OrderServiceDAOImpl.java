@@ -514,7 +514,6 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			queryParameter.put("DistributorId", distributorId);
 	    	queryParameter.put("startDate",getOrderBORequest.getRequest().getFromTime());
 	    	queryParameter.put("endDate",getOrderBORequest.getRequest().getToTime());
-	    	//queryParameter.put("status",getOrderBORequest.getRequest().getStatus());
 	    	orderList  = super.getResultListByNamedQuery("OtsOrder.GetOrderListForDistributorByDateAndStatus", queryParameter);
 	    	orderDetails =  orderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
 			return orderDetails;

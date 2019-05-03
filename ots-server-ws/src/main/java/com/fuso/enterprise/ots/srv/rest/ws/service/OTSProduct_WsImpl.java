@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
@@ -147,5 +148,18 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 				throw new BusinessException(e.getMessage(), e);
 			}
 		return response;
+	}
+
+	@Override
+	public Response getProductDetailsForBill(GetProductDetailsForBillRequst getProductDetailsForBillRequst) {
+		try {
+			Response response = null;
+			response =  responseWrapper.buildResponse(otsProductService.getProductDetailsForBill(getProductDetailsForBillRequst),"Successfull");
+			return response;
+		}catch(BusinessException e) {
+			throw new BusinessException(e.getMessage(), e);
+		}catch(Throwable e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
 	}
 }

@@ -1,7 +1,9 @@
 package com.fuso.enterprise.ots.srv.functional.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -10,24 +12,31 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductRequestModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetailsList;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductStockDetail;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.BillProductDetailsResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetProductBOStockResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetProductStockListBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.OrderDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
+import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.ProductServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockDao;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockHistoryDao;
 import com.fuso.enterprise.ots.srv.server.dao.StockDistObDAO;
+import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsOrder;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsStockDistOb;
 
@@ -40,15 +49,18 @@ public class OTSProductServiceImpl implements OTSProductService {
 	private StockDistObDAO stockDistObDAO;
 	private OrderDAO orderDAO;
 	private OrderProductDAO orderProductDAO;
-	
+	private UserServiceDAO userServiceDAO;
+	private OrderServiceDAO orderServiceDAO;
 	@Inject
-	public OTSProductServiceImpl(ProductServiceDAO productServiceDAO,ProductStockDao productStockDao,ProductStockHistoryDao productStockHistoryDao,StockDistObDAO stockDistObDAO,OrderDAO orderDAO,OrderProductDAO orderProductDAO) {
+	public OTSProductServiceImpl(ProductServiceDAO productServiceDAO,ProductStockDao productStockDao,ProductStockHistoryDao productStockHistoryDao,StockDistObDAO stockDistObDAO,OrderDAO orderDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO,OrderServiceDAO orderServiceDAO) {
 		this.productServiceDAO=productServiceDAO;
 		this.productStockDao = productStockDao;
 		this.productStockHistoryDao=productStockHistoryDao;
 		this.stockDistObDAO=stockDistObDAO;
 		this.orderDAO=orderDAO;
 		this.orderProductDAO=orderProductDAO;
+		this.userServiceDAO = userServiceDAO;
+		this.orderServiceDAO = orderServiceDAO;
 	}
 	@Override
 	public ProductDetailsBOResponse getProductList(ProductDetailsBORequest productDetailsBORequest) {
@@ -166,5 +178,79 @@ public class OTSProductServiceImpl implements OTSProductService {
 			throw new BusinessException(e.getMessage(), e);
 		}
 	}
-
+	@Override
+	public BillProductDetailsResponse getProductDetailsForBill(
+			GetProductDetailsForBillRequst getProductDetailsForBillRequst) {
+		try {
+			BillProductDetailsResponse billProductDetailsResponse = new BillProductDetailsResponse();
+			List<ProductDetailsList> ProductResponse = new ArrayList<ProductDetailsList>();
+			List<OrderProductDetails> totalProductDetails = new ArrayList<OrderProductDetails>();
+			int lastIndex = 0;
+			int k = 0;
+			int productListSize = 0;
+			for(int i=0 ; i< getProductDetailsForBillRequst.getRequest().getOrderId().size() ; i++) {
+				
+				List<OrderProductDetails> ProductDetails = orderProductDAO.getProductListByOrderId(getProductDetailsForBillRequst.getRequest().getOrderId().get(i));
+				productListSize = lastIndex + ProductDetails.size();
+				for(int j=lastIndex ; j < productListSize; j++) {
+					OrderProductDetails orderProductDetails = ProductDetails.get(j) ;
+					totalProductDetails.add(j,orderProductDetails);
+					lastIndex = lastIndex++;
+					System.out.println("+++++"+totalProductDetails.get(j));
+				}
+			}
+			ProductDetailsList productDetailsList;
+			
+			for(int i=0;i<totalProductDetails.size();i++) {
+				if(totalProductDetails.get(i).getStatus()!="YES") {
+				OrderDetails orderDetails = new OrderDetails();
+				int totalProductPrice = 0;
+				Integer TotalproductQty = 0;
+				
+				productDetailsList = new ProductDetailsList();
+				
+				productDetailsList.setProductId(totalProductDetails.get(i).getOtsProductId().toString());
+				
+				productDetailsList.setProductName(totalProductDetails.get(i).getProductName());
+				
+					for(int j = 0; j<totalProductDetails.size();j++) {
+						
+						if(totalProductDetails.get(i).getOtsProductId().equals(totalProductDetails.get(j).getOtsProductId())) {
+							
+							if(totalProductDetails.get(j).getStatus()!="YES") {
+								
+								totalProductDetails.get(j).setStatus("YES");
+								
+								productDetailsList.setProductPrice(totalProductDetails.get(i).getOtsOrderProductCost());
+								
+								TotalproductQty = TotalproductQty + (Integer.valueOf(totalProductDetails.get(j).getOtsDeliveredQty())) ; 
+								
+								System.out.print("i"+i+"j"+j+"TotalproductQty"+TotalproductQty);
+								
+								productDetailsList.setProductqty(String.valueOf(TotalproductQty));
+								
+								totalProductPrice =(TotalproductQty * Integer.valueOf(totalProductDetails.get(j).getOtsOrderProductCost()));
+								
+								productDetailsList.setTotalProductPrice(String.valueOf(totalProductPrice));	
+								
+								ProductResponse.add(k,productDetailsList);
+								
+							}
+						}
+					}
+				}
+			}
+			Set<ProductDetailsList> set = new HashSet<>(ProductResponse);
+			ProductResponse.clear();
+			ProductResponse.addAll(set);
+			
+			OrderDetails orderDetails = orderServiceDAO.GetOrderDetailsByOrderId(getProductDetailsForBillRequst.getRequest().getOrderId().get(0));
+			billProductDetailsResponse.setCustomerDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.getCustomerId())));
+			billProductDetailsResponse.setCustomerDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.getDistributorId())));
+			billProductDetailsResponse.setProductDeatils(ProductResponse);
+			return billProductDetailsResponse;
+		}catch (Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+	}
 }

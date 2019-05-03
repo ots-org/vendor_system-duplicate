@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
@@ -58,5 +59,11 @@ public interface OTSProduct_Ws {
 	@ApiOperation(value = "getProductStock", notes = "This operation will fetch details about productstock", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getProductStock(@ApiParam(value = "request", required = true) @NotNull @Valid GetProductStockRequest getProductStockRequest);
+
+	@POST
+	@Path("/getProductDetailsForBill")
+	@ApiOperation(value = "getProductStock", notes = "get ProductList For bill By orderId", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getProductDetailsForBill(@ApiParam(value = "request", required = true) @NotNull @Valid GetProductDetailsForBillRequst getProductDetailsForBillRequst);
 
 }

@@ -14,6 +14,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
+import com.fuso.enterprise.ots.srv.api.model.domain.AddScheduler;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
@@ -114,5 +115,11 @@ public interface OTSOrder_Ws {
 	@ApiOperation(value = "getOrder", notes = "Inserting the data when closeing order or derliverd the product to customer", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response orderReportByDate(@ApiParam(value = "request", required = true) @NotNull  @Valid GetOrderBORequest  getOrderBORequest);
+	
+	@POST
+    @Path("/insertScheduler")
+	@ApiOperation(value = "getOrder", notes = "Inserting the data to scheduler", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response InsertScheduler(@ApiParam(value = "request", required = true) @NotNull  @Valid AddScheduler  addScheduler);
 	
 }

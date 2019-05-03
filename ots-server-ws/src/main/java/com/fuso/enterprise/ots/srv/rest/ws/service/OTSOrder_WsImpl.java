@@ -6,6 +6,7 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.AddScheduler;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
@@ -304,5 +305,11 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 			} catch (Throwable e) {
 				throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 			}
-		}	
+		}
+
+	@Override
+	public Response InsertScheduler(AddScheduler  addScheduler) {
+		// TODO Auto-generated method stub
+		return null;
+	}	
 }

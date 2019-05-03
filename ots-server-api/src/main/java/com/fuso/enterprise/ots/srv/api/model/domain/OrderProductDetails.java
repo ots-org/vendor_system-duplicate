@@ -20,6 +20,8 @@ public class OrderProductDetails {
     private String BalanceCan;
     
     private String emptyCanRecived;
+    
+    private String status;
 
 	public String getEmptyCanRecived() {
 		return emptyCanRecived;
@@ -99,5 +101,13 @@ public class OrderProductDetails {
 
 	public void setBalanceCan(String balanceCan) {
 		BalanceCan = balanceCan;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }
