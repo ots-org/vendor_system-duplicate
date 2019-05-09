@@ -1,10 +1,18 @@
 package com.fuso.enterprise.ots.srv.functional.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -31,8 +39,12 @@ import com.fuso.enterprise.ots.srv.server.dao.OrderDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
-import com.fuso.enterprise.ots.srv.server.dao.impl.OrderDAOImpl;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsBill;
+import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.html.simpleparser.HTMLWorker;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
 @Service
 @Transactional
 public class OTSBillServiceImpl implements OTSBillService {
@@ -66,6 +78,19 @@ public OTSBillServiceImpl(BillServiceDAO billServiceDAO,OrderServiceDAO orderSer
 			 * calling orderServiceDAo for updating billId in order table
 			 */
 			orderServiceDAO.updateOrderwithBillID(otsBill,listOfOrderId);
+			/*
+			 * Create html for Bill document
+			 */
+			String htmlString = "<html><body> This is my Project <table><br><tr><td>Slno</td><td>Product Name</td></tr></table> </body></html>";
+			String billNO = billDetailsBOResponse.getBillDetails().get(0).getBillId()+"";
+			OTSUtil.generatePDFFromHTML(htmlString,billNO);
+			
+			byte[] fileContent = FileUtils.readFileToByteArray(new File("C:\\template\\OtsBill-"+billNO+".pdf"));
+			String encodedString = Base64.getEncoder().encodeToString(fileContent);
+			billDetailsBORequest.getRequestData().setBillId(billDetailsBOResponse.getBillDetails().get(0).getBillId());
+			billDetailsBORequest.getRequestData().setBillPdf(encodedString);
+			billDetailsBOResponse = billServiceDAO.addOrUpdateBill(billDetailsBORequest);
+	
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}

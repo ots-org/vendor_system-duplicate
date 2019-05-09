@@ -62,6 +62,7 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 			otsBill.setOtsbillIGST(Long.parseLong(billDetailsBORequest.getRequestData().getIGST()));
 			otsBill.setOtsbillSGST(Long.parseLong(billDetailsBORequest.getRequestData().getCGST()));
 			otsBill.setOtsBillOutstandingAmt(Long.parseLong(billDetailsBORequest.getRequestData().getOutstandingAmount()));
+			otsBill.setOtsBillPdf(billDetailsBORequest.getRequestData().getBillPdf());
 			OtsUsers otsUser = new OtsUsers();
 			otsUser.setOtsUsersId(billDetailsBORequest.getRequestData().getCustomerId());
 			otsBill.setOtsCustomerId(otsUser);
@@ -74,6 +75,8 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 					super.getEntityManager().merge(otsBill);
 				}else{
 					otsBill.setOtsBillId(billDetailsBORequest.getRequestData().getBillId());
+					BillNumber = "OtsBill-"+otsBill.getOtsBillId();
+					otsBill.setOtsBillNumber(BillNumber);
 					super.getEntityManager().merge(otsBill);
 				}
 				super.getEntityManager().flush();
@@ -100,6 +103,7 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 		billDetails.setBillAmount((otsBill.getOtsBillAmount())==null?null:otsBill.getOtsBillAmount().toString());
 		billDetails.setBillAmountReceived(otsBill.getOtsBillAmountReceived()==null?null:otsBill.getOtsBillAmountReceived().toString());
 		billDetails.setBillGenerated(otsBill.getOtsBillGenerated()==null?null:otsBill.getOtsBillGenerated());
+		billDetails.setBillPdf(otsBill.getOtsBillPdf()==null?null:otsBill.getOtsBillPdf());
 		return billDetails;
 	}
 	

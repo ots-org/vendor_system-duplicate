@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsBill.findByOtsBillStatus", query = "SELECT o FROM OtsBill o WHERE o.otsBillStatus = :otsBillStatus"),
     @NamedQuery(name = "OtsBill.findByOtsbillIGST", query = "SELECT o FROM OtsBill o WHERE o.otsbillIGST = :otsbillIGST"),
     @NamedQuery(name = "OtsBill.findByOtsbillSGST", query = "SELECT o FROM OtsBill o WHERE o.otsbillSGST = :otsbillSGST"),
-    @NamedQuery(name = "OtsBill.findByOtsBillOutstandingAmt", query = "SELECT o FROM OtsBill o WHERE o.otsBillOutstandingAmt = :otsBillOutstandingAmt")})
+    @NamedQuery(name = "OtsBill.findByOtsBillOutstandingAmt", query = "SELECT o FROM OtsBill o WHERE o.otsBillOutstandingAmt = :otsBillOutstandingAmt"),
+    @NamedQuery(name = "OtsBill.findByOtsBillPdf", query = "SELECT o FROM OtsBill o WHERE o.otsBillPdf = :otsBillPdf")})
 public class OtsBill implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -70,6 +71,8 @@ public class OtsBill implements Serializable {
     private Long otsbillSGST;
     @Column(name = "ots_bill_outstanding_amt")
     private Long otsBillOutstandingAmt;
+    @Column(name = "ots_bill_pdf")
+    private String otsBillPdf;
     @JoinColumn(name = "ots_customer_id", referencedColumnName = "ots_users_id")
     @ManyToOne(optional = false)
     private OtsUsers otsCustomerId;
@@ -162,6 +165,14 @@ public class OtsBill implements Serializable {
 
     public void setOtsBillOutstandingAmt(Long otsBillOutstandingAmt) {
         this.otsBillOutstandingAmt = otsBillOutstandingAmt;
+    }
+
+    public String getOtsBillPdf() {
+        return otsBillPdf;
+    }
+
+    public void setOtsBillPdf(String otsBillPdf) {
+        this.otsBillPdf = otsBillPdf;
     }
 
     public OtsUsers getOtsCustomerId() {

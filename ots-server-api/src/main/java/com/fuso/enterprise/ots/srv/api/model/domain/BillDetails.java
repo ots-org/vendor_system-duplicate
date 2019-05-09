@@ -31,6 +31,9 @@ public class BillDetails {
 	 @Size(max = 20)
 	 private Integer customerId;
 	 
+	 @Size(max = 1500)
+	 private String billPdf;
+	 
 	 @Size(max = 20)
 	 private List<ListOfOrderId> orderId;
 
@@ -104,6 +107,14 @@ public class BillDetails {
 
 	public void setCustomerId(Integer customerId) {
 		this.customerId = customerId;
+	}
+
+	public String getBillPdf() {
+		return billPdf;
+	}
+
+	public void setBillPdf(String billPdf) {
+		this.billPdf = billPdf;
 	}
 	
 	
