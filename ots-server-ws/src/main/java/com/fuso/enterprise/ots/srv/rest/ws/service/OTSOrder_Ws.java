@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
@@ -19,6 +20,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
@@ -120,6 +122,13 @@ public interface OTSOrder_Ws {
     @Path("/insertScheduler")
 	@ApiOperation(value = "getOrder", notes = "Inserting the data to scheduler", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
-	Response InsertScheduler(@ApiParam(value = "request", required = true) @NotNull  @Valid AddScheduler  addScheduler);
+	Response InsertScheduler(@ApiParam(value = "request", required = true) @NotNull  @Valid AddSchedulerRequest  addScheduler);
+	
+	
+	@POST
+    @Path("/getSchedulerByStatus")
+	@ApiOperation(value = "getSchedulerByStatus", notes = "getting the data from scheduler", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getScheduler(@ApiParam(value = "request", required = true) @NotNull  @Valid GetSchedulerRequest  getSchedulerRequest);
 	
 }

@@ -12,6 +12,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
@@ -19,6 +20,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
@@ -308,8 +310,29 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		}
 
 	@Override
-	public Response InsertScheduler(AddScheduler  addScheduler) {
-		// TODO Auto-generated method stub
-		return null;
-	}	
+	public Response InsertScheduler(AddSchedulerRequest  addSchedulerRequest) {
+		Response response;
+		try {
+			response = buildResponse(oTSOrderService.InsertScheduler(addSchedulerRequest),"Successfull");
+			return response;
+		}catch (BusinessException e) {
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SCHEDULER);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SCHEDULER);
+		}	
+		
+	}
+
+	@Override
+	public Response getScheduler(GetSchedulerRequest getSchedulerRequest) {
+		Response response;
+		try {
+			response = buildResponse(oTSOrderService.getScheduler(getSchedulerRequest),"Successfull");
+			return response;
+		}catch (BusinessException e) {
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SCHEDULER);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SCHEDULER);
+		}
+	}
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.AddProductStock;
+import com.fuso.enterprise.ots.srv.api.model.domain.AddScheduler;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.CompleteOrderDetails;
@@ -22,17 +23,20 @@ import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetail
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetailsSaleVocher;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderedProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.SchedulerResponceOrderModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.UpdateOrderDetailsModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
@@ -42,6 +46,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.GetSchedulerResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderProductBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -50,11 +55,15 @@ import com.fuso.enterprise.ots.srv.server.dao.CustomerOutstandingAmtDAO;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
+import com.fuso.enterprise.ots.srv.server.dao.ProductServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockDao;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockHistoryDao;
+import com.fuso.enterprise.ots.srv.server.dao.RequestOrderServiceDao;
+import com.fuso.enterprise.ots.srv.server.dao.SchedulerDao;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.impl.CustomerOutstandingAmtDAOImpl;
 import com.fuso.enterprise.ots.srv.server.dao.impl.UserServiceDAOImpl;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsScheduler;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
 
@@ -71,8 +80,11 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	private MapUserProductDAO mapUserProductDAO;
 	private FcmPushNotification fcmPushNotification;
 	private CustomerOutstandingAmtDAO customerOutstandingAmtDAO;
+	private SchedulerDao schedulerDao;
+	private RequestOrderServiceDao requestOrderServiceDao;
+	private ProductServiceDAO productServiceDAO;
 	@Inject
-	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,MapUserProductDAO mapUserProductDAO)
+	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,MapUserProductDAO mapUserProductDAO,SchedulerDao schedulerDao,RequestOrderServiceDao requestOrderServiceDao,ProductServiceDAO productServiceDAO)
 	{
 		this.orderServiceDAO = orderServiceDAO ;
 		this.orderProductDao = orderProductDao;
@@ -81,6 +93,9 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		this.userServiceDAO = userServiceDAO;
 		this.customerOutstandingAmtDAO = customerOutstandingAmtDAO;
 		this.mapUserProductDAO = mapUserProductDAO;
+		this.schedulerDao =schedulerDao ;
+		this.requestOrderServiceDao = requestOrderServiceDao;
+		this.productServiceDAO = productServiceDAO;
 	}
 
 
@@ -520,6 +535,35 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		} catch (Throwable e) {
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 		}
+	}
+
+
+	@Override
+	public String InsertScheduler(AddSchedulerRequest addSchedulerRequest) {
+		try {
+			List<OtsScheduler> SchedulerList = schedulerDao.InsertScheduler(addSchedulerRequest);
+			requestOrderServiceDao.insertingOrderForScheduling(SchedulerList);
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SCHEDULER);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SCHEDULER);
+		}
+		return "Inserted";
+	}
+
+
+	@Override
+	public GetSchedulerResponse getScheduler(GetSchedulerRequest getSchedulerRequest) {
+		GetSchedulerResponse getSchedulerResponse = new GetSchedulerResponse();		
+		
+		List<SchedulerResponceOrderModel> schedulerResponceOrderModel = new ArrayList<SchedulerResponceOrderModel>();
+		schedulerResponceOrderModel = requestOrderServiceDao.getScheduler(getSchedulerRequest);
+		for(int i=0;i<schedulerResponceOrderModel.size();i++) {
+			schedulerResponceOrderModel.get(i).setUserDetails(userServiceDAO.getUserDetails(Integer.valueOf(schedulerResponceOrderModel.get(i).getCustomerId())));
+			schedulerResponceOrderModel.get(i).setProductDetails(productServiceDAO.getProductDetils(schedulerResponceOrderModel.get(i).getProductId()));
+		}
+		getSchedulerResponse.setResponse(schedulerResponceOrderModel);
+		return getSchedulerResponse;
 	}
 
 }

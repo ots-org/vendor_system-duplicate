@@ -6,16 +6,19 @@ import com.fuso.enterprise.ots.srv.api.model.domain.CompleteOrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.GetSchedulerResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderProductBOResponse;
 
@@ -33,4 +36,7 @@ public interface OTSOrderService {
 	GetListOfOrderByDateBOResponse getListOfOrderByDate(GetListOfOrderByDateBORequest getListOfOrderByDateBORequest);
 	String SalesVocher(SaleVocherBoRequest saleVocherBoRequest);
 	OrderProductBOResponse orderReportByDate(GetOrderBORequest getOrderBORequest);
+	String InsertScheduler(AddSchedulerRequest  addSchedulerRequest);
+	GetSchedulerResponse getScheduler(GetSchedulerRequest getSchedulerRequest);
+	
 }

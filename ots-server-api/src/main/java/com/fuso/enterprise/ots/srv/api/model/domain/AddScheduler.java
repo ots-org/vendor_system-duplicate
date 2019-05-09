@@ -1,37 +1,35 @@
 package com.fuso.enterprise.ots.srv.api.model.domain;
 
+import java.util.Date;
+import java.util.List;
+
 public class AddScheduler {
 
-	private String DistributorID;
-	
-	private String customerId;
-	
 	private String prodcutId;
 	
 	private String prodcutQty;
 	
-	private String ScheduleType;
+	private Date startDate;
 	
-	private String StartDate;
+	private Date endDate;
 	
-	private String endDate;
-	
-	private String SchduleweekDays;
+	private List<String> schduleweekDays;
 
-	public String getDistributorID() {
-		return DistributorID;
+
+	public Date getEndDate() {
+		return endDate;
 	}
 
-	public void setDistributorID(String distributorID) {
-		DistributorID = distributorID;
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public String getCustomerId() {
-		return customerId;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public String getProdcutId() {
@@ -50,37 +48,13 @@ public class AddScheduler {
 		this.prodcutQty = prodcutQty;
 	}
 
-	public String getScheduleType() {
-		return ScheduleType;
+	public List<String> getSchduleweekDays() {
+		return schduleweekDays;
 	}
 
-	public void setScheduleType(String scheduleType) {
-		ScheduleType = scheduleType;
-	}
 
-	public String getStartDate() {
-		return StartDate;
+	public void setSchduleweekDays(List<String> schduleweekDays) {
+		this.schduleweekDays = schduleweekDays;
 	}
-
-	public void setStartDate(String startDate) {
-		StartDate = startDate;
-	}
-
-	public String getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
-
-	public String getSchduleweekDays() {
-		return SchduleweekDays;
-	}
-
-	public void setSchduleweekDays(String schduleweekDays) {
-		SchduleweekDays = schduleweekDays;
-	}
-	
 	
 }

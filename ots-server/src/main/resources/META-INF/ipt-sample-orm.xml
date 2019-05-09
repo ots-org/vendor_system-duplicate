@@ -273,4 +273,16 @@
 			o.otsUsersId =:otsUsersId
 		</query>
 	</named-query>
+	<named-query name="OtsRequestOrder.getSchedulerDetails">
+		<query>SELECT o 
+		FROM 
+			OtsRequestOrder o
+		WHERE 
+			o.otsDistributorId =:DistributorId
+		AND
+			o.otsRequestStatus = :status
+		AND
+			(o.otsScheduleDt BETWEEN :todayDate AND :tomorrow)  
+		</query>
+	</named-query>
 </entity-mappings>

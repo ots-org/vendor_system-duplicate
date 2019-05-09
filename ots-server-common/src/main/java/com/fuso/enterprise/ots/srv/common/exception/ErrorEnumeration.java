@@ -34,7 +34,9 @@ public enum ErrorEnumeration {
 	GET_CUSTOMER_OUTSTANDINGAMT_FAILURE_WRONG_INPUT(1022,"err.in.getCustomerOutstandingAmtwithInput"),
 	ORDER_CLOSE(1006,"err.in.order.close"),
 	GET_BILL_REPORT_BY_DATE(1021,"err.in.getbillreportbydate"),
-	GET_SALE_VOCHER(1021,"err.in.salevocher")
+	GET_SALE_VOCHER(1021,"err.in.salevocher"),
+	ERROR_IN_SCHEDULER(1004,"err.in.scheduler"),
+	ERROR_IN_SCHEDULERREQUEST(1004,"err.in.schedulerRequest")
 	;
 	
     ErrorEnumeration(int errorCode, String messageKey) {
