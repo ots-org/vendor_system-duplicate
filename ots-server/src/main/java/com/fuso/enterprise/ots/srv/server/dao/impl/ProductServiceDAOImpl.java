@@ -89,13 +89,15 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 				otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
 				otsProduct.setOtsProductPrice(Long.parseLong(addorUpdateProductBORequest.getRequestData().getProductPrice()));
 				otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
-				}else {
-					otsProduct.setOtsProductId(Integer.parseInt(addorUpdateProductBORequest.getRequestData().getProductId()));
-					otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
-					otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
-					otsProduct.setOtsProductPrice(Long.parseLong(addorUpdateProductBORequest.getRequestData().getProductPrice()));
-					otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
-					}
+				otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
+			}else {
+				otsProduct.setOtsProductId(Integer.parseInt(addorUpdateProductBORequest.getRequestData().getProductId()));
+				otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
+				otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
+				otsProduct.setOtsProductPrice(Long.parseLong(addorUpdateProductBORequest.getRequestData().getProductPrice()));
+				otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
+				otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
+			}
 			try {
 				super.getEntityManager().merge(otsProduct);
 			}catch (NoResultException e) {
@@ -120,6 +122,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		productDetails.setProductDescription(otsProduct.getOtsProductDescription()==null?null:otsProduct.getOtsProductDescription());
 		productDetails.setProductPrice(otsProduct.getOtsProductPrice()==null?null:otsProduct.getOtsProductPrice().toString());
 		productDetails.setProductStatus(otsProduct.getOtsProductStatus()==null?null:otsProduct.getOtsProductStatus());
+		productDetails.setProductImage(otsProduct.getOtsProductImage()==null?null:otsProduct.getOtsProductImage());
 		return productDetails;
 	}
 

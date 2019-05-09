@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsProduct.findByOtsProductName", query = "SELECT o FROM OtsProduct o WHERE o.otsProductName = :otsProductName"),
     @NamedQuery(name = "OtsProduct.findByOtsProductDescription", query = "SELECT o FROM OtsProduct o WHERE o.otsProductDescription = :otsProductDescription"),
     @NamedQuery(name = "OtsProduct.findByOtsProductStatus", query = "SELECT o FROM OtsProduct o WHERE o.otsProductStatus = :otsProductStatus"),
-    @NamedQuery(name = "OtsProduct.findByOtsProductPrice", query = "SELECT o FROM OtsProduct o WHERE o.otsProductPrice = :otsProductPrice")})
+    @NamedQuery(name = "OtsProduct.findByOtsProductPrice", query = "SELECT o FROM OtsProduct o WHERE o.otsProductPrice = :otsProductPrice"),
+    @NamedQuery(name = "OtsProduct.findByOtsProductImage", query = "SELECT o FROM OtsProduct o WHERE o.otsProductImage = :otsProductImage")})
 public class OtsProduct implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,6 +54,8 @@ public class OtsProduct implements Serializable {
     private String otsProductStatus;
     @Column(name = "ots_product_price")
     private Long otsProductPrice;
+    @Column(name = "ots_product_image")
+    private String otsProductImage;
     @OneToMany(mappedBy = "otsProductId")
     private Collection<OtsCustomerProduct> otsCustomerProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
@@ -115,6 +118,14 @@ public class OtsProduct implements Serializable {
 
     public void setOtsProductPrice(Long otsProductPrice) {
         this.otsProductPrice = otsProductPrice;
+    }
+
+    public String getOtsProductImage() {
+        return otsProductImage;
+    }
+
+    public void setOtsProductImage(String otsProductImage) {
+        this.otsProductImage = otsProductImage;
     }
 
     @XmlTransient
