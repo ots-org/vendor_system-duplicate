@@ -40,6 +40,7 @@ import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsBill;
+import com.fuso.enterprise.ots.srv.server.util.EmailUtil;
 import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.html.simpleparser.HTMLWorker;
@@ -81,7 +82,87 @@ public OTSBillServiceImpl(BillServiceDAO billServiceDAO,OrderServiceDAO orderSer
 			/*
 			 * Create html for Bill document
 			 */
-			String htmlString = "<html><body> This is my Project <table><br><tr><td>Slno</td><td>Product Name</td></tr></table> </body></html>";
+			String htmlString = "<html><body> <br> <table style=\"width: 508px; height: 90px;\" border=\"1\">\r\n" + 
+					"<tbody>\r\n" + 
+					"<tr>\r\n" + 
+					"<td style=\"width: 244px;\">From Date</td>\r\n" + 
+					"<td style=\"width: 259px;\">&nbsp;</td>\r\n" + 
+					"</tr>\r\n" + 
+					"<tr>\r\n" + 
+					"<td style=\"width: 244px;\">To Date&nbsp;</td>\r\n" + 
+					"<td style=\"width: 259px;\">&nbsp;</td>\r\n" + 
+					"</tr>\r\n" + 
+					"<tr>\r\n" + 
+					"<td style=\"width: 244px;\">Distributor Name</td>\r\n" + 
+					"<td style=\"width: 259px;\">&nbsp;</td>\r\n" + 
+					"</tr>\r\n" + 
+					"<tr>\r\n" + 
+					"<td style=\"width: 244px;\">Customer Name</td>\r\n" + 
+					"<td style=\"width: 259px;\">&nbsp;</td>\r\n" + 
+					"</tr>\r\n" + 
+					"<tr>\r\n" + 
+					"<td style=\"width: 244px;\">Customer Address</td>\r\n" + 
+					"<td style=\"width: 259px;\">&nbsp;</td>\r\n" + 
+					"</tr>\r\n" + 
+					"<tr>\r\n" + 
+					"<td style=\"width: 244px;\">Bill No</td>\r\n" + 
+					"<td style=\"width: 259px;\">&nbsp;</td>\r\n" + 
+					"</tr>\r\n" + 
+					"</tbody>\r\n" + 
+					"</table>\r\n" + 
+					"<p>&nbsp;</p>\r\n" + 
+					"<table style=\"width: 508px; height: 38px;\" border=\"1\">\r\n" + 
+					"<tbody>\r\n" + 
+					"<tr style=\"background-color: #808080;\">\r\n" + 
+					"<td style=\"width: 45.6px; text-align: center;\"><strong>Slno</strong></td>\r\n" + 
+					"<td style=\"width: 137.6px; text-align: center;\"><strong>Description</strong></td>\r\n" + 
+					"<td style=\"width: 96.8px; text-align: center;\"><strong>Unit/Quantity</strong></td>\r\n" + 
+					"<td style=\"width: 96.8px; text-align: center;\"><strong>Rate&nbsp;</strong></td>\r\n" + 
+					"<td style=\"width: 100px; text-align: center;\"><strong>&nbsp;Amount</strong></td>\r\n" + 
+					"</tr>\r\n" + 
+					"<tr>\r\n" + 
+					"<td style=\"width: 45.6px; text-align: center;\">1</td>\r\n" + 
+					"<td style=\"width: 137.6px; text-align: center;\">Bisleri</td>\r\n" + 
+					"<td style=\"width: 96.8px; text-align: center;\">2</td>\r\n" + 
+					"<td style=\"width: 96.8px; text-align: center;\">50</td>\r\n" + 
+					"<td style=\"width: 100px; text-align: center;\">100</td>\r\n" + 
+					"</tr>\r\n" + 
+					"<tr>\r\n" + 
+					"<td style=\"width: 45.6px; text-align: center;\">&nbsp;</td>\r\n" + 
+					"<td style=\"width: 137.6px; text-align: center;\">&nbsp;</td>\r\n" + 
+					"<td style=\"width: 96.8px; text-align: center;\">&nbsp;</td>\r\n" + 
+					"<td style=\"width: 96.8px; text-align: center;\">&nbsp;</td>\r\n" + 
+					"<td style=\"width: 100px; text-align: center;\">&nbsp;</td>\r\n" + 
+					"</tr>\r\n" + 
+					"<tr>\r\n" + 
+					"<td style=\"width: 96.8px; text-align: right;\" colspan=\"4\"><strong>Total</strong></td>\r\n" + 
+					"<td style=\"width: 100px; text-align: center;\">100&nbsp;</td>\r\n" + 
+					"</tr>\r\n" + 
+					"<tr>\r\n" + 
+					"<td style=\"width: 96.8px; text-align: right;\" colspan=\"4\"><strong>SGST</strong></td>\r\n" + 
+					"<td style=\"width: 100px; text-align: center;\">&nbsp;</td>\r\n" + 
+					"</tr>\r\n" + 
+					"<tr>\r\n" + 
+					"<td style=\"width: 96.8px; text-align: right;\" colspan=\"4\"><strong>CGST</strong></td>\r\n" + 
+					"<td style=\"width: 100px; text-align: center;\">&nbsp;</td>\r\n" + 
+					"</tr>\r\n" + 
+					"<tr>\r\n" + 
+					"<td style=\"width: 96.8px; text-align: right;\" colspan=\"4\"><strong>Total</strong></td>\r\n" + 
+					"<td style=\"width: 100px; text-align: center;\">&nbsp;</td>\r\n" + 
+					"</tr>\r\n" + 
+					"</tbody>\r\n" + 
+					"</table>\r\n" + 
+					"<p>&nbsp;Rupeee in words :</p>\r\n" + 
+					"<p>&nbsp;</p>\r\n" + 
+					"<p>&nbsp;</p>\r\n" + 
+					"<p>&nbsp;</p>\r\n" + 
+					"<table style=\"width: 126.4px;\">\r\n" + 
+					"<tbody>\r\n" + 
+					"<tr style=\"height: 43.2px;\">\r\n" + 
+					"<td style=\"width: 139.4px; height: 43.2px;\">Signature&nbsp;</td>\r\n" + 
+					"</tr>\r\n" + 
+					"</tbody>\r\n" + 
+					"</table> </body></html>";
 			String billNO = billDetailsBOResponse.getBillDetails().get(0).getBillId()+"";
 			OTSUtil.generatePDFFromHTML(htmlString,billNO);
 			
@@ -90,6 +171,8 @@ public OTSBillServiceImpl(BillServiceDAO billServiceDAO,OrderServiceDAO orderSer
 			billDetailsBORequest.getRequestData().setBillId(billDetailsBOResponse.getBillDetails().get(0).getBillId());
 			billDetailsBORequest.getRequestData().setBillPdf(encodedString);
 			billDetailsBOResponse = billServiceDAO.addOrUpdateBill(billDetailsBORequest);
+			EmailUtil.sendEmailBill("sreedharc4u@gmail.com","sreedharan.appaswamy@gmail.com", "Your Bill for Number: OtsBill-"+billNO+", Bill Date: 12-Apr-2019\r\n" + 
+					"", "Please find the attachment for your water can bill generated", "OtsBill-"+billNO+".pdf", "C:\\template\\OtsBill-"+billNO+".pdf");
 	
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
