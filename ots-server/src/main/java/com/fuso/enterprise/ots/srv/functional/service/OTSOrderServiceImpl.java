@@ -1,8 +1,12 @@
 package com.fuso.enterprise.ots.srv.functional.service;
-
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import java.util.List;
 import java.sql.Date;
@@ -34,6 +38,10 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
@@ -554,6 +562,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 
 	@Override
 	public GetSchedulerResponse getScheduler(GetSchedulerRequest getSchedulerRequest) {
+	try {
 		GetSchedulerResponse getSchedulerResponse = new GetSchedulerResponse();		
 		
 		List<SchedulerResponceOrderModel> schedulerResponceOrderModel = new ArrayList<SchedulerResponceOrderModel>();
@@ -564,6 +573,23 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		}
 		getSchedulerResponse.setResponse(schedulerResponceOrderModel);
 		return getSchedulerResponse;
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SCHEDULER);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SCHEDULER);
+		}
+			
 	}
+
+
+	@Override
+	public String runScheduler12AMTO1AM() {
+		List<OtsScheduler> schedulerList = schedulerDao.runScheduler12AMTO1AM();
+ 		requestOrderServiceDao.runSchedulerEveryDay12AMTo1AM(schedulerList);
+		return "Done";
+	}
+
+
+	
 
 }

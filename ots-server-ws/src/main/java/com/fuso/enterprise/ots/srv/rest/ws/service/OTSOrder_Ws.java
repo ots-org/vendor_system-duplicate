@@ -2,6 +2,7 @@ package com.fuso.enterprise.ots.srv.rest.ws.service;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -130,5 +131,11 @@ public interface OTSOrder_Ws {
 	@ApiOperation(value = "getSchedulerByStatus", notes = "getting the data from scheduler", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getScheduler(@ApiParam(value = "request", required = true) @NotNull  @Valid GetSchedulerRequest  getSchedulerRequest);
+	
+	@GET
+    @Path("/checkSchedulerCronJob")
+	@ApiOperation(value = "get-userID-users", notes = "This operation will give the list of user based on userID", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response CheckSchedulerCronJob();
 	
 }
