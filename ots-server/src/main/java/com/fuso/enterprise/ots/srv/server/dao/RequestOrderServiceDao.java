@@ -8,5 +8,6 @@ import com.fuso.enterprise.ots.srv.server.model.entity.OtsScheduler;
 
 public interface RequestOrderServiceDao {
 	String insertingOrderForScheduling(List<OtsScheduler> schedulerList);
-	List<SchedulerResponceOrderModel> getScheduler(GetSchedulerRequest getSchedulerRequest);;
+	List<SchedulerResponceOrderModel> getScheduler(GetSchedulerRequest getSchedulerRequest);
+	String runSchedulerEveryDay12AMTo1AM(List<OtsScheduler> schedulerList);
 }

@@ -5,6 +5,9 @@ import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.AddScheduler;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
@@ -31,6 +34,8 @@ import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.util.ResponseWrapper;
 
+@Configuration
+@EnableScheduling
 public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	
 	
@@ -335,4 +340,28 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SCHEDULER);
 		}
 	}
+	
+	@Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
+	public void scheduleFixed12AM() {
+		//oTSOrderService.runScheduler12AMTO1AM();
+	    System.out.println(
+	      "runnng cron @12AM " + System.currentTimeMillis() / 1000);
+	}	
+	
+	@Scheduled(fixedRate=60*60*1000)
+	public void scheduleFixedDelayTask() {
+	//	oTSOrderService.runScheduler12AMTO1AM();
+		System.out.println("Every hour");
+	    for(int i=0;i<100;i++)
+	    {
+	    	System.out.print("." );
+	    }
+	}
+
+	@Override
+	public Response CheckSchedulerCronJob() {
+		Response response;
+		response = buildResponse(oTSOrderService.runScheduler12AMTO1AM(),"Successfull");
+		return null;
+	}	
 }

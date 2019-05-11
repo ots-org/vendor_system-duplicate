@@ -285,4 +285,22 @@
 			(o.otsScheduleDt BETWEEN :todayDate AND :tomorrow)  
 		</query>
 	</named-query>
+	<named-query name="OtsScheduler.getSchedulerDetailsForCronJob">
+		<query>SELECT o 
+		FROM 
+			OtsScheduler o
+		WHERE
+		(o.otsSchedulerEtDt >=:today AND :today >= otsSchedulerStDt )	 
+		</query>
+	</named-query>
+	<named-query name="OtsRequestOrder.getSchedulerDetailsForCronJob">
+		<query>SELECT o 
+		FROM 
+			OtsRequestOrder o
+		WHERE 
+			o.otsSchedulerId =:otsSchedulerId
+		AND
+			(o.otsNxtScheduleDt BETWEEN :yesterday AND :tomorrow)
+		</query>
+	</named-query>
 </entity-mappings>

@@ -4,8 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.SchedulerResponceOrderModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.server.dao.SchedulerDao;
@@ -67,4 +70,19 @@ public class SchedulerDaoImpl extends AbstractIptDao<OtsScheduler, String> imple
 		
 	}
 
+	@Override
+	public List<OtsScheduler> runScheduler12AMTO1AM() {
+		Map<String, Object> queryParameter = new HashMap<>();
+		List<OtsScheduler> SchedulerList = new ArrayList<OtsScheduler>();
+		Calendar c = Calendar.getInstance();
+		Date today = new Date();
+		c.setTime(today);
+		System.out.println("today"+today);
+		queryParameter.put("today",c.getTime());
+		System.out.println("today"+c.getTime());
+		
+		SchedulerList = super.getResultListByNamedQuery("OtsScheduler.getSchedulerDetailsForCronJob", queryParameter);
+		return SchedulerList;
+	}
+	
 }

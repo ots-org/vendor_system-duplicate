@@ -165,7 +165,55 @@ public class RequestOrderServiceDaoImpl extends AbstractIptDao<OtsRequestOrder, 
 		SchedulerRequestOrderModel.setRequestedQty(requestOrder.getOtsRequestQty().toString());
 		SchedulerRequestOrderModel.setRequestOrderId(requestOrder.getOtsRequestOrderId().toString());
 		SchedulerRequestOrderModel.setScheduledDate(requestOrder.getOtsScheduleDt().toString());
-		return SchedulerRequestOrderModel;
+		return SchedulerRequestOrderModel;		
+	}
+
+	@Override
+	public String runSchedulerEveryDay12AMTo1AM(List<OtsScheduler> schedulerList) {
 		
+		
+		Map<String, Object> queryParameter = new HashMap<>();
+		List<OtsRequestOrder> requestOrderList ;
+		for(int i=0;i<schedulerList.size();i++) {
+			OtsScheduler otsScheduler = new OtsScheduler();
+			Calendar c = Calendar.getInstance();
+			Calendar c1 = Calendar.getInstance();
+			otsScheduler.setOtsSchedulerId(schedulerList.get(i).getOtsSchedulerId());
+			if(schedulerList.get(i).getOtsSchedulerType().equals("Daily")) {
+				
+				c.add(Calendar.DAY_OF_MONTH, -1);
+				queryParameter.put("yesterday",c.getTime());
+				
+				c1.add(Calendar.DAY_OF_MONTH, 1);
+				queryParameter.put("tomorrow",c1.getTime());
+				
+				
+				queryParameter.put("otsSchedulerId",otsScheduler);
+				requestOrderList  = super.getResultListByNamedQuery("OtsRequestOrder.getSchedulerDetailsForCronJob", queryParameter);
+				for(int j=0;j<requestOrderList.size();j++) {
+					OtsRequestOrder requestOrder = new OtsRequestOrder();	
+					requestOrder = requestOrderList.get(j);
+					requestOrder.setOtsScheduleDt(requestOrder.getOtsNxtScheduleDt());
+					requestOrder.setOtsNxtScheduleDt(c.getTime());
+					super.getEntityManager().merge(requestOrder);
+				}
+			}else if(schedulerList.get(i).getOtsSchedulerType().equals("weekly")) {
+				c.add(Calendar.DAY_OF_MONTH, -1);
+				queryParameter.put("yesterday",c.getTime());
+				c1.add(Calendar.DAY_OF_MONTH, 1);
+				queryParameter.put("tomorrow",c1.getTime());
+				queryParameter.put("otsSchedulerId",otsScheduler);
+				requestOrderList  = super.getResultListByNamedQuery("OtsRequestOrder.getSchedulerDetailsForCronJob", queryParameter);
+				for(int j=0;j<requestOrderList.size();j++) {
+					OtsRequestOrder requestOrder = new OtsRequestOrder();	
+					requestOrder = requestOrderList.get(j);
+					requestOrder.setOtsScheduleDt(requestOrder.getOtsNxtScheduleDt());
+					c1.add(Calendar.DAY_OF_MONTH, 6);
+					requestOrder.setOtsNxtScheduleDt(c1.getTime());
+					super.getEntityManager().merge(requestOrder);
+				}
+			}
+		}
+		return "Done";
 	}
 }
