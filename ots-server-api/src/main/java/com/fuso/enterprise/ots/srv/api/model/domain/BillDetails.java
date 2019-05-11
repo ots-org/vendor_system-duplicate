@@ -37,14 +37,36 @@ public class BillDetails {
 	 @Size(max = 20)
 	 private List<ListOfOrderId> orderId;
 	 
-	 private UserDetails customerDetails;
+	 /*private UserDetails customerDetails;
 		
 	 private UserDetails distributorDetails;
 	
-	 private List<ProductDetailsList> productDeatils;
+	 private List<ProductDetailsList> productDeatils;*/
+	 
+	 @Size(max = 20)
+	 private String fromDate;
+	 
+	 @Size(max = 20)
+	 private String toDate;
 
 	public Integer getBillId() {
 		return billId;
+	}
+
+	public String getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public String getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(String toDate) {
+		this.toDate = toDate;
 	}
 
 	public void setBillId(Integer billId) {
@@ -123,7 +145,7 @@ public class BillDetails {
 		this.billPdf = billPdf;
 	}
 
-	public UserDetails getCustomerDetails() {
+	/*public UserDetails getCustomerDetails() {
 		return customerDetails;
 	}
 
@@ -145,7 +167,7 @@ public class BillDetails {
 
 	public void setProductDeatils(List<ProductDetailsList> productDeatils) {
 		this.productDeatils = productDeatils;
-	}
+	}*/
 	
 	
 	
