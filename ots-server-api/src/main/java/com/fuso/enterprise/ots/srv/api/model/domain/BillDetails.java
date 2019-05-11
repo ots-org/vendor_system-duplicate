@@ -36,6 +36,12 @@ public class BillDetails {
 	 
 	 @Size(max = 20)
 	 private List<ListOfOrderId> orderId;
+	 
+	 private UserDetails customerDetails;
+		
+	 private UserDetails distributorDetails;
+	
+	 private List<ProductDetailsList> productDeatils;
 
 	public Integer getBillId() {
 		return billId;
@@ -116,6 +122,31 @@ public class BillDetails {
 	public void setBillPdf(String billPdf) {
 		this.billPdf = billPdf;
 	}
+
+	public UserDetails getCustomerDetails() {
+		return customerDetails;
+	}
+
+	public void setCustomerDetails(UserDetails customerDetails) {
+		this.customerDetails = customerDetails;
+	}
+
+	public UserDetails getDistributorDetails() {
+		return distributorDetails;
+	}
+
+	public void setDistributorDetails(UserDetails distributorDetails) {
+		this.distributorDetails = distributorDetails;
+	}
+
+	public List<ProductDetailsList> getProductDeatils() {
+		return productDeatils;
+	}
+
+	public void setProductDeatils(List<ProductDetailsList> productDeatils) {
+		this.productDeatils = productDeatils;
+	}
+	
 	
 	
 
