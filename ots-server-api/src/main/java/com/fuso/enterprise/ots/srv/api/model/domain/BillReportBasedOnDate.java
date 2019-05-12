@@ -6,16 +6,9 @@ public class BillReportBasedOnDate {
 
 	Date FromDate;
 	Date ToDate;
-	String customerId;
+	String userId;
+	String roleId;
 		
-	
-	public String getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
-	}
 
 	public Date getFromDate() {
 		return FromDate;
@@ -33,4 +26,21 @@ public class BillReportBasedOnDate {
 		ToDate = toDate;
 	}
 
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+
+	
 }

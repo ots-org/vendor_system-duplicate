@@ -147,7 +147,7 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 			queryParameter.put("fromDate",billReportBasedOnDateBORequest.getRequestData().getFromDate());
 			queryParameter.put("toDate", billReportBasedOnDateBORequest.getRequestData().getToDate());
 			OtsUsers otsuser = new OtsUsers();
-			otsuser.setOtsUsersId(Integer.parseInt(billReportBasedOnDateBORequest.getRequestData().getCustomerId()));
+			otsuser.setOtsUsersId(Integer.parseInt(billReportBasedOnDateBORequest.getRequestData().getUserId()));
 			queryParameter.put("otsCustomerId", otsuser);
 			otsBill = super.getResultListByNamedQuery("OTSBill.findBillNumber", queryParameter);
 			//listOfBillId = convertListOfBillIdFromEntityToDomain(otsBill);
