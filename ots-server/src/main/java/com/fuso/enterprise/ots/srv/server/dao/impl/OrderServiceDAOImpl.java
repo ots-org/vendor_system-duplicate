@@ -408,26 +408,36 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			Map<String, Object> queryParameter = new HashMap<>();
 	    	OtsUsers userId = new OtsUsers();
 	    	userId.setOtsUsersId(Integer.parseInt(getListOfOrderByDateBORequest.getRequest().getUserId()));
+	    	queryParameter.put("FromDate",getListOfOrderByDateBORequest.getRequest().getStartDate());
+			queryParameter.put("ToDate",getListOfOrderByDateBORequest.getRequest().getEndDate());
 			switch(getListOfOrderByDateBORequest.getRequest().getRole())
 			{
 				case "Customer":
-	    			queryParameter.put("otsCustomerId", userId);
-	    			queryParameter.put("FromDate",getListOfOrderByDateBORequest.getRequest().getStartDate());
-	    			queryParameter.put("ToDate",getListOfOrderByDateBORequest.getRequest().getEndDate());
-	    			orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforCustomer", queryParameter);
+					queryParameter.put("otsCustomerId", userId);
+					if(getListOfOrderByDateBORequest.getRequest().getStatus()==null) {   		
+		    			orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforCustomer", queryParameter);
+					}else {
+						queryParameter.put("otsOrderStatus", getListOfOrderByDateBORequest.getRequest().getStatus());
+						orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforCustomerByStatus", queryParameter);
+					}
 					break;
-
 				case "Distributor":
 					queryParameter.put("otsDistributorId", userId);
-	    			queryParameter.put("FromDate",getListOfOrderByDateBORequest.getRequest().getStartDate());
-	    			queryParameter.put("ToDate",getListOfOrderByDateBORequest.getRequest().getEndDate());
-	    			orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforDistrbutor", queryParameter);
+					if(getListOfOrderByDateBORequest.getRequest().getStatus()==null) {
+						orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforDistrbutor", queryParameter);
+					}else {
+						queryParameter.put("otsOrderStatus", getListOfOrderByDateBORequest.getRequest().getStatus());
+						orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforDistrbutorByStatus", queryParameter);
+					}
 					break;
 				case "Employee":
 					queryParameter.put("otsAssignedId", userId);
-	    			queryParameter.put("FromDate",getListOfOrderByDateBORequest.getRequest().getStartDate());
-	    			queryParameter.put("ToDate",getListOfOrderByDateBORequest.getRequest().getEndDate());
-	    			orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforEmployee", queryParameter);
+					if(getListOfOrderByDateBORequest.getRequest().getStatus()==null) {
+		    			orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforEmployee", queryParameter);
+					}else {
+						queryParameter.put("otsOrderStatus", getListOfOrderByDateBORequest.getRequest().getStatus());
+						orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforEmployeeByStatus", queryParameter);
+					}
 					break;
 				default:
 					return null;

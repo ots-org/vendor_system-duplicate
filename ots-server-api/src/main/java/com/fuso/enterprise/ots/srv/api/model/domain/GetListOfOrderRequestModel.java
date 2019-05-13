@@ -12,6 +12,8 @@ public class GetListOfOrderRequestModel {
 	
 	private Date EndDate;
 
+	private String Status;
+	
 	public Date getStartDate() {
 		return StartDate;
 	}
@@ -42,6 +44,14 @@ public class GetListOfOrderRequestModel {
 
 	public void setRole(String role) {
 		Role = role;
+	}
+
+	public String getStatus() {
+		return Status;
+	}
+
+	public void setStatus(String status) {
+		Status = status;
 	}
 	
 }

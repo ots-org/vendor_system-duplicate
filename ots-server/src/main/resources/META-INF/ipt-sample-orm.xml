@@ -319,5 +319,41 @@
 		WHERE 
 			(o.otsBillCreated BETWEEN :fromDate AND :toDate) 		
 		</query>
+	</named-query>    
+	<named-query name="OtsOrder.GetListOfOrderByDateforCustomerByStatus">
+		<query>SELECT o 
+		FROM 
+			OtsOrder o
+		WHERE 
+			(o.otsOrderDt BETWEEN :FromDate AND :ToDate) 
+		AND
+			(o.otsCustomerId = :otsCustomerId)
+		AND
+			o.otsOrderStatus = :otsOrderStatus
+		</query>
 	</named-query>
+	<named-query name="OtsOrder.GetListOfOrderByDateforDistrbutorByStatus">
+		<query>SELECT o 
+		FROM 
+			OtsOrder o
+		WHERE 
+			(o.otsOrderDt BETWEEN :FromDate AND :ToDate) 
+		AND
+			(o.otsDistributorId = :otsDistributorId)
+		AND
+			o.otsOrderStatus = :otsOrderStatus
+		</query>
+	</named-query>	
+	<named-query name="OtsOrder.GetListOfOrderByDateforEmployeeByStatus">
+		<query>SELECT o 
+		FROM 
+			OtsOrder o
+		WHERE 
+			(o.otsOrderDt BETWEEN :FromDate AND :ToDate) 
+		AND
+			(o.otsAssignedId = :otsAssignedId)
+		AND
+			o.otsOrderStatus = :otsOrderStatus
+		</query>
+	</named-query> 
 </entity-mappings>
