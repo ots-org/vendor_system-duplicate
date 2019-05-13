@@ -54,14 +54,14 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 
 		try{
 			OtsBill otsBill = new OtsBill();
-			otsBill.setOtsBillAmount(Long.parseLong(billDetailsBORequest.getRequestData().getBillAmount()));
-			otsBill.setOtsBillAmountReceived(Long.parseLong(billDetailsBORequest.getRequestData().getBillAmountReceived()));
+			otsBill.setOtsBillAmount(billDetailsBORequest.getRequestData().getBillAmount());
+			otsBill.setOtsBillAmountReceived(billDetailsBORequest.getRequestData().getBillAmountReceived());
 			otsBill.setOtsBillGenerated(billDetailsBORequest.getRequestData().getBillGenerated());
 			otsBill.setOtsBillStatus("Active");
 			otsBill.setOtsBillCreated(createDate);
-			otsBill.setOtsbillIGST(Long.parseLong(billDetailsBORequest.getRequestData().getIGST()));
-			otsBill.setOtsbillSGST(Long.parseLong(billDetailsBORequest.getRequestData().getCGST()));
-			otsBill.setOtsBillOutstandingAmt(Long.parseLong(billDetailsBORequest.getRequestData().getOutstandingAmount()));
+			otsBill.setOtsbillIGST(billDetailsBORequest.getRequestData().getIGST());
+			otsBill.setOtsbillSGST(billDetailsBORequest.getRequestData().getCGST());
+			otsBill.setOtsBillOutstandingAmt(billDetailsBORequest.getRequestData().getOutstandingAmount());
 			otsBill.setOtsBillPdf(billDetailsBORequest.getRequestData().getBillPdf());
 			OtsUsers otsUser = new OtsUsers();
 			otsUser.setOtsUsersId(billDetailsBORequest.getRequestData().getCustomerId());
@@ -172,9 +172,30 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 		listOfBillId.setBillStatus(otsBillList.getOtsBillStatus());
 		listOfBillId.setCGST(otsBillList.getOtsbillSGST()+"");
 		listOfBillId.setiGST(otsBillList.getOtsbillIGST()+"");
+		listOfBillId.setCustomerId(otsBillList.getOtsCustomerId().getOtsUsersId().toString());
 		listOfBillId.setOutstandingAmount(otsBillList.getOtsBillOutstandingAmt()+"");
 		return listOfBillId;
 	}
 
-	
+	@Override
+	public BillReportByDateBOResponse getBillReportForDistributorByDate(BillReportBasedOnDateBORequest billReportBasedOnDateBORequest) {
+		BillReportByDateBOResponse billNumberResponse=new BillReportByDateBOResponse();
+		List<OtsBill> otsBill = new ArrayList<OtsBill>();
+		List<ListOfBillId> listOfBillId=new  ArrayList<ListOfBillId>();
+		try {
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("fromDate",billReportBasedOnDateBORequest.getRequestData().getFromDate());
+			queryParameter.put("toDate", billReportBasedOnDateBORequest.getRequestData().getToDate());
+			otsBill = super.getResultListByNamedQuery("OTSBill.findBillForDistributor", queryParameter);
+			//listOfBillId = convertListOfBillIdFromEntityToDomain(otsBill);
+			listOfBillId =  otsBill.stream().map(otsBillList -> convertListOfBillIdFromEntityToDomain(otsBillList)).collect(Collectors.toList());
+			billNumberResponse.setBillNumber(listOfBillId);
+		}catch (Exception e) {
+	        logger.error("Exception while Getting data from DB  :"+e.getMessage());
+	    	e.printStackTrace();
+	        throw new BusinessException(e.getMessage(), e);
+	        }
+			
+		return billNumberResponse;
+	}
 }

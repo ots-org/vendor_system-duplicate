@@ -343,21 +343,11 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	
 	@Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
 	public void scheduleFixed12AM() {
-		//oTSOrderService.runScheduler12AMTO1AM();
+		oTSOrderService.runScheduler12AMTO1AM();
 	    System.out.println(
 	      "runnng cron @12AM " + System.currentTimeMillis() / 1000);
 	}	
 	
-	@Scheduled(fixedRate=60*60*1000)
-	public void scheduleFixedDelayTask() {
-	//	oTSOrderService.runScheduler12AMTO1AM();
-		System.out.println("Every hour");
-	    for(int i=0;i<100;i++)
-	    {
-	    	System.out.print("." );
-	    }
-	}
-
 	@Override
 	public Response CheckSchedulerCronJob() {
 		Response response;

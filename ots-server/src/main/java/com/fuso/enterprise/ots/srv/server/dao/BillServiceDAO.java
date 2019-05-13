@@ -16,4 +16,7 @@ public interface BillServiceDAO {
 
 	BillReportByDateBOResponse getBillReportByDate(BillReportBasedOnDateBORequest billReportBasedOnDateBORequest);
 
+	BillReportByDateBOResponse getBillReportForDistributorByDate(
+			BillReportBasedOnDateBORequest billReportBasedOnDateBORequest);
+
 }

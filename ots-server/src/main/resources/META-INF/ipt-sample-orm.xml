@@ -209,6 +209,16 @@
 			(o.otsCustomerId = :otsCustomerId)
 		</query>
 	</named-query> 
+	<named-query name="OtsOrder.GetListOfOrderByDateforEmployee">
+		<query>SELECT o 
+		FROM 
+			OtsOrder o
+		WHERE 
+			(o.otsOrderDt BETWEEN :FromDate AND :ToDate) 
+		AND
+			(o.otsAssignedId = :otsAssignedId)
+		</query>
+	</named-query> 
 	<named-query name="OtsOrder.GetListOfOrderByDateforDistrbutor">
 		<query>SELECT o 
 		FROM 
@@ -301,6 +311,13 @@
 			o.otsSchedulerId =:otsSchedulerId
 		AND
 			(o.otsNxtScheduleDt BETWEEN :yesterday AND :tomorrow)
+		</query>
+	</named-query><named-query name="OTSBill.findBillForDistributor">
+		<query>SELECT o 
+		FROM 
+			OtsBill o
+		WHERE 
+			(o.otsBillCreated BETWEEN :fromDate AND :toDate) 		
 		</query>
 	</named-query>
 </entity-mappings>

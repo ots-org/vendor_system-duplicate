@@ -11,8 +11,14 @@ public class ListOfBillId {
 	String iGST;
 	String CGST;
 	String outstandingAmount;
+	String customerId;
 	
-	
+	public String getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
 	public String getiGST() {
 		return iGST;
 	}

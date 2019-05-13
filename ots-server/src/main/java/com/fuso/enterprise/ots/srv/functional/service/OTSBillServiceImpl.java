@@ -17,9 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.fuso.enterprise.ots.srv.server.dao.UserMapDAO;
 import com.fuso.enterprise.ots.srv.api.model.domain.BillOrderModelDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductDetailsForBillModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.ListOfBillId;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetailsList;
@@ -61,16 +62,17 @@ private CustomerOutstandingAmtDAO customerOutstandingAmtDAO;
 private OrderProductDAO orderProductDAO;
 private UserServiceDAO userServiceDAO;
 private OrderDAO orderDAO;
-	
+private UserMapDAO userMapDAO;
+
 @Inject
-public OTSBillServiceImpl(BillServiceDAO billServiceDAO,OrderServiceDAO orderServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO,OrderDAO orderDAO) {
+public OTSBillServiceImpl(UserMapDAO userMapDAO,BillServiceDAO billServiceDAO,OrderServiceDAO orderServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO,OrderDAO orderDAO) {
 	this.billServiceDAO=billServiceDAO;
 	this.orderServiceDAO=orderServiceDAO;
 	this.customerOutstandingAmtDAO=customerOutstandingAmtDAO;
 	this.orderProductDAO = orderProductDAO;
 	this.userServiceDAO = userServiceDAO;
 	this.orderDAO=orderDAO;
-	
+	this.userMapDAO = userMapDAO;
 }
 
 @Inject
@@ -265,11 +267,27 @@ private OTSProductService otsProductService;
 		}
 		return billDataBOResponse;
 	}
+	
+	
 	@Override
 	public BillReportByDateBOResponse getBillReportByDate(BillReportBasedOnDateBORequest billReportBasedOnDateBORequest) {
 		BillReportByDateBOResponse billIdResponse=new BillReportByDateBOResponse();
+		List<ListOfBillId> billNumber = new ArrayList<>();
 		try {
-			billIdResponse=billServiceDAO.getBillReportByDate(billReportBasedOnDateBORequest);
+			if(billReportBasedOnDateBORequest.getRequestData().getRoleId().equals("4")) {
+				billIdResponse=billServiceDAO.getBillReportByDate(billReportBasedOnDateBORequest);
+			}else {
+				BillReportByDateBOResponse billIdResponse1 =new BillReportByDateBOResponse();
+				billIdResponse1 = billServiceDAO.getBillReportForDistributorByDate(billReportBasedOnDateBORequest);
+				System.out.println("Dis");
+				for(int i=0;i<billIdResponse1.getBillNumber().size();i++) {
+				String distributorId= userMapDAO.getMappedDistributor(billIdResponse1.getBillNumber().get(i).getCustomerId());
+					if(billReportBasedOnDateBORequest.getRequestData().getUserId().equals(distributorId)) {
+						billNumber.add(billIdResponse1.getBillNumber().get(i));
+					}
+				}
+				billIdResponse.setBillNumber(billNumber);
+			}	
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}

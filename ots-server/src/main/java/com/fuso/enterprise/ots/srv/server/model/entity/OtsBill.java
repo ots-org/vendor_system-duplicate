@@ -54,9 +54,9 @@ public class OtsBill implements Serializable {
     @Column(name = "ots_bill_number")
     private String otsBillNumber;
     @Column(name = "ots_bill_amount")
-    private Long otsBillAmount;
+    private String otsBillAmount;
     @Column(name = "ots_bill_amount_received")
-    private Long otsBillAmountReceived;
+    private String otsBillAmountReceived;
     @Column(name = "ots_bill_generated")
     private String otsBillGenerated;
     @Column(name = "ots_bill_status")
@@ -66,11 +66,11 @@ public class OtsBill implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsBillCreated;
     @Column(name = "ots_bill_IGST")
-    private Long otsbillIGST;
+    private String otsbillIGST;
     @Column(name = "ots_bill_SGST")
-    private Long otsbillSGST;
+    private String otsbillSGST;
     @Column(name = "ots_bill_outstanding_amt")
-    private Long otsBillOutstandingAmt;
+    private String otsBillOutstandingAmt;
     @Column(name = "ots_bill_pdf")
     private String otsBillPdf;
     @JoinColumn(name = "ots_customer_id", referencedColumnName = "ots_users_id")
@@ -102,21 +102,6 @@ public class OtsBill implements Serializable {
         this.otsBillNumber = otsBillNumber;
     }
 
-    public Long getOtsBillAmount() {
-        return otsBillAmount;
-    }
-
-    public void setOtsBillAmount(Long otsBillAmount) {
-        this.otsBillAmount = otsBillAmount;
-    }
-
-    public Long getOtsBillAmountReceived() {
-        return otsBillAmountReceived;
-    }
-
-    public void setOtsBillAmountReceived(Long otsBillAmountReceived) {
-        this.otsBillAmountReceived = otsBillAmountReceived;
-    }
 
     public String getOtsBillGenerated() {
         return otsBillGenerated;
@@ -143,35 +128,55 @@ public class OtsBill implements Serializable {
         this.otsBillCreated = otsBillCreated;
     }
 
-    public Long getOtsbillIGST() {
-        return otsbillIGST;
-    }
-
-    public void setOtsbillIGST(Long otsbillIGST) {
-        this.otsbillIGST = otsbillIGST;
-    }
-
-    public Long getOtsbillSGST() {
-        return otsbillSGST;
-    }
-
-    public void setOtsbillSGST(Long otsbillSGST) {
-        this.otsbillSGST = otsbillSGST;
-    }
-
-    public Long getOtsBillOutstandingAmt() {
-        return otsBillOutstandingAmt;
-    }
-
-    public void setOtsBillOutstandingAmt(Long otsBillOutstandingAmt) {
-        this.otsBillOutstandingAmt = otsBillOutstandingAmt;
-    }
-
     public String getOtsBillPdf() {
         return otsBillPdf;
     }
 
-    public void setOtsBillPdf(String otsBillPdf) {
+    public String getOtsBillAmount() {
+		return otsBillAmount;
+	}
+
+	public void setOtsBillAmount(String otsBillAmount) {
+		this.otsBillAmount = otsBillAmount;
+	}
+
+	public String getOtsBillAmountReceived() {
+		return otsBillAmountReceived;
+	}
+
+	public void setOtsBillAmountReceived(String otsBillAmountReceived) {
+		this.otsBillAmountReceived = otsBillAmountReceived;
+	}
+
+	public String getOtsbillIGST() {
+		return otsbillIGST;
+	}
+
+	public void setOtsbillIGST(String otsbillIGST) {
+		this.otsbillIGST = otsbillIGST;
+	}
+
+	public String getOtsbillSGST() {
+		return otsbillSGST;
+	}
+
+	public void setOtsbillSGST(String otsbillSGST) {
+		this.otsbillSGST = otsbillSGST;
+	}
+
+	public String getOtsBillOutstandingAmt() {
+		return otsBillOutstandingAmt;
+	}
+
+	public void setOtsBillOutstandingAmt(String otsBillOutstandingAmt) {
+		this.otsBillOutstandingAmt = otsBillOutstandingAmt;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setOtsBillPdf(String otsBillPdf) {
         this.otsBillPdf = otsBillPdf;
     }
 

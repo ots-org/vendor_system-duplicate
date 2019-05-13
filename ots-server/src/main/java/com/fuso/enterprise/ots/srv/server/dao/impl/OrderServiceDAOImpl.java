@@ -423,6 +423,12 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 	    			queryParameter.put("ToDate",getListOfOrderByDateBORequest.getRequest().getEndDate());
 	    			orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforDistrbutor", queryParameter);
 					break;
+				case "Employee":
+					queryParameter.put("otsAssignedId", userId);
+	    			queryParameter.put("FromDate",getListOfOrderByDateBORequest.getRequest().getStartDate());
+	    			queryParameter.put("ToDate",getListOfOrderByDateBORequest.getRequest().getEndDate());
+	    			orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforEmployee", queryParameter);
+					break;
 				default:
 					return null;
 	        }
@@ -469,6 +475,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			otsOrder.setOtsOrderDeliveredDt(saleVocherBoRequest.getRequest().getDeliverdDate());
 			otsOrder.setOtsOrderAmountReceived(Long.parseLong(saleVocherBoRequest.getRequest().getAmountReceived()));
 			otsOrder.setOtsOrderCost(Long.parseLong(saleVocherBoRequest.getRequest().getOrderCost()));
+			otsOrder.setOtsOrderOutstandingAmount(saleVocherBoRequest.getRequest().getOutstandingAmount());
 			otsOrder.setOtsOrderStatus("close");
 			super.getEntityManager().merge(otsOrder);
 			otsOrderDetails = convertOrderDetailsFromEntityToDomain(otsOrder);
