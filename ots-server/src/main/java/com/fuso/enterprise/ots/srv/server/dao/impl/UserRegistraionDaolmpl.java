@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.RegistorToUserDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
@@ -228,6 +229,23 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
             	flag = 0;
             }
     	return flag;
+	}
+	
+	@Override
+	public String UpdateStatus(RejectUserModel rejectUserModel) {
+    	OtsRegistration otsRegistration = new OtsRegistration();
+            try {
+            	Map<String, Object> queryParameter = new HashMap<>();
+    			queryParameter.put("otsRegistrationId",Integer.valueOf(rejectUserModel.getRequest().getRegistrationId()));
+    			otsRegistration  = super.getResultByNamedQuery("OtsRegistration.findByOtsRegistrationId", queryParameter);
+    			otsRegistration.setOtsRegistrationStatus(rejectUserModel.getRequest().getStatus());
+    			super.getEntityManager().merge(otsRegistration);	
+    			} catch (Exception e) {
+	            	logger.error("Exception while fetching data from DB :"+e.getMessage());
+	        		e.printStackTrace();
+	            	throw new BusinessException(e.getMessage(), e);
+            }
+    	return "updated";
 	}
 }
 

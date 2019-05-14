@@ -8,6 +8,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OutstandingCustomerResponse;
+import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
@@ -40,6 +41,8 @@ public interface OTSUserService {
 	UserDataBOResponse checkForUserExistsOrNot(AddUserDataBORequest addUserDataBORequest);
 
 	OutstandingCustomerResponse getOutstandingData(String distributorId);
+
+	String rejectUser(RejectUserModel rejectUserModel);
 
 	
 }

@@ -1,4 +1,4 @@
-package com.fuso.enterprise.ots.srv.rest.ws.service;
+	package com.fuso.enterprise.ots.srv.rest.ws.service;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -13,6 +13,8 @@ import javax.ws.rs.core.Response;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
@@ -104,4 +106,9 @@ public interface OTSUsersV18_1Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getCustomerOutstandingData(@ApiParam(value = "request", required = true) @NotNull  @Valid OutstandingRequest outstandingRequest);
 	
+	@POST
+	@Path("/rejectUser")
+	@ApiOperation(value = "addNewUser", notes = "This operation will add New user ", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response rejectUser(@ApiParam(value = "request", required = true) @NotNull @Valid RejectUserModel rejectUserModel);
 }

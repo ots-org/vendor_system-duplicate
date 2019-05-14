@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.validation.annotation.Validated;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.LoginAuthenticationModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
@@ -322,5 +323,19 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			return response;
 		}
 	}
-	
+
+	@Override
+	public Response rejectUser(RejectUserModel rejectUserModel) {
+		try {
+				Response response = null;
+				response =  responseWrapper.buildResponse(otsUserService.rejectUser(rejectUserModel));
+				return response;
+			}
+			catch(BusinessException e) {
+				throw new BusinessException(e.getMessage(), e);
+			}catch(Throwable e) {
+				throw new BusinessException(e.getMessage(), e);
+			}
+		}
+
 }

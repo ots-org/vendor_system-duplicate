@@ -21,6 +21,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetCustomerOutstandingAmt;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.RegistorToUserDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserMapping;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
@@ -367,5 +368,14 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			throw new BusinessException(e.getMessage(), e);
 		}
 		return outstandingCustomerResponse;
+	}
+	@Override
+	public String rejectUser(RejectUserModel rejectUserModel) {
+		try {
+			return userRegistrationDao.UpdateStatus(rejectUserModel);
+		}catch(Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		
 	}
 }
