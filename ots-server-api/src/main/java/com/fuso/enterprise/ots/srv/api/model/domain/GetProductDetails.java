@@ -4,7 +4,14 @@ public class GetProductDetails {
 	String searchKey;
 	String searchvalue;
 	String distributorId;
+	String customerId;
 	
+	public String getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
 	public String getDistributorId() {
 		return distributorId;
 	}

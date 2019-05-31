@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductRequestModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
@@ -29,6 +30,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.GetProductBOStockRespons
 import com.fuso.enterprise.ots.srv.api.service.response.GetProductStockListBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
+import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
@@ -51,8 +53,9 @@ public class OTSProductServiceImpl implements OTSProductService {
 	private OrderProductDAO orderProductDAO;
 	private UserServiceDAO userServiceDAO;
 	private OrderServiceDAO orderServiceDAO;
+	private MapUserProductDAO mapUserProductDAO;
 	@Inject
-	public OTSProductServiceImpl(ProductServiceDAO productServiceDAO,ProductStockDao productStockDao,ProductStockHistoryDao productStockHistoryDao,StockDistObDAO stockDistObDAO,OrderDAO orderDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO,OrderServiceDAO orderServiceDAO) {
+	public OTSProductServiceImpl(ProductServiceDAO productServiceDAO,ProductStockDao productStockDao,ProductStockHistoryDao productStockHistoryDao,StockDistObDAO stockDistObDAO,OrderDAO orderDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO,OrderServiceDAO orderServiceDAO,MapUserProductDAO mapUserProductDAO) {
 		this.productServiceDAO=productServiceDAO;
 		this.productStockDao = productStockDao;
 		this.productStockHistoryDao=productStockHistoryDao;
@@ -61,13 +64,27 @@ public class OTSProductServiceImpl implements OTSProductService {
 		this.orderProductDAO=orderProductDAO;
 		this.userServiceDAO = userServiceDAO;
 		this.orderServiceDAO = orderServiceDAO;
+		this.mapUserProductDAO = mapUserProductDAO;
 	}
 	@Override
 	public ProductDetailsBOResponse getProductList(ProductDetailsBORequest productDetailsBORequest) {
 		ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
+		CustomerProductDetails customerProductDetails = new CustomerProductDetails();
 		try {
 			GetProductStockRequest getProductStockRequest = new GetProductStockRequest();
-			productDetailsBOResponse.setProductDetails( productServiceDAO.getProductList(productDetailsBORequest).getProductDetails());
+			
+			List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
+			
+			
+			//To filter customer product Data
+			productDetails = productServiceDAO.getProductList(productDetailsBORequest).getProductDetails();
+			for(int j = 0 ; j <productDetails.size() ; j++) {
+				customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(productDetails.get(j).getProductId(),productDetailsBORequest.getRequestData().getCustomerId());
+				if(customerProductDetails != null) {
+					productDetails.get(j).setProductPrice(customerProductDetails.getProductPrice());
+				}
+			}
+			productDetailsBOResponse.setProductDetails(productDetails);
 			for(int i=0 ;i<productDetailsBOResponse.getProductDetails().size();i++) {
 				GetProductRequestModel getProductRequestModel = new GetProductRequestModel();
 				getProductRequestModel.setDistributorId(productDetailsBORequest.getRequestData().getDistributorId());
