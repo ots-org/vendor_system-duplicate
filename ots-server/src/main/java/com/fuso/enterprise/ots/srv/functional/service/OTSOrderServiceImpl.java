@@ -24,6 +24,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetCustomerOutstandingAmt;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetailsSaleVocher;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderedProductDetails;
@@ -71,6 +72,7 @@ import com.fuso.enterprise.ots.srv.server.dao.SchedulerDao;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.impl.CustomerOutstandingAmtDAOImpl;
 import com.fuso.enterprise.ots.srv.server.dao.impl.UserServiceDAOImpl;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsRequestOrder;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsScheduler;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
@@ -91,6 +93,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	private SchedulerDao schedulerDao;
 	private RequestOrderServiceDao requestOrderServiceDao;
 	private ProductServiceDAO productServiceDAO;
+
 	@Inject
 	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,MapUserProductDAO mapUserProductDAO,SchedulerDao schedulerDao,RequestOrderServiceDao requestOrderServiceDao,ProductServiceDAO productServiceDAO)
 	{
@@ -585,11 +588,39 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	@Override
 	public String runScheduler12AMTO1AM() {
 		List<OtsScheduler> schedulerList = schedulerDao.runScheduler12AMTO1AM();
- 		requestOrderServiceDao.runSchedulerEveryDay12AMTo1AM(schedulerList);
+		List<OtsRequestOrder> requestOrder = requestOrderServiceDao.runSchedulerEveryDay12AMTo1AM(schedulerList);
+ 		
+ 		for(int i = 0; i<requestOrder.size() ; i++) {
+ 			AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest =  new AddOrUpdateOrderProductBOrequest();
+ 			
+ 			OrderDetailsRequest orderDetailsRequest = new OrderDetailsRequest();
+ 			orderDetailsRequest.setDistributorId(requestOrder.get(i).getOtsDistributorId().toString());
+ 			orderDetailsRequest.setCustomerId(requestOrder.get(i).getOtsCustomerId().toString());
+ 			orderDetailsRequest.setOrderStatus("New");
+ 			orderDetailsRequest.setDelivaryDate(requestOrder.get(i).getOtsScheduleDt().toString());
+ 			orderDetailsRequest.setOrderDate(requestOrder.get(i).getOtsScheduleDt().toString());
+ 			List<OrderedProductDetails> productList = new ArrayList<OrderedProductDetails>();
+ 			if(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsCustomerId().toString(),requestOrder.get(i).getOtsProductId().toString())==null) {
+ 				Float cost = Float.valueOf(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().toString()).getProductPrice())*requestOrder.get(i).getOtsRequestQty();
+ 				orderDetailsRequest.setOrderCost(cost.toString());			
+ 				productList.get(0).setProductCost(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().toString()).getProductPrice());
+ 			}else {
+ 				Float cost = Float.valueOf(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsCustomerId().toString(),requestOrder.get(i).getOtsProductId().toString()).getProductPrice())*requestOrder.get(i).getOtsRequestQty();
+ 				orderDetailsRequest.setOrderCost(cost.toString());
+ 				productList.get(0).setProductCost(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsCustomerId().toString(),requestOrder.get(i).getOtsProductId().toString()).getProductPrice());
+ 			}
+ 			
+ 			productList.get(0).setOrderedQty(requestOrder.get(i).getOtsRequestQty().toString());
+ 			productList.get(0).setDeliveredQty(requestOrder.get(i).getOtsRequestQty().toString());
+ 			
+ 			
+ 			addOrUpdateOrderProductBOrequest.setRequest(orderDetailsRequest);
+ 			insertOrderAndProduct(addOrUpdateOrderProductBOrequest);
+ 			
+ 			
+ 		}
+ 		
 		return "Done";
 	}
-
-
-	
 
 }

@@ -169,11 +169,11 @@ public class RequestOrderServiceDaoImpl extends AbstractIptDao<OtsRequestOrder, 
 	}
 
 	@Override
-	public String runSchedulerEveryDay12AMTo1AM(List<OtsScheduler> schedulerList) {
+	public List<OtsRequestOrder> runSchedulerEveryDay12AMTo1AM(List<OtsScheduler> schedulerList) {
 		
 		
 		Map<String, Object> queryParameter = new HashMap<>();
-		List<OtsRequestOrder> requestOrderList ;
+		List<OtsRequestOrder> requestOrderList = new ArrayList<OtsRequestOrder>() ;
 		for(int i=0;i<schedulerList.size();i++) {
 			OtsScheduler otsScheduler = new OtsScheduler();
 			Calendar c = Calendar.getInstance();
@@ -213,7 +213,9 @@ public class RequestOrderServiceDaoImpl extends AbstractIptDao<OtsRequestOrder, 
 					super.getEntityManager().merge(requestOrder);
 				}
 			}
+			
 		}
-		return "Done";
+		return requestOrderList;
+		
 	}
 }
