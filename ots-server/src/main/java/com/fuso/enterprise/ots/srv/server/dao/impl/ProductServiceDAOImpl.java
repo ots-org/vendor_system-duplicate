@@ -49,7 +49,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 	            					productList  = super.getResultListByNamedQuery("OtsProduct.findByOtsProductId", queryParameter);
 	            				    break;
 	            case "ProductName":
-									queryParameter.put("otsProductName", seachValue);
+								 	queryParameter.put("otsProductName", seachValue);
 									productList  = super.getResultListByNamedQuery("OtsProduct.findByOtsProductName", queryParameter);
 								    break;
 				

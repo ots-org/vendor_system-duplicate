@@ -72,23 +72,21 @@ public class OTSProductServiceImpl implements OTSProductService {
 		CustomerProductDetails customerProductDetails = new CustomerProductDetails();
 		try {
 			GetProductStockRequest getProductStockRequest = new GetProductStockRequest();
-			
-			List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
-			
-			
+				
 			//To filter customer product Data
-			productDetails = productServiceDAO.getProductList(productDetailsBORequest).getProductDetails();
+			List<ProductDetails> productDetails = productServiceDAO.getProductList(productDetailsBORequest).getProductDetails();
+			
 			for(int j = 0 ; j <productDetails.size() ; j++) {
 				customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(productDetails.get(j).getProductId(),productDetailsBORequest.getRequestData().getCustomerId());
 				if(customerProductDetails != null) {
 					productDetails.get(j).setProductPrice(customerProductDetails.getProductPrice());
 				}
 			}
-			productDetailsBOResponse.setProductDetails(productDetails);
-			for(int i=0 ;i<productDetailsBOResponse.getProductDetails().size();i++) {
+			
+			for(int i=0 ;i<productDetails.size();i++) {
 				GetProductRequestModel getProductRequestModel = new GetProductRequestModel();
 				getProductRequestModel.setDistributorId(productDetailsBORequest.getRequestData().getDistributorId());
-				getProductRequestModel.setProductId(productDetailsBOResponse.getProductDetails().get(i).getProductId());
+				getProductRequestModel.setProductId(productDetails.get(i).getProductId());
 				getProductStockRequest.setRequestData(getProductRequestModel);
 				GetProductBOStockResponse getProductBOStockResponse = new GetProductBOStockResponse();
 				try {
@@ -96,11 +94,12 @@ public class OTSProductServiceImpl implements OTSProductService {
 				}catch(Exception e) {
 					getProductBOStockResponse.setStockQuantity("0");
 				}
-				productDetailsBOResponse.getProductDetails().get(i).setStock("YES");
+				productDetails.get(i).setStock("YES");
 				if(getProductBOStockResponse.getStockQuantity().equals("0")) {
-					productDetailsBOResponse.getProductDetails().get(i).setStock("NO");
+					productDetails.get(i).setStock("NO");
 				}
 			}
+			productDetailsBOResponse.setProductDetails(productDetails);
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
