@@ -184,7 +184,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 
 	@Override
 	public Response otsLoginAuthentication(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
-		if(!loginAuthenticationBOrequest.getRequestData().getEmailId().isEmpty()|| !loginAuthenticationBOrequest.getRequestData().getPassword().isEmpty())
+		if(!loginAuthenticationBOrequest.getRequestData().getPhoneNumber().isEmpty()|| !loginAuthenticationBOrequest.getRequestData().getPassword().isEmpty())
 		{ 
 			Response response =null;
 			logger.info("Inside Event=VM1-T28,Class:OTSUsersV18_1WsImpl, Method:otsLoginAuthentication, loginAuthenticationBOrequest:"+loginAuthenticationBOrequest);

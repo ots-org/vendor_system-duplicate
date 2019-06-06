@@ -214,7 +214,6 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 					fcmPushNotification.sendPushNotification(user.getDeviceId(),"Bislari App" ,notification);
 					notification = "Order Placed : Your order "+otsOrderDetails.getOrderNumber()+" had been placed";
 					fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"Bislari App" ,notification);
-
 				}catch(Exception e) {
 					return Response;
 				}

@@ -2,7 +2,7 @@ package com.fuso.enterprise.ots.srv.api.model.domain;
 
 public class LoginAuthenticationModel {
 
-	private String EmailId;
+	private String phoneNumber;
 	
 	private String Password;
 	
@@ -16,12 +16,12 @@ public class LoginAuthenticationModel {
 		this.deviceId = deviceId;
 	}
 
-	public String getEmailId() {
-		return EmailId;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setEmailId(String emailId) {
-		EmailId = emailId;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	public String getPassword() {

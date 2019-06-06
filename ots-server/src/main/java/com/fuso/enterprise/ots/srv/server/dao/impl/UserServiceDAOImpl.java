@@ -210,7 +210,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 
 	@Override
 	public LoginUserResponse otsLoginAuthentication(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
-		String EmailId = loginAuthenticationBOrequest.getRequestData().getEmailId();
+		String phnum = loginAuthenticationBOrequest.getRequestData().getPhoneNumber();
 		String Password = loginAuthenticationBOrequest.getRequestData().getPassword();
 		LoginUserResponse loginUserResponse = new LoginUserResponse();
 		UserDetails userDetails = new UserDetails();
@@ -218,8 +218,8 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
           OtsUsers userData = null;
             try {
             	Map<String, Object> queryParameter = new HashMap<>();
-    			queryParameter.put("otsUsersEmailid", EmailId);
-    			userData  = super.getResultByNamedQuery("OtsUsers.findByOtsUsersEmailid", queryParameter);
+    			queryParameter.put("otsUsersContactNo", phnum);
+    			userData  = super.getResultByNamedQuery("OtsUsers.findByOtsUsersContactNo", queryParameter);
     			userData.setOtsDeviceToken(loginAuthenticationBOrequest.getRequestData().getDeviceId());
     			super.getEntityManager().merge(userData);
             }catch (NoResultException e) {
