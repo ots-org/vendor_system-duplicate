@@ -356,4 +356,30 @@
 			o.otsOrderStatus = :otsOrderStatus
 		</query>
 	</named-query> 
+	<named-query name="OtsCustomerProduct.getCustomerProductDetailsByUserId">
+		<query>SELECT o 
+		FROM 
+			OtsCustomerProduct o
+		WHERE
+			o.otsUsersId =:otsUsersId
+		</query>
+	</named-query>
+	<named-query name="OtsProductStock.DistributorId">
+		<query>SELECT o
+		FROM 
+			OtsProductStock o
+		WHERE 
+			o.otsUsersId = :DistributorId
+		</query>
+	</named-query>
+	<named-query name="OtsProduct.findByProductDetailsStock">
+		<query>SELECT o
+		FROM 
+			OtsProduct o,OtsProductStock s
+		WHERE 
+			s.otsProductId = o.otsProductId
+		AND
+			s.otsUsersId = :DistributorId
+		</query>
+	</named-query>
 </entity-mappings>

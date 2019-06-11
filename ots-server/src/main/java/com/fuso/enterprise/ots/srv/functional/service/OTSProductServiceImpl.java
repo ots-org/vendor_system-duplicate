@@ -69,36 +69,27 @@ public class OTSProductServiceImpl implements OTSProductService {
 	@Override
 	public ProductDetailsBOResponse getProductList(ProductDetailsBORequest productDetailsBORequest) {
 		ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
-		CustomerProductDetails customerProductDetails = new CustomerProductDetails();
+		List<GetProductBOStockResponse> getProductBOStockResponse = new ArrayList<GetProductBOStockResponse>();
+		List<CustomerProductDetails> customerProductDetails = new ArrayList<CustomerProductDetails>();
+		List<ProductDetails> resultProductDetails = new ArrayList<ProductDetails>();
+		List<ProductDetails> productDetails = new ArrayList<ProductDetails>(); 
 		try {
-			GetProductStockRequest getProductStockRequest = new GetProductStockRequest();
-				
-			//To filter customer product Data
-			List<ProductDetails> productDetails = productServiceDAO.getProductList(productDetailsBORequest).getProductDetails();
+			//get product details if stock is present
+			System.out.println("first");
+			productDetails = productServiceDAO.getProductDetilswithStock(productDetailsBORequest.getRequestData().getDistributorId());
+			System.out.println("2"+productDetails.size());
 			
-			for(int j = 0 ; j <productDetails.size() ; j++) {
-				customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(productDetails.get(j).getProductId(),productDetailsBORequest.getRequestData().getCustomerId());
-				if(customerProductDetails != null) {
-					productDetails.get(j).setProductPrice(customerProductDetails.getProductPrice());
+			//changing the price of product if product in customer table
+			customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByCustomerId(productDetailsBORequest.getRequestData().getCustomerId());
+			System.out.println("2"+productDetails.size());
+			for(int i = 0; i<customerProductDetails.size();i++) {
+				for(int j=0 ;j<productDetails.size();j++) {
+					if(productDetails.get(j).getProductId() == customerProductDetails.get(i).getProductId()) {
+						productDetails.get(j).setProductPrice(customerProductDetails.get(j).getProductPrice());
+					}
 				}
 			}
 			
-			for(int i=0 ;i<productDetails.size();i++) {
-				GetProductRequestModel getProductRequestModel = new GetProductRequestModel();
-				getProductRequestModel.setDistributorId(productDetailsBORequest.getRequestData().getDistributorId());
-				getProductRequestModel.setProductId(productDetails.get(i).getProductId());
-				getProductStockRequest.setRequestData(getProductRequestModel);
-				GetProductBOStockResponse getProductBOStockResponse = new GetProductBOStockResponse();
-				try {
-					getProductBOStockResponse = productStockDao.getProductStockByUidAndPid(getProductStockRequest);
-				}catch(Exception e) {
-					getProductBOStockResponse.setStockQuantity("0");
-				}
-				productDetails.get(i).setStock("YES");
-				if(getProductBOStockResponse.getStockQuantity().equals("0")) {
-					productDetails.get(i).setStock("NO");
-				}
-			}
 			productDetailsBOResponse.setProductDetails(productDetails);
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);

@@ -13,5 +13,6 @@ public interface ProductStockDao  {
 	GetProductBOStockResponse getProductStockByUidAndPid(GetProductStockRequest getProductStockRequest );
 	String updateProductStockQuantity(AddProductStockBORequest addProductStockBORequest);
 	String removeProductStock(AddProductStockBORequest addProductStockBORequest);
+	List<GetProductBOStockResponse> getProductStockByUid(String distributorId);
 	
 }

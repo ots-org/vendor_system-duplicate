@@ -220,4 +220,33 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 		return balanceCan;
 		
 	}
+	
+	@Override
+	public List<CustomerProductDetails> getCustomerProductDetailsByCustomerId(String customerId) {
+		List<CustomerProductDetails> customerProductDetails = new ArrayList<CustomerProductDetails>();
+		try{
+			/*
+			 * setting users object for user mapping
+			 */
+			List<OtsCustomerProduct> otsCustomerProductList = new ArrayList<OtsCustomerProduct>();
+			
+			OtsUsers otsUsers = new OtsUsers();
+			otsUsers.setOtsUsersId(Integer.parseInt(customerId));
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsUsersId",otsUsers);
+			
+			try {
+				otsCustomerProductList = super.getResultListByNamedQuery("OtsCustomerProduct.getCustomerProductDetailsByUserId", queryParameter);
+				customerProductDetails = otsCustomerProductList.stream().map(OtsCustomerProduct -> convertCustomerDetailsEntityToModel(OtsCustomerProduct)).collect(Collectors.toList());
+			}catch (Exception e) {
+	        	return null;
+	        }
+			logger.info("Inside Event=1006,Class:MapUserProductDAOImpl,Method:mapUserProduct"+"Successfull");
+		}catch (Exception e) {
+        	logger.error("Exception while Inserting data to DB  :"+e.getMessage());
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+        }
+		return  customerProductDetails;
+	}
 }

@@ -17,4 +17,6 @@ public interface MapUserProductDAO {
 
 	List<BalanceCan> getBalanceCanByUserId(String customerId);
 
+	List<CustomerProductDetails> getCustomerProductDetailsByCustomerId(String customerId);
+
 }

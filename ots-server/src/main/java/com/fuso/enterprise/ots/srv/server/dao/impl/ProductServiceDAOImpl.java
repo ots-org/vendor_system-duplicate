@@ -142,4 +142,23 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		}
 	return productDetails;
 	}
+	
+	@Override
+	public List<ProductDetails> getProductDetilswithStock(String  ditributorId) {
+		List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
+		List<OtsProduct> productList = new ArrayList<OtsProduct>();
+		try {
+			OtsUsers distributorId = new OtsUsers();
+			distributorId.setOtsUsersId(Integer.parseInt(ditributorId));
+			
+			OtsProduct otsProduct = new OtsProduct();
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("distributorId", distributorId);
+			productList = super.getResultListByNamedQuery("OtsProduct.findByProductDetailsStock", queryParameter);
+			productDetails =  productList.stream().map(tsProduct -> convertProductDetailsFromEntityToDomain(otsProduct)).collect(Collectors.toList());	
+		}catch(Exception e) {
+			return null;
+		}
+	return productDetails;
+	}
 }

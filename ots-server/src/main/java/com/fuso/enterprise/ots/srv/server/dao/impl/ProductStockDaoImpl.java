@@ -1,7 +1,10 @@
 package com.fuso.enterprise.ots.srv.server.dao.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.NoResultException;
 
@@ -163,5 +166,26 @@ public class ProductStockDaoImpl extends AbstractIptDao<OtsProductStock, String>
 		}
 		logger.info("Inside Event=1014,Class:OTSProduct_WsImpl,Method:removeProductStock");
 		return "Stock Updated Scuccessfully";
+	}
+
+	@Override
+	public List<GetProductBOStockResponse> getProductStockByUid(String distributorId) {
+		List<GetProductBOStockResponse> getProductBOStockResponse = new ArrayList<GetProductBOStockResponse>();
+		List<OtsProductStock> otsProductStockList = new ArrayList<OtsProductStock>();
+		try {
+		 	Map<String, Object> queryParameter = new HashMap<>();	
+		 	
+		 	OtsUsers UserId = new OtsUsers();
+		 	UserId.setOtsUsersId(Integer.valueOf(distributorId)); 	
+		 	queryParameter.put("DistributorId",UserId);		
+		 	
+		 	otsProductStockList = super.getResultListByNamedQuery("OtsProductStock.DistributorId", queryParameter);
+			getProductBOStockResponse = otsProductStockList.stream().map(OtsProductStock -> convertProductStockEntityToModel(OtsProductStock)).collect(Collectors.toList());
+		} catch (BusinessException e) {
+			return null;
+	    } catch (Throwable e) {
+	    	return null;
+	    }
+    	return getProductBOStockResponse;
 	}
 }
