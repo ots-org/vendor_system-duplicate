@@ -23,6 +23,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProdu
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
@@ -137,5 +138,12 @@ public interface OTSOrder_Ws {
 	@ApiOperation(value = "get-userID-users", notes = "This operation will give the list of user based on userID", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response CheckSchedulerCronJob();
+	
+	@POST
+    @Path("/employeeTransferOrder")
+	@ApiOperation(value = "employeeTransferOrder", notes = "change Order one employee to another", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response employeeTransferOrder(@ApiParam(value = "request", required = true) @NotNull  @Valid EmployeeOrderTransferRequest  employeeOrderTransferRequest);	
+
 	
 }

@@ -9,6 +9,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProdu
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
@@ -39,5 +40,6 @@ public interface OTSOrderService {
 	OrderProductBOResponse orderReportByDate(GetOrderBORequest getOrderBORequest);
 	String InsertScheduler(AddSchedulerRequest  addSchedulerRequest);
 	GetSchedulerResponse getScheduler(GetSchedulerRequest getSchedulerRequest);
+	String employeeTransferOrder(EmployeeOrderTransferRequest employeeOrderTransferRequest);
 	String runScheduler12AMTO1AM();
 }

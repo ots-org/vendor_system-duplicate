@@ -144,13 +144,14 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 	}
 	
 	@Override
-	public List<ProductDetails> getProductDetilswithStock(String  ditributorId) {
+	public List<ProductDetails> getProductDetilswithStock(String  distributorIdValue) {
+		System.out.println("Data1"+distributorIdValue);
 		List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
 		List<OtsProduct> productList = new ArrayList<OtsProduct>();
 		try {
 			OtsUsers distributorId = new OtsUsers();
-			distributorId.setOtsUsersId(Integer.parseInt(ditributorId));
-			
+			distributorId.setOtsUsersId(Integer.parseInt(distributorIdValue));
+			System.out.println("Data2");
 			OtsProduct otsProduct = new OtsProduct();
 			Map<String, Object> queryParameter = new HashMap<>();
 			queryParameter.put("distributorId", distributorId);

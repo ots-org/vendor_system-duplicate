@@ -217,8 +217,7 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 		BalanceCan balanceCan = new BalanceCan();
 		balanceCan.setBalanceCan(otsCustomerProduct.getOtsCustomerProductBalCan()+"");
 		balanceCan.setProductId(otsCustomerProduct.getOtsProductId().getOtsProductId().toString());
-		return balanceCan;
-		
+		return balanceCan;		
 	}
 	
 	@Override

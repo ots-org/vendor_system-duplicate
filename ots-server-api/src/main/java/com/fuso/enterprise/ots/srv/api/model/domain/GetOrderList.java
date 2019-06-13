@@ -8,7 +8,21 @@ public class GetOrderList {
 	private Date fromTime;
 	private Date toTime;
 	private String status;
+	private String customerId;
+	private String productId;
 	
+	public String getProductId() {
+		return productId;
+	}
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+	public String getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
 	public String getDistributorsId() {
 		return distributorsId;
 	}

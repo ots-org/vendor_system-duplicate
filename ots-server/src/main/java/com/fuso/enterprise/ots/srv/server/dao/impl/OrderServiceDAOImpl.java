@@ -23,6 +23,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
@@ -89,19 +90,34 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
     		List<OtsOrder> OrderList = new ArrayList<OtsOrder>() ;
             try {
             	Map<String, Object> queryParameter = new HashMap<>();
-            	OtsUsers DistrubutorId = new OtsUsers();
-            	DistrubutorId.setOtsUsersId(Integer.parseInt(getOrderBORequest.getRequest().getDistributorsId()));
-    			queryParameter.put("DistributorsId", DistrubutorId);
     			queryParameter.put("FromDate", getOrderBORequest.getRequest().getFromTime());
     			queryParameter.put("ToDate", getOrderBORequest.getRequest().getToTime());
-    			OrderList  = super.getResultListByNamedQuery("OtsOrder.GetOrderListByTime", queryParameter);
+            	
+    			if(getOrderBORequest.getRequest().getStatus()!=null) {
+            		queryParameter.put("status", getOrderBORequest.getRequest().getStatus());
+            		if(getOrderBORequest.getRequest().getCustomerId()==null) {
+            			OtsUsers DistrubutorId = new OtsUsers();
+                		DistrubutorId.setOtsUsersId(Integer.parseInt(getOrderBORequest.getRequest().getDistributorsId()));
+                		queryParameter.put("DistributorsId", DistrubutorId);
+                		OrderList  = super.getResultListByNamedQuery("OtsOrder.GetOrderListByTimeAndStatusForDistributor", queryParameter);
+            		}else if(getOrderBORequest.getRequest().getDistributorsId()==null) {
+            			OtsUsers CustomerId = new OtsUsers();
+            			CustomerId.setOtsUsersId(Integer.parseInt(getOrderBORequest.getRequest().getCustomerId()));
+                		queryParameter.put("CustomerId", CustomerId);
+                		OrderList  = super.getResultListByNamedQuery("OtsOrder.GetOrderListByTimeAndStatusForCustomerId", queryParameter);
+            		}
+            	}else {
+            		OtsUsers DistrubutorId = new OtsUsers();
+                	DistrubutorId.setOtsUsersId(Integer.parseInt(getOrderBORequest.getRequest().getDistributorsId()));
+            		queryParameter.put("DistributorsId", DistrubutorId);
+            		OrderList  = super.getResultListByNamedQuery("OtsOrder.GetOrderListByTime", queryParameter);
+            	}
             } catch (NoResultException e) {
             	logger.error("Exception while fetching data from DB :"+e.getMessage());
         		e.printStackTrace();
             	throw new BusinessException(e.getMessage(), e);
             }
             otsOrderDetails =  OrderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
-
     	}catch(Exception e) {
 			logger.error("Error in  order table"+e.getMessage());
     		e.printStackTrace();
@@ -526,14 +542,42 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			List<OrderDetails> orderDetails = new ArrayList<OrderDetails>();
 			List<OtsOrder> orderList = new ArrayList<OtsOrder>();
 			Map<String, Object> queryParameter = new HashMap<>();
-	    	OtsUsers distributorId = new OtsUsers();
-	    	distributorId.setOtsUsersId(Integer.parseInt(getOrderBORequest.getRequest().getDistributorsId()));
-			queryParameter.put("DistributorId", distributorId);
+	    	
 	    	queryParameter.put("startDate",getOrderBORequest.getRequest().getFromTime());
 	    	queryParameter.put("endDate",getOrderBORequest.getRequest().getToTime());
-	    	orderList  = super.getResultListByNamedQuery("OtsOrder.GetOrderListForDistributorByDateAndStatus", queryParameter);
+	    	if(getOrderBORequest.getRequest().getCustomerId()==null) {
+	    		OtsUsers distributorId = new OtsUsers();
+		    	distributorId.setOtsUsersId(Integer.parseInt(getOrderBORequest.getRequest().getDistributorsId()));
+	    		queryParameter.put("DistributorId", distributorId);
+	    		orderList  = super.getResultListByNamedQuery("OtsOrder.GetOrderListForDistributorByDateAndStatus", queryParameter);
+	    	}else {
+	    		OtsUsers customerId = new OtsUsers();
+	    		customerId.setOtsUsersId(Integer.parseInt(getOrderBORequest.getRequest().getCustomerId()));
+				queryParameter.put("customerId", customerId);
+	    		orderList  = super.getResultListByNamedQuery("OtsOrder.GetOrderListForCustomerByDateAndStatus", queryParameter);
+	    	}
+	    	
 	    	orderDetails =  orderList.stream().map(OtsOrder -> convertOrderDetailsFromEntityToDomain(OtsOrder)).collect(Collectors.toList());
 			return orderDetails;
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		}
+	}
+
+	@Override
+	public String employeeTransferOrder(EmployeeOrderTransferRequest employeeOrderTransferRequest) {
+		OtsOrder otsOrder = new OtsOrder();
+		try {
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsOrderId",Integer.parseInt(employeeOrderTransferRequest.getRequest().getOrderId()));
+			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
+			
+			OtsUsers userId = new OtsUsers();
+			userId.setOtsUsersId(Integer.parseInt(employeeOrderTransferRequest.getRequest().getEmployeeId()));
+			otsOrder.setOtsAssignedId(userId);
+			return "Updated";
 		}catch(Exception e){
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 		} catch (Throwable e) {

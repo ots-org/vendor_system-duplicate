@@ -39,6 +39,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
@@ -507,7 +508,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 					UserDetails Customer;
 					Customer = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId()));
 					notification = "Your order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+ saleVocherBoRequest.getRequest().getDeliverdDate();
-					fcmPushNotification.sendPushNotification(distributor.getDeviceId(),"Bisleri Apps" , notification);
+					fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"Bisleri Apps" , notification);
 				}catch(Exception e) {
 					return "Updated";
 				}
@@ -620,6 +621,12 @@ public class OTSOrderServiceImpl implements OTSOrderService {
  		}
  		
 		return "Done";
+	}
+
+
+	@Override
+	public String employeeTransferOrder(EmployeeOrderTransferRequest employeeOrderTransferRequest) {
+		return orderServiceDAO.employeeTransferOrder(employeeOrderTransferRequest);
 	}
 
 }

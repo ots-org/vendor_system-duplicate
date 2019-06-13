@@ -10,6 +10,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
@@ -38,5 +39,5 @@ public interface OrderServiceDAO {
 	OrderDetails SalesVocher(SaleVocherBoRequest saleVocherBoRequest);
 	OrderDetails GetOrderDetailsByOrderId(String OrderId);
 	List<OrderDetails> getOrderReportByDate(GetOrderBORequest getOrderBORequest);
-	
+	String employeeTransferOrder(EmployeeOrderTransferRequest employeeOrderTransferRequest);
 }

@@ -69,28 +69,30 @@ public class OTSProductServiceImpl implements OTSProductService {
 	@Override
 	public ProductDetailsBOResponse getProductList(ProductDetailsBORequest productDetailsBORequest) {
 		ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
-		List<GetProductBOStockResponse> getProductBOStockResponse = new ArrayList<GetProductBOStockResponse>();
 		List<CustomerProductDetails> customerProductDetails = new ArrayList<CustomerProductDetails>();
-		List<ProductDetails> resultProductDetails = new ArrayList<ProductDetails>();
-		List<ProductDetails> productDetails = new ArrayList<ProductDetails>(); 
-		try {
-			//get product details if stock is present
-			System.out.println("first");
-			productDetails = productServiceDAO.getProductDetilswithStock(productDetailsBORequest.getRequestData().getDistributorId());
-			System.out.println("2"+productDetails.size());
+		List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
+		List<GetProductBOStockResponse> productStockvalue = new ArrayList<GetProductBOStockResponse>();
+		try { 
+			customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByCustomerId(productDetailsBORequest.getRequestData().getDistributorId());
+			productStockvalue = productStockDao.getProductStockByUid(productDetailsBORequest.getRequestData().getDistributorId());
 			
-			//changing the price of product if product in customer table
-			customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByCustomerId(productDetailsBORequest.getRequestData().getCustomerId());
-			System.out.println("2"+productDetails.size());
-			for(int i = 0; i<customerProductDetails.size();i++) {
-				for(int j=0 ;j<productDetails.size();j++) {
-					if(productDetails.get(j).getProductId() == customerProductDetails.get(i).getProductId()) {
-						productDetails.get(j).setProductPrice(customerProductDetails.get(j).getProductPrice());
+			if(productStockvalue!= null) {
+				for(int i = 0;i<productStockvalue.size(); i++) {
+					 productDetails.add(productServiceDAO.getProductDetils(productStockvalue.get(i).getProductId()));				 
+				}
+			}else {
+				return null;
+			}
+		if(customerProductDetails!=null) {
+			for(int i = 0 ;i<customerProductDetails.size();i++) {
+				for(int j=0;j<productDetails.size();j++) {
+					if(customerProductDetails.get(i).getCustomerProductId()==productDetails.get(j).getProductId()) {
+						productDetails.get(j).setProductPrice(customerProductDetails.get(i).getProductPrice());
 					}
 				}
 			}
-			
-			productDetailsBOResponse.setProductDetails(productDetails);
+		}
+		productDetailsBOResponse.setProductDetails(productDetails);
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}

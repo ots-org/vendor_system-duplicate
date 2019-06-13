@@ -83,7 +83,31 @@
 		AND
 			(o.otsDistributorId = :DistributorsId)
 		</query>
-	</named-query> 	 
+	</named-query> 
+	<named-query name="OtsOrder.GetOrderListByTimeAndStatusForDistributor">
+		<query>SELECT o 
+		FROM 
+			OtsOrder o
+		WHERE 
+			(o.otsOrderDt BETWEEN :FromDate AND :ToDate) 
+		AND
+			(o.otsDistributorId = :DistributorsId)
+		AND
+			(o.otsOrderStatus =:status)
+		</query>
+	</named-query> 	
+	<named-query name="OtsOrder.GetOrderListByTimeAndStatusForCustomerId">
+		<query>SELECT o 
+		FROM 
+			OtsOrder o
+		WHERE 
+			(o.otsOrderDt BETWEEN :FromDate AND :ToDate) 
+		AND
+			(o.otsCustomerId = :CustomerId)
+		AND
+			(o.otsOrderStatus =:status)
+		</query>
+	</named-query> 		 	 
 	<named-query name="OtsOrder.getOrderIdByDistrubitorId">
 		<query>SELECT o 
 		FROM 
@@ -267,6 +291,18 @@
 	    	otsDistributorId = :DistributorId
 		</query>
 	</named-query>
+	<named-query name="OtsOrder.GetOrderListForCustomerByDateAndStatus">
+		<query>SELECT o
+		FROM    
+			OtsOrder o
+		WHERE
+			(o.otsOrderDeliveredDt >= :startDate AND  :endDate >=o.otsOrderDeliveredDt) 
+		AND
+	        otsOrderStatus in ('Generated','close')
+	    AND 
+	    	otsCustomerId = :customerId
+		</query>
+	</named-query>
 	<named-query name="OtsCustomerProduct.getBalanceCan">
 		<query>SELECT o 
 		FROM 
@@ -377,8 +413,6 @@
 		FROM 
 			OtsProduct o,OtsProductStock s
 		WHERE 
-			s.otsProductId = o.otsProductId
-		AND
 			s.otsUsersId = :DistributorId
 		</query>
 	</named-query>

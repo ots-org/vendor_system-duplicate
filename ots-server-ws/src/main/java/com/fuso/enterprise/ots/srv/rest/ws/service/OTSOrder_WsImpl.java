@@ -17,6 +17,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProdu
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
@@ -248,8 +249,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		logger.info("Inside Event=1011,Class:OTSOrder_WsImpl, Method:getOrderList, addorUpdateProductBORequest:"
 				+ getOrderBORequest);
 		try {
-			if(!getOrderBORequest.getRequest().getDistributorsId().equals(null)&&
-					!getOrderBORequest.getRequest().getFromTime().equals(null)&&
+			if(!getOrderBORequest.getRequest().getFromTime().equals(null)&&
 					!getOrderBORequest.getRequest().getToTime().equals(null)){	
 				orderProductBOResponse = oTSOrderService.getOrderDetailsByDate(getOrderBORequest);
 				if (!oTSOrderService.getOrderBydate(getOrderBORequest).getOrderDetails().get(0).equals(null)) {
@@ -353,5 +353,12 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		Response response;
 		response = buildResponse(oTSOrderService.runScheduler12AMTO1AM(),"Successfull");
 		return null;
+	}
+
+	@Override
+	public Response employeeTransferOrder(EmployeeOrderTransferRequest employeeOrderTransferRequest) {
+		Response response;
+		response = buildResponse(oTSOrderService.employeeTransferOrder(employeeOrderTransferRequest),"Successfull");
+		return response;
 	}	
 }
