@@ -107,10 +107,18 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
                 		OrderList  = super.getResultListByNamedQuery("OtsOrder.GetOrderListByTimeAndStatusForCustomerId", queryParameter);
             		}
             	}else {
-            		OtsUsers DistrubutorId = new OtsUsers();
-                	DistrubutorId.setOtsUsersId(Integer.parseInt(getOrderBORequest.getRequest().getDistributorsId()));
-            		queryParameter.put("DistributorsId", DistrubutorId);
-            		OrderList  = super.getResultListByNamedQuery("OtsOrder.GetOrderListByTime", queryParameter);
+            		if(getOrderBORequest.getRequest().getCustomerId()!=null) {
+            			OtsUsers CustomerId = new OtsUsers();
+            			CustomerId.setOtsUsersId(Integer.parseInt(getOrderBORequest.getRequest().getCustomerId()));
+                		queryParameter.put("otsCustomerId", CustomerId);
+                		OrderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforCustomer", queryParameter);          
+            		}else {
+            			OtsUsers DistrubutorId = new OtsUsers();
+	                	DistrubutorId.setOtsUsersId(Integer.parseInt(getOrderBORequest.getRequest().getDistributorsId()));
+	            		queryParameter.put("DistributorsId", DistrubutorId);
+	            		OrderList  = super.getResultListByNamedQuery("OtsOrder.GetOrderListByTime", queryParameter);
+            		}
+	            		
             	}
             } catch (NoResultException e) {
             	logger.error("Exception while fetching data from DB :"+e.getMessage());
