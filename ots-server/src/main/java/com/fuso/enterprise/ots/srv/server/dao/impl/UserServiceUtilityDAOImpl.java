@@ -52,16 +52,16 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	            					userList  = super.getResultListByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
 	            				    break;
 	            case "UsersFirstname":
-									queryParameter.put("otsUsersFirstname", searchvalue);
-									userList  = super.getResultListByNamedQuery("OtsUsers.findByOtsUsersFirstname", queryParameter);
+									queryParameter.put("otsUsersFirstname","%"+searchvalue+"%");
+									userList  = super.getResultListByNamedQuery("OtsUsers.findByPattrenMatchingotsUsersFirstname", queryParameter);
 								    break;
 	            case "UsersLastname":
-									queryParameter.put("otsUsersLastname",searchvalue);
-									userList  = super.getResultListByNamedQuery("OtsUsers.findByOtsUsersLastname", queryParameter);
+									queryParameter.put("otsUsersLastname","%"+searchvalue+"%");
+									userList  = super.getResultListByNamedQuery("OtsUsers.findByPattrenMatchingotsUsersLastname", queryParameter);
 									break;
 	            case "UsersEmailid":
-									queryParameter.put("otsUsersEmailid", searchvalue);
-									userList  = super.getResultListByNamedQuery("OtsUsers.findByOtsUsersEmailid", queryParameter);
+									queryParameter.put("otsUsersEmailid","%"+searchvalue+"%");
+									userList  = super.getResultListByNamedQuery("OtsUsers.findByPattrenMatchingotsUsersEmailid", queryParameter);
 								    break;
 	            case "UserRoleId":
 									OtsUserRole otsUserRole = new OtsUserRole();

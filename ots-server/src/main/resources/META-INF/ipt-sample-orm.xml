@@ -33,6 +33,27 @@
 		WHERE o.otsProductName LIKE :FirstLetter
 		</query>
 	</named-query>
+	<named-query name="OtsUsers.findByPattrenMatchingotsUsersFirstname">
+		<query>SELECT o 
+		FROM 
+		OtsUsers o 
+		WHERE o.otsUsersFirstname LIKE :otsUsersFirstname
+		</query>
+	</named-query>
+	<named-query name="OtsUsers.findByPattrenMatchingotsUsersLastname">
+		<query>SELECT o 
+		FROM 
+		OtsUsers o 
+		WHERE o.otsUsersLastname LIKE :otsUsersLastname
+		</query>
+	</named-query>
+	<named-query name="OtsUsers.findByPattrenMatchingotsUsersEmailid">
+		<query>SELECT o 
+		FROM 
+		OtsUsers o 
+		WHERE o.otsUsersEmailid LIKE :otsUsersEmailid
+		</query>
+	</named-query>
 	<named-query name="OtsUsers.findByUserOtsbyMappedTo">
 		<query>select m.otsUsersId 
 		from
