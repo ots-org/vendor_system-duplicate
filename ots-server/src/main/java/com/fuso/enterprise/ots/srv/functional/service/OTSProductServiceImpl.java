@@ -1,5 +1,7 @@
 package com.fuso.enterprise.ots.srv.functional.service;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,13 +104,20 @@ public class OTSProductServiceImpl implements OTSProductService {
 	
 	@Override
 	public String addOrUpdateProduct(AddorUpdateProductBORequest addorUpdateProductBORequest) {
-		String responseData;
+		String path;
 		try {
-			responseData = productServiceDAO.addOrUpdateProduct(addorUpdateProductBORequest);
+			byte[] data = Base64.decodeBase64(addorUpdateProductBORequest.getRequestData().getProductImage());
+			double random = Math.random() * 49 + 1;
+			path = "c:/productImage/product"+String.valueOf(random)+".bmp";
+			addorUpdateProductBORequest.getRequestData().setProductImage(path);
+			productServiceDAO.addOrUpdateProduct(addorUpdateProductBORequest);
+			try (OutputStream stream = new FileOutputStream(path)) {
+				stream.write(data);
+			}
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
-		return responseData;
+		return "Added / updated";
 	}
 	
 	
