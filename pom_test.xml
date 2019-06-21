@@ -9,15 +9,8 @@
 
   <!-- OTS modules definition -->
   <modules>
-    <module>ots-server-api</module>
-    <module>ots-server-config</module>
-    <module>ots-server-db-dist</module>
-    <module>ots-server-common</module>
     <module>ots-server</module>
-    <module>ots-server-ws</module>
-    <module>ots-server-war</module>
-    <module>ots-server-dist</module>
-  </modules>
+    </modules>
 
   <!-- Dependency libraries versions -->
   <properties>
@@ -38,7 +31,6 @@
     <sl4j.logging.framework.version>1.7.19</sl4j.logging.framework.version>
     <janino.version>3.0.6</janino.version>
     <java.validation.dependency.version>1.1.0.Final</java.validation.dependency.version>
-    <maven.test.skip>true</maven.test.skip>
   </properties>
 
   <!-- Library dependencies -->
