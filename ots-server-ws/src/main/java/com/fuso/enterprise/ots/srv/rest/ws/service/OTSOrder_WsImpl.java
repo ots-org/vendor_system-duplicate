@@ -28,6 +28,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderProductBOResponse;
@@ -357,8 +358,29 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 
 	@Override
 	public Response employeeTransferOrder(EmployeeOrderTransferRequest employeeOrderTransferRequest) {
-		Response response;
-		response = buildResponse(oTSOrderService.employeeTransferOrder(employeeOrderTransferRequest),"Successfull");
-		return response;
+		
+		try {
+			Response response;
+			response = buildResponse(oTSOrderService.employeeTransferOrder(employeeOrderTransferRequest),"Successfull");
+			return response;
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+		}catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+		}
+		
+	}
+
+	@Override
+	public Response getOrderByStatus(UpdateOrderStatusRequest updateOrderStatusRequest) {
+		try {
+			Response response;
+			response = buildResponse(oTSOrderService.UpdateOrderStatus(updateOrderStatusRequest),"Successfull");
+			return response;
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+		}catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+		}
 	}	
 }

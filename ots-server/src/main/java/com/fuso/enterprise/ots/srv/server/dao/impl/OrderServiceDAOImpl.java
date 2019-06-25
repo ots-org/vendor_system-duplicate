@@ -33,6 +33,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.OrderDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -592,4 +593,22 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 		}
 	}
+
+	@Override
+	public String UpdateOrderStatus(UpdateOrderStatusRequest updateOrderStatusRequest) {
+		OtsOrder otsOrder = new OtsOrder();
+		try {
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsOrderId",Integer.parseInt(updateOrderStatusRequest.getRequest().getOrderId()));
+			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
+			otsOrder.setOtsOrderStatus(updateOrderStatusRequest.getRequest().getStatus());
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
+		}
+		return "updated";
+	}
+
+	
 }

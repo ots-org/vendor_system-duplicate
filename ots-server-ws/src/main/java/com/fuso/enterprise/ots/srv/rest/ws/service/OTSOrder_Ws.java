@@ -16,6 +16,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderStatusRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.AddScheduler;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
@@ -145,5 +146,10 @@ public interface OTSOrder_Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response employeeTransferOrder(@ApiParam(value = "request", required = true) @NotNull  @Valid EmployeeOrderTransferRequest  employeeOrderTransferRequest);	
 
+	@POST
+    @Path("/updateOrderStatus")
+	@ApiOperation(value = "getOrderByStatusAndDistributor", notes = "Getting getorder By Status and DistubutorId", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getOrderByStatus(@ApiParam(value = "request", required = true) @NotNull  @Valid UpdateOrderStatusRequest updateOrderStatusRequest);	
 	
 }

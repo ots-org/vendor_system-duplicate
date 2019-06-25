@@ -19,6 +19,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetSchedulerResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
@@ -42,4 +43,5 @@ public interface OTSOrderService {
 	GetSchedulerResponse getScheduler(GetSchedulerRequest getSchedulerRequest);
 	String employeeTransferOrder(EmployeeOrderTransferRequest employeeOrderTransferRequest);
 	String runScheduler12AMTO1AM();
+	String UpdateOrderStatus(UpdateOrderStatusRequest updateOrderStatusRequest);
 }

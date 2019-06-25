@@ -54,6 +54,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmt
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetSchedulerResponse;
@@ -626,7 +627,30 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 
 	@Override
 	public String employeeTransferOrder(EmployeeOrderTransferRequest employeeOrderTransferRequest) {
-		return orderServiceDAO.employeeTransferOrder(employeeOrderTransferRequest);
+		try {
+			return orderServiceDAO.employeeTransferOrder(employeeOrderTransferRequest);
+		}catch(Exception e){
+			e.printStackTrace();
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		}
+		
+	}
+
+
+	@Override
+	public String UpdateOrderStatus(UpdateOrderStatusRequest updateOrderStatusRequest) {
+		try {
+			return orderServiceDAO.UpdateOrderStatus(updateOrderStatusRequest);
+		}catch(Exception e){
+			e.printStackTrace();
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		}
 	}
 
 }
