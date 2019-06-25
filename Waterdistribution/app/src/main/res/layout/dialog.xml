@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<Button
+    android:id="@+id/plot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/activity_margin_10"
+    android:background="@drawable/borderless_button"
+    android:textColor="@color/white"
+    android:text="For Plot"
+    android:textAllCaps="false"
+    />
+<Button
+    android:id="@+id/land"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/activity_margin_10"
+    android:background="@drawable/borderless_button"
+    android:textColor="@color/white"
+    android:text="For Land"
+    android:textAllCaps="false"
+    />
+</LinearLayout>

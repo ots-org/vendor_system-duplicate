@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/activity_margin_4"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="@dimen/cardview_default_elevation">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/customer3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_margin_8">
+
+            <TextView
+                android:id="@+id/orderId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_4"
+                android:text="Order Id"
+                android:textColor="@color/textColorDark"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/orderQty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_4"
+                android:text="Order Id"
+                android:textColor="@color/textColorDark"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/orderPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_4"
+                android:text="Order Id"
+                android:textColor="@color/textColorDark"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+            <Button
+                android:id="@+id/assignButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Assign"
+                android:textAllCaps="false"
+                android:layout_margin="@dimen/activity_margin_6"
+                android:textColor="@color/white"
+                android:layout_gravity="right|center_vertical"
+                />
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

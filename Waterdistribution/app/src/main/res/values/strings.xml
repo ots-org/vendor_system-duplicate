@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Water Distribution</string>
+
+    <string name="water_distribution">Water Distribution\nManagement System</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="new_user">New User?</string>
+    <string name="register">Register</string>
+    <string name="home">Home</string>
+    <string name="firstName">First Name</string>
+    <string name="enterfirstName">Enter First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="enterlastName">Enter Last Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="enterphone_number">Enter Phone Number</string>
+    <string name="email_id">Email ID</string>
+    <string name="enteremail_id">Enter Email ID</string>
+    <string name="password">Password</string>
+    <string name="enterpassword">Enter Password</string>
+    <string name="area">Area</string>
+    <string name="enterarea">Enter Area</string>
+    <string name="plant_name">Plant Name</string>
+    <string name="enterplant_name">Enter Plant Name</string>
+    <string name="otp_verification">OTP Verification</string>
+    <string name="enter_verification_code">Enter verification Code</string>
+    <string name="plant">Plant</string>
+    <string name="refresh">Refresh</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="current_temperature">Current Temperature</string>
+    <string name="humidity">Humidity</string>
+    <string name="soil_moisture">Soil Moisture</string>
+    <string name="recommendation">Recommendation</string>
+    <string name="please_add_water">Please Add water to the plant.</string>
+    <string name="by_tapping_verify">By tapping Verify Phone Number, an SMS may be sent. Message &amp; data rates may apply.</string>
+    <string name="weather_forecast">Weather Forecast</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="Rs">\u20B9</string>
+    <string name="pick_image_intent_chooser_title">Select source</string>
+
+    <string name="crop_image_activity_title"></string>
+    <string name="crop_image_menu_rotate_left">Rotate counter clockwise</string>
+    <string name="crop_image_menu_rotate_right">Rotate</string>
+    <string name="crop_image_menu_crop">Crop</string>
+    <string name="crop_image_menu_flip">Flip</string>
+    <string name="crop_image_menu_flip_horizontally">Flip horizontally</string>
+    <string name="crop_image_menu_flip_vertically">Flip vertically</string>
+    <string name="crop_image_activity_no_permissions">Cancelling, required permissions are not granted</string>
+</resources>
