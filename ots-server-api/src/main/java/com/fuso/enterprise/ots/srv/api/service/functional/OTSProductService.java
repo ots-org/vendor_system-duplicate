@@ -6,6 +6,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillR
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.BillProductDetailsResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetProductBOStockResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetProductStockListBOResponse;
@@ -24,4 +25,6 @@ public interface OTSProductService {
 	GetProductBOStockResponse getProductStockByUidAndPid(GetProductStockRequest getProductStockRequest );
 
 	BillProductDetailsResponse getProductDetailsForBill(GetProductDetailsForBillRequst getProductDetailsForBillRequst);
+
+	String UpdateProductStatus(UpdateProductStatusRequest updateProductStatusRequestModel);
 }

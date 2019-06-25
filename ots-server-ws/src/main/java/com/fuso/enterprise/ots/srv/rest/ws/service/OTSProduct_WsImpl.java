@@ -13,6 +13,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillR
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetProductBOStockResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetProductStockListBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
@@ -162,4 +163,17 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 			throw new BusinessException(e.getMessage(), e);
 		}
 	}
+	
+	public Response UpdateProductStatus(UpdateProductStatusRequest updateProductStatusRequestModel) {
+		try {
+			Response response = null;
+			response =  responseWrapper.buildResponse(otsProductService.UpdateProductStatus(updateProductStatusRequestModel),"Successfull");
+			return response;
+		}catch(BusinessException e) {
+			throw new BusinessException(e.getMessage(), e);
+		}catch(Throwable e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+	}
+	
 }

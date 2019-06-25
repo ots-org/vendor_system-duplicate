@@ -28,6 +28,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillR
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.BillProductDetailsResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetProductBOStockResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetProductStockListBOResponse;
@@ -271,5 +272,17 @@ public class OTSProductServiceImpl implements OTSProductService {
 		}catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
+	}
+	
+	@Override
+	public String UpdateProductStatus(UpdateProductStatusRequest updateProductStatusRequestModel) {
+		String path;
+		try {
+			productServiceDAO.UpdateProductStatus(updateProductStatusRequestModel);
+			
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		return "Added / updated";
 	}
 }

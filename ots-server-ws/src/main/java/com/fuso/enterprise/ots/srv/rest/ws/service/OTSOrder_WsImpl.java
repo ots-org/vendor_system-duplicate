@@ -358,7 +358,6 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 
 	@Override
 	public Response employeeTransferOrder(EmployeeOrderTransferRequest employeeOrderTransferRequest) {
-		
 		try {
 			Response response;
 			response = buildResponse(oTSOrderService.employeeTransferOrder(employeeOrderTransferRequest),"Successfull");
@@ -368,7 +367,6 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		}catch (Throwable e) {
 			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
 		}
-		
 	}
 
 	@Override

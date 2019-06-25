@@ -17,6 +17,8 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillR
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -65,5 +67,11 @@ public interface OTSProduct_Ws {
 	@ApiOperation(value = "getProductStock", notes = "get ProductList For bill By orderId", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getProductDetailsForBill(@ApiParam(value = "request", required = true) @NotNull @Valid GetProductDetailsForBillRequst getProductDetailsForBillRequst);
+	
+	@POST
+	@Path("/updateOrderStatus")
+	@ApiOperation(value = "getProductStock", notes = "get ProductList For bill By orderId", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response UpdateProductStatus(@ApiParam(value = "request", required = true) @NotNull @Valid UpdateProductStatusRequest updateProductStatusRequestModel);
 
 }

@@ -15,8 +15,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.UpdateProductStatusRequestModel;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.ProductServiceDAO;
@@ -161,5 +163,22 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 			return null;
 		}
 	return productDetails;
+	}
+
+	@Override
+	public String UpdateProductStatus(UpdateProductStatusRequest updateProductStatusRequestModel) {
+		try {
+			Map<String, Object> queryParameter = new HashMap<>();
+			OtsProduct otsProduct = new OtsProduct();
+			queryParameter.put("otsProductId", Integer.parseInt(updateProductStatusRequestModel.getRequest().getProductId()));
+			otsProduct  = super.getResultByNamedQuery("OtsProduct.findByOtsProductId", queryParameter);
+			otsProduct.setOtsProductStatus(updateProductStatusRequestModel.getRequest().getStatus());
+			return "updated";
+		}catch(Exception e) {
+			logger.error("Exception while Inserting data to DB  :"+e.getMessage());
+	    	e.printStackTrace();
+	        throw new BusinessException(e.getMessage(), e);
+		}
+		
 	}
 }
