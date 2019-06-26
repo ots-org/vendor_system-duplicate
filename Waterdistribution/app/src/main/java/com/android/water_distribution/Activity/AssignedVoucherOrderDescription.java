@@ -468,7 +468,12 @@ public class AssignedVoucherOrderDescription extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
+            if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
+                jsonObject.put("mappedTo", sharedPreferences.getString("distId", ""));
+            }
+            else {
+                jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
+            }
 
             requestObject.put("requestData",jsonObject);
         }

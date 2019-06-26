@@ -104,14 +104,14 @@ public class ProductsFragment extends Fragment {
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
 
-                        ArrayList<ProductDetails> productDetailsS = new ArrayList<>();
+                        /*ArrayList<ProductDetails> productDetailsS = new ArrayList<>();
                         for (ProductDetails productDetails : responseData.getResponseData().getProductDetails()){
                             if (productDetails.getStock().equalsIgnoreCase("yes")){
                                 productDetailsS.add(productDetails);
                             }
-                        }
+                        }*/
 
-                        waterCanAdapter = new WaterCanAdapter(getActivity(),productDetailsS);
+                        waterCanAdapter = new WaterCanAdapter(getActivity(),responseData.getResponseData().getProductDetails());
                         gridview.setAdapter(waterCanAdapter);
 
                         waterCanAdapter.notifyDataSetChanged();

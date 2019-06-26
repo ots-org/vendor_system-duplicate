@@ -16,8 +16,11 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,7 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -51,6 +55,8 @@ public class OrderReportActivity extends AppCompatActivity {
     OrderReportAdapter orderReportAdapter;
     Toolbar mToolbar;
     ActionBar action;
+    Spinner selectStatus;
+    ArrayList<String> statusList;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -60,13 +66,14 @@ public class OrderReportActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_report);
+        setContentView(R.layout.activity_order_report_actual);
         recyclerView = findViewById(R.id.recyclerView);
         buttonDatePick = findViewById(R.id.buttonDatePick);
         buttonDatePickEnd = findViewById(R.id.buttonDateEndPick);
         getReport = findViewById(R.id.getReport);
         mToolbar = findViewById(R.id.toolbar);
         noResult = findViewById(R.id.noResult);
+        selectStatus = findViewById(R.id.selectStatus);
         sharedPreferences = getSharedPreferences("water_management",0);
         gson = new Gson();
 
@@ -141,13 +148,39 @@ public class OrderReportActivity extends AppCompatActivity {
         getReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getListOfOrderByDate();
+                if (selectStatus.getSelectedItemPosition()!=0) {
+                    getListOfOrderByDate(statusList.get(selectStatus.getSelectedItemPosition()).equalsIgnoreCase("close")?"close":statusList.get(selectStatus.getSelectedItemPosition()));
+                }
+            }
+        });
+
+        statusList = new ArrayList<>();
+        statusList.add("Select Status");
+        statusList.add("New");
+        statusList.add("Close");
+        statusList.add("Generated");
+        statusList.add("Assigned");
+        statusList.add("Cancel");
+
+        ArrayAdapter userAdapter = new ArrayAdapter(OrderReportActivity.this, android.R.layout.simple_spinner_dropdown_item, statusList);
+
+        selectStatus.setAdapter(userAdapter);
+
+        selectStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
     }
 
-    void getListOfOrderByDate(){
+    void getListOfOrderByDate(String status){
 
         WebserviceController wss = new WebserviceController(OrderReportActivity.this);
 
@@ -167,7 +200,7 @@ public class OrderReportActivity extends AppCompatActivity {
                 userRole = "Customer";
             }
 
-            jsonObject.put("status", "New");
+            jsonObject.put("status", status);
             jsonObject.put("userId", sharedPreferences.getString("userid", ""));
             jsonObject.put("role", userRole);
             jsonObject.put("startDate", buttonDatePick.getText().toString());

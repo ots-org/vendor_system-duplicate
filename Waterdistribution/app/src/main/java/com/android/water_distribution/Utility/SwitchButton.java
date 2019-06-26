@@ -20,10 +20,6 @@ import android.widget.Checkable;
 import com.android.water_distribution.R;
 
 
-/**
- * Created by shahbaz on 28/03/18.
- */
-
 public class SwitchButton extends View implements Checkable {
     private static final int DEFAULT_WIDTH = dp2pxInt(58);
     private static final int DEFAULT_HEIGHT = dp2pxInt(36);

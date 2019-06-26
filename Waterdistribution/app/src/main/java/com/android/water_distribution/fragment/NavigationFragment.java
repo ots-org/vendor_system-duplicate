@@ -112,6 +112,7 @@ public class NavigationFragment extends Fragment {
             customerOutstandingReport.setVisibility(View.GONE);
             myBills.setVisibility(View.GONE);
             scheduler.setVisibility(View.GONE);
+            generateBill.setVisibility(View.GONE);
         }
         else if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("4")){
             userRole = "Customer";

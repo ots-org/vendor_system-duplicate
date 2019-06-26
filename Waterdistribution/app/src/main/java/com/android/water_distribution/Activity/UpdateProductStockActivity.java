@@ -286,7 +286,7 @@ public class UpdateProductStockActivity extends AppCompatActivity {
 
                     ProductsResponse responseData = (ProductsResponse) UpdateProductStockActivity.this.gson.fromJson(response, ProductsResponse.class);
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-                        //onBackPressed();
+                        spinnerUserType.setSelection(0);
                     }
                     Toast.makeText(UpdateProductStockActivity.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Failed" : responseData.getResponseDescription(), Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
@@ -312,6 +312,7 @@ public class UpdateProductStockActivity extends AppCompatActivity {
         try {
             jsonObject.put("searchKey", "All");
             jsonObject.put("searchvalue", "");
+            jsonObject.put("distributorId", sharedPreferences.getString("userid", ""));
             requestObject.put("requestData", jsonObject);
         } catch (Exception e) {
             e.printStackTrace();
@@ -359,6 +360,8 @@ public class UpdateProductStockActivity extends AppCompatActivity {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
                                 if (i==0) {
+                                    presentStock.setText("0");
+                                    quantityEdit.setText("");
                                     Toast.makeText(UpdateProductStockActivity.this, "Select Product", Toast.LENGTH_SHORT).show();
                                 }
                                 else

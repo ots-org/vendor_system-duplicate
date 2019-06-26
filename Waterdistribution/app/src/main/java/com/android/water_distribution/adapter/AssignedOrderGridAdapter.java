@@ -1,6 +1,9 @@
 package com.android.water_distribution.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,14 +83,6 @@ public class AssignedOrderGridAdapter extends BaseAdapter {
 
         OrderResponse.RequestS.ProductOrder item = mData.get(position);
 
-        if (position%2==0){
-            picture.setImageResource(R.drawable.water1);
-
-        }
-        else {
-            picture.setImageResource(R.drawable.water2);
-        }
-
         name.setText(!item.getProductName().isEmpty()?item.getProductName():"");
         orderDateText.setText("Ordered Quantity: "+(!item.getOtsOrderedQty().isEmpty()?item.getOtsOrderedQty():""));
 
@@ -101,6 +96,19 @@ public class AssignedOrderGridAdapter extends BaseAdapter {
             orderQtyText.setVisibility(View.GONE);
         }
         /*description.setText(item.getDescription()!=null?item.getDescription():"");*/
+
+        /*Bitmap decodedByte = null;
+
+        if (item.getProductImage()!=null) {
+            byte[] decodedString = Base64.decode(item.getProductImage(), Base64.DEFAULT);
+            decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        }
+
+        if (decodedByte != null) {
+            picture.setImageBitmap(decodedByte);
+        } else {*/
+            picture.setImageResource(R.drawable.no_image);
+        //}
 
         return v;
     }

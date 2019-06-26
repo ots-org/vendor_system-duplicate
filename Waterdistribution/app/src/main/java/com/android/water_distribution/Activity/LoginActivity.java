@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView register,forgotPassword;
     Button login;
     LinearLayout rootView;
+    CheckBox rememberMe;
     EditText enterUsername,enterPassword;
     String strName = "";
     SharedPreferences sharedPreferences;
@@ -69,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         enterUsername = findViewById(R.id.enterUsername);
         enterPassword = findViewById(R.id.enterPassword);
         rootView = findViewById(R.id.rootView);
+        rememberMe = findViewById(R.id.rememberMe);
 
         gson = new Gson();
 
@@ -233,7 +236,7 @@ public class LoginActivity extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("emailId", enterUsername.getText().toString());
+            jsonObject.put("phoneNumber", enterUsername.getText().toString());
             jsonObject.put("password", enterPassword.getText().toString());
             jsonObject.put("deviceId", sharedPreferencesFCM.getString("regId",""));
 
@@ -254,8 +257,10 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
 
-                        sharedPreferencesFCM.edit().putString("username",enterUsername.getText().toString()).commit();
-                        sharedPreferencesFCM.edit().putString("password",enterPassword.getText().toString()).commit();
+                        if (rememberMe.isChecked()) {
+                            sharedPreferencesFCM.edit().putString("username", enterUsername.getText().toString()).commit();
+                            sharedPreferencesFCM.edit().putString("password", enterPassword.getText().toString()).commit();
+                        }
 
                         //sharedPreferences.edit().putString("mobile",responseData.getResponseData().getCustomer().getPhone1()).commit();
                         sharedPreferences.edit().putString("userid",responseData.getResponseData().getUserDetails().getUserId()).commit();

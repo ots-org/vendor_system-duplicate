@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -30,6 +33,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +71,7 @@ public class ProductDescription extends AppCompatActivity {
     TextView returnQuantity,returnQu,deliveryTime,startTimeText,endTimeText,scheduleText;
     Button placeOrder,addToCart,scheduleButton;
     ImageButton editProduct;
+    ImageView picture;
     LinearLayout orderPlaceLayout,customerLayout,normalLL,scheduleLL;
     View customeLinearLayoutView;
 
@@ -132,6 +137,7 @@ public class ProductDescription extends AppCompatActivity {
         orderPlaceLayout = findViewById(R.id.orderPlace);
         customeLinearLayoutView = findViewById(R.id.customeLinearLayoutView);
         dayText = findViewById(R.id.dayText);
+        picture = findViewById(R.id.picture);
         gson = new Gson()/*new GsonBuilder().serializeNulls().create()*/;
 
         mToolbar = findViewById(R.id.toolbar);
@@ -177,15 +183,16 @@ public class ProductDescription extends AppCompatActivity {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getProductStock(productDetails.getProductId(),false);
+                //getProductStock(productDetails.getProductId(),false);
+                    insertOrderAndProducttoCart();
             }
         });
 
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getProductStock(productDetails.getProductId(),true);
-
+                //getProductStock(productDetails.getProductId(),true);
+                insertOrderAndProduct();
             }
         });
 
@@ -417,6 +424,18 @@ public class ProductDescription extends AppCompatActivity {
             }
         });
 
+        Bitmap decodedByte = null;
+
+        if (productDetails.getProductImage()!=null) {
+            byte[] decodedString = Base64.decode(productDetails.getProductImage(), Base64.DEFAULT);
+            decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        }
+
+        if (decodedByte != null) {
+            picture.setImageBitmap(decodedByte);
+        } else {
+            picture.setImageResource(R.drawable.no_image);
+        }
 
         registerReceiver(broadcastReceiver, new IntentFilter("broadCastName"));
 
@@ -540,12 +559,12 @@ public class ProductDescription extends AppCompatActivity {
              totalPrice.setText(getString(R.string.Rs)+price);
          }
 
-         if (productDetails.getStock().equalsIgnoreCase("no")){
+         /*if (productDetails.getStock().equalsIgnoreCase("no")){
              orderPlaceLayout.setVisibility(View.GONE);
          }
-         else {
+         else {*/
              orderPlaceLayout.setVisibility(View.VISIBLE);
-         }
+         //}
 
     }
 
@@ -1038,7 +1057,7 @@ public class ProductDescription extends AppCompatActivity {
                     ProductsStock responseData = gson.fromJson(response, ProductsStock.class);
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
 
-                        if (Integer.valueOf(responseData.getResponseData().getStockQuantity())>0 && (Integer.parseInt(returnQu.getText().toString()) <= Integer.valueOf(responseData.getResponseData().getStockQuantity()))){
+                        //if (Integer.valueOf(responseData.getResponseData().getStockQuantity())>0 && (Integer.parseInt(returnQu.getText().toString()) <= Integer.valueOf(responseData.getResponseData().getStockQuantity()))){
 
                             if (yesT){
                                 insertOrderAndProduct();
@@ -1047,14 +1066,14 @@ public class ProductDescription extends AppCompatActivity {
                                 insertOrderAndProducttoCart();
                             }
 
-                        }
+                        /*}
                         else {
                             if((Integer.parseInt(returnQu.getText().toString()) > Integer.valueOf(responseData.getResponseData().getStockQuantity()))){
                                 Toast.makeText(ProductDescription.this, "Please order a smaller quantity, available quantity is only "+responseData.getResponseData().getStockQuantity() , Toast.LENGTH_SHORT).show();
                             }
                             else
                             Toast.makeText(ProductDescription.this, "Out of Stock", Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
 
                     } else {
                     }
@@ -1157,7 +1176,12 @@ public class ProductDescription extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
+            if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
+                jsonObject.put("mappedTo", sharedPreferences.getString("distId", ""));
+            }
+            else {
+                jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
+            }
 
             requestObject.put("requestData",jsonObject);
         }

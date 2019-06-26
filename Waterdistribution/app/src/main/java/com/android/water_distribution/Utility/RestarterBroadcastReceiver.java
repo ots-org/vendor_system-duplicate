@@ -8,10 +8,6 @@ import android.util.Log;
 
 import com.android.water_distribution.service.UserService;
 
-/**
- * Created by Shahbaz on 27-10-2016.
- */
-
 public class RestarterBroadcastReceiver extends WakefulBroadcastReceiver {
 
     @Override
