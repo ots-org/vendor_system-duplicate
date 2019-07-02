@@ -107,14 +107,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 	public String addOrUpdateProduct(AddorUpdateProductBORequest addorUpdateProductBORequest) {
 		String path;
 		try {
-			byte[] data = Base64.decodeBase64(addorUpdateProductBORequest.getRequestData().getProductImage());
-			double random = Math.random() * 49 + 1;
-			path = "c:/productImage/product"+String.valueOf(random)+".bmp";
-			addorUpdateProductBORequest.getRequestData().setProductImage(path);
 			productServiceDAO.addOrUpdateProduct(addorUpdateProductBORequest);
-			try (OutputStream stream = new FileOutputStream(path)) {
-				stream.write(data);
-			}
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
