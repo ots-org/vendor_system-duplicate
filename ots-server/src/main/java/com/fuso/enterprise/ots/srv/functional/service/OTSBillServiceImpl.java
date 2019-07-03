@@ -277,12 +277,12 @@ private OTSProductService otsProductService;
 			if(billReportBasedOnDateBORequest.getRequestData().getRoleId().equals("4")) {
 				billIdResponse=billServiceDAO.getBillReportByDate(billReportBasedOnDateBORequest);
 			}else {
-				BillReportByDateBOResponse billIdResponse1 =new BillReportByDateBOResponse();
+				BillReportByDateBOResponse billIdResponse1 = new BillReportByDateBOResponse();
 				billIdResponse1 = billServiceDAO.getBillReportForDistributorByDate(billReportBasedOnDateBORequest);
-				System.out.println("Dis");
 				for(int i=0;i<billIdResponse1.getBillNumber().size();i++) {
 				String distributorId= userMapDAO.getMappedDistributor(billIdResponse1.getBillNumber().get(i).getCustomerId());
 					if(billReportBasedOnDateBORequest.getRequestData().getUserId().equals(distributorId)) {
+						billIdResponse1.getBillNumber().get(i).setCustomerDetails(userServiceDAO.getUserDetails(Integer.valueOf(billIdResponse1.getBillNumber().get(i).getCustomerId())));
 						billNumber.add(billIdResponse1.getBillNumber().get(i));
 					}
 				}
