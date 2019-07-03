@@ -76,29 +76,33 @@ public class OTSProductServiceImpl implements OTSProductService {
 		List<CustomerProductDetails> customerProductDetails = new ArrayList<CustomerProductDetails>();
 		List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
 		List<GetProductBOStockResponse> productStockvalue = new ArrayList<GetProductBOStockResponse>();
-		try { 
-			customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByCustomerId(productDetailsBORequest.getRequestData().getDistributorId());
-			productStockvalue = productStockDao.getProductStockByUid(productDetailsBORequest.getRequestData().getDistributorId());
-			
-			if(productStockvalue!= null) {
-				for(int i = 0;i<productStockvalue.size(); i++) {
-					 productDetails.add(productServiceDAO.getProductDetils(productStockvalue.get(i).getProductId()));				 
+		if(productDetailsBORequest.getRequestData().getDistributorId().equals("1") && productDetailsBORequest.getRequestData().getSearchKey().equals("All")) {
+			productDetailsBOResponse = productServiceDAO.getProductList(productDetailsBORequest);
+		}else {
+			try { 
+				customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByCustomerId(productDetailsBORequest.getRequestData().getDistributorId());
+				productStockvalue = productStockDao.getProductStockByUid(productDetailsBORequest.getRequestData().getDistributorId());
+				
+				if(productStockvalue!= null) {
+					for(int i = 0;i<productStockvalue.size(); i++) {
+						 productDetails.add(productServiceDAO.getProductDetils(productStockvalue.get(i).getProductId()));				 
+					}
+				}else {
+					return null;
 				}
-			}else {
-				return null;
-			}
-		if(customerProductDetails!=null) {
-			for(int i = 0 ;i<customerProductDetails.size();i++) {
-				for(int j=0;j<productDetails.size();j++) {
-					if(customerProductDetails.get(i).getCustomerProductId()==productDetails.get(j).getProductId()) {
-						productDetails.get(j).setProductPrice(customerProductDetails.get(i).getProductPrice());
+			if(customerProductDetails!=null) {
+				for(int i = 0 ;i<customerProductDetails.size();i++) {
+					for(int j=0;j<productDetails.size();j++) {
+						if(customerProductDetails.get(i).getCustomerProductId()==productDetails.get(j).getProductId()) {
+							productDetails.get(j).setProductPrice(customerProductDetails.get(i).getProductPrice());
+						}
 					}
 				}
 			}
-		}
-		productDetailsBOResponse.setProductDetails(productDetails);
-		} catch (Exception e) {
-			throw new BusinessException(e.getMessage(), e);
+			productDetailsBOResponse.setProductDetails(productDetails);
+			} catch (Exception e) {
+				throw new BusinessException(e.getMessage(), e);
+			}
 		}
 		return productDetailsBOResponse;
 	}
