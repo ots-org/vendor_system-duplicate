@@ -89,16 +89,17 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 			if(addorUpdateProductBORequest.getRequestData().getProductId().isEmpty()||addorUpdateProductBORequest.getRequestData().getProductId().equalsIgnoreCase("string")) { 
 				otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
 				otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
-				otsProduct.setOtsProductPrice(Long.parseLong(addorUpdateProductBORequest.getRequestData().getProductPrice()));
+				otsProduct.setOtsProductPrice(Float.parseFloat(addorUpdateProductBORequest.getRequestData().getProductPrice()));
 				otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
 				otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
 			}else {
 				otsProduct.setOtsProductId(Integer.parseInt(addorUpdateProductBORequest.getRequestData().getProductId()));
 				otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
 				otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
-				otsProduct.setOtsProductPrice(Long.parseLong(addorUpdateProductBORequest.getRequestData().getProductPrice()));
+				otsProduct.setOtsProductPrice(Float.parseFloat(addorUpdateProductBORequest.getRequestData().getProductPrice()));
 				otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
 				otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
+				
 			}
 			try {
 				super.getEntityManager().merge(otsProduct);

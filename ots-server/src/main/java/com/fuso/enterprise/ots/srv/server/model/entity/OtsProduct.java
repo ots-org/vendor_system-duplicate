@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -37,8 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsProduct.findByOtsProductName", query = "SELECT o FROM OtsProduct o WHERE o.otsProductName = :otsProductName"),
     @NamedQuery(name = "OtsProduct.findByOtsProductDescription", query = "SELECT o FROM OtsProduct o WHERE o.otsProductDescription = :otsProductDescription"),
     @NamedQuery(name = "OtsProduct.findByOtsProductStatus", query = "SELECT o FROM OtsProduct o WHERE o.otsProductStatus = :otsProductStatus"),
-    @NamedQuery(name = "OtsProduct.findByOtsProductPrice", query = "SELECT o FROM OtsProduct o WHERE o.otsProductPrice = :otsProductPrice"),
-    @NamedQuery(name = "OtsProduct.findByOtsProductImage", query = "SELECT o FROM OtsProduct o WHERE o.otsProductImage = :otsProductImage")})
+    @NamedQuery(name = "OtsProduct.findByOtsProductTimestamp", query = "SELECT o FROM OtsProduct o WHERE o.otsProductTimestamp = :otsProductTimestamp"),
+    @NamedQuery(name = "OtsProduct.findByOtsProductCreated", query = "SELECT o FROM OtsProduct o WHERE o.otsProductCreated = :otsProductCreated"),
+    @NamedQuery(name = "OtsProduct.findByOtsProductPrice", query = "SELECT o FROM OtsProduct o WHERE o.otsProductPrice = :otsProductPrice")})
 public class OtsProduct implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,8 +54,16 @@ public class OtsProduct implements Serializable {
     private String otsProductDescription;
     @Column(name = "ots_product_status")
     private String otsProductStatus;
+    @Column(name = "ots_product_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsProductTimestamp;
+    @Column(name = "ots_product_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsProductCreated;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ots_product_price")
-    private Long otsProductPrice;
+    private Float otsProductPrice;
+    @Lob
     @Column(name = "ots_product_image")
     private String otsProductImage;
     @OneToMany(mappedBy = "otsProductId")
@@ -112,11 +122,27 @@ public class OtsProduct implements Serializable {
         this.otsProductStatus = otsProductStatus;
     }
 
-    public Long getOtsProductPrice() {
+    public Date getOtsProductTimestamp() {
+        return otsProductTimestamp;
+    }
+
+    public void setOtsProductTimestamp(Date otsProductTimestamp) {
+        this.otsProductTimestamp = otsProductTimestamp;
+    }
+
+    public Date getOtsProductCreated() {
+        return otsProductCreated;
+    }
+
+    public void setOtsProductCreated(Date otsProductCreated) {
+        this.otsProductCreated = otsProductCreated;
+    }
+
+    public Float getOtsProductPrice() {
         return otsProductPrice;
     }
 
-    public void setOtsProductPrice(Long otsProductPrice) {
+    public void setOtsProductPrice(Float otsProductPrice) {
         this.otsProductPrice = otsProductPrice;
     }
 
