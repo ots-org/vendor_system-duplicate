@@ -12,6 +12,7 @@ public class ListOfBillId {
 	String CGST;
 	String outstandingAmount;
 	String customerId;
+	private UserDetails customerDetails;
 	
 	public String getCustomerId() {
 		return customerId;
@@ -73,6 +74,11 @@ public class ListOfBillId {
 	public void setBillStatus(String billStatus) {
 		this.billStatus = billStatus;
 	}
-	
+	public UserDetails getCustomerDetails() {
+		return customerDetails;
+	}
+	public void setCustomerDetails(UserDetails customerDetails) {
+		this.customerDetails = customerDetails;
+	}
 	
 }
