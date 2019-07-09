@@ -438,7 +438,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			for(int i = 0 ; i<orderDetails.size() ; i++) {
 				orderDetails.get(i).setCustomerDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getCustomerId())));
 				orderDetails.get(i).setDistributorDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getDistributorId())));
-				orderDetails.get(i).setEmployeeDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getDistributorId())));
+				orderDetails.get(i).setEmployeeDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getAssignedId())));
 				orderDetails.get(i).setOrderProductDetails(orderProductDao.getProductListByOrderId(orderDetails.get(i).getOrderId()));
 			}
 			getListOfOrderByDateBOResponse.setCompleteOrderDetails(orderDetails);

@@ -328,7 +328,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	public Response rejectUser(RejectUserModel rejectUserModel) {
 		try {
 				Response response = null;
-				response =  responseWrapper.buildResponse(otsUserService.rejectUser(rejectUserModel));
+				response =  responseWrapper.buildResponse(otsUserService.rejectUser(rejectUserModel),"user rejected Successfully");
 				return response;
 			}
 			catch(BusinessException e) {

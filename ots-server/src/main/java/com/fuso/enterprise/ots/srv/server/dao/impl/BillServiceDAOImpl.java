@@ -170,9 +170,11 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 		listOfBillId.setBillAmountReceived(otsBillList.getOtsBillAmountReceived().toString());
 		listOfBillId.setBillGenerated(otsBillList.getOtsBillGenerated());
 		listOfBillId.setBillStatus(otsBillList.getOtsBillStatus());
+		listOfBillId.setBilldate(otsBillList.getOtsBillCreated().toString());
 		listOfBillId.setCGST(otsBillList.getOtsbillSGST()+"");
 		listOfBillId.setiGST(otsBillList.getOtsbillIGST()+"");
 		listOfBillId.setCustomerId(otsBillList.getOtsCustomerId().getOtsUsersId().toString());
+		
 		listOfBillId.setOutstandingAmount(otsBillList.getOtsBillOutstandingAmt()+"");
 		return listOfBillId;
 	}
