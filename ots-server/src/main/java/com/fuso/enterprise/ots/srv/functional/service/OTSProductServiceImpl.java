@@ -49,7 +49,7 @@ import com.fuso.enterprise.ots.srv.server.model.entity.OtsStockDistOb;
 @Service
 @Transactional
 public class OTSProductServiceImpl implements OTSProductService {
-	private ProductStockDao productStockDao;  
+	private ProductStockDao productStockDao;
 	private ProductStockHistoryDao productStockHistoryDao;
 	private ProductServiceDAO productServiceDAO;
 	private StockDistObDAO stockDistObDAO;
@@ -79,13 +79,13 @@ public class OTSProductServiceImpl implements OTSProductService {
 		if(productDetailsBORequest.getRequestData().getDistributorId().equals("1") && productDetailsBORequest.getRequestData().getSearchKey().equals("All")) {
 			productDetailsBOResponse = productServiceDAO.getProductList(productDetailsBORequest);
 		}else {
-			try { 
+			try {
 				customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByCustomerId(productDetailsBORequest.getRequestData().getDistributorId());
 				productStockvalue = productStockDao.getProductStockByUid(productDetailsBORequest.getRequestData().getDistributorId());
-				
+
 				if(productStockvalue!= null) {
 					for(int i = 0;i<productStockvalue.size(); i++) {
-						 productDetails.add(productServiceDAO.getProductDetils(productStockvalue.get(i).getProductId()));				 
+						 productDetails.add(productServiceDAO.getProductDetils(productStockvalue.get(i).getProductId()));
 					}
 				}else {
 					return null;
@@ -106,7 +106,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 		}
 		return productDetailsBOResponse;
 	}
-	
+
 	@Override
 	public String addOrUpdateProduct(AddorUpdateProductBORequest addorUpdateProductBORequest) {
 		String path;
@@ -117,55 +117,56 @@ public class OTSProductServiceImpl implements OTSProductService {
 		}
 		return "Added / updated";
 	}
-	
-	
+
+
 	@Override
 	public String addOrUpdateProductStock(AddProductStockBORequest addProductBORequest) {
 		String strResponse = "";
 		try {
 			strResponse = productStockDao.addProductStock(addProductBORequest);
-			productStockHistoryDao.addProductStockHistory(addProductBORequest);	
+			productStockHistoryDao.addProductStockHistory(addProductBORequest);
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
-		}	
+		}
 		return strResponse;
 	}
-	
+
 	@Override
 	public GetProductStockListBOResponse getProductStockList(GetProductStockListRequest getProductStockListRequest) {
 		GetProductStockListBOResponse getProductStockListBOResponse =new GetProductStockListBOResponse();
 		List<ProductStockDetail>  ProductStockDetailList = new ArrayList<ProductStockDetail>();
 		try {
 			/**
-			 * looping based on product list items 
+			 * looping based on product list items
 			 */
 			ProductDetailsBORequest productDetailsBORequest = new ProductDetailsBORequest();
 			GetProductDetails getProductDetails = new GetProductDetails();
 			getProductDetails.setSearchKey("All");
 			getProductDetails.setSearchvalue("");
+			getProductDetails.setDistributorId(getProductStockListRequest.getRequestData().getUserId());
 			productDetailsBORequest.setRequestData(getProductDetails);
 			List<ProductDetails> otsProductList = getProductList(productDetailsBORequest).getProductDetails();
-			
+
 			for (ProductDetails productDetailItem: otsProductList) {
 				ProductStockDetail ProductStockDetail = new ProductStockDetail();
 				ProductStockDetail.setProductName(productDetailItem.getProductName());
 				ProductStockDetail.setProductId(Long.parseLong(productDetailItem.getProductId()));
-				
+
 				/*
-				 * fetching opening balance 
+				 * fetching opening balance
 				 */
 				getProductStockListRequest.getRequestData().setProductId(productDetailItem.getProductId());
 				List<OtsStockDistOb> otsStockDistObList  = stockDistObDAO.fetchOpeningBalance(getProductStockListRequest);
-				if(otsStockDistObList.size()>0) 
+				if(otsStockDistObList.size()>0)
 					ProductStockDetail.setOtsProductOpenBalance(Long.parseLong(otsStockDistObList.get(0).getOtsStockDistOpeningBalance()));
 				else
 					ProductStockDetail.setOtsProductOpenBalance(0);
-				
+
 				/*
-				 * fetching stock added 
+				 * fetching stock added
 				 */
 				ProductStockDetail.setOtsProductStockAddition(productStockHistoryDao.getOtsProductStockAddition(Integer.parseInt(productDetailItem.getProductId()),getProductStockListRequest));
-				
+
 				/*
 				 * fetch sold quantity
 				 */
@@ -174,17 +175,17 @@ public class OTSProductServiceImpl implements OTSProductService {
 					ProductStockDetail.setOtsProductOrderDelivered(orderProductDAO.getListOfDeliverdQuantityOfDay(orderList,Integer.parseInt(productDetailItem.getProductId())));
 				else
 					ProductStockDetail.setOtsProductOrderDelivered(0);
-				
+
 				ProductStockDetailList.add(ProductStockDetail);
 			}
-			
+
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		getProductStockListBOResponse.setProductStockDetail(ProductStockDetailList);
 		return getProductStockListBOResponse;
 	}
-	
+
 	@Override
 	public GetProductBOStockResponse getProductStockByUidAndPid(GetProductStockRequest getProductStockRequest) {
 		try {
@@ -206,7 +207,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 			int k = 0;
 			int productListSize = 0;
 			for(int i=0 ; i< getProductDetailsForBillRequst.getRequest().getOrderId().size() ; i++) {
-				
+
 				List<OrderProductDetails> ProductDetails = orderProductDAO.getProductListByOrderId(getProductDetailsForBillRequst.getRequest().getOrderId().get(i));
 				productListSize = lastIndex + ProductDetails.size();
 				for(int j=lastIndex ; j < productListSize; j++) {
@@ -217,41 +218,41 @@ public class OTSProductServiceImpl implements OTSProductService {
 				}
 			}
 			ProductDetailsList productDetailsList;
-			
+
 			for(int i=0;i<totalProductDetails.size();i++) {
 				if(totalProductDetails.get(i).getStatus()!="YES") {
 				OrderDetails orderDetails = new OrderDetails();
 				int totalProductPrice = 0;
 				Integer TotalproductQty = 0;
-				
+
 				productDetailsList = new ProductDetailsList();
-				
+
 				productDetailsList.setProductId(totalProductDetails.get(i).getOtsProductId().toString());
-				
+
 				productDetailsList.setProductName(totalProductDetails.get(i).getProductName());
-				
+
 					for(int j = 0; j<totalProductDetails.size();j++) {
-						
+
 						if(totalProductDetails.get(i).getOtsProductId().equals(totalProductDetails.get(j).getOtsProductId())) {
-							
+
 							if(totalProductDetails.get(j).getStatus()!="YES") {
-								
+
 								totalProductDetails.get(j).setStatus("YES");
-								
+
 								productDetailsList.setProductPrice(totalProductDetails.get(i).getOtsOrderProductCost());
-								
-								TotalproductQty = TotalproductQty + (Integer.valueOf(totalProductDetails.get(j).getOtsDeliveredQty())) ; 
-								
+
+								TotalproductQty = TotalproductQty + (Integer.valueOf(totalProductDetails.get(j).getOtsDeliveredQty())) ;
+
 								System.out.print("i"+i+"j"+j+"TotalproductQty"+TotalproductQty);
-								
+
 								productDetailsList.setProductqty(String.valueOf(TotalproductQty));
-								
+
 								totalProductPrice =(TotalproductQty * Integer.valueOf(totalProductDetails.get(j).getOtsOrderProductCost()));
-								
-								productDetailsList.setTotalProductPrice(String.valueOf(totalProductPrice));	
-								
+
+								productDetailsList.setTotalProductPrice(String.valueOf(totalProductPrice));
+
 								ProductResponse.add(k,productDetailsList);
-								
+
 							}
 						}
 					}
@@ -260,7 +261,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 			Set<ProductDetailsList> set = new HashSet<>(ProductResponse);
 			ProductResponse.clear();
 			ProductResponse.addAll(set);
-			
+
 			OrderDetails orderDetails = orderServiceDAO.GetOrderDetailsByOrderId(getProductDetailsForBillRequst.getRequest().getOrderId().get(0));
 			billProductDetailsResponse.setCustomerDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.getCustomerId())));
 			billProductDetailsResponse.setDistributorDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.getDistributorId())));
@@ -270,13 +271,13 @@ public class OTSProductServiceImpl implements OTSProductService {
 			throw new BusinessException(e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	public String UpdateProductStatus(UpdateProductStatusRequest updateProductStatusRequestModel) {
 		String path;
 		try {
 			productServiceDAO.UpdateProductStatus(updateProductStatusRequestModel);
-			
+
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
