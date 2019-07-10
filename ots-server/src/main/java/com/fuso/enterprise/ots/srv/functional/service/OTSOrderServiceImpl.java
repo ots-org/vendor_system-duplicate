@@ -158,7 +158,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		orderDetailsAndProductDetails.setDelivaryDate(orderDetails.getOrderDeliveryDate());
 		orderDetailsAndProductDetails.setOrderDate(orderDetails.getOrderDate());
 		orderDetailsAndProductDetails.setDelivaredDate(orderDetails.getOrderDeliverdDate());
-		orderDetailsAndProductDetails.setCustomerDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId()))); 
+		orderDetailsAndProductDetails.setCustomerDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId())));
 		return orderDetailsAndProductDetails;
 	}
 
@@ -438,7 +438,9 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			for(int i = 0 ; i<orderDetails.size() ; i++) {
 				orderDetails.get(i).setCustomerDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getCustomerId())));
 				orderDetails.get(i).setDistributorDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getDistributorId())));
-				orderDetails.get(i).setEmployeeDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getAssignedId())));
+				if(orderDetails.get(i).getAssignedId()!=null) {
+					orderDetails.get(i).setEmployeeDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getAssignedId())));
+				}
 				orderDetails.get(i).setOrderProductDetails(orderProductDao.getProductListByOrderId(orderDetails.get(i).getOrderId()));
 			}
 			getListOfOrderByDateBOResponse.setCompleteOrderDetails(orderDetails);
@@ -567,8 +569,8 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	@Override
 	public GetSchedulerResponse getScheduler(GetSchedulerRequest getSchedulerRequest) {
 	try {
-		GetSchedulerResponse getSchedulerResponse = new GetSchedulerResponse();		
-		
+		GetSchedulerResponse getSchedulerResponse = new GetSchedulerResponse();
+
 		List<SchedulerResponceOrderModel> schedulerResponceOrderModel = new ArrayList<SchedulerResponceOrderModel>();
 		schedulerResponceOrderModel = requestOrderServiceDao.getScheduler(getSchedulerRequest);
 		for(int i=0;i<schedulerResponceOrderModel.size();i++) {
@@ -582,7 +584,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		} catch (Throwable e) {
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SCHEDULER);
 		}
-			
+
 	}
 
 
@@ -590,10 +592,10 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	public String runScheduler12AMTO1AM() {
 		List<OtsScheduler> schedulerList = schedulerDao.runScheduler12AMTO1AM();
 		List<OtsRequestOrder> requestOrder = requestOrderServiceDao.runSchedulerEveryDay12AMTo1AM(schedulerList);
- 		
+
  		for(int i = 0; i<requestOrder.size() ; i++) {
  			AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest =  new AddOrUpdateOrderProductBOrequest();
- 			
+
  			OrderDetailsRequest orderDetailsRequest = new OrderDetailsRequest();
  			orderDetailsRequest.setDistributorId(requestOrder.get(i).getOtsDistributorId().toString());
  			orderDetailsRequest.setCustomerId(requestOrder.get(i).getOtsCustomerId().toString());
@@ -603,24 +605,24 @@ public class OTSOrderServiceImpl implements OTSOrderService {
  			List<OrderedProductDetails> productList = new ArrayList<OrderedProductDetails>();
  			if(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsCustomerId().toString(),requestOrder.get(i).getOtsProductId().toString())==null) {
  				Float cost = Float.valueOf(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().toString()).getProductPrice())*requestOrder.get(i).getOtsRequestQty();
- 				orderDetailsRequest.setOrderCost(cost.toString());			
+ 				orderDetailsRequest.setOrderCost(cost.toString());
  				productList.get(0).setProductCost(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().toString()).getProductPrice());
  			}else {
  				Float cost = Float.valueOf(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsCustomerId().toString(),requestOrder.get(i).getOtsProductId().toString()).getProductPrice())*requestOrder.get(i).getOtsRequestQty();
  				orderDetailsRequest.setOrderCost(cost.toString());
  				productList.get(0).setProductCost(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsCustomerId().toString(),requestOrder.get(i).getOtsProductId().toString()).getProductPrice());
  			}
- 			
+
  			productList.get(0).setOrderedQty(requestOrder.get(i).getOtsRequestQty().toString());
  			productList.get(0).setDeliveredQty(requestOrder.get(i).getOtsRequestQty().toString());
- 			
- 			
+
+
  			addOrUpdateOrderProductBOrequest.setRequest(orderDetailsRequest);
  			insertOrderAndProduct(addOrUpdateOrderProductBOrequest);
- 			
- 			
+
+
  		}
- 		
+
 		return "Done";
 	}
 
@@ -636,7 +638,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			e.printStackTrace();
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
 		}
-		
+
 	}
 
 
