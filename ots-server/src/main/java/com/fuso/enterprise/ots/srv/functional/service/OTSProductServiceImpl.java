@@ -76,7 +76,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 		List<CustomerProductDetails> customerProductDetails = new ArrayList<CustomerProductDetails>();
 		List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
 		List<GetProductBOStockResponse> productStockvalue = new ArrayList<GetProductBOStockResponse>();
-		if(productDetailsBORequest.getRequestData().getDistributorId().equals("1") && productDetailsBORequest.getRequestData().getSearchKey().equals("All")) {
+		if(productDetailsBORequest.getRequestData().getSearchKey().equals("All")) {
 			productDetailsBOResponse = productServiceDAO.getProductList(productDetailsBORequest);
 		}else {
 			try {
