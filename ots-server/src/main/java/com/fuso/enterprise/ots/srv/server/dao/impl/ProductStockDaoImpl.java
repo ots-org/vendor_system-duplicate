@@ -116,9 +116,7 @@ public class ProductStockDaoImpl extends AbstractIptDao<OtsProductStock, String>
 			otsProductStock = super.getResultByNamedQuery("OtsProductStock.getQuantityById", queryParameter);
 			getProductBOStockResponse = convertProductStockEntityToModel(otsProductStock);
 		} catch (BusinessException e) {
-			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_GETPRODUCTSTOCK);
-	    } catch (Throwable e) {
-	    	throw new BusinessException(e, ErrorEnumeration.ERROR_IN_GETPRODUCTSTOCK);
+			return null;
 	    }
     	return getProductBOStockResponse;
 	}

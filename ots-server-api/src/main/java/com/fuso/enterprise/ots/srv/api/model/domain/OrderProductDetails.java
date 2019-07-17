@@ -22,6 +22,8 @@ public class OrderProductDetails {
     private String emptyCanRecived;
     
     private String status;
+    
+    private String Stock;
 
 	public String getEmptyCanRecived() {
 		return emptyCanRecived;
@@ -109,5 +111,13 @@ public class OrderProductDetails {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getStock() {
+		return Stock;
+	}
+
+	public void setStock(String stock) {
+		Stock = stock;
 	}
 }
