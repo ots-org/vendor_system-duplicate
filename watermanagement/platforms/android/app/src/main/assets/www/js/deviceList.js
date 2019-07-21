@@ -35,3 +35,7 @@ function loadDeviceListData(){// pass your data in method
 			}
 		 });
    }
+
+   function enableWifi(){
+        globWifiData = $('#wifiSwitch').val();
+   }

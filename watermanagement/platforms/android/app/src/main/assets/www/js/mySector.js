@@ -38,3 +38,11 @@ function loadSectorDetails(deviceId,sectorId,mobileNumber){
     screenTransition('setmySector.html');
     loadLanguagePage(globLanguage);
 }
+
+function setWifi(){
+    if(globWifiData == 'on'){
+        $('#wifiSwitch').val('on').slider("refresh");
+    }else{
+        $('#wifiSwitch').val('off').slider("refresh");
+    }
+}

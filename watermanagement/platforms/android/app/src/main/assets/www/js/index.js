@@ -46,15 +46,16 @@ var app = {
 app.initialize();
 
 var userDeviceList='';
- var GlobSectorId='';
- var GlobDeviceId='';
- var GlobMobileNum='';
- var GlobLowerThresCmd='';
- var GlobUpperThresCmd='';
- var GlobMannualCmdOn='';
- var GlobMannualCmdOff='';
- var GlobIsAutometic='';
- var globLanguage='';
+var GlobSectorId='';
+var GlobDeviceId='';
+var GlobMobileNum='';
+var GlobLowerThresCmd='';
+var GlobUpperThresCmd='';
+var GlobMannualCmdOn='';
+var GlobMannualCmdOff='';
+var GlobIsAutometic='';
+var globLanguage='';
+var globWifiData='';
 
  function screenTransition(landingPage) {
    $.mobile.pageContainer.pagecontainer("change", landingPage, {

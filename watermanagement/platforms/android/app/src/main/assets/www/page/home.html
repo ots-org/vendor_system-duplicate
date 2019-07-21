@@ -26,6 +26,23 @@
 						</a>
 					</div>
 				</div>
+				<br>
+				<div  id="wifiRouter">
+					<ul data-role="listview" id="wifiRouterList" data-inset="true">
+						<li>
+							<div>
+								<div class="preferencesText" >Wifi</div>
+								<div class="floatRight">
+									<select name="wifiSwitch" id="wifiSwitch" onchange="enableWifi()" data-role="slider" data-mini="true">
+										<option value="off">Off</option>
+										<option value="on">On</option>
+									</select>
+								</div>
+							</div>
+
+						</li>
+					</ul>
+				</div>
 					<!--<div class="listviewTitle primaryColor">My Profile</div>
 					<ul data-role="listview" id="profileList" data-inset="true">
 						<li id="communicationProfileId" onclick="screenTransition('docList.html')" class="listviewLabel">

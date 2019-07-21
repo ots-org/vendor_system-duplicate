@@ -1,5 +1,5 @@
 function saveAutoSwitch(){
-    //alert(deviceId,sectorId)
+   // alert(deviceId,sectorId)
     var autoSwitch = $('#autoSwitch').val();
     if(autoSwitch == "on") {
         /**
@@ -20,24 +20,37 @@ function saveAutoSwitch(){
                 "DeviceId":GlobDeviceId
             }
           });
-        $.ajax({
-                type: "POST",
-                url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ExecuteCommand",
-                data: data,// now data come in this 
-                contentType: "application/json; charset=utf-8",
-                crossDomain: true,
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    alert(data)
-                },
+        var urlCmdOn = 'http://192.168.0.18'+GlobMannualCmdOff;
+        if(globWifiData){
+            $.ajax({
+                      type:'GET',
+                      url:urlCmdOn,
+                      data:"",
+                      success: function(data){
+                        alert('successful');
+                      }
+                   }
+                );
+        }else{
+            $.ajax({
+                    type: "POST",
+                    url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ExecuteCommand",
+                    data: data,// now data come in this
+                    contentType: "application/json; charset=utf-8",
+                    crossDomain: true,
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        alert(data)
+                    },
 
-                error: function (jqXHR, status) {
-                    // error handler
-                    console.log(jqXHR);
-                    alert('fail' + status.code);
-                }
-            });
-         
+                    error: function (jqXHR, status) {
+                        // error handler
+                        console.log(jqXHR);
+                        alert('fail' + status.code);
+                    }
+                });
+        }
+
         $('#motorSwitch').slider({ disabled: true });
     }else{
         /**
@@ -51,30 +64,44 @@ function saveAutoSwitch(){
             },
                 "RequestData": {
                 "MobileNumber": GlobMobileNum,
-                "Command": null,
+                "Command": GlobMannualCmdOn,
                 "IsAutomatic":false,
                 "UserID": 1,
                 "SectorId":GlobSectorId,
                 "DeviceId":GlobDeviceId
             }
           });
-        $.ajax({
-                type: "POST",
-                url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ExecuteCommand",
-                data: data,// now data come in this 
-                contentType: "application/json; charset=utf-8",
-                crossDomain: true,
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    alert(success)
-                },
 
-                error: function (jqXHR, status) {
-                    // error handler
-                    console.log(jqXHR);
-                    alert('fail' + status.code);
+        var urlCmdOn = 'http://192.168.0.18'+GlobMannualCmdOn;
+        if(globWifiData){
+         $.ajax({
+                   type:'GET',
+                   url:urlCmdOn,
+                   data:"",
+                   success: function(data){
+                     alert('successful');
+                   }
                 }
-            });
+             );
+        }else{
+            $.ajax({
+                    type: "POST",
+                    url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ExecuteCommand",
+                    data: data,// now data come in this
+                    contentType: "application/json; charset=utf-8",
+                    crossDomain: true,
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        alert(success)
+                    },
+
+                    error: function (jqXHR, status) {
+                        // error handler
+                        console.log(jqXHR);
+                        alert('fail' + status.code);
+                    }
+                });
+        }
         $('#motorSwitch').slider({ disabled: false });
     }
 }
@@ -100,23 +127,37 @@ function switchMotorOn(){
                 "DeviceId":GlobDeviceId
             }
           });
-        $.ajax({
-                type: "POST",
-                url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ExecuteCommand",
-                data: data,// now data come in this 
-                contentType: "application/json; charset=utf-8",
-                crossDomain: true,
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                    //alert(success)
-                },
+      var urlCmdOn = 'http://192.168.0.18'+GlobMannualCmdOn;
+      if(globWifiData){
+            $.ajax({
+                  type:'GET',
+                  url:urlCmdOn,
+                  data:"",
+                  success: function(data){
+                    alert('successful');
+                  }
+               }
+            );
+      }else{
+            $.ajax({
+                    type: "POST",
+                    url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ExecuteCommand",
+                    data: data,// now data come in this
+                    contentType: "application/json; charset=utf-8",
+                    crossDomain: true,
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                        //alert(success)
+                    },
 
-                error: function (jqXHR, status) {
-                    // error handler
-                    console.log(jqXHR);
-                    alert('fail' + status.code);
+                    error: function (jqXHR, status) {
+                        // error handler
+                        console.log(jqXHR);
+                        alert('fail' + status.code);
+                    }
                 }
-            });
+            );
+      }
     }else{
          /**
          * call API for switch off the motor 
@@ -136,23 +177,36 @@ function switchMotorOn(){
                 "DeviceId":GlobDeviceId
             }
           });
-        $.ajax({
-                type: "POST",
-                url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ExecuteCommand",
-                data: data,// now data come in this 
-                contentType: "application/json; charset=utf-8",
-                crossDomain: true,
-                dataType: "json",
-                success: function (data, status, jqXHR) {
-                   // alert(success)
-                },
+        var urlCmdOn = 'http://192.168.0.18'+GlobMannualCmdOff;
+        if(globWifiData){
+            $.ajax({
+                  type:'GET',
+                  url:urlCmdOn,
+                  data:"",
+                  success: function(data){
+                    alert('successful');
+                  }
+               }
+            );
+        }else{
+            $.ajax({
+                    type: "POST",
+                    url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ExecuteCommand",
+                    data: data,// now data come in this
+                    contentType: "application/json; charset=utf-8",
+                    crossDomain: true,
+                    dataType: "json",
+                    success: function (data, status, jqXHR) {
+                       // alert(success)
+                    },
 
-                error: function (jqXHR, status) {
-                    // error handler
-                    console.log(jqXHR);
-                    alert('fail' + status.code);
-                }
-            });
+                    error: function (jqXHR, status) {
+                        // error handler
+                        console.log(jqXHR);
+                        alert('fail' + status.code);
+                    }
+                });
+        }
     }
 }
 
