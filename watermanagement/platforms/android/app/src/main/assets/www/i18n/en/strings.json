@@ -1,0 +1,10 @@
+{
+    "languageSpecifications": [
+        {
+            "username": "User Name",
+            "password": "Password",
+            "headingtext": "Login",
+            "submit": "Go"
+        }
+    ]
+}

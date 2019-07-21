@@ -1,0 +1,22 @@
+<div data-role="page" id="providerListPage" data-dom-cache="true">
+	<div data-role="header" id="providerListHeader" data-position="fixed" class="primaryGradient">
+		<a class="headerButton backButtonArrow" data-shadow="false" href="#" data-role="button" data-rel="back">
+			<img class="floatLeft" src="../images/backArrow.png" class="backArrowImageDimensions"/>
+		</a>
+		<h3 class="headerTitle">User Details</h3>
+		<a class="headerButtonsContainer" href="#" data-role="button" id="addProvider">
+			<img class="headerSquareButton squareMenuIcon" src="../images/addIcon.png" onclick="screenTransition('addSector.html')" />
+		</a>
+	</div><!-- Close providerListHeader -->
+	<div data-role="content" id="providerListContent">
+		<ul data-role="listview" id="sectorListContentList" data-inset="true">
+				<li id="communicationProfileId"  class="listviewLabel">
+					<li>	<div style="float: left;" >FirstName</div> <div style="float:right;"id="FirstName"></div></li>
+					<li>	<div style="float: left;" >LastName</div> <div style="float:right;"id="LastName"></div></li>
+					<li>	<div style="float: left;" >PhoneNumber</div> <div style="float:right;"id="PhoneNumber"></div></li>
+					<li>	<div style="float: left;" >Email</div> <div style="float:right;"id="Email"></div></li>
+					<li>	<div style="float: left;" >Address</div> <div style="float:right;"id="Address"></div>
+				</li>
+		</ul>
+	</div><!-- Close providerListContent -->
+</div><!-- Close providerListPage -->

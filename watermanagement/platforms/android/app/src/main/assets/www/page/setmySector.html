@@ -1,0 +1,66 @@
+<div data-role="page" id="updateProviderDetailPage" data-dom-cache="true">
+	<div data-role="header" id="updateProviderDetailHeader" data-position="fixed" class="primaryGradient">
+		<a class="headerButton backButtonArrow" data-shadow="false" href="#" data-role="button" data-rel="back">
+			<img class="floatLeft" src="../images/backArrow.png" class="backArrowImageDimensions"/>
+		</a>
+		<h3 class="headerTitle languagespecificHTML" data-text="sectorDetail">Sector Information</h3>
+	</div><!-- Close updateProviderDetailHeader -->
+
+	<div data-role="content" id="providerListContent">
+		<ul data-role="listview" id="providerListContentList" data-inset="true">
+			<li data-role="list-divider" class="slideMenuMainDivider orderRefillConfirmHeaders" role="heading" id="SectorNameId"></li>
+			<li>
+				<div>
+					<div class="preferencesText languagespecificHTML" data-text="automatic">Automatic</div>
+					<div class="floatRight">
+						<select name="autoSwitch" id="autoSwitch"   onchange="saveAutoSwitch()" data-role="slider" data-mini="true">
+							<option value="off">Off</option>
+							<option value="on">On</option>
+						</select>
+					</div>
+				</div>
+
+			</li>
+			<li>
+				<div>
+					<div class="preferencesText languagespecificHTML" data-text="motor">Water Motor</div>
+					<div class="floatRight">
+						<select name="motorSwitch" id="motorSwitch"  onchange="switchMotorOn()" data-role="slider" data-mini="true">
+							<option value="off">Off</option>
+							<option value="on">On</option>
+						</select>
+					</div>
+				</div>
+
+			</li>
+
+			<li>
+				<div class="floatLeft paymentInfoList ">
+					<div style="float: left;" class="languagespecificHTML" data-text="humidity">Current Humidity</div> <div style="float:right;" id="CurrentHumidity"></div>
+				</div><br>
+			</li>
+			<li>
+				<div class="floatLeft paymentInfoList">
+					<div style="float: left;" class="languagespecificHTML" data-text="temperature">Current Temperature</div> <div style="float:right;" id="CurrentTemp"></div>
+				</div><br>
+			</li>
+			<li>
+				<div class="floatLeft paymentInfoList">
+					<div style="float: left;" class="languagespecificHTML" data-text="moisture">Current Moistures</div> <div style="float:right;" id="CurrentMoisture"></div>
+				</div><br>
+			</li>
+			<li>
+				<div class="floatLeft paymentInfoList">
+					<div style="float: left;" class="languagespecificHTML" data-text="threshold">Current Threshhold</div> <div style="float:right;" id="CurrentThresh"></div>
+				</div><br>
+			</li>
+			<li id="threshHoldItem">
+				<!--<a href="#" onclick="screenTransition('threshholdLimit.html')">
+					<div class="floatLeft paymentInfoList">
+							<div class="floatLeft maxWidth paymentInfoList" id="threshHoldId"></div>
+					</div><br>
+				</a>-->
+			</li>
+		</ul>
+	</div>
+</div><!-- Close updateProviderDetailPage -->

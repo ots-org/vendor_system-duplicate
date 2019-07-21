@@ -1,0 +1,17 @@
+<div data-role="page" id="addProviderPage" >
+	<div data-role="header" id="addProviderHeader" data-position="fixed" class="primaryGradient">
+		<a class="headerButton backButtonArrow" data-shadow="false" href="#" data-role="button" data-rel="back">
+			<img class="floatLeft" src="../images/backArrow.png" class="backArrowImageDimensions"/>
+		</a>
+		<h3 class="headerTitle">Threshhold Limit</h3>
+		<a class="actionHeaderButton primaryGradient" href="#" data-role="button" onclick="screenTransition('providerList.html')">Save</a>
+	</div><!-- Close contactDetailsHeader -->
+	<div data-role="content" id="addProviderContent">
+		<div class="fieldLabel">Lower Threshold <span class="compulsoryStar">*</span></div>
+		<input maxlength="5" type="text" class="userInput" name="lowerThresh" id="lowerThreshId" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><br/>
+
+		<div class="fieldLabel">Maximum Threshold<span class="compulsoryStar">*</span></div>
+		<input maxlength="5" type="text" class="userInput" name="upperThresh" id="upperThreshId" maxlength="50" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><br/>
+	
+	</div><!-- Close addProviderContent -->
+</div><!-- Close addProviderPage -->

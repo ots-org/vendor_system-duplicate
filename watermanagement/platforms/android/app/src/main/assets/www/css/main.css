@@ -1,0 +1,1794 @@
+/* Reset CSS */
+a, abbr, address, article, aside, audio, b, blockquote, body, canvas, caption, cite, code, dd, del, details, dfn, dialog, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, p, pre, q, samp, section, small, span, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, ul, var, video {
+	margin: 0;
+	padding: 0;
+}
+
+/* Worklight container div */
+/* body {
+	height: 460px;
+	margin: 0 auto;
+	width: 320px;
+} */
+
+*{
+	text-shadow: none !important;
+}
+
+@font-face {
+    font-family: OpenSans-Light;
+    src: url('OpenSans-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: OpenSans-Normal;
+    src: url('OpenSans-Normal.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: OpenSans-Bold;
+    src: url('OpenSans-Bold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+body, input, select, textarea, button, .ui-btn {
+    font-family: OpenSans-Normal, Helvetica, Arial, sans serif !important;
+}
+
+.bodyClass {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	font-family: OpenSans-Normal, Helvetica, Arial, sans serif;
+	font-size: 100%;
+	color: #000;
+	background-color: #ffffff !important;
+}
+
+.fieldLabel{
+    display: block;
+    padding: 0 0 10px 0;
+    font-size: .8em !important;
+}
+
+.fieldLabel.noPadding {
+	padding: 0 !important;
+}
+
+.topFieldPadding{
+	padding-top: 15px !important;
+}
+
+.listviewLabel{
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    font-size: .85em !important;
+}
+
+.listviewTitle{
+    font-weight: bold;
+    font-size: .8em;
+}
+
+div#loginContent{
+	width: 100%;
+	padding: 0 !important;
+	margin-top: -3px;
+}
+
+div#takeMyMedsDetailContent div#grayTopTakeMedInfo, div#priceAndSaveSearchListContent div#priceAndSavePinkDisclaimer{
+	border-bottom: 2px ridge #c0c0c0;
+}
+
+.grayBackground, div#memberLoginPage, div#grayTopTakeMedInfo, div#grayTopPriceAndSave{
+	background: #E9EEF1 !important;	
+}
+
+#takeMedsMissedWarning{
+	margin-top: 20px;	
+}
+
+a#takenCardButton, a#snoozeCardButton, a#skippedCardButton, a#orderRefillButton{
+width: 85% !important;
+}
+
+#loginFields{
+	padding: 1.1em !important;	
+}
+
+
+ul.registrationBulletList {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+ul.registrationBulletList li {
+	background-image: url(../images/checkmarkBullet.png);
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	padding-left: 30px;
+	padding-bottom: 15px;
+	font-size: .9em;
+}
+
+.backButtonArrow img{
+	height: auto;
+	width: 20px;
+}
+
+.removeActionBtn {
+	font-family: OpenSans-Normal, Helvetica, Arial, sans serif;
+	font-weight: normal !important;
+	font-size: .85em !important;
+	color: #ffffff !important;
+	background: #CC0000 !important;
+	line-height: 20px;
+	letter-spacing: 1px;
+	border-radius: 0 !important;
+	text-shadow: none !important;
+}
+
+.greenActionBtn {
+	font-family: OpenSans-Normal, Helvetica, Arial, sans serif;
+	font-weight: normal !important;
+	font-size: .85em !important;
+	color: #ffffff !important;
+	background: green !important;
+	line-height: 20px;
+	letter-spacing: 1px;
+	border-radius: 0 !important;
+	text-shadow: none !important;
+}
+
+
+.pageHeader {
+	border-bottom: 0px;
+	background-repeat: no-repeat !important;
+	top: -4px !important;
+	font-family: arial, Times, sans-serif;
+	font-size: 1em;
+	letter-spacing: 1px;
+	font-weight: normal !important;
+	-webkit-font-smoothing: antialiased; 
+	font-smoothing: antialiased;
+	width:100%;
+	color:#fff !important;
+	text-shadow: none !important;
+}
+
+.backButtonArrow {
+	text-align: left !important;
+	background: transparent !important;
+	padding-top: 2px !important;
+	border: none !important;
+	height: 60% !important;
+}
+
+.whiteSpace {
+	white-space: normal !important;
+}
+
+.headerSquareButton {
+	width: 30px !important;
+	height: 26px !important;
+	background: transparent !important;
+	border: 1px solid #ffffff !important;
+	padding: 1px !important;
+	margin: 5px 0 0 0 !important;
+	border-radius: 6px !important;
+}
+
+.headerButtonsContainer {
+	background: transparent !important;
+	border: 0px !important;
+	padding: 1px !important;
+}
+
+.headerButton {
+	height: 26px !important;
+	background: transparent !important;
+	padding: 1px !important;
+	margin: 5px 0 0 0 !important;
+}
+
+
+.signoutIcon{	
+	height: 25px; !important
+	width: 23px !important;
+}
+
+.menuIcon{
+	height: 25px !important;
+	width: 23px !important;
+	padding-top: 1px;
+}
+
+.squareMenuIcon{
+	height: 25px !important;
+	width: 25px !important;
+}
+
+.floatLeft {
+	float: left !important;
+}
+
+.floatRight {
+	float: right !important;
+}
+
+.registrationList {
+	margin-left: 10% !important;
+}
+
+.userInput {
+	width: 90% !important;
+	height: 25px !important;
+	font-size: .9em !important;
+	border: none !important;
+	padding: 0 !important;
+	margin-left: 10px !important;
+}
+
+.userInputShort {
+	width: 25% !important;
+	height: 25px !important;
+	font-size: .9em !important;
+	border: none !important;
+	padding: 0 !important;
+	margin-left: 8px !important;
+}
+
+/* Fields with Search icon */
+input#pharmacyLocation {
+	margin-left: 25px !important;
+}
+
+img.pharmacyDistanceIcon {
+	height: 15px;
+	width: auto;
+	margin-top: 5px;
+}
+
+.compulsoryStar {
+	color: #F00000 !important;
+	vertical-align: super;
+	font-size: 75% !important;
+}
+
+.termsAndConditionsCheckBoxText {
+	font-weight: normal !important;
+	background-color: #f9f9f9 !important;
+	border-color: #f9f9f9 !important;
+	margin-top: 0% !important;
+	margin-left: 12% !important;
+}
+
+button.inputLinks {
+	height: 26px;
+}
+
+.errorField {
+	background: #fff !important;
+	border: 2px solid red !important;
+}
+
+.backArrowImageDimensions {
+	height: 16px !important;
+	width: 19px !important;;
+}
+
+.submitBtnDiv {
+	text-align: center;
+	padding: 5px;
+	margin-top: 5px;
+}
+
+.lockIcon {
+	background-image: url(../images/lock.png);
+	height: 24px;
+	width: 24px;
+	z-index: 5;
+	float: left;
+	margin-top: -3px;
+}
+
+.loginLink {
+	display: inline-block;
+	width: 47%;
+	line-height: 40px;
+	font-size: 0.8em !important;
+	font-weight: normal !important;
+	border: none !important;
+	background: transparent !important;
+	-webkit-box-shadow: none !important;
+}
+
+.alignCenter {
+	text-align: center !important;
+}
+
+.submitBtnDiv {
+	text-align: center;
+	padding: 5px;
+	margin-top: 5px;
+}
+
+.copyrightText {
+    text-align: center;
+    font-size: 0.688em;
+	font-weight: normal;
+	color: #807E82;
+    position: absolute;
+    bottom: 0px;
+    width:100%;
+    text-shadow: none;
+}
+
+.notAMemberLabel {
+	color: #aaa4a4 !important;
+	width: 47% !important;
+	float: left !important;
+}
+
+.registerNowLabel {
+	margin-left: 50% !important;
+	width: 45% !important;
+}
+
+.smallestFont{
+	font-size:0.7em !important;
+}
+
+.smallFont {
+	font-size:0.75em !important;
+	font-weight: normal;
+	color:black !important;
+}
+
+.mediumFont {
+	font-size:0.875em !important;
+	font-weight: normal;
+	color:black !important;
+}
+
+.largeFont {
+	font-size: 1em !important;
+	font-weight: bold !important;
+	color:black !important;
+}
+
+.alignRight {
+	text-align: right !important;
+}
+
+.alignCenter {
+	text-align: center !important;
+}
+
+.alignLeft {
+	text-align: left !important;
+}
+
+.alignJustify {
+	text-align: justify !important;
+}
+
+.boldText {
+	font-weight: bold !important;
+}
+
+.camelCase{
+	text-transform: capitalize;
+}
+
+.bottomField {
+	margin-top: 48% !important;
+}
+
+.infoBtnPhone{
+	margin-top: -12% !important;
+	margin-left: 44% !important;
+}
+
+.infoBtnEmail{
+	margin-top: -12% !important;
+	margin-left: 30% !important;
+}
+
+.moreInfoBtn{
+	margin-top: -13% !important;
+	margin-left: 10px !important;
+}
+
+/* Popup boxes when clicking the info icons (i) */
+.popupDiv{
+	padding: 5%;
+	background-color: #0B0B3B;
+	color: #fff;
+	font-size: 0.8em;
+}
+
+/* Add white border around close button of popups. */
+div.ui-popup a.ui-btn-right.ui-link.ui-btn.ui-btn-b.ui-icon-delete.ui-btn-icon-notext.ui-shadow.ui-corner-all {
+	border: 3px solid white;
+}
+
+.currentLocationSwitchLabel {
+	padding-top: 4% !important;
+	margin-left: 35% !important;
+}
+
+div.tocAgreement.ui-field-contain, ul#dateRxListView.ui-listview > li, ul#dateListView.ui-listview > li {
+	border: none !important;	
+}
+
+.fullSizeButton{
+	width: 95% !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+.displayBlock {
+	display: block !important;
+}
+
+.displayNone {
+	display: none !important;
+}
+
+.visibilityHidden{
+	visibility: hidden !important;
+}
+
+.visibilityShow{
+	visibility: visible !important;
+}
+
+#homePanel.ui-panel{
+	width: 15em !important;
+	top: 40px !important;
+}
+
+<!-- Moves header title to center -->
+.ui-title {
+	margin: 0 !important;
+	font-weight: normal !important;
+}
+
+.ui-popup.ui-content, .ui-popup .ui-content{
+	background: #fff !important;
+	color: #000;
+	font-size: .85em !important;
+}
+
+.ui-popup-screen{
+	background: #000 !important;
+}
+
+div.fieldLabel a.moreInfoBtn{
+	display: inline;
+	border: none;
+	margin-left: 18px !important;
+	padding-top: 10px;
+}
+
+.ui-filter-inset {
+    margin-top: 0;
+}
+
+.prescriptionStatusText {
+	white-space:normal !important;
+	color: red !important;
+	font-style: italic;
+}
+
+.blackText {
+	white-space:normal !important;
+	color: #000000 !important;
+}
+
+.prescriptionPrescriberName {
+	margin-top: 20% !important;
+}
+
+.rxHistoryPrescriptionDetailsFont {
+	font-size: 0.85em !important;
+	font-weight: normal;
+	color: black !important;
+	line-height: 1.5em !important;
+}
+
+div#PrescriptionHistoryDetailsContent > div {
+	min-height: 25px;
+}
+
+.drugImage{
+	width:100px;
+	height:100px;
+	border-radius: 10px;
+	border: 1px solid #a1a1a1;
+	background-image: url(../images/takePicButton.png);
+}
+
+#takeMyMedsToday{
+	font-size: 1em;
+	height: 30px;
+	line-height: 30px;
+	text-shadow: none;
+}
+
+.takeMedsRowDrugImage{
+	height: 78px !important;
+	width: 69px !important;
+	padding: 2px 10px 0 2px !important;
+}
+
+.takeMedsRowNoDrugImage{
+	height: 75px !important;
+	width: 69px !important;
+	padding: 2px 10px 0 2px !important;
+}
+
+.takeMedsDrugName {
+	margin-top: -10px !important;
+	font-size: .85em !important;
+}
+
+.takeMedsSubLines {
+	width: 100%;
+	font-size: .7em !important;
+	white-space: normal;
+	max-height: 40px;
+}
+
+.greenStatusText {
+	white-space:normal !important;
+	color: green !important;
+	font-weight: bold;
+	font-size: .85em;
+}
+
+.redStatusText {
+	white-space:normal !important;
+	color: red !important;
+	font-weight: bold;
+	font-size: .85em;
+}
+
+table#takeMedsTopTable, table#priceAndSaveTopTable {
+	margin-top: -18px;
+	margin-bottom: 5px;
+	margin-left: -10px;
+	width: 100%;
+	border: 0;
+	padding-bottom: 5px;
+}
+
+span#tkMedNotes {
+	padding-top: 5px;
+}
+
+.takeMedsSubLines.grayText.italicFont {
+	font-size: .7em !important;
+}
+
+li.takeMyMedsRow.ui-li-has-thumb.ui-first-child.ui-last-child a div {
+	margin-left: -20px !important;
+}
+
+.preferencesText {
+	margin-top: 7% !important;
+	float: left !important;
+	padding: 0 0 10px 0;
+	font-size: .8em !important;
+}
+
+.hideMedNamesText {
+	width: 50% !important;
+	margin-top: 4% !important;
+	white-space: normal !important;
+	float: left !important;
+	padding: 0 0 10px 0;
+	font-size: .8em !important;
+}
+
+/* Start styling for the modal window */
+#WLdialogContainer {
+	position: static;
+}
+
+#WLdialogOverlay {
+	background: #000;
+	height: 100%;
+	left: 0;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	filter: alpha(opacity=70);
+	-moz-opacity:0.7;
+	-khtml-opacity: 0.7;
+	opacity: 0.7;
+	position: absolute;
+	position: fixed;
+	text-align: center;
+	top: 0;
+	width: 100%;
+	z-index: 16777269;
+}
+
+#WLdialog {
+	background: rgb(255,255,255); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(247,247,247,1) 35%, rgba(242,242,242,1) 75%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(35%,rgba(247,247,247,1)), color-stop(75%,rgba(242,242,242,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(247,247,247,1) 35%,rgba(242,242,242,1) 75%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(247,247,247,1) 35%,rgba(242,242,242,1) 75%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(247,247,247,1) 35%,rgba(242,242,242,1) 75%,rgba(255,255,255,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(247,247,247,1) 35%,rgba(242,242,242,1) 75%,rgba(255,255,255,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+
+	border: 2px ridge #000;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
+	font-family: helvetica, arial, sans-serif;
+	font-size: 0.85em;
+	text-align: justify; 
+	color: #4a4a4a;
+	margin: 0 auto;
+	padding: 10px;
+	position: absolute;
+	position: fixed;
+	width: 280px;
+	z-index: 16777270;
+}
+
+#WLdialogTitle {
+	font-size: 1.25em;
+	font-weight: bold;
+	padding: 5px;
+	text-align: center;
+	min-height: 25px;
+	background-image: url(../images/showDialogAlert.png);
+	background-repeat: no-repeat;
+	background-position: top left;
+	background-size: 24px 24px;
+	
+}
+
+#WLdialogBody {
+	margin: 10px 0px 10px 0px;
+	min-height: 48px;
+}
+
+#WLdialog button {
+	margin: 10px 28px 5px 28px;
+	color: #fff;
+	background: rgb(125,126,125); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(125,126,125,1) 0%, rgba(14,14,14,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(125,126,125,1)), color-stop(100%,rgba(14,14,14,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=0 ); /* IE6-9 */
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-o-border-radius: 10px;
+	border-radius: 10px;
+	font-family: helvetica, arial, sans-serif;
+	font-size: 1em;
+	font-style: bold;
+	width: 80%;
+	height: 38px;
+	text-align: center
+}
+/* End styling for the modal window */
+
+.drugInfoImageDiv{
+	width:30% !important;	
+}
+
+.drugInfoImage{
+	width: 88px !important;
+	height: 71px !important;
+}
+
+.drugNameDiv{
+	width:65% !important;
+}
+
+.drugDetailDiv{
+	height: 120px !important;
+}
+.drugImageDiv{
+	padding: 2% !important;
+}
+.headerButtonsDiv{
+	float: right;
+	margin-top: -42px;
+	padding-right: 1%;
+}
+.addReminderTimePlusDiv {
+	float: left;
+	padding-right: 4%;
+	margin-top: 1%;
+	height: 0px;
+	width:3% !important;
+}
+
+.addReminderTimeItemList {
+	padding-left:10% !important;
+}
+
+.selectLabel{
+	width: 21% !important;
+}
+
+.ui-select{
+	width:100% !important;
+}
+
+.removeButton{
+	background: url('../images/remove.png');
+	width:70px !important;
+	height:26px !important;
+}
+
+.ui-icon-minusButton {
+	background: url('../images/redRemoveIcon.png') no-repeat !important;
+	background-attachment: fixed;
+	background-position: center center !important;
+}
+
+.ui-btn-icon-notext:after{
+	background-color: transparent !important;
+}
+.ui-content .ui-listview-inset, .ui-panel-inner > .ui-listview-inset{
+	margin: .8em 1em !important;
+}
+
+.marginLeftSmall{
+	margin-left : 20% !important;
+}
+
+#contactUsContactReason_dummy, #registrationGender_dummy, #relationshipToCardHolder_dummy, #forgetUserNameGender_dummy {
+	float: left;
+	border: none;
+	width: 100%;
+	background: transparent;
+}
+
+/* This small circle next to an UNREAD message, for the Messages */
+.msgReadIcon{
+	width: 12px;
+	height: 12px;
+	border-radius: 6px;
+}
+
+.messageImg {
+	background-image: url(../images/pinkball.jpg);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	background-position: 0% 50%;
+	float: left;
+	background-size: 19%;
+}
+
+.messageDate{
+	font-family: Arial, Helvetica, sans-serif;
+	float: right;
+	font-size: .7em !important;
+	font-weight: normal !important;
+	text-align:right !important;
+}
+
+.messageText{
+	font-size:0.813em !important;
+	color: black !important;
+	font-weight:normal !important;
+}
+
+.messageTitle{
+	font-family: Arial, Helvetica, sans-serif;
+	float: left !important;
+	font-size: .9em !important;
+	font-weight: normal !important;
+	text-align:right !important;
+}
+
+.messageImg{
+	float:left; 
+	padding:0px 20px 0px 0px;
+}
+
+.readIndColumn {
+	width: 20px;
+	text-align: center;
+}
+
+.readmessagesImg {
+	background-repeat: no-repeat;
+	background-position: 0% 50%;
+	float: left;
+	background-size: 19%;
+}
+
+
+.firstMsgContent {
+	font-family: Arial, Helvetica, sans-serif;
+	float: left !important;
+	font-size: 0.750em !important;
+	width: 60% !important;
+	padding-top: 10px;
+	padding-left: 6px;
+	line-height: 0.9em;
+	font-weight: bold;
+	color: #000;
+}
+
+.secondMsgContent {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.8em !important;
+	font-weight: bold !important;
+	color: #000 !important;
+}
+
+.thirdMessageContent{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.650em !important;
+	font-weight: normal !important;
+	color: #000 !important;
+	white-space: nowrap;
+}
+
+.readMail {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.8em !important;
+	font-weight: normal !important;
+	color: #333333 !important;
+}
+
+.unreadMail {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.8em !important;
+	font-weight: bold !important;
+	color: #000 !important;
+}
+
+#messageBody {
+	font-size: 0.8em !important;
+	font-weight: normal !important;
+	color: #000 !important;
+	word-wrap: break-word;
+	white-space: normal;
+}
+
+.messageDrugName{
+	color: #C0C0C0 !important;
+}
+
+.messagesContainer{
+	width:100% !important;
+	margin:0px !important;
+}
+
+.gpsButtonIcon {
+	background: url(../images/nearby.png) no-repeat;
+	background-size: auto 25px;
+	height: 24px;
+	width: 24px;
+	z-index: 5;
+	float: left;
+	margin-top: -5px;
+}
+
+.deleteHeaderButton{
+	height: 12px !important;
+	width: 44px;
+	padding: 5px 5px 8px 5px !important;
+	margin: 5px 5px 0 0 !important;
+	letter-spacing: -1px !important;
+	border:1px solid #eb1114 !important;
+	border-radius:4px !important;
+	-webkit-box-shadow:
+		inset 1px 6px 12px #f0818a,
+		inset -1px -10px 5px #eb1114,
+		1px 2px 1px black !important;
+	-moz-box-shadow:
+		inset 1px 6px 12px #f0818a,
+		inset -1px -10px 5px #eb1114,
+		1px 2px 1px black !important;
+	box-shadow:
+		inset 1px 6px 12px #f0818a,
+		inset -1px -10px 5px #eb1114,
+		1px 2px 1px #eb1114  !important;
+	background-color: #c21215 !important;
+	color: white !important;
+	text-shadow: 1px 1px 1px #8d1b1c  !important;
+}
+
+.italicFont{
+	font-style: italic !important;
+}
+
+.whiteFont{
+	color: #fff !important;
+}
+
+.headerMargin{
+	margin-bottom: 20px !important
+}
+
+#homePanel div ul li a.slideMenuRow.ui-btn{
+	text-decoration: none;
+	color: #000;
+	display: block;
+    padding: 10px 0 10px 25px;
+    font-size: .8em !important;
+	font-style: normal;
+	font-weight: normal !important;
+	-webkit-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+	text-shadow: none;
+}
+
+#homePanel div ul li a.noLink.ui-link{
+	text-decoration: none !important;
+	color: #fff !important;
+	font-size: 1em !important;
+	font-style: normal;
+	font-weight: normal !important;
+	-webkit-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+	text-shadow: none;
+}
+
+h1.headerTitle {
+	height: 20px;
+}
+
+/* Left transition */
+li.left {
+    -webkit-transition: -webkit-transform 250ms ease;
+    -webkit-transform: translateX(-100%);
+    -moz-transition: -moz-transform 250ms ease;
+    -moz-transform: translateX(-100%);
+    -o-transition: -o-transform 250ms ease;
+    -o-transform: translateX(-100%);
+    transition: transform 250ms ease;
+    transform: translateX(-100%);
+}
+/* Right transition */
+li.right {
+    -webkit-transition: -webkit-transform 250ms ease;
+    -webkit-transform: translateX(100%);
+    -moz-transition: -moz-transform 250ms ease;
+    -moz-transform: translateX(100%);
+    -o-transition: -o-transform 250ms ease;
+    -o-transform: translateX(100%);
+    transition: transform 250ms ease;
+    transform: translateX(100%);
+}
+
+/* Background color for mobiscroll slideout action menu */
+.mbsc-lv-stage-c-v.mbsc-lv-stage-c.mbsc-lv-left, .mbsc-lv-stage-c-v.mbsc-lv-stage-c.mbsc-lv-right {
+	background: #e1e3e3 !important;
+}
+
+.mbsc-ic-take{
+	background: url('../images/take.png') no-repeat !important;
+	height: 50px !important;
+}
+
+.mbsc-ic-skip{
+	background: url('../images/skip.png') no-repeat !important;
+	height: 50px !important;
+}
+
+.mbsc-ic-snooze{
+	background: url('../images/snooze.png') no-repeat !important;
+	height: 50px !important;
+}
+
+.mbsc-ic-slideEdit{
+	background: url('../images/slideEdit.png') no-repeat !important;
+	height: 50px !important;
+	width: 100px !important;
+}
+
+.mbsc-ic-slideDelete{
+	background: url('../images/slideDelete.png') no-repeat !important;
+	height: 50px !important;
+	width: 100px !important;
+}
+
+.mbsc-ic-slideTake{
+	background: url('../images/slideTaken.png') no-repeat !important;
+	height: 50px !important;
+}
+.mbsc-ic-slideSkip{
+	background: url('../images/slideSkip.png') no-repeat !important;
+	height: 50px !important;
+}
+.mbsc-ic-slideSnooze{
+	background: url('../images/slideSnooze.png') no-repeat !important;
+	height: 50px !important;
+}
+
+.mbsc-lv-multi-ic-left{
+	margin-left:10% !important;
+}
+
+.mbsc-lv-multi-ic-right{
+	margin-left:30% !important;
+}
+
+.mbsc-lv-cont {
+	overflow: visible !important;
+}
+
+.mbsc-ic-trash{
+	background: url('../images/trash.png') no-repeat !important;
+	height: 50px !important;
+}
+
+.mbsc-ic-edit{
+	background: url('../images/edit.png') no-repeat !important;
+	height: 50px !important;
+}
+
+.mbsc-lv-multi{
+	left: -20px !important;
+}
+
+#takeMyMedList div.mbsc-lv-multi.mbsc-lv-multi-ic-right {
+	margin-left: 18% !important;
+}
+
+.takeMyMedList.ui-li-static {
+	padding: 0 !important
+}
+
+/* drop down menus */
+div.ui-btn.ui-icon-carat-d.ui-btn-icon-right.ui-corner-all.ui-shadow {
+	background: white !important;
+	width: 96% !important;
+	font-size: .9em !important;
+	padding: 10px 0 0 0 !important;
+	margin-left: 8px !important;
+}
+
+/* Fix spacing for Email Reason on Contact Us */
+div#emailReasonLabel {
+	margin-bottom: -15px;
+}
+
+.grayText{
+	color: #807e82 !important;
+	font-size: .75em !important;
+	text-shadow: none;
+}
+
+div.ui-popup p {
+	color: #000 !important;
+	font-size: .9em !important;
+	text-shadow: none;
+}
+
+ul#electronicIdCardList {
+	margin: 10px 0 10px 0 !important;
+}
+
+ul#electronicIdCardList>li{
+	line-height: .5em !important;
+}
+
+.noneSavedMsg {
+	color: #E7503E !important;
+	background: #e9eef1;
+	border: 1px solid #E7503E;
+	border-radius: 10px;
+	padding: 10px;
+	text-align: center;
+	font-size: .8em;
+}
+
+.ui-input-search input {
+	font-size: .9em !important;
+}
+
+#takeMyMedsContent div.fullWidth, #medJournalContent ul.fullWidth, #shippingInfo.fullWidth, #shippingInfoRxs.fullWidth{
+	margin-left: -1em !important;
+	margin-right: -1em !important;
+}
+
+#grayTopTakeMedInfo{
+	margin-left: -1em !important;
+	margin-right: -1em !important;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.grayTakeMedWarningInfo{
+	margin-left: -1em !important;
+	margin-right: -1em !important;
+	background: #fff !important;
+	color: #000;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+	font-size: .75em;
+}
+
+.timeHeader{
+	height: 25px;
+	line-height: 25px;
+	font-size: .85em;
+	font-weight: normal !important;
+	padding-left: 10px;
+	color: #fff !important;
+	text-shadow: none;
+}
+
+/* Make multi select menu (for select days) look more consistent with the other input fields  */ 
+a#selectDays-button {
+	padding: 5px;
+	width: 90%;
+	margin-top: -14px !important;
+	margin-left: 8px !important
+}
+
+/* Set background color of corner close button*/
+a.ui-btn.ui-corner-all.ui-btn-left.ui-btn-icon-notext.ui-icon-delete {
+	background: black;
+	border: none;
+}
+
+/* Size of plus/minus icons */
+.plusMinusIcon{
+	height: 30px !important;
+	width: 30px !important;
+}
+
+/* Add Med Reminder Time button */
+li#medReminderTime {
+	min-height: 1.6em !important;
+	margin-left: -5px !important;
+	font-size: .9em !important;
+	text-align: center;
+	padding: 5px 0 0 0 !important;
+}
+
+.addTimeBtnText {
+	line-height: 2.5em;
+}
+
+/* Plus icon on button */
+img#addTimeBtn {
+	padding-right: 10px;
+}
+
+div#shipStartDate {
+	width: 35%;
+	float: left;
+}
+
+div#shipEndDate {
+	width: 35%;
+	float: left;
+}
+div#shipBtnDiv{
+	width: 25%;
+	float: left;
+}
+
+a#runShippingHistoryButton, a#runRxHistoryButton {
+	padding: 5px 5px 5px 5px;
+	margin-left: 5px;
+	margin-top: 20px;
+	font-size: .7em;
+	letter-spacing: 0;
+}
+
+.rxHistoryDrugName {
+	font-size: .85em;
+}
+
+.contactName{
+	font-size: .9em;
+	font-weight: bold;
+}
+
+.contactPhoneLink{
+	font-size: .75em;
+}
+
+.textDiv{
+	height:60px !important;
+}
+.allergyCheckBox {
+	float: left !important;
+}
+
+.allergyName {
+	margin-left: 20% !important;
+}
+
+div.ui-input-text.ui-body-inherit.ui-corner-all.ui-shadow-inset{
+	-webkit-box-shadow: none !important; /*{global-box-shadow-size}; */
+}
+
+.inNetworkOnlyCheckboxDiv {
+	margin-left: 5% !important;
+	margin-bottom: 10px;
+}
+
+.inNetworkOnlyCheckbox {
+	margin-top: 0% !important;
+}
+
+.inNetworkOnlyCheckboxText {
+	margin-left: 15% !important;
+}
+
+.pharmacyLocatorList {
+	margin-top: 5% !important;
+}
+
+img.open24HrIndImg {
+	height: 15px;
+	width: auto;
+	margin-top: 5px;
+	vertical-align: bottom;
+}
+
+img.preferredPharmImg {
+	height: 15px;
+	width: auto;
+	margin-top: 5px;
+	vertical-align: bottom;
+}
+
+.pharmacySearchDiv {
+	margin-top: 20px !important;
+	height: 30px;
+}
+
+.pharmacySearchInput {
+	float: left !important;
+	width: 70% !important;
+}
+
+.pharmacySearchButtonDiv {
+	float: right !important;
+	width: 28% !important;
+	margin-top: -10px !important;
+}
+
+.pharmacySearchButton {
+	padding: 5px 5px 5px 5px !important;
+	margin-left: 5px !important;
+	font-size: .7em !important;
+	letter-spacing: 0 !important;
+}
+
+.pharmacySearchText {
+	color: #0000ff !important;
+}
+
+.rxLocNav{
+	height: 12px !important;
+	padding-top: 5px !important;
+}
+
+.mailServiceText {
+	font-size: 0.8em;
+}
+
+.getDirectionsButtonDiv {
+	float: left !important;
+	width: 43% !important;
+}
+
+.addToMyContactsButtonDiv {
+	float: right !important;
+	width: 55% !important;
+}
+
+.pharmacyNameText {
+	font-weight: bold !important;
+	font-size: 1em !important;
+}
+
+#pharmacyNameDetails{
+	width:100%
+}
+
+div.halfWidthDiv, td.halfWidth{
+	width: 50%
+}
+
+div.maxWidth, table.maxWidth{
+	width: 100%;
+}
+
+.pharmacyHours {
+	padding-left: 5px;
+}
+
+.pharmacyButtonsDiv{
+	padding-top: 15px;	
+}
+
+.boldTitleText {
+	font-weight: bold !important;
+	font-size: .85em !important;
+	clear: both;
+}
+
+.pharmacyDirectionsInstructions {
+	width: 85% !important;
+}
+
+/* Used with data-role="footer" to position elements at bottom of page */
+.positionBottom{
+	border: none !important;
+	padding-left: 20px;
+	padding-bottom: 20px;
+}
+
+div#forgotUsernameGender {
+	padding-bottom: 0 !important;
+}
+
+a.ui-link.ui-btn.ui-shadow.ui-corner-all.mainButton{
+	border: none;
+	padding: 0;
+	background: transparent;
+	font-size: .7em;
+	-webkit-box-shadow: none !important;
+}
+
+img.mainPageIcon{
+	height: 85px;
+	width: auto;
+}
+
+div#homeButtonGrid{
+	margin-top: 40px;
+}
+
+/* Universal header for main login page (not client specific) */
+.loginHeader{
+	background-color:   #1d9f2d  !important;	
+	background-size: auto 47px;
+	height: 46px !important;
+	width: 100%;
+	padding: 0 !important;
+	margin-right: -1em !important;
+}
+
+.loginFooter{
+	height:12%;
+	background: #fff !important;
+}
+
+ul#refillFromAccountPrescriptionsList, ul#medJournalList, ul#myContactsList, ul#shippingAddressList, ul#allergiesList, ul#pharmacyLocatorList, ul#messagesContainer, ul#orderRefillList, ul#claimHistoryRxList, ul#shippingOrderListData, ul#creditCardList {
+	margin: 0 0 !important;
+}
+
+.bottomAlignedButton{
+	border:none !important;
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+}
+
+.listDivRow {
+  display: block;
+}
+
+.rxRefillDrugName{
+	font-size: .85em !important;
+}
+
+.rxRefillTable{
+	width: 100%;
+	font-size:0.75em !important;
+	font-weight: normal;
+	color: black !important;
+	line-height: 1em;
+	border-collapse: collapse;
+}
+
+.rxRefillTableDates{
+	font-size:0.75em !important;
+	font-weight: normal;
+	color: black !important;
+	line-height: 1em;
+	border-collapse: collapse;
+}
+
+.rxHistDateLabel {
+	width: 90px;
+}
+
+.unselectedRxRow{
+	background: #fff !important;	
+}
+
+.selectedRxRow{
+	background: #E9EEF1 !important;
+}
+
+.rowSelectionCheckboxHidden{
+	display: none !important;
+}
+
+.rowSelectionCheckboxShow{
+	display: inline-block;
+}
+
+.redTitle{
+	color: red;
+	font-weight: bold;
+	font-size: 1.5em;
+	text-align: center;
+}
+
+.loginHelpText {
+	padding: 15px;
+}
+
+.loginHelpButtons{
+	padding: 15px;
+}
+
+/* Multihit list */ 
+ul.multihit.ui-listview.ui-listview-inset.ui-corner-all.ui-shadow {
+	width: 95%;
+	margin-top: 0 !important;
+	font-size: .75em;
+	box-shadow: none !important;
+}
+
+ul.multihit.ui-listview.ui-listview-inset.ui-corner-all.ui-shadow > li, fieldset#communicationMailNotifications div label.fieldLabel {
+	line-height: 40px;
+}
+
+ul.multihit.ui-listview.ui-listview-inset.ui-corner-all.ui-shadow li.ui-li-static.ui-body-inherit.ui-first-child{
+	border-top: none;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+div.ui-controlgroup-controls div.ui-radio label {
+	font-size: .65em;
+}
+
+ul#drugList > li , ul#priceAndSaveDrugList > li{
+	line-height: 40px;
+}
+
+div#priceAndSavePageTwoDrugName {
+	margin-left: 20px;
+}
+
+#priceAndSaveLocation {
+	padding-left: 1.75em !important;
+}
+
+#grayTopPriceAndSave{
+	margin-left: -1em !important;
+	margin-right: -1em !important;
+	padding-left: 20px;
+	margin-bottom: -5px !important;
+}
+
+div#pricingDiv{
+	margin-left: -.5em !important;
+	margin-right: -.5em !important;
+}
+
+.pricingTable{
+	width: 100%;
+	border-collapse: collapse
+}
+
+table.pricingTable th{
+	color: #ffffff;
+	text-shadow: none;
+	padding-top: 2px !important;
+	padding-bottom: 2px !important;
+}
+
+.pricingRows{
+	height: 40px !important;
+	border-bottom: 1px inset #c0c0c0;
+}
+
+.pharmacyColumn{
+	width: 60%;
+}
+
+th.pharmacyColumn {
+	text-align: left;
+	padding-left: 10px;
+}
+
+td.pharmacyColumn{
+	width: 60%;
+	color: #000000;
+	padding-left: 10px !important;
+}
+
+.genericColumn{
+	width: 20%;
+	text-align: center;
+	text-shadow: none;
+	background-color: #488214;
+	font-size: 0.98em !important;
+	color: white !important;
+}
+
+.priceColumn{
+	width: 20%;
+	text-align: center;
+	text-shadow: none;
+	font-size: 0.98em !important;
+	color: #000000;
+}
+
+div#prescriptionDetailsDrugName {
+	padding-bottom: 10px;
+}
+
+#prescriptionDetailsStatusText{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.ui-icon-loading{
+	background-size: 29px 30px !important;
+}
+
+.ui-icon-delete{
+	background-color: gray;
+}
+
+/* Make the background of the carat icons transparent (instead of gray circles) */
+.ui-alt-icon.ui-icon-carat-r:after, .ui-alt-icon .ui-icon-carat-r:after{
+	background-color: transparent !important;
+}
+
+.primaryAddressDetails{
+	padding-left: 20px;	
+}
+
+div#primaryAddressDetailContent div span.fieldLabel {
+	padding-bottom: 0 !important;
+	padding-top: 20px;
+}
+
+#mapTable{
+	width:100%;
+}
+
+img#mapThumb {
+	width: 100%;
+	height: 120px;
+	border: 1px solid gray;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+/* Remove shadow from input fields */
+.ui-focus {
+	-moz-box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.editBtnDiv{
+	margin-top: -3% !important;
+}
+
+.editButton{
+	width: 45px !important;
+	line-height: 5px!important;
+}
+
+/* Limited Use Only: Use for approved disclaimers/warning messages */
+.textBackgroundPink{
+	background-color: #FAAFBE;
+	margin-left: -1.3em !important;
+	margin-right: -1.3em !important;
+	text-shadow: none;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: .75em;
+}
+
+.priceAndSaveGenericText{
+	color: #488214;
+	text-shadow: none;
+}
+
+.divWidth{
+	width: 50% !important;
+}
+
+div#uomLabel, div#howOftenLabel, div#howLongLabel {
+	margin-bottom: -20px;
+}
+
+li.orderRefillConfirmDetail a div.smallFont {
+	max-height: 2.4em;
+	min-height: 1.25em;
+}
+
+li.orderRefillConfirmHeaders{
+	color: #ffffff !important;
+	text-shadow: none !important;
+	font-weight: normal !important;
+	font-size: .85em !important;
+}
+
+.noImageAvailable{
+	background-image: url(../images/noImage.png);
+}
+
+#tkMedImage{
+	width:90px;
+	height:90px;
+}
+
+.noBorder{
+	border: none !important;
+}
+
+.checkIcon{
+	height: 40px;
+	width: 40px;
+}
+.checkIconSpan{
+	position: absolute;
+	bottom: 0;
+	left: 40px;
+	width: 40px;
+	height: 40px;
+}
+
+.crossIcon{
+	height: 30px;
+	width: 30px;
+}
+
+.grayOutClass{
+	-webkit-filter: grayscale(1) opacity(0.4);
+}
+
+.paymentInfoList{
+	width: 100%;
+	font-size:0.75em !important;
+	font-weight: normal;
+	text-shadow: none;
+	line-height: 1.3em;
+}
+
+ul#shippingMethodContentList > li > div {
+	line-height: 40px;
+}
+
+img.ccImage {
+	width: auto;
+	height: 20px;
+}
+
+img.largeCCImage {
+	width: auto;
+	height: 40px;
+	padding-top: 5px;
+}
+
+img.ccDetailsImage{
+	width: auto;
+	height: 40px;
+}
+
+div#addCCTypeDiv {
+	height: 55px;
+}
+
+.ccTypeSelect{
+	width:75% !important;
+	line-height: 55px;
+}
+
+.ccTypeImage{
+	width:25% !important;
+	line-height: 55px;
+}
+
+textarea.ui-input-text {
+	height: inherit !important
+}
+
+.ui-header-fixed, .ui-footer-fixed{
+	position: fixed !important;
+}
+
+.messageContent {
+	padding: 0em !important;
+}
+
+.shippingDetailHeaders{
+	color: #ffffff !important;
+	text-shadow: none !important;
+	font-weight: normal !important;
+	font-size: .85em !important;
+	padding-left: 13px;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+div#shippingAddressInfo {
+	height: 50px;
+}
+
+div#addressLabel{
+	display: inline-block;
+}
+
+.messageBubbleSpan{
+	position: absolute;
+	top: 0;
+	left: 0px;
+	width: 25px;
+	height: 16px;
+	background-color: #FF0000;
+	border: 0px solid;
+	border-radius: 25px;
+	color: #FFFFFF;
+	font-size: 1.1em;
+}
+
+.navbar {
+	background-color: #333;
+	overflow: hidden;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+  }
+  
+  /* Style the links inside the navigation bar */
+  .navbar a {
+	float: left;
+	display: block;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+  }
+  
+  /* Change the color of links on hover */
+  .navbar a:hover {
+	background-color: #ddd;
+	color: black;
+  }
+  
+  /* Add a color to the active/current link */
+  .navbar a.active {
+	background-color: #4CAF50;
+	color: white;
+  }

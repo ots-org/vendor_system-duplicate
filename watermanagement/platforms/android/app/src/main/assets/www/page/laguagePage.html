@@ -1,0 +1,42 @@
+<div data-role="page" id="laguageListPage" data-dom-cache="true">
+    <div data-role="header" id="languageListHeader" data-position="fixed" class="primaryGradient">
+        <a class="headerButton backButtonArrow" data-shadow="false" href="#" data-role="button"  onclick="screenTransition('../index.html')">
+            <img class="floatLeft" src="../images/backArrow.png" class="backArrowImageDimensions"/>
+        </a>
+        <h3 class="headerTitle languagespecificHTML" data-text="changeLanguage">Change Language</h3>
+
+    </div><!-- Close providerListHeader -->
+    <div data-role="content" id="languageListContent">
+        <ul data-role="listview" id="languageContentList" data-inset="true">
+            <li>
+                <a href="#" onclick="loadLanguagePage('en'),screenTransition('../index.html')">
+                    <div class="floatLeft paymentInfoList">
+                        <div class="floatLeft halfWidthDiv boldText">English</div>
+                    </div><br>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="loadLanguagePage('kn'),screenTransition('../index.html')">
+                    <div class="floatLeft paymentInfoList">
+                        <div class="floatLeft halfWidthDiv boldText">ಕನ್ನಡ</div>
+                    </div><br>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="loadLanguagePage('Hn'),screenTransition('../index.html')">
+                    <div class="floatLeft paymentInfoList">
+                        <div class="floatLeft halfWidthDiv boldText">हिंदी</div>
+                    </div><br>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="loadLanguagePage('Tn'),screenTransition('../index.html')">
+                    <div class="floatLeft paymentInfoList">
+                        <div class="floatLeft halfWidthDiv boldText">தமிழ்</div>
+                    </div><br>
+                </a>
+            </li>
+
+        </ul>
+    </div><!-- Close providerListContent -->
+</div><!-- Close providerListPage -->

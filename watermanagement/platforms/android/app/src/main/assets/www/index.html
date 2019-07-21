@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+    <!-- Config all the file path here-->
+    <script src="lib/jquery/2.1.1/jquery-2.1.1.min.js"></script>
+    <script src="lib/jqm/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="lib/jquery/jquery.gdocsviewer.min.js"></script>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi" />
+    <link href="css/themes/2/bookit.min.css" rel="stylesheet" />
+    <link href="css/themes/2/jquery.mobile.icons.min.css" rel="stylesheet" />
+    <link href="lib/jqm/1.4.5/jquery.mobile.structure-1.4.5.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/AT.css">
+    <title>E- Doc</title>
+</head>
+<body>
+<div data-role="page" id="page-index">
+    <div data-role="header" data-theme="c" data-position="fixed" class="loginHeader alignCenter">
+        <h1>My-Watering</h1>
+    </div><!-- /header -->
+    <div class="floatRight"><a href="#" onclick="screenTransition('./page/laguagePage.html')" class="languagespecificHTML" data-text="changeLanguage">Change Language</a></div>
+    <div role="main" class="ui-content" id="loginContent">
+        <div id="loginFields" >
+            <div id="loginUserNameDiv">
+                <div class="languagespecificHTML" data-text="username">Username</div>
+                <input tabindex="1" maxlength="50" type="text" name="userName" id="loginUserName" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </div><!-- Close loginUserNameDiv -->
+            <br>
+            <div id="loginPasswordDiv">
+                <div class="languagespecificHTML" data-text="password" >Password</div>
+                <input tabindex="2" maxlength="50" type="password" class="userInput" name="password" id="loginPassword" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </div><!-- Close loginPasswordDiv -->
+            <br>
+            <div class="submitBtnDiv">
+                <button href="#page-signin" id="loginId" class=" fullSizeButton primaryActionBtn"  onclick="screenTransition('./page/home.html'),loadhello()"><div class="languagespecificHTML" data-text="submit">Login</div>  <div class="lockIcon"></div>
+                </button>
+            </div>
+        </div>
+    </div><!-- /content -->
+    <div data-role="content" >
+        <ul data-role="listview"  data-inset="true">
+            <li>
+                <a href="#" onclick="screenTransition('./page/Designerhome.html')">
+                    <div class="floatLeft paymentInfoList">
+                        <div class="floatLeft halfWidthDiv boldText">Device Designer</div>
+                    </div><br>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="floatLeft paymentInfoList" onclick="screenTransition('./page/Installerhome.html')">
+                        <div class="floatLeft halfWidthDiv boldText">Device Installer</div>
+                    </div><br>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<!-- /page -->
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/userDertails.js"></script>
+<script type="text/javascript" src="js/loadSector.js"></script>
+<script type="text/javascript" src="js/mySector.js"></script>
+<script type="text/javascript" src="js/setmySector.js"></script>
+<script type="text/javascript" src="js/deviceList.js"></script>
+<script type="text/javascript" src="js/updateThreshhold.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,36 @@
+<div data-role="page">
+        <div data-role="header" data-position="fixed" class="primaryGradient">
+            <a class="headerButton backButtonArrow" data-shadow="false" href="#" data-role="button" data-rel="back">
+                <img class="floatLeft" src="../images/backArrow.png" class="backArrowImageDimensions"/>
+            </a>
+            <h3 class="headerTitle">Add Components</h3>
+            <a class="actionHeaderButton primaryGradient" href="#" data-role="button" onclick="screenTransition('providerList.html')">Map</a>
+        </div><!-- Close contactDetailsHeader -->
+        <div data-role="content" >
+            <div class="fieldLabel">Component Category <span class="compulsoryStar">*</span></div>
+			<select data-iconpos="noicon" class="userInput mobiscrollPicker" name="gender" >
+				<option value="U" selected>Select category</option>
+				<option value="F">Sensors</option>
+                <option value="M">Solenoid</option>
+                <option value="M">MotherBoard</option>
+            </select>
+        <br/>
+    
+        <div class="fieldLabel">Components<span class="compulsoryStar">*</span></div>
+        <select data-iconpos="noicon" class="userInput mobiscrollPicker" name="gender" >
+                <option value="U" selected>Select Component</option>
+                <option value="F">Temperature Sensors</option>
+                <option value="M">SoilMoisture Sensors</option>
+                </select>
+            <div class="fieldLabel">Sector <span class="compulsoryStar">*</span></div>
+        </div><!-- Close addProviderContent -->
+        <div data-role="content" >
+                <ul data-role="listview"  data-inset="true">
+                        <li id="communicationProfileId"  class="listviewLabel">
+                            <li>	<div style="float: left;" >Temperature Sensor</div> <div style="float:right;"id="FirstName">97922732014703210</div></li>
+                            <li>	<div style="float: left;" >Temperature Sensor</div> <div style="float:right;"id="LastName">79873847322219432</div></li>
+                            <li>	<div style="float: left;" >Soil Moisture Sensor</div> <div style="float:right;"id="PhoneNumber">34675587683462843</div></li>
+                        </li>
+                </ul>
+            </div>
+    </div><!-- Close addProviderPage -->

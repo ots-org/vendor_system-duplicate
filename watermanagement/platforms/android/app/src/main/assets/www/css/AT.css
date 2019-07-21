@@ -1,0 +1,192 @@
+/* Logo in header of main menu page */
+.homeHeaderLogo{
+	background: url(../images/catHomeHeader.png) no-repeat;
+	background-size: 190px auto;
+	height: 20px;
+	max-height: 30px;
+	width: 190px;
+	margin-top: 2px;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.primaryActionBtn {
+	font-family: OpenSans-Normal, Helvetica, Arial, sans serif;
+	font-weight: normal !important;
+	font-size: .85em !important;
+	color: #ffffff !important;
+	background: #1d9f2d  !important;
+	line-height: 15px !important;
+	letter-spacing: 1px;
+	border-radius: 0 !important;
+	text-shadow: none !important;
+}
+
+.primaryActionBtnPressed {
+	font-family: OpenSans-Normal, Helvetica, Arial, sans serif;
+	font-weight: normal !important;
+	font-size: .85em !important;
+	color: #ffffff !important;
+	background: #9A54A4 !important;
+	line-height: 20px !important;
+	letter-spacing: 1px;
+	border-radius: 0 !important;
+	text-shadow: none !important;
+}
+
+
+/* ON/OFF Sliders in ON state */
+span.ui-slider-label.ui-slider-label-a.ui-btn-active {
+	background: #781D7D !important;
+}
+
+.buttonPressed{
+	background:	#9A54A4;
+}
+
+ .primaryGradient {
+	background: #1d9f2d  !important;
+ }
+ 
+.secondaryGradient {
+	background-image: -webkit-gradient(linear, 0 0, 0 100%,
+		color-stop(0%, #69A129),
+		color-stop(50%, #568D17),
+		color-stop(50%, #4C8709),
+		color-stop(100%, #759426)) !important;
+	background-image: -webkit-linear-gradient(top,
+		#69A129 0%,
+		#568D17 50%,
+		#4C8709 50%,
+		#759426 100%) !important;
+	background-image: -moz-linear-gradient(top,
+		#69A129 0%,
+		#568D17 50%,
+		#4C8709 50%,
+		#759426 100%) !important;
+	background-image: -o-linear-gradient(top,
+		#69A129 0%,
+		#568D17 50%,
+		#4C8709 50%,
+		#759426 100%) !important;
+	background-image: -ms-linear-gradient(top,
+		#69A129 0%,
+		#568D17 50%,
+		#4C8709 50%,
+		#759426 100%) !important;
+	background-image: linear-gradient(top,
+		#69A129 0%,
+		#568D17 50%,
+		#4C8709 50%,
+		#759426 100%) !important;
+}
+
+/* Top right header action header button (ie: Save, Update)*/
+.actionHeaderButton{
+	height: 12px !important;
+	width: 44px;
+	padding: 5px 5px 8px 5px !important;
+	margin: 5px 5px 0 0 !important;
+	letter-spacing: -1px !important;
+	border:1px solid #701370 !important;
+	border-radius:4px !important;
+	-webkit-box-shadow:
+		inset 1px 6px 12px #c36bd1,
+		inset -1px -10px 5px #701370,
+		1px 2px 1px black !important;
+	-moz-box-shadow:
+		inset 1px 6px 12px #c36bd1,
+		inset -1px -10px 5px #701370,
+		1px 2px 1px black !important;
+	box-shadow:
+		inset 1px 6px 12px #c36bd1,
+		inset -1px -10px 5px #701370,
+		1px 2px 1px #701370  !important;
+	background-color: light torquoise !important;
+	color: white !important;
+	text-shadow: 1px 1px 1px #55004E  !important;
+}
+
+/* Color for links and stand-out text throughout the app (ie: drug names, phone numbers, etc.) */
+.inputLinks {
+	color: #a91aac !important;
+	text-decoration: none;
+}
+
+/* Styling for the page headers (does not have to be a gradient) */
+div.pageHeader.primaryGradient{
+	background: #55AA22 !important;
+	/* NextGen Color Palette */
+	/*background: #4ac8f3 !important;
+	background: -moz-linear-gradient(left,  #4ac8f3 0%, #9fcf63 100%) !important;
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#4ac8f3), color-stop(100%,#9fcf63)) !important;
+	background: -webkit-linear-gradient(left,  #4ac8f3 0%,#9fcf63 100%) !important;
+	background: -o-linear-gradient(left,  #4ac8f3 0%,#9fcf63 100%) !important;
+	background: -ms-linear-gradient(left,  #4ac8f3 0%,#9fcf63 100%) !important;
+	background: linear-gradient(to right,  #4ac8f3 0%,#9fcf63 100%) !important;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4ac8f3', endColorstr='#9fcf63',GradientType=1 ) !important;*/
+}
+
+.primaryColor {
+	color: #1d9f2d  !important;
+}
+
+.secondaryColor {
+	color: #49800a !important;
+}
+
+.tertiaryColor {
+	color: #415564 !important;
+}
+
+/* Styling for slide-out menu dividers */
+.slideMenuMainDivider{
+	background: #1d9f2d  !important;
+ }
+
+.slideMenuSubDivider{
+	background: #e4e7ec !important;
+	color: #6d6d6d !important;
+	font-size: .8em !important;
+	font-style: normal;
+	font-weight: normal !important;
+	-webkit-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+	text-shadow: none !important;
+}
+
+/* Set background color for select menu header*/
+.ui-selectmenu.ui-popup .ui-header{
+	background: #55AA22 !important;
+	color: #fff;
+	text-shadow: none;
+}
+
+/* Background for home page (with clouds) */
+div#homeContent{
+	background: #e4e7ec url("../images/cloudsBackground.png") no-repeat;
+    background-position: center top;
+    background-width: 100% auto;
+}
+
+div#homePage{
+	background: #e4e7ec;
+}
+
+#drugSearchResultsDisplay div.ui-radio label.ui-btn.ui-btn-active, #priceAndSaveResultsDisplay div.ui-radio label.ui-btn.ui-btn-active{
+	background: #781D7D !important;
+}
+
+/* Background color for drug multihit */
+ul.multihit > li{
+	background: #f9fafb !important;
+}
+
+/* Background color for mobiscroll selected buttons */
+.dwbg .dwb-a {
+	background: #3c7500 !important;
+	background: -webkit-gradient(linear,left bottom,left top,color-stop(0.5,#3c7500),color-stop(0.5,#94c840)) !important;
+	background: -webkit-linear-gradient(#94c840 50%,#3c7500 50%) !important;
+	background: -moz-linear-gradient(#94c840 50%,#3c7500 50%) !important;
+	background: linear-gradient(#94c840 50%,#3c7500 50%) !important;
+}
