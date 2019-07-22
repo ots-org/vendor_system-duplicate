@@ -3,7 +3,7 @@ function loadSectorDetails(deviceId,sectorId,mobileNumber){
     jQuery.each(userDeviceList.ResponseData.DeviceDetails, function( j, val ) {
         if(deviceId == val.DeviceId){
             jQuery.each(userDeviceList.ResponseData.DeviceDetails[j].Sectors, function( i, val ) {
-                if(sectorId == val.SectorId){
+                if(sectorId == val.SectorId){+
                    // var autoSelectHtml = '<select name="autoSwitch" id="autoSwitch"   onchange="saveAutoSwitch('+deviceId+','+sectorId+')" data-role="slider" data-mini="true"><option value="off">Off</option><option value="on">On</option></select>';
                     $("#threshHoldItem").empty();
                     $("#CurrentHumidity").empty();
@@ -46,3 +46,21 @@ function setWifi(){
         $('#wifiSwitch').val('off').slider("refresh");
     }
 }
+
+function reset(){
+    //alert('Devise');
+    $.ajax({
+        type: "GET",
+        url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ResetDevice",
+        success: function (data, status, jqXHR) {
+            alert('Device reset successful');
+            screenTransition('home.html');
+        },
+
+        error: function (jqXHR, status) {
+            // error handler
+            console.log(jqXHR);
+            alert('fail' + status.code);
+        }
+  });
+ }

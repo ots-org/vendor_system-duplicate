@@ -1,12 +1,61 @@
 <div data-role="page" id="providerListPage" data-dom-cache="true">
-	<div data-role="header" id="providerListHeader" data-position="fixed" class="primaryGradient">
-		<a class="headerButton backButtonArrow" data-shadow="false" href="#" data-role="button" onclick="loadDeviceListData();" >
-			<img class="floatLeft" src="../images/backArrow.png" class="backArrowImageDimensions"/>
-		</a>
-		<h3 class="headerTitle languagespecificHTML" data-text="sectorList">My Sectors</h3>
-		
-	</div><!-- Close providerListHeader -->
+    <div data-role="header" id="providerListHeader" data-position="fixed" class="primaryGradient">
+        <a class="headerButton backButtonArrow" data-shadow="false" href="#" data-role="button" onclick="loadDeviceListData();" >
+            <img class="floatLeft" src="../images/backArrow.png" class="backArrowImageDimensions"/>
+        </a>
+        <h3 class="headerTitle languagespecificHTML" data-text="sectorList">My Sectors</h3>
+
+    </div><!-- Close providerListHeader -->
+</br>
+    <div data-role="header" id="providerLis1tHeader"  class="primaryGradient">
+        <h1> Weather Report</h1>
+        <div class="w3_agile_main_grids">
+            <div class="agile_main_grid">
+                <div class="agileits_w3layouts_main_grid_left">
+                    <div class="wthree_main_grid agileinfo_main_grid">
+                        <div class="w3ls_main_grid">
+                            <div class="agileits_main_grid_left">
+                                <div class="agileits_main_grid_leftl">
+                                    <h3 id="todayweather"></h3>
+                                </div>
+                                <div class="agileits_main_grid_leftr">
+                                    <h4 id = "todaydescription"></h4>
+                                    <p>Today, Bengaluru</p>
+                                </div>
+                                <div class="clear"> </div>
+                            </div>
+                            <div class="clear"> </div>
+                        </div>
+                        <div class="w3l_main_grid_list">
+                            <ul id="owl-demo" class="owl-carousel owl-theme" style="opacity: 1; display: block;">
+                                <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 1274px; left: 0px; display: block; transform: translate3d(0px, 0px, 0px); transition: all 1000ms ease 0s;">
+                                    <div class="owl-item" style="width: 72px;">
+                                    <li><h4>MoN</h4><h5 id="DayOneTempId"></h5></li>
+                                </div>
+                                    <div class="owl-item" style="width: 72px;">
+                                        <li><h4>Tue</h4><h5 id="DayTwoTempId"></h5></li>
+                                    </div>
+                                    <div class="owl-item" style="width: 72px;">
+                                        <li><h4>Wed</h4><h5 id="DayThreeTempId"></h5></li>
+                                    </div>
+                                    <div class="owl-item" style="width: 72px;">
+                                        <li><h4>Thu</h4><h5 id="DayFourTempId"></h5></li>
+                                    </div>
+
+                                </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"> </div>
+            </div>
+        </div>
+    </div>
+
+
 	<div data-role="content" id="providerListContent">
+
 		<ul data-role="listview" id="sectorListContentList" data-inset="true">
 		</ul>
 	</div><!-- Close providerListContent -->

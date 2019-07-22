@@ -1,5 +1,5 @@
 function saveAutoSwitch(){
-   // alert(deviceId,sectorId)
+    //alert(deviceId,sectorId)
     var autoSwitch = $('#autoSwitch').val();
     if(autoSwitch == "on") {
         /**
@@ -20,8 +20,10 @@ function saveAutoSwitch(){
                 "DeviceId":GlobDeviceId
             }
           });
-        var urlCmdOn = 'http://192.168.0.18'+GlobMannualCmdOff;
-        if(globWifiData){
+        var urlCmdOn = 'http://192.168.0.18/AA1/';
+        alert(globWifiData);
+        if(globWifiData == "on"){
+        alert(urlCmdOn);
             $.ajax({
                       type:'GET',
                       url:urlCmdOn,
@@ -72,8 +74,8 @@ function saveAutoSwitch(){
             }
           });
 
-        var urlCmdOn = 'http://192.168.0.18'+GlobMannualCmdOn;
-        if(globWifiData){
+        var urlCmdOn = 'http://192.168.0.18/MM1/';
+        if(globWifiData == "on"){
          $.ajax({
                    type:'GET',
                    url:urlCmdOn,
@@ -110,7 +112,7 @@ function switchMotorOn(){
     var motorSwitch = $('#motorSwitch').val();
     if(motorSwitch == "on"){
         /**
-         * call API for switch on the motor 
+         * call API for switch on the motor
          */
         var data = JSON.stringify(
             {
@@ -128,7 +130,9 @@ function switchMotorOn(){
             }
           });
       var urlCmdOn = 'http://192.168.0.18'+GlobMannualCmdOn;
-      if(globWifiData){
+      alert(globWifiData);
+      if(globWifiData == "on"){
+      alert(urlCmdOn);
             $.ajax({
                   type:'GET',
                   url:urlCmdOn,
@@ -160,7 +164,7 @@ function switchMotorOn(){
       }
     }else{
          /**
-         * call API for switch off the motor 
+         * call API for switch off the motor
          */
         var data = JSON.stringify(
             {
@@ -178,7 +182,8 @@ function switchMotorOn(){
             }
           });
         var urlCmdOn = 'http://192.168.0.18'+GlobMannualCmdOff;
-        if(globWifiData){
+        if(globWifiData == "on"){
+        alert(urlCmdOn);
             $.ajax({
                   type:'GET',
                   url:urlCmdOn,

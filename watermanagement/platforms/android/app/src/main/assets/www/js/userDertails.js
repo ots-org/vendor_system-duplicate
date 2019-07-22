@@ -1,6 +1,6 @@
 function userLogin(){// pass your data in method
 	//screenTransition('userDetails.html');
-	var data = JSON.stringify( {"RequestHeader": {"AppInstanceID": "1.0","SourceID": "AndriodAPP"},"RequestData": {"UserName" : "manoj.vg@ortusolis.com","Password" : "Password123"}});
+	var data = JSON.stringify( {"RequestHeader": {"AppInstanceID": "1.0","SourceID": "AndriodAPP"},"RequestData": {"UserName" : "manoj.vg@ortusolis.com","Password" : "123"}});
 	
 	$.ajax({
 			type: "POST",

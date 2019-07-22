@@ -40,7 +40,7 @@
     <div data-role="header" data-theme="c" data-position="fixed" class="loginHeader alignCenter">
         <h1>My-Watering</h1>
     </div><!-- /header -->
-    <div class="floatRight"><a href="#" onclick="screenTransition('./page/laguagePage.html')" class="languagespecificHTML" data-text="changeLanguage">Change Language</a></div>
+    <div class="floatRight"><a href="#" onclick="screenTransition('./page/laguagePage.html')">Change Language</a></div>
     <div role="main" class="ui-content" id="loginContent">
         <div id="loginFields" >
             <div id="loginUserNameDiv">
@@ -54,7 +54,7 @@
             </div><!-- Close loginPasswordDiv -->
             <br>
             <div class="submitBtnDiv">
-                <button href="#page-signin" id="loginId" class=" fullSizeButton primaryActionBtn"  onclick="screenTransition('./page/home.html'),setWifi()"><div class="languagespecificHTML" data-text="submit">Login</div>  <div class="lockIcon"></div>
+                <button href="#page-signin" id="loginId" class=" fullSizeButton primaryActionBtn"  onclick="screenTransition('./page/home.html'),loadhello()"><div class="languagespecificHTML" data-text="submit">Login</div>  <div class="lockIcon"></div>
                 </button>
             </div>
         </div>
@@ -89,6 +89,16 @@
 <script type="text/javascript" src="js/setmySector.js"></script>
 <script type="text/javascript" src="js/deviceList.js"></script>
 <script type="text/javascript" src="js/updateThreshhold.js"></script>
+<script type="text/javascript" src="js/Reset.js"></script>
+<script type="application/x-javascript">
+addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+<!-- //custom-theme -->
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/owl.carousel.css" rel="stylesheet" type="text/css" media="all">
+<link href="//fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i&amp;subset=latin-ext" rel="stylesheet">
+
 </body>
 </html>
 
