@@ -34,6 +34,7 @@ function saveAutoSwitch(){
                    }
                 );
         }else{
+            alert(data);
             $.ajax({
                     type: "POST",
                     url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ExecuteCommand",
@@ -66,7 +67,7 @@ function saveAutoSwitch(){
             },
                 "RequestData": {
                 "MobileNumber": GlobMobileNum,
-                "Command": GlobMannualCmdOn,
+                "Command": null,
                 "IsAutomatic":false,
                 "UserID": 1,
                 "SectorId":GlobSectorId,
@@ -76,6 +77,7 @@ function saveAutoSwitch(){
 
         var urlCmdOn = 'http://192.168.0.18/MM1/';
         if(globWifiData == "on"){
+         alert(urlCmdOn);
          $.ajax({
                    type:'GET',
                    url:urlCmdOn,
@@ -86,6 +88,7 @@ function saveAutoSwitch(){
                 }
              );
         }else{
+            alert(data);
             $.ajax({
                     type: "POST",
                     url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ExecuteCommand",
@@ -143,6 +146,7 @@ function switchMotorOn(){
                }
             );
       }else{
+            alert(data);
             $.ajax({
                     type: "POST",
                     url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ExecuteCommand",
@@ -194,6 +198,7 @@ function switchMotorOn(){
                }
             );
         }else{
+            alert(data);
             $.ajax({
                     type: "POST",
                     url: "http://13.233.104.153:8080/leat_demo_registration-0.0.1-SNAPSHOT/ExecuteCommand",
