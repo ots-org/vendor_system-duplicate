@@ -9,8 +9,8 @@
 		<query>SELECT o 
 		FROM 
 			OtsUsers o	
-		WHERE 
-			o.otsUserRoleId = :otsUserRoleId
+		WHERE  	
+			o.otsUserRoleId = :otsUserRoleId 
 		</query>
 	</named-query> 	
 	<named-query name="OtsUsers.findByRegistrationTable">

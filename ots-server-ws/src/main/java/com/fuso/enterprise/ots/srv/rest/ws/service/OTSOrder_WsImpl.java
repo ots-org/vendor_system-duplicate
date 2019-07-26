@@ -342,7 +342,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		}
 	}
 	
-	@Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
+	@Scheduled(cron = "0 * * ? * *",zone = "Indian/Maldives")
 	public void scheduleFixed12AM() {
 		oTSOrderService.runScheduler12AMTO1AM();
 	    System.out.println(

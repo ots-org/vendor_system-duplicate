@@ -139,9 +139,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 			otsProduct = super.getResultByNamedQuery("OtsProduct.findByOtsProductId", queryParameter);
 			productDetails = convertProductDetailsFromEntityToDomain(otsProduct);	
 		}catch(Exception e) {
-			logger.error("Exception while Inserting data to DB  :"+e.getMessage());
-	    	e.printStackTrace();
-	        throw new BusinessException(e.getMessage(), e);
+			return null;
 		}
 	return productDetails;
 	}

@@ -55,8 +55,8 @@ public class SchedulerDaoImpl extends AbstractIptDao<OtsScheduler, String> imple
 				productId.setOtsProductId(Integer.parseInt(addSchedulerRequest.getAddScheduler().get(i).getProdcutId()));
 				otsScheduler.setOtsProductId(productId);
 				otsScheduler.setOtsOrderQty(Integer.parseInt(addSchedulerRequest.getAddScheduler().get(i).getProdcutQty()));
-				otsScheduler.setOtsSchedulerEtDt(addSchedulerRequest.getAddScheduler().get(i).getEndDate());
-				otsScheduler.setOtsSchedulerStDt(addSchedulerRequest.getAddScheduler().get(i).getStartDate());
+				otsScheduler.setOtsSchedulerEtDt(addSchedulerRequest.getAddScheduler().get(0).getEndDate());
+				otsScheduler.setOtsSchedulerStDt(addSchedulerRequest.getAddScheduler().get(0).getStartDate());
 			
 				otsScheduler.setOtsSchedulerWkdy(addSchedulerRequest.getAddScheduler().get(i).getSchduleweekDays().get(j));
 				save(otsScheduler);
