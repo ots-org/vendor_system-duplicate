@@ -6,6 +6,7 @@
 package com.fuso.enterprise.ots.srv.server.model.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -23,12 +24,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SERAJKU
+ * @author shashikumar.ys
  */
 @Entity
 @Table(name = "ots_order")
@@ -46,7 +48,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsOrder.findByOtsOrderCreated", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderCreated = :otsOrderCreated"),
     @NamedQuery(name = "OtsOrder.findByOtsOrderAmountReceived", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderAmountReceived = :otsOrderAmountReceived"),
     @NamedQuery(name = "OtsOrder.findByOtsOrderBalanceCan", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderBalanceCan = :otsOrderBalanceCan"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderOutstandingAmount", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderOutstandingAmount = :otsOrderOutstandingAmount")})
+    @NamedQuery(name = "OtsOrder.findByOtsOrderOutstandingAmount", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderOutstandingAmount = :otsOrderOutstandingAmount"),
+    @NamedQuery(name = "OtsOrder.findByOtsOrderRemarks", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderRemarks = :otsOrderRemarks")})
 public class OtsOrder implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,10 +57,12 @@ public class OtsOrder implements Serializable {
     @Basic(optional = false)
     @Column(name = "ots_order_id")
     private Integer otsOrderId;
+    @Size(max = 45)
     @Column(name = "ots_order_number")
     private String otsOrderNumber;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ots_order_cost")
-    private Long otsOrderCost;
+    private BigDecimal otsOrderCost;
     @Column(name = "ots_order_dt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderDt;
@@ -67,6 +72,7 @@ public class OtsOrder implements Serializable {
     @Column(name = "ots_order_delivered_dt")
     @Temporal(TemporalType.DATE)
     private Date otsOrderDeliveredDt;
+    @Size(max = 45)
     @Column(name = "ots_order_status")
     private String otsOrderStatus;
     @Column(name = "ots_order_timestamp")
@@ -76,11 +82,16 @@ public class OtsOrder implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderCreated;
     @Column(name = "ots_order_amount_received")
-    private Long otsOrderAmountReceived;
+    private BigDecimal otsOrderAmountReceived;
+    @Size(max = 45)
     @Column(name = "ots_order_balance_can")
     private String otsOrderBalanceCan;
+    @Size(max = 45)
     @Column(name = "ots_order_outstanding_amount")
     private String otsOrderOutstandingAmount;
+    @Size(max = 45)
+    @Column(name = "ots_order_remarks")
+    private String otsOrderRemarks;
     @JoinColumn(name = "ots_bill_id", referencedColumnName = "ots_bill_id")
     @ManyToOne
     private OtsBill otsBillId;
@@ -119,11 +130,11 @@ public class OtsOrder implements Serializable {
         this.otsOrderNumber = otsOrderNumber;
     }
 
-    public Long getOtsOrderCost() {
+    public BigDecimal getOtsOrderCost() {
         return otsOrderCost;
     }
 
-    public void setOtsOrderCost(Long otsOrderCost) {
+    public void setOtsOrderCost(BigDecimal otsOrderCost) {
         this.otsOrderCost = otsOrderCost;
     }
 
@@ -175,11 +186,11 @@ public class OtsOrder implements Serializable {
         this.otsOrderCreated = otsOrderCreated;
     }
 
-    public Long getOtsOrderAmountReceived() {
+    public BigDecimal getOtsOrderAmountReceived() {
         return otsOrderAmountReceived;
     }
 
-    public void setOtsOrderAmountReceived(Long otsOrderAmountReceived) {
+    public void setOtsOrderAmountReceived(BigDecimal otsOrderAmountReceived) {
         this.otsOrderAmountReceived = otsOrderAmountReceived;
     }
 
@@ -197,6 +208,14 @@ public class OtsOrder implements Serializable {
 
     public void setOtsOrderOutstandingAmount(String otsOrderOutstandingAmount) {
         this.otsOrderOutstandingAmount = otsOrderOutstandingAmount;
+    }
+
+    public String getOtsOrderRemarks() {
+        return otsOrderRemarks;
+    }
+
+    public void setOtsOrderRemarks(String otsOrderRemarks) {
+        this.otsOrderRemarks = otsOrderRemarks;
     }
 
     public OtsBill getOtsBillId() {

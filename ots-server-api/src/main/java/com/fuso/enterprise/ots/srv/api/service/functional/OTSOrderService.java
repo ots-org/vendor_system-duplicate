@@ -44,4 +44,5 @@ public interface OTSOrderService {
 	String employeeTransferOrder(EmployeeOrderTransferRequest employeeOrderTransferRequest);
 	String runScheduler12AMTO1AM();
 	String UpdateOrderStatus(UpdateOrderStatusRequest updateOrderStatusRequest);
+	String schedulerOrder(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest);
 }

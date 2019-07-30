@@ -6,6 +6,7 @@
 package com.fuso.enterprise.ots.srv.server.model.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -20,11 +21,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author SERAJKU
+ * @author shashikumar.ys
  */
 @Entity
 @Table(name = "ots_order_product")
@@ -50,8 +52,10 @@ public class OtsOrderProduct implements Serializable {
     private Integer otsOrderedQty;
     @Column(name = "ots_delivered_qty")
     private Integer otsDeliveredQty;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ots_order_product_cost")
-    private Long otsOrderProductCost;
+    private BigDecimal otsOrderProductCost;
+    @Size(max = 55)
     @Column(name = "ots_order_product_status")
     private String otsOrderProductStatus;
     @Column(name = "ots_order_product_timestamp")
@@ -100,11 +104,11 @@ public class OtsOrderProduct implements Serializable {
         this.otsDeliveredQty = otsDeliveredQty;
     }
 
-    public Long getOtsOrderProductCost() {
+    public BigDecimal getOtsOrderProductCost() {
         return otsOrderProductCost;
     }
 
-    public void setOtsOrderProductCost(Long otsOrderProductCost) {
+    public void setOtsOrderProductCost(BigDecimal otsOrderProductCost) {
         this.otsOrderProductCost = otsOrderProductCost;
     }
 
