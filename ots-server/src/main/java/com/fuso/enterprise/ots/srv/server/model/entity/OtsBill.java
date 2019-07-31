@@ -6,6 +6,7 @@
 package com.fuso.enterprise.ots.srv.server.model.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -22,12 +23,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SERAJKU
+ * @author shashikumar.ys
  */
 @Entity
 @Table(name = "ots_bill")
@@ -40,6 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsBill.findByOtsBillAmountReceived", query = "SELECT o FROM OtsBill o WHERE o.otsBillAmountReceived = :otsBillAmountReceived"),
     @NamedQuery(name = "OtsBill.findByOtsBillGenerated", query = "SELECT o FROM OtsBill o WHERE o.otsBillGenerated = :otsBillGenerated"),
     @NamedQuery(name = "OtsBill.findByOtsBillStatus", query = "SELECT o FROM OtsBill o WHERE o.otsBillStatus = :otsBillStatus"),
+    @NamedQuery(name = "OtsBill.findByOtsBillTimestamp", query = "SELECT o FROM OtsBill o WHERE o.otsBillTimestamp = :otsBillTimestamp"),
+    @NamedQuery(name = "OtsBill.findByOtsBillCreated", query = "SELECT o FROM OtsBill o WHERE o.otsBillCreated = :otsBillCreated"),
     @NamedQuery(name = "OtsBill.findByOtsbillIGST", query = "SELECT o FROM OtsBill o WHERE o.otsbillIGST = :otsbillIGST"),
     @NamedQuery(name = "OtsBill.findByOtsbillSGST", query = "SELECT o FROM OtsBill o WHERE o.otsbillSGST = :otsbillSGST"),
     @NamedQuery(name = "OtsBill.findByOtsBillOutstandingAmt", query = "SELECT o FROM OtsBill o WHERE o.otsBillOutstandingAmt = :otsBillOutstandingAmt"),
@@ -51,26 +55,33 @@ public class OtsBill implements Serializable {
     @Basic(optional = false)
     @Column(name = "ots_bill_id")
     private Integer otsBillId;
+    @Size(max = 45)
     @Column(name = "ots_bill_number")
     private String otsBillNumber;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ots_bill_amount")
-    private String otsBillAmount;
+    private BigDecimal otsBillAmount;
     @Column(name = "ots_bill_amount_received")
-    private String otsBillAmountReceived;
+    private BigDecimal otsBillAmountReceived;
+    @Size(max = 45)
     @Column(name = "ots_bill_generated")
     private String otsBillGenerated;
+    @Size(max = 45)
     @Column(name = "ots_bill_status")
     private String otsBillStatus;
-    
+    @Column(name = "ots_bill_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsBillTimestamp;
     @Column(name = "ots_bill_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsBillCreated;
     @Column(name = "ots_bill_IGST")
-    private String otsbillIGST;
+    private BigDecimal otsbillIGST;
     @Column(name = "ots_bill_SGST")
-    private String otsbillSGST;
+    private BigDecimal otsbillSGST;
     @Column(name = "ots_bill_outstanding_amt")
-    private String otsBillOutstandingAmt;
+    private BigDecimal otsBillOutstandingAmt;
+    @Size(max = 5000)
     @Column(name = "ots_bill_pdf")
     private String otsBillPdf;
     @JoinColumn(name = "ots_customer_id", referencedColumnName = "ots_users_id")
@@ -102,6 +113,21 @@ public class OtsBill implements Serializable {
         this.otsBillNumber = otsBillNumber;
     }
 
+    public BigDecimal getOtsBillAmount() {
+        return otsBillAmount;
+    }
+
+    public void setOtsBillAmount(BigDecimal otsBillAmount) {
+        this.otsBillAmount = otsBillAmount;
+    }
+
+    public BigDecimal getOtsBillAmountReceived() {
+        return otsBillAmountReceived;
+    }
+
+    public void setOtsBillAmountReceived(BigDecimal otsBillAmountReceived) {
+        this.otsBillAmountReceived = otsBillAmountReceived;
+    }
 
     public String getOtsBillGenerated() {
         return otsBillGenerated;
@@ -119,7 +145,14 @@ public class OtsBill implements Serializable {
         this.otsBillStatus = otsBillStatus;
     }
 
-    
+    public Date getOtsBillTimestamp() {
+        return otsBillTimestamp;
+    }
+
+    public void setOtsBillTimestamp(Date otsBillTimestamp) {
+        this.otsBillTimestamp = otsBillTimestamp;
+    }
+
     public Date getOtsBillCreated() {
         return otsBillCreated;
     }
@@ -128,55 +161,35 @@ public class OtsBill implements Serializable {
         this.otsBillCreated = otsBillCreated;
     }
 
+    public BigDecimal getOtsbillIGST() {
+        return otsbillIGST;
+    }
+
+    public void setOtsbillIGST(BigDecimal otsbillIGST) {
+        this.otsbillIGST = otsbillIGST;
+    }
+
+    public BigDecimal getOtsbillSGST() {
+        return otsbillSGST;
+    }
+
+    public void setOtsbillSGST(BigDecimal otsbillSGST) {
+        this.otsbillSGST = otsbillSGST;
+    }
+
+    public BigDecimal getOtsBillOutstandingAmt() {
+        return otsBillOutstandingAmt;
+    }
+
+    public void setOtsBillOutstandingAmt(BigDecimal otsBillOutstandingAmt) {
+        this.otsBillOutstandingAmt = otsBillOutstandingAmt;
+    }
+
     public String getOtsBillPdf() {
         return otsBillPdf;
     }
 
-    public String getOtsBillAmount() {
-		return otsBillAmount;
-	}
-
-	public void setOtsBillAmount(String otsBillAmount) {
-		this.otsBillAmount = otsBillAmount;
-	}
-
-	public String getOtsBillAmountReceived() {
-		return otsBillAmountReceived;
-	}
-
-	public void setOtsBillAmountReceived(String otsBillAmountReceived) {
-		this.otsBillAmountReceived = otsBillAmountReceived;
-	}
-
-	public String getOtsbillIGST() {
-		return otsbillIGST;
-	}
-
-	public void setOtsbillIGST(String otsbillIGST) {
-		this.otsbillIGST = otsbillIGST;
-	}
-
-	public String getOtsbillSGST() {
-		return otsbillSGST;
-	}
-
-	public void setOtsbillSGST(String otsbillSGST) {
-		this.otsbillSGST = otsbillSGST;
-	}
-
-	public String getOtsBillOutstandingAmt() {
-		return otsBillOutstandingAmt;
-	}
-
-	public void setOtsBillOutstandingAmt(String otsBillOutstandingAmt) {
-		this.otsBillOutstandingAmt = otsBillOutstandingAmt;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public void setOtsBillPdf(String otsBillPdf) {
+    public void setOtsBillPdf(String otsBillPdf) {
         this.otsBillPdf = otsBillPdf;
     }
 

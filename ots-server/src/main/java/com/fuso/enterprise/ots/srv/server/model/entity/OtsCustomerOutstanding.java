@@ -6,6 +6,7 @@
 package com.fuso.enterprise.ots.srv.server.model.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -42,7 +43,7 @@ public class OtsCustomerOutstanding implements Serializable {
     @Column(name = "ots_customer_outstanding_id")
     private Integer otsCustomerOutstandingId;
     @Column(name = "ots_customer_outstanding_amt")
-    private Long otsCustomerOutstandingAmt;
+    private BigDecimal otsCustomerOutstandingAmt;
     @JoinColumn(name = "ots_customer_id", referencedColumnName = "ots_users_id")
     @OneToOne(optional = false)
     private OtsUsers otsCustomerId;
@@ -62,11 +63,11 @@ public class OtsCustomerOutstanding implements Serializable {
         this.otsCustomerOutstandingId = otsCustomerOutstandingId;
     }
 
-    public Long getOtsCustomerOutstandingAmt() {
+    public BigDecimal getOtsCustomerOutstandingAmt() {
         return otsCustomerOutstandingAmt;
     }
 
-    public void setOtsCustomerOutstandingAmt(Long otsCustomerOutstandingAmt) {
+    public void setOtsCustomerOutstandingAmt(BigDecimal otsCustomerOutstandingAmt) {
         this.otsCustomerOutstandingAmt = otsCustomerOutstandingAmt;
     }
 

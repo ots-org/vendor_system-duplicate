@@ -77,6 +77,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 		List<CustomerProductDetails> customerProductDetails = new ArrayList<CustomerProductDetails>();
 		List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
 		List<GetProductBOStockResponse> productStockvalue = new ArrayList<GetProductBOStockResponse>();
+		System.out.print("2");
 		if(productDetailsBORequest.getRequestData().getSearchKey().equals("All") && productDetailsBORequest.getRequestData().getDistributorId().equals("1")) {
 			productDetailsBOResponse = productServiceDAO.getProductList(productDetailsBORequest);
 		}else if(productDetailsBORequest.getRequestData().getCustomerId()!=null){
@@ -107,6 +108,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 				throw new BusinessException(e.getMessage(), e);
 			}
 		}else {
+			System.out.print("3");
 			productStockvalue = productStockDao.getProductStockByUid(productDetailsBORequest.getRequestData().getDistributorId());
 			for(int i=0;i<productStockvalue.size();i++) {
 				productDetails.add(i,productServiceDAO.getProductDetils(productStockvalue.get(i).getProductId()));
@@ -256,8 +258,8 @@ public class OTSProductServiceImpl implements OTSProductService {
 								System.out.print("i"+i+"j"+j+"TotalproductQty"+TotalproductQty);
 
 								productDetailsList.setProductqty(String.valueOf(TotalproductQty));
-
-								totalProductPrice =(TotalproductQty * Integer.valueOf(totalProductDetails.get(j).getOtsOrderProductCost()));
+								
+								totalProductPrice =(TotalproductQty * Math.round(Float.valueOf(totalProductDetails.get(j).getOtsOrderProductCost())));
 
 								productDetailsList.setTotalProductPrice(String.valueOf(totalProductPrice));
 

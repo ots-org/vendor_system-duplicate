@@ -97,7 +97,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		try {
 			if(!getOrderByStatusRequest.getRequest().getDistrubitorId().equals(null))  {	
 				orderProductBOResponse = oTSOrderService.getOrderByStatusAndDistributor(getOrderByStatusRequest);
-				System.out.println(orderProductBOResponse.getOrderList().get(0).getOrderDate()+"in WS");
+				System.out.println( orderProductBOResponse.getOrderList().get(0).getOrderDate()+"in WS");
 				
 				if (!orderProductBOResponse.getOrderList().isEmpty()) {
 					logger.info("Inside Event=1011,Class:OTSProduct_WsImpl,Method:getOrderList, " + "Successfull");
@@ -342,7 +342,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		}
 	}
 	
-	@Scheduled(cron = "0 * * ? * *",zone = "Indian/Maldives")
+	@Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
 	public void scheduleFixed12AM() {
 		oTSOrderService.runScheduler12AMTO1AM();
 	    System.out.println(

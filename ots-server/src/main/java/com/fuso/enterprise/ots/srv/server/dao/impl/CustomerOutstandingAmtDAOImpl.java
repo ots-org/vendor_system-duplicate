@@ -1,5 +1,6 @@
 package com.fuso.enterprise.ots.srv.server.dao.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,13 +43,15 @@ public class CustomerOutstandingAmtDAOImpl extends AbstractIptDao<OtsCustomerOut
 			try {
 				queryParameter.put("customerId", otsUsers);
 				otsCustomerOutstanding=super.getResultByNamedQuery("OtsCustomerOutstanding.findByOtscustomerId", queryParameter);
-				otsCustomerOutstanding.setOtsCustomerOutstandingAmt(Long.parseLong(customerOutstandingBORequest.getRequestData().getCustomerOutstandingAmt()));
+				BigDecimal outAmt=new BigDecimal(customerOutstandingBORequest.getRequestData().getCustomerOutstandingAmt());
+				otsCustomerOutstanding.setOtsCustomerOutstandingAmt(outAmt);
 				super.getEntityManager().merge(otsCustomerOutstanding);
 				responseData="Customer Outstanding Balance Updated Successfully";
 				logger.info("Inside Event=1022,Class:CustomerOutstandingAmtDAOImpl,Method:updateCustomerOutstandingAmt");
 			}catch (NoResultException e) {
 				otsCustomerOutstanding.setOtsCustomerId(otsUsers);
-				otsCustomerOutstanding.setOtsCustomerOutstandingAmt(Long.parseLong(customerOutstandingBORequest.getRequestData().getCustomerOutstandingAmt()));
+				BigDecimal outAmt=new BigDecimal(customerOutstandingBORequest.getRequestData().getCustomerOutstandingAmt());
+				otsCustomerOutstanding.setOtsCustomerOutstandingAmt(outAmt);
 				super.getEntityManager().merge(otsCustomerOutstanding);
 				responseData="Customer Outstanding Balance Added Successfully";
 	        }
