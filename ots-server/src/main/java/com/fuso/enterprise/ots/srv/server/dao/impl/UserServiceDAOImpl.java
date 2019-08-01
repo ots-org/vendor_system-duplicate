@@ -269,5 +269,20 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 		}
 			return userDetails;
 	}
+	
+	@Override
+	public UserDetails checkForOTP(String  mobilenumber) {
+			UserDetails userDetails = new UserDetails();
+			try {
+			OtsUsers userList = null;
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsUsersContactNo", mobilenumber);
+			userList = super.getResultByNamedQuery("OtsUsers.findByOtsUsersContactNo", queryParameter);
+			userDetails = convertUserDetailsFromEntityToDomain(userList);
+		}catch(Exception e) {
+			return null;
+		}
+			return userDetails;
+	}
 
 }

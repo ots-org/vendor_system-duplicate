@@ -17,6 +17,7 @@ import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
@@ -337,5 +338,11 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 				throw new BusinessException(e.getMessage(), e);
 			}
 		}
+
+	@Override
+	public Response forgotPassword(ForgotPasswordRequest forgotPasswordRequest) {
+		Response response =  responseWrapper.buildResponse(otsUserService.sendOTP(forgotPasswordRequest),"user rejected Successfully");
+		return response;
+	}
 
 }

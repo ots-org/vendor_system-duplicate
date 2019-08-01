@@ -44,35 +44,39 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 		String searchvalue  = requestBOUserBySearch.getRequestData().getSearchvalue();
         Map<String, Object> queryParameter = new HashMap<>();
         List<OtsUsers> userList = null;
-		try {
+		if(requestBOUserBySearch.getRequestData().getDistributorId()!=null) {
+			System.out.print("Dis");
+			try {
 	            switch(searchKey)
-	            {
-	            case "UsersId":
-	            					queryParameter.put("otsUsersId", Integer.parseInt(searchvalue));
-	            					userList  = super.getResultListByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
-	            				    break;
-	            case "UsersFirstname":
-									queryParameter.put("otsUsersFirstname","%"+searchvalue+"%");
-									userList  = super.getResultListByNamedQuery("OtsUsers.findByPattrenMatchingotsUsersFirstname", queryParameter);
-								    break;
-	            case "UsersLastname":
-									queryParameter.put("otsUsersLastname","%"+searchvalue+"%");
-									userList  = super.getResultListByNamedQuery("OtsUsers.findByPattrenMatchingotsUsersLastname", queryParameter);
-									break;
-	            case "UsersEmailid":
-									queryParameter.put("otsUsersEmailid","%"+searchvalue+"%");
-									userList  = super.getResultListByNamedQuery("OtsUsers.findByPattrenMatchingotsUsersEmailid", queryParameter);
-								    break;
-	            case "UserRoleId":
-									OtsUserRole otsUserRole = new OtsUserRole();
-	            					otsUserRole.setOtsUserRoleId(Integer.parseInt(searchvalue));
-	            					queryParameter.put("otsUserRoleId", otsUserRole);
-									userList  = super.getResultListByNamedQuery("OtsUsers.findByUserOtsRoleId", queryParameter);
-									break;
-	            default:
-	            					return null;
-
-	            }
+		            {
+			            case "UsersId":
+			            					queryParameter.put("otsUsersId", Integer.parseInt(searchvalue));
+			            					queryParameter.put("DistributorId", Integer.parseInt(requestBOUserBySearch.getRequestData().getDistributorId()));
+			            					userList  = super.getResultListByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
+			            				    break;
+			            case "UsersFirstname":
+											queryParameter.put("otsUsersFirstname","%"+searchvalue+"%");
+											userList  = super.getResultListByNamedQuery("OtsUsers.findByPattrenMatchingotsUsersFirstname", queryParameter);
+										    break;
+			            case "UsersLastname":
+											queryParameter.put("otsUsersLastname","%"+searchvalue+"%");
+											userList  = super.getResultListByNamedQuery("OtsUsers.findByPattrenMatchingotsUsersLastname", queryParameter);
+											break;
+			            case "UsersEmailid":
+											queryParameter.put("otsUsersEmailid","%"+searchvalue+"%");
+											userList  = super.getResultListByNamedQuery("OtsUsers.findByPattrenMatchingotsUsersEmailid", queryParameter);
+										    break;
+			            case "UserRoleId":
+											OtsUserRole otsUserRole = new OtsUserRole();
+			            					otsUserRole.setOtsUserRoleId(Integer.parseInt(searchvalue));
+			            					queryParameter.put("otsUserRoleId", otsUserRole);
+											userList  = super.getResultListByNamedQuery("OtsUsers.findByUserOtsRoleId", queryParameter);
+											break;
+			           
+			            default:
+			            					return null;
+		
+		            }
 	            logger.info("Inside Event=1,Class:UserServiceDAOImpl,Method:getUserIDUsers, "
 						+ "UserList Size:" +userList.size());
 	            //@formatter:off
@@ -85,6 +89,55 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
     		e.printStackTrace();
         	throw new BusinessException(e.getMessage(), e);
         }
+		}else {
+			 try {
+		            switch(searchKey)
+		            {
+		            case "UsersId":
+		            					queryParameter.put("otsUsersId", Integer.parseInt(searchvalue));
+		            					userList  = super.getResultListByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
+		            				    break;
+		            case "UsersFirstname":
+										queryParameter.put("otsUsersFirstname","%"+searchvalue+"%");
+										userList  = super.getResultListByNamedQuery("OtsUsers.findByPattrenMatchingotsUsersFirstname", queryParameter);
+									    break;
+		            case "UsersLastname":
+										queryParameter.put("otsUsersLastname","%"+searchvalue+"%");
+										userList  = super.getResultListByNamedQuery("OtsUsers.findByPattrenMatchingotsUsersLastname", queryParameter);
+										break;
+		            case "UsersEmailid":
+										queryParameter.put("otsUsersEmailid","%"+searchvalue+"%");
+										userList  = super.getResultListByNamedQuery("OtsUsers.findByPattrenMatchingotsUsersEmailid", queryParameter);
+									    break;
+		            case "UserRoleId":
+										OtsUserRole otsUserRole = new OtsUserRole();
+		            					otsUserRole.setOtsUserRoleId(Integer.parseInt(searchvalue));
+		            					queryParameter.put("otsUserRoleId", otsUserRole);
+										userList  = super.getResultListByNamedQuery("OtsUsers.findByUserOtsRoleId", queryParameter);
+										break;
+		           
+		            default:
+		            					return null;
+
+		            }
+		            logger.info("Inside Event=1,Class:UserServiceDAOImpl,Method:getUserIDUsers, "
+							+ "UserList Size:" +userList.size());
+		            //@formatter:off
+		            userDetails =  userList.stream().map(OtsUsers -> convertUserDetailsFromEntityToDomain(OtsUsers)).collect(Collectors.toList());
+		            System.out.println("+++++++++++++++++"+userDetails);
+		            return userDetails;
+		            //@formatter:on
+	    	}catch (NoResultException e) {
+	        	logger.error("Exception while fetching data from DB :"+e.getMessage());
+	    		e.printStackTrace();
+	        	throw new BusinessException(e.getMessage(), e);
+	        }
+		}
+        
+        
+        
+        
+       
 	}
 
 	private UserDetails convertUserDetailsFromEntityToDomain(OtsUsers users) {

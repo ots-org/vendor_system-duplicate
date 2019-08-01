@@ -37,7 +37,6 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 					+ productDetailsBORequest.getRequestData().getSearchKey()+"Search Val :"+productDetailsBORequest.getRequestData().getSearchvalue());
 			ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
 			try {
-				System.out.print("1");
 				productDetailsBOResponse = otsProductService.getProductList(productDetailsBORequest);
 				if (productDetailsBOResponse != null) {
 					logger.info("Inside Event=1012,Class:OTSProduct_WsImpl,Method:getProductList, " + "ProductList Size:"

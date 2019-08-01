@@ -3,6 +3,7 @@ package com.fuso.enterprise.ots.srv.api.service.functional;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
@@ -43,6 +44,8 @@ public interface OTSUserService {
 	OutstandingCustomerResponse getOutstandingData(String distributorId);
 
 	String rejectUser(RejectUserModel rejectUserModel);
+
+	String sendOTP(ForgotPasswordRequest forgotPasswordRequest);
 
 	
 }

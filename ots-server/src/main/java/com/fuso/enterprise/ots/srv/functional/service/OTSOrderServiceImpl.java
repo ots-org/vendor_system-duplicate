@@ -371,7 +371,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				getProductRequestModel.setProductId(orderProductDetailsList.get(j).getOtsProductId());
 				getProductStockRequest.setRequestData(getProductRequestModel);
 				OrderProductDetails orderProductDetails = new OrderProductDetails();
-				
+				orderProductDetails.setType(orderProductDetailsList.get(j).getType());
 				orderProductDetails = orderProductDetailsList.get(j);
 				orderProductDetails.setStock(productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity()==null?null:productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity());
 				orderProductDetailsList2.add(j,orderProductDetails);

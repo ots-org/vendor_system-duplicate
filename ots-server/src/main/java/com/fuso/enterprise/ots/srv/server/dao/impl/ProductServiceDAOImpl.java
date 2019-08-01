@@ -94,7 +94,8 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 				otsProduct.setOtsProductPrice(productPrice);
 				otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
 				otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
-			}else {
+				otsProduct.setOtsProductType(addorUpdateProductBORequest.getRequestData().getProductType());
+			}else{
 				otsProduct.setOtsProductId(Integer.parseInt(addorUpdateProductBORequest.getRequestData().getProductId()));
 				otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
 				otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
@@ -102,7 +103,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 				otsProduct.setOtsProductPrice(productPrice);
 				otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
 				otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
-				
+				otsProduct.setOtsProductType(addorUpdateProductBORequest.getRequestData().getProductType());
 			}
 			try {
 				super.getEntityManager().merge(otsProduct);

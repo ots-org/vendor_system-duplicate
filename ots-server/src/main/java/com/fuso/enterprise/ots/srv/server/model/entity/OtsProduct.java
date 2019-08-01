@@ -41,7 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsProduct.findByOtsProductStatus", query = "SELECT o FROM OtsProduct o WHERE o.otsProductStatus = :otsProductStatus"),
     @NamedQuery(name = "OtsProduct.findByOtsProductTimestamp", query = "SELECT o FROM OtsProduct o WHERE o.otsProductTimestamp = :otsProductTimestamp"),
     @NamedQuery(name = "OtsProduct.findByOtsProductCreated", query = "SELECT o FROM OtsProduct o WHERE o.otsProductCreated = :otsProductCreated"),
-    @NamedQuery(name = "OtsProduct.findByOtsProductPrice", query = "SELECT o FROM OtsProduct o WHERE o.otsProductPrice = :otsProductPrice")})
+    @NamedQuery(name = "OtsProduct.findByOtsProductPrice", query = "SELECT o FROM OtsProduct o WHERE o.otsProductPrice = :otsProductPrice"),
+    @NamedQuery(name = "OtsProduct.findByOtsProductType", query = "SELECT o FROM OtsProduct o WHERE o.otsProductType = :otsProductType")})
 public class OtsProduct implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -83,8 +84,18 @@ public class OtsProduct implements Serializable {
     private Collection<OtsOrderProduct> otsOrderProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsScheduler> otsSchedulerCollection;
+    @Column(name = "ots_product_type")
+    private String otsProductType;
 
-    public OtsProduct() {
+    public String getOtsProductType() {
+		return otsProductType;
+	}
+
+	public void setOtsProductType(String otsProductType) {
+		this.otsProductType = otsProductType;
+	}
+
+	public OtsProduct() {
     }
 
     public OtsProduct(Integer otsProductId) {

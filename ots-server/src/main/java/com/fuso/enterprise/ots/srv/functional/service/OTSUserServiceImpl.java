@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -28,6 +29,7 @@ import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
@@ -53,6 +55,7 @@ import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceUtilityDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
+import com.fuso.enterprise.ots.srv.server.util.EmailUtil;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
 
 @Service
@@ -375,6 +378,25 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			return userRegistrationDao.UpdateStatus(rejectUserModel);
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
+		}
+		
+	}
+	
+	@Override
+	public String sendOTP(ForgotPasswordRequest forgotPasswordRequest) {
+		try {
+			Random rand = new Random(); 
+			int otp = rand.nextInt(10000);
+			if(userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getEmail())!=null) {
+				EmailUtil.sendOTP(userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getEmail()).getEmailId(), "srividhya.ramakrishna@ortusolis.com","Water Management OTP", "Your one time password for water management is "+ otp+". This is active for only 5 minutes. Please do not share this with anyone.");
+				return String.valueOf(otp) ;
+			}else {
+				return "Wrong mobile number, please check or contact admin";
+			}
+						
+			
+		}catch(Exception e) {
+			return	"Please check Phone Number";
 		}
 		
 	}

@@ -4,7 +4,14 @@ public class GetUserDetailsBORequest {
 	
 	String searchKey;
 	String searchvalue;
+	String distributorId;
 	
+	public String getDistributorId() {
+		return distributorId;
+	}
+	public void setDistributorId(String distributorId) {
+		this.distributorId = distributorId;
+	}
 	public String getSearchKey() {
 		return searchKey;
 	}

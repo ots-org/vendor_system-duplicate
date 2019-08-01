@@ -36,8 +36,9 @@
 	<named-query name="OtsUsers.findByPattrenMatchingotsUsersFirstname">
 		<query>SELECT o 
 		FROM 
-		OtsUsers o 
-		WHERE o.otsUsersFirstname LIKE :otsUsersFirstname
+			OtsUsers o 
+		WHERE
+			 o.otsUsersFirstname LIKE :otsUsersFirstname
 		</query>
 	</named-query>
 	<named-query name="OtsUsers.findByPattrenMatchingotsUsersLastname">
@@ -127,6 +128,7 @@
 			(o.otsCustomerId = :CustomerId)
 		AND
 			(o.otsOrderStatus =:status)
+	
 		</query>
 	</named-query> 		 	 
 	<named-query name="OtsOrder.getOrderIdByDistrubitorId">

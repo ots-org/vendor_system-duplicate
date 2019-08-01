@@ -27,6 +27,8 @@ public class ProductDetails {
 	 @Size(max = 20)
 	 private String Stock;
 	 
+	 private String ProductType;
+	 
 	public String getProductId() {
 		return productId;
 	}
@@ -81,6 +83,14 @@ public class ProductDetails {
 
 	public void setProductImage(String productImage) {
 		this.productImage = productImage;
+	}
+
+	public String getProductType() {
+		return ProductType;
+	}
+
+	public void setProductType(String productType) {
+		ProductType = productType;
 	}
 	
 	
