@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -120,7 +122,8 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 			otsOrderProduct.setOtsProductId(ProductId);
 			otsOrderProduct.setOtsOrderedQty(Integer.parseInt(orderedProductDetails.getOrderedQty()));
 			otsOrderProduct.setOtsOrderProductStatus(orderedProductDetails.getProductStatus());
-			otsOrderProduct.setOtsOrderProductCost(Long.valueOf(orderedProductDetails.getProductCost()));
+			BigDecimal ProductCost=new BigDecimal(orderedProductDetails.getProductCost());
+			otsOrderProduct.setOtsOrderProductCost(ProductCost);
 			otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(orderedProductDetails.getOts_delivered_qty()));
 			save(otsOrderProduct);
 			return "Inserted";
@@ -166,7 +169,8 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 			otsOrderProduct.setOtsProductId(ProductId);
 			otsOrderProduct.setOtsOrderedQty(Integer.parseInt(orderedProductDetails.getOrderedQty()));
 			otsOrderProduct.setOtsOrderProductStatus(orderedProductDetails.getProductStatus());
-			otsOrderProduct.setOtsOrderProductCost(Long.valueOf(orderedProductDetails.getProductCost()));
+			BigDecimal ProductCost=new BigDecimal(orderedProductDetails.getProductCost());
+			otsOrderProduct.setOtsOrderProductCost(ProductCost);
 			otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(orderedProductDetails.getOts_delivered_qty()));
 			if(orderedProductDetails.getOrderProductId()==null) {
 			System.out.println("Inserted");
@@ -243,7 +247,8 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 			otsOrderProduct.setOtsProductId(ProductId);
 			otsOrderProduct.setOtsOrderedQty(Integer.parseInt(orderedProductDetails.getOrderedQty()));
 			otsOrderProduct.setOtsOrderProductStatus(orderedProductDetails.getProductStatus());
-			otsOrderProduct.setOtsOrderProductCost(Long.valueOf(orderedProductDetails.getProductCost()));
+			BigDecimal ProductCost=new BigDecimal(orderedProductDetails.getProductCost());
+			otsOrderProduct.setOtsOrderProductCost(ProductCost);
 			otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(orderedProductDetails.getOts_delivered_qty()));
 			otsOrderProduct.setOtsReceivedCans(Integer.valueOf(orderedProductDetails.getReceivedQty()));
 			if(orderedProductDetails.getOrderProductId()==null) {

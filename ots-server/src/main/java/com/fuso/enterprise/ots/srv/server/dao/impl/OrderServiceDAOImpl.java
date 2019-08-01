@@ -1,5 +1,6 @@
 package com.fuso.enterprise.ots.srv.server.dao.impl;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -226,7 +227,8 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			EmployeeId.setOtsUsersId(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getAssignedId()));
 			otsOrder.setOtsAssignedId(EmployeeId);
 		}
-			otsOrder.setOtsOrderCost(Long.parseLong(addOrUpdateOrderProductBOrequest.getRequest().getOrderCost()));
+			BigDecimal costData=new BigDecimal(addOrUpdateOrderProductBOrequest.getRequest().getOrderCost());
+			otsOrder.setOtsOrderCost(costData);
 			otsOrder.setOtsOrderStatus(addOrUpdateOrderProductBOrequest.getRequest().getOrderStatus());
 			otsOrder.setOtsOrderDt(Date.valueOf(addOrUpdateOrderProductBOrequest.getRequest().getOrderDate()));
 		if(addOrUpdateOrderProductBOrequest.getRequest().getDeliverdDate()==null)
@@ -266,7 +268,8 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 
 			otsOrder.setOtsOrderNumber(updateOrderDetailsRequest.getRequest().getOrderNumber());
 			try {
-				otsOrder.setOtsOrderCost(Long.parseLong(updateOrderDetailsRequest.getRequest().getOrderCost()));
+				BigDecimal costData=new BigDecimal(updateOrderDetailsRequest.getRequest().getOrderCost());
+				otsOrder.setOtsOrderCost(costData);
 			}catch(Exception e) {
 				otsOrder.setOtsOrderCost(null);
 			}
@@ -508,8 +511,10 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			queryParameter.put("otsOrderId",Integer.parseInt( saleVocherBoRequest.getRequest().getOrderId()));
 			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
 			otsOrder.setOtsOrderDeliveredDt(saleVocherBoRequest.getRequest().getDeliverdDate());
-			otsOrder.setOtsOrderAmountReceived(Long.parseLong(saleVocherBoRequest.getRequest().getAmountReceived()));
-			otsOrder.setOtsOrderCost(Long.parseLong(saleVocherBoRequest.getRequest().getOrderCost()));
+			BigDecimal costData=new BigDecimal(saleVocherBoRequest.getRequest().getOrderCost());
+			BigDecimal canData=new BigDecimal(saleVocherBoRequest.getRequest().getAmountReceived());
+			otsOrder.setOtsOrderAmountReceived(canData);
+			otsOrder.setOtsOrderCost(costData);
 			otsOrder.setOtsOrderOutstandingAmount(saleVocherBoRequest.getRequest().getOutstandingAmount());
 			otsOrder.setOtsOrderStatus("close");
 			super.getEntityManager().merge(otsOrder);

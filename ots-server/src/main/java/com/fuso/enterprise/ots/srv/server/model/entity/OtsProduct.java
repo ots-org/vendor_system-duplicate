@@ -6,6 +6,7 @@
 package com.fuso.enterprise.ots.srv.server.model.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -62,7 +63,7 @@ public class OtsProduct implements Serializable {
     private Date otsProductCreated;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ots_product_price")
-    private Float otsProductPrice;
+    private BigDecimal otsProductPrice;
     @Lob
     @Column(name = "ots_product_image")
     private String otsProductImage;
@@ -138,11 +139,11 @@ public class OtsProduct implements Serializable {
         this.otsProductCreated = otsProductCreated;
     }
 
-    public Float getOtsProductPrice() {
+    public BigDecimal getOtsProductPrice() {
         return otsProductPrice;
     }
 
-    public void setOtsProductPrice(Float otsProductPrice) {
+    public void setOtsProductPrice(BigDecimal otsProductPrice) {
         this.otsProductPrice = otsProductPrice;
     }
 

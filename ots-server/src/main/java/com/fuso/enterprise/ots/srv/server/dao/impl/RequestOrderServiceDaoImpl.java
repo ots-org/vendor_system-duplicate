@@ -170,8 +170,6 @@ public class RequestOrderServiceDaoImpl extends AbstractIptDao<OtsRequestOrder, 
 
 	@Override
 	public List<OtsRequestOrder> runSchedulerEveryDay12AMTo1AM(List<OtsScheduler> schedulerList) {
-		
-		
 		Map<String, Object> queryParameter = new HashMap<>();
 		List<OtsRequestOrder> requestOrderList = new ArrayList<OtsRequestOrder>() ;
 		for(int i=0;i<schedulerList.size();i++) {
@@ -187,15 +185,14 @@ public class RequestOrderServiceDaoImpl extends AbstractIptDao<OtsRequestOrder, 
 				c1.add(Calendar.DAY_OF_MONTH, 1);
 				queryParameter.put("tomorrow",c1.getTime());
 				
-				
 				queryParameter.put("otsSchedulerId",otsScheduler);
 				requestOrderList  = super.getResultListByNamedQuery("OtsRequestOrder.getSchedulerDetailsForCronJob", queryParameter);
 				for(int j=0;j<requestOrderList.size();j++) {
 					OtsRequestOrder requestOrder = new OtsRequestOrder();	
 					requestOrder = requestOrderList.get(j);
 					requestOrder.setOtsScheduleDt(requestOrder.getOtsNxtScheduleDt());
-					requestOrder.setOtsNxtScheduleDt(c.getTime());
-					super.getEntityManager().merge(requestOrder);
+					requestOrder.setOtsNxtScheduleDt(c1.getTime());
+ 					super.getEntityManager().merge(requestOrder);
 				}
 			}else if(schedulerList.get(i).getOtsSchedulerType().equals("weekly")) {
 				c.add(Calendar.DAY_OF_MONTH, -1);

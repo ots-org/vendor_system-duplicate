@@ -164,9 +164,8 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 	        }
 			logger.info("Inside Event=1006,Class:MapUserProductDAOImpl,Method:mapUserProduct"+"Successfull");
 		}catch (Exception e) {
-        	logger.error("Exception while Inserting data to DB  :"+e.getMessage());
-    		e.printStackTrace();
-        	throw new BusinessException(e.getMessage(), e);
+        	return null;
+    		
         }
 		return  customerProductDetails;
 	}
@@ -175,7 +174,7 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 		CustomerProductDetails customerProductDetails = new CustomerProductDetails();
 		customerProductDetails.setCustomerBalanceCan(otsCustomerProduct.getOtsCustomerProductBalCan()+"");
 		customerProductDetails.setProductPrice(otsCustomerProduct.getOtsCustomerProductPrice());
-		customerProductDetails.setProductId(otsCustomerProduct.getOtsProductId().toString());
+		customerProductDetails.setProductId(otsCustomerProduct.getOtsProductId().getOtsProductId().toString());
 		customerProductDetails.setProductDefault(otsCustomerProduct.getOtsCustomerProductDefault());
 		customerProductDetails.setUserId(otsCustomerProduct.getOtsUsersId().toString());
 		return customerProductDetails;

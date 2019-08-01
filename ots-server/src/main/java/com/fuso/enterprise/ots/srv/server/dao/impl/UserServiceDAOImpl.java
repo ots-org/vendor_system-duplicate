@@ -265,9 +265,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 			userList = super.getResultByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
 			userDetails = convertUserDetailsFromEntityToDomain(userList);
 		}catch(Exception e) {
-			logger.error("Exception while fetching data from DB :"+e.getMessage());
-    		e.printStackTrace();
-        	throw new BusinessException(e.getMessage(), e);
+			return null;
 		}
 			return userDetails;
 	}

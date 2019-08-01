@@ -1,5 +1,6 @@
 package com.fuso.enterprise.ots.srv.server.dao.impl;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,14 +55,23 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 
 		try{
 			OtsBill otsBill = new OtsBill();
-			otsBill.setOtsBillAmount(billDetailsBORequest.getRequestData().getBillAmount());
-			otsBill.setOtsBillAmountReceived(billDetailsBORequest.getRequestData().getBillAmountReceived());
+			BigDecimal billAmount=new BigDecimal(billDetailsBORequest.getRequestData().getBillAmount());
+			otsBill.setOtsBillAmount(billAmount);
+			
+			BigDecimal amountRecived=new BigDecimal(billDetailsBORequest.getRequestData().getBillAmountReceived());
+			otsBill.setOtsBillAmountReceived(amountRecived);
 			otsBill.setOtsBillGenerated(billDetailsBORequest.getRequestData().getBillGenerated());
 			otsBill.setOtsBillStatus("Active");
 			otsBill.setOtsBillCreated(createDate);
-			otsBill.setOtsbillIGST(billDetailsBORequest.getRequestData().getIGST());
-			otsBill.setOtsbillSGST(billDetailsBORequest.getRequestData().getCGST());
-			otsBill.setOtsBillOutstandingAmt(billDetailsBORequest.getRequestData().getOutstandingAmount());
+			
+			BigDecimal IGST=new BigDecimal(billDetailsBORequest.getRequestData().getIGST());
+			otsBill.setOtsbillIGST(IGST);
+			
+			BigDecimal CGST=new BigDecimal(billDetailsBORequest.getRequestData().getCGST());
+			otsBill.setOtsbillSGST(CGST);
+			
+			BigDecimal outstandingAmount=new BigDecimal(billDetailsBORequest.getRequestData().getCGST());
+			otsBill.setOtsBillOutstandingAmt(outstandingAmount);
 			otsBill.setOtsBillPdf(billDetailsBORequest.getRequestData().getBillPdf());
 			OtsUsers otsUser = new OtsUsers();
 			otsUser.setOtsUsersId(billDetailsBORequest.getRequestData().getCustomerId());

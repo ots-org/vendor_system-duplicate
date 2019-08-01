@@ -231,6 +231,33 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		}
 
 	}
+	
+	
+	@Override
+	public String schedulerOrder(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
+		OrderDetails otsOrderDetails = new OrderDetails();
+		String Response;
+		try {
+			otsOrderDetails = orderServiceDAO.insertOrderAndGetOrderId(addOrUpdateOrderProductBOrequest);
+			try {
+				for(int i=0 ; i <addOrUpdateOrderProductBOrequest.getRequest().getProductList().size() ; i++)
+				{
+					orderProductDao.insertOrdrerProductByOrderId(Integer.parseInt(otsOrderDetails.getOrderId()), addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(i));
+				}
+				Response = "Order Placed and OrderId Is "+otsOrderDetails.getOrderId();
+				return Response;
+			}catch(Exception e){
+				throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+			} catch (Throwable e) {
+				throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+			}
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+		}
+
+	}
 
 
 	@Override
@@ -341,12 +368,12 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				GetProductRequestModel getProductRequestModel = new GetProductRequestModel();
 				
 				getProductRequestModel.setDistributorId(OrderDetailsList.get(0).getDistributorId());
-				getProductRequestModel.setProductId(orderProductDetailsList.get(j).getOtsOrderProductId());
+				getProductRequestModel.setProductId(orderProductDetailsList.get(j).getOtsProductId());
 				getProductStockRequest.setRequestData(getProductRequestModel);
 				OrderProductDetails orderProductDetails = new OrderProductDetails();
 				
 				orderProductDetails = orderProductDetailsList.get(j);
-				orderProductDetails.setStock(productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity());
+				orderProductDetails.setStock(productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity()==null?null:productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity());
 				orderProductDetailsList2.add(j,orderProductDetails);
 			}
 			
@@ -452,7 +479,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			for(int i = 0 ; i<orderDetails.size() ; i++) {
 				orderDetails.get(i).setCustomerDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getCustomerId())));
 				orderDetails.get(i).setDistributorDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getDistributorId())));
-				orderDetails.get(i).setEmployeeDetails(userServiceDAO.getUserDetails(Integer.valueOf(orderDetails.get(i).getAssignedId())));
+				orderDetails.get(i).setEmployeeDetails(userServiceDAO.getUserDetails(orderDetails.get(i).getAssignedId()==null?null:Integer.valueOf(orderDetails.get(i).getAssignedId())));
 				orderDetails.get(i).setOrderProductDetails(orderProductDao.getProductListByOrderId(orderDetails.get(i).getOrderId()));
 			}
 			getListOfOrderByDateBOResponse.setCompleteOrderDetails(orderDetails);
@@ -609,30 +636,34 @@ public class OTSOrderServiceImpl implements OTSOrderService {
  			AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest =  new AddOrUpdateOrderProductBOrequest();
  			
  			OrderDetailsRequest orderDetailsRequest = new OrderDetailsRequest();
- 			orderDetailsRequest.setDistributorId(requestOrder.get(i).getOtsDistributorId().toString());
- 			orderDetailsRequest.setCustomerId(requestOrder.get(i).getOtsCustomerId().toString());
+ 			orderDetailsRequest.setDistributorId(requestOrder.get(i).getOtsDistributorId().getOtsUsersId().toString());
+ 			orderDetailsRequest.setCustomerId(requestOrder.get(i).getOtsCustomerId().getOtsUsersId().toString());
  			orderDetailsRequest.setOrderStatus("New");
- 			orderDetailsRequest.setDelivaryDate(requestOrder.get(i).getOtsScheduleDt().toString());
- 			orderDetailsRequest.setOrderDate(requestOrder.get(i).getOtsScheduleDt().toString());
+ 			orderDetailsRequest.setDelivaryDate(requestOrder.get(i).getOtsScheduleDt().toString().substring(0, 10));
+ 			orderDetailsRequest.setOrderDate(requestOrder.get(i).getOtsScheduleDt().toString().substring(0, 10));
+ 			System.out.print(requestOrder.get(i).getOtsScheduleDt());
  			List<OrderedProductDetails> productList = new ArrayList<OrderedProductDetails>();
- 			if(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsCustomerId().toString(),requestOrder.get(i).getOtsProductId().toString())==null) {
- 				Float cost = Float.valueOf(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().toString()).getProductPrice())*requestOrder.get(i).getOtsRequestQty();
- 				orderDetailsRequest.setOrderCost(cost.toString());			
- 				productList.get(0).setProductCost(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().toString()).getProductPrice());
+ 			OrderedProductDetails scheduleOrder = new OrderedProductDetails();
+ 			if(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsProductId().getOtsProductId().toString(),requestOrder.get(i).getOtsCustomerId().getOtsUsersId().toString())!=null) {
+  				Float cost = Float.valueOf(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice())*requestOrder.get(i).getOtsRequestQty();
+ 				Integer IntCost = Math.round(cost);
+ 				scheduleOrder.setProductId(requestOrder.get(i).getOtsProductId().getOtsProductId().toString());
+ 				orderDetailsRequest.setOrderCost(IntCost.toString());			
+ 				scheduleOrder.setProductCost(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice());
+ 				//	productList.get(0).setProductCost();
  			}else {
- 				Float cost = Float.valueOf(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsCustomerId().toString(),requestOrder.get(i).getOtsProductId().toString()).getProductPrice())*requestOrder.get(i).getOtsRequestQty();
+ 				Float cost = Float.valueOf(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice())*Float.valueOf(requestOrder.get(i).getOtsRequestQty());
  				orderDetailsRequest.setOrderCost(cost.toString());
- 				productList.get(0).setProductCost(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsCustomerId().toString(),requestOrder.get(i).getOtsProductId().toString()).getProductPrice());
+ 				productList.get(0).setProductCost(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsCustomerId().getOtsUsersId().toString(),requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice());
  			}
- 			
- 			productList.get(0).setOrderedQty(requestOrder.get(i).getOtsRequestQty().toString());
- 			productList.get(0).setDeliveredQty(requestOrder.get(i).getOtsRequestQty().toString());
- 			
- 			
+ 			scheduleOrder.setOrderedQty(requestOrder.get(i).getOtsRequestQty().toString());
+ 			scheduleOrder.setDeliveredQty(requestOrder.get(i).getOtsRequestQty().toString());
+ 			productList.add(scheduleOrder);
+ 			orderDetailsRequest.setProductList(productList);
  			addOrUpdateOrderProductBOrequest.setRequest(orderDetailsRequest);
- 			insertOrderAndProduct(addOrUpdateOrderProductBOrequest);
- 			
- 			
+  		//	int ordercost = Math.round(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getOrderCost()));
+ 		//	addOrUpdateOrderProductBOrequest.getRequest().setOrderCost(String.valueOf(ordercost));
+ 			schedulerOrder(addOrUpdateOrderProductBOrequest); 			 			
  		}
  		
 		return "Done";
