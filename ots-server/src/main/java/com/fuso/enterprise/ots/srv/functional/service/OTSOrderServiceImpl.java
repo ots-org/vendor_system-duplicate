@@ -28,7 +28,9 @@ import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetail
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetailsSaleVocher;
+import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductListRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderedProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.SaleVocherModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.SchedulerResponceOrderModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.UpdateOrderDetailsModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
@@ -40,6 +42,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerOutstandingBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.DirectSalesVoucherRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
@@ -70,6 +73,7 @@ import com.fuso.enterprise.ots.srv.server.dao.ProductStockDao;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockHistoryDao;
 import com.fuso.enterprise.ots.srv.server.dao.RequestOrderServiceDao;
 import com.fuso.enterprise.ots.srv.server.dao.SchedulerDao;
+import com.fuso.enterprise.ots.srv.server.dao.UserMapDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.impl.CustomerOutstandingAmtDAOImpl;
 import com.fuso.enterprise.ots.srv.server.dao.impl.UserServiceDAOImpl;
@@ -94,10 +98,11 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	private SchedulerDao schedulerDao;
 	private RequestOrderServiceDao requestOrderServiceDao;
 	private ProductServiceDAO productServiceDAO;
-
+	private UserMapDAO userMapDAO;
 	@Inject
-	public OTSOrderServiceImpl(OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,MapUserProductDAO mapUserProductDAO,SchedulerDao schedulerDao,RequestOrderServiceDao requestOrderServiceDao,ProductServiceDAO productServiceDAO)
+	public OTSOrderServiceImpl(UserMapDAO userMapDAO,OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,MapUserProductDAO mapUserProductDAO,SchedulerDao schedulerDao,RequestOrderServiceDao requestOrderServiceDao,ProductServiceDAO productServiceDAO)
 	{
+		this.userMapDAO = userMapDAO;
 		this.orderServiceDAO = orderServiceDAO ;
 		this.orderProductDao = orderProductDao;
 		this.productStockHistoryDao=productStockHistoryDao;
@@ -189,14 +194,16 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		orderDetailsAndProductDetails.setOutStandingAmount(CustomerAmount);
 		orderDetailsAndProductDetails.setDistributorDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getDistributorId())));
 		orderDetailsAndProductDetails.setCustomerDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId())));
-		orderDetailsAndProductDetails.setEmployeeDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getAssignedId())));
+		if(orderDetails.getAssignedId()!= null) {
+			orderDetailsAndProductDetails.setEmployeeDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getAssignedId())));
+		}	
 		return orderDetailsAndProductDetails;
 	}
 
 	@Override
-	public String insertOrderAndProduct(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
+	public OrderProductBOResponse insertOrderAndProduct(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
 		OrderDetails otsOrderDetails = new OrderDetails();
-		String Response;
+		OrderProductBOResponse Response = new OrderProductBOResponse();
 		try {
 			otsOrderDetails = orderServiceDAO.insertOrderAndGetOrderId(addOrUpdateOrderProductBOrequest);
 			try {
@@ -204,12 +211,11 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				{
 					orderProductDao.insertOrdrerProductByOrderId(Integer.parseInt(otsOrderDetails.getOrderId()), addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(i));
 				}
-				Response = "Order Placed and OrderId Is "+otsOrderDetails.getOrderId();
+				Response = getOrderDiruectSalesVoucher(otsOrderDetails.getOrderId());
 				UserDetails user = new UserDetails();
 				user = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId()));
 				UserDetails Customer = new UserDetails();
 				Customer = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getCustomerId()));
-
 				try {
 					String notification = otsOrderDetails.getOrderNumber() + " had been placed by " + Customer.getFirstName()+" "+Customer.getLastName()+" and requested delivery date is "+addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()+" please click here to assign the Employee for order";
 					fcmPushNotification.sendPushNotification(user.getDeviceId(),"Bislari App" ,notification);
@@ -218,6 +224,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				}catch(Exception e) {
 					return Response;
 				}
+				
 				return Response;
 			}catch(Exception e){
 				throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
@@ -695,6 +702,140 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		}
+	}
+
+	@Override
+	public String directSalesVoucher(DirectSalesVoucherRequest directSalesVoucherRequest) {
+		AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest = new AddOrUpdateOrderProductBOrequest();
+		OrderDetailsRequest orderDetailsRequest = new OrderDetailsRequest();
+		
+		orderDetailsRequest.setDistributorId(userMapDAO.getMappedDistributor(directSalesVoucherRequest.getRequest().getEmployeeId()));
+		orderDetailsRequest.setCustomerId(directSalesVoucherRequest.getRequest().getCustomerId());
+		orderDetailsRequest.setAssignedId(directSalesVoucherRequest.getRequest().getEmployeeId());
+		orderDetailsRequest.setOrderCost(directSalesVoucherRequest.getRequest().getOrderCost());
+		orderDetailsRequest.setOrderDate(directSalesVoucherRequest.getRequest().getDeliveryDate());
+		orderDetailsRequest.setDeliverdDate(directSalesVoucherRequest.getRequest().getDeliveryDate());
+		orderDetailsRequest.setDelivaryDate(directSalesVoucherRequest.getRequest().getDeliveryDate());
+		orderDetailsRequest.setOrderStatus("Generated");
+		
+		List<OrderedProductDetails> productList = new ArrayList<OrderedProductDetails>();
+		
+		
+		for(int i = 0; i<directSalesVoucherRequest.getRequest().getOrderProductlist().size();i++) {
+			OrderedProductDetails orderedProductDetails = new OrderedProductDetails();
+			orderedProductDetails.setDeliveredQty(directSalesVoucherRequest.getRequest().getOrderProductlist().get(i).getDeliveredQty());
+			orderedProductDetails.setOrderedQty(directSalesVoucherRequest.getRequest().getOrderProductlist().get(i).getOrderQty());
+			orderedProductDetails.setOts_delivered_qty(directSalesVoucherRequest.getRequest().getOrderProductlist().get(i).getDeliveredQty());
+			orderedProductDetails.setProductCost(directSalesVoucherRequest.getRequest().getOrderProductlist().get(i).getProductCost());
+			orderedProductDetails.setProductId(directSalesVoucherRequest.getRequest().getOrderProductlist().get(i).getProdcutId());
+			orderedProductDetails.setProductStatus("New");
+			productList.add(orderedProductDetails);
+		}
+		
+		orderDetailsRequest.setProductList(productList);
+		
+		addOrUpdateOrderProductBOrequest.setRequest(orderDetailsRequest);
+		
+		System.out.print("1");
+		insertOrderAndProductFordirectSalesVoucher(addOrUpdateOrderProductBOrequest);
+		
+		SaleVocherModelRequest SaleVocherModelRequest = new SaleVocherModelRequest();
+		SaleVocherModelRequest.setOrderId(orderServiceDAO.getLastOrder().getOrderId());
+		
+		SaleVocherModelRequest.setAmountReceived(directSalesVoucherRequest.getRequest().getAmountRecived());
+		SaleVocherModelRequest.setDeliverdDate(Date.valueOf(directSalesVoucherRequest.getRequest().getDeliveryDate()));
+		SaleVocherModelRequest.setOrderCost(directSalesVoucherRequest.getRequest().getOrderCost());
+		
+		SaleVocherModelRequest.setOrderProductlist(directSalesVoucherRequest.getRequest().getOrderProductlist());
+		SaleVocherModelRequest.setOutstandingAmount(directSalesVoucherRequest.getRequest().getOutstandingAmount());
+		SaleVocherModelRequest.setCustomerId(directSalesVoucherRequest.getRequest().getCustomerId());
+		SaleVocherModelRequest.setOrderProductlist(directSalesVoucherRequest.getRequest().getOrderProductlist());
+		
+		SaleVocherBoRequest saleVocherBoRequest = new SaleVocherBoRequest();
+		saleVocherBoRequest.setRequest(SaleVocherModelRequest);
+		SalesVocher(saleVocherBoRequest);
+		return "DONE";
+		
+	}
+
+	@Override
+	public String insertOrderAndProductFordirectSalesVoucher(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
+		OrderDetails otsOrderDetails = new OrderDetails();
+		String Response;
+		try {
+			otsOrderDetails = orderServiceDAO.insertOrderAndGetOrderId(addOrUpdateOrderProductBOrequest);
+			try {
+				for(int i=0 ; i <addOrUpdateOrderProductBOrequest.getRequest().getProductList().size() ; i++)
+				{
+					orderProductDao.insertOrdrerProductByOrderId(Integer.parseInt(otsOrderDetails.getOrderId()), addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(i));
+				}
+				Response = "Order Placed and OrderId Is "+otsOrderDetails.getOrderId();
+				UserDetails user = new UserDetails();
+				user = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId()));
+				UserDetails Customer = new UserDetails();
+				Customer = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getCustomerId()));
+				try {
+					String notification = otsOrderDetails.getOrderNumber() + " had been placed by " + Customer.getFirstName()+" "+Customer.getLastName()+" and requested delivery date is "+addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()+" please click here to assign the Employee for order";
+					fcmPushNotification.sendPushNotification(user.getDeviceId(),"Bislari App" ,notification);
+					notification = "Order Placed : Your order "+otsOrderDetails.getOrderNumber()+" had been placed";
+					fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"Bislari App" ,notification);
+				}catch(Exception e) {
+					return Response;
+				}
+				return Response;
+			}catch(Exception e){
+				throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+			} catch (Throwable e) {
+				throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+			}
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+		}
+
+	}
+	
+	@Override
+	public OrderProductBOResponse getOrderDiruectSalesVoucher(String orderId) {
+	try {
+		OrderProductBOResponse orderProductBOResponse = new OrderProductBOResponse();
+		List<OrderDetails> OrderDetailsList = orderServiceDAO.GetOrderForDrectSalesVoucheri(orderId);
+		List<OrderDetailsAndProductDetails> GetOrderDetailsAndProductDetails = new ArrayList<OrderDetailsAndProductDetails>();
+		GetCustomerOutstandingAmt getCustomerOutstandingAmt = new GetCustomerOutstandingAmt();
+		GetCustomerOutstandingAmtBORequest getCustomerOutstandingAmtBORequest = new GetCustomerOutstandingAmtBORequest();
+		for (int i = 0; i <OrderDetailsList.size(); i++)
+		{
+			getCustomerOutstandingAmt.setCustomerId(OrderDetailsList.get(i).getCustomerId());
+			getCustomerOutstandingAmtBORequest.setRequestData(getCustomerOutstandingAmt);
+			String CustomerAmount = customerOutstandingAmtDAO.getCustomerOutstandingAmt(getCustomerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();
+
+			List<OrderProductDetails> orderProductDetailsList = orderProductDao.getProductListByOrderId(OrderDetailsList.get(i).getOrderId());
+			List<OrderProductDetails> orderProductDetailsList2 = new ArrayList<OrderProductDetails>();
+			for(int j =0;j < orderProductDetailsList.size() ;j++) {
+				GetProductStockRequest getProductStockRequest = new GetProductStockRequest();
+				GetProductRequestModel getProductRequestModel = new GetProductRequestModel();
+				
+				getProductRequestModel.setDistributorId(OrderDetailsList.get(0).getDistributorId());
+				getProductRequestModel.setProductId(orderProductDetailsList.get(j).getOtsProductId());
+				getProductStockRequest.setRequestData(getProductRequestModel);
+				OrderProductDetails orderProductDetails = new OrderProductDetails();
+				orderProductDetails.setType(orderProductDetailsList.get(j).getType());
+				orderProductDetails = orderProductDetailsList.get(j);
+				orderProductDetails.setStock(productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity()==null?null:productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity());
+				orderProductDetailsList2.add(j,orderProductDetails);
+			}
+			
+			GetOrderDetailsAndProductDetails.add(i,GetProductAndOrderDetails(OrderDetailsList.get(i),orderProductDetailsList2,CustomerAmount));
+			CustomerAmount = null;
+		}
+		orderProductBOResponse.setOrderList(GetOrderDetailsAndProductDetails);
+		return orderProductBOResponse;}
+	catch(Exception e){
+			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);}
+	catch (Throwable e) {
+			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);
 		}
 	}
 

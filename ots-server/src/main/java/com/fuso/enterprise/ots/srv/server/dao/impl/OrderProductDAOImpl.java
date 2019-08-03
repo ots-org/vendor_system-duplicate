@@ -273,4 +273,34 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);
 			}	
 		}
+	
+	@Override
+	public String directSalesVoucher(Integer orderId,OrderedProductDetails orderedProductDetails) {
+	try {
+		OtsOrderProduct otsOrderProduct = new OtsOrderProduct();
+			
+		OtsOrder OtsorderId = new OtsOrder();
+		OtsorderId.setOtsOrderId(orderId);
+		otsOrderProduct.setOtsOrderId(OtsorderId);
+			
+		OtsProduct  ProductId= new OtsProduct();
+		ProductId.setOtsProductId(Integer.parseInt(orderedProductDetails.getProductId()));
+		otsOrderProduct.setOtsProductId(ProductId);
+		otsOrderProduct.setOtsOrderedQty(Integer.parseInt(orderedProductDetails.getOrderedQty()));
+		otsOrderProduct.setOtsOrderProductStatus(orderedProductDetails.getProductStatus());
+		BigDecimal ProductCost=new BigDecimal(orderedProductDetails.getProductCost());
+		otsOrderProduct.setOtsOrderProductCost(ProductCost);
+		otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(orderedProductDetails.getOts_delivered_qty()));
+		save(otsOrderProduct);
+		return "Inserted";
+	}catch(Exception e){
+		e.printStackTrace();
+		logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+		throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);}
+	catch (Throwable e) {
+		e.printStackTrace();
+		logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());
+		throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_PRODUCT_INSERTION);
+		}	
+	}
 }

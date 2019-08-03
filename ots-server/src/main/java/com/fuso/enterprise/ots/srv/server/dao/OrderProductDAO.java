@@ -18,4 +18,5 @@ public interface OrderProductDAO {
 	String addOrUpdateOrderProduct(OrderedProductDetails orderedProductDetails);
 	List<OrderProductDetails> getProductListByOrderId(String orderId);
 	String addOrUpdateOrderProductsaleVocher(OrderProductDetailsSaleVocher orderedProductDetails);
+	String directSalesVoucher(Integer orderId, OrderedProductDetails orderedProductDetails);
 }

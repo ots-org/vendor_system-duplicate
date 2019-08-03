@@ -9,6 +9,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProdu
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.DirectSalesVoucherRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
@@ -28,7 +29,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.OrderProductBOResponse;
 public interface OTSOrderService {
 	OrderDetailsBOResponse getOrderBydate(GetOrderBORequest getOrderBORequest);
 	OrderProductBOResponse getOrderByStatusAndDistributor(GetOrderByStatusRequest getOrderByStatusRequest);
-	String insertOrderAndProduct(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest);
+	OrderProductBOResponse insertOrderAndProduct(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest);
 	String addOrUpdateOrderProduct(AddOrUpdateOnlyOrderProductRequest AddOrUpdateOnlyOrderProductRequest); 
 	String UpdateOrder(UpdateOrderDetailsRequest updateOrderDetailsRequest);
 	String updateAssginedOrder(UpdateForAssgineBOrequest  updateForAssgineBOrequest);
@@ -45,4 +46,9 @@ public interface OTSOrderService {
 	String runScheduler12AMTO1AM();
 	String UpdateOrderStatus(UpdateOrderStatusRequest updateOrderStatusRequest);
 	String schedulerOrder(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest);
+	String directSalesVoucher(DirectSalesVoucherRequest directSalesVoucherRequest);
+	String insertOrderAndProductFordirectSalesVoucher(
+			AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest);
+	OrderProductBOResponse getOrderDiruectSalesVoucher(String orderId);
+	
 }

@@ -42,4 +42,7 @@ public interface OrderServiceDAO {
 	List<OrderDetails> getOrderReportByDate(GetOrderBORequest getOrderBORequest);
 	String employeeTransferOrder(EmployeeOrderTransferRequest employeeOrderTransferRequest);
 	String UpdateOrderStatus(UpdateOrderStatusRequest updateOrderStatusRequest);
+	OrderDetails directSalesVoucher(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest);
+	OrderDetails getLastOrder();
+	List<OrderDetails> GetOrderForDrectSalesVoucheri(String OrderId);
 }

@@ -387,8 +387,8 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		try {
 			Random rand = new Random(); 
 			int otp = rand.nextInt(10000);
-			if(userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getEmail())!=null) {
-				EmailUtil.sendOTP(userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getEmail()).getEmailId(), "srividhya.ramakrishna@ortusolis.com","Water Management OTP", "Your one time password for water management is "+ otp+". This is active for only 5 minutes. Please do not share this with anyone.");
+			if(userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getMobileNumber())!=null) {
+				EmailUtil.sendOTP(userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getMobileNumber()).getEmailId(), "maddymadhu541@gmail.com","Water Management OTP", "Your one time password for water management is "+ otp+". This is active for only 5 minutes. Please do not share this with anyone.");
 				return String.valueOf(otp) ;
 			}else {
 				return "Wrong mobile number, please check or contact admin";

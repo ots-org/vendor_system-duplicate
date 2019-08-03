@@ -341,7 +341,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 
 	@Override
 	public Response forgotPassword(ForgotPasswordRequest forgotPasswordRequest) {
-		Response response =  responseWrapper.buildResponse(otsUserService.sendOTP(forgotPasswordRequest),"user rejected Successfully");
+		Response response =  responseWrapper.buildResponse(otsUserService.sendOTP(forgotPasswordRequest),"OTP sent to mail");
 		return response;
 	}
 

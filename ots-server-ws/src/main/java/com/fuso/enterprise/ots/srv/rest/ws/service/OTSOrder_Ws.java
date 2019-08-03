@@ -24,6 +24,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProdu
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.DirectSalesVoucherRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
@@ -151,5 +152,11 @@ public interface OTSOrder_Ws {
 	@ApiOperation(value = "getOrderByStatusAndDistributor", notes = "Getting getorder By Status and DistubutorId", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getOrderByStatus(@ApiParam(value = "request", required = true) @NotNull  @Valid UpdateOrderStatusRequest updateOrderStatusRequest);	
+	
+	@POST
+    @Path("/directSalesVoucherr")
+	@ApiOperation(value = "getOrder", notes = "Inserting the data when closeing order or derliverd the product to customer", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response directSalesVoucher(@ApiParam(value = "request", required = true) @NotNull  @Valid DirectSalesVoucherRequest  DirectSalesVoucherRequest);
 	
 }

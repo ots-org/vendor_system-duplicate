@@ -615,5 +615,61 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		return "updated";
 	}
 
+	@Override
+	public OrderDetails directSalesVoucher(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
+		OrderDetails orderDetails = new OrderDetails();
+		try {
+			OtsOrder otsOrder = convertDomainToOrderEntity(addOrUpdateOrderProductBOrequest);
+			save(otsOrder);
+			super.getEntityManager().flush();
+			String OrderNumber = "ORD-"+otsOrder.getOtsOrderId().toString();
+			//int OrderId = otsOrder.getOtsOrderId();
+			otsOrder.setOtsOrderNumber(OrderNumber);
+			super.getEntityManager().merge(otsOrder);
+			orderDetails = convertOrderDetailsFromEntityToDomain(otsOrder);
+			return orderDetails;
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("Error in inserting order in order table"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			logger.error("Error in inserting order in order table"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		}
+	}
+
+	@Override
+	public OrderDetails getLastOrder() {
+		OrderDetails orderDetails = new OrderDetails();
+		Map<String, Object> queryParameter = new HashMap<>();
+		List<OtsOrder> otsOrder = super.getResultListByNamedQuery("OtsOrder.findAll", queryParameter);
+		orderDetails = convertOrderDetailsFromEntityToDomain(otsOrder.get((otsOrder.size()-1)));
+		return orderDetails;
+	}
 	
+	@Override
+	public List<OrderDetails> GetOrderForDrectSalesVoucheri(String OrderId) {
+		OrderDetails otsOrderDetails = new OrderDetails();
+		OtsOrder otsOrder = new OtsOrder();
+		try {
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsOrderId",Integer.parseInt(OrderId));
+			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
+			otsOrderDetails = convertOrderDetailsFromEntityToDomain(otsOrder);
+			List<OrderDetails> otsOrderDetailsList = new ArrayList<OrderDetails>();
+			otsOrderDetailsList.add(otsOrderDetails);
+			return otsOrderDetailsList;
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("Error in inserting order in order table"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			logger.error("Error in inserting order in order table"+e.getMessage());
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
+		}
+
+	}
+
 }
