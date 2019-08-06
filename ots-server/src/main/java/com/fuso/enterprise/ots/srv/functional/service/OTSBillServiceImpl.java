@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.fuso.enterprise.ots.srv.server.dao.UserMapDAO;
 import com.fuso.enterprise.ots.srv.api.model.domain.BillOrderModelDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.GetCustomerOutstandingAmt;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductDetailsForBillModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfBillId;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
@@ -83,6 +84,13 @@ private OTSProductService otsProductService;
 		BillDetailsBOResponse billDetailsBOResponse = new BillDetailsBOResponse();
 		OtsBill otsBill = new OtsBill();
 		try {
+			GetCustomerOutstandingAmtBORequest getCustomerOutstandingAmtBORequest = new GetCustomerOutstandingAmtBORequest();
+			GetCustomerOutstandingAmt getCustomerOutstandingAmt = new GetCustomerOutstandingAmt();
+			getCustomerOutstandingAmt.setCustomerId(billDetailsBORequest.getRequestData().getCustomerId().toString());
+			getCustomerOutstandingAmtBORequest.setRequestData(getCustomerOutstandingAmt);
+				
+			billDetailsBORequest.getRequestData().setOutstandingAmount(customerOutstandingAmtDAO.getCustomerOutstandingAmt(getCustomerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt()==null?null:customerOutstandingAmtDAO.getCustomerOutstandingAmt(getCustomerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt());
+			
 			billDetailsBOResponse = billServiceDAO.addOrUpdateBill(billDetailsBORequest);
 			List<ListOfOrderId> listOfOrderId=billDetailsBORequest.getRequestData().getOrderId();
 			otsBill.setOtsBillId(billDetailsBOResponse.getBillDetails().get(0).getBillId());
@@ -95,7 +103,7 @@ private OTSProductService otsProductService;
 			 */
 			GetProductDetailsForBillRequst getProductDetailsForBillRequst = new GetProductDetailsForBillRequst();
 			GetProductDetailsForBillModel getProductDetailsForBillModel = new GetProductDetailsForBillModel();
-			BillProductDetailsResponse billProductDetailsResponse = new BillProductDetailsResponse(); 
+			BillProductDetailsResponse billProductDetailsResponse = new BillProductDetailsResponse();
 			List<String> listOrdStr = new ArrayList<String>();
 			for(ListOfOrderId orderIdList:listOfOrderId ) {
 				listOrdStr.add(orderIdList.getOrderId());
@@ -275,6 +283,7 @@ private OTSProductService otsProductService;
 		List<ListOfBillId> billNumber = new ArrayList<>();
 		try {
 			if(billReportBasedOnDateBORequest.getRequestData().getRoleId().equals("4")) {
+				
 				billIdResponse=billServiceDAO.getBillReportByDate(billReportBasedOnDateBORequest);
 			}else {
 				BillReportByDateBOResponse billIdResponse1 = new BillReportByDateBOResponse();

@@ -241,9 +241,7 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 	        }
 			logger.info("Inside Event=1006,Class:MapUserProductDAOImpl,Method:mapUserProduct"+"Successfull");
 		}catch (Exception e) {
-        	logger.error("Exception while Inserting data to DB  :"+e.getMessage());
-    		e.printStackTrace();
-        	throw new BusinessException(e.getMessage(), e);
+        	return null;
         }
 		return  customerProductDetails;
 	}

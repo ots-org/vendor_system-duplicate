@@ -70,7 +70,7 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 			BigDecimal CGST=new BigDecimal(billDetailsBORequest.getRequestData().getCGST());
 			otsBill.setOtsbillSGST(CGST);
 			
-			BigDecimal outstandingAmount=new BigDecimal(billDetailsBORequest.getRequestData().getCGST());
+			BigDecimal outstandingAmount=new BigDecimal(billDetailsBORequest.getRequestData().getOutstandingAmount());
 			otsBill.setOtsBillOutstandingAmt(outstandingAmount);
 			otsBill.setOtsBillPdf(billDetailsBORequest.getRequestData().getBillPdf());
 			OtsUsers otsUser = new OtsUsers();

@@ -36,7 +36,7 @@ public interface OTSProduct_Ws {
     @Path("/getProductList")
 	@ApiOperation(value = "getProductList", notes = "Getting getProductList Request Based On Product Name and Id", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
-	Response getProductList(@ApiParam(value = "request", required = true) @NotNull  @Valid ProductDetailsBORequest  productDetailsBORequest);
+	Response getProductList(@ApiParam(value = "request") ProductDetailsBORequest  productDetailsBORequest);
 	
 	@POST
     @Path("/addOrUpdateProduct")
