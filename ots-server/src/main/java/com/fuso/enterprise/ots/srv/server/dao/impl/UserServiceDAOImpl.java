@@ -19,6 +19,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
@@ -284,5 +285,26 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 		}
 			return userDetails;
 	}
+	
+	
+	@Override
+	public String changePassword(ChangePasswordRequest changePasswordRequest) {
+		UserDetails userDetails = new UserDetails();
+		try {
+		OtsUsers userData = new OtsUsers();
+		Map<String, Object> queryParameter = new HashMap<>();
+		queryParameter.put("otsUsersId",Integer.parseInt(changePasswordRequest.getRequest().getUserID()));
+		userData = super.getResultByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
+		
+		userData.setOtsUsersPassword(changePasswordRequest.getRequest().getPassword());
+		super.getEntityManager().merge(userData);
+		userDetails = convertUserDetailsFromEntityToDomain(userData);
+	}catch(Exception e) {
+		System.out.println(e);
+		return null;
+	}
+		return "updated";
+	}
+
 
 }

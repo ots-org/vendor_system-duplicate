@@ -28,6 +28,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.UserMapping;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
@@ -41,6 +42,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.ForgotPasswordResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -383,21 +385,30 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	}
 	
 	@Override
-	public String sendOTP(ForgotPasswordRequest forgotPasswordRequest) {
+	public ForgotPasswordResponse sendOTP(ForgotPasswordRequest forgotPasswordRequest) {
+		ForgotPasswordResponse forgotPasswordResponse = new ForgotPasswordResponse();
+		UserDetails userDetails = new UserDetails();
 		try {
 			Random rand = new Random(); 
 			int otp = rand.nextInt(10000);
 			if(userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getMobileNumber())!=null) {
 				EmailUtil.sendOTP(userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getMobileNumber()).getEmailId(), "maddymadhu541@gmail.com","Water Management OTP", "Your one time password for water management is "+ otp+". This is active for only 5 minutes. Please do not share this with anyone.");
-				return String.valueOf(otp) ;
-			}else {
-				return "Wrong mobile number, please check or contact admin";
+				userDetails = userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getMobileNumber());
+				forgotPasswordResponse.setOtp(String.valueOf(otp));
+				forgotPasswordResponse.setUserId(userDetails.getUserId());
+				return  forgotPasswordResponse;
 			}
-						
-			
 		}catch(Exception e) {
-			return	"Please check Phone Number";
+			return	null;
 		}
-		
+		return  forgotPasswordResponse;
 	}
+	
+	
+	@Override
+	public String changePassword(ChangePasswordRequest changePasswordRequest) {
+		// TODO Auto-generated method stub
+		return userServiceDAO.changePassword(changePasswordRequest);
+	}
+
 }

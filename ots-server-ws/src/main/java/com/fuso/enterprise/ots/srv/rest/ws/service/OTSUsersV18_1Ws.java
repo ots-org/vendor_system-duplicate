@@ -22,6 +22,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
@@ -118,5 +119,12 @@ public interface OTSUsersV18_1Ws {
 	@ApiOperation(value = "mappUser", notes = "This operation will add New user ", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response forgotPassword(@ApiParam(value = "request", required = true) @NotNull @Valid ForgotPasswordRequest forgotPasswordRequest);
+
+	
+	@POST
+	@Path("/changePassword")
+	@ApiOperation(value = "mappUser", notes = "This operation will change user passwordr ", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response changePassword(@ApiParam(value = "request", required = true) @NotNull @Valid ChangePasswordRequest changePasswordRequest);
 
 }

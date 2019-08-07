@@ -16,6 +16,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
@@ -28,6 +29,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.ForgotPasswordResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
 
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
@@ -341,8 +343,23 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 
 	@Override
 	public Response forgotPassword(ForgotPasswordRequest forgotPasswordRequest) {
-		Response response =  responseWrapper.buildResponse(otsUserService.sendOTP(forgotPasswordRequest),"OTP sent to mail");
+		Response response = null;
+		ForgotPasswordResponse forgotPasswordResponse = new ForgotPasswordResponse();
+		forgotPasswordResponse = otsUserService.sendOTP(forgotPasswordRequest);
+		if(forgotPasswordResponse.getUserId()!=null) {
+			response =  responseWrapper.buildResponse(forgotPasswordResponse,"OTP sent to mail");
+		}else {
+			response = buildResponse(600,"Please check the number or contact the admin");
+		}
 		return response;
+	}
+
+	@Override
+	public Response changePassword(ChangePasswordRequest changePasswordRequest) {
+		// TODO Auto-generated method stub
+		Response respons = null;
+		respons = responseWrapper.buildResponse(otsUserService.changePassword(changePasswordRequest),"Password Updated.Please login");
+		return respons;
 	}
 
 }
