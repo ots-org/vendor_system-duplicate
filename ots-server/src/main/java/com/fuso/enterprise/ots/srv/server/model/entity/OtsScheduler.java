@@ -40,9 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsScheduler.findByOtsSchedulerType", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerType = :otsSchedulerType"),
     @NamedQuery(name = "OtsScheduler.findByOtsSchedulerWkdy", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerWkdy = :otsSchedulerWkdy"),
     @NamedQuery(name = "OtsScheduler.findByOtsSchedulerStDt", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerStDt = :otsSchedulerStDt"),
-    @NamedQuery(name = "OtsScheduler.findByOtsSchedulerEtDt", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerEtDt = :otsSchedulerEtDt"),
-    @NamedQuery(name = "OtsScheduler.findByOtsSchedulerCreated", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerCreated = :otsSchedulerCreated"),
-    @NamedQuery(name = "OtsScheduler.findByOtsSchedulerTimestamp", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerTimestamp = :otsSchedulerTimestamp")})
+    @NamedQuery(name = "OtsScheduler.findByOtsSchedulerEtDt", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerEtDt = :otsSchedulerEtDt")})
 public class OtsScheduler implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -62,12 +60,6 @@ public class OtsScheduler implements Serializable {
     @Column(name = "ots_scheduler_et_dt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsSchedulerEtDt;
-    @Column(name = "ots_scheduler_created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsSchedulerCreated;
-    @Column(name = "ots_scheduler_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsSchedulerTimestamp;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsSchedulerId")
     private Collection<OtsRequestOrder> otsRequestOrderCollection;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
@@ -133,22 +125,6 @@ public class OtsScheduler implements Serializable {
 
     public void setOtsSchedulerEtDt(Date otsSchedulerEtDt) {
         this.otsSchedulerEtDt = otsSchedulerEtDt;
-    }
-
-    public Date getOtsSchedulerCreated() {
-        return otsSchedulerCreated;
-    }
-
-    public void setOtsSchedulerCreated(Date otsSchedulerCreated) {
-        this.otsSchedulerCreated = otsSchedulerCreated;
-    }
-
-    public Date getOtsSchedulerTimestamp() {
-        return otsSchedulerTimestamp;
-    }
-
-    public void setOtsSchedulerTimestamp(Date otsSchedulerTimestamp) {
-        this.otsSchedulerTimestamp = otsSchedulerTimestamp;
     }
 
     @XmlTransient

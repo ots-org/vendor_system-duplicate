@@ -4,7 +4,7 @@ public class ChangePassword {
 
 	private String UserID;
 	
-	private String Password;
+	private String pasword;
 
 	public String getUserID() {
 		return UserID;
@@ -14,14 +14,13 @@ public class ChangePassword {
 		UserID = userID;
 	}
 
-	public String getPassword() {
-		return Password;
+	public String getPasword() {
+		return pasword;
 	}
 
-	public void setPassword(String password) {
-		Password = password;
+	public void setPasword(String pasword) {
+		this.pasword = pasword;
 	}
-
 
 	
 }

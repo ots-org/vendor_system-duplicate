@@ -147,7 +147,6 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		orderDetails.setAssignedId(otsOrder.getOtsAssignedId()==null?null:otsOrder.getOtsAssignedId().getOtsUsersId().toString());
 		orderDetails.setOrderCost(otsOrder.getOtsOrderCost()==null?null:otsOrder.getOtsOrderCost().toString());
 		orderDetails.setOrderDeliverdDate(otsOrder.getOtsOrderDeliveredDt()==null?null:otsOrder.getOtsOrderDeliveredDt().toString());
-		orderDetails.setCreatedBy(otsOrder.getOtsOrderCreated()==null?null:otsOrder.getOtsOrderCreated().toString());
 		orderDetails.setStatus(otsOrder.getOtsOrderStatus()==null?null:otsOrder.getOtsOrderStatus());
 		orderDetails.setOrderNumber(otsOrder.getOtsOrderNumber()==null?null:otsOrder.getOtsOrderNumber());
 		orderDetails.setBalanceCan(otsOrder.getOtsOrderBalanceCan());
@@ -492,7 +491,6 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		orderDetails.setOrderCost(otsOrder.getOtsOrderCost()==null?null:otsOrder.getOtsOrderCost().toString());
 		orderDetails.setOrderDate(otsOrder.getOtsOrderDt()==null?null:otsOrder.getOtsOrderDt().toString());
 		orderDetails.setOrderDeliverdDate(otsOrder.getOtsOrderDeliveredDt()==null?null:otsOrder.getOtsOrderDeliveredDt().toString());
-		orderDetails.setCreatedBy(otsOrder.getOtsOrderCreated()==null?null:otsOrder.getOtsOrderCreated().toString());
 		orderDetails.setStatus(otsOrder.getOtsOrderStatus()==null?null:otsOrder.getOtsOrderStatus());
 		orderDetails.setOrderDeliveryDate(otsOrder.getOtsOrderDeliveryDt()==null?null:otsOrder.getOtsOrderDeliveryDt().toString());
 		orderDetails.setOrderNumber(otsOrder.getOtsOrderNumber()==null?null:otsOrder.getOtsOrderNumber());

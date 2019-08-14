@@ -44,8 +44,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsOrder.findByOtsOrderDeliveryDt", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderDeliveryDt = :otsOrderDeliveryDt"),
     @NamedQuery(name = "OtsOrder.findByOtsOrderDeliveredDt", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderDeliveredDt = :otsOrderDeliveredDt"),
     @NamedQuery(name = "OtsOrder.findByOtsOrderStatus", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderStatus = :otsOrderStatus"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderTimestamp", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderTimestamp = :otsOrderTimestamp"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderCreated", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderCreated = :otsOrderCreated"),
     @NamedQuery(name = "OtsOrder.findByOtsOrderAmountReceived", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderAmountReceived = :otsOrderAmountReceived"),
     @NamedQuery(name = "OtsOrder.findByOtsOrderBalanceCan", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderBalanceCan = :otsOrderBalanceCan"),
     @NamedQuery(name = "OtsOrder.findByOtsOrderOutstandingAmount", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderOutstandingAmount = :otsOrderOutstandingAmount"),
@@ -75,12 +73,6 @@ public class OtsOrder implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_order_status")
     private String otsOrderStatus;
-    @Column(name = "ots_order_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsOrderTimestamp;
-    @Column(name = "ots_order_created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsOrderCreated;
     @Column(name = "ots_order_amount_received")
     private BigDecimal otsOrderAmountReceived;
     @Size(max = 45)
@@ -168,22 +160,6 @@ public class OtsOrder implements Serializable {
 
     public void setOtsOrderStatus(String otsOrderStatus) {
         this.otsOrderStatus = otsOrderStatus;
-    }
-
-    public Date getOtsOrderTimestamp() {
-        return otsOrderTimestamp;
-    }
-
-    public void setOtsOrderTimestamp(Date otsOrderTimestamp) {
-        this.otsOrderTimestamp = otsOrderTimestamp;
-    }
-
-    public Date getOtsOrderCreated() {
-        return otsOrderCreated;
-    }
-
-    public void setOtsOrderCreated(Date otsOrderCreated) {
-        this.otsOrderCreated = otsOrderCreated;
     }
 
     public BigDecimal getOtsOrderAmountReceived() {

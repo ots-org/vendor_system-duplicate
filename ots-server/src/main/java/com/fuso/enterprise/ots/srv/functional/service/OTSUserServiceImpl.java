@@ -56,6 +56,7 @@ import com.fuso.enterprise.ots.srv.server.dao.UserRegistrationDao;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceUtilityDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsUserMapping;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.EmailUtil;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
@@ -173,9 +174,32 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	@Override
 	public UserDataBOResponse getUserDetails(RequestBOUserBySearch requestBOUserBySearch) {
 		UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
+		List<OtsUserMapping> UserList = new ArrayList<OtsUserMapping>();
+		List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
+		
 		try {
-			List<UserDetails> userDetailList= userServiceUtilityDAO.getUserDetails(requestBOUserBySearch);
-			userDataBOResponse.setUserDetails(userDetailList);
+			if(requestBOUserBySearch.getRequestData().getDistributorId()!=null) {
+				UserList = userMapDAO.getUserForDistributor(requestBOUserBySearch.getRequestData().getDistributorId());			
+				for(int i =0 ; i<UserList.size();i++) {
+					UserDetails userData = new UserDetails();					
+					if(requestBOUserBySearch.getRequestData().getSearchvalue().equals("3")) {
+						userData = userServiceDAO.getUserDetailsForEmployee(UserList.get(i).getOtsUsersId().getOtsUsersId());
+						if(userData != null) {
+							userDetailsList.add(userData);
+							}
+					}else if(requestBOUserBySearch.getRequestData().getSearchvalue().equals("4")) {
+						userData = userServiceDAO.getUserDetailsForCustomer(UserList.get(i).getOtsUsersId().getOtsUsersId());
+						if(userData != null) {
+							userDetailsList.add(userData);
+						}
+					}
+						
+				}
+				userDataBOResponse.setUserDetails(userDetailsList);
+			}else{
+				List<UserDetails> userDetailList= userServiceUtilityDAO.getUserDetails(requestBOUserBySearch);
+				userDataBOResponse.setUserDetails(userDetailList);
+			}
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
@@ -377,6 +401,10 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	@Override
 	public String rejectUser(RejectUserModel rejectUserModel) {
 		try {
+			AddUserDataBORequest addUserDataBORequest = new AddUserDataBORequest();
+			addUserDataBORequest.setRequestData(userRegistrationDao.fetchUserDetailsfromRegistration(rejectUserModel.getRequest().getRegistrationId()));
+			String notification ="You are water Distribution request have been rejected";
+			fcmPushNotification.sendPushNotification(addUserDataBORequest.getRequestData().getDeviceId(),"Registration for Bislari" , notification);
 			return userRegistrationDao.UpdateStatus(rejectUserModel);
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);

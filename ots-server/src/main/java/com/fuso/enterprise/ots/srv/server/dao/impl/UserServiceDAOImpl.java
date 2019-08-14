@@ -296,7 +296,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 		queryParameter.put("otsUsersId",Integer.parseInt(changePasswordRequest.getRequest().getUserID()));
 		userData = super.getResultByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
 		
-		userData.setOtsUsersPassword(changePasswordRequest.getRequest().getPassword());
+		userData.setOtsUsersPassword(changePasswordRequest.getRequest().getPasword());
 		super.getEntityManager().merge(userData);
 		userDetails = convertUserDetailsFromEntityToDomain(userData);
 	}catch(Exception e) {
@@ -306,5 +306,44 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 		return "updated";
 	}
 
+	@Override
+	public UserDetails getUserDetailsForEmployee(Integer userId) {
+		UserDetails userDetails = new UserDetails();
+		try {
+			OtsUsers userList = null;
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsUsersId", userId);
+			
+			OtsUserRole roleId = new OtsUserRole();
+			roleId.setOtsUserRoleId(3);
+			queryParameter.put("RoleId", roleId);
+			queryParameter.put("otsUsersId", userId);
+			userList = super.getResultByNamedQuery("OtsUsers.findByOtsUsersIdAndRoleId", queryParameter);
+				userDetails = convertUserDetailsFromEntityToDomain(userList);
+			}catch(Exception e) {
+				System.out.print(e);
+				return null;
+		}
+		return userDetails;
+	}
 
+	@Override
+	public UserDetails getUserDetailsForCustomer(Integer userId) {
+		UserDetails userDetails = new UserDetails();
+		try {
+			OtsUsers userList = null;
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsUsersId", userId);
+			
+			OtsUserRole roleId = new OtsUserRole();
+			roleId.setOtsUserRoleId(4);
+			queryParameter.put("RoleId", roleId);
+			
+			userList = super.getResultByNamedQuery("OtsUsers.findByOtsUsersIdAndRoleId", queryParameter);
+				userDetails = convertUserDetailsFromEntityToDomain(userList);
+			}catch(Exception e) {
+			return null;
+		}
+		return userDetails;
+	}
 }

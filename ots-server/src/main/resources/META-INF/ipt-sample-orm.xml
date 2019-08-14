@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
 	version="2.0">
 	<description>OTS ORM mappings</description>
-	  <named-query name="OtsUsers.findByUserOtsRoleId">
+	<named-query name="OtsUsers.findByUserOtsRoleId">
 		<query>SELECT o 
 		FROM 
 			OtsUsers o	
@@ -437,6 +437,16 @@
 			OtsProduct o,OtsProductStock s
 		WHERE 
 			s.otsUsersId = :DistributorId
+		</query>
+	</named-query>
+	<named-query name="OtsUsers.findByOtsUsersIdAndRoleId">
+		<query>SELECT o 
+		FROM 
+			OtsUsers o	
+		WHERE  	
+			o.otsUserRoleId = :RoleId
+		And
+			o.otsUsersId = :otsUsersId
 		</query>
 	</named-query>
 </entity-mappings>

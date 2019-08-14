@@ -42,7 +42,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsBill.findByOtsBillAmountReceived", query = "SELECT o FROM OtsBill o WHERE o.otsBillAmountReceived = :otsBillAmountReceived"),
     @NamedQuery(name = "OtsBill.findByOtsBillGenerated", query = "SELECT o FROM OtsBill o WHERE o.otsBillGenerated = :otsBillGenerated"),
     @NamedQuery(name = "OtsBill.findByOtsBillStatus", query = "SELECT o FROM OtsBill o WHERE o.otsBillStatus = :otsBillStatus"),
-    @NamedQuery(name = "OtsBill.findByOtsBillTimestamp", query = "SELECT o FROM OtsBill o WHERE o.otsBillTimestamp = :otsBillTimestamp"),
     @NamedQuery(name = "OtsBill.findByOtsBillCreated", query = "SELECT o FROM OtsBill o WHERE o.otsBillCreated = :otsBillCreated"),
     @NamedQuery(name = "OtsBill.findByOtsbillIGST", query = "SELECT o FROM OtsBill o WHERE o.otsbillIGST = :otsbillIGST"),
     @NamedQuery(name = "OtsBill.findByOtsbillSGST", query = "SELECT o FROM OtsBill o WHERE o.otsbillSGST = :otsbillSGST"),
@@ -69,9 +68,6 @@ public class OtsBill implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_bill_status")
     private String otsBillStatus;
-    @Column(name = "ots_bill_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date otsBillTimestamp;
     @Column(name = "ots_bill_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsBillCreated;
@@ -143,14 +139,6 @@ public class OtsBill implements Serializable {
 
     public void setOtsBillStatus(String otsBillStatus) {
         this.otsBillStatus = otsBillStatus;
-    }
-
-    public Date getOtsBillTimestamp() {
-        return otsBillTimestamp;
-    }
-
-    public void setOtsBillTimestamp(Date otsBillTimestamp) {
-        this.otsBillTimestamp = otsBillTimestamp;
     }
 
     public Date getOtsBillCreated() {

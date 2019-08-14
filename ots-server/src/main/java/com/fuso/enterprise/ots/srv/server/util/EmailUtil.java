@@ -10,7 +10,7 @@ public class EmailUtil {
 	public static void sendEmailBill(String to,String cc,String sub,String msg,String billFileName,String filePath){   
 		
 		final String username = "anushakarnam06@gmail.com";
-	    final String password = "Karnam06@";
+	    final String password = "Abhishek05@1";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.auth", true);
@@ -58,7 +58,7 @@ public class EmailUtil {
 public static void sendOTP(String to,String cc,String sub,String msg){   
 		
 		final String username = "anushakarnam06@gmail.com";
-	    final String password = "Karnam06@";
+	    final String password = "Abhishek05@1";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.auth", true);

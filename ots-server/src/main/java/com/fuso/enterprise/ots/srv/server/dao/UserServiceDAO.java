@@ -25,4 +25,8 @@ public interface UserServiceDAO {
 	UserDetails checkForOTP(String mobilenumber);
 
 	String changePassword(ChangePasswordRequest changePasswordRequest);
+
+	UserDetails getUserDetailsForEmployee(Integer userId);
+
+	UserDetails getUserDetailsForCustomer(Integer userId);
 }
