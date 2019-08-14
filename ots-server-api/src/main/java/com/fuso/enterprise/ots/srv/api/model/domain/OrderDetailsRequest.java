@@ -13,6 +13,7 @@ public class OrderDetailsRequest {
 	private String DelivaryDate;
 	private String DeliverdDate;
 	private String OrderStatus;
+	private String CustomerName;
 	
 	private List<OrderedProductDetails> ProductList;
 	
@@ -75,6 +76,12 @@ public class OrderDetailsRequest {
 	}
 	public void setDeliverdDate(String deliverdDate) {
 		DeliverdDate = deliverdDate;
+	}
+	public String getCustomerName() {
+		return CustomerName;
+	}
+	public void setCustomerName(String customerName) {
+		CustomerName = customerName;
 	}
 	
 	
