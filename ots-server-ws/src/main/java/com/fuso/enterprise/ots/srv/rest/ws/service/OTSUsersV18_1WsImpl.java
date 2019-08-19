@@ -206,9 +206,9 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 				}
 				
 			}catch(BusinessException e) {
-				throw new BusinessException(e.getMessage(), e);
+				throw new BusinessException(e,ErrorEnumeration.USER_NOT_EXISTS);
 			}catch(Throwable e) {
-				throw new BusinessException(e.getMessage(), e);
+				throw new BusinessException(e,ErrorEnumeration.USER_NOT_EXISTS);
 			}
 		
 			return response;

@@ -69,7 +69,7 @@ public class OtsBill implements Serializable {
     @Column(name = "ots_bill_status")
     private String otsBillStatus;
     @Column(name = "ots_bill_created")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date otsBillCreated;
     @Column(name = "ots_bill_IGST")
     private BigDecimal otsbillIGST;

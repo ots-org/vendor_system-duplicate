@@ -36,7 +36,8 @@ public enum ErrorEnumeration {
 	GET_BILL_REPORT_BY_DATE(1021,"err.in.getbillreportbydate"),
 	GET_SALE_VOCHER(1021,"err.in.salevocher"),
 	ERROR_IN_SCHEDULER(1004,"err.in.scheduler"),
-	ERROR_IN_SCHEDULERREQUEST(1004,"err.in.schedulerRequest")
+	ERROR_IN_SCHEDULERREQUEST(1004,"err.in.schedulerRequest"),
+	USER_NOT_EXISTS(1004,"err.in.user")
 	;
 	
     ErrorEnumeration(int errorCode, String messageKey) {

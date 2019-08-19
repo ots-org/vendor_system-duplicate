@@ -62,10 +62,10 @@ public class OtsOrder implements Serializable {
     @Column(name = "ots_order_cost")
     private BigDecimal otsOrderCost;
     @Column(name = "ots_order_dt")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date otsOrderDt;
     @Column(name = "ots_order_delivery_dt")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date otsOrderDeliveryDt;
     @Column(name = "ots_order_delivered_dt")
     @Temporal(TemporalType.DATE)

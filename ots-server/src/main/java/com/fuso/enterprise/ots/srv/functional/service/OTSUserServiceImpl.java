@@ -287,7 +287,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			}
 			return loginUserResponse;
             } catch (Exception e) {
-			throw new BusinessException(e.getMessage(), e);
+            	throw new BusinessException(e,ErrorEnumeration.USER_NOT_EXISTS);
 		}
 	}
 
@@ -435,7 +435,6 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	
 	@Override
 	public String changePassword(ChangePasswordRequest changePasswordRequest) {
-		// TODO Auto-generated method stub
 		return userServiceDAO.changePassword(changePasswordRequest);
 	}
 

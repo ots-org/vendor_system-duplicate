@@ -226,7 +226,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
             }catch (NoResultException e) {
             	logger.error("Exception while fetching data from DB :"+e.getMessage());
         		e.printStackTrace();
-            	throw new BusinessException(e.getMessage(), e);
+        		throw new BusinessException(e,ErrorEnumeration.USER_NOT_EXISTS);
             }
             logger.info("Inside Event=1,Class:UserServiceDAOImpl,Method:getUserIDUsers, "
 					+ "UserData:" +userData);
@@ -235,7 +235,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
     	}catch(Exception e) {
     		logger.error("Exception while fetching data from DB :"+e.getMessage());
     		e.printStackTrace();
-    		throw new BusinessException(e.getMessage(), e);
+    		throw new BusinessException(e,ErrorEnumeration.USER_NOT_EXISTS);
     	}
     	return loginUserResponse;
 	}

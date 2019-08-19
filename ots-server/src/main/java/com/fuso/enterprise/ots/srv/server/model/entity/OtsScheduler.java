@@ -55,10 +55,10 @@ public class OtsScheduler implements Serializable {
     @Column(name = "ots_scheduler_wkdy")
     private String otsSchedulerWkdy;
     @Column(name = "ots_scheduler_st_dt")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date otsSchedulerStDt;
     @Column(name = "ots_scheduler_et_dt")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date otsSchedulerEtDt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsSchedulerId")
     private Collection<OtsRequestOrder> otsRequestOrderCollection;
