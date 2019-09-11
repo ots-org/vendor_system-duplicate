@@ -129,7 +129,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 				/*
 				 * Adding new user and return back the user object
 				 */
-				if(addUserDataBORequest.requestData.getUserId() == "" || addUserDataBORequest.requestData.getUserId() == "0") {
+				if(addUserDataBORequest.requestData.getUserId() == ""|| addUserDataBORequest.requestData.getUserId() == null || addUserDataBORequest.requestData.getUserId() == "0") {
 					userDataBOResponse = userServiceDAO.addNewUser(addUserDataBORequest);
 				}else {
 					userDataBOResponse = userServiceDAO.updateUser(addUserDataBORequest);

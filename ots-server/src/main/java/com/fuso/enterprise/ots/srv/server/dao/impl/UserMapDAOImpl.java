@@ -37,8 +37,10 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 			OtsUserMapping userMappEntity=new OtsUserMapping();
 			OtsUsers otsUsers = new OtsUsers();
 			otsUsers.setOtsUsersId(Integer.parseInt(mapUsersDataBORequest.getRequestData().getUserId()));
+			userMappEntity.setOtsUsersId(otsUsers);
 			Map<String, Object> queryParameter = new HashMap<>();
 			queryParameter.put("otsUsersId", otsUsers);
+			
 			try {
 				userMappEntity = super.getResultByNamedQuery("OtsUserMapping.getDistributorId", queryParameter);
 				userMappEntity.setOtsMappedTo(Integer.parseInt(mapUsersDataBORequest.getRequestData().getMappedTo()));
@@ -51,6 +53,7 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 				}
 			}catch(Exception e){
 				try {
+					userMappEntity.setOtsMappedTo(Integer.parseInt(mapUsersDataBORequest.getRequestData().getMappedTo()));
 					super.getEntityManager().merge(userMappEntity);
 				}catch (NoResultException e1) {
 					logger.error("Exception while Inserting data to DB :"+e.getMessage());

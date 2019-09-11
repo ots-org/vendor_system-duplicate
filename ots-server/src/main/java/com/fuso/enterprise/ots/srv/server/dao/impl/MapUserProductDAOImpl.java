@@ -46,9 +46,12 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 			OtsUsers otsUsers = new OtsUsers();
 			otsUsers.setOtsUsersId(Integer.parseInt(customerProductDataBORequest.getRequestData().getUserId()));
 			userProductEntity.setOtsUsersId(otsUsers);
-			userProductEntity.setOtsCustomerProductBalCan(Integer.parseInt(customerProductDataBORequest.getRequestData().getCustomerBalanceCan()));
+			userProductEntity.setOtsCustomerProductBalCan(customerProductDataBORequest.getRequestData().getCustomerBalanceCan()==null?0:Integer.parseInt(customerProductDataBORequest.getRequestData().getCustomerBalanceCan()));
 			userProductEntity.setOtsCustomerProductPrice(customerProductDataBORequest.getRequestData().getProductPrice());
 			userProductEntity.setOtsCustomerProductDefault("Yes");
+			
+			
+			
 			/*
 			 * setting Product object for product mapping
 			 */
