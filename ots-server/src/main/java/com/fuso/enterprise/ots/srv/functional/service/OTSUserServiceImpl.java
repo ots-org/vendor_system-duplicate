@@ -101,7 +101,10 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	public UserDataBOResponse checkForUserExistsOrNot(AddUserDataBORequest addUserDataBORequest) {
 		UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
 		try {
-			Integer flag = userRegistrationDao.CheckForExists(addUserDataBORequest);
+			Integer flag = 0;
+			if(addUserDataBORequest.requestData.getUserId()=="" || addUserDataBORequest.requestData.getUserId()=="0") {
+				 flag = userRegistrationDao.CheckForExists(addUserDataBORequest);
+			}
 			if(flag == 0){
 				return userDataBOResponse = addNewUser(addUserDataBORequest);
 			}else {
@@ -126,7 +129,12 @@ public class OTSUserServiceImpl implements  OTSUserService{
 				/*
 				 * Adding new user and return back the user object
 				 */
-				userDataBOResponse = userServiceDAO.addNewUser(addUserDataBORequest);
+				if(addUserDataBORequest.requestData.getUserId() == "" || addUserDataBORequest.requestData.getUserId() == "0") {
+					userDataBOResponse = userServiceDAO.addNewUser(addUserDataBORequest);
+				}else {
+					userDataBOResponse = userServiceDAO.updateUser(addUserDataBORequest);
+				}
+				
 				String responseGenerateduserId = userDataBOResponse.getUserDetails().get(0).getUserId();
 				
 				/*

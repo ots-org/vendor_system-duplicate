@@ -94,7 +94,43 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
     	return userDetails;
 
 	}
-
+    @Override
+	public UserDataBOResponse updateUser(AddUserDataBORequest addUserDataBORequest) {
+    	
+    	List<UserDetails> userDetails = new ArrayList<UserDetails>();
+    	UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
+    	try{
+	    	OtsUsers userEntity= super.getEntityManager().find(OtsUsers.class, Integer.parseInt(addUserDataBORequest.getRequestData().getUserId()));
+	    	
+	    	OtsUserRole otsUserRole = new OtsUserRole();
+			otsUserRole.setOtsUserRoleId(Integer.parseInt(addUserDataBORequest.getRequestData().getUserRoleId()));
+			
+			userEntity.setOtsUsersFirstname(addUserDataBORequest.getRequestData().getFirstName());
+			userEntity.setOtsUsersLastname(addUserDataBORequest.getRequestData().getLastName());
+			userEntity.setOtsUsersAddr1(addUserDataBORequest.getRequestData().getAddress1());
+			userEntity.setOtsUsersAddr2(addUserDataBORequest.getRequestData().getAddress2());
+			userEntity.setOtsUsersPincode(addUserDataBORequest.getRequestData().getPincode());
+			userEntity.setOtsUserRoleId(otsUserRole);
+			userEntity.setOtsUsersProfilePic(addUserDataBORequest.getRequestData().getProfilePic());
+			userEntity.setOtsUsersStatus(addUserDataBORequest.getRequestData().getUsrStatus());
+			userEntity.setOtsUsersEmailid(addUserDataBORequest.getRequestData().getEmailId());
+			userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
+			
+			
+	    	super.getEntityManager().merge(userEntity);
+			super.getEntityManager().flush();
+			
+			userDetails.add(convertUserDetailsFromEntityToDomain(userEntity));
+			userDataBOResponse.setUserDetails(userDetails);
+			logger.info("Inside Event=1004,Class:UserServiceDAOImpl,Method:updateUser, "
+						+ "userDetails Size:" +userDetails.size());
+    	}catch (NoResultException e) {
+           	logger.error("Exception while updating data to DB :"+e.getMessage());
+       		e.printStackTrace();
+           	throw new BusinessException(e.getMessage(), e);
+		}
+    	return  userDataBOResponse;
+	}
 
     @Override
 	public UserDataBOResponse addNewUser(AddUserDataBORequest addUserDataBORequest) {
@@ -346,4 +382,6 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 		}
 		return userDetails;
 	}
+
+	
 }

@@ -29,4 +29,6 @@ public interface UserServiceDAO {
 	UserDetails getUserDetailsForEmployee(Integer userId);
 
 	UserDetails getUserDetailsForCustomer(Integer userId);
+
+	UserDataBOResponse updateUser(AddUserDataBORequest addUserDataBORequest);
 }

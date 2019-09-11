@@ -37,14 +37,26 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 			OtsUserMapping userMappEntity=new OtsUserMapping();
 			OtsUsers otsUsers = new OtsUsers();
 			otsUsers.setOtsUsersId(Integer.parseInt(mapUsersDataBORequest.getRequestData().getUserId()));
-			userMappEntity.setOtsUsersId(otsUsers);
-			userMappEntity.setOtsMappedTo(Integer.parseInt(mapUsersDataBORequest.getRequestData().getMappedTo()));
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsUsersId", otsUsers);
 			try {
-				super.getEntityManager().merge(userMappEntity);
-			}catch (NoResultException e) {
-				logger.error("Exception while Inserting data to DB :"+e.getMessage());
-	    		e.printStackTrace();
-	        	throw new BusinessException(e.getMessage(), e);
+				userMappEntity = super.getResultByNamedQuery("OtsUserMapping.getDistributorId", queryParameter);
+				userMappEntity.setOtsMappedTo(Integer.parseInt(mapUsersDataBORequest.getRequestData().getMappedTo()));
+				try {
+					super.getEntityManager().merge(userMappEntity);
+				}catch (NoResultException e) {
+					logger.error("Exception while Inserting data to DB :"+e.getMessage());
+		    		e.printStackTrace();
+		        	throw new BusinessException(e.getMessage(), e);
+				}
+			}catch(Exception e){
+				try {
+					super.getEntityManager().merge(userMappEntity);
+				}catch (NoResultException e1) {
+					logger.error("Exception while Inserting data to DB :"+e.getMessage());
+		    		e.printStackTrace();
+		        	throw new BusinessException(e.getMessage(), e);
+				}
 			}
 			responseData="User Mapped Successfully";
 			logger.info("Inside Event=1005,Class:UserMapDAOImpl,Method:mappUser");
