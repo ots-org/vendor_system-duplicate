@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -78,7 +80,8 @@ public OTSBillServiceImpl(UserMapDAO userMapDAO,BillServiceDAO billServiceDAO,Or
 
 @Inject
 private OTSProductService otsProductService;
-
+	long millis=System.currentTimeMillis();  
+	java.sql.Date date=new java.sql.Date(millis); 
 	@Override
 	public BillDetailsBOResponse addOrUpdateBill(BillDetailsBORequest billDetailsBORequest) {
 		BillDetailsBOResponse billDetailsBOResponse = new BillDetailsBOResponse();
@@ -129,46 +132,47 @@ private OTSProductService otsProductService;
 			/*
 			 * Create html for Bill document
 			 */
-			String htmlString = "<html><body> <br> <table style=\"width: 508px; height: 90px;\" border=\"1\">\r\n" + 
-					"<tbody>\r\n" + 
-					"<tr>\r\n" + 
-					"<td style=\"width: 244px;\">From Date</td>\r\n" + 
-					"<td style=\"width: 259px;\">"+billDetailsBORequest.getRequestData().getFromDate()+"</td>\r\n" + 
-					"</tr>\r\n" + 
-					"<tr>\r\n" + 
-					"<td style=\"width: 244px;\">To Date&nbsp;</td>\r\n" + 
-					"<td style=\"width: 259px;\">"+billDetailsBORequest.getRequestData().getToDate()+"</td>\r\n" + 
-					"</tr>\r\n" + 
-					"<tr>\r\n" + 
-					"<td style=\"width: 244px;\">Distributor Name</td>\r\n" + 
-					"<td style=\"width: 259px;\">"+billProductDetailsResponse.getDistributorDetails().getFirstName()+""+billProductDetailsResponse.getDistributorDetails().getLastName()+"</td>\r\n" + 
-					"</tr>\r\n" + 
-					"<tr>\r\n" + 
-					"<td style=\"width: 244px;\">Customer Name</td>\r\n" + 
-					"<td style=\"width: 259px;\">"+billProductDetailsResponse.getCustomerDetails().getFirstName()+" "+billProductDetailsResponse.getCustomerDetails().getLastName()+"</td>\r\n" + 
-					"</tr>\r\n" + 
-					"<tr>\r\n" + 
-					"<td style=\"width: 244px;\">Customer Address</td>\r\n" + 
-					"<td style=\"width: 259px;\">"+billProductDetailsResponse.getCustomerDetails().getAddress1()+",<br>"+billProductDetailsResponse.getCustomerDetails().getAddress1()+"</td>\r\n" + 
-					"</tr>\r\n" + 
-					"<tr>\r\n" + 
-					"<td style=\"width: 244px;\">Bill No</td>\r\n" + 
-					"<td style=\"width: 259px;\">OtsBill-"+billDetailsBOResponse.getBillDetails().get(0).getBillId()+"</td>\r\n" + 
-					"</tr>\r\n" + 
-					"</tbody>\r\n" + 
-					"</table>\r\n" + 
-					"<p>&nbsp;</p>\r\n" + 
-					"<table style=\"width: 508px; height: 38px;\" border=\"1\">\r\n" + 
-					"<tbody>\r\n" + 
-					"<tr style=\"background-color: #808080;\">\r\n" + 
-					"<td style=\"width: 45.6px; text-align: center;\"><strong>Slno</strong></td>\r\n" + 
-					"<td style=\"width: 137.6px; text-align: center;\"><strong>Description</strong></td>\r\n" + 
-					"<td style=\"width: 96.8px; text-align: center;\"><strong>Unit/Quantity</strong></td>\r\n" + 
-					"<td style=\"width: 96.8px; text-align: center;\"><strong>Rate&nbsp;</strong></td>\r\n" + 
-					"<td style=\"width: 100px; text-align: center;\"><strong>&nbsp;Amount</strong></td>\r\n" + 
-					"</tr>\r\n" + 
-					"<tr>\r\n"
-					+ ""+productString+"" + 
+			String htmlString ="<html>  \r\n" + 
+					"						<body>  \r\n" + 
+					"							<table style=\"width: 126.4px;\">   \r\n" + 
+					"								<tbody>  \r\n" + 
+					"									<tr style=\"height: 43.2px;\">   \r\n" + 
+					"									<td style=\"width: 244px;\"><h1 align=\"left\"><img src=\"C:\\template\\logo\\logo.png\"  width=\"18\" height=\"18\"> Sanath Industries</h1></td>   \r\n" + 
+					"								</tr>   \r\n" + 
+					"									</tbody>   \r\n" + 
+					"							</table>   \r\n" + 
+					"							<table border=\"1\" style=\"width: 508px; height: 90px;\" >  \r\n" + 
+					"								<tbody>   \r\n" + 
+					"									<tr>  \r\n" + 
+					"										<td style=\"width: 244px;\">Distributor Details</td>   \r\n" + 
+					"										<td style=\"width: 259px;\">Customer Details</td>   \r\n" + 
+					"									</tr> \r\n" + 
+					"									<tr>   \r\n" + 
+					"										<td style=\"width: 244px;\">"+billProductDetailsResponse.getDistributorDetails().getFirstName()+" "+billProductDetailsResponse.getDistributorDetails().getLastName()+"<br>"+billProductDetailsResponse.getDistributorDetails().getAddress1()+",<br>"+billProductDetailsResponse.getDistributorDetails().getAddress2()+"</td> \r\n" + 
+					"										<td style=\"width: 259px;\">"+billProductDetailsResponse.getCustomerDetails().getFirstName()+" "+billProductDetailsResponse.getCustomerDetails().getLastName()+"<br>"+billProductDetailsResponse.getCustomerDetails().getAddress1()+",<br>"+billProductDetailsResponse.getCustomerDetails().getAddress2()+"</td>  \r\n" + 
+					"									</tr>   \r\n" + 
+					"								</tbody>   \r\n" + 
+					"							</table>  \r\n" + 
+					"							  	\r\n" + 
+					"							<p>&nbsp;</p>  \r\n" + 
+					"							<table style=\"width: 126.4px;\">   \r\n" + 
+					"								<tbody>  \r\n" + 
+					"								<tr>\r\n" + 
+					"								<td style=\"width: 244px;\">Bill No:OtsBill:- "+billDetailsBOResponse.getBillDetails().get(0).getBillId()+"</td>\r\n" + 
+					"								<td style=\"width: 244px;\" align=\"right\">Date:- "+date+"</td>\r\n" +
+					"								</tr>\r\n" +
+					"									</tbody>   \r\n" +   
+					"							</table>   \r\n" + 
+					"					<table style=\"width: 508px; height: 38px;\" border=\"1\">  \r\n" + 
+					"					<tbody>  \r\n" + 
+					"					<tr style=\"background-color: #808080;\">  \r\n" + 
+					"					<td style=\"width: 45.6px; text-align: center;\"><strong>Slno</strong></td>  \r\n" + 
+					"					<td style=\"width: 137.6px; text-align: center;\"><strong>Description</strong></td>  \r\n" + 
+					"					<td style=\"width: 96.8px; text-align: center;\"><strong>Unit/Quantity</strong></td>  \r\n" + 
+					"					<td style=\"width: 96.8px; text-align: center;\"><strong>Rate&nbsp;</strong></td>  \r\n" + 
+					"					<td style=\"width: 100px; text-align: center;\"><strong>&nbsp;Amount</strong></td>  \r\n" + 
+					"					</tr>  \r\n" + 
+					"					<tr>\r\n"					+ ""+productString+"" + 
 					"<tr>\r\n" + 
 					"<td style=\"width: 96.8px; text-align: right;\" colspan=\"4\"><strong>Total</strong></td>\r\n" + 
 					"<td style=\"width: 100px; text-align: center;\">"+totalPrice+"</td>\r\n" + 
@@ -197,17 +201,16 @@ private OTSProductService otsProductService;
 					"<td style=\"width: 139.4px; height: 43.2px;\">Signature&nbsp;</td>\r\n" + 
 					"</tr>\r\n" + 
 					"</tbody>\r\n" + 
-					"</table> </body></html>";
+					"</table> </body></html>"; 	
 			String billNO = billDetailsBOResponse.getBillDetails().get(0).getBillId()+"";
 			OTSUtil.generatePDFFromHTML(htmlString,billNO);
-			
+			EmailUtil.sendEmailBill(billProductDetailsResponse.getCustomerDetails().getEmailId(),billProductDetailsResponse.getDistributorDetails().getEmailId(), "Your Bill for Number: OtsBill-"+billNO+", Bill Date: 12-Apr-2019\r\n" + 
+					"", "Please find the attachment for your water can bill generated", "OtsBill-"+billNO+".pdf", "C:\\template\\OtsBill-"+billNO+".pdf");
 			byte[] fileContent = FileUtils.readFileToByteArray(new File("C:\\template\\OtsBill-"+billNO+".pdf"));
 			String encodedString = Base64.getEncoder().encodeToString(fileContent);
 			billDetailsBORequest.getRequestData().setBillId(billDetailsBOResponse.getBillDetails().get(0).getBillId());
 			billDetailsBORequest.getRequestData().setBillPdf(encodedString);
 			billDetailsBOResponse = billServiceDAO.addOrUpdateBill(billDetailsBORequest);
-			EmailUtil.sendEmailBill(billProductDetailsResponse.getCustomerDetails().getEmailId(),billProductDetailsResponse.getDistributorDetails().getEmailId(), "Your Bill for Number: OtsBill-"+billNO+", Bill Date: 12-Apr-2019\r\n" + 
-					"", "Please find the attachment for your water can bill generated", "OtsBill-"+billNO+".pdf", "C:\\template\\OtsBill-"+billNO+".pdf");
 	
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
