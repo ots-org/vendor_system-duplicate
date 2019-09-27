@@ -583,7 +583,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				getCustomerOutstandingAmt.setCustomerId(OrderDetailsList.get(i).getCustomerId());
 				getCustomerOutstandingAmtBORequest.setRequestData(getCustomerOutstandingAmt);
 				String CustomerAmount = customerOutstandingAmtDAO.getCustomerOutstandingAmt(getCustomerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();
-				if(getOrderBORequest.getRequest().getProductId()!=null ) {
+				if(getOrderBORequest.getRequest().getProductId()!=null || getOrderBORequest.getRequest().getProductId() == "" ) {
 					List<OrderProductDetails> orderProductDetailsList = orderProductDao.getProductListByOrderId(OrderDetailsList.get(i).getOrderId());
 					for (int j = 0; j <orderProductDetailsList.size(); j++){
 						if(orderProductDetailsList.get(j).getOtsProductId().equals(getOrderBORequest.getRequest().getProductId())) {
