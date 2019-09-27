@@ -557,7 +557,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 	    	
 	    	queryParameter.put("startDate",getOrderBORequest.getRequest().getFromTime());
 	    	queryParameter.put("endDate",getOrderBORequest.getRequest().getToTime());
-	    	if(getOrderBORequest.getRequest().getCustomerId()==null) {
+	    	if(getOrderBORequest.getRequest().getCustomerId()==null || getOrderBORequest.getRequest().getCustomerId()== "") {
 	    		OtsUsers distributorId = new OtsUsers();
 		    	distributorId.setOtsUsersId(Integer.parseInt(getOrderBORequest.getRequest().getDistributorsId()));
 	    		queryParameter.put("DistributorId", distributorId);

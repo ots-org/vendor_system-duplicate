@@ -583,10 +583,19 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				getCustomerOutstandingAmt.setCustomerId(OrderDetailsList.get(i).getCustomerId());
 				getCustomerOutstandingAmtBORequest.setRequestData(getCustomerOutstandingAmt);
 				String CustomerAmount = customerOutstandingAmtDAO.getCustomerOutstandingAmt(getCustomerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();
-
-				List<OrderProductDetails> orderProductDetailsList = orderProductDao.getProductListByOrderId(OrderDetailsList.get(i).getOrderId());
-				getOrderDetailsAndProductDetails.add(i,GetProductAndOrderDetails(OrderDetailsList.get(i),orderProductDetailsList,CustomerAmount));
-				CustomerAmount = null;
+				if(getOrderBORequest.getRequest().getProductId()!=null ) {
+					List<OrderProductDetails> orderProductDetailsList = orderProductDao.getProductListByOrderId(OrderDetailsList.get(i).getOrderId());
+					for (int j = 0; j <orderProductDetailsList.size(); j++){
+						if(orderProductDetailsList.get(j).getOtsProductId().equals(getOrderBORequest.getRequest().getProductId())) {
+							getOrderDetailsAndProductDetails.add(GetProductAndOrderDetails(OrderDetailsList.get(i),orderProductDetailsList,CustomerAmount));
+						}
+					}
+				}else {
+					List<OrderProductDetails> orderProductDetailsList = orderProductDao.getProductListByOrderId(OrderDetailsList.get(i).getOrderId());
+					getOrderDetailsAndProductDetails.add(GetProductAndOrderDetails(OrderDetailsList.get(i),orderProductDetailsList,CustomerAmount));
+				}
+				
+				//CustomerAmount = null;
 			}
 			orderProductBOResponse.setOrderList(getOrderDetailsAndProductDetails);
 			return orderProductBOResponse;
