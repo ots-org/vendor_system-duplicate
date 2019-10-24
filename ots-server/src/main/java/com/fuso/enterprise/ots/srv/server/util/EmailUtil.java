@@ -9,8 +9,8 @@ public class EmailUtil {
 	
 	public static void sendEmailBill(String to,String cc,String sub,String msg,String billFileName,String filePath){   
 		
-		final String username = "anushakarnam06@gmail.com";
-	    final String password = "Manoj*123";
+		final String username = "sanathinfotechblr@gmail.com";
+	    final String password = "Sanath1@3";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.auth", true);
@@ -27,7 +27,7 @@ public class EmailUtil {
 	    try {
 
 	        Message message = new MimeMessage(session);
-	        message.setFrom(new InternetAddress("anushakarnam06@gmail.com"));
+	        message.setFrom(new InternetAddress("sanathinfotechblr@gmail.com"));
 	        message.setRecipients(Message.RecipientType.TO,
 	                InternetAddress.parse(to));
 	        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
@@ -57,8 +57,8 @@ public class EmailUtil {
 	
 public static void sendOTP(String to,String cc,String sub,String msg){   
 		
-		final String username = "anushakarnam06@gmail.com";
-	    final String password = "Abhishek05@1";
+		final String username = "sanathinfotechblr@gmail.com";
+	    final String password = "Sanath1@3";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.auth", true);
@@ -75,7 +75,7 @@ public static void sendOTP(String to,String cc,String sub,String msg){
 	    try {
 
 	        Message message = new MimeMessage(session);
-	        message.setFrom(new InternetAddress("anushakarnam06@gmail.com"));
+	        message.setFrom(new InternetAddress("sanathinfotechblr@gmail.com"));
 	        message.setRecipients(Message.RecipientType.TO,
 	                InternetAddress.parse(to));
 	        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
