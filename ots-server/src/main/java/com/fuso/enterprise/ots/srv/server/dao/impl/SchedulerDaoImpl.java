@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import com.fuso.enterprise.ots.srv.api.model.domain.SchedulerResponceOrderModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.server.dao.SchedulerDao;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsScheduler;
@@ -83,6 +85,33 @@ public class SchedulerDaoImpl extends AbstractIptDao<OtsScheduler, String> imple
 		
 		SchedulerList = super.getResultListByNamedQuery("OtsScheduler.getSchedulerDetailsForCronJob", queryParameter);
 		return SchedulerList;
+	}
+
+	@Override
+	public List<SchedulerResponceOrderModel> getSchedularData(GetSchedulerRequest getSchedulerRequest) {
+		Map<String, Object> queryParameter = new HashMap<>();
+		List<SchedulerResponceOrderModel> SchedulerListmodel = new ArrayList<SchedulerResponceOrderModel>();
+		List<OtsScheduler> SchedulerList = new ArrayList<OtsScheduler>();
+		OtsUsers distributorid = new OtsUsers();
+		distributorid.setOtsUsersId(Integer.parseInt(getSchedulerRequest.getRequest().getDistributorId()));
+		queryParameter.put("DistributorId",distributorid);
+		queryParameter.put("Date",getSchedulerRequest.getRequest().getDate());
+		SchedulerList = super.getResultListByNamedQuery("OtsScheduler.getSchedularByDate", queryParameter);
+		
+		SchedulerListmodel = SchedulerList.stream().map(OtsScheduler -> convertEntityToDomine(OtsScheduler)).collect(Collectors.toList());
+		
+		return SchedulerListmodel;
+	}
+	
+	public SchedulerResponceOrderModel convertEntityToDomine(OtsScheduler otsScheduler) {
+		SchedulerResponceOrderModel SchedulerRequestOrderModel = new SchedulerResponceOrderModel();
+		SchedulerRequestOrderModel.setCustomerId(otsScheduler.getOtsCustomerId().getOtsUsersId().toString());
+		SchedulerRequestOrderModel.setNxtScheduledDate(otsScheduler.getOtsSchedulerEtDt().toString());
+		SchedulerRequestOrderModel.setProductId(otsScheduler.getOtsProductId().getOtsProductId().toString());
+		SchedulerRequestOrderModel.setRequestedQty(otsScheduler.getOtsOrderQty().toString());
+	//	SchedulerRequestOrderModel.setRequestOrderId(otsScheduler.getorderid);
+		SchedulerRequestOrderModel.setScheduledDate(otsScheduler.getOtsSchedulerStDt().toString());
+		return SchedulerRequestOrderModel;		
 	}
 	
 }

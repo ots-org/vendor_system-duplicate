@@ -449,4 +449,14 @@
 			o.otsUsersId = :otsUsersId
 		</query>
 	</named-query>
+		<named-query name="OtsScheduler.getSchedularByDate">
+		<query>SELECT o 
+		FROM 
+			OtsScheduler o
+		WHERE
+			o.otsDistributorId =:DistributorId
+		AND
+		(o.otsSchedulerEtDt >=:Date AND :Date >= otsSchedulerStDt )	 
+		</query>
+	</named-query>
 </entity-mappings>

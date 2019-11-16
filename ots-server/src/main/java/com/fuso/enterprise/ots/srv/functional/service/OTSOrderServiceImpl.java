@@ -627,7 +627,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		GetSchedulerResponse getSchedulerResponse = new GetSchedulerResponse();		
 		
 		List<SchedulerResponceOrderModel> schedulerResponceOrderModel = new ArrayList<SchedulerResponceOrderModel>();
-		schedulerResponceOrderModel = requestOrderServiceDao.getScheduler(getSchedulerRequest);
+		schedulerResponceOrderModel = schedulerResponceOrderModel = schedulerDao.getSchedularData(getSchedulerRequest);
 		for(int i=0;i<schedulerResponceOrderModel.size();i++) {
 			schedulerResponceOrderModel.get(i).setUserDetails(userServiceDAO.getUserDetails(Integer.valueOf(schedulerResponceOrderModel.get(i).getCustomerId())));
 			schedulerResponceOrderModel.get(i).setProductDetails(productServiceDAO.getProductDetils(schedulerResponceOrderModel.get(i).getProductId()));
