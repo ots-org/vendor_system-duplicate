@@ -38,6 +38,8 @@ import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OutstandingCustomerResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdatePassword;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdatePasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
@@ -198,10 +200,11 @@ public class OTSUserServiceImpl implements  OTSUserService{
 					}else if(requestBOUserBySearch.getRequestData().getSearchvalue().equals("4")) {
 						userData = userServiceDAO.getUserDetailsForCustomer(UserList.get(i).getOtsUsersId().getOtsUsersId());
 						if(userData != null) {
+							userData.setCustomerProductDetails(mapUserProductDAO.getCustomerProductDetailsByCustomerId(userData.getUserId()));
 							userDetailsList.add(userData);
 						}
 					}
-						
+					
 				}
 				userDataBOResponse.setUserDetails(userDetailsList);
 			}else{
@@ -440,10 +443,15 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		return  forgotPasswordResponse;
 	}
 	
-	
 	@Override
 	public String changePassword(ChangePasswordRequest changePasswordRequest) {
 		return userServiceDAO.changePassword(changePasswordRequest);
+	}
+
+	@Override
+	public String updatePassword(UpdatePasswordRequest updatePasswordRequest) {
+		// TODO Auto-generated method stub
+		return userServiceDAO.updatePassword(updatePasswordRequest);
 	}
 
 }

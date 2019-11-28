@@ -70,18 +70,15 @@ public class RequestOrderServiceDaoImpl extends AbstractIptDao<OtsRequestOrder, 
 					
 					c.add(Calendar.DAY_OF_MONTH, 1);
 					RequestOrder.setOtsScheduleDt(c.getTime());
-					
-					c.add(Calendar.DAY_OF_MONTH, 1);
 					RequestOrder.setOtsNxtScheduleDt(c.getTime());
 					
 					RequestOrder.setOtsRequestQty(schedulerList.get(i).getOtsOrderQty());
-				}else if(schedulerList.get(i).getOtsSchedulerType().equals("weekly")){
+				}else if(schedulerList.get(i).getOtsSchedulerType().equalsIgnoreCase("Weekly")){
 					System.out.println("dayOfWeek "+simpleDateformat.format(today));
 					if(schedulerList.get(i).getOtsSchedulerWkdy().equals(simpleDateformat.format(today))) {
 						System.out.println("dayOfWeek "+Integer.valueOf(dayOfWeek));
 						c.add(Calendar.DAY_OF_MONTH, 7);
 						RequestOrder.setOtsScheduleDt(c.getTime());
-						c.add(Calendar.DAY_OF_MONTH, 7);
 						RequestOrder.setOtsNxtScheduleDt(c.getTime());
 					}else {
 						String scheduledDate = nextDateOfDay(schedulerList.get(i).getOtsSchedulerWkdy());
@@ -92,7 +89,6 @@ public class RequestOrderServiceDaoImpl extends AbstractIptDao<OtsRequestOrder, 
 							date = formatter.parse(scheduledDate);
 							RequestOrder.setOtsScheduleDt(date);
 							c.setTime(date);
-							c.add(Calendar.DAY_OF_MONTH, 7);
 							RequestOrder.setOtsNxtScheduleDt(c.getTime());
 						} catch (ParseException e) {
 							e.printStackTrace();
@@ -170,49 +166,59 @@ public class RequestOrderServiceDaoImpl extends AbstractIptDao<OtsRequestOrder, 
 
 	@Override
 	public List<OtsRequestOrder> runSchedulerEveryDay12AMTo1AM(List<OtsScheduler> schedulerList) {
-		Map<String, Object> queryParameter = new HashMap<>();
-		List<OtsRequestOrder> requestOrderList = new ArrayList<OtsRequestOrder>() ;
-		for(int i=0;i<schedulerList.size();i++) {
-			OtsScheduler otsScheduler = new OtsScheduler();
-			Calendar c = Calendar.getInstance();
-			Calendar c1 = Calendar.getInstance();
-			otsScheduler.setOtsSchedulerId(schedulerList.get(i).getOtsSchedulerId());
-			if(schedulerList.get(i).getOtsSchedulerType().equals("Daily")) {
-				
-				c.add(Calendar.DAY_OF_MONTH, -1);
-				queryParameter.put("yesterday",c.getTime());
-				
-				c1.add(Calendar.DAY_OF_MONTH, 1);
-				queryParameter.put("tomorrow",c1.getTime());
-				
-				queryParameter.put("otsSchedulerId",otsScheduler);
-				requestOrderList  = super.getResultListByNamedQuery("OtsRequestOrder.getSchedulerDetailsForCronJob", queryParameter);
-				for(int j=0;j<requestOrderList.size();j++) {
-					OtsRequestOrder requestOrder = new OtsRequestOrder();	
-					requestOrder = requestOrderList.get(j);
-					requestOrder.setOtsScheduleDt(requestOrder.getOtsNxtScheduleDt());
-					requestOrder.setOtsNxtScheduleDt(c1.getTime());
- 					super.getEntityManager().merge(requestOrder);
-				}
-			}else if(schedulerList.get(i).getOtsSchedulerType().equals("weekly")) {
-				c.add(Calendar.DAY_OF_MONTH, -1);
-				queryParameter.put("yesterday",c.getTime());
-				c1.add(Calendar.DAY_OF_MONTH, 1);
-				queryParameter.put("tomorrow",c1.getTime());
-				queryParameter.put("otsSchedulerId",otsScheduler);
-				requestOrderList  = super.getResultListByNamedQuery("OtsRequestOrder.getSchedulerDetailsForCronJob", queryParameter);
-				for(int j=0;j<requestOrderList.size();j++) {
-					OtsRequestOrder requestOrder = new OtsRequestOrder();	
-					requestOrder = requestOrderList.get(j);
-					requestOrder.setOtsScheduleDt(requestOrder.getOtsNxtScheduleDt());
-					c1.add(Calendar.DAY_OF_MONTH, 6);
-					requestOrder.setOtsNxtScheduleDt(c1.getTime());
-					super.getEntityManager().merge(requestOrder);
-				}
-			}
+		List<OtsRequestOrder> requestOrderOutputList = new ArrayList<OtsRequestOrder>() ;
+		try {
+			Map<String, Object> queryParameter = new HashMap<>();
+			List<OtsRequestOrder> requestOrderList = new ArrayList<OtsRequestOrder>() ;
 			
-		}
-		return requestOrderList;
-		
+			int count =0;
+			for(int i=0;i<schedulerList.size();i++) {
+				OtsScheduler otsScheduler = new OtsScheduler();
+				Calendar c = Calendar.getInstance();
+				Calendar c1 = Calendar.getInstance();
+				otsScheduler.setOtsSchedulerId(schedulerList.get(i).getOtsSchedulerId());
+				if(schedulerList.get(i).getOtsSchedulerType().equals("Daily")) {
+					
+					c.add(Calendar.DAY_OF_MONTH, -1);
+					queryParameter.put("yesterday",c.getTime());
+					
+					c1.add(Calendar.DAY_OF_MONTH, 1);
+					queryParameter.put("tomorrow",c1.getTime());
+					
+					queryParameter.put("otsSchedulerId",otsScheduler);
+					requestOrderList  = super.getResultListByNamedQuery("OtsRequestOrder.getSchedulerDetailsForCronJob", queryParameter);
+					for(int j=0;j<requestOrderList.size();j++) {
+						
+						OtsRequestOrder requestOrder = new OtsRequestOrder();	
+						requestOrder = requestOrderList.get(j);
+						requestOrder.setOtsScheduleDt(requestOrder.getOtsNxtScheduleDt());
+						requestOrder.setOtsNxtScheduleDt(c1.getTime());
+	 					super.getEntityManager().merge(requestOrder);
+	 					requestOrderOutputList.add(count, requestOrder);
+	 					count++;
+					}
+				}else if(schedulerList.get(i).getOtsSchedulerType().equals("Weekly")) {
+					c.add(Calendar.DAY_OF_MONTH, -1);
+					queryParameter.put("yesterday",c.getTime());
+					c1.add(Calendar.DAY_OF_MONTH, 1);
+					queryParameter.put("tomorrow",c1.getTime());
+					queryParameter.put("otsSchedulerId",otsScheduler);
+					requestOrderList  = super.getResultListByNamedQuery("OtsRequestOrder.getSchedulerDetailsForCronJob", queryParameter);
+					for(int j=0;j<requestOrderList.size();j++) {					
+						OtsRequestOrder requestOrder = new OtsRequestOrder();	
+						requestOrder = requestOrderList.get(j);
+						requestOrder.setOtsScheduleDt(requestOrder.getOtsNxtScheduleDt());
+						c1.add(Calendar.DAY_OF_MONTH, 6);
+						requestOrder.setOtsNxtScheduleDt(c1.getTime());
+						super.getEntityManager().merge(requestOrder);
+						requestOrderOutputList.add(count, requestOrder);
+						count++;
+					}
+				}
+				
+			}
+		}catch(Exception e) {			
+			System.out.print(e);
+		}return requestOrderOutputList;
 	}
 }

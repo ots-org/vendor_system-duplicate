@@ -161,7 +161,7 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 			queryParameter.put("otsCustomerProductDefault","no");
 			try {
 				otsCustomerProduct = super.getResultByNamedQuery("OtsCustomerProduct.getCustomerProductDetails", queryParameter);
-				customerProductDetails = convertCustomerDetailsEntityToModel( otsCustomerProduct);
+				customerProductDetails = convertCustomerDetailsEntityToModel(otsCustomerProduct);
 			}catch (Exception e) {
 	        	return null;
 	        }

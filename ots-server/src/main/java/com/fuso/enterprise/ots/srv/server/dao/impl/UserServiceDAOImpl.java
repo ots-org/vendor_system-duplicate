@@ -21,6 +21,8 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdatePassword;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdatePasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -212,6 +214,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         userDetails.setUsrStatus(otsUsers.getOtsUsersStatus()==null?null:otsUsers.getOtsUsersStatus());
         userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
         userDetails.setDeviceId(otsUsers.getOtsDeviceToken()==null?null:otsUsers.getOtsDeviceToken());
+        userDetails.setMappedTo(otsUsers.getOtsUserMapping()==null?null:otsUsers.getOtsUserMapping().getOtsMappedTo().toString());
         return userDetails;
     }
 
@@ -230,7 +233,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic()==null?null:otsUsers.getOtsUsersProfilePic());
         userDetails.setUsrStatus(otsUsers.getOtsUsersStatus()==null?null:otsUsers.getOtsUsersStatus());
         userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
-
+        userDetails.setMappedTo(otsUsers.getOtsUserMapping()==null?null:otsUsers.getOtsUserMapping().getOtsMappedTo().toString());
         List<OtsCustomerProduct> customerProductDetails = new ArrayList(otsUsers.getOtsCustomerProductCollection());
 
 	   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
@@ -239,11 +242,49 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 	   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
 	   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
 	   		tempcustomerProductDetails.setProductDefault(customerProductDetails.get(i).getOtsCustomerProductDefault()==null?null:customerProductDetails.get(i).getOtsCustomerProductDefault().toString());
+	   		
+	   		userDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice());
+	   		userDetails.setProductId(customerProductDetails.get(i).getOtsProductId().getOtsProductId().toString());
 	   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
 	   	}
+	   	
+	   	
         return userDetails;
     }
 
+    private UserDetails convertUserDetailsFromEntityToDomainwithCustomerproductforLogin(OtsUsers otsUsers) {
+        UserDetails userDetails = new UserDetails();
+        userDetails.setUserId(otsUsers.getOtsUsersId()==null?null:otsUsers.getOtsUsersId().toString());
+        userDetails.setFirstName(otsUsers.getOtsUsersFirstname()==null?null:otsUsers.getOtsUsersFirstname());
+        userDetails.setLastName(otsUsers.getOtsUsersLastname()==null?null:otsUsers.getOtsUsersLastname());
+		userDetails.setContactNo(otsUsers.getOtsUsersContactNo()==null?null:otsUsers.getOtsUsersContactNo());
+        userDetails.setAddress1(otsUsers.getOtsUsersAddr1()==null?null:otsUsers.getOtsUsersAddr1());
+        userDetails.setAddress2(otsUsers.getOtsUsersAddr2()==null?null:otsUsers.getOtsUsersAddr2());
+        userDetails.setPincode(otsUsers.getOtsUsersPincode()==null?null:otsUsers.getOtsUsersPincode());
+        userDetails.setUserRoleId(otsUsers.getOtsUserRoleId().getOtsUserRoleId()==null?null:otsUsers.getOtsUserRoleId().getOtsUserRoleId().toString());
+        userDetails.setEmailId(otsUsers.getOtsUsersEmailid()==null?null:otsUsers.getOtsUsersEmailid());
+        userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic()==null?null:otsUsers.getOtsUsersProfilePic());
+        userDetails.setUsrStatus(otsUsers.getOtsUsersStatus()==null?null:otsUsers.getOtsUsersStatus());
+        userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
+        userDetails.setMappedTo(otsUsers.getOtsUserMapping()==null?null:otsUsers.getOtsUserMapping().getOtsMappedTo().toString());
+       
+        List<OtsCustomerProduct> customerProductDetails = new ArrayList(otsUsers.getOtsCustomerProductCollection());
+
+	   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
+	   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
+	   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
+	   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
+	   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
+	   		tempcustomerProductDetails.setProductDefault(customerProductDetails.get(i).getOtsCustomerProductDefault()==null?null:customerProductDetails.get(i).getOtsCustomerProductDefault().toString());
+	   		
+	   		userDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice());
+	   		userDetails.setProductId(customerProductDetails.get(i).getOtsProductId().getOtsProductId().toString());
+	   		
+	   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
+	   	}
+	   	
+        return userDetails;
+    }
 
 	@Override
 	public LoginUserResponse otsLoginAuthentication(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
@@ -266,7 +307,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
             }
             logger.info("Inside Event=1,Class:UserServiceDAOImpl,Method:getUserIDUsers, "
 					+ "UserData:" +userData);
-            userDetails =  convertUserDetailsFromEntityToDomainwithCustomerproduct(userData);
+            userDetails =  convertUserDetailsFromEntityToDomainwithCustomerproductforLogin(userData);
             loginUserResponse.setUserDetails(userDetails);
     	}catch(Exception e) {
     		logger.error("Exception while fetching data from DB :"+e.getMessage());
@@ -376,11 +417,35 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 			queryParameter.put("RoleId", roleId);
 			
 			userList = super.getResultByNamedQuery("OtsUsers.findByOtsUsersIdAndRoleId", queryParameter);
-				userDetails = convertUserDetailsFromEntityToDomain(userList);
+				userDetails = convertUserDetailsFromEntityToDomainwithCustomerproduct(userList);
 			}catch(Exception e) {
 			return null;
 		}
 		return userDetails;
+	}
+
+	@Override
+	public String updatePassword(UpdatePasswordRequest updatePasswordRequest) {
+		UserDetails userDetails = new UserDetails();
+		try {
+		OtsUsers userData = new OtsUsers();
+		Map<String, Object> queryParameter = new HashMap<>();
+		queryParameter.put("otsUsersId",Integer.parseInt(updatePasswordRequest.getUpdatePassword().getUserId()));
+		userData = super.getResultByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
+		
+		if(userData.getOtsUsersPassword().equals(updatePasswordRequest.getUpdatePassword().getOldPassword())) {
+			userData.setOtsUsersPassword(updatePasswordRequest.getUpdatePassword().getNewPassword());
+			super.getEntityManager().merge(userData);
+			userDetails = convertUserDetailsFromEntityToDomain(userData);
+		}else {
+			return "404";
+		}
+		
+	}catch(Exception e) {
+		System.out.println(e);
+		return "Not updated";
+	}
+		return "200";
 	}
 
 	

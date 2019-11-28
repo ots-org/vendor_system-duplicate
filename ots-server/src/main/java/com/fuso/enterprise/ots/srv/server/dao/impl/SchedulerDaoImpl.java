@@ -68,8 +68,6 @@ public class SchedulerDaoImpl extends AbstractIptDao<OtsScheduler, String> imple
 			}
 			
 		}return SchedulerList;
-		
-		
 	}
 
 	@Override
@@ -84,6 +82,7 @@ public class SchedulerDaoImpl extends AbstractIptDao<OtsScheduler, String> imple
 		System.out.println("today"+c.getTime());
 		
 		SchedulerList = super.getResultListByNamedQuery("OtsScheduler.getSchedulerDetailsForCronJob", queryParameter);
+		System.out.println("list of scheduler"+SchedulerList);
 		return SchedulerList;
 	}
 
@@ -111,6 +110,12 @@ public class SchedulerDaoImpl extends AbstractIptDao<OtsScheduler, String> imple
 		SchedulerRequestOrderModel.setRequestedQty(otsScheduler.getOtsOrderQty().toString());
 	//	SchedulerRequestOrderModel.setRequestOrderId(otsScheduler.getorderid);
 		SchedulerRequestOrderModel.setScheduledDate(otsScheduler.getOtsSchedulerStDt().toString());
+		if(otsScheduler.getOtsSchedulerWkdy().equalsIgnoreCase("null")) {
+			SchedulerRequestOrderModel.setDay("It's a daily Scheduler");
+		}else {
+			SchedulerRequestOrderModel.setDay(otsScheduler.getOtsSchedulerWkdy());
+		}
+		
 		return SchedulerRequestOrderModel;		
 	}
 	

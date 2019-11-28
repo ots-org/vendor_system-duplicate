@@ -28,6 +28,8 @@ import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdatePassword;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdatePasswordRequest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -123,8 +125,14 @@ public interface OTSUsersV18_1Ws {
 	
 	@POST
 	@Path("/changePassword")
-	@ApiOperation(value = "mappUser", notes = "This operation will change user passwordr ", response = Response.class)
+	@ApiOperation(value = "mappUser", notes = "This operation will change user password ", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response changePassword(@ApiParam(value = "request", required = true) @NotNull @Valid ChangePasswordRequest changePasswordRequest);
+
+	@POST
+	@Path("/updatePassword")
+	@ApiOperation(value = "updatePassword", notes = "This operation will update user password ", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response updatePassword(@ApiParam(value = "request", required = true) @NotNull @Valid UpdatePasswordRequest updatePasswordRequest);
 
 }

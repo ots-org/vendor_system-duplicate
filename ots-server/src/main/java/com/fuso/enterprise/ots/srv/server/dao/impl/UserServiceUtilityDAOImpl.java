@@ -152,9 +152,11 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	   	userDetails.setProfilePic(users.getOtsUsersProfilePic()==null?null:users.getOtsUsersProfilePic());
 	   	userDetails.setUsrStatus(users.getOtsUsersStatus()==null?null:users.getOtsUsersStatus());
 	   	userDetails.setUsrStatus(users.getOtsUsersStatus()==null?null:users.getOtsUsersStatus());
-	   	userDetails.setUsrPassword(users.getOtsUsersPassword()==null?null:users.getOtsUsersPassword()); 
+	    userDetails.setUsrPassword(users.getOtsUsersPassword()==null?null:users.getOtsUsersPassword());
 	   	userDetails.setContactNo(users.getOtsUsersContactNo()==null?null:users.getOtsUsersContactNo());
 	   	userDetails.setUserRoleId(users.getOtsUserRoleId().getOtsUserRoleId()==null?null:users.getOtsUserRoleId().getOtsUserRoleId().toString());
+	   	userDetails.setMappedTo(users.getOtsUserMapping().getOtsMappedTo().toString());
+	   	
 	   	List<OtsCustomerProduct> customerProductDetails = new ArrayList(users.getOtsCustomerProductCollection());
 	   	
 	   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
@@ -162,8 +164,13 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
 	   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
 	   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
+	   		
+	   		userDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice());
+	   		userDetails.setProductId(customerProductDetails.get(i).getOtsProductId().getOtsProductId().toString());
+	   		
 	   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
 	   	}
+	   	
 	   	return userDetails;
    }
 

@@ -19,6 +19,8 @@ public class SchedulerResponceOrderModel  {
 	private String nxtScheduledDate;
 	
 	private String reqStatus;
+	
+	private String day;
 
 	private ProductDetails productDetails;
 	
@@ -110,6 +112,14 @@ public class SchedulerResponceOrderModel  {
 
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
+	}
+
+	public String getDay() {
+		return day;
+	}
+
+	public void setDay(String day) {
+		this.day = day;
 	}
 	
 	

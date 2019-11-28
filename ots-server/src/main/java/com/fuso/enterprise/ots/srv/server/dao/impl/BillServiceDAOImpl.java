@@ -72,7 +72,7 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 			
 			BigDecimal outstandingAmount=new BigDecimal(billDetailsBORequest.getRequestData().getOutstandingAmount());
 			otsBill.setOtsBillOutstandingAmt(outstandingAmount);
-			otsBill.setOtsBillPdf(billDetailsBORequest.getRequestData().getBillPdf());
+			//otsBill.setOtsBillPdf(billDetailsBORequest.getRequestData().getBillPdf());
 			OtsUsers otsUser = new OtsUsers();
 			otsUser.setOtsUsersId(billDetailsBORequest.getRequestData().getCustomerId());
 			otsBill.setOtsCustomerId(otsUser);
@@ -113,7 +113,7 @@ public class BillServiceDAOImpl extends AbstractIptDao<OtsBill, String> implemen
 		billDetails.setBillAmount((otsBill.getOtsBillAmount())==null?null:otsBill.getOtsBillAmount().toString());
 		billDetails.setBillAmountReceived(otsBill.getOtsBillAmountReceived()==null?null:otsBill.getOtsBillAmountReceived().toString());
 		billDetails.setBillGenerated(otsBill.getOtsBillGenerated()==null?null:otsBill.getOtsBillGenerated());
-		billDetails.setBillPdf(otsBill.getOtsBillPdf()==null?null:otsBill.getOtsBillPdf());
+		//billDetails.setBillPdf(otsBill.getOtsBillPdf()==null?null:otsBill.getOtsBillPdf());
 		return billDetails;
 	}
 	

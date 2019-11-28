@@ -37,6 +37,8 @@ import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.util.ResponseWrapper;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdatePassword;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdatePasswordRequest;
 
 public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	
@@ -357,9 +359,25 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	@Override
 	public Response changePassword(ChangePasswordRequest changePasswordRequest) {
 		// TODO Auto-generated method stub
-		Response respons = null;
-		respons = responseWrapper.buildResponse(otsUserService.changePassword(changePasswordRequest),"Password Updated.Please login");
-		return respons;
+		Response response = null;
+		response = responseWrapper.buildResponse(otsUserService.changePassword(changePasswordRequest),"Password Updated.Please login");
+		return response;
+	}
+
+	@Override
+	public Response updatePassword(UpdatePasswordRequest updatePasswordRequest) {
+		Response response = null;
+		try {
+			if(otsUserService.updatePassword(updatePasswordRequest).equalsIgnoreCase("200")) {
+				response = buildResponse(200,"Password updated");
+				
+			}else {
+				response = buildResponse(600,"please check your old password");
+			}
+		}catch(Exception e) {
+			response = responseWrapper.buildResponse("Some thing went wrong");
+		}		
+		return response;
 	}
 
 }

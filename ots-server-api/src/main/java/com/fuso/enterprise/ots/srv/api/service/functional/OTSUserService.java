@@ -19,6 +19,8 @@ import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationRespon
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdatePassword;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdatePasswordRequest;
 public interface OTSUserService {
 	
 	UserDataBOResponse getUserIDUsers(String userId);
@@ -51,5 +53,6 @@ public interface OTSUserService {
 
 	String changePassword(ChangePasswordRequest changePasswordRequest);
 
+	String updatePassword(UpdatePasswordRequest updatePasswordRequest);
 	
 }

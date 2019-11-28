@@ -154,12 +154,14 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		orderDetailsAndProductDetails.setOrderId(orderDetails.getOrderId());
 		orderDetailsAndProductDetails.setDistributorId(orderDetails.getDistributorId());
 		orderDetailsAndProductDetails.setCustomerId(orderDetails.getCustomerId());
-		orderDetailsAndProductDetails.setOrderNumber(orderDetails.getOrderCost());
+		orderDetailsAndProductDetails.setOrderNumber(orderDetails.getOrderNumber());
 		orderDetailsAndProductDetails.setAssignedId(orderDetails.getAssignedId());
 		orderDetailsAndProductDetails.setOrderCost(orderDetails.getOrderCost());
 		orderDetailsAndProductDetails.setOrderStatus(orderDetails.getStatus());
 		orderDetailsAndProductDetails.setOrderdProducts(OrderProductDetails);
 		orderDetailsAndProductDetails.setDelivaryDate(orderDetails.getOrderDeliveryDate());
+		orderDetailsAndProductDetails.setAmountRecived(orderDetails.getAmountRecived());
+		orderDetailsAndProductDetails.setOutStandingAmount(orderDetails.getOutstandingAmount());
 		orderDetailsAndProductDetails.setOrderDate(orderDetails.getOrderDate());
 		orderDetailsAndProductDetails.setDelivaredDate(orderDetails.getOrderDeliverdDate());
 		orderDetailsAndProductDetails.setCustomerDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId()))); 
@@ -627,7 +629,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		GetSchedulerResponse getSchedulerResponse = new GetSchedulerResponse();		
 		
 		List<SchedulerResponceOrderModel> schedulerResponceOrderModel = new ArrayList<SchedulerResponceOrderModel>();
-		schedulerResponceOrderModel = schedulerResponceOrderModel = schedulerDao.getSchedularData(getSchedulerRequest);
+		schedulerResponceOrderModel = schedulerDao.getSchedularData(getSchedulerRequest);
 		for(int i=0;i<schedulerResponceOrderModel.size();i++) {
 			schedulerResponceOrderModel.get(i).setUserDetails(userServiceDAO.getUserDetails(Integer.valueOf(schedulerResponceOrderModel.get(i).getCustomerId())));
 			schedulerResponceOrderModel.get(i).setProductDetails(productServiceDAO.getProductDetils(schedulerResponceOrderModel.get(i).getProductId()));
@@ -661,7 +663,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
  			List<OrderedProductDetails> productList = new ArrayList<OrderedProductDetails>();
  			OrderedProductDetails scheduleOrder = new OrderedProductDetails();
  			if(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsProductId().getOtsProductId().toString(),requestOrder.get(i).getOtsCustomerId().getOtsUsersId().toString())!=null) {
-  				Float cost = Float.valueOf(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice())*requestOrder.get(i).getOtsRequestQty();
+ 				Float cost = Float.valueOf(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice())*requestOrder.get(i).getOtsRequestQty();
  				Integer IntCost = Math.round(cost);
  				scheduleOrder.setProductId(requestOrder.get(i).getOtsProductId().getOtsProductId().toString());
  				orderDetailsRequest.setOrderCost(IntCost.toString());			

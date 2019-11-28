@@ -77,7 +77,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 		List<CustomerProductDetails> customerProductDetails = new ArrayList<CustomerProductDetails>();
 		List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
 		List<GetProductBOStockResponse> productStockvalue = new ArrayList<GetProductBOStockResponse>();
-		System.out.print("2");
+		
 		if(productDetailsBORequest.getRequestData().getSearchKey().equals("All") && productDetailsBORequest.getRequestData().getDistributorId().equals("1")) {
 			productDetailsBOResponse = productServiceDAO.getProductList(productDetailsBORequest);
 		}else if(productDetailsBORequest.getRequestData().getCustomerId()!=null){
@@ -96,7 +96,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 			if(customerProductDetails!=null) {
 				for(int i = 0 ;i<customerProductDetails.size();i++) {
 					for(int j=0;j<productDetails.size();j++) {
-						if(customerProductDetails.get(i).getProductId()==productDetails.get(j).getProductId()) {
+						if(customerProductDetails.get(i).getProductId().equals(productDetails.get(j).getProductId())) {
 							productDetails.get(j).setProductPrice(customerProductDetails.get(i).getProductPrice());
 							loop++;
 						}
