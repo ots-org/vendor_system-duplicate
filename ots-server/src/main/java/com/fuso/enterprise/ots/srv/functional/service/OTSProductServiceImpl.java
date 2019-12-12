@@ -45,6 +45,7 @@ import com.fuso.enterprise.ots.srv.server.dao.StockDistObDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsOrder;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsStockDistOb;
+import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
 
 @Service
 @Transactional
@@ -195,6 +196,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		getProductStockListBOResponse.setProductStockDetail(ProductStockDetailList);
+		productTransactionReportPdf(ProductStockDetailList);
 		return getProductStockListBOResponse;
 	}
 
@@ -295,4 +297,35 @@ public class OTSProductServiceImpl implements OTSProductService {
 		}
 		return "Added / updated";
 	}
+	public String productTransactionReportPdf(List<ProductStockDetail> ProductStockDetailList) {
+		String tableValueString ="";
+		int slno=0;
+		tableValueString = "<table border=\"1\"><tr>\r\n" + 
+				"	<th>Sl no</th>\r\n" + 
+				"	<th>Product Name</th>\r\n" + 
+				"    <th>Opening Balance</th>\r\n" + 
+				"	<th>Stock Addition</th>\r\n" + 
+				"	<th>Order deliverd</th>\r\n" + 
+				"	<th>Closing Balance</th>\r\n" + 
+				"</tr>";
+		for(ProductStockDetail  productDetails: ProductStockDetailList) {
+			slno++;
+			Long closingBalance = (long) 0;
+			closingBalance = productDetails.getOtsProductOpenBalance() +productDetails.getOtsProductStockAddition() -productDetails.getOtsProductOrderDelivered();  
+			tableValueString=tableValueString+"<tr>\r\n" + 
+					"	<td>"+slno+"</td>\r\n" + 
+					"    <td>"+productDetails.getProductName()+"</td>\r\n" + 
+					"	<td>"+productDetails.getOtsProductOpenBalance()+"</td>\r\n" + 
+					"	<td>"+productDetails.getOtsProductStockAddition()+"</td>\r\n" + 
+					"	<td>"+productDetails.getOtsProductOrderDelivered()+"</td>\r\n" + 
+					"	<td>"+closingBalance+"</td>\r\n" + 
+					"</tr>";
+		}
+		tableValueString =tableValueString+ "</table>";
+		String htmlString = "<html>"+tableValueString+"</html>";
+		OTSUtil.generatePDFFromHTML(htmlString,"OrderRepo.pdf");
+		
+		return null;	
+	}
 }
+
