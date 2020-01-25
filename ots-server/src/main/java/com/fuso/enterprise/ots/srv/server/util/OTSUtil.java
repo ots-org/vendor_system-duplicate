@@ -26,4 +26,20 @@ public class OTSUtil {
 		}
 	}
 
+	public static String generateReportPDFFromHTML(String html ,String value) {
+		String pdfPath = "C:\\template\\"+value;
+		try {
+			OutputStream file = new FileOutputStream(new File(pdfPath));
+			Document document = new Document();
+		    PdfWriter.getInstance(document, file);
+		    document.open();
+		    HTMLWorker htmlWorker = new HTMLWorker(document);
+		    htmlWorker.parse(new StringReader(html));
+		    document.close();
+		    file.close();
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+		return pdfPath;
+	}
 }

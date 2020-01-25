@@ -28,6 +28,7 @@ public class OTSEmpLatLon_WsImpl implements OTSEmpLatLon_Ws {
 				!(empLatLongBORequest.getRequestData().getLongitude().equalsIgnoreCase("")) || ((empLatLongBORequest.getRequestData().getLatitude()!=null) 
 				&& (empLatLongBORequest.getRequestData().getLongitude()!=null))) {
 			try{
+				System.out.print("calling"+empLatLongBORequest.getRequestData().getLongitude()+empLatLongBORequest.getRequestData().getLatitude()+empLatLongBORequest.getRequestData().getUserId());
 				responseData = empLatLonService.updateEmpLatLong(empLatLongBORequest);
 				if (responseData != null) {
 					logger.info("Inside Event=1022,Class:OTSEmpLatLon_WsImpl,Method:addEmpLatLong, " + "Successfull");

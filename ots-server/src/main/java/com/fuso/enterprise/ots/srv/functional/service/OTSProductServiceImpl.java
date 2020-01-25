@@ -1,6 +1,8 @@
 package com.fuso.enterprise.ots.srv.functional.service;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,11 +10,10 @@ import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
-
-import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.Base64;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductRequestModel;
@@ -196,7 +197,10 @@ public class OTSProductServiceImpl implements OTSProductService {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		getProductStockListBOResponse.setProductStockDetail(ProductStockDetailList);
-		productTransactionReportPdf(ProductStockDetailList);
+		if(getProductStockListRequest.getRequestData().getPdf().equals("yes")) {
+			String pdf = productTransactionReportPdf(ProductStockDetailList,userServiceDAO.getUserDetails(Integer.valueOf(getProductStockListRequest.getRequestData().getUserId())).getFirstName(),getProductStockListRequest.getRequestData().getTodaysDate().toString());
+			getProductStockListBOResponse.setPdf(pdf);
+		}
 		return getProductStockListBOResponse;
 	}
 
@@ -297,8 +301,12 @@ public class OTSProductServiceImpl implements OTSProductService {
 		}
 		return "Added / updated";
 	}
-	public String productTransactionReportPdf(List<ProductStockDetail> ProductStockDetailList) {
+	public String productTransactionReportPdf(List<ProductStockDetail> ProductStockDetailList,String distributorName,String date) {
 		String tableValueString ="";
+		String reportDetails = "<head ><h2 style='text-align:center;'>Product Transaction Report</h2></head>";
+		reportDetails += "<head><h3>Distributor Name :"+distributorName+"</h3></head>";
+		reportDetails += "<head ><h3>Date:"+date+"</h3></head>  </br>";
+		
 		int slno=0;
 		tableValueString = "<table border=\"1\"><tr>\r\n" + 
 				"	<th>Sl no</th>\r\n" + 
@@ -314,7 +322,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 			closingBalance = productDetails.getOtsProductOpenBalance() +productDetails.getOtsProductStockAddition() -productDetails.getOtsProductOrderDelivered();  
 			tableValueString=tableValueString+"<tr>\r\n" + 
 					"	<td>"+slno+"</td>\r\n" + 
-					"    <td>"+productDetails.getProductName()+"</td>\r\n" + 
+					"   <td>"+productDetails.getProductName()+"</td>\r\n" + 
 					"	<td>"+productDetails.getOtsProductOpenBalance()+"</td>\r\n" + 
 					"	<td>"+productDetails.getOtsProductStockAddition()+"</td>\r\n" + 
 					"	<td>"+productDetails.getOtsProductOrderDelivered()+"</td>\r\n" + 
@@ -322,10 +330,19 @@ public class OTSProductServiceImpl implements OTSProductService {
 					"</tr>";
 		}
 		tableValueString =tableValueString+ "</table>";
-		String htmlString = "<html>"+tableValueString+"</html>";
-		OTSUtil.generatePDFFromHTML(htmlString,"OrderRepo.pdf");
+		String htmlString = "<html>"+reportDetails+tableValueString+"</html>";
+		String path = OTSUtil.generateReportPDFFromHTML(htmlString,"OrderRepo.pdf");
+		byte[] fileContent;
+		String encodedString = null;
+		try {
+			fileContent = FileUtils.readFileToByteArray(new File(path));
+			encodedString = Base64.getEncoder().encodeToString(fileContent);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		return null;	
+		return encodedString;	
 	}
 }
 

@@ -36,12 +36,7 @@ public class OrderDetailsAndProductDetails {
 	public void setEmptyCanRecived(String emptyCanRecived) {
 		this.emptyCanRecived = emptyCanRecived;
 	}
-	public UserDetails getDistributorDetails() {
-		return DistributorDetails;
-	}
-	public void setDistributorDetails(UserDetails distributorDetails) {
-		DistributorDetails = distributorDetails;
-	}
+	
 	public UserDetails getEmployeeDetails() {
 		return EmployeeDetails;
 	}
@@ -179,6 +174,12 @@ public class OrderDetailsAndProductDetails {
 	}
 	public void setBalanceCan(String balanceCan) {
 		this.balanceCan = balanceCan;
+	}
+	public UserDetails getDistributorDetails() {
+		return DistributorDetails;
+	}
+	public void setDistributorDetails(UserDetails distributorDetails) {
+		DistributorDetails = distributorDetails;
 	}
 	
 	

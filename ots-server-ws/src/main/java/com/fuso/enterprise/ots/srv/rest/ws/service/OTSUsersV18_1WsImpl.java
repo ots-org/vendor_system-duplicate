@@ -313,7 +313,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			Response response =null;
 			logger.info("Inside Event=12,Class:OTSUsersV18_1WsImpl, getCustomerOutstandingData, OutstandingRequest.ditributorID:"+outstandingRequest.getDistributorId());
 			OutstandingCustomerResponse outstandingCustomerResponse = new OutstandingCustomerResponse();
-			outstandingCustomerResponse =  otsUserService.getOutstandingData(outstandingRequest.getDistributorId());
+			outstandingCustomerResponse =  otsUserService.getOutstandingData(outstandingRequest);
 			if(outstandingCustomerResponse!=null) {
 				logger.info("Inside Event=12,Class:OTSUsersV18_1WsImpl,getCustomerOutstandingData, "
 							+ "Customer List Size:" +outstandingCustomerResponse.getCustomerOutstandingList().size());

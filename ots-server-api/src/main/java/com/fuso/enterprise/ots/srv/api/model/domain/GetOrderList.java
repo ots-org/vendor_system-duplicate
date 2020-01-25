@@ -10,7 +10,7 @@ public class GetOrderList {
 	private String status;
 	private String customerId;
 	private String productId;
-	
+	private String pdf;
 	public String getProductId() {
 		return productId;
 	}
@@ -46,6 +46,13 @@ public class GetOrderList {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getPdf() {
+		return pdf;
+	}
+	public void setPdf(String pdf) {
+		this.pdf = pdf;
 	}
 
 

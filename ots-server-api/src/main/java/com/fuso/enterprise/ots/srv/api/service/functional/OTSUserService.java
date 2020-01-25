@@ -7,6 +7,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequ
 import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OutstandingCustomerResponse;
@@ -45,7 +46,7 @@ public interface OTSUserService {
 	
 	UserDataBOResponse checkForUserExistsOrNot(AddUserDataBORequest addUserDataBORequest);
 
-	OutstandingCustomerResponse getOutstandingData(String distributorId);
+	OutstandingCustomerResponse getOutstandingData(OutstandingRequest outstandingRequest);
 
 	String rejectUser(RejectUserModel rejectUserModel);
 

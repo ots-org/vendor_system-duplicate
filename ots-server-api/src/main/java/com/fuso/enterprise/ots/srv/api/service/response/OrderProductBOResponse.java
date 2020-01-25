@@ -8,6 +8,16 @@ import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetail
 public class OrderProductBOResponse {
 	
 	private List<OrderDetailsAndProductDetails> OrderList;
+	
+	String pdf;
+
+	public String getPdf() {
+		return pdf;
+	}
+
+	public void setPdf(String pdf) {
+		this.pdf = pdf;
+	}
 
 	public List<OrderDetailsAndProductDetails> getOrderList() {
 		return OrderList;

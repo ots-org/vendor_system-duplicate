@@ -1,6 +1,11 @@
 package com.fuso.enterprise.ots.srv.functional.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +13,7 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +40,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OutstandingCustomerResponse;
@@ -62,6 +69,7 @@ import com.fuso.enterprise.ots.srv.server.model.entity.OtsUserMapping;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.EmailUtil;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
+import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
 
 @Service
 @Transactional
@@ -359,11 +367,11 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	}
 
 	@Override
-	public OutstandingCustomerResponse getOutstandingData(String distributorId) {
+	public OutstandingCustomerResponse getOutstandingData(OutstandingRequest outstandingRequest) {
 		OutstandingCustomerResponse outstandingCustomerResponse = new OutstandingCustomerResponse();
 		try {
 			List<CustomerOutstanding> customerOutstandingList = new ArrayList<CustomerOutstanding>();
-			List<UserDetails> userDetails = getUserDetailsByMapped(distributorId).getUserDetails();
+			List<UserDetails> userDetails = getUserDetailsByMapped(outstandingRequest.getDistributorId()).getUserDetails();
 			for(int i=0 ; i<userDetails.size() ; i++) {
 				if(userDetails.get(i).getUserRoleId().equals("4")) {
 					CustomerOutstanding custOuts = new CustomerOutstanding();
@@ -402,6 +410,12 @@ public class OTSUserServiceImpl implements  OTSUserService{
 					}
 					customerOutstandingList.add(custOuts);
 				}
+			}
+			if(outstandingRequest.getPdf().equalsIgnoreCase("YES")) {
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
+				LocalDateTime now = LocalDateTime.now(); 
+				String pdf = customerOutStandingReportPDF(customerOutstandingList,userServiceDAO.getUserIdUsers(outstandingRequest.getDistributorId()).get(0).getFirstName(),now.toString().substring(0, 10));
+				outstandingCustomerResponse.setPdf(pdf);
 			}
 			outstandingCustomerResponse.setCustomerOutstandingList(customerOutstandingList);
 		}catch(Exception e) {
@@ -453,5 +467,62 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		// TODO Auto-generated method stub
 		return userServiceDAO.updatePassword(updatePasswordRequest);
 	}
+	public String customerOutStandingReportPDF(List<CustomerOutstanding> customerOutstandings,String distributorName, String date ) {
+		String tableValueString ="";
+		String reportDetails = "<head ><h3 style='text-align:center;'>Customer Outstanding Report</h3></head>";
+		reportDetails += "<head><h3>Distributer Name :"+distributorName+"</h3></head>";
+		reportDetails += "<head ><h3>Date:"+date+"</h3></head>  </br>";
+		
+		int slno=0;
+		tableValueString = "<table border=\"1\"><tr>\r\n" + 
+				"	<th>Sl no</th>\r\n" + 
+				"	<th>Customer Name</th>\r\n" + 
+				"    <th>OutStanding Amount</th>\r\n" + 
+				"	<th>Product Name</th>\r\n" +
+				"	<th>Balance can</th>\r\n" +
+				"</tr>";
+		String productList= " ";
+		String balanceCan = " ";
+		for(CustomerOutstanding customerOutStandingDetails:customerOutstandings) {
+			for(int i=0; i<customerOutStandingDetails.getBalanceCan().size(); i++){
+				productList +=  "<table border=\"0\"><tr>\r\n" + 
+						"	<td>"+customerOutStandingDetails.getBalanceCan().get(i).getProductName()+"</td>\r\n" +
+						"</tr>";
+				balanceCan += "<table border=\"0\"><tr>\r\n" + 
+						"	<td>"+customerOutStandingDetails.getBalanceCan().get(i).getBalanceCan()+"</td>\r\n" +
+						"</tr>";
+				productList=productList+ "</table>";
+				balanceCan = balanceCan+"</table>";
+			}
+			slno++;
+			tableValueString=tableValueString+"<tr>\r\n" + 
+					"	<td>"+slno+"</td>\r\n" + 
+					"   <td>"+customerOutStandingDetails.getCustomerName()+"</td>\r\n" +
+					"	<td>"+customerOutStandingDetails.getOutstandingAmount()+"</td>\r\n" +
+					"   <td>"+productList+"</td>\r\n" +
+					"   <td>"+balanceCan+"</td>\r\n" +
+					"</tr>";
+			productList="";
+			balanceCan ="";
+	}
+		
+	tableValueString =tableValueString+ "</table>";
+	String htmlString = "<html>"+reportDetails+tableValueString+"</html>";
+	String path = OTSUtil.generateReportPDFFromHTML(htmlString,"CustomerOutStandingRepo.pdf");
+	byte[] fileContent;
+	String encodedString = null;
+	try {
+		fileContent = FileUtils.readFileToByteArray(new File(path));
+		encodedString = Base64.getEncoder().encodeToString(fileContent);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	return encodedString;	
+		
+	}
 
+	
+	
 }

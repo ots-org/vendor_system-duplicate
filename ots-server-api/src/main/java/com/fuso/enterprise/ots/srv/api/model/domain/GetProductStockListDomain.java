@@ -10,6 +10,8 @@ public class GetProductStockListDomain {
 	
 	private Date todaysDate;
 	
+	private String pdf;
+	
 	public Date getTodaysDate() {
 		return todaysDate;
 	}
@@ -32,6 +34,14 @@ public class GetProductStockListDomain {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getPdf() {
+		return pdf;
+	}
+
+	public void setPdf(String pdf) {
+		this.pdf = pdf;
 	}
 	
 

@@ -1,8 +1,13 @@
 package com.fuso.enterprise.ots.srv.functional.service;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +16,8 @@ import java.util.Map;
 import java.util.List;
 import java.sql.Date;
 import javax.inject.Inject;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,6 +88,7 @@ import com.fuso.enterprise.ots.srv.server.model.entity.OtsRequestOrder;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsScheduler;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
+import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
 
 @Service
 @Transactional
@@ -173,6 +181,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		OrderDetailsAndProductDetails orderDetailsAndProductDetails = new OrderDetailsAndProductDetails();
 		orderDetailsAndProductDetails.setOrderId(orderDetails.getOrderId());
 		orderDetailsAndProductDetails.setDistributorId(orderDetails.getDistributorId());
+		orderDetailsAndProductDetails.setDistributorDetails(userServiceDAO.getUserIdUsers(orderDetails.getDistributorId()).get(0));
 		orderDetailsAndProductDetails.setCustomerId(orderDetails.getCustomerId());
 		orderDetailsAndProductDetails.setOrderNumber(orderDetails.getOrderNumber());
 		orderDetailsAndProductDetails.setAssignedId(orderDetails.getAssignedId());
@@ -375,7 +384,6 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			for(int j =0;j < orderProductDetailsList.size() ;j++) {
 				GetProductStockRequest getProductStockRequest = new GetProductStockRequest();
 				GetProductRequestModel getProductRequestModel = new GetProductRequestModel();
-				
 				getProductRequestModel.setDistributorId(OrderDetailsList.get(0).getDistributorId());
 				getProductRequestModel.setProductId(orderProductDetailsList.get(j).getOtsProductId());
 				getProductStockRequest.setRequestData(getProductRequestModel);
@@ -599,6 +607,12 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				
 				//CustomerAmount = null;
 			}
+			if(getOrderBORequest.getRequest(). getPdf().equalsIgnoreCase("YES")) {
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
+				LocalDateTime now = LocalDateTime.now(); 
+				String pdf = orderLedgureReportPDF(getOrderDetailsAndProductDetails,userServiceDAO.getUserIdUsers(getOrderBORequest.getRequest().getDistributorsId()).get(0).getFirstName(),now.toString().substring(0, 10));
+				orderProductBOResponse.setPdf(pdf);
+			}	
 			orderProductBOResponse.setOrderList(getOrderDetailsAndProductDetails);
 			return orderProductBOResponse;
 		}catch(Exception e){
@@ -841,6 +855,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			GetOrderDetailsAndProductDetails.add(i,GetProductAndOrderDetails(OrderDetailsList.get(i),orderProductDetailsList2,CustomerAmount));
 			CustomerAmount = null;
 		}
+		
 		orderProductBOResponse.setOrderList(GetOrderDetailsAndProductDetails);
 		return orderProductBOResponse;}
 	catch(Exception e){
@@ -850,4 +865,100 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		}
 	}
 
+	public String  orderLedgureReportPDF(List<OrderDetailsAndProductDetails> getOrderDetailsAndProductDetails ,String distributorName, String date) {
+		String tableValueString ="";
+		String reportDetails = "<head ><h3 style='text-align:center;'>Customer Ledger Report</h3></head>";
+		reportDetails += "<head>Distributer Name :"+distributorName+"</head>";
+		reportDetails += "<head ><h3>Date:"+date+"</h3></head>  </br>";
+		
+		int slno=0;
+		tableValueString = "<table border=\"1\"><tr>\r\n" + 
+				"	<th>Sl no</th>\r\n" + 
+				"	<th>Customer Name</th>\r\n" + 
+				"    <th>Order No</th>\r\n" + 
+				"	<th>Delivered date</th>\r\n" + 
+				"	<th>Product Name</th>\r\n" +
+				"	<th>Order Qty</th>\r\n" +
+				"	<th>Delivered Qty</th>\r\n" +
+				"	<th>Empty Can Recieved</th>\r\n" +
+				"	<th>Balance Can</th>\r\n" +
+				"	<th>Order Cost</th>\r\n" +
+				"	<th>Cash Recieved</th>\r\n" +
+				"	<th>Amount OutStanding</th>\r\n" +
+				"</tr>";
+		
+		String productList= " ";
+		String orderqty = " ";
+		String deliverdQty = " ";
+		String emptyCanRecived = " ";
+		String balanceCan = " ";
+		for(OrderDetailsAndProductDetails orderDetailsAndProductDetailed:getOrderDetailsAndProductDetails) {
+			for(int i=0; i<orderDetailsAndProductDetailed.getOrderdProducts().size(); i++) {
+				productList +=  "<table border=\"0\"><tr>\r\n" + 
+						"	<td>"+orderDetailsAndProductDetailed.getOrderdProducts().get(i).getProductName()+"</td>\r\n" +
+						"</tr>";
+				productList=productList+ "</table>";
+				/*---------------------------------------------------------------------------------------------------------*/
+				orderqty +=  "<table border=\"0\"><tr>\r\n" + 
+						"	<td>"+orderDetailsAndProductDetailed.getOrderdProducts().get(i).getOtsOrderedQty()+"</td>\r\n" +
+						"</tr>";
+				orderqty=orderqty+ "</table>";
+				/*---------------------------------------------------------------------------------------------------------*/
+				deliverdQty +=  "<table border=\"0\"><tr>\r\n" + 
+						"	<td>"+orderDetailsAndProductDetailed.getOrderdProducts().get(i).getOtsDeliveredQty()+"</td>\r\n" +
+						"</tr>";
+				deliverdQty=deliverdQty+ "</table>";
+				/*---------------------------------------------------------------------------------------------------------*/
+				emptyCanRecived +=  "<table border=\"0\"><tr>\r\n" + 
+						"	<td>"+orderDetailsAndProductDetailed.getOrderdProducts().get(i).getEmptyCanRecived()+"</td>\r\n" +
+						"</tr>";
+				emptyCanRecived=emptyCanRecived+ "</table>";
+				/*---------------------------------------------------------------------------------------------------------*/
+				balanceCan +=  "<table border=\"0\"><tr>\r\n" + 
+						"	<td>"+orderDetailsAndProductDetailed.getOrderdProducts().get(i).getBalanceCan()+"</td>\r\n" +
+						"</tr>";
+				balanceCan=balanceCan+ "</table>";
+				/*---------------------------------------------------------------------------------------------------------*/
+
+			}
+			
+			slno++;
+			tableValueString=tableValueString+"<tr>\r\n" + 
+					"	<td>"+slno+"</td>\r\n" + 
+					"   <td>"+orderDetailsAndProductDetailed.getCustomerDetails().getFirstName()+"</td>\r\n" +
+					"	<td>"+orderDetailsAndProductDetailed.getOrderNumber()+"</td>\r\n" + 
+					"	<td>"+orderDetailsAndProductDetailed.getDelivaredDate()+"</td>\r\n" + 
+					"	<td>"+productList+"</td>\r\n" + 
+					"   <td>"+orderqty+"</td>\r\n" +
+					"   <td>"+deliverdQty+"</td>\r\n" +
+					"   <td>"+emptyCanRecived+"</td>\r\n" +
+					"   <td>"+balanceCan+"</td>\r\n" +
+					"   <td>"+orderDetailsAndProductDetailed.getOrderCost()+"</td>\r\n" +
+					"   <td>"+orderDetailsAndProductDetailed.getAmountRecived()+"</td>\r\n" +
+					"   <td>"+orderDetailsAndProductDetailed.getOrderOutStanding()+"</td>\r\n" +
+					"</tr>";
+			productList="";
+			orderqty="";
+			deliverdQty="";
+			emptyCanRecived="";
+			balanceCan="";
+			
+			}
+		tableValueString =tableValueString+ "</table>";
+		String htmlString = "<html>"+reportDetails+tableValueString+"</html>";
+		String path = OTSUtil.generateReportPDFFromHTML(htmlString,"CustomerLedgureRepo.pdf");
+		byte[] fileContent;
+		String encodedString = null;
+		try {
+			fileContent = FileUtils.readFileToByteArray(new File(path));
+			encodedString = Base64.getEncoder().encodeToString(fileContent);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return encodedString;	
+			
+	}
+	
 }
