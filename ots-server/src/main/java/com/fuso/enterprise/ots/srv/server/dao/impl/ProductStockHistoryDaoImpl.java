@@ -2,7 +2,6 @@ package com.fuso.enterprise.ots.srv.server.dao.impl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,7 +51,7 @@ public class ProductStockHistoryDaoImpl extends AbstractIptDao<OtsProductStockHi
 			 otsProductStockHistory.setOtsProductStockAddDate(addProductStockBORequest.getRequestData().getProductStockAddDate());
 			 otsProductStockHistory.setOtsProductStockHistoryQty(addProductStockBORequest.getRequestData().getProductStockQty());
 			 otsProductStockHistory.setOtsProductStockOrderId(addProductStockBORequest.getRequestData().getOrderId());
-			 otsProductStockHistory.setOtsProductStockAddDate(localDate);
+			// otsProductStockHistory.setOtsProductStockAddDate(localDate);
 			 super.getEntityManager().merge(otsProductStockHistory);
 			 logger.info("Inside Event=1014,Class:ProductStockHistoryDaoImpl,Method:addProductStockHistory ");
 		}catch (BusinessException e) {
