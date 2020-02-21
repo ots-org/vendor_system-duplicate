@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,9 +12,13 @@ import java.util.Set;
 
 import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductRequestModel;
@@ -35,6 +40,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.GetProductBOStockRespons
 import com.fuso.enterprise.ots.srv.api.service.response.GetProductStockListBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
+import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
@@ -336,7 +342,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 		String encodedString = null;
 		try {
 			fileContent = FileUtils.readFileToByteArray(new File(path));
-			encodedString = Base64.getEncoder().encodeToString(fileContent);
+		//	encodedString = Base64.getEncoder().encodeToString(fileContent);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -344,5 +350,117 @@ public class OTSProductServiceImpl implements OTSProductService {
 		
 		return encodedString;	
 	}
+	
+	public ProductDetailsBOResponse productBulkUpload1(String base64Excel) {
+		try {
+			System.out.print("2");
+		}catch(Exception e) {
+			System.out.print(e);
+		}
+		
+		ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
+		List<ProductDetails> productDetailsList = new ArrayList<ProductDetails>();
+		AddorUpdateProductBORequest addorUpdateProductBORequest = new AddorUpdateProductBORequest();
+		byte[] decodedString = Base64.decodeBase64(base64Excel.getBytes(StandardCharsets.UTF_8));
+		String excelPartFileName = "Product" + "1" + ".xlsx";
+		String uploadpath = "C:\\product\\data\\" + excelPartFileName;
+		File dwldsPath = new File(uploadpath);
+		FileOutputStream os;
+		createFolder();
+		try {
+			os = new FileOutputStream(dwldsPath, false);
+			os.write(decodedString);
+			os.flush();
+			os.close();
+			
+			Workbook workbook;
+			workbook = WorkbookFactory.create(new File(uploadpath));
+			Sheet product = workbook.getSheetAt(0); 
+			
+			for(int i=1;i<=product.getLastRowNum();i++)
+			{
+				Row ro = product.getRow(i);
+				ProductDetails productDetails = new ProductDetails();
+//				productDetails.setProductName(ro.getCell(0).toString());
+//				productDetails.setProductDescription(ro.getCell(1).toString());
+//				productDetails.setProductPrice(ro.getCell(2).toString());
+//				productDetails.setProductType(ro.getCell(3).toString());
+//				productDetails.setProductImage(ro.getCell(4).toString());
+//				productDetails.ss
+//				addorUpdateProductBORequest.setRequestData(productDetails);
+//				
+//				System.out.print(productDetails.getProductName());
+//				productServiceDAO.addOrUpdateProduct(addorUpdateProductBORequest);
+//				productDetailsList.add(productDetails);
+			}
+			//productServiceDAO.
+//			productDetailsBOResponse.setProductDetails(productDetailsList);
+		} catch (IOException ioException) {
+			System.out.print(ioException);
+			throw new BusinessException(ioException, ErrorEnumeration.EXCEL_ERROR);
+		} catch (Exception e) {
+			System.out.print(e);
+			throw new BusinessException(e, ErrorEnumeration.EXCEL_ERROR);
+		}
+		return productDetailsBOResponse;
+		
+	}
+	
+	private void createFolder() {
+		File theDir = new File("C:\\product\\data\\");
+		if (!theDir.exists()) {
+			try {
+				theDir.mkdirs();
+			} catch (SecurityException se) {
+				se.printStackTrace();
+			//	throw new BusinessException(se, ErrorEnumeration.UNCLASSIFIED_EXCEPTION);
+			} catch (Exception e) {
+			//	throw new BusinessException(e, ErrorEnumeration.UNCLASSIFIED_EXCEPTION);
+			}
+		}
+
+	}
+
+	@Override
+	public String productBulkUpload(String base64Excel) {
+		AddorUpdateProductBORequest addorUpdateProductBORequest = new AddorUpdateProductBORequest();
+		byte[] decodedString = Base64.decodeBase64(base64Excel.getBytes(StandardCharsets.UTF_8));
+		String excelPartFileName = "Product" + "1" + ".xlsx";
+		String uploadpath = "C:\\product\\data\\" + excelPartFileName;
+		File dwldsPath = new File(uploadpath);
+		FileOutputStream os;
+		createFolder();
+		try {
+			os = new FileOutputStream(dwldsPath, false);
+			os.write(decodedString);
+			os.flush();
+			os.close();
+			
+			Workbook workbook;
+			workbook = WorkbookFactory.create(new File(uploadpath));
+			Sheet product = workbook.getSheetAt(0); 
+			
+			for(int i=1;i<=product.getLastRowNum();i++)
+			{
+				Row ro = product.getRow(i);
+				ProductDetails productDetails = new ProductDetails();
+				productDetails.setProductName(ro.getCell(0).toString());
+				productDetails.setProductDescription(ro.getCell(1).toString());
+				productDetails.setProductPrice(ro.getCell(2).toString());
+				productDetails.setProductType(ro.getCell(3).toString());
+			//	productDetails.setProductImage(ro.getCell(4).toString());
+				productDetails.setProductStatus("active");
+				productDetails.setProductId("string");
+				addorUpdateProductBORequest.setRequestData(productDetails);
+				productServiceDAO.addOrUpdateProduct(addorUpdateProductBORequest);
+				System.out.print(productDetails.getProductName()+productDetails.getProductImage());
+			}
+				return "Data Uploaded";
+			}catch(Exception e) {
+				return "Error in excel";
+			}
+	}
+	
+	
 }
 

@@ -27,4 +27,8 @@ public interface OTSProductService {
 	BillProductDetailsResponse getProductDetailsForBill(GetProductDetailsForBillRequst getProductDetailsForBillRequst);
 
 	String UpdateProductStatus(UpdateProductStatusRequest updateProductStatusRequestModel);
+	
+	//ProductDetailsBOResponse productBulkUpload(String base64Excel);
+	
+	String productBulkUpload(String base64Excel);
 }

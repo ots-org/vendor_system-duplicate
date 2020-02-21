@@ -1,5 +1,7 @@
 package com.fuso.enterprise.ots.srv.rest.ws.service;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.POST;
@@ -10,12 +12,14 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ProductBulkUploadRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
 
@@ -74,4 +78,10 @@ public interface OTSProduct_Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response UpdateProductStatus(@ApiParam(value = "request", required = true) @NotNull @Valid UpdateProductStatusRequest updateProductStatusRequestModel);
 
+	@POST
+	@Path("/productBulkUpload")
+	@ApiOperation(value = "import_Product_excel", notes = "This operation will import product from excel and return a json of product list", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response productBulkUpload(
+	@ApiParam(value = "PartsBase64Excel", required = true) @NotNull @Valid ProductBulkUploadRequest partsBase64Excel);
 }

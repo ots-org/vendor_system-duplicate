@@ -81,9 +81,9 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 	    }
 	}
 
-	
 	@Override
 	public String addOrUpdateProduct(AddorUpdateProductBORequest addorUpdateProductBORequest) {
+		System.out.print("1");
 		String responseData;
 		try{
 			OtsProduct otsProduct = new OtsProduct();
@@ -96,6 +96,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 				otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
 				otsProduct.setOtsProductType(addorUpdateProductBORequest.getRequestData().getProductType());
 			}else{
+				System.out.print("_____");
 				otsProduct.setOtsProductId(Integer.parseInt(addorUpdateProductBORequest.getRequestData().getProductId()));
 				otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
 				otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
