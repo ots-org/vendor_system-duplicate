@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SERAJKU
+ * @author Manoj
  */
 @Entity
 @Table(name = "ots_registration")
@@ -47,6 +47,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationContactNo", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationContactNo = :otsRegistrationContactNo"),
     @NamedQuery(name = "OtsRegistration.findByOtsDeviceToken", query = "SELECT o FROM OtsRegistration o WHERE o.otsDeviceToken = :otsDeviceToken")})
 public class OtsRegistration implements Serializable {
+    @Column(name = "ots_registration_lat")
+    private String otsRegistrationLat;
+    @Column(name = "ots_registration_long")
+    private String otsRegistrationLong;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -245,7 +249,23 @@ public class OtsRegistration implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration[ otsRegistrationId=" + otsRegistrationId + " ]";
+        return "com.water.entity.OtsRegistration[ otsRegistrationId=" + otsRegistrationId + " ]";
+    }
+
+    public String getOtsRegistrationLat() {
+        return otsRegistrationLat;
+    }
+
+    public void setOtsRegistrationLat(String otsRegistrationLat) {
+        this.otsRegistrationLat = otsRegistrationLat;
+    }
+
+    public String getOtsRegistrationLong() {
+        return otsRegistrationLong;
+    }
+
+    public void setOtsRegistrationLong(String otsRegistrationLong) {
+        this.otsRegistrationLong = otsRegistrationLong;
     }
     
 }

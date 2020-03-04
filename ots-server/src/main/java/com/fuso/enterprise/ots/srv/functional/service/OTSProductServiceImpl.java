@@ -1,5 +1,6 @@
 package com.fuso.enterprise.ots.srv.functional.service;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,11 +8,19 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.PictureData;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -351,61 +360,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 		return encodedString;	
 	}
 	
-	public ProductDetailsBOResponse productBulkUpload1(String base64Excel) {
-		try {
-			System.out.print("2");
-		}catch(Exception e) {
-			System.out.print(e);
-		}
-		
-		ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
-		List<ProductDetails> productDetailsList = new ArrayList<ProductDetails>();
-		AddorUpdateProductBORequest addorUpdateProductBORequest = new AddorUpdateProductBORequest();
-		byte[] decodedString = Base64.decodeBase64(base64Excel.getBytes(StandardCharsets.UTF_8));
-		String excelPartFileName = "Product" + "1" + ".xlsx";
-		String uploadpath = "C:\\product\\data\\" + excelPartFileName;
-		File dwldsPath = new File(uploadpath);
-		FileOutputStream os;
-		createFolder();
-		try {
-			os = new FileOutputStream(dwldsPath, false);
-			os.write(decodedString);
-			os.flush();
-			os.close();
-			
-			Workbook workbook;
-			workbook = WorkbookFactory.create(new File(uploadpath));
-			Sheet product = workbook.getSheetAt(0); 
-			
-			for(int i=1;i<=product.getLastRowNum();i++)
-			{
-				Row ro = product.getRow(i);
-				ProductDetails productDetails = new ProductDetails();
-//				productDetails.setProductName(ro.getCell(0).toString());
-//				productDetails.setProductDescription(ro.getCell(1).toString());
-//				productDetails.setProductPrice(ro.getCell(2).toString());
-//				productDetails.setProductType(ro.getCell(3).toString());
-//				productDetails.setProductImage(ro.getCell(4).toString());
-//				productDetails.ss
-//				addorUpdateProductBORequest.setRequestData(productDetails);
-//				
-//				System.out.print(productDetails.getProductName());
-//				productServiceDAO.addOrUpdateProduct(addorUpdateProductBORequest);
-//				productDetailsList.add(productDetails);
-			}
-			//productServiceDAO.
-//			productDetailsBOResponse.setProductDetails(productDetailsList);
-		} catch (IOException ioException) {
-			System.out.print(ioException);
-			throw new BusinessException(ioException, ErrorEnumeration.EXCEL_ERROR);
-		} catch (Exception e) {
-			System.out.print(e);
-			throw new BusinessException(e, ErrorEnumeration.EXCEL_ERROR);
-		}
-		return productDetailsBOResponse;
-		
-	}
-	
+
 	private void createFolder() {
 		File theDir = new File("C:\\product\\data\\");
 		if (!theDir.exists()) {
@@ -439,16 +394,27 @@ public class OTSProductServiceImpl implements OTSProductService {
 			Workbook workbook;
 			workbook = WorkbookFactory.create(new File(uploadpath));
 			Sheet product = workbook.getSheetAt(0); 
+//			------------------------------------READ ALL IMAGES---------------------------------------------
+			List lst = workbook.getAllPictures();
 			
-			for(int i=1;i<=product.getLastRowNum();i++)
+			for(int i=0;i<product.getLastRowNum();i++)
 			{
+				
+				PictureData pict = (PictureData) lst.get(i);
+				byte[] data = pict.getData();
+				FileOutputStream out = new FileOutputStream("C:\\product\\data\\img.jpg");
+				out.write(data);
+				out.close();
+				
+//				------------------------------------Fetching and getting image---------------------------------------------				
 				Row ro = product.getRow(i);
 				ProductDetails productDetails = new ProductDetails();
 				productDetails.setProductName(ro.getCell(0).toString());
 				productDetails.setProductDescription(ro.getCell(1).toString());
 				productDetails.setProductPrice(ro.getCell(2).toString());
 				productDetails.setProductType(ro.getCell(3).toString());
-			//	productDetails.setProductImage(ro.getCell(4).toString());
+				
+				productDetails.setProductImage(ImageToBase64("C:\\product\\data\\img.jpg"));
 				productDetails.setProductStatus("active");
 				productDetails.setProductId("string");
 				addorUpdateProductBORequest.setRequestData(productDetails);
@@ -457,10 +423,49 @@ public class OTSProductServiceImpl implements OTSProductService {
 			}
 				return "Data Uploaded";
 			}catch(Exception e) {
+				System.out.print(e);
 				return "Error in excel";
 			}
 	}
 	
+	public String ImageToBase64(String filePath) throws IOException {
+		byte[] fileContent = FileUtils.readFileToByteArray(new File(filePath));
+		byte[] bytesEncoded = Base64.encodeBase64(fileContent);
+		compressJPEGFile();
+		return new String(bytesEncoded);		
+	}
 	
+	public String compressJPEGFile() throws IOException {
+		File input = new File("C:\\product\\data\\img.jpg");
+		BufferedImage image = ImageIO.read(input);
+		
+		File output = new File("C:\\product\\data\\img.jpg");
+        OutputStream out = new FileOutputStream(output);
+        
+        ImageWriter writer =  ImageIO.getImageWritersByFormatName("jpg").next();
+        ImageOutputStream ios = ImageIO.createImageOutputStream(out);
+        writer.setOutput(ios);
+        
+        ImageWriteParam param = writer.getDefaultWriteParam();
+        if (param.canWriteCompressed()){
+            param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+            param.setCompressionQuality(0.10f);
+        }
+        
+        writer.write(null, new IIOImage(image, null, null), param);
+
+        out.close();
+        ios.close();
+        writer.dispose();
+        
+        
+		return null;
+	}
+	
+	public void extractImageAndPlaceInFolder() {
+		//PictureData pict = (PictureData) 
+	}
 }
+
+
 

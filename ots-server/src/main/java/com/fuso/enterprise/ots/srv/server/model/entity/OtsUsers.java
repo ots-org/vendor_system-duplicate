@@ -47,7 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsUsers.findByOtsUsersStatus", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersStatus = :otsUsersStatus"),
     @NamedQuery(name = "OtsUsers.findByOtsUsersPassword", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersPassword = :otsUsersPassword"),
     @NamedQuery(name = "OtsUsers.findByOtsUsersContactNo", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersContactNo = :otsUsersContactNo"),
-    @NamedQuery(name = "OtsUsers.findByOtsDeviceToken", query = "SELECT o FROM OtsUsers o WHERE o.otsDeviceToken = :otsDeviceToken")})
+    @NamedQuery(name = "OtsUsers.findByOtsDeviceToken", query = "SELECT o FROM OtsUsers o WHERE o.otsDeviceToken = :otsDeviceToken"),@NamedQuery(name = "OtsUsers.findByOtsUsersLat", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLat = :otsUsersLat"),
+    @NamedQuery(name = "OtsUsers.findByOtsUsersLong", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLong = :otsUsersLong")})
 public class OtsUsers implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -77,6 +78,10 @@ public class OtsUsers implements Serializable {
     private String otsUsersContactNo;
     @Column(name = "ots_device_token")
     private String otsDeviceToken;
+    @Column(name = "ots_users_lat")
+    private String otsUsersLat;
+    @Column(name = "ots_users_long")
+    private String otsUsersLong;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
     private Collection<OtsBill> otsBillCollection;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
@@ -217,6 +222,22 @@ public class OtsUsers implements Serializable {
 
     public void setOtsDeviceToken(String otsDeviceToken) {
         this.otsDeviceToken = otsDeviceToken;
+    }
+
+    public String getOtsUsersLat() {
+        return otsUsersLat;
+    }
+
+    public void setOtsUsersLat(String otsUsersLat) {
+        this.otsUsersLat = otsUsersLat;
+    }
+
+    public String getOtsUsersLong() {
+        return otsUsersLong;
+    }
+
+    public void setOtsUsersLong(String otsUsersLong) {
+        this.otsUsersLong = otsUsersLong;
     }
 
     @XmlTransient

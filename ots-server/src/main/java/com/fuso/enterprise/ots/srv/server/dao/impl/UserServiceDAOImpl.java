@@ -117,7 +117,8 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 			userEntity.setOtsUsersStatus(addUserDataBORequest.getRequestData().getUsrStatus());
 			userEntity.setOtsUsersEmailid(addUserDataBORequest.getRequestData().getEmailId());
 			userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
-			
+			userEntity.setOtsUsersLat(addUserDataBORequest.getRequestData().getUserLat()); 
+			userEntity.setOtsUsersLong(addUserDataBORequest.getRequestData().getUserLong());
 			
 	    	super.getEntityManager().merge(userEntity);
 			super.getEntityManager().flush();
@@ -155,6 +156,9 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 			    userEntity.setOtsUsersStatus("Active");
 				userEntity.setOtsUsersProfilePic(addUserDataBORequest.getRequestData().getProfilePic());
 				userEntity.setOtsDeviceToken(addUserDataBORequest.getRequestData().getDeviceId());
+				userEntity.setOtsUsersLat(addUserDataBORequest.getRequestData().getUserLat());
+				userEntity.setOtsUsersLong(addUserDataBORequest.getRequestData().getUserLong());
+				
 				OtsRegistration otsRegistration = new OtsRegistration();
 
 				if(addUserDataBORequest.getRequestData().getRegistrationId()!=null ) {

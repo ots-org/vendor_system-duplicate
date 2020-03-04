@@ -10,7 +10,7 @@ public class AddUserDetails {
     @Size(max = 20)
     private String lastName;
 
-    @Size(max = 40)
+	@Size(max = 40)
     private String emailId;
 
     @Size(max = 15)
@@ -19,10 +19,10 @@ public class AddUserDetails {
     @Size(max = 100)
     private String address1;
     
-    @Size(max = 5)
+    @Size(max = 100)
     private String address2;
     
-    @Size(max = 5)
+    @Size(max = 100)
     private String mappedTo;
     
     @Size(max = 5)
@@ -37,6 +37,26 @@ public class AddUserDetails {
     private String password;
     
     private String deviceId;
+    
+    private String userLat;
+    
+    public String getUserLat() {
+		return userLat;
+	}
+
+	public void setUserLat(String userLat) {
+		this.userLat = userLat;
+	}
+
+	public String getUserLong() {
+		return userLong;
+	}
+
+	public void setUserLong(String userLong) {
+		this.userLong = userLong;
+	}
+
+	private String userLong;
   
 	public String getFirstName() {
 		return firstName;

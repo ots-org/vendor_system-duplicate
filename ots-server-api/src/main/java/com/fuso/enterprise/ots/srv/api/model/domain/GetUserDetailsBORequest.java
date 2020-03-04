@@ -5,7 +5,21 @@ public class GetUserDetailsBORequest {
 	String searchKey;
 	String searchvalue;
 	String distributorId;
+	String userLat;
+	String UserLong;
 	
+	public String getUserLat() {
+		return userLat;
+	}
+	public void setUserLat(String userLat) {
+		this.userLat = userLat;
+	}
+	public String getUserLong() {
+		return UserLong;
+	}
+	public void setUserLong(String userLong) {
+		UserLong = userLong;
+	}
 	public String getDistributorId() {
 		return distributorId;
 	}

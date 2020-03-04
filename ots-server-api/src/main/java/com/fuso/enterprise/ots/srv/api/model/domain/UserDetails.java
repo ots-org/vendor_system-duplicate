@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class UserDetails {
+public class UserDetails implements Comparable{
 
 	 @Size(max = 10)
 	 private String userId;
@@ -67,6 +67,28 @@ public class UserDetails {
 	 
 	 @Size(max = 100)
 	 private String DistributorId;
+	 
+	 private String userLat;
+	 
+	 private String userLong;
+	 
+	 private Double distance;
+
+	public String getUserLat() {
+		return userLat;
+	}
+
+	public void setUserLat(String userLat) {
+		this.userLat = userLat;
+	}
+
+	public String getUserLong() {
+		return userLong;
+	}
+
+	public void setUserLong(String userLong) {
+		this.userLong = userLong;
+	}
 
 	public String getDistributorId() {
 		return DistributorId;
@@ -227,6 +249,20 @@ public class UserDetails {
 
 	public void setCustomerProductDetails(List<CustomerProductDetails> customerProductDetails) {
 		CustomerProductDetails = customerProductDetails;
+	}
+
+	public Double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Double distance) {
+		this.distance = distance;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		// TODO Auto-generated method stub
+		return this.distance.compareTo(((UserDetails)arg0).getDistance());
 	}
   
 	
