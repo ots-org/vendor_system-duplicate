@@ -38,6 +38,7 @@
     <sl4j.logging.framework.version>1.7.19</sl4j.logging.framework.version>
     <janino.version>3.0.6</janino.version>
     <java.validation.dependency.version>1.1.0.Final</java.validation.dependency.version>
+    <maven.test.skip>true</maven.test.skip>
   </properties>
 
   <!-- Library dependencies -->
