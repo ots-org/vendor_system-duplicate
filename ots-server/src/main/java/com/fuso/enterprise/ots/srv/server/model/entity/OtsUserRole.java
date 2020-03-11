@@ -50,10 +50,14 @@ public class OtsUserRole implements Serializable {
     private String otsUserRoleName;
     @Column(name = "ots_user_role_status")
     private String otsUserRoleStatus;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsSubscriptionUserroleId")
+    private Collection<OtsSubscription> otsSubscriptionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
     private Collection<OtsUsers> otsUsersCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
     private Collection<OtsRegistration> otsRegistrationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRole")
+    private Collection<OtsSubscriptionHistory> otsSubscriptionHistoryCollection;
 
     public OtsUserRole() {
     }
@@ -93,8 +97,15 @@ public class OtsUserRole implements Serializable {
     public void setOtsUserRoleStatus(String otsUserRoleStatus) {
         this.otsUserRoleStatus = otsUserRoleStatus;
     }
+    @XmlTransient
+    public Collection<OtsSubscription> getOtsSubscriptionCollection() {
+        return otsSubscriptionCollection;
+    }
 
-    
+    public void setOtsSubscriptionCollection(Collection<OtsSubscription> otsSubscriptionCollection) {
+        this.otsSubscriptionCollection = otsSubscriptionCollection;
+    }
+
     @XmlTransient
     public Collection<OtsUsers> getOtsUsersCollection() {
         return otsUsersCollection;
@@ -111,6 +122,15 @@ public class OtsUserRole implements Serializable {
 
     public void setOtsRegistrationCollection(Collection<OtsRegistration> otsRegistrationCollection) {
         this.otsRegistrationCollection = otsRegistrationCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsSubscriptionHistory> getOtsSubscriptionHistoryCollection() {
+        return otsSubscriptionHistoryCollection;
+    }
+
+    public void setOtsSubscriptionHistoryCollection(Collection<OtsSubscriptionHistory> otsSubscriptionHistoryCollection) {
+        this.otsSubscriptionHistoryCollection = otsSubscriptionHistoryCollection;
     }
 
     @Override

@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Manoj
+ * @author SERAJKU
  */
 @Entity
 @Table(name = "ots_registration")
@@ -45,12 +45,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationStatus", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationStatus = :otsRegistrationStatus"),
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationPassword", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationPassword = :otsRegistrationPassword"),
     @NamedQuery(name = "OtsRegistration.findByOtsRegistrationContactNo", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationContactNo = :otsRegistrationContactNo"),
-    @NamedQuery(name = "OtsRegistration.findByOtsDeviceToken", query = "SELECT o FROM OtsRegistration o WHERE o.otsDeviceToken = :otsDeviceToken")})
+    @NamedQuery(name = "OtsRegistration.findByOtsDeviceToken", query = "SELECT o FROM OtsRegistration o WHERE o.otsDeviceToken = :otsDeviceToken"),
+    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationLat", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationLat = :otsRegistrationLat"),
+    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationLong", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationLong = :otsRegistrationLong")})
 public class OtsRegistration implements Serializable {
-    @Column(name = "ots_registration_lat")
-    private String otsRegistrationLat;
-    @Column(name = "ots_registration_long")
-    private String otsRegistrationLong;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,6 +77,10 @@ public class OtsRegistration implements Serializable {
     private String otsRegistrationContactNo;
     @Column(name = "ots_device_token")
     private String otsDeviceToken;
+    @Column(name = "ots_registration_lat")
+    private String otsRegistrationLat;
+    @Column(name = "ots_registration_long")
+    private String otsRegistrationLong;
     @OneToMany(mappedBy = "otsRegistrationId")
     private Collection<OtsUsers> otsUsersCollection;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
@@ -194,6 +196,22 @@ public class OtsRegistration implements Serializable {
         this.otsDeviceToken = otsDeviceToken;
     }
 
+    public String getOtsRegistrationLat() {
+        return otsRegistrationLat;
+    }
+
+    public void setOtsRegistrationLat(String otsRegistrationLat) {
+        this.otsRegistrationLat = otsRegistrationLat;
+    }
+
+    public String getOtsRegistrationLong() {
+        return otsRegistrationLong;
+    }
+
+    public void setOtsRegistrationLong(String otsRegistrationLong) {
+        this.otsRegistrationLong = otsRegistrationLong;
+    }
+
     @XmlTransient
     public Collection<OtsUsers> getOtsUsersCollection() {
         return otsUsersCollection;
@@ -249,23 +267,7 @@ public class OtsRegistration implements Serializable {
 
     @Override
     public String toString() {
-        return "com.water.entity.OtsRegistration[ otsRegistrationId=" + otsRegistrationId + " ]";
-    }
-
-    public String getOtsRegistrationLat() {
-        return otsRegistrationLat;
-    }
-
-    public void setOtsRegistrationLat(String otsRegistrationLat) {
-        this.otsRegistrationLat = otsRegistrationLat;
-    }
-
-    public String getOtsRegistrationLong() {
-        return otsRegistrationLong;
-    }
-
-    public void setOtsRegistrationLong(String otsRegistrationLong) {
-        this.otsRegistrationLong = otsRegistrationLong;
+        return "com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration[ otsRegistrationId=" + otsRegistrationId + " ]";
     }
     
 }

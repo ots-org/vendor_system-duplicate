@@ -43,11 +43,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsUsers.findByOtsUsersAddr2", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersAddr2 = :otsUsersAddr2"),
     @NamedQuery(name = "OtsUsers.findByOtsUsersPincode", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersPincode = :otsUsersPincode"),
     @NamedQuery(name = "OtsUsers.findByOtsUsersEmailid", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersEmailid = :otsUsersEmailid"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersProfilePic", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersProfilePic = :otsUsersProfilePic"),
     @NamedQuery(name = "OtsUsers.findByOtsUsersStatus", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersStatus = :otsUsersStatus"),
     @NamedQuery(name = "OtsUsers.findByOtsUsersPassword", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersPassword = :otsUsersPassword"),
     @NamedQuery(name = "OtsUsers.findByOtsUsersContactNo", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersContactNo = :otsUsersContactNo"),
-    @NamedQuery(name = "OtsUsers.findByOtsDeviceToken", query = "SELECT o FROM OtsUsers o WHERE o.otsDeviceToken = :otsDeviceToken"),@NamedQuery(name = "OtsUsers.findByOtsUsersLat", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLat = :otsUsersLat"),
+    @NamedQuery(name = "OtsUsers.findByOtsDeviceToken", query = "SELECT o FROM OtsUsers o WHERE o.otsDeviceToken = :otsDeviceToken"),
+    @NamedQuery(name = "OtsUsers.findByOtsUsersLat", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLat = :otsUsersLat"),
     @NamedQuery(name = "OtsUsers.findByOtsUsersLong", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLong = :otsUsersLong")})
 public class OtsUsers implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -92,6 +92,8 @@ public class OtsUsers implements Serializable {
     private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsStockDistOb> otsStockDistObCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsSubscriptionUsersId")
+    private Collection<OtsSubscription> otsSubscriptionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersusersId")
     private Collection<OtsLatLon> otsLatLonCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
@@ -116,6 +118,8 @@ public class OtsUsers implements Serializable {
     private OtsCustomerOutstanding otsCustomerOutstanding;
     @OneToMany(mappedBy = "otsUsersMappedTo")
     private Collection<OtsRegistration> otsRegistrationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsSubscriptionUsersId")
+    private Collection<OtsSubscriptionHistory> otsSubscriptionHistoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsDistributorId")
     private Collection<OtsScheduler> otsSchedulerCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
@@ -200,6 +204,7 @@ public class OtsUsers implements Serializable {
         this.otsUsersStatus = otsUsersStatus;
     }
 
+
     public String getOtsUsersPassword() {
         return otsUsersPassword;
     }
@@ -282,6 +287,15 @@ public class OtsUsers implements Serializable {
 
     public void setOtsStockDistObCollection(Collection<OtsStockDistOb> otsStockDistObCollection) {
         this.otsStockDistObCollection = otsStockDistObCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsSubscription> getOtsSubscriptionCollection() {
+        return otsSubscriptionCollection;
+    }
+
+    public void setOtsSubscriptionCollection(Collection<OtsSubscription> otsSubscriptionCollection) {
+        this.otsSubscriptionCollection = otsSubscriptionCollection;
     }
 
     @XmlTransient
@@ -378,6 +392,15 @@ public class OtsUsers implements Serializable {
 
     public void setOtsRegistrationCollection(Collection<OtsRegistration> otsRegistrationCollection) {
         this.otsRegistrationCollection = otsRegistrationCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsSubscriptionHistory> getOtsSubscriptionHistoryCollection() {
+        return otsSubscriptionHistoryCollection;
+    }
+
+    public void setOtsSubscriptionHistoryCollection(Collection<OtsSubscriptionHistory> otsSubscriptionHistoryCollection) {
+        this.otsSubscriptionHistoryCollection = otsSubscriptionHistoryCollection;
     }
 
     @XmlTransient

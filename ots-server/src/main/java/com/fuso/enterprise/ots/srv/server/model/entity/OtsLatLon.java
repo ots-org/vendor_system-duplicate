@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "OtsLatLon.findByOtsLatLonId", query = "SELECT o FROM OtsLatLon o WHERE o.otsLatLonId = :otsLatLonId"),
     @NamedQuery(name = "OtsLatLon.findByOtsLatitude", query = "SELECT o FROM OtsLatLon o WHERE o.otsLatitude = :otsLatitude"),
     @NamedQuery(name = "OtsLatLon.findByOtsLongitude", query = "SELECT o FROM OtsLatLon o WHERE o.otsLongitude = :otsLongitude")})
-  
 public class OtsLatLon implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -81,7 +80,7 @@ public class OtsLatLon implements Serializable {
         this.otsLongitude = otsLongitude;
     }
 
-   
+
     public OtsUsers getOtsUsersusersId() {
         return otsUsersusersId;
     }
