@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -214,6 +215,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 					}
 					
 				}
+				Collections.sort(userDetailsList);
 				userDataBOResponse.setUserDetails(userDetailsList);
 			}else{
 				List<UserDetails> userDetailList= userServiceUtilityDAO.getUserDetails(requestBOUserBySearch);

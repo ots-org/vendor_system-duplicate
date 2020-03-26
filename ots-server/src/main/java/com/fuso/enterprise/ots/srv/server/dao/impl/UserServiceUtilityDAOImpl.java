@@ -81,12 +81,12 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	            logger.info("Inside Event=1,Class:UserServiceDAOImpl,Method:getUserIDUsers, "
 						+ "UserList Size:" +userList.size());
 	            //@formatter:off
-	            userDetails =  userList.stream().map(OtsUsers -> convertUserDetailsFromEntityToDomain(OtsUsers)).collect(Collectors.toList());
-	            for(int i=0;i<userDetails.size();i++) {
-	            	if(requestBOUserBySearch.getRequestData().getUserLat()!=null&&requestBOUserBySearch.getRequestData()!=null) {
-		            	userDetails.get(i).setDistance(distance(Double.valueOf(requestBOUserBySearch.getRequestData().getUserLat()),Double.valueOf(requestBOUserBySearch.getRequestData().getUserLong()), Double.valueOf(userDetails.get(i).getUserLat()), Double.valueOf(userDetails.get(i).getUserLong())));
-					}
-	            } 
+//	            userDetails =  userList.stream().map(OtsUsers -> convertUserDetailsFromEntityToDomain(OtsUsers)).collect(Collectors.toList());
+//	            for(int i=0;i<userDetails.size();i++) {
+//	            	if(requestBOUserBySearch.getRequestData().getUserLat()!=null&&requestBOUserBySearch.getRequestData()!=null) {
+//		            	userDetails.get(i).setDistance(distance(Double.valueOf(requestBOUserBySearch.getRequestData().getUserLat()),Double.valueOf(requestBOUserBySearch.getRequestData().getUserLong()), Double.valueOf(userDetails.get(i).getUserLat()), Double.valueOf(userDetails.get(i).getUserLong())));
+//					}
+//	            } 
 	            return userDetails;
 	            //@formatter:on
     	}catch (NoResultException e) {
@@ -127,15 +127,16 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 		            }
 		            logger.info("Inside Event=1,Class:UserServiceDAOImpl,Method:getUserIDUsers, "
 							+ "UserList Size:" +userList.size());
-		            //@formatter:off
 		            userDetails =  userList.stream().map(OtsUsers -> convertUserDetailsFromEntityToDomain(OtsUsers)).collect(Collectors.toList());
-		            for(int i=0;i<userDetails.size();i++) {
-		            	if(requestBOUserBySearch.getRequestData().getUserLat()!=null&&requestBOUserBySearch.getRequestData()!=null) {
-			            	userDetails.get(i).setDistance(distance(Double.valueOf(requestBOUserBySearch.getRequestData().getUserLat()),Double.valueOf(requestBOUserBySearch.getRequestData().getUserLong()), Double.valueOf(userDetails.get(i).getUserLat()), Double.valueOf(userDetails.get(i).getUserLong())));
-			            
-		            	}
-		            }   
-		            Collections.sort(userDetails,Collections.reverseOrder());
+		            //@formatter:off
+//		            userDetails =  userList.stream().map(OtsUsers -> convertUserDetailsFromEntityToDomain(OtsUsers)).collect(Collectors.toList());
+//		            for(int i=0;i<userDetails.size();i++) {
+//		            	if(requestBOUserBySearch.getRequestData().getUserLat()!=null&&requestBOUserBySearch.getRequestData()!=null) {
+//			            	userDetails.get(i).setDistance(distance(Double.valueOf(requestBOUserBySearch.getRequestData().getUserLat()),Double.valueOf(requestBOUserBySearch.getRequestData().getUserLong()), Double.valueOf(userDetails.get(i).getUserLat()), Double.valueOf(userDetails.get(i).getUserLong())));
+//			            
+//		            	}
+//		            }   
+		            Collections.sort(userDetails);
 		            return userDetails;
 		            //@formatter:on
 	    	}catch (NoResultException e) {
@@ -165,8 +166,8 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	   	userDetails.setUsrStatus(users.getOtsUsersStatus()==null?null:users.getOtsUsersStatus());
 	    userDetails.setUsrPassword(users.getOtsUsersPassword()==null?null:users.getOtsUsersPassword());
 	   	userDetails.setContactNo(users.getOtsUsersContactNo()==null?null:users.getOtsUsersContactNo());
-	   	userDetails.setUserLat(users.getOtsUsersLat()==null?null:users.getOtsUsersLat());
-	   	userDetails.setUserLong(users.getOtsUsersLong()==null?null:users.getOtsUsersLong());
+//	   	userDetails.setUserLat(users.getOtsUsersLat()==null?null:users.getOtsUsersLat());
+//	   	userDetails.setUserLong(users.getOtsUsersLong()==null?null:users.getOtsUsersLong());
 	   	userDetails.setUserRoleId(users.getOtsUserRoleId().getOtsUserRoleId()==null?null:users.getOtsUserRoleId().getOtsUserRoleId().toString());
 	   	userDetails.setMappedTo(users.getOtsUserMapping().getOtsMappedTo().toString());
 	   	
@@ -209,24 +210,25 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	    		e.printStackTrace();
 	    		throw new BusinessException(e.getMessage(), e);
 	    	}
+	    	Collections.sort(userDetails);
 	    	return userDetails;
 			
 		}
 	 
 	 
-	 private static double distance(double lat1, double lon1, double lat2, double lon2) {
-			if ((lat1 == lat2) && (lon1 == lon2)) {
-				return 0;
-			}
-			else {
-				double theta = lon1 - lon2;
-				double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
-				dist = Math.acos(dist);
-				dist = Math.toDegrees(dist);
-				dist = dist * 60 * 1.1515;
-				dist = dist * 1.609344;
-				return (dist);
-			}
-		}
+//	 private static double distance(double lat1, double lon1, double lat2, double lon2) {
+//			if ((lat1 == lat2) && (lon1 == lon2)) {
+//				return 0;
+//			}
+//			else {
+//				double theta = lon1 - lon2;
+//				double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
+//				dist = Math.acos(dist);
+//				dist = Math.toDegrees(dist);
+//				dist = dist * 60 * 1.1515;
+//				dist = dist * 1.609344;
+//				return (dist);
+//			}
+//		}
 
 }

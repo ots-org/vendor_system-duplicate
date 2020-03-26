@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class UserDetails implements Comparable{
+public class UserDetails implements Comparable<UserDetails>{
 
 	 @Size(max = 10)
 	 private String userId;
@@ -260,10 +260,10 @@ public class UserDetails implements Comparable{
 	}
 
 	@Override
-	public int compareTo(Object arg0) {
-		// TODO Auto-generated method stub
-		return this.distance.compareTo(((UserDetails)arg0).getDistance());
+	public int compareTo(UserDetails u) {
+	if (getFirstName() == null || u.getFirstName() == null) {
+	    return 0;
+	  	}
+		return getFirstName().compareTo(u.getFirstName());
 	}
-  
-	
 }

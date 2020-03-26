@@ -50,7 +50,8 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 		OtsRegistration otsRegistration = new OtsRegistration();
 		OtsUsers otsUsers = new OtsUsers();
 	    try {
-	    	otsRegistration.setOtsRegistrationFirstname(addNewBORequest.getRequestData().getFirstName());
+	    	String Fname = addNewBORequest.getRequestData().getFirstName().substring(0, 1).toUpperCase() + addNewBORequest.getRequestData().getFirstName().substring(1);
+	    	otsRegistration.setOtsRegistrationFirstname(Fname);
 	    	otsRegistration.setOtsRegistrationLastname(addNewBORequest.getRequestData().getLastName());
 	    	otsRegistration.setOtsRegistrationContactNo(addNewBORequest.getRequestData().getPhonenumber());
 	    	otsRegistration.setOtsRegistrationAddr1(addNewBORequest.getRequestData().getAddress1());
@@ -63,8 +64,8 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 	    	otsRegistration.setOtsDeviceToken(addNewBORequest.getRequestData().getDeviceId());
 	    	otsUsers.setOtsUsersId(Integer.parseInt(addNewBORequest.getRequestData().getMappedTo()));
 	    	otsRegistration.setOtsUsersMappedTo(otsUsers);
-	    	otsRegistration.setOtsRegistrationLat(addNewBORequest.getRequestData().getUserLat());
-	    	otsRegistration.setOtsRegistrationLong(addNewBORequest.getRequestData().getUserLong());
+//	    	otsRegistration.setOtsRegistrationLat(addNewBORequest.getRequestData().getUserLat());
+//	    	otsRegistration.setOtsRegistrationLong(addNewBORequest.getRequestData().getUserLong());
 	    	OtsProduct otsProduct = new OtsProduct();
 	    	if((addNewBORequest.getRequestData().getProductId()!= null) && addNewBORequest.getRequestData().getProductId()!=0 ) {
 			try {
@@ -211,8 +212,8 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 		userDetails.setUsrStatus(otsRegistration.getOtsRegistrationStatus()==null?null:otsRegistration.getOtsRegistrationStatus());
 		userDetails.setMappedTo(otsRegistration.getOtsUsersMappedTo().getOtsUsersId()==null?null:otsRegistration.getOtsUsersMappedTo().getOtsUsersId().toString());
 		userDetails.setUsrPassword(otsRegistration.getOtsRegistrationPassword()==null?null:otsRegistration.getOtsRegistrationPassword());            
-		userDetails.setUserLat(otsRegistration.getOtsRegistrationLat()==null?null:otsRegistration.getOtsRegistrationLat());
-		userDetails.setUserLong(otsRegistration.getOtsRegistrationLong()==null?null:otsRegistration.getOtsRegistrationLong());
+//		userDetails.setUserLat(otsRegistration.getOtsRegistrationLat()==null?null:otsRegistration.getOtsRegistrationLat());
+//		userDetails.setUserLong(otsRegistration.getOtsRegistrationLong()==null?null:otsRegistration.getOtsRegistrationLong());
 		userDetails.setDeviceId(otsRegistration.getOtsDeviceToken());
 		return userDetails;
     }	

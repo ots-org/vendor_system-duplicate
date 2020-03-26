@@ -104,6 +104,8 @@
 			(o.otsOrderDt BETWEEN :FromDate AND :ToDate) 
 		AND
 			(o.otsDistributorId = :DistributorsId)
+		ORDER BY
+	   		o.otsOrderDeliveryDt
 		</query>
 	</named-query> 
 	<named-query name="OtsOrder.GetOrderListByTimeAndStatusForDistributor">
@@ -116,6 +118,8 @@
 			(o.otsDistributorId = :DistributorsId)
 		AND
 			(o.otsOrderStatus =:status)
+		ORDER BY
+	   		o.otsOrderDeliveryDt
 		</query>
 	</named-query> 	
 	<named-query name="OtsOrder.GetOrderListByTimeAndStatusForCustomerId">
@@ -128,6 +132,8 @@
 			(o.otsCustomerId = :CustomerId)
 		AND
 			(o.otsOrderStatus =:status)
+		ORDER BY
+	   		o.otsOrderDeliveryDt
 	
 		</query>
 	</named-query> 		 	 
@@ -139,6 +145,8 @@
 			o.otsDistributorId = :otsDistributorId
 		AND
 			o.otsOrderStatus =:Status
+		ORDER BY
+	   		o.otsOrderDeliveryDt
 		</query>
 	</named-query>
 	<named-query name="OtsOrderProduct.GetOrderByDistrubutorIdAndStatus">
@@ -312,6 +320,8 @@
 	        otsOrderStatus in ('Generated','close')
 	    AND 
 	    	otsDistributorId = :DistributorId
+	   	ORDER BY
+	   		o.otsOrderDeliveryDt
 		</query>
 	</named-query>
 	<named-query name="OtsOrder.GetOrderListForCustomerByDateAndStatus">
@@ -324,6 +334,8 @@
 	        otsOrderStatus in ('Generated','close')
 	    AND 
 	    	otsCustomerId = :customerId
+	    ORDER BY
+	   		o.otsOrderDeliveryDt
 		</query>
 	</named-query>
 	<named-query name="OtsCustomerProduct.getBalanceCan">
@@ -389,6 +401,8 @@
 			(o.otsCustomerId = :otsCustomerId)
 		AND
 			o.otsOrderStatus = :otsOrderStatus
+		ORDER BY
+	   		o.otsOrderDeliveryDt
 		</query>
 	</named-query>
 	<named-query name="OtsOrder.GetListOfOrderByDateforDistrbutorByStatus">
@@ -401,6 +415,8 @@
 			(o.otsDistributorId = :otsDistributorId)
 		AND
 			o.otsOrderStatus = :otsOrderStatus
+		ORDER BY
+	   		o.otsOrderDeliveryDt
 		</query>
 	</named-query>	
 	<named-query name="OtsOrder.GetListOfOrderByDateforEmployeeByStatus">

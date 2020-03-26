@@ -117,8 +117,8 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 			userEntity.setOtsUsersStatus(addUserDataBORequest.getRequestData().getUsrStatus());
 			userEntity.setOtsUsersEmailid(addUserDataBORequest.getRequestData().getEmailId());
 			userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
-			userEntity.setOtsUsersLat(addUserDataBORequest.getRequestData().getUserLat()); 
-			userEntity.setOtsUsersLong(addUserDataBORequest.getRequestData().getUserLong());
+	//		userEntity.setOtsUsersLat(addUserDataBORequest.getRequestData().getUserLat()); 
+	//		userEntity.setOtsUsersLong(addUserDataBORequest.getRequestData().getUserLong());
 			
 	    	super.getEntityManager().merge(userEntity);
 			super.getEntityManager().flush();
@@ -141,7 +141,8 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 		 UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
 	 		try{
 		 		OtsUsers userEntity=new OtsUsers();
-				userEntity.setOtsUsersFirstname(addUserDataBORequest.getRequestData().getFirstName());
+		 		String Fname = addUserDataBORequest.getRequestData().getFirstName().substring(0, 1).toUpperCase() + addUserDataBORequest.getRequestData().getFirstName().substring(1);
+				userEntity.setOtsUsersFirstname(Fname);
 				userEntity.setOtsUsersLastname(addUserDataBORequest.getRequestData().getLastName());
 				userEntity.setOtsUsersAddr1(addUserDataBORequest.getRequestData().getAddress1());
 				userEntity.setOtsUsersAddr2(addUserDataBORequest.getRequestData().getAddress2());
@@ -156,8 +157,8 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 			    userEntity.setOtsUsersStatus("Active");
 				userEntity.setOtsUsersProfilePic(addUserDataBORequest.getRequestData().getProfilePic());
 				userEntity.setOtsDeviceToken(addUserDataBORequest.getRequestData().getDeviceId());
-				userEntity.setOtsUsersLat(addUserDataBORequest.getRequestData().getUserLat());
-				userEntity.setOtsUsersLong(addUserDataBORequest.getRequestData().getUserLong());
+//				userEntity.setOtsUsersLat(addUserDataBORequest.getRequestData().getUserLat());
+//				userEntity.setOtsUsersLong(addUserDataBORequest.getRequestData().getUserLong());
 				
 				OtsRegistration otsRegistration = new OtsRegistration();
 

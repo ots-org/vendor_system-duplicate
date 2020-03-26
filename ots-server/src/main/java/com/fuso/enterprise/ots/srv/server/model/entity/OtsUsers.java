@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,64 +25,80 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SERAJKU
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_users")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsUsers.findAll", query = "SELECT o FROM OtsUsers o"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersId", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersId = :otsUsersId"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersFirstname", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersFirstname = :otsUsersFirstname"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersLastname", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLastname = :otsUsersLastname"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersAddr1", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersAddr1 = :otsUsersAddr1"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersAddr2", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersAddr2 = :otsUsersAddr2"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersPincode", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersPincode = :otsUsersPincode"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersEmailid", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersEmailid = :otsUsersEmailid"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersProfilePic", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersProfilePic = :otsUsersProfilePic"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersStatus", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersStatus = :otsUsersStatus"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersPassword", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersPassword = :otsUsersPassword"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersContactNo", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersContactNo = :otsUsersContactNo"),
-    @NamedQuery(name = "OtsUsers.findByOtsDeviceToken", query = "SELECT o FROM OtsUsers o WHERE o.otsDeviceToken = :otsDeviceToken"),@NamedQuery(name = "OtsUsers.findByOtsUsersLat", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLat = :otsUsersLat"),
-    @NamedQuery(name = "OtsUsers.findByOtsUsersLong", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLong = :otsUsersLong")})
+    @NamedQuery(name = "OtsUsers.findAll", query = "SELECT o FROM OtsUsers o")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersId", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersId = :otsUsersId")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersFirstname", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersFirstname = :otsUsersFirstname")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersLastname", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLastname = :otsUsersLastname")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersAddr1", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersAddr1 = :otsUsersAddr1")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersAddr2", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersAddr2 = :otsUsersAddr2")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersPincode", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersPincode = :otsUsersPincode")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersEmailid", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersEmailid = :otsUsersEmailid")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersStatus", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersStatus = :otsUsersStatus")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersTimestamp", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersTimestamp = :otsUsersTimestamp")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersCreated", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersCreated = :otsUsersCreated")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersPassword", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersPassword = :otsUsersPassword")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersContactNo", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersContactNo = :otsUsersContactNo")
+    , @NamedQuery(name = "OtsUsers.findByOtsDeviceToken", query = "SELECT o FROM OtsUsers o WHERE o.otsDeviceToken = :otsDeviceToken")})
 public class OtsUsers implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ots_users_id")
     private Integer otsUsersId;
+    @Size(max = 45)
     @Column(name = "ots_users_firstname")
     private String otsUsersFirstname;
+    @Size(max = 45)
     @Column(name = "ots_users_lastname")
     private String otsUsersLastname;
+    @Size(max = 45)
     @Column(name = "ots_users_addr1")
     private String otsUsersAddr1;
+    @Size(max = 45)
     @Column(name = "ots_users_addr2")
     private String otsUsersAddr2;
+    @Size(max = 45)
     @Column(name = "ots_users_pincode")
     private String otsUsersPincode;
+    @Size(max = 45)
     @Column(name = "ots_users_emailid")
     private String otsUsersEmailid;
+    @Lob
+    @Size(max = 2147483647)
     @Column(name = "ots_users_profile_pic")
     private String otsUsersProfilePic;
+    @Size(max = 45)
     @Column(name = "ots_users_status")
     private String otsUsersStatus;
+    @Column(name = "ots_users_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsUsersTimestamp;
+    @Column(name = "ots_users_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsUsersCreated;
+    @Size(max = 45)
     @Column(name = "ots_users_password")
     private String otsUsersPassword;
+    @Size(max = 45)
     @Column(name = "ots_users_contact_no")
     private String otsUsersContactNo;
+    @Size(max = 255)
     @Column(name = "ots_device_token")
     private String otsDeviceToken;
-    @Column(name = "ots_users_lat")
-    private String otsUsersLat;
-    @Column(name = "ots_users_long")
-    private String otsUsersLong;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
     private Collection<OtsBill> otsBillCollection;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
@@ -200,6 +217,22 @@ public class OtsUsers implements Serializable {
         this.otsUsersStatus = otsUsersStatus;
     }
 
+    public Date getOtsUsersTimestamp() {
+        return otsUsersTimestamp;
+    }
+
+    public void setOtsUsersTimestamp(Date otsUsersTimestamp) {
+        this.otsUsersTimestamp = otsUsersTimestamp;
+    }
+
+    public Date getOtsUsersCreated() {
+        return otsUsersCreated;
+    }
+
+    public void setOtsUsersCreated(Date otsUsersCreated) {
+        this.otsUsersCreated = otsUsersCreated;
+    }
+
     public String getOtsUsersPassword() {
         return otsUsersPassword;
     }
@@ -222,22 +255,6 @@ public class OtsUsers implements Serializable {
 
     public void setOtsDeviceToken(String otsDeviceToken) {
         this.otsDeviceToken = otsDeviceToken;
-    }
-
-    public String getOtsUsersLat() {
-        return otsUsersLat;
-    }
-
-    public void setOtsUsersLat(String otsUsersLat) {
-        this.otsUsersLat = otsUsersLat;
-    }
-
-    public String getOtsUsersLong() {
-        return otsUsersLong;
-    }
-
-    public void setOtsUsersLong(String otsUsersLong) {
-        this.otsUsersLong = otsUsersLong;
     }
 
     @XmlTransient
