@@ -24,12 +24,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SERAJKU
+ * @author shashikumar.ys
  */
 @Entity
 @Table(name = "ots_order")
@@ -54,6 +55,7 @@ public class OtsOrder implements Serializable {
     @Basic(optional = false)
     @Column(name = "ots_order_id")
     private Integer otsOrderId;
+    @Size(max = 45)
     @Column(name = "ots_order_number")
     private String otsOrderNumber;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -68,14 +70,18 @@ public class OtsOrder implements Serializable {
     @Column(name = "ots_order_delivered_dt")
     @Temporal(TemporalType.DATE)
     private Date otsOrderDeliveredDt;
+    @Size(max = 45)
     @Column(name = "ots_order_status")
     private String otsOrderStatus;
     @Column(name = "ots_order_amount_received")
     private BigDecimal otsOrderAmountReceived;
+    @Size(max = 45)
     @Column(name = "ots_order_balance_can")
     private String otsOrderBalanceCan;
+    @Size(max = 45)
     @Column(name = "ots_order_outstanding_amount")
     private String otsOrderOutstandingAmount;
+    @Size(max = 45)
     @Column(name = "ots_order_remarks")
     private String otsOrderRemarks;
     @JoinColumn(name = "ots_bill_id", referencedColumnName = "ots_bill_id")

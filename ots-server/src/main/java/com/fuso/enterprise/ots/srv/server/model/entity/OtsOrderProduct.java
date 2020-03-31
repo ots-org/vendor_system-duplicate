@@ -21,11 +21,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author SERAJKU
+ * @author shashikumar.ys
  */
 @Entity
 @Table(name = "ots_order_product")
@@ -54,6 +55,7 @@ public class OtsOrderProduct implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ots_order_product_cost")
     private BigDecimal otsOrderProductCost;
+    @Size(max = 55)
     @Column(name = "ots_order_product_status")
     private String otsOrderProductStatus;
     @Column(name = "ots_order_product_timestamp")

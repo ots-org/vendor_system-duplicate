@@ -21,43 +21,56 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SERAJKU
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_user_role")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsUserRole.findAll", query = "SELECT o FROM OtsUserRole o"),
-    @NamedQuery(name = "OtsUserRole.findByOtsUserRoleId", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleId = :otsUserRoleId"),
-    @NamedQuery(name = "OtsUserRole.findByOtsUserRoleCode", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleCode = :otsUserRoleCode"),
-    @NamedQuery(name = "OtsUserRole.findByOtsUserRoleName", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleName = :otsUserRoleName"),
-    @NamedQuery(name = "OtsUserRole.findByOtsUserRoleStatus", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleStatus = :otsUserRoleStatus")})
+    @NamedQuery(name = "OtsUserRole.findAll", query = "SELECT o FROM OtsUserRole o")
+    , @NamedQuery(name = "OtsUserRole.findByOtsUserRoleId", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleId = :otsUserRoleId")
+    , @NamedQuery(name = "OtsUserRole.findByOtsUserRoleCode", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleCode = :otsUserRoleCode")
+    , @NamedQuery(name = "OtsUserRole.findByOtsUserRoleName", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleName = :otsUserRoleName")
+    , @NamedQuery(name = "OtsUserRole.findByOtsUserRoleStatus", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleStatus = :otsUserRoleStatus")
+    , @NamedQuery(name = "OtsUserRole.findByOtsUserRoleTimestamp", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleTimestamp = :otsUserRoleTimestamp")
+    , @NamedQuery(name = "OtsUserRole.findByOtsUserRoleCreated", query = "SELECT o FROM OtsUserRole o WHERE o.otsUserRoleCreated = :otsUserRoleCreated")})
 public class OtsUserRole implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ots_user_role_id")
     private Integer otsUserRoleId;
+    @Size(max = 45)
     @Column(name = "ots_user_role_code")
     private String otsUserRoleCode;
+    @Size(max = 45)
     @Column(name = "ots_user_role_name")
     private String otsUserRoleName;
+    @Size(max = 45)
     @Column(name = "ots_user_role_status")
     private String otsUserRoleStatus;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsSubscriptionUserroleId")
-    private Collection<OtsSubscription> otsSubscriptionCollection;
+    @Column(name = "ots_user_role_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsUserRoleTimestamp;
+    @Column(name = "ots_user_role_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsUserRoleCreated;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
+    private Collection<OtsSubscriptionOrderroledetails> otsSubscriptionOrderroledetailsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
     private Collection<OtsUsers> otsUsersCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
+    private Collection<OtsSubscriptionOrder> otsSubscriptionOrderCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
     private Collection<OtsRegistration> otsRegistrationCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRole")
-    private Collection<OtsSubscriptionHistory> otsSubscriptionHistoryCollection;
 
     public OtsUserRole() {
     }
@@ -97,13 +110,30 @@ public class OtsUserRole implements Serializable {
     public void setOtsUserRoleStatus(String otsUserRoleStatus) {
         this.otsUserRoleStatus = otsUserRoleStatus;
     }
-    @XmlTransient
-    public Collection<OtsSubscription> getOtsSubscriptionCollection() {
-        return otsSubscriptionCollection;
+
+    public Date getOtsUserRoleTimestamp() {
+        return otsUserRoleTimestamp;
     }
 
-    public void setOtsSubscriptionCollection(Collection<OtsSubscription> otsSubscriptionCollection) {
-        this.otsSubscriptionCollection = otsSubscriptionCollection;
+    public void setOtsUserRoleTimestamp(Date otsUserRoleTimestamp) {
+        this.otsUserRoleTimestamp = otsUserRoleTimestamp;
+    }
+
+    public Date getOtsUserRoleCreated() {
+        return otsUserRoleCreated;
+    }
+
+    public void setOtsUserRoleCreated(Date otsUserRoleCreated) {
+        this.otsUserRoleCreated = otsUserRoleCreated;
+    }
+
+    @XmlTransient
+    public Collection<OtsSubscriptionOrderroledetails> getOtsSubscriptionOrderroledetailsCollection() {
+        return otsSubscriptionOrderroledetailsCollection;
+    }
+
+    public void setOtsSubscriptionOrderroledetailsCollection(Collection<OtsSubscriptionOrderroledetails> otsSubscriptionOrderroledetailsCollection) {
+        this.otsSubscriptionOrderroledetailsCollection = otsSubscriptionOrderroledetailsCollection;
     }
 
     @XmlTransient
@@ -116,21 +146,21 @@ public class OtsUserRole implements Serializable {
     }
 
     @XmlTransient
+    public Collection<OtsSubscriptionOrder> getOtsSubscriptionOrderCollection() {
+        return otsSubscriptionOrderCollection;
+    }
+
+    public void setOtsSubscriptionOrderCollection(Collection<OtsSubscriptionOrder> otsSubscriptionOrderCollection) {
+        this.otsSubscriptionOrderCollection = otsSubscriptionOrderCollection;
+    }
+
+    @XmlTransient
     public Collection<OtsRegistration> getOtsRegistrationCollection() {
         return otsRegistrationCollection;
     }
 
     public void setOtsRegistrationCollection(Collection<OtsRegistration> otsRegistrationCollection) {
         this.otsRegistrationCollection = otsRegistrationCollection;
-    }
-
-    @XmlTransient
-    public Collection<OtsSubscriptionHistory> getOtsSubscriptionHistoryCollection() {
-        return otsSubscriptionHistoryCollection;
-    }
-
-    public void setOtsSubscriptionHistoryCollection(Collection<OtsSubscriptionHistory> otsSubscriptionHistoryCollection) {
-        this.otsSubscriptionHistoryCollection = otsSubscriptionHistoryCollection;
     }
 
     @Override

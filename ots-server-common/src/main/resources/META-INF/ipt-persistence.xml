@@ -26,6 +26,9 @@
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsCustomerOutstanding</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRequestOrder</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsScheduler</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionOrderHistory</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionOrder</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionOrderroledetails</class>
    <!---OTS ORM FILES -->
 
 	<mapping-file>META-INF/ipt-sample-orm.xml</mapping-file>

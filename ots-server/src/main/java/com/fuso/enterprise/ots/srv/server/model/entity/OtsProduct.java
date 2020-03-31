@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtsProduct.findByOtsProductPrice", query = "SELECT o FROM OtsProduct o WHERE o.otsProductPrice = :otsProductPrice"),
     @NamedQuery(name = "OtsProduct.findByOtsProductType", query = "SELECT o FROM OtsProduct o WHERE o.otsProductType = :otsProductType")})
 public class OtsProduct implements Serializable {
-    private static final long serialVersionUID = 1L
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -76,8 +76,18 @@ public class OtsProduct implements Serializable {
     private Collection<OtsOrderProduct> otsOrderProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsScheduler> otsSchedulerCollection;
+    @Column(name = "ots_product_type")
+    private String otsProductType;
 
-    public OtsProduct() {
+    public String getOtsProductType() {
+		return otsProductType;
+	}
+
+	public void setOtsProductType(String otsProductType) {
+		this.otsProductType = otsProductType;
+	}
+
+	public OtsProduct() {
     }
 
     public OtsProduct(Integer otsProductId) {
@@ -116,7 +126,6 @@ public class OtsProduct implements Serializable {
         this.otsProductStatus = otsProductStatus;
     }
 
-
     public BigDecimal getOtsProductPrice() {
         return otsProductPrice;
     }
@@ -131,14 +140,6 @@ public class OtsProduct implements Serializable {
 
     public void setOtsProductImage(String otsProductImage) {
         this.otsProductImage = otsProductImage;
-    }
-
-    public String getOtsProductType() {
-        return otsProductType;
-    }
-
-    public void setOtsProductType(String otsProductType) {
-        this.otsProductType = otsProductType;
     }
 
     @XmlTransient

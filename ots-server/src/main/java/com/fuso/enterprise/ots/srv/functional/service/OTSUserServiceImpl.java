@@ -154,35 +154,37 @@ public class OTSUserServiceImpl implements  OTSUserService{
 				/*
 				 * Mapping the child user to the parent user 
 				 */
-				userMapping.setMappedTo(addUserDataBORequest.getRequestData().getMappedTo());
-				userMapping.setUserId(responseGenerateduserId);
-				mapUsersDataBORequest.setRequestData(userMapping);
-				String userMappingStatus = mappUser(mapUsersDataBORequest);
-				logger.info("Inside Event=1004,Class:OTSUserServiceImpl,Method:addNewUser, "
-						+ "User Mapping  status : " + userMappingStatus);
-				/*
-				 * End of mapping 
-				 */
-				
-				/*
-				 * Add customer product price 
-				 */
-				
-				String userProductMappingStatus = "";
-				if(addUserDataBORequest.getRequestData().getProductId()!=null) {
-					customerProductDetails.setUserId(responseGenerateduserId);
-					customerProductDetails.setProductPrice(addUserDataBORequest.getRequestData().getProductPrice());
-					customerProductDetails.setProductId(addUserDataBORequest.getRequestData().getProductId());
-					customerProductDataBORequest.setRequestData(customerProductDetails);
-					userProductMappingStatus = mapUserProduct(customerProductDataBORequest);
+				if(addUserDataBORequest.getRequestData().getMappedTo()!=null)	{
+					userMapping.setMappedTo(addUserDataBORequest.getRequestData().getMappedTo());
+					userMapping.setUserId(responseGenerateduserId);
+					mapUsersDataBORequest.setRequestData(userMapping);
+					String userMappingStatus = mappUser(mapUsersDataBORequest);
+					logger.info("Inside Event=1004,Class:OTSUserServiceImpl,Method:addNewUser, "
+							+ "User Mapping  status : " + userMappingStatus);
+					/*
+					 * End of mapping 
+					 */
+					
+					/*
+					 * Add customer product price 
+					 */
+					
+					String userProductMappingStatus = "";
+					if(addUserDataBORequest.getRequestData().getProductId()!=null) {
+						customerProductDetails.setUserId(responseGenerateduserId);
+						customerProductDetails.setProductPrice(addUserDataBORequest.getRequestData().getProductPrice());
+						customerProductDetails.setProductId(addUserDataBORequest.getRequestData().getProductId());
+						customerProductDataBORequest.setRequestData(customerProductDetails);
+						userProductMappingStatus = mapUserProduct(customerProductDataBORequest);
+					}
+					
+					/*
+					 * End of product price mapping to user
+					 */
+					
+					logger.info("Inside Event=1004,Class:OTSUserServiceImpl,Method:addNewUser, "
+							+ "Map User Product price status : " + userProductMappingStatus);
 				}
-				
-				/*
-				 * End of product price mapping to user
-				 */
-				
-				logger.info("Inside Event=1004,Class:OTSUserServiceImpl,Method:addNewUser, "
-						+ "Map User Product price status : " + userProductMappingStatus);
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}

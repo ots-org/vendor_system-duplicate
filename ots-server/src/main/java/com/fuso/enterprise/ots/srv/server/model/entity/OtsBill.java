@@ -23,12 +23,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SERAJKU
+ * @author shashikumar.ys
  */
 @Entity
 @Table(name = "ots_bill")
@@ -53,6 +54,7 @@ public class OtsBill implements Serializable {
     @Basic(optional = false)
     @Column(name = "ots_bill_id")
     private Integer otsBillId;
+    @Size(max = 45)
     @Column(name = "ots_bill_number")
     private String otsBillNumber;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -60,10 +62,12 @@ public class OtsBill implements Serializable {
     private BigDecimal otsBillAmount;
     @Column(name = "ots_bill_amount_received")
     private BigDecimal otsBillAmountReceived;
+    @Size(max = 45)
     @Column(name = "ots_bill_generated")
     private String otsBillGenerated;
+    @Size(max = 45)
     @Column(name = "ots_bill_status")
-    private String otsBillStatus;;
+    private String otsBillStatus;
     @Column(name = "ots_bill_created")
     @Temporal(TemporalType.DATE)
     private Date otsBillCreated;
@@ -73,6 +77,7 @@ public class OtsBill implements Serializable {
     private BigDecimal otsbillSGST;
     @Column(name = "ots_bill_outstanding_amt")
     private BigDecimal otsBillOutstandingAmt;
+    @Size(max = 5000)
     @Column(name = "ots_bill_pdf")
     private String otsBillPdf;
     @JoinColumn(name = "ots_customer_id", referencedColumnName = "ots_users_id")

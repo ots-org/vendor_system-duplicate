@@ -83,7 +83,6 @@ public class OtsProductStock implements Serializable {
         this.otsProdcutStockStatus = otsProdcutStockStatus;
     }
 
-
     public OtsProduct getOtsProductId() {
         return otsProductId;
     }

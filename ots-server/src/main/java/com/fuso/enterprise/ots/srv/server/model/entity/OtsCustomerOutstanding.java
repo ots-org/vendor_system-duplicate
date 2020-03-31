@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "OtsCustomerOutstanding.findAll", query = "SELECT o FROM OtsCustomerOutstanding o"),
     @NamedQuery(name = "OtsCustomerOutstanding.findByOtsCustomerOutstandingId", query = "SELECT o FROM OtsCustomerOutstanding o WHERE o.otsCustomerOutstandingId = :otsCustomerOutstandingId"),
     @NamedQuery(name = "OtsCustomerOutstanding.findByOtsCustomerOutstandingAmt", query = "SELECT o FROM OtsCustomerOutstanding o WHERE o.otsCustomerOutstandingAmt = :otsCustomerOutstandingAmt")})
+   
 public class OtsCustomerOutstanding implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

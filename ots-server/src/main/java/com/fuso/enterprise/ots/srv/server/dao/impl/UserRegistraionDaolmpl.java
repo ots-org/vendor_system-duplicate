@@ -35,10 +35,6 @@ public class UserRegistraionDaolmpl  extends AbstractIptDao<OtsRegistration, Str
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired
-    private JdbcTemplate jdbcTemplate;
-	//private UserTemp userTemp;
-	
     public UserRegistraionDaolmpl() {
         super(OtsRegistration.class);
     }

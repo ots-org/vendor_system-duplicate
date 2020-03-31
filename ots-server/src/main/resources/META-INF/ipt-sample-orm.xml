@@ -29,8 +29,9 @@
 	<named-query name="OtsProduct.findByPattrenMatching">
 		<query>SELECT o 
 		FROM 
-		OtsProduct o 
-		WHERE o.otsProductName LIKE :FirstLetter
+			OtsProduct o 
+		WHERE 
+			o.otsProductName LIKE :FirstLetter
 		</query>
 	</named-query>
 	<named-query name="OtsUsers.findByPattrenMatchingotsUsersFirstname">
@@ -44,15 +45,18 @@
 	<named-query name="OtsUsers.findByPattrenMatchingotsUsersLastname">
 		<query>SELECT o 
 		FROM 
-		OtsUsers o 
-		WHERE o.otsUsersLastname LIKE :otsUsersLastname
+			OtsUsers o 
+		WHERE 
+			o.otsUsersLastname LIKE :otsUsersLastname
 		</query>
 	</named-query>
 	<named-query name="OtsUsers.findByPattrenMatchingotsUsersEmailid">
 		<query>SELECT o 
 		FROM 
-		OtsUsers o 
-		WHERE o.otsUsersEmailid LIKE :otsUsersEmailid
+			OtsUsers o 
+		WHERE 
+			o.otsUsersEmailid 
+			LIKE :otsUsersEmailid
 		</query>
 	</named-query>
 	<named-query name="OtsUsers.findByUserOtsbyMappedTo">
@@ -449,7 +453,23 @@
 			o.otsUsersId = :otsUsersId
 		</query>
 	</named-query>
-		<named-query name="OtsScheduler.getSchedularByDate">
+	<named-query name="OtsSubscriptionOrderHistory.findSubscriptionByOtsUsersId">
+		<query>SELECT o 
+		FROM 
+			OtsSubscriptionOrderHistory o	
+		WHERE  	
+			o.otsUsersId = :otsUsersId
+		</query>
+	</named-query>
+	<named-query name="OtsSubscriptionOrderroledetails.findSubscriptionDetails">
+		<query>SELECT o 
+		FROM 
+			OtsSubscriptionOrderroledetails o	
+		WHERE  	
+			o.otsSubscriptionOrderHistoryId = :historyId
+		</query>
+	</named-query>
+	<named-query name="OtsScheduler.getSchedularByDate">
 		<query>SELECT o 
 		FROM 
 			OtsScheduler o
