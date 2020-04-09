@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
+    <title>Ample Admin Template - The Ultimate Multipurpose admin template</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Menu CSS -->
+    <link href="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <!-- animation CSS -->
+    <link href="css/animate.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="css/colors/default.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+    <script src="js/home.js"></script>
+</head>
+
+<body onload="bookingDisplay()" class="fix-header">
+    
+    <div id="">
+        
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        <div id="page" class="container card-form">
+            <div >
+                
+                <div class="white-box">
+                    <div class="row">
+                        <ul class="list-inline two-part">
+                            <li>
+                                <ul class="list-inline two-part">
+                                    <li class="text-left">Total Distributor To add:</li>
+                                    <li class="text-left"><div id="totalDistributor"></div></li>
+                                    <li class="text-left">Total Employees To add:</li>
+                                    <li class="text-left"><div id="totalEmployee">2</div></li>
+                                    <li class="text-left">Total Customer To add:</li>
+                                    <li class="text-left"><div id="totalCustomer">2</div></li></ul>
+                            </li>
+                            <li>
+                                <ul class="list-inline two-part">
+                                    <li class="text-left">Duration</li>
+                                    <li class="text-left"><div class="">
+                                        <select id="durationSelect" class="form-control form-control-line">
+                                            <option value="Annual">Annual</option>
+                                            <option value="Monthly">Monthly</option>
+                                        </select>
+                                    </div></li>
+                                    <li class="text-left">Amount</li>
+                                    <li class="text-left"><div id="amount"></div></li>
+                                    <li class="text-left">Distributor</li>
+                                    <li class="text-left">1</li></ul>
+                            </li>
+                        </ul>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button class="btn btn-success">Update Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /#white-box -->
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="../plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="js/waves.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="js/custom.min.js"></script>
+   
+    <style>
+        .card-form {
+          box-shadow: 0 4px 8px 0 rgba(0.2,0.2,0.2,0.2);
+          transition: 0.3s;
+          width: 80%;
+        }
+        
+        .card-form:hover {
+          box-shadow: 0 8px 16px 0 rgba(0.2,0.2,0.2,0.2);
+        }
+        
+        .container {
+          padding: 2% 2% ;
+        }
+        </style>
+</body>
+<script>
+    function bookingDisplay(){
+        var selectecPlan = JSON.parse( localStorage.getItem("selectedPlan"));
+        alert(selectecPlan.planName);
+        $('#totalDistributor').text(selectecPlan.distributor);
+        $('#totalEmployee').text(selectecPlan.employee);
+        $('#totalCustomer').text(selectecPlan.customer);
+        $('#amount').text(selectecPlan.annualAmount);
+   }
+
+    $("#durationSelect").change(function() {
+        alert($('#durationSelect').val());
+        if($('#durationSelect').val() == "Monthly"){
+            $('#amount').text(selectecPlan.monthlyAmount);
+        }else if($('#durationSelect').val() == "Annual"){
+            $('#amount').text(selectecPlan.monthlyAmount);
+        }
+    });
+
+</script>
+</html>

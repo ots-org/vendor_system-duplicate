@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
+      <title>ORTUSOLIS - admin panel</title>
+      <!-- Bootstrap Core CSS -->
+      <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <!-- Menu CSS -->
+      <link href="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+      <!-- toast CSS -->
+      <link href="../plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+      <!-- morris CSS -->
+      <link href="../plugins/bower_components/morrisjs/morris.css" rel="stylesheet">
+      <!-- chartist CSS -->
+      <link href="../plugins/bower_components/chartist-js/dist/chartist.min.css" rel="stylesheet">
+      <link href="../plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+      <!-- animation CSS -->
+      <link href="css/animate.css" rel="stylesheet">
+      <!-- Custom CSS -->
+      <link href="css/style.css" rel="stylesheet">
+      <!-- color CSS -->
+      <link href="css/colors/default.css" id="theme" rel="stylesheet">
+      <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+   </head>
+   <body class="fix-header">
+      <!-- ============================================================== -->
+      <!-- Preloader -->
+      <!-- ============================================================== -->
+      <div class="preloader">
+         <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+         </svg>
+      </div>
+      <!-- ============================================================== -->
+      <!-- Wrapper -->
+      <!-- ============================================================== -->
+      <div id="wrapper">
+         <!-- ============================================================== -->
+         <!-- Topbar header - style you can find in pages.scss -->
+         <!-- ============================================================== -->
+         <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div style="background-color:  #233a98;" class="navbar-header">
+               <div class="top-left-part">
+                  <!-- Logo -->
+                  <a class="logo" href="dashboard.html">
+                     <!-- Logo icon image, you can use font-icon also -->
+                     <b>
+                        <!--This is dark logo icon-->
+                        <!--This is light logo icon-->
+                     
+                     </b>
+                     <!-- Logo text image you can use text also -->
+                     <span class="hidden-xs">
+                        <!--This is dark logo text-->
+                        <img src="../plugins/images/otsLogo.PNG" alt="home" class="light-logo" />
+                     </span>
+                  </a>
+               </div>
+               <!-- /Logo -->
+               <ul class="nav navbar-top-links navbar-left pull-left">
+                  <li>
+                     <a > <b class="hidden-xs">Current Subscription </b></a>
+                  </li>
+               </ul>
+               <ul class="nav navbar-top-links navbar-right pull-right">
+                  <li>
+                     <a  href="#"><b class="hidden-xs"><span>My Plan :</span><span id="myPlan">No Plan</span></b></a>
+                  </li>
+                  <li>
+                     <a  href="#"><b class="hidden-xs"><span>Distributor :</span><span id="currentDistributorId">0</span></b></a>
+                  </li>
+                  <li>
+                     <a  href="#"><b class="hidden-xs"><span>Employee :</span>   <span id="currentEmployeeId">0</span></b></a>
+                  </li>
+                  <li>
+                     <a  href="#"><b class="hidden-xs"><span>Customer :</span>   <span id="currentCustomerId">0</span></b></a>
+                  </li>
+                  <li>
+                     <a  href="#"><b class="hidden-xs"><span>Exp Date :</span>   <span id="expDateId">0</span></b></a>
+                  </li>
+                  
+                  <li>
+                     <a class="nav-toggler open-close waves-effect waves-light hidden-md hidden-lg" href="javascript:void(0)"><i class="fa fa-bars"></i></a>
+                  </li>
+               </ul>
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-top-links -->
+            <!-- /.navbar-static-side -->
+         </nav>
+         <!-- End Top Navigation -->
+         <!-- ============================================================== -->
+         <!-- Left Sidebar - style you can find in sidebar.scss  -->
+         <!-- ============================================================== -->
+         <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+               <div class="sidebar-head">
+                  <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span class="hide-menu">Navigation</span></h3>
+               </div>
+               <ul class="nav" id="side-menu">
+                  <li style="padding: 70px 0 0;">
+                     <a class="waves-effect"><i class="fa fa-clock-o fa-fw" aria-hidden="true"></i>Dashboard</a>
+                  </li>
+                  <li>
+                     <a onclick="userProfile()" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Profile</a>
+                  </li>
+                  <li data-toggle="modal" data-target="#historyModelId" onclick="showPaymentHistory()">
+                     <a ><i  class="fa fa-table fa-fw" aria-hidden="true"></i>Payment History</a>
+                  </li>
+                  <li>
+                     <a href="" class="waves-effect"><i class="fa fa-plus-square fa-fw" aria-hidden="true"></i>Help</a>
+                  </li>
+                  <li>
+                    
+                  </li>
+                  <li>
+                   
+                  </li>
+                  <li>
+                     
+                  </li>
+                  <li>
+                     
+                  </li>
+                  <li>
+                   
+                  </li>
+                  <li>
+                    
+                  </li>
+                  
+               </ul>
+            </div>
+         </div>
+         <!-- ============================================================== -->
+         <!-- End Left Sidebar -->
+         <!-- ============================================================== -->
+         <!-- ============================================================== -->
+         <!-- Page Content -->
+         <!-- ============================================================== -->
+         <div id="page-wrapper">
+            <div class="container-fluid">
+               <div class="row bg-title">
+                  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                     <h4 class="page-title">Subscription</h4>
+                  </div>
+                  <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                     <div id="updatebtn">
+                     </div>     
+                     <ol class="breadcrumb">
+                         <li><a href="#">Dashboard</a></li>
+                     </ol>
+                 </div>
+                  <!-- /.col-lg-12 -->
+               </div>
+               <div class="">
+                  <!-- Modal -->
+                  <div class="modal fade" id="myModal" role="dialog">
+                     <div class="modal-dialog">
+                       
+                        <!----------------------------- code to select duration ------------------------------------->
+                        <div id="selectDurationDiv">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                   <h4 class="modal-title">Selectd Plan : <span id="plan"></span></h4>
+                                </div>
+                                
+                                <div class="modal-body">     
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                          <div class="col-sm-6" ><p>Amount :</p></div>
+                                          <div class="col-sm-6" ><p><span id="amount"></span></p></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6" > <p>Select Duration of Plan: </p></div>
+                                            <div class="col-sm-6" id="dropDown">
+                                                <select id="durationSelect" class="form-control form-control-line">
+                                                    <option value="Annual">Annual</option>
+                                                    <option value="Monthly">Monthly</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 </div>
+                                <div class="modal-footer">
+                                   <button type="button" class="btn btn-default" id="selectDurationBtn">Selcted duration</button>
+                                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                             </div>
+                        </div>
+                        <!-- ====================================== end of code to select duration ====================================== -->
+
+
+                        <!-- ====================================== code to select number of user ====================================== -->
+                        <div id="chooseUserDiv">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                   <h4 class="modal-title">Add-Ons to cart: <span id="plan"></span></h4>
+                                </div>
+                                <div class="modal-body">  
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-sm-6" ><p>Distibutor :</p></div>
+                                            <div class="col-sm-6" ><p><span id="distibutorCount">hi</span></p></div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-sm-6" ><p>Employee :</p></div>
+                                            <div class="col-sm-6" ><p><span id="employeeCount">hi</span></p></div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-sm-6" ><p>Customer :</p></div>
+                                            <div class="col-sm-6" ><p><span id="customerCount">hi</span></p></div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-sm-6" ><p>Customer Add-on :</p></div>
+                                            <div class="col-sm-6" >
+                                                <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]" onclick="addCustomer('remove')">
+                                                            <span class="glyphicon glyphicon-minus"></span>
+                                                        </button>
+                                                    </span>
+                                                    <input type="number" class="form-control input-number" value="0" min="0" max="10" id="addOncustcount" readonly>
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]" onclick="addCustomer('add')">
+                                                            <span class="glyphicon glyphicon-plus"></span>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-sm-6" ><p>Employee Add-on :</p></div>
+                                            <div class="col-sm-6" >
+                                                <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]" onclick="addEmployee('remove')">
+                                                            <span class="glyphicon glyphicon-minus"></span>
+                                                        </button>
+                                                    </span>
+                                                    <input type="text" name="quant[1]" class="form-control input-number" value="0" min="1" max="10" id="addOnEmpCount" readonly="readonly">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]" onclick = "addEmployee('add')">
+                                                            <span class="glyphicon glyphicon-plus"></span>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-sm-6" ><p>Addon Amount  :</p></div>
+                                            <div class="col-sm-6" ><p><span id="addonAmount">hi</span></p></div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-sm-6" ><p>Plan Amount :</p></div>
+                                            <div class="col-sm-6" ><p><span id="planAmount">hi</span></p></div>
+                                          </div>
+                                          <hr >
+                                          <div class="row">
+                                            <div class="col-sm-6" ><p>Total Amount :</p></div>
+                                            <div class="col-sm-6" ><p><span id="TotalAmount">hi</span></p></div>
+                                          </div>
+                                    </div>
+                                <div class="modal-footer">
+                                   <button type="button"  class="btn btn-default" onclick="confirmBooking()" >Next</button>
+                                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                             </div>
+                        </div>
+                        </div>
+                        <!-- ====================================== code to select number of user ====================================== --->
+
+                        <!-- ====================================== code to select number of user ====================================== -->
+                        <div id="confirmBookingDiv">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">confirm Your Booking: <span id="plan"></span></h4>
+                                </div>
+                                <div class="modal-body">  
+                                    <div class="container-fluid">
+                                       <div class="row">
+                                          <div class="col-sm-6" ><p>Selected Plan:</p></div>
+                                          <div class="col-sm-6" ><p><span id="selectedPlan">hi</span></p></div>
+                                      </div>
+                                        <div class="row">
+                                            <div class="col-sm-6" ><p>Total Distibutor added:</p></div>
+                                            <div class="col-sm-6" ><p><span id="TotaldistibutorCount">hi</span></p></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6" ><p>Total Employee added :</p></div>
+                                            <div class="col-sm-6" ><p><span id="TotalemployeeCount">hi</span></p></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6" ><p>Total Customer added:</p></div>
+                                            <div class="col-sm-6" ><p><span id="TotalcustomerCount">hi</span></p></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6" ><p>Total Amount To Pay :</p></div>
+                                            <div class="col-sm-6" ><p><span id="TotalPay">hi</span></p></div>
+                                        </div>
+                                    </div>
+                                <div class="modal-footer">
+                                    <button type="button"  class="btn btn-default" id="rzp-button1">Pay</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                        </div>
+                        </div>
+                        <!-- ====================================== code to select number of user ====================================== --->
+    
+                  </div>
+               </div>
+               <!-- /.row -->
+               <!-- ============================================================== -->
+               <!-- Different data widgets -->
+               <!-- ============================================================== -->
+               <!-- .row -->
+               <div class="row">
+                  <div class="col-lg-4 col-sm-6 col-xs-12">
+                     <div class="white-box analytics-info">
+                        <h3 class="box-title">Basic Plan</h3>
+                        <ul class="list-inline two-part">
+                           <li class="text-left"><i class="ti-arrow-up text-success"></i> <span class=" text-success">Monthly</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">500</span><span class=" text-success">₹</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-success"></i> <span class=" text-success">Annual</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">5500</span><span class=" text-success">₹</span></li>
+                        </ul>
+                        <hr>
+                        <h3 class="box-title">Features</h3>
+                        <ul class="list-inline two-part">
+                           <li class="text-left"><i class="ti-arrow-up text-success"></i> <span class="text-success">Distributor </span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">1</li>
+                           <li class="text-left"><i class="ti-arrow-up text-success"></i> <span class=" text-success">Employee</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">25</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-success"></i> <span class="text-success">Customer</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">100 </span></li>
+                        </ul>
+                        <br>
+                        <ul class="list-inline text-left" >
+                           <button class="btn btn-success"  data-toggle="modal" data-target="#myModal" onclick="getSubscription(1)" >select plan</button>
+                        </ul>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 col-sm-6 col-xs-12">
+                     <div class="white-box analytics-info">
+                        <h3 class="box-title">Preferred Plan</h3>
+                        <ul class="list-inline two-part">
+                           <li class="text-left"><i class="ti-arrow-up text-success"></i> <span class="text-purple">Monthly</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class="counter text-purple">3000</span><span class=" text-purple">₹</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class=" text-purple">Annual</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class="counter text-purple">33000</span><span class=" text-purple">₹</span></li>
+                        </ul>
+                        <hr>
+                        <h3 class="box-title">Features</h3>
+                        <ul class="list-inline two-part">
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class="text-purple">Distributor </span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class="counter text-purple">10</li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class=" text-purple">Employee</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class="counter text-purple">100</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class="text-purple">Customer</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class="counter text-purple">400 </span></li>
+                        </ul>
+                        <br>
+                        <ul class="list-inline text-left" >
+                           <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="getSubscription(2)">select plan</button>
+                        </ul>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 col-sm-6 col-xs-12">
+                     <div class="white-box analytics-info">
+                        <h3 class="box-title">Premium Plan</h3>
+                        <ul class="list-inline two-part">
+                           <li class="text-left"><i class="ti-arrow-up text-info"></i> <span class="text-info">Monthly</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-info"></i> <span class="counter text-info">10000</span><span class=" text-info">₹</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-info"></i> <span class="text-info">Annual</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-info"></i> <span class="counter text-info">1,10,000</span><span class=" text-info">₹</span></li>
+                        </ul>
+                        <hr>
+                        <h3 class="box-title">Features</h3>
+                        <ul class="list-inline two-part">
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class="text-info">Distributor </span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class="counter text-info">10 </span><span class="text-info"> X </span><span class="counter text-info">10</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class=" text-info">Employee</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class="counter text-info">1000</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class="text-info">Customer</span></li>
+                           <li class="text-left"><i class="ti-arrow-up text-purple"></i> <span class="counter text-info">5000 </span></li>
+                        </ul>
+                        <br>
+                        <ul class="list-inline text-left" >
+                           <button class="btn btn-info" data-toggle="modal" data-target="#myModal" onclick="getSubscription(3)">select plan</button>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+               <!--/.row -->
+               <!--row -->
+               <!-- /.row -->
+               <div class="row">
+                  <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                     <div class="white-box">
+                        <h3 class="box-title">Products Yearly Sales</h3>
+                        <ul class="list-inline text-right">
+                           <li>
+                              <h5><i class="fa fa-circle m-r-5 text-info"></i>Mac</h5>
+                           </li>
+                           <li>
+                              <h5><i class="fa fa-circle m-r-5 text-inverse"></i>Windows</h5>
+                           </li>
+                        </ul>
+                        <div id="ct-visits" style="height: 405px;"></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- ============================================================== -->
+               <!-- table -->
+               <!-- ============================================================== -->
+               <div class="row">
+                  <div class="col-md-12 col-lg-12 col-sm-12">
+                     <div class="white-box">
+                        <div class="col-md-3 col-sm-4 col-xs-6 pull-right">
+                           <select class="form-control pull-right row b-none">
+                              <option>March 2017</option>
+                              <option>April 2017</option>
+                              <option>May 2017</option>
+                              <option>June 2017</option>
+                              <option>July 2017</option>
+                           </select>
+                        </div>
+                        <h3 class="box-title">Recent sales</h3>
+                        <div class="table-responsive">
+                           <table class="table">
+                              <thead>
+                                 <tr>
+                                    <th>#</th>
+                                    <th>NAME</th>
+                                    <th>STATUS</th>
+                                    <th>DATE</th>
+                                    <th>PRICE</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    <td>1</td>
+                                    <td class="txt-oflo">Elite admin</td>
+                                    <td>SALE</td>
+                                    <td class="txt-oflo">April 18, 2017</td>
+                                    <td><span class="text-success">$24</span></td>
+                                 </tr>
+                                 <tr>
+                                    <td>2</td>
+                                    <td class="txt-oflo">Real Homes WP Theme</td>
+                                    <td>EXTENDED</td>
+                                    <td class="txt-oflo">April 19, 2017</td>
+                                    <td><span class="text-info">$1250</span></td>
+                                 </tr>
+                                 <tr>
+                                    <td>3</td>
+                                    <td class="txt-oflo">Ample Admin</td>
+                                    <td>EXTENDED</td>
+                                    <td class="txt-oflo">April 19, 2017</td>
+                                    <td><span class="text-info">$1250</span></td>
+                                 </tr>
+                                 <tr>
+                                    <td>4</td>
+                                    <td class="txt-oflo">Medical Pro WP Theme</td>
+                                    <td>TAX</td>
+                                    <td class="txt-oflo">April 20, 2017</td>
+                                    <td><span class="text-danger">-$24</span></td>
+                                 </tr>
+                                 <tr>
+                                    <td>5</td>
+                                    <td class="txt-oflo">Hosting press html</td>
+                                    <td>SALE</td>
+                                    <td class="txt-oflo">April 21, 2017</td>
+                                    <td><span class="text-success">$24</span></td>
+                                 </tr>
+                                 <tr>
+                                    <td>6</td>
+                                    <td class="txt-oflo">Digital Agency PSD</td>
+                                    <td>SALE</td>
+                                    <td class="txt-oflo">April 23, 2017</td>
+                                    <td><span class="text-danger">-$14</span></td>
+                                 </tr>
+                                 <tr>
+                                    <td>7</td>
+                                    <td class="txt-oflo">Helping Hands WP Theme</td>
+                                    <td>MEMBER</td>
+                                    <td class="txt-oflo">April 22, 2017</td>
+                                    <td><span class="text-success">$64</span></td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- ============================================================== -->
+               <!-- chat-listing & recent comments -->
+               <!-- ============================================================== -->
+               <div class="row">
+                  <!-- .col -->
+                  <div class="col-md-12 col-lg-8 col-sm-12">
+                     <div class="white-box">
+                        <h3 class="box-title">Recent Comments</h3>
+                        <div class="comment-center p-t-10">
+                           <div class="comment-body">
+                              <div class="user-img"> <img src="../plugins/images/users/pawandeep.jpg" alt="user" class="img-circle">
+                              </div>
+                              <div class="mail-contnet">
+                                 <h5>Pavan kumar</h5>
+                                 <span class="time">10:20 AM   20  may 2016</span>
+                                 <br/><span class="mail-desc">Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat. Aenean commodo dui pellentesque molestie feugiat</span> <a href="javacript:void(0)" class="btn btn btn-rounded btn-default btn-outline m-r-5"><i class="ti-check text-success m-r-5"></i>Approve</a><a href="javacript:void(0)" class="btn-rounded btn btn-default btn-outline"><i class="ti-close text-danger m-r-5"></i> Reject</a>
+                              </div>
+                           </div>
+                           <div class="comment-body">
+                              <div class="user-img"> <img src="../plugins/images/users/sonu.jpg" alt="user" class="img-circle">
+                              </div>
+                              <div class="mail-contnet">
+                                 <h5>Sonu Nigam</h5>
+                                 <span class="time">10:20 AM   20  may 2016</span>
+                                 <br/><span class="mail-desc">Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat. Aenean commodo dui pellentesque molestie feugiat</span>
+                              </div>
+                           </div>
+                           <div class="comment-body b-none">
+                              <div class="user-img"> <img src="../plugins/images/users/arijit.jpg" alt="user" class="img-circle">
+                              </div>
+                              <div class="mail-contnet">
+                                 <h5>Arijit singh</h5>
+                                 <span class="time">10:20 AM   20  may 2016</span>
+                                 <br/><span class="mail-desc">Donec ac condimentum massa. Etiam pellentesque pretium lacus. Phasellus ultricies dictum suscipit. Aenean commodo dui pellentesque molestie feugiat. Aenean commodo dui pellentesque molestie feugiat</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                     <div class="panel">
+                        <div class="sk-chat-widgets">
+                           <div class="panel panel-default">
+                              <div class="panel-heading">
+                                 CHAT LISTING
+                              </div>
+                              <div class="panel-body">
+                                 <ul class="chatonline">
+                                    <li>
+                                       <div class="call-chat">
+                                          <button class="btn btn-success btn-circle btn-lg" type="button"><i class="fa fa-phone"></i></button>
+                                          <button class="btn btn-info btn-circle btn-lg" type="button"><i class="fa fa-comments-o"></i></button>
+                                       </div>
+                                       <a href="javascript:void(0)"><img src="../plugins/images/users/varun.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
+                                    </li>
+                                    <li>
+                                       <div class="call-chat">
+                                          <button class="btn btn-success btn-circle btn-lg" type="button"><i class="fa fa-phone"></i></button>
+                                          <button class="btn btn-info btn-circle btn-lg" type="button"><i class="fa fa-comments-o"></i></button>
+                                       </div>
+                                       <a href="javascript:void(0)"><img src="../plugins/images/users/genu.jpg" alt="user-img" class="img-circle"> <span>Genelia Deshmukh <small class="text-warning">Away</small></span></a>
+                                    </li>
+                                    <li>
+                                       <div class="call-chat">
+                                          <button class="btn btn-success btn-circle btn-lg" type="button"><i class="fa fa-phone"></i></button>
+                                          <button class="btn btn-info btn-circle btn-lg" type="button"><i class="fa fa-comments-o"></i></button>
+                                       </div>
+                                       <a href="javascript:void(0)"><img src="../plugins/images/users/ritesh.jpg" alt="user-img" class="img-circle"> <span>Ritesh Deshmukh <small class="text-danger">Busy</small></span></a>
+                                    </li>
+                                    <li>
+                                       <div class="call-chat">
+                                          <button class="btn btn-success btn-circle btn-lg" type="button"><i class="fa fa-phone"></i></button>
+                                          <button class="btn btn-info btn-circle btn-lg" type="button"><i class="fa fa-comments-o"></i></button>
+                                       </div>
+                                       <a href="javascript:void(0)"><img src="../plugins/images/users/arijit.jpg" alt="user-img" class="img-circle"> <span>Arijit Sinh <small class="text-muted">Offline</small></span></a>
+                                    </li>
+                                    <li>
+                                       <div class="call-chat">
+                                          <button class="btn btn-success btn-circle btn-lg" type="button"><i class="fa fa-phone"></i></button>
+                                          <button class="btn btn-info btn-circle btn-lg" type="button"><i class="fa fa-comments-o"></i></button>
+                                       </div>
+                                       <a href="javascript:void(0)"><img src="../plugins/images/users/govinda.jpg" alt="user-img" class="img-circle"> <span>Govinda Star <small class="text-success">online</small></span></a>
+                                    </li>
+                                    <li>
+                                       <div class="call-chat">
+                                          <button class="btn btn-success btn-circle btn-lg" type="button"><i class="fa fa-phone"></i></button>
+                                          <button class="btn btn-info btn-circle btn-lg" type="button"><i class="fa fa-comments-o"></i></button>
+                                       </div>
+                                       <a href="javascript:void(0)"><img src="../plugins/images/users/hritik.jpg" alt="user-img" class="img-circle"> <span>John Abraham<small class="text-success">online</small></span></a>
+                                    </li>
+                                    <li>
+                                       <div class="call-chat">
+                                          <button class="btn btn-success btn-circle btn-lg" type="button"><i class="fa fa-phone"></i></button>
+                                          <button class="btn btn-info btn-circle btn-lg" type="button"><i class="fa fa-comments-o"></i></button>
+                                       </div>
+                                       <a href="javascript:void(0)"><img src="../plugins/images/users/varun.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- /.col -->
+               </div>
+            </div>
+            <div class="">
+               <!-- Modal -->
+               <div class="modal fade" id="historyModelId" role="dialog">
+                  <div class="modal-dialog">
+                    
+                     <!----------------------------- code to select duration ------------------------------------->
+                     <div id="selectDurationDiv">
+                         <div class="modal-content">
+                             <div class="modal-header">
+                                <h4 class="modal-title">Payment History : <span id="plan"></span></h4>
+                             </div>
+                             
+                             <div class="modal-body modal-bodyhistory">     
+                                 <div class="container-fluid">
+                                     <div id="paymentHistotyDetailsId">
+                                       <div id="paymentListId" align="center">No Payment History for you</div>
+                                          
+                                       <div>
+                                      </div>                  
+                                     </div>
+                                 </div>
+                              </div>
+                             <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                             </div>
+                          </div>
+                     </div>
+                     <!-- ====================================== end of code to select duration ====================================== -->   
+               </div>
+               </div>
+               <!-- Modal for user profile-->
+               <div class="modal fade" id="userProfile" role="dialog">
+                  <div class="modal-dialog">
+                    
+                     <!----------------------------- code to select duration ------------------------------------->
+                     <div id="selectDurationDiv">
+                         <div class="modal-content">
+                             <div class="modal-header">
+                                <h4 class="modal-title">Payment History : <span id="plan"></span></h4>
+                             </div>
+                             
+                             <div class="modal-body modal-bodyhistory">     
+                                 <div class="container-fluid">
+                                     <div id="paymentHistotyDetailsId">
+                                       <div id="paymentListId" align="center">No Payment History for you</div>
+                                          
+                                       <div>
+                                      </div>                  
+                                     </div>
+                                 </div>
+                              </div>
+                             <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                             </div>
+                          </div>
+                     </div>
+                     <!-- ====================================== end of code to select duration ====================================== -->   
+               </div>
+            <!-- /.container-fluid -->
+            <footer class="footer text-center"> 2017 &copy; Ample Admin brought to you by wrappixel.com </footer>
+         </div>
+         <!-- ============================================================== -->
+         <!-- End Page Content -->
+         <!-- ============================================================== -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Wrapper -->
+      <!-- ============================================================== -->
+      <!-- ============================================================== -->
+      <!-- All Jquery -->
+      <!-- ============================================================== -->
+      <script src="../plugins/bower_components/jquery/dist/jquery.min.js"></script>
+      <!-- Bootstrap Core JavaScript -->
+      <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+      <!-- Menu Plugin JavaScript -->
+      <script src="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+      <!--slimscroll JavaScript -->
+      <script src="js/jquery.slimscroll.js"></script>
+      <!--Wave Effects -->
+      <script src="js/waves.js"></script>
+      <!--Counter js -->
+      <script src="../plugins/bower_components/waypoints/lib/jquery.waypoints.js"></script>
+      <script src="../plugins/bower_components/counterup/jquery.counterup.min.js"></script>
+      <!-- chartist chart -->
+      <script src="../plugins/bower_components/chartist-js/dist/chartist.min.js"></script>
+      <script src="../plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+      <!-- Sparkline chart JavaScript -->
+      <script src="../plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+      <!-- Custom Theme JavaScript -->
+      <script src="js/custom.min.js"></script>
+      <script src="js/dashboard1.js"></script>
+      <script src="js/home.js"></script>
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+      <script src="../plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+      <script>
+         //-------------------------------GLOBEL VARIABLE DECLARATION TO PREPARE API RESPONSE-----------------------------------
+
+         var globKey;
+         var globMode;
+         var globStatus;
+         var globtransactionId;
+         var globOrderCost;
+         var globUserId;
+         var globsubscriptionName;
+         var globorderId;
+         var globsubscriptionRoleDetails=[];
+         var globtotalCust;
+         var globtotalDist;
+         var globtotalEmp;
+
+         //-------------------------------GLOBEL VARIABLE DECLARATION-----------------------------------
+         var amount ;
+         var basicPlan =   { "planName":"Basic Plan", "monthlyAmount":500, "annualAmount":5500 , "distributor":1,"employee":25,"customer":100};
+         var preferdPlan = { "planName":"Preferd Plan", "monthlyAmount":3000, "annualAmount":33000 , "distributor":10,"employee":100,"customer":400};
+         var premiumPlan = { "planName":"Premium Plan", "monthlyAmount":10000, "annualAmount":110000 , "distributor":100,"employee":1000,"customer":5000 };
+         var selectedPlan;
+         //-------------------------------GLOBEL VARIABLE DECLARATION-----------------------------------
+        
+         //-------------------------------POP-UP model to Select Duration-----------------------------------
+         function getSubscription(subscripton){
+            globMode = "year";
+            $('#durationSelect').val("Annual");
+            $("#confirmBookingDiv").hide();
+            $("#chooseUserDiv").hide();
+            $("#selectDurationDiv").show("#selectDurationDiv");
+             localStorage.removeItem("selectedPlan");
+             if(subscripton==1){
+                 selectedPlan = basicPlan;
+                 $('#plan').text(selectedPlan.planName);
+             }else if(subscripton==2){
+                 selectedPlan = preferdPlan;
+                 $('#plan').text(selectedPlan.planName);
+             }else if(subscripton==3){
+                 selectedPlan = premiumPlan;
+                 $('#plan').text(selectedPlan.planName);
+             }
+             localStorage.setItem("selectedPlan",JSON.stringify(selectedPlan));
+             amount = selectedPlan.annualAmount ;
+             globsubscriptionName = selectedPlan.planName;
+             $('#amount').text(selectedPlan.annualAmount);
+         }
+        //-------------------------------POP-UP model to Select Duration-----------------------------------
+
+         $("#durationSelect").change(function() {
+            if($('#durationSelect').val() == "Monthly"){
+                $('#amount').text(selectedPlan.monthlyAmount);
+                globMode = "month";
+                amount = selectedPlan.monthlyAmount;
+            }else if($('#durationSelect').val() == "Annual"){
+                $('#amount').text(selectedPlan.annualAmount);
+                amount = selectedPlan.monthlyAmount;
+                globMode = "year";
+            }
+        });
+      //-------------------------------Second POP-UP model -----------------------------------
+        $("#selectDurationBtn").click(function(){
+            $('#addOnEmpCount').val(0);
+            $('#addOncustcount').val(0);
+            $('#addOnDistCount').val(0);
+            $("#selectDurationDiv").hide();
+            $('#customerCount').text(selectedPlan.customer);
+            $('#distibutorCount').text(selectedPlan.distributor);
+            $('#employeeCount').text(selectedPlan.employee);
+            $('#addonAmount').text("0");
+            $('#planAmount').text(amount);
+            $('#TotalAmount').text(amount);  
+            $("#chooseUserDiv").show();
+
+         });
+      //-------------------------------Add customer in Second POP-UP model -----------------------------------
+         function addCustomer(flag){
+            var addOn =  parseInt($('#addonAmount').text());
+            var value =  parseInt($('#addOncustcount').val());
+            var planAmount =   parseInt($('#planAmount').text());
+            if(globMode === "month"){
+               if(flag =="add"){
+                  value = value + 50;
+                  $('#addOncustcount').val(value);
+                  addOn = addOn + 50 ;      
+               }else if(flag == "remove" && value>0){
+                  value = value - 50;
+                  $('#addOncustcount').val(value);
+                  addOn = addOn - 50 ;
+               }
+            }else{
+               if(flag =="add"){
+                  value = value + 50;
+                  $('#addOncustcount').val(value);
+                  addOn = addOn + 550 ;      
+               }else if(flag == "remove" && value>0){
+                  value = value - 50;
+                  $('#addOncustcount').val(value);
+                  addOn = addOn - 550 ;
+               }
+            }
+            
+            planAmount = planAmount + addOn;
+            $('#TotalAmount').text(planAmount);
+            $('#addonAmount').text(addOn);
+         }
+      //-------------------------------Add DistriButor in Second POP-UP model -----------------------------------
+         // function addDistributor(flag){
+         //    var addOn =  parseInt($('#addonAmount').text());
+         //    var value =  parseInt($('#addOnDistCount').val());
+         //    var planAmount =   parseInt($('#planAmount').text());
+         //    if(flag =="add"){
+         //        value = value + 1;
+         //        $('#addOnDistCount').val(value);
+         //        addOn = addOn + 50 ;      
+         //    }else if(flag == "remove" && value>0){
+         //        value = value - 1;
+         //        $('#addOnDistCount').val(value);
+         //        addOn = addOn - 50 ;
+         //    }
+         //    planAmount = planAmount + addOn;
+         //    $('#TotalAmount').text(planAmount);
+         //    $('#addonAmount').text(addOn);
+         // }
+      //-------------------------------Add Employee in Second POP-UP model -----------------------------------
+         function addEmployee(flag){
+            var addOn =  parseInt($('#addonAmount').text());
+            var value =  parseInt($('#addOnEmpCount').val());
+            var planAmount =   parseInt($('#planAmount').text());
+            if(globMode === "month"){
+               if(flag =="add"){
+                  value = value + 10;
+                  $('#addOnEmpCount').val(value);
+                  addOn = addOn + 50 ;      
+               }else if(flag == "remove" && value>0){
+                  value = value - 10;
+                  $('#addOnEmpCount').val(value);
+                  addOn = addOn - 50 ;
+               }
+            }else{
+               if(flag =="add"){
+                  value = value + 10;
+                  $('#addOnEmpCount').val(value);
+                  addOn = addOn + 550 ;      
+               }else if(flag == "remove" && value>0){
+                  value = value - 10;
+                  $('#addOnEmpCount').val(value);
+                  addOn = addOn - 550 ;
+               }
+            }
+            planAmount = planAmount + addOn;
+            $('#TotalAmount').text(planAmount);
+            $('#addonAmount').text(addOn);
+         }
+         //------------------------------- in Second POP-UP model -----------------------------------
+         function confirmBooking(){
+            
+            $("#chooseUserDiv").hide();
+             var totalCustomer = parseInt($('#addOncustcount').val()) + parseInt($('#customerCount').text());
+             var totalEmployee = parseInt($('#addOnEmpCount').val()) +  parseInt($('#employeeCount').text()) ;
+             var totaldistributor = parseInt($('#distibutorCount').text()) ;
+             var totalAmount = $('#TotalAmount').text();  
+             $('#TotaldistibutorCount').text(totaldistributor);
+             $('#TotalemployeeCount').text(totalEmployee);
+             $('#TotalcustomerCount').text(totalCustomer); 
+             $('#selectedPlan').text(selectedPlan.planName);  
+             $('#TotalPay').text(totalAmount);  
+             $("#confirmBookingDiv").show();
+
+//------------------------------------------ preparing for API -----------------------------------------------------
+             globOrderCost = parseInt(totalAmount)*100;
+             globOrderCost=  globOrderCost.toString()
+             options.amount =globOrderCost;
+             globtotalCust = totalCustomer;
+             globtotalDist = totaldistributor;
+             globtotalEmp = totalEmployee; 
+         }
+         var userdata ;
+// ----------------------------------------------------Code TO ALL ONLOAD Functions---------------------------------------------------
+
+      $( document ).ready(function() { 
+         setTimeout(function(){  getCurrentSubscription() }, 500);
+         userdata = window.localStorage.getItem("userData");
+         console.log(userdata);
+      });
+
+//-----------------------------------------------------CODE TO SHOW Current Subscription ---------------------------------------------
+      function getCurrentSubscription() {
+         var data = JSON.stringify({
+					"subscriptionDetails": {
+						"userId": "1"
+						}
+	      });
+
+         $.ajax({
+            type: "POST",
+            url: "http://ec2-13-232-112-42.ap-south-1.compute.amazonaws.com:8082/ots/api/v18_1/users_subscription/getCurrentSubscription",
+            data: data, // now data come in this
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: "json",
+            success: function(data) {
+                  if (data.responseCode === 200) {
+                     var i;
+                     for(i=0;i<data.responseData.currentSubscriptionModel.subscriptionRoleMappingModelList.length;i++){
+                     switch(data.responseData.currentSubscriptionModel.subscriptionRoleMappingModelList[i].roleId){
+                              case "2":
+                                 $('#currentDistributorId').text(data.responseData.currentSubscriptionModel.subscriptionRoleMappingModelList[i].userCount);  
+                                 break;
+                              case "3":
+                                 $('#currentEmployeeId').text(data.responseData.currentSubscriptionModel.subscriptionRoleMappingModelList[i].userCount);  
+                                 break;
+                              case "4":
+                                 $('#currentCustomerId').text(data.responseData.currentSubscriptionModel.subscriptionRoleMappingModelList[i].userCount);  
+                                 break;
+                              default:
+                           }
+                           $('#updatebtn').html('<a onclick="upgreadPlan()" target="_blank" class="btn btn-danger pull-right m-l-20 hidden-xs hidden-sm waves-effect waves-light">Upgrade to Pro</a>');
+                     }
+                     $('#expDateId').text(data.responseData.currentSubscriptionModel.dateOfBilling);
+                     $('#myPlan').text(data.responseData.currentSubscriptionModel.subscriptionName); 
+                  } else {
+                     console.table(JSON.stringify(data));
+                  }
+            },
+            error: function(jqXHR, status) {
+                  // error handler
+                  console.log(jqXHR);
+                  $("body").addClass("enableDiv");
+                  //swal({text: "Unable to connect ,please check your network",icon: "warning",button: "OK"});
+            }
+         });
+      }
+      function showPaymentHistory(){
+            var data = JSON.stringify({
+               "subscriptionDetails": {
+                  "userId": "1"
+                   }
+               });
+
+            $.ajax({
+            type: "POST",
+            url: "http://ec2-13-232-112-42.ap-south-1.compute.amazonaws.com:8082/ots/api/v18_1/users_subscription/getSubscriptionPayementHistory",
+            data: data, // now data come in this
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: "json",
+            success: function(data) {
+                  if (data.responseCode === 200) {
+                     if(data.responseData.subscriptionDetails.length !=0){
+                        var paymentHistory = '<div class="container-fluid">';
+                        for(var i=0;i<data.responseData.subscriptionDetails.length;i++){
+                           for(var j=0;j<data.responseData.subscriptionDetails[i].userRole.length;j++){
+                              if(data.responseData.subscriptionDetails[i].userRole[j].roleId==="2"){
+                                paymentHistory+= '<div class="row"><div class="col-sm-3" ><p><span id="amount">Order Cost :</span></p></div><div class="col-sm-3" ><p><span id="amount">'+data.responseData.subscriptionDetails[i].orderCost+'</span></p></div><div class="col-sm-3" ><p><span id="amount">Distributor :</span></p></div><div class="col-sm-3" ><p><span id="amount">'+data.responseData.subscriptionDetails[i].userRole[j].addOns+'</span></p></div></div>';
+                              }else if(data.responseData.subscriptionDetails[i].userRole[j].roleId==="3"){
+                                paymentHistory+= '<div class="row"><div class="col-sm-3" ><p><span id="amount">Order Date :</span></p></div><div class="col-sm-3" ><p><span id="amount">'+data.responseData.subscriptionDetails[i].paymentDate.slice(0, 10)+'</span></p></div><div class="col-sm-3" ><p><span id="amount">Employee :</span></p></div><div class="col-sm-3" ><p><span id="amount">'+data.responseData.subscriptionDetails[i].userRole[j].addOns+'</span></p></div></div>';
+                              }else if(data.responseData.subscriptionDetails[i].userRole[j].roleId==="4"){
+                                 paymentHistory+= '<div class="row"><div class="col-sm-3" ><p><span id="amount">Order Mode :</span></p></div><div class="col-sm-3" ><p><span id="amount">'+data.responseData.subscriptionDetails[i].mode+'</span></p></div><div class="col-sm-3" ><p><span id="amount">Customer :</span></p></div><div class="col-sm-3" ><p><span id="amount">'+data.responseData.subscriptionDetails[i].userRole[j].addOns+'</span></p></div></div>';
+                               }   
+                           } 
+                           if(data.responseData.subscriptionDetails.length-1 >i){
+                              paymentHistory+= '<hr>'
+                           }
+                           
+                        }
+                        paymentHistory+= '</div>';
+                     $('#paymentListId').html(paymentHistory);
+                     }
+                  }else{
+
+                  }
+                     
+            },
+            error: function(jqXHR, status) {
+                  // error handler
+                  console.log(jqXHR);
+                  $("body").addClass("enableDiv");
+                  //swal({text: "Unable to connect ,please check your network",icon: "warning",button: "OK"});
+            }
+         });
+      }
+      </script>
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+      <script>
+         var options = {
+            "key": "rzp_test_WtuloZWROH1r4l", // Enter the Key ID generated from the Dashboard
+            "currency": "INR",
+            "name": "Manoj.V.G",
+            "description": "Ortusolis Subscription model payment",
+            "image": "https://example.com/your_logo",
+            "order_id": "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response){
+               globtransactionId = response.razorpay_payment_id;
+               globKey = "add";
+               globStatus = "active";
+               globUserId = "1";
+               globorderId = null;
+               console.table("KEY"+globKey);
+               console.table("Mode"+globMode);
+               console.table("transactionId"+globtransactionId);
+               console.table("status"+globStatus);
+               console.table("cost"+globOrderCost);
+               console.table("uid"+globUserId);
+               console.table("subscription name"+globsubscriptionName);
+               console.table("orderId"+globorderId);
+               console.table("totao cust"+globtotalCust);
+               console.table("total dist"+globtotalDist);
+               console.table("total emp"+globtotalEmp);
+               insertSubscription();
+               console.table(response.razorpay_order_id);
+               console.table(response.razorpay_signature);
+            },
+            "prefill": {
+               "name": "Manoj.vg",
+               "email": "manoj@example.com",
+               "contact": "8546995058"
+            },
+            "notes": {
+               "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+               "color": "#0000A0"
+            }
+         };
+         
+        
+         document.getElementById('rzp-button1').onclick = function(e){
+            $('#myModal').modal('toggle');
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+            e.preventDefault();
+         }
+// ------------------------------------------------------RAZOR PAY END---------------------------------------------------
+
+//-------------------------------------------------------Insert Subscription---------------------------------------------
+
+      function insertSubscription(){
+         var data = JSON.stringify({
+               "key": globKey,
+               "mode": globMode,
+               "status": "active",
+               "transactionId": globtransactionId,
+               "orderCost": parseInt(globOrderCost)/100,
+               "userId": globUserId,
+               "subscriptionName": globsubscriptionName,
+               "orderId": null,
+               "subscriptionRoleDetails": [
+                  {
+                  "userRoleOrderId": null,
+                  "roleId": "2",
+                  "countToadd": globtotalDist
+                  },{
+                  "userRoleOrderId": null,
+                  "roleId": "3",
+                  "countToadd": globtotalEmp
+                  },{
+                  "userRoleOrderId": null,
+                  "roleId": "4",
+                  "countToadd": globtotalCust
+                  }
+               ]
+         });
+
+            $.ajax({
+            type: "POST",
+            url: "http://ec2-13-232-112-42.ap-south-1.compute.amazonaws.com:8082/ots/api/v18_1/users_subscription/addSubscriptionDetails",
+            data: data, // now data come in this
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: "json",
+            success: function(data) {
+                  if (data.responseCode === 200) {
+                     swal("Paymetn Success!", "Please use Our App @Google play", "success", {
+                        button: "Next",
+                     });
+                     getCurrentSubscription();
+                  }else{
+                     alert("fail");
+                  }
+                     
+            },
+            error: function(jqXHR, status) {
+                  // error handler
+                  console.log(jqXHR);
+                  $("body").addClass("enableDiv");
+                  //swal({text: "Unable to connect ,please check your network",icon: "warning",button: "OK"});
+            }
+         });
+      }
+
+//------------------------------------------------------END Insert Subscription---------------------------------------------
+
+      function upgreadPlan(){
+         swal("Thank you for selecting us!", "Upgrade will coming soon", "success", {
+                        button: "Next",
+                     });
+      }
+//---------------------------------------code for user profile---------------------------------------------------------------------------
+      function userProfile(){
+         alert("user profile");
+      }
+//-----------------------------------end of code for user profile---------------------------------------------------------------------------
+      </script>
+       <style>
+        hr {   
+            background: rgb(40, 223, 230); 
+        } 
+       
+         /* Important part */
+         .modal-dialog{
+            overflow-y: initial !important
+         }
+         .modal-bodyhistory{
+            height: 250px;
+            overflow-y: auto;
+         }
+         .responsive-width {
+         font-size: 3vw;
+      }
+        </style>
+   </body>
+</html>

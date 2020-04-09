@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
+    <title>ORTUSOLIS - admin panel</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Menu CSS -->
+    <link href="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <!-- animation CSS -->
+    <link href="css/animate.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="css/colors/default.css" id="theme" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<style>
+    #loginDiv {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+    }
+</style>
+</head>
+
+<body class="" >
+
+       
+            <div  class="col-lg-8 col-sm-8 col-md-8 col-xs-14">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <span class="hidden-xs">
+                            <!--This is dark logo text-->
+                            <img src="../plugins/images/otsLogo.PNG" alt="home" class="light-logo" />
+                         </span>
+                    </div>
+                    <div class="col-lg-8 col-sm-8 col-md-8 col-xs-14" style="left: 0%; top: 20px; text-align: center; ">
+                        <b>PRAVARTHAKA SUBSCRIPTION LOGIN</b>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <!-- .row -->
+                <div id="loginDiv" class="row">
+                    <div class="col-md-8 col-xs-8">
+                        <div class="white-box" style="height: 350px; border: 1px solid black; border-radius: 25px;">
+                            <h3 style="text-align: center;"> SIGN IN</h3>
+                            <div class="form-horizontal form-material">
+                                <div class="form-group">
+                                        <label class="col-md-12">Phone Number</label>
+                                        <div class="col-md-12">
+                                            <input name="Username" placeholder="Username"  id="Username" type="text"
+                                                class="form-control form-control-line"> </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">Password</label>
+                                        <div class="col-md-12">
+                                            <input   name="Password" placeholder="Password" id="Password" type="Password" class="form-control form-control-line">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                    <div class="col-sm-12" >
+                                        <input type="checkbox" /> Remember Me
+                                        <a style="float: right;">Forgot Password?</a>
+                                    </div>
+                                </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12"  align="center" >
+                                        <button class="btn btn-success" type="submit" name="submit" id="login_submit" onclick="userLogin()" >Login</button>
+                                    </div>
+                                 </div>
+                                </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-8 col-xs-12">
+                        <div class="white-box" style="border: 1px solid black; border-radius: 25px; ">
+                            <div class="form-horizontal form-material">
+                                <h3 style="text-align: center;"> SIGN UP</h3>
+                                <div class="form-group">
+                                    <label class="col-md-12">First Name</label>
+                                    <div class="col-md-12">
+                                        <input name="firstname" placeholder="First Name" type="text" id="userfirstName"
+                                            class="form-control form-control-line"> </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label class="col-md-12">Last Name</label>
+                                    <div class="col-md-12">
+                                        <input name="lastname" placeholder="Last Name" type="text" id="userlastName" 
+                                            class="form-control form-control-line"> </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-email" class="col-md-12">Email</label>
+                                    <div class="col-md-12">
+                                        <input name="Email" placeholder="Email" type="email" id="useremailId" placeholder="johnathan@admin.com"
+                                            class="form-control form-control-line" > </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Phone No</label>
+                                    <div class="col-md-12">
+                                        <input name="PhoneNumber" placeholder="Phone Number" type="text" id="userphoneNumber" placeholder="123 456 7890"
+                                            class="form-control form-control-line"> </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-email" class="col-md-12">Address</label>
+                                    <div class="col-md-12">
+                                        <input name="address1" placeholder="Address 1" type="text" id="userAddress1"
+                                            class="form-control form-control-line" > </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-email" class="col-md-12">City</label>
+                                    <div class="col-md-12">
+                                        <input  name="address2" placeholder="Address 2" type="text" id="userAddress2" 
+                                            class="form-control form-control-line" > </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-email" class="col-md-12">Pincode</label>
+                                    <div class="col-md-12">
+                                        <input  name="pincode" placeholder="560011" type="text" id="userPincode"
+                                            class="form-control form-control-line" > </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Password</label>
+                                    <div class="col-md-12">
+                                        <input  name="CreatePassword" placeholder="Create Password" id="userPassword1" type="Password"  class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Password</label>
+                                    <div class="col-md-12">
+                                        <input   name="ConfirmPassword" placeholder="Confirm Password" id="userPassword2" type="Password"  class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-success" onclick="userRegistration()">Sign Up</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+            
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <!-- Bootstrap Core JavaScript -->
+    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="js/waves.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="js/custom.min.js"></script>
+ 
+ 
+</body>
+
+   
+<script>
+	function userLogin() {
+
+var data = JSON.stringify({
+	
+	"requestData": {
+		"phoneNumber": document.getElementById("Username").value,
+		"deviceId": "string",
+		"password": document.getElementById("Password").value
+	}
+	
+});
+$.ajax({
+	type: "POST",
+   // url: window.localStorage.getItem('baseUrl') + "users/otsLoginAuthentication",
+	url: "http://ec2-13-232-112-42.ap-south-1.compute.amazonaws.com:8080/ots/api/v18_1/users/otsLoginAuthentication",
+	data: data, // now data come in this
+	contentType: "application/json; charset=utf-8",
+	crossDomain: true,
+	dataType: "json",
+	success: function(data) {
+		if (data.responsecode != "200") {
+			alert(JSON. stringify(data));
+			window.location.href = "../pay.php?checkout=home";
+		} else {
+			localStorage.setItem('userId', data.userDetails.userId);
+			localStorage.setItem('userfirstName', data.userDetails.firstName);
+			localStorage.setItem('userlastName', data.userDetails.lastName);
+			localStorage.setItem('useremailId', data.userDetails.emailId);
+            localStorage.setItem('userPassword1', data.userDetails.usrPassword);
+			localStorage.setItem('userphoneNumber', data.userDetails.contactNo);
+			localStorage.setItem('userAddress1', data.userDetails.address1);
+			localStorage.setItem('userAddress2', data.userDetails.address2);
+			localStorage.setItem('userStatus', data.userDetails.usrStatus);
+            localStorage.setItem('userPincode', data.userDetails.pincode);
+			localStorage.setItem('useruserRoleId', data.userDetails.useruserRoleId);
+
+
+
+		   alert(JSON. stringify(data));
+		}
+	},
+	error: function(jqXHR, status) {
+		// error handler
+		console.log(jqXHR);
+		alert("Please check your network");
+	}
+});
+}
+
+
+function userRegistration() {
+
+var data = JSON.stringify({
+
+					"requestData": {
+				"userId": null,
+				"firstName":  document.getElementById("userfirstName").value,
+				"lastName": document.getElementById("userlastName").value,
+				"emailId": document.getElementById("useremailId").value,
+				"usrStatus": "active",
+				"usrPassword": document.getElementById("userPassword1").value,
+				"contactNo": document.getElementById("userphoneNumber").value,
+				"address1": document.getElementById("userAddress1").value,
+				"address2": document.getElementById("userAddress2").value,
+				"pincode": document.getElementById("userPincode").value,
+				"profilePic": "",
+				"usersCreated": "",
+				"registrationId": "",
+				"mappedTo": "1",
+				"productPrice":null,
+				"productId": null,
+				"userLat": "",
+				"userLong": "",
+				"distance": 0,
+				"distributorId": null,
+				"deviceId": null,
+				"userRoleId": "1"
+			}
+
+	
+});
+$.ajax({
+	type: "POST",
+   // url: window.localStorage.getItem('baseUrl') + "users/otsLoginAuthentication",
+	url: "http://ec2-13-232-112-42.ap-south-1.compute.amazonaws.com:8080/ots/api/v18_1/users/addNewUser",
+	data: data, // now data come in this
+	contentType: "application/json; charset=utf-8",
+	crossDomain: true,
+	dataType: "json",
+	success: function(data) {
+		if (data.responsecode != "200") {
+			alert(JSON. stringify(data));
+		} else {
+			// localStorage.setItem('userId', data.userData.userId);
+			// localStorage.setItem('userfirstName', data.userData.userfirstName);
+			// localStorage.setItem('userlastName', data.userData.userlastName);
+			// localStorage.setItem('useremailId', data.userData.useremailId);
+			// localStorage.setItem('userphoneNumber', data.userData.userphoneNumber);
+			// localStorage.setItem('usersecondPhoneNumber', data.userData.usersecondPhoneNumber);
+			// localStorage.setItem('userPassword', data.userData.userPassword);
+			// localStorage.setItem('userAddress', data.userData.userAddress);
+			// localStorage.setItem('userStatus', data.userData.userStatus);
+			// localStorage.setItem('useruserRoleId', data.userData.useruserRoleId);
+
+
+
+		   alert(JSON. stringify(data));
+		   
+		}
+	},
+	error: function(jqXHR, status) {
+		// error handler
+		console.log(jqXHR);
+		alert("Please check your network");
+		window.location.href="";
+	}
+});
+}
+
+
+
+
+</script>
+
+
+</html>
