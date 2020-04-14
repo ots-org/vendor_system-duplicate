@@ -5,14 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Repository;
-
-import com.fuso.enterprise.ots.srv.api.model.domain.SubscriptionDetailsModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.SubscriptionHistory;
 import com.fuso.enterprise.ots.srv.api.model.domain.SubscriptionRoleOrderModel;
-import com.fuso.enterprise.ots.srv.api.service.request.AddSubscriptionBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.SubscriptionDetailsResponse;
+import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
+import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.dao.SubscriptionOrderDetailsDao;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionOrderHistory;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionOrderroledetails;
@@ -24,25 +22,29 @@ public class SubscriptionOrderDetailsDaoImpl extends AbstractIptDao<OtsSubscript
 
 	public SubscriptionOrderDetailsDaoImpl() {
 		super(OtsSubscriptionOrderroledetails.class);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public String addSubscription(SubscriptionHistory subscriptionHistory) {
+	public SubscriptionDetailsResponse addSubscription(SubscriptionHistory subscriptionHistory) {
 		OtsSubscriptionOrderroledetails OtsSubscriptionOrderroledetails = new OtsSubscriptionOrderroledetails();
-		
-		OtsSubscriptionOrderHistory otsSubscriptionOrderHistoryId= new OtsSubscriptionOrderHistory();
-		otsSubscriptionOrderHistoryId.setOtsSubscriptionOrderHistoryId(subscriptionHistory.getSubscriptionHistoryId());
-		OtsSubscriptionOrderroledetails.setOtsSubscriptionOrderHistoryId(otsSubscriptionOrderHistoryId);
-		
-		for(int i =0;i<subscriptionHistory.getAddSubscriptionBORequest().getSubscriptionRoleDetails().size();i++) {
-			OtsSubscriptionOrderroledetails.setOtssubscriptionorderaddOns(subscriptionHistory.getAddSubscriptionBORequest().getSubscriptionRoleDetails().get(i).getCountToadd());
-			OtsUserRole otsUserRoleId = new OtsUserRole();
-			otsUserRoleId.setOtsUserRoleId(Integer.parseInt(subscriptionHistory.getAddSubscriptionBORequest().getSubscriptionRoleDetails().get(i).getRoleId()));
-			OtsSubscriptionOrderroledetails.setOtsUserRoleId(otsUserRoleId);
-			save(OtsSubscriptionOrderroledetails);
-			super.getEntityManager().flush();
+		try {	
+			OtsSubscriptionOrderHistory otsSubscriptionOrderHistoryId= new OtsSubscriptionOrderHistory();
+			otsSubscriptionOrderHistoryId.setOtsSubscriptionOrderHistoryId(subscriptionHistory.getSubscriptionHistoryId());
+			OtsSubscriptionOrderroledetails.setOtsSubscriptionOrderHistoryId(otsSubscriptionOrderHistoryId);
+			
+			for(int i =0;i<subscriptionHistory.getAddSubscriptionBORequest().getSubscriptionRoleDetails().size();i++) {
+				OtsSubscriptionOrderroledetails.setOtssubscriptionorderaddOns(subscriptionHistory.getAddSubscriptionBORequest().getSubscriptionRoleDetails().get(i).getCountToadd());
+				OtsUserRole otsUserRoleId = new OtsUserRole();
+				otsUserRoleId.setOtsUserRoleId(Integer.parseInt(subscriptionHistory.getAddSubscriptionBORequest().getSubscriptionRoleDetails().get(i).getRoleId()));
+				OtsSubscriptionOrderroledetails.setOtsUserRoleId(otsUserRoleId);
+				super.getEntityManager().merge(OtsSubscriptionOrderroledetails);
+			}
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SUBSCRIPTION);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SUBSCRIPTION);
 		}
+		
 		return null;
 	}
 
@@ -61,13 +63,12 @@ public class SubscriptionOrderDetailsDaoImpl extends AbstractIptDao<OtsSubscript
 				
 				subscriptionOrderList = super.getResultListByNamedQuery("OtsSubscriptionOrderroledetails.findSubscriptionDetails", queryParameter);
 				subscriptionRoleOrderModelList = subscriptionOrderList.stream().map(OtsSubscriptionOrderroledetails -> convertEntityToModel(OtsSubscriptionOrderroledetails)).collect(Collectors.toList());
-				subscriptionDetailsResponse.getSubscriptionDetails().get(i).setAddUserRole(subscriptionRoleOrderModelList);
+				subscriptionDetailsResponse.getSubscriptionDetails().get(i).setUserRole(subscriptionRoleOrderModelList);
 			}
 		
 		}catch(Exception e) {
 			System.out.print(e);
-		}	
-		
+		}		
 		return subscriptionDetailsResponse;
 	}
 	

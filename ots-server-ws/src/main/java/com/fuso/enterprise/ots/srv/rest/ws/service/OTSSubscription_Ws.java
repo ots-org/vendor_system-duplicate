@@ -37,9 +37,15 @@ public interface OTSSubscription_Ws {
 	Response addNewSubscriptionDetails(@ApiParam(value = "request", required = true) @NotNull @Valid AddSubscriptionBORequest  addSubscriptionBORequest);
 	
 	@POST
-	@Path("/getSubscriptionDetails")
-	@ApiOperation(value = "addSubscriptionDetails", notes = "This operation will addSubscriptionDetails ", response = Response.class)
+	@Path("/getSubscriptionPayementHistory")
+	@ApiOperation(value = "addSubscriptionDetails", notes = "This operation will get history of payment details ", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getSubscriptionDetails(@ApiParam(value = "request", required = true) @NotNull @Valid GetSubscriptionDetailsRequest  subscriptionDetailsRequest);
+	
+	@POST
+	@Path("/getCurrentSubscription")
+	@ApiOperation(value = "addSubscriptionDetails", notes = "This operation will get current subscription", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getCurrentSubscriptionDetails(@ApiParam(value = "request", required = true) @NotNull @Valid GetSubscriptionDetailsRequest  subscriptionDetailsRequest);
 	
 }

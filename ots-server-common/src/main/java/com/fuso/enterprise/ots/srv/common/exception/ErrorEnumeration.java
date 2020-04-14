@@ -38,7 +38,8 @@ public enum ErrorEnumeration {
 	ERROR_IN_SCHEDULER(1004,"err.in.scheduler"),
 	ERROR_IN_SCHEDULERREQUEST(1004,"err.in.schedulerRequest"),
 	USER_NOT_EXISTS(1004,"err.in.user"),
-	EXCEL_ERROR(1001,"err.in.excel")
+	EXCEL_ERROR(1001,"err.in.excel"),
+	ERROR_IN_SUBSCRIPTION(100,"err.in.subscription")
 	;
 	
     ErrorEnumeration(int errorCode, String messageKey) {

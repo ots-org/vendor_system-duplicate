@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author SERAJKU
+ * @author Manoj
  */
 @Entity
 @Table(name = "ots_user_mapping")

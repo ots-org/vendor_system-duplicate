@@ -11,8 +11,10 @@ public class SubscriptionHistory {
 	private String subscriptionHistoryMode;
 	
 	private String userId;
-
+	
 	private AddSubscriptionBORequest addSubscriptionBORequest;
+	
+	private SubscriptionUserOrderModel subscriptionUserOrderModel;
 	
 	public Integer getSubscriptionHistoryId() {
 		return subscriptionHistoryId;
@@ -53,5 +55,14 @@ public class SubscriptionHistory {
 	public void setAddSubscriptionBORequest(AddSubscriptionBORequest addSubscriptionBORequest) {
 		this.addSubscriptionBORequest = addSubscriptionBORequest;
 	}
+
+	public SubscriptionUserOrderModel getSubscriptionUserOrderModel() {
+		return subscriptionUserOrderModel;
+	}
+
+	public void setSubscriptionUserOrderModel(SubscriptionUserOrderModel subscriptionUserOrderModel) {
+		this.subscriptionUserOrderModel = subscriptionUserOrderModel;
+	}
+
 	
 }

@@ -45,4 +45,12 @@ public class OTSSubscriptionImpl_Ws implements OTSSubscription_Ws{
 		return response;
 	}
 
+	@Override
+	public Response getCurrentSubscriptionDetails(GetSubscriptionDetailsRequest subscriptionDetailsRequest) {
+		Response response =null;
+		response = buildResponse(oTSSubscriptionService.getCurrentSubscriptionDetails(subscriptionDetailsRequest),"Successfull");
+		return response;
+	}
+
+
 }

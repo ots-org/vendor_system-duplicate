@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SABBABU
+ * @author Manoj
  */
 @Entity
 @Table(name = "ots_user_role")
@@ -68,9 +68,9 @@ public class OtsUserRole implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
     private Collection<OtsUsers> otsUsersCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
-    private Collection<OtsSubscriptionOrder> otsSubscriptionOrderCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
     private Collection<OtsRegistration> otsRegistrationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
+    private Collection<OtsSubscriptionRoleMapping> otsSubscriptionRoleMappingCollection;
 
     public OtsUserRole() {
     }
@@ -146,21 +146,21 @@ public class OtsUserRole implements Serializable {
     }
 
     @XmlTransient
-    public Collection<OtsSubscriptionOrder> getOtsSubscriptionOrderCollection() {
-        return otsSubscriptionOrderCollection;
-    }
-
-    public void setOtsSubscriptionOrderCollection(Collection<OtsSubscriptionOrder> otsSubscriptionOrderCollection) {
-        this.otsSubscriptionOrderCollection = otsSubscriptionOrderCollection;
-    }
-
-    @XmlTransient
     public Collection<OtsRegistration> getOtsRegistrationCollection() {
         return otsRegistrationCollection;
     }
 
     public void setOtsRegistrationCollection(Collection<OtsRegistration> otsRegistrationCollection) {
         this.otsRegistrationCollection = otsRegistrationCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsSubscriptionRoleMapping> getOtsSubscriptionRoleMappingCollection() {
+        return otsSubscriptionRoleMappingCollection;
+    }
+
+    public void setOtsSubscriptionRoleMappingCollection(Collection<OtsSubscriptionRoleMapping> otsSubscriptionRoleMappingCollection) {
+        this.otsSubscriptionRoleMappingCollection = otsSubscriptionRoleMappingCollection;
     }
 
     @Override
@@ -185,7 +185,7 @@ public class OtsUserRole implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole[ otsUserRoleId=" + otsUserRoleId + " ]";
+        return "webcom.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole[ otsUserRoleId=" + otsUserRoleId + " ]";
     }
     
 }

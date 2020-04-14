@@ -16,7 +16,9 @@ public class SubscriptionDetailsModel {
 	
 	private String mode;
 	
-	private List<SubscriptionRoleOrderModel> addUserRole;
+	private List<SubscriptionRoleOrderModel> userRole;
+	
+	private List<SubscriptionUserOrderModel> subscriptionUserOrderModel;
 
 	public String getHistorId() {
 		return historId;
@@ -66,12 +68,21 @@ public class SubscriptionDetailsModel {
 		this.mode = mode;
 	}
 
-	public List<SubscriptionRoleOrderModel> getAddUserRole() {
-		return addUserRole;
+	
+	public List<SubscriptionUserOrderModel> getSubscriptionUserOrderModel() {
+		return subscriptionUserOrderModel;
 	}
 
-	public void setAddUserRole(List<SubscriptionRoleOrderModel> addUserRole) {
-		this.addUserRole = addUserRole;
+	public void setSubscriptionUserOrderModel(List<SubscriptionUserOrderModel> subscriptionUserOrderModel) {
+		this.subscriptionUserOrderModel = subscriptionUserOrderModel;
+	}
+
+	public List<SubscriptionRoleOrderModel> getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(List<SubscriptionRoleOrderModel> userRole) {
+		this.userRole = userRole;
 	}
 	
 	

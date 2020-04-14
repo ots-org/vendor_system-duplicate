@@ -40,12 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "OtsSubscriptionOrderHistory.findByOtsSubscriptionTransactionId", query = "SELECT o FROM OtsSubscriptionOrderHistory o WHERE o.otsSubscriptionTransactionId = :otsSubscriptionTransactionId")
     , @NamedQuery(name = "OtsSubscriptionOrderHistory.findByOtsSubscriptionHistoryMode", query = "SELECT o FROM OtsSubscriptionOrderHistory o WHERE o.otsSubscriptionHistoryMode = :otsSubscriptionHistoryMode")
     , @NamedQuery(name = "OtsSubscriptionOrderHistory.findByOtsSubscriptionHistoryStatus", query = "SELECT o FROM OtsSubscriptionOrderHistory o WHERE o.otsSubscriptionHistoryStatus = :otsSubscriptionHistoryStatus")
-    , @NamedQuery(name = "OtsSubscriptionOrderHistory.findByOtsSubscriptionHistoryTimestamp", query = "SELECT o FROM OtsSubscriptionOrderHistory o WHERE o.otsSubscriptionHistoryTimestamp = :otsSubscriptionHistoryTimestamp")})
+    , @NamedQuery(name = "OtsSubscriptionOrderHistory.findByOtsSubscriptionHistoryTimestamp", query = "SELECT o FROM OtsSubscriptionOrderHistory o WHERE o.otsSubscriptionHistoryTimestamp = :otsSubscriptionHistoryTimestamp")
+    , @NamedQuery(name = "OtsSubscriptionOrderHistory.findByOtsSubscriptionOrderCost", query = "SELECT o FROM OtsSubscriptionOrderHistory o WHERE o.otsSubscriptionOrderCost = :otsSubscriptionOrderCost")
+    , @NamedQuery(name = "OtsSubscriptionOrderHistory.findByOtsSubscriptionName", query = "SELECT o FROM OtsSubscriptionOrderHistory o WHERE o.otsSubscriptionName = :otsSubscriptionName")})
 public class OtsSubscriptionOrderHistory implements Serializable {
-
-    @Size(max = 45)
-    @Column(name = "ots_subscription_order_cost")
-    private String otsSubscriptionOrderCost;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -65,6 +63,12 @@ public class OtsSubscriptionOrderHistory implements Serializable {
     @Column(name = "ots_subscription_history_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsSubscriptionHistoryTimestamp;
+    @Size(max = 45)
+    @Column(name = "ots_subscription_order_cost")
+    private String otsSubscriptionOrderCost;
+    @Size(max = 45)
+    @Column(name = "ots_subscription_name")
+    private String otsSubscriptionName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsSubscriptionOrderHistoryId")
     private Collection<OtsSubscriptionOrderroledetails> otsSubscriptionOrderroledetailsCollection;
     @JoinColumn(name = "ots_users_id", referencedColumnName = "ots_users_id")
@@ -118,6 +122,22 @@ public class OtsSubscriptionOrderHistory implements Serializable {
         this.otsSubscriptionHistoryTimestamp = otsSubscriptionHistoryTimestamp;
     }
 
+    public String getOtsSubscriptionOrderCost() {
+        return otsSubscriptionOrderCost;
+    }
+
+    public void setOtsSubscriptionOrderCost(String otsSubscriptionOrderCost) {
+        this.otsSubscriptionOrderCost = otsSubscriptionOrderCost;
+    }
+
+    public String getOtsSubscriptionName() {
+        return otsSubscriptionName;
+    }
+
+    public void setOtsSubscriptionName(String otsSubscriptionName) {
+        this.otsSubscriptionName = otsSubscriptionName;
+    }
+
     @XmlTransient
     public Collection<OtsSubscriptionOrderroledetails> getOtsSubscriptionOrderroledetailsCollection() {
         return otsSubscriptionOrderroledetailsCollection;
@@ -158,14 +178,6 @@ public class OtsSubscriptionOrderHistory implements Serializable {
     @Override
     public String toString() {
         return "com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionOrderHistory[ otsSubscriptionOrderHistoryId=" + otsSubscriptionOrderHistoryId + " ]";
-    }
-
-    public String getOtsSubscriptionOrderCost() {
-        return otsSubscriptionOrderCost;
-    }
-
-    public void setOtsSubscriptionOrderCost(String otsSubscriptionOrderCost) {
-        this.otsSubscriptionOrderCost = otsSubscriptionOrderCost;
     }
     
 }

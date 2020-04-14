@@ -6,8 +6,10 @@
 package com.fuso.enterprise.ots.srv.server.model.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,11 +19,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,9 +37,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "OtsSubscriptionOrder.findAll", query = "SELECT o FROM OtsSubscriptionOrder o")
     , @NamedQuery(name = "OtsSubscriptionOrder.findByOtsSubscriptionOrderId", query = "SELECT o FROM OtsSubscriptionOrder o WHERE o.otsSubscriptionOrderId = :otsSubscriptionOrderId")
-    , @NamedQuery(name = "OtsSubscriptionOrder.findByOtsSubscriptionTotalusers", query = "SELECT o FROM OtsSubscriptionOrder o WHERE o.otsSubscriptionTotalusers = :otsSubscriptionTotalusers")
+    , @NamedQuery(name = "OtsSubscriptionOrder.findByOtsSubscriptionName", query = "SELECT o FROM OtsSubscriptionOrder o WHERE o.otsSubscriptionName = :otsSubscriptionName")
     , @NamedQuery(name = "OtsSubscriptionOrder.findByOtsUsersExpirationDate", query = "SELECT o FROM OtsSubscriptionOrder o WHERE o.otsUsersExpirationDate = :otsUsersExpirationDate")
-    , @NamedQuery(name = "OtsSubscriptionOrder.findByOtsSubscriptionOrderStatus", query = "SELECT o FROM OtsSubscriptionOrder o WHERE o.otsSubscriptionOrderStatus = :otsSubscriptionOrderStatus")})
+    , @NamedQuery(name = "OtsSubscriptionOrder.findByOtsSubscriptionOrderStatus", query = "SELECT o FROM OtsSubscriptionOrder o WHERE o.otsSubscriptionOrderStatus = :otsSubscriptionOrderStatus")
+    , @NamedQuery(name = "OtsSubscriptionOrder.findByOtsSubscriptionType", query = "SELECT o FROM OtsSubscriptionOrder o WHERE o.otsSubscriptionType = :otsSubscriptionType")
+    , @NamedQuery(name = "OtsSubscriptionOrder.findByOtsSubscriptionOrdercost", query = "SELECT o FROM OtsSubscriptionOrder o WHERE o.otsSubscriptionOrdercost = :otsSubscriptionOrdercost")})
 public class OtsSubscriptionOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,20 +50,26 @@ public class OtsSubscriptionOrder implements Serializable {
     @Basic(optional = false)
     @Column(name = "ots_subscription_order_id")
     private Integer otsSubscriptionOrderId;
-    @Column(name = "ots_subscription_totalusers")
-    private Integer otsSubscriptionTotalusers;
+    @Size(max = 45)
+    @Column(name = "ots_subscription_name")
+    private String otsSubscriptionName;
     @Column(name = "ots_users_expiration_date")
     @Temporal(TemporalType.DATE)
     private Date otsUsersExpirationDate;
     @Size(max = 45)
     @Column(name = "ots_subscription_order_status")
     private String otsSubscriptionOrderStatus;
-    @JoinColumn(name = "ots_user_role_id", referencedColumnName = "ots_user_role_id")
-    @ManyToOne(optional = false)
-    private OtsUserRole otsUserRoleId;
+    @Size(max = 45)
+    @Column(name = "ots_subscription_type")
+    private String otsSubscriptionType;
+    @Size(max = 45)
+    @Column(name = "ots_subscription_ordercost")
+    private String otsSubscriptionOrdercost;
     @JoinColumn(name = "ots_users_id", referencedColumnName = "ots_users_id")
     @ManyToOne(optional = false)
     private OtsUsers otsUsersId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsSubscriptionOrderId")
+    private Collection<OtsSubscriptionRoleMapping> otsSubscriptionRoleMappingCollection;
 
     public OtsSubscriptionOrder() {
     }
@@ -74,19 +86,19 @@ public class OtsSubscriptionOrder implements Serializable {
         this.otsSubscriptionOrderId = otsSubscriptionOrderId;
     }
 
-    public Integer getOtsSubscriptionTotalusers() {
-        return otsSubscriptionTotalusers;
+    public String getOtsSubscriptionName() {
+        return otsSubscriptionName;
     }
 
-    public void setOtsSubscriptionTotalusers(Integer otsSubscriptionTotalusers) {
-        this.otsSubscriptionTotalusers = otsSubscriptionTotalusers;
+    public void setOtsSubscriptionName(String otsSubscriptionName) {
+        this.otsSubscriptionName = otsSubscriptionName;
     }
 
     public Date getOtsUsersExpirationDate() {
         return otsUsersExpirationDate;
     }
 
-    public void date(Date otsUsersExpirationDate) {
+    public void setOtsUsersExpirationDate(Date otsUsersExpirationDate) {
         this.otsUsersExpirationDate = otsUsersExpirationDate;
     }
 
@@ -98,12 +110,20 @@ public class OtsSubscriptionOrder implements Serializable {
         this.otsSubscriptionOrderStatus = otsSubscriptionOrderStatus;
     }
 
-    public OtsUserRole getOtsUserRoleId() {
-        return otsUserRoleId;
+    public String getOtsSubscriptionType() {
+        return otsSubscriptionType;
     }
 
-    public void setOtsUserRoleId(OtsUserRole otsUserRoleId) {
-        this.otsUserRoleId = otsUserRoleId;
+    public void setOtsSubscriptionType(String otsSubscriptionType) {
+        this.otsSubscriptionType = otsSubscriptionType;
+    }
+
+    public String getOtsSubscriptionOrdercost() {
+        return otsSubscriptionOrdercost;
+    }
+
+    public void setOtsSubscriptionOrdercost(String otsSubscriptionOrdercost) {
+        this.otsSubscriptionOrdercost = otsSubscriptionOrdercost;
     }
 
     public OtsUsers getOtsUsersId() {
@@ -112,6 +132,15 @@ public class OtsSubscriptionOrder implements Serializable {
 
     public void setOtsUsersId(OtsUsers otsUsersId) {
         this.otsUsersId = otsUsersId;
+    }
+
+    @XmlTransient
+    public Collection<OtsSubscriptionRoleMapping> getOtsSubscriptionRoleMappingCollection() {
+        return otsSubscriptionRoleMappingCollection;
+    }
+
+    public void setOtsSubscriptionRoleMappingCollection(Collection<OtsSubscriptionRoleMapping> otsSubscriptionRoleMappingCollection) {
+        this.otsSubscriptionRoleMappingCollection = otsSubscriptionRoleMappingCollection;
     }
 
     @Override

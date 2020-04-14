@@ -479,4 +479,20 @@
 		(o.otsSchedulerEtDt >=:Date AND :Date >= otsSchedulerStDt )	 
 		</query>
 	</named-query>
+	<named-query name="OtsSubscriptionOrder.getCurrentSubscription">
+		<query>SELECT o 
+		FROM 
+			OtsSubscriptionOrder o
+		WHERE
+			o.otsUsersId =:otsUsersId
+		</query>
+	</named-query>
+	<named-query name="OtsSubscriptionRoleMapping.getCurrentTotalUser">
+		<query>SELECT o 
+		FROM 
+			OtsSubscriptionRoleMapping o
+		WHERE
+			o.otsSubscriptionOrderId =:otsSubscriptionOrderId
+		</query>
+	</named-query>
 </entity-mappings>

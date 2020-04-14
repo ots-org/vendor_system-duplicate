@@ -2,6 +2,8 @@ package com.fuso.enterprise.ots.srv.api.model.domain;
 
 public class SubscriptionRoleDetails {
 	
+	private String userRoleOrderId;
+	
 	private String roleId;
 	
 	private String countToadd;
@@ -21,5 +23,14 @@ public class SubscriptionRoleDetails {
 	public void setCountToadd(String countToadd) {
 		this.countToadd = countToadd;
 	}
-	
+
+	public String getUserRoleOrderId() {
+		return userRoleOrderId;
+	}
+
+	public void setUserRoleOrderId(String userRoleOrderId) {
+		this.userRoleOrderId = userRoleOrderId;
+	}
+
+
 }
