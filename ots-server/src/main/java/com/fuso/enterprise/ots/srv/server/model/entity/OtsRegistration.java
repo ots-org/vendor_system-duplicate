@@ -22,63 +22,88 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Manoj
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_registration")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsRegistration.findAll", query = "SELECT o FROM OtsRegistration o"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationId", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationId = :otsRegistrationId"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationFirstname", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationFirstname = :otsRegistrationFirstname"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationLastname", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationLastname = :otsRegistrationLastname"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationAddr1", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationAddr1 = :otsRegistrationAddr1"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationAddr2", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationAddr2 = :otsRegistrationAddr2"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationPincode", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationPincode = :otsRegistrationPincode"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationEmailid", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationEmailid = :otsRegistrationEmailid"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationProfilePic", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationProfilePic = :otsRegistrationProfilePic"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationStatus", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationStatus = :otsRegistrationStatus"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationPassword", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationPassword = :otsRegistrationPassword"),
-    @NamedQuery(name = "OtsRegistration.findByOtsRegistrationContactNo", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationContactNo = :otsRegistrationContactNo"),
-    @NamedQuery(name = "OtsRegistration.findByOtsDeviceToken", query = "SELECT o FROM OtsRegistration o WHERE o.otsDeviceToken = :otsDeviceToken")})
+    @NamedQuery(name = "OtsRegistration.findAll", query = "SELECT o FROM OtsRegistration o")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationId", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationId = :otsRegistrationId")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationFirstname", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationFirstname = :otsRegistrationFirstname")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationLastname", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationLastname = :otsRegistrationLastname")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationAddr1", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationAddr1 = :otsRegistrationAddr1")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationAddr2", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationAddr2 = :otsRegistrationAddr2")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationPincode", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationPincode = :otsRegistrationPincode")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationEmailid", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationEmailid = :otsRegistrationEmailid")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationProfilePic", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationProfilePic = :otsRegistrationProfilePic")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationStatus", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationStatus = :otsRegistrationStatus")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationTimestamp", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationTimestamp = :otsRegistrationTimestamp")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationCreated", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationCreated = :otsRegistrationCreated")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationPassword", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationPassword = :otsRegistrationPassword")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationContactNo", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationContactNo = :otsRegistrationContactNo")
+    , @NamedQuery(name = "OtsRegistration.findByOtsDeviceToken", query = "SELECT o FROM OtsRegistration o WHERE o.otsDeviceToken = :otsDeviceToken")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationLong", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationLong = :otsRegistrationLong")
+    , @NamedQuery(name = "OtsRegistration.findByOtsRegistrationLat", query = "SELECT o FROM OtsRegistration o WHERE o.otsRegistrationLat = :otsRegistrationLat")})
 public class OtsRegistration implements Serializable {
-    @Column(name = "ots_registration_lat")
-    private String otsRegistrationLat;
-    @Column(name = "ots_registration_long")
-    private String otsRegistrationLong;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ots_registration_id")
     private Integer otsRegistrationId;
+    @Size(max = 45)
     @Column(name = "ots_registration_firstname")
     private String otsRegistrationFirstname;
+    @Size(max = 45)
     @Column(name = "ots_registration_lastname")
     private String otsRegistrationLastname;
+    @Size(max = 45)
     @Column(name = "ots_registration_addr1")
     private String otsRegistrationAddr1;
+    @Size(max = 45)
     @Column(name = "ots_registration_addr2")
     private String otsRegistrationAddr2;
+    @Size(max = 45)
     @Column(name = "ots_registration_pincode")
     private String otsRegistrationPincode;
+    @Size(max = 45)
     @Column(name = "ots_registration_emailid")
     private String otsRegistrationEmailid;
+    @Size(max = 45)
     @Column(name = "ots_registration_profile_pic")
     private String otsRegistrationProfilePic;
+    @Size(max = 45)
     @Column(name = "ots_registration_status")
     private String otsRegistrationStatus;
+    @Column(name = "ots_registration_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsRegistrationTimestamp;
+    @Column(name = "ots_registration_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsRegistrationCreated;
+    @Size(max = 45)
     @Column(name = "ots_registration_password")
     private String otsRegistrationPassword;
+    @Size(max = 45)
     @Column(name = "ots_registration_contact_no")
     private String otsRegistrationContactNo;
+    @Size(max = 255)
     @Column(name = "ots_device_token")
     private String otsDeviceToken;
+    @Size(max = 45)
+    @Column(name = "ots_registration_long")
+    private String otsRegistrationLong;
+    @Size(max = 45)
+    @Column(name = "ots_registration_lat")
+    private String otsRegistrationLat;
     @OneToMany(mappedBy = "otsRegistrationId")
     private Collection<OtsUsers> otsUsersCollection;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
@@ -170,6 +195,22 @@ public class OtsRegistration implements Serializable {
         this.otsRegistrationStatus = otsRegistrationStatus;
     }
 
+    public Date getOtsRegistrationTimestamp() {
+        return otsRegistrationTimestamp;
+    }
+
+    public void setOtsRegistrationTimestamp(Date otsRegistrationTimestamp) {
+        this.otsRegistrationTimestamp = otsRegistrationTimestamp;
+    }
+
+    public Date getOtsRegistrationCreated() {
+        return otsRegistrationCreated;
+    }
+
+    public void setOtsRegistrationCreated(Date otsRegistrationCreated) {
+        this.otsRegistrationCreated = otsRegistrationCreated;
+    }
+
     public String getOtsRegistrationPassword() {
         return otsRegistrationPassword;
     }
@@ -192,6 +233,22 @@ public class OtsRegistration implements Serializable {
 
     public void setOtsDeviceToken(String otsDeviceToken) {
         this.otsDeviceToken = otsDeviceToken;
+    }
+
+    public String getOtsRegistrationLong() {
+        return otsRegistrationLong;
+    }
+
+    public void setOtsRegistrationLong(String otsRegistrationLong) {
+        this.otsRegistrationLong = otsRegistrationLong;
+    }
+
+    public String getOtsRegistrationLat() {
+        return otsRegistrationLat;
+    }
+
+    public void setOtsRegistrationLat(String otsRegistrationLat) {
+        this.otsRegistrationLat = otsRegistrationLat;
     }
 
     @XmlTransient
@@ -249,23 +306,7 @@ public class OtsRegistration implements Serializable {
 
     @Override
     public String toString() {
-        return "com.water.entity.OtsRegistration[ otsRegistrationId=" + otsRegistrationId + " ]";
-    }
-
-    public String getOtsRegistrationLat() {
-        return otsRegistrationLat;
-    }
-
-    public void setOtsRegistrationLat(String otsRegistrationLat) {
-        this.otsRegistrationLat = otsRegistrationLat;
-    }
-
-    public String getOtsRegistrationLong() {
-        return otsRegistrationLong;
-    }
-
-    public void setOtsRegistrationLong(String otsRegistrationLong) {
-        this.otsRegistrationLong = otsRegistrationLong;
+        return "com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration[ otsRegistrationId=" + otsRegistrationId + " ]";
     }
     
 }

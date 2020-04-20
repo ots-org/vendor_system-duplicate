@@ -20,32 +20,43 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author SERAJKU
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_lat_lon")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsLatLon.findAll", query = "SELECT o FROM OtsLatLon o"),
-    @NamedQuery(name = "OtsLatLon.findByOtsLatLonId", query = "SELECT o FROM OtsLatLon o WHERE o.otsLatLonId = :otsLatLonId"),
-    @NamedQuery(name = "OtsLatLon.findByOtsLatitude", query = "SELECT o FROM OtsLatLon o WHERE o.otsLatitude = :otsLatitude"),
-    @NamedQuery(name = "OtsLatLon.findByOtsLongitude", query = "SELECT o FROM OtsLatLon o WHERE o.otsLongitude = :otsLongitude")})
-  
+    @NamedQuery(name = "OtsLatLon.findAll", query = "SELECT o FROM OtsLatLon o")
+    , @NamedQuery(name = "OtsLatLon.findByOtsLatLonId", query = "SELECT o FROM OtsLatLon o WHERE o.otsLatLonId = :otsLatLonId")
+    , @NamedQuery(name = "OtsLatLon.findByOtsLatitude", query = "SELECT o FROM OtsLatLon o WHERE o.otsLatitude = :otsLatitude")
+    , @NamedQuery(name = "OtsLatLon.findByOtsLongitude", query = "SELECT o FROM OtsLatLon o WHERE o.otsLongitude = :otsLongitude")
+    , @NamedQuery(name = "OtsLatLon.findByOtsLatLonCreated", query = "SELECT o FROM OtsLatLon o WHERE o.otsLatLonCreated = :otsLatLonCreated")
+    , @NamedQuery(name = "OtsLatLon.findByOtsLatLonTimestamp", query = "SELECT o FROM OtsLatLon o WHERE o.otsLatLonTimestamp = :otsLatLonTimestamp")})
 public class OtsLatLon implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ots_lat_lon_id")
     private Integer otsLatLonId;
+    @Size(max = 45)
     @Column(name = "ots_latitude")
     private String otsLatitude;
+    @Size(max = 45)
     @Column(name = "ots_longitude")
     private String otsLongitude;
+    @Column(name = "ots_lat_lon_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsLatLonCreated;
+    @Column(name = "ots_lat_lon_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsLatLonTimestamp;
     @JoinColumn(name = "ots_usersusers_id", referencedColumnName = "ots_users_id")
     @ManyToOne(optional = false)
     private OtsUsers otsUsersusersId;
@@ -81,7 +92,22 @@ public class OtsLatLon implements Serializable {
         this.otsLongitude = otsLongitude;
     }
 
-   
+    public Date getOtsLatLonCreated() {
+        return otsLatLonCreated;
+    }
+
+    public void setOtsLatLonCreated(Date otsLatLonCreated) {
+        this.otsLatLonCreated = otsLatLonCreated;
+    }
+
+    public Date getOtsLatLonTimestamp() {
+        return otsLatLonTimestamp;
+    }
+
+    public void setOtsLatLonTimestamp(Date otsLatLonTimestamp) {
+        this.otsLatLonTimestamp = otsLatLonTimestamp;
+    }
+
     public OtsUsers getOtsUsersusersId() {
         return otsUsersusersId;
     }

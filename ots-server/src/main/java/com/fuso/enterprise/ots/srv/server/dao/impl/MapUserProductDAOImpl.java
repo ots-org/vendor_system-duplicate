@@ -16,8 +16,12 @@ import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.BalanceCan;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
+import com.fuso.enterprise.ots.srv.api.service.request.AddProductCategoryAndProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsCustomerProduct;
@@ -248,4 +252,87 @@ private Logger logger = LoggerFactory.getLogger(getClass());
         }
 		return  customerProductDetails;
 	}
+
+	@Override
+	public String addProductAndCategory(AddProductCategoryAndProductRequest addProductAndCategoryRequest) {
+		try {
+			for(int i=0;i<addProductAndCategoryRequest.getRequestData().getProductDetails().size();i++) {
+				OtsCustomerProduct customerProduct =  new OtsCustomerProduct();
+				
+				OtsProduct productId = new OtsProduct();
+				productId.setOtsProductId(Integer.parseInt(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductId()));
+				customerProduct.setOtsProductId(productId);
+			
+				OtsUsers userId = new OtsUsers();
+				userId.setOtsUsersId(Integer.parseInt(addProductAndCategoryRequest.getRequestData().getUserId()));
+				customerProduct.setOtsUsersId(userId);
+				save(customerProduct);
+				super.getEntityManager().flush();
+			}
+		}catch(Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		
+		return "Success";
+	}
+
+//	@Override
+//	public ProductDetailsBOResponse getProductSubcategoryByDistributor(
+//			ProductDetailsBORequest productDetailsBORequest) {
+//		
+//		List<OtsCustomerProduct> otsCustomerProductList = new ArrayList<OtsCustomerProduct>();
+//		List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
+//		//-------------------------------TO GET LIST OF SUBCATEGORY--------------------------
+//		OtsUsers distributorId = new OtsUsers();
+//		distributorId.setOtsUsersId(Integer.parseInt(productDetailsBORequest.getRequestData().getDistributorId()));
+//		Map<String, Object> queryParameter = new HashMap<>();
+//		queryParameter.put("distributorId",distributorId);
+//		otsCustomerProductList = super.getResultListByNamedQuery("OtsCustomerProduct.getListOfCatAndSubCat", queryParameter);
+//		//------------------------------------------------------------------------------------
+//		productDetails =  otsCustomerProductList.stream().map(OtsCustomerProduct -> getProductDetailsFormCustomerProduct(OtsCustomerProduct)).collect(Collectors.toList());
+//		return null;
+//	}
+	
+	@Override
+	public ProductDetailsBOResponse getProductDetailsForDistributor(ProductDetailsBOResponse productDetailsBOResponse) {
+		List<ProductDetails> productDetailsList = new ArrayList<ProductDetails>();
+		for(int i= 0;i<productDetailsBOResponse.getProductDetails().size();i++) {
+			OtsCustomerProduct customerProduct = new OtsCustomerProduct();			
+			Map<String, Object> queryParameter = new HashMap<>();
+			
+			OtsUsers distributorId = new OtsUsers();
+			distributorId.setOtsUsersId(Integer.parseInt(productDetailsBOResponse.getUserId()));
+			queryParameter.put("distributorId",distributorId);
+			
+			OtsProduct otsProduct = new OtsProduct();
+			otsProduct.setOtsProductId(Integer.parseInt(productDetailsBOResponse.getProductDetails().get(i).getProductId()));
+			queryParameter.put("otsProductId",otsProduct);
+			
+			
+			try {
+				customerProduct  = super.getResultByNamedQuery("OtsCustomerProduct.getListOfCatAndSubCat", queryParameter);
+				ProductDetails productDetails = convertCustomerProductTOProductDetails(customerProduct);
+				productDetailsList.add(productDetails);
+				
+			}catch(Exception e) {
+				System.out.println(e);
+			}
+		}
+		productDetailsBOResponse.setProductDetails(productDetailsList);
+		return productDetailsBOResponse;
+	}
+	
+	ProductDetails convertCustomerProductTOProductDetails(OtsCustomerProduct customerProduct) {
+		ProductDetails productDetails = new ProductDetails();
+		productDetails.setProductId(customerProduct.getOtsProductId().getOtsProductId()==null?null:customerProduct.getOtsProductId().getOtsProductId().toString());
+		productDetails.setProductName(customerProduct.getOtsProductId().getOtsProductName()==null?null:customerProduct.getOtsProductId().getOtsProductName());
+		productDetails.setProductLevel(customerProduct.getOtsProductId().getOtsProductLevelId().getOtsProductName()==null?null:customerProduct.getOtsProductId().getOtsProductLevelId().getOtsProductName());
+		productDetails.setProductPrice(customerProduct.getOtsProductId().getOtsProductPrice()==null?null:customerProduct.getOtsProductId().getOtsProductPrice().toString());
+		productDetails.setProductImage(customerProduct.getOtsProductId().getOtsProductImage()==null?null:customerProduct.getOtsProductId().getOtsProductImage().toString());
+		productDetails.setProductDescription(customerProduct.getOtsProductId().getOtsProductDescription()==null?null:customerProduct.getOtsProductId().getOtsProductDescription());
+		productDetails.setProductStatus(customerProduct.getOtsProductId().getOtsProductStatus()==null?null:customerProduct.getOtsProductId().getOtsProductStatus());
+		productDetails.setProductType(customerProduct.getOtsProductId().getOtsProductType()==null?null:customerProduct.getOtsProductId().getOtsProductType());
+		return productDetails;
+	}
+	
 }

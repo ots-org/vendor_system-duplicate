@@ -26,22 +26,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author shashikumar.ys
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_order_product")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsOrderProduct.findAll", query = "SELECT o FROM OtsOrderProduct o"),
-    @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductId", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductId = :otsOrderProductId"),
-    @NamedQuery(name = "OtsOrderProduct.findByOtsOrderedQty", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderedQty = :otsOrderedQty"),
-    @NamedQuery(name = "OtsOrderProduct.findByOtsDeliveredQty", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsDeliveredQty = :otsDeliveredQty"),
-    @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductCost", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductCost = :otsOrderProductCost"),
-    @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductStatus", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductStatus = :otsOrderProductStatus"),
-    @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductTimestamp", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductTimestamp = :otsOrderProductTimestamp"),
-    @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductCreated", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductCreated = :otsOrderProductCreated"),
-    @NamedQuery(name = "OtsOrderProduct.findByOtsReceivedCans", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsReceivedCans = :otsReceivedCans")})
+    @NamedQuery(name = "OtsOrderProduct.findAll", query = "SELECT o FROM OtsOrderProduct o")
+    , @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductId", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductId = :otsOrderProductId")
+    , @NamedQuery(name = "OtsOrderProduct.findByOtsOrderedQty", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderedQty = :otsOrderedQty")
+    , @NamedQuery(name = "OtsOrderProduct.findByOtsDeliveredQty", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsDeliveredQty = :otsDeliveredQty")
+    , @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductCost", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductCost = :otsOrderProductCost")
+    , @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductStatus", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductStatus = :otsOrderProductStatus")
+    , @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductTimestamp", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductTimestamp = :otsOrderProductTimestamp")
+    , @NamedQuery(name = "OtsOrderProduct.findByOtsOrderProductCreated", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsOrderProductCreated = :otsOrderProductCreated")
+    , @NamedQuery(name = "OtsOrderProduct.findByOtsReceivedCans", query = "SELECT o FROM OtsOrderProduct o WHERE o.otsReceivedCans = :otsReceivedCans")})
 public class OtsOrderProduct implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

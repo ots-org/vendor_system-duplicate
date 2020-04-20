@@ -20,21 +20,23 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author SERAJKU
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_stock_dist_ob")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsStockDistOb.findAll", query = "SELECT o FROM OtsStockDistOb o"),
-    @NamedQuery(name = "OtsStockDistOb.findByOtsStockDistObId", query = "SELECT o FROM OtsStockDistOb o WHERE o.otsStockDistObId = :otsStockDistObId"),
-    @NamedQuery(name = "OtsStockDistOb.findByOtsStockDistObStockdt", query = "SELECT o FROM OtsStockDistOb o WHERE o.otsStockDistObStockdt = :otsStockDistObStockdt"),
-    @NamedQuery(name = "OtsStockDistOb.findByOtsStockDistOpeningBalance", query = "SELECT o FROM OtsStockDistOb o WHERE o.otsStockDistOpeningBalance = :otsStockDistOpeningBalance")})
+    @NamedQuery(name = "OtsStockDistOb.findAll", query = "SELECT o FROM OtsStockDistOb o")
+    , @NamedQuery(name = "OtsStockDistOb.findByOtsStockDistObId", query = "SELECT o FROM OtsStockDistOb o WHERE o.otsStockDistObId = :otsStockDistObId")
+    , @NamedQuery(name = "OtsStockDistOb.findByOtsStockDistObStockdt", query = "SELECT o FROM OtsStockDistOb o WHERE o.otsStockDistObStockdt = :otsStockDistObStockdt")
+    , @NamedQuery(name = "OtsStockDistOb.findByOtsStockDistOpeningBalance", query = "SELECT o FROM OtsStockDistOb o WHERE o.otsStockDistOpeningBalance = :otsStockDistOpeningBalance")})
 public class OtsStockDistOb implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +46,7 @@ public class OtsStockDistOb implements Serializable {
     @Column(name = "ots_stock_dist_ob_stockdt")
     @Temporal(TemporalType.DATE)
     private Date otsStockDistObStockdt;
+    @Size(max = 45)
     @Column(name = "ots_stock_dist_opening_balance")
     private String otsStockDistOpeningBalance;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")

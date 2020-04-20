@@ -495,4 +495,30 @@
 			o.otsSubscriptionOrderId =:otsSubscriptionOrderId
 		</query>
 	</named-query>
+	<named-query name="OtsProduct.otsProductLevelId">
+		<query>SELECT o 
+		FROM 
+			OtsProduct o
+		WHERE
+			o.otsProductLevelId =:otsProductLevelId
+		</query>
+	</named-query>
+	<named-query name="getProductByMappingotsProductCategoryId.otsProductCategoryId">
+		<query>SELECT o 
+		FROM 
+			OtsProductCategoryMapping o
+		WHERE
+			o.otsProductCategoryId =:otsProductCategoryId
+		</query>
+	</named-query>
+	<named-query name="OtsCustomerProduct.getListOfCatAndSubCat">
+		<query>SELECT o 
+		FROM 
+			OtsCustomerProduct o
+		WHERE 
+			o.otsUsersId =:distributorId
+		AND
+			o.otsProductId = :otsProductId
+		</query>
+	</named-query>
 </entity-mappings>

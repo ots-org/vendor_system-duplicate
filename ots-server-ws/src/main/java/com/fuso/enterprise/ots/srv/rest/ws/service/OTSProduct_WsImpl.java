@@ -5,6 +5,7 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
+import com.fuso.enterprise.ots.srv.api.service.request.AddProductCategoryAndProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
@@ -198,5 +199,18 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
             throw new BusinessException(e.getMessage(), e);
         }
     }
+
+	@Override
+	public Response addProductAndCategory(AddProductCategoryAndProductRequest addProductAndCategoryRequest) {
+		Response response = null;
+		try {
+	            response = responseWrapper.buildResponse(otsProductService.addProductAndCategory(addProductAndCategoryRequest), "Successfull");
+	        } catch (BusinessException e) {
+	            throw new BusinessException(e.getMessage(), e);
+	        } catch (Throwable e) {
+	            throw new BusinessException(e.getMessage(), e);
+	        }// TODO Auto-generated method stub
+		return response;
+	}
 
 }

@@ -24,16 +24,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Manoj
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_user_mapping")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsUserMapping.findAll", query = "SELECT o FROM OtsUserMapping o"),
-    @NamedQuery(name = "OtsUserMapping.findByOtsUserMappingId", query = "SELECT o FROM OtsUserMapping o WHERE o.otsUserMappingId = :otsUserMappingId"),
-    @NamedQuery(name = "OtsUserMapping.findByOtsMappedTo", query = "SELECT o FROM OtsUserMapping o WHERE o.otsMappedTo = :otsMappedTo")})
+    @NamedQuery(name = "OtsUserMapping.findAll", query = "SELECT o FROM OtsUserMapping o")
+    , @NamedQuery(name = "OtsUserMapping.findByOtsUserMappingId", query = "SELECT o FROM OtsUserMapping o WHERE o.otsUserMappingId = :otsUserMappingId")
+    , @NamedQuery(name = "OtsUserMapping.findByOtsMappedTo", query = "SELECT o FROM OtsUserMapping o WHERE o.otsMappedTo = :otsMappedTo")
+    , @NamedQuery(name = "OtsUserMapping.findByOtsUserMappingTimestamp", query = "SELECT o FROM OtsUserMapping o WHERE o.otsUserMappingTimestamp = :otsUserMappingTimestamp")
+    , @NamedQuery(name = "OtsUserMapping.findByOtsUserMappingCreated", query = "SELECT o FROM OtsUserMapping o WHERE o.otsUserMappingCreated = :otsUserMappingCreated")})
 public class OtsUserMapping implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +45,12 @@ public class OtsUserMapping implements Serializable {
     private Integer otsUserMappingId;
     @Column(name = "ots_mapped_to")
     private Integer otsMappedTo;
+    @Column(name = "ots_user_mapping_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsUserMappingTimestamp;
+    @Column(name = "ots_user_mapping_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsUserMappingCreated;
     @JoinColumn(name = "ots_users_id", referencedColumnName = "ots_users_id")
     @OneToOne(optional = false)
     private OtsUsers otsUsersId;
@@ -67,6 +76,22 @@ public class OtsUserMapping implements Serializable {
 
     public void setOtsMappedTo(Integer otsMappedTo) {
         this.otsMappedTo = otsMappedTo;
+    }
+
+    public Date getOtsUserMappingTimestamp() {
+        return otsUserMappingTimestamp;
+    }
+
+    public void setOtsUserMappingTimestamp(Date otsUserMappingTimestamp) {
+        this.otsUserMappingTimestamp = otsUserMappingTimestamp;
+    }
+
+    public Date getOtsUserMappingCreated() {
+        return otsUserMappingCreated;
+    }
+
+    public void setOtsUserMappingCreated(Date otsUserMappingCreated) {
+        this.otsUserMappingCreated = otsUserMappingCreated;
     }
 
     public OtsUsers getOtsUsersId() {

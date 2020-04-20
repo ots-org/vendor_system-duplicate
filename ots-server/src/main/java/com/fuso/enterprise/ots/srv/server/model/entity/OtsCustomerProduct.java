@@ -20,30 +20,42 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author SERAJKU
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_customer_product")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsCustomerProduct.findAll", query = "SELECT o FROM OtsCustomerProduct o"),
-    @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductId", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductId = :otsCustomerProductId"),
-    @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductPrice", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductPrice = :otsCustomerProductPrice"),
-    @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductDefault", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductDefault = :otsCustomerProductDefault"),
-    @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductBalCan", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductBalCan = :otsCustomerProductBalCan")})
+    @NamedQuery(name = "OtsCustomerProduct.findAll", query = "SELECT o FROM OtsCustomerProduct o")
+    , @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductId", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductId = :otsCustomerProductId")
+    , @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerTimestamp", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerTimestamp = :otsCustomerTimestamp")
+    , @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerCreated", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerCreated = :otsCustomerCreated")
+    , @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductPrice", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductPrice = :otsCustomerProductPrice")
+    , @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductDefault", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductDefault = :otsCustomerProductDefault")
+    , @NamedQuery(name = "OtsCustomerProduct.findByOtsCustomerProductBalCan", query = "SELECT o FROM OtsCustomerProduct o WHERE o.otsCustomerProductBalCan = :otsCustomerProductBalCan")})
 public class OtsCustomerProduct implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ots_customer_product_id")
     private Integer otsCustomerProductId;
+    @Column(name = "ots_customer_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsCustomerTimestamp;
+    @Column(name = "ots_customer_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsCustomerCreated;
+    @Size(max = 55)
     @Column(name = "ots_customer_product_price")
     private String otsCustomerProductPrice;
+    @Size(max = 55)
     @Column(name = "ots_customer_product_default")
     private String otsCustomerProductDefault;
     @Column(name = "ots_customer_product_bal_can")
@@ -68,6 +80,22 @@ public class OtsCustomerProduct implements Serializable {
 
     public void setOtsCustomerProductId(Integer otsCustomerProductId) {
         this.otsCustomerProductId = otsCustomerProductId;
+    }
+
+    public Date getOtsCustomerTimestamp() {
+        return otsCustomerTimestamp;
+    }
+
+    public void setOtsCustomerTimestamp(Date otsCustomerTimestamp) {
+        this.otsCustomerTimestamp = otsCustomerTimestamp;
+    }
+
+    public Date getOtsCustomerCreated() {
+        return otsCustomerCreated;
+    }
+
+    public void setOtsCustomerCreated(Date otsCustomerCreated) {
+        this.otsCustomerCreated = otsCustomerCreated;
     }
 
     public String getOtsCustomerProductPrice() {

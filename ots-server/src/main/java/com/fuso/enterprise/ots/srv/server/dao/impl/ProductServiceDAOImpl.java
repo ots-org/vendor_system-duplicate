@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.ProductCategoryProductMappingModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UpdateProductStatusRequestModel;
+import com.fuso.enterprise.ots.srv.api.service.request.AddProductCategoryAndProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
@@ -24,6 +26,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.ProductServiceDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsProductLevel;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUserMapping;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.AbstractIptDao;
@@ -125,6 +128,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 	
 	private ProductDetails convertProductDetailsFromEntityToDomain(OtsProduct otsProduct) {
 		ProductDetails productDetails = new ProductDetails();
+		
 		productDetails.setProductId(otsProduct.getOtsProductId()==null?null:otsProduct.getOtsProductId().toString());
 		productDetails.setProductName(otsProduct.getOtsProductName()==null?null:otsProduct.getOtsProductName());
 		productDetails.setProductDescription(otsProduct.getOtsProductDescription()==null?null:otsProduct.getOtsProductDescription());
@@ -132,6 +136,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		productDetails.setProductStatus(otsProduct.getOtsProductStatus()==null?null:otsProduct.getOtsProductStatus());
 		productDetails.setProductImage(otsProduct.getOtsProductImage()==null?null:otsProduct.getOtsProductImage());
 		productDetails.setProductType(otsProduct.getOtsProductType()==null?null:otsProduct.getOtsProductType());
+		productDetails.setProductLevel(otsProduct.getOtsProductLevelId().getOtsProductName()==null?null:otsProduct.getOtsProductLevelId().getOtsProductName());
 		return productDetails;
 	}
 
@@ -145,6 +150,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 			otsProduct = super.getResultByNamedQuery("OtsProduct.findByOtsProductId", queryParameter);
 			productDetails = convertProductDetailsFromEntityToDomain(otsProduct);	
 		}catch(Exception e) {
+			System.out.print(e);
 			return null;
 		}
 	return productDetails;
@@ -185,5 +191,54 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 	        throw new BusinessException(e.getMessage(), e);
 		}
 		
+	}
+
+	@Override
+	public ProductDetailsBOResponse getProductCategory(ProductDetailsBORequest productDetailsBORequest) {
+		ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
+		List<ProductCategoryProductMappingModel> productMappingModel = new ArrayList<ProductCategoryProductMappingModel>();
+		List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
+		Map<String, Object> queryParameter = new HashMap<>();
+		List<OtsProduct> productList = null;
+		OtsProductLevel productLevel = new OtsProductLevel();
+		try {
+			productLevel.setOtsProductLevelId(Integer.parseInt(productDetailsBORequest.getRequestData().getSearchvalue()));
+			queryParameter.put("otsProductLevelId",productLevel );
+			productList  = super.getResultListByNamedQuery("OtsProduct.otsProductLevelId", queryParameter);
+			productDetails =  productList.stream().map(otsProduct -> convertProductDetailsFromEntityToDomain(otsProduct)).collect(Collectors.toList());
+			productDetailsBOResponse.setProductDetails(productDetails);
+		}catch(Exception e) {
+			System.out.print(e);
+		}
+		return productDetailsBOResponse;
+	}
+
+	@Override
+	public AddProductCategoryAndProductRequest addProductAndCategory(
+			AddProductCategoryAndProductRequest addProductAndCategoryRequest) {
+		// To add category and sub category to productTable
+		try {
+			List<ProductDetails> productList = new ArrayList<ProductDetails>();
+			for(int i = 0 ; i< addProductAndCategoryRequest.getRequestData().getProductDetails().size() ; i++ ) {
+				ProductDetails productDetails;
+				OtsProduct OtsProduct = new OtsProduct();
+				OtsProduct.setOtsProductName(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductName());
+				
+				OtsProductLevel productLevel = new OtsProductLevel();
+				productLevel.setOtsProductLevelId(Integer.parseInt(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductLevel()));
+				OtsProduct.setOtsProductLevelId(productLevel);
+				save(OtsProduct);
+				super.getEntityManager().flush();
+				productDetails = convertProductDetailsFromEntityToDomain(OtsProduct); 
+				productList.add(productDetails) ;
+			}
+			addProductAndCategoryRequest.getRequestData().setProductDetails(productList);
+		}catch(Exception e) {
+			System.out.println(e);
+			throw new BusinessException(e.getMessage(), e);
+		}
+			
+			
+		return addProductAndCategoryRequest;
 	}
 }

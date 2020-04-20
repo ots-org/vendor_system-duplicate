@@ -4,7 +4,11 @@ import java.util.List;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.BalanceCan;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
+import com.fuso.enterprise.ots.srv.api.service.request.AddProductCategoryAndProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsCustomerProduct;
 
 public interface MapUserProductDAO {
@@ -19,4 +23,7 @@ public interface MapUserProductDAO {
 
 	List<CustomerProductDetails> getCustomerProductDetailsByCustomerId(String customerId);
 
+	String addProductAndCategory(AddProductCategoryAndProductRequest addProductAndCategoryRequest);
+	
+	ProductDetailsBOResponse getProductDetailsForDistributor(ProductDetailsBOResponse productDetailsBOResponse);
 }

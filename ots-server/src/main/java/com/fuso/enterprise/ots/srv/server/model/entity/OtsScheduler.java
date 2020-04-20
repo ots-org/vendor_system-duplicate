@@ -23,25 +23,29 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SERAJKU
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_scheduler")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsScheduler.findAll", query = "SELECT o FROM OtsScheduler o"),
-    @NamedQuery(name = "OtsScheduler.findByOtsSchedulerId", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerId = :otsSchedulerId"),
-    @NamedQuery(name = "OtsScheduler.findByOtsOrderQty", query = "SELECT o FROM OtsScheduler o WHERE o.otsOrderQty = :otsOrderQty"),
-    @NamedQuery(name = "OtsScheduler.findByOtsSchedulerType", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerType = :otsSchedulerType"),
-    @NamedQuery(name = "OtsScheduler.findByOtsSchedulerWkdy", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerWkdy = :otsSchedulerWkdy"),
-    @NamedQuery(name = "OtsScheduler.findByOtsSchedulerStDt", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerStDt = :otsSchedulerStDt"),
-    @NamedQuery(name = "OtsScheduler.findByOtsSchedulerEtDt", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerEtDt = :otsSchedulerEtDt")})
+    @NamedQuery(name = "OtsScheduler.findAll", query = "SELECT o FROM OtsScheduler o")
+    , @NamedQuery(name = "OtsScheduler.findByOtsSchedulerId", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerId = :otsSchedulerId")
+    , @NamedQuery(name = "OtsScheduler.findByOtsOrderQty", query = "SELECT o FROM OtsScheduler o WHERE o.otsOrderQty = :otsOrderQty")
+    , @NamedQuery(name = "OtsScheduler.findByOtsSchedulerType", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerType = :otsSchedulerType")
+    , @NamedQuery(name = "OtsScheduler.findByOtsSchedulerWkdy", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerWkdy = :otsSchedulerWkdy")
+    , @NamedQuery(name = "OtsScheduler.findByOtsSchedulerStDt", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerStDt = :otsSchedulerStDt")
+    , @NamedQuery(name = "OtsScheduler.findByOtsSchedulerEtDt", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerEtDt = :otsSchedulerEtDt")
+    , @NamedQuery(name = "OtsScheduler.findByOtsSchedulerCreated", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerCreated = :otsSchedulerCreated")
+    , @NamedQuery(name = "OtsScheduler.findByOtsSchedulerTimestamp", query = "SELECT o FROM OtsScheduler o WHERE o.otsSchedulerTimestamp = :otsSchedulerTimestamp")})
 public class OtsScheduler implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,16 +54,24 @@ public class OtsScheduler implements Serializable {
     private Integer otsSchedulerId;
     @Column(name = "ots_order_qty")
     private Integer otsOrderQty;
+    @Size(max = 45)
     @Column(name = "ots_scheduler_type")
     private String otsSchedulerType;
+    @Size(max = 45)
     @Column(name = "ots_scheduler_wkdy")
     private String otsSchedulerWkdy;
     @Column(name = "ots_scheduler_st_dt")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date otsSchedulerStDt;
     @Column(name = "ots_scheduler_et_dt")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date otsSchedulerEtDt;
+    @Column(name = "ots_scheduler_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsSchedulerCreated;
+    @Column(name = "ots_scheduler_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsSchedulerTimestamp;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsSchedulerId")
     private Collection<OtsRequestOrder> otsRequestOrderCollection;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
@@ -125,6 +137,22 @@ public class OtsScheduler implements Serializable {
 
     public void setOtsSchedulerEtDt(Date otsSchedulerEtDt) {
         this.otsSchedulerEtDt = otsSchedulerEtDt;
+    }
+
+    public Date getOtsSchedulerCreated() {
+        return otsSchedulerCreated;
+    }
+
+    public void setOtsSchedulerCreated(Date otsSchedulerCreated) {
+        this.otsSchedulerCreated = otsSchedulerCreated;
+    }
+
+    public Date getOtsSchedulerTimestamp() {
+        return otsSchedulerTimestamp;
+    }
+
+    public void setOtsSchedulerTimestamp(Date otsSchedulerTimestamp) {
+        this.otsSchedulerTimestamp = otsSchedulerTimestamp;
     }
 
     @XmlTransient

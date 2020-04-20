@@ -20,32 +20,35 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author SERAJKU
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_request_order")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsRequestOrder.findAll", query = "SELECT o FROM OtsRequestOrder o"),
-    @NamedQuery(name = "OtsRequestOrder.findByOtsRequestOrderId", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsRequestOrderId = :otsRequestOrderId"),
-    @NamedQuery(name = "OtsRequestOrder.findByOtsRequestNumber", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsRequestNumber = :otsRequestNumber"),
-    @NamedQuery(name = "OtsRequestOrder.findByOtsRequestQty", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsRequestQty = :otsRequestQty"),
-    @NamedQuery(name = "OtsRequestOrder.findByOtsScheduleDt", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsScheduleDt = :otsScheduleDt"),
-    @NamedQuery(name = "OtsRequestOrder.findByOtsNxtScheduleDt", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsNxtScheduleDt = :otsNxtScheduleDt"),
-    @NamedQuery(name = "OtsRequestOrder.findByOtsRequestStatus", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsRequestStatus = :otsRequestStatus"),
-    @NamedQuery(name = "OtsRequestOrder.findByOtsRequestOrderCreated", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsRequestOrderCreated = :otsRequestOrderCreated"),
-    @NamedQuery(name = "OtsRequestOrder.findByOtsRequestOrderTimestamp", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsRequestOrderTimestamp = :otsRequestOrderTimestamp")})
+    @NamedQuery(name = "OtsRequestOrder.findAll", query = "SELECT o FROM OtsRequestOrder o")
+    , @NamedQuery(name = "OtsRequestOrder.findByOtsRequestOrderId", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsRequestOrderId = :otsRequestOrderId")
+    , @NamedQuery(name = "OtsRequestOrder.findByOtsRequestNumber", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsRequestNumber = :otsRequestNumber")
+    , @NamedQuery(name = "OtsRequestOrder.findByOtsRequestQty", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsRequestQty = :otsRequestQty")
+    , @NamedQuery(name = "OtsRequestOrder.findByOtsScheduleDt", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsScheduleDt = :otsScheduleDt")
+    , @NamedQuery(name = "OtsRequestOrder.findByOtsNxtScheduleDt", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsNxtScheduleDt = :otsNxtScheduleDt")
+    , @NamedQuery(name = "OtsRequestOrder.findByOtsRequestStatus", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsRequestStatus = :otsRequestStatus")
+    , @NamedQuery(name = "OtsRequestOrder.findByOtsRequestOrderCreated", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsRequestOrderCreated = :otsRequestOrderCreated")
+    , @NamedQuery(name = "OtsRequestOrder.findByOtsRequestOrderTimestamp", query = "SELECT o FROM OtsRequestOrder o WHERE o.otsRequestOrderTimestamp = :otsRequestOrderTimestamp")})
 public class OtsRequestOrder implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ots_request_order_id")
     private Integer otsRequestOrderId;
+    @Size(max = 45)
     @Column(name = "ots_request_number")
     private String otsRequestNumber;
     @Column(name = "ots_request_qty")
@@ -56,6 +59,7 @@ public class OtsRequestOrder implements Serializable {
     @Column(name = "ots_nxt_schedule_dt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsNxtScheduleDt;
+    @Size(max = 45)
     @Column(name = "ots_request_status")
     private String otsRequestStatus;
     @Column(name = "ots_request_order_created")

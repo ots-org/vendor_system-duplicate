@@ -1,7 +1,5 @@
 package com.fuso.enterprise.ots.srv.rest.ws.service;
 
-import java.io.IOException;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.POST;
@@ -9,11 +7,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.AddProductCategoryAndProductModelRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddProductCategoryAndProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
@@ -22,7 +20,6 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductBulkUploadRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -84,4 +81,12 @@ public interface OTSProduct_Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response productBulkUpload(
 	@ApiParam(value = "PartsBase64Excel", required = true) @NotNull @Valid ProductBulkUploadRequest partsBase64Excel);
+
+	@POST
+	@Path("/addProductAndCategory")
+	@ApiOperation(value = "addProductAndCategory", notes = "This operation will add category , sub category and product", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response addProductAndCategory(
+	@ApiParam(value = "addProductAndCategory", required = true) @NotNull @Valid AddProductCategoryAndProductRequest addProductAndCategoryRequest);
+
 }

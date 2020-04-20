@@ -1,5 +1,6 @@
 package com.fuso.enterprise.ots.srv.api.service.functional;
 
+import com.fuso.enterprise.ots.srv.api.service.request.AddProductCategoryAndProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
@@ -31,4 +32,7 @@ public interface OTSProductService {
 	//ProductDetailsBOResponse productBulkUpload(String base64Excel);
 	
 	String productBulkUpload(String base64Excel);
+	
+	String addProductAndCategory(AddProductCategoryAndProductRequest addProductAndCategoryRequest);
+	
 }

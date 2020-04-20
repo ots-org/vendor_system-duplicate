@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Manoj
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_user_role")
@@ -185,7 +185,7 @@ public class OtsUserRole implements Serializable {
 
     @Override
     public String toString() {
-        return "webcom.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole[ otsUserRoleId=" + otsUserRoleId + " ]";
+        return "com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole[ otsUserRoleId=" + otsUserRoleId + " ]";
     }
     
 }

@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Manoj
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_subscription_role_mapping")
@@ -108,7 +108,7 @@ public class OtsSubscriptionRoleMapping implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fuso.enterprise.ots.srv.server.dao.impl.OtsSubscriptionRoleMapping[ otsSubscriptionRoleMappingId=" + otsSubscriptionRoleMappingId + " ]";
+        return "com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionRoleMapping[ otsSubscriptionRoleMappingId=" + otsSubscriptionRoleMappingId + " ]";
     }
     
 }

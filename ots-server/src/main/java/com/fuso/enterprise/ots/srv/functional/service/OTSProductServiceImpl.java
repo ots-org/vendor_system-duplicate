@@ -1,6 +1,7 @@
 package com.fuso.enterprise.ots.srv.functional.service;
 
 import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,15 +29,18 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.codec.binary.Base64;
+import com.fuso.enterprise.ots.srv.server.dao.ProductCategoryMappingDAO;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductRequestModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.ProductCategoryProductMappingModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetailsList;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductStockDetail;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
+import com.fuso.enterprise.ots.srv.api.service.request.AddProductCategoryAndProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
@@ -75,8 +79,9 @@ public class OTSProductServiceImpl implements OTSProductService {
 	private UserServiceDAO userServiceDAO;
 	private OrderServiceDAO orderServiceDAO;
 	private MapUserProductDAO mapUserProductDAO;
+	private ProductCategoryMappingDAO productCategoryMappingDAO;
 	@Inject
-	public OTSProductServiceImpl(ProductServiceDAO productServiceDAO,ProductStockDao productStockDao,ProductStockHistoryDao productStockHistoryDao,StockDistObDAO stockDistObDAO,OrderDAO orderDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO,OrderServiceDAO orderServiceDAO,MapUserProductDAO mapUserProductDAO) {
+	public OTSProductServiceImpl(ProductServiceDAO productServiceDAO,ProductCategoryMappingDAO productCategoryMappingDAO,ProductStockDao productStockDao,ProductStockHistoryDao productStockHistoryDao,StockDistObDAO stockDistObDAO,OrderDAO orderDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO,OrderServiceDAO orderServiceDAO,MapUserProductDAO mapUserProductDAO) {
 		this.productServiceDAO=productServiceDAO;
 		this.productStockDao = productStockDao;
 		this.productStockHistoryDao=productStockHistoryDao;
@@ -86,53 +91,80 @@ public class OTSProductServiceImpl implements OTSProductService {
 		this.userServiceDAO = userServiceDAO;
 		this.orderServiceDAO = orderServiceDAO;
 		this.mapUserProductDAO = mapUserProductDAO;
+		this.productCategoryMappingDAO = productCategoryMappingDAO;
 	}
 	@Override
 	public ProductDetailsBOResponse getProductList(ProductDetailsBORequest productDetailsBORequest) {
-		int loop=0;
+		List<ProductCategoryProductMappingModel> productMappingModel = new ArrayList<ProductCategoryProductMappingModel>();
 		ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
-		List<CustomerProductDetails> customerProductDetails = new ArrayList<CustomerProductDetails>();
-		List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
-		List<GetProductBOStockResponse> productStockvalue = new ArrayList<GetProductBOStockResponse>();
+		if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("category")) {
+			//---------------------to get list of all category-------------------------------------
+			productDetailsBOResponse = productServiceDAO.getProductCategory(productDetailsBORequest);
+		}else if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("subcategory")){
+			//---------------------to get list of all sub-category for main category---------------
+			productMappingModel = productCategoryMappingDAO.getProductListByProductCategory(productDetailsBORequest);
+			List<ProductDetails> productDetailsList = new ArrayList<ProductDetails>();
+			for(ProductCategoryProductMappingModel productCategoryProductMappingModel:productMappingModel) {
+				//------------------------get all sub category----------------------------------------
+				ProductDetails ProductDetails = new ProductDetails();
+				ProductDetails.setProductId(productCategoryProductMappingModel.getProductId());
+				productDetailsList.add(ProductDetails);
+			}
+			//--------------------code to take mapped subcategory for particular value------------
+			productDetailsBOResponse.setUserId(productDetailsBORequest.getRequestData().getDistributorId());
+			productDetailsBOResponse.setProductDetails(productDetailsList);
+			productDetailsBOResponse = mapUserProductDAO.getProductDetailsForDistributor(productDetailsBOResponse);	
+		}else if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("product")) {
+			productDetailsBOResponse = productCategoryMappingDAO.getProductListBySubcategory(productDetailsBORequest);
+		}
 		
-		if(productDetailsBORequest.getRequestData().getSearchKey().equals("All") && productDetailsBORequest.getRequestData().getDistributorId().equals("1")) {
-			productDetailsBOResponse = productServiceDAO.getProductList(productDetailsBORequest);
-		}else if(productDetailsBORequest.getRequestData().getCustomerId()!=null){
-			try {
-				customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByCustomerId(productDetailsBORequest.getRequestData().getCustomerId());
-				productStockvalue = productStockDao.getProductStockByUid(productDetailsBORequest.getRequestData().getDistributorId());
+		else{
+			int loop=0;
+			
+			List<CustomerProductDetails> customerProductDetails = new ArrayList<CustomerProductDetails>();
+			List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
+			List<GetProductBOStockResponse> productStockvalue = new ArrayList<GetProductBOStockResponse>();
+			
+			if(productDetailsBORequest.getRequestData().getSearchKey().equals("All") && productDetailsBORequest.getRequestData().getDistributorId().equals("1")) {
+				productDetailsBOResponse = productServiceDAO.getProductList(productDetailsBORequest);
+			}else if(productDetailsBORequest.getRequestData().getCustomerId()!=null){
+				try {
+					customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByCustomerId(productDetailsBORequest.getRequestData().getCustomerId());
+					productStockvalue = productStockDao.getProductStockByUid(productDetailsBORequest.getRequestData().getDistributorId());
 
-				if(productStockvalue!= null) {
-					for(int i = 0;i<productStockvalue.size(); i++) {
-						 productDetails.add(loop,productServiceDAO.getProductDetils(productStockvalue.get(i).getProductId()));
-						 loop++;
+					if(productStockvalue!= null) {
+						for(int i = 0;i<productStockvalue.size(); i++) {
+							 productDetails.add(loop,productServiceDAO.getProductDetils(productStockvalue.get(i).getProductId()));
+							 loop++;
+						}
+					}else {
+						return null;
 					}
-				}else {
-					return null;
-				}
-			if(customerProductDetails!=null) {
-				for(int i = 0 ;i<customerProductDetails.size();i++) {
-					for(int j=0;j<productDetails.size();j++) {
-						if(customerProductDetails.get(i).getProductId().equals(productDetails.get(j).getProductId())) {
-							productDetails.get(j).setProductPrice(customerProductDetails.get(i).getProductPrice());
-							loop++;
+				if(customerProductDetails!=null) {
+					for(int i = 0 ;i<customerProductDetails.size();i++) {
+						for(int j=0;j<productDetails.size();j++) {
+							if(customerProductDetails.get(i).getProductId().equals(productDetails.get(j).getProductId())) {
+								productDetails.get(j).setProductPrice(customerProductDetails.get(i).getProductPrice());
+								loop++;
+							}
 						}
 					}
 				}
-			}
-			productDetailsBOResponse.setProductDetails(productDetails);
-			} catch (Exception e) {
-				throw new BusinessException(e.getMessage(), e);
-			}
-		}else {
-			System.out.print("3");
-			productStockvalue = productStockDao.getProductStockByUid(productDetailsBORequest.getRequestData().getDistributorId());
-			for(int i=0;i<productStockvalue.size();i++) {
-				productDetails.add(i,productServiceDAO.getProductDetils(productStockvalue.get(i).getProductId()));
-				
 				productDetailsBOResponse.setProductDetails(productDetails);
+				} catch (Exception e) {
+					throw new BusinessException(e.getMessage(), e);
+				}
+			}else {
+				System.out.print("3");
+				productStockvalue = productStockDao.getProductStockByUid(productDetailsBORequest.getRequestData().getDistributorId());
+				for(int i=0;i<productStockvalue.size();i++) {
+					productDetails.add(i,productServiceDAO.getProductDetils(productStockvalue.get(i).getProductId()));
+					
+					productDetailsBOResponse.setProductDetails(productDetails);
+				}
 			}
 		}
+		
 		return productDetailsBOResponse;
 	}
 
@@ -462,8 +494,22 @@ public class OTSProductServiceImpl implements OTSProductService {
 		return null;
 	}
 	
-	public void extractImageAndPlaceInFolder() {
-		//PictureData pict = (PictureData) 
+	@Override
+	public String addProductAndCategory(AddProductCategoryAndProductRequest addProductAndCategoryRequest) {
+		try {
+			//------------------------------adding list of Product category with main category----------------------------------------
+			addProductAndCategoryRequest = productServiceDAO.addProductAndCategory(addProductAndCategoryRequest);
+			if(addProductAndCategoryRequest.getRequestData().getKey().equalsIgnoreCase("MainAndSub")) {
+				//------------------------------mapping Customer Sub Category----------------------------------------
+				mapUserProductDAO.addProductAndCategory(addProductAndCategoryRequest);
+			}
+			//------------------------------map category and sub category----------------------------------------
+			productCategoryMappingDAO.mapProductAndCategory(addProductAndCategoryRequest);
+		}catch(Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		
+		return null;
 	}
 }
 

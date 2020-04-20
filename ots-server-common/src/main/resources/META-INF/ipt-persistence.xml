@@ -30,6 +30,9 @@
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionOrder</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionOrderroledetails</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionRoleMapping</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductCategoryMapping</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductLevel</class>
+
    <!---OTS ORM FILES -->
 
 	<mapping-file>META-INF/ipt-sample-orm.xml</mapping-file>

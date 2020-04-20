@@ -82,6 +82,8 @@
         class="com.fuso.enterprise.ots.srv.rest.ws.service.OTSOrder_WsImpl" />
         <bean
         class="com.fuso.enterprise.ots.srv.rest.ws.service.OTSEmpLatLon_WsImpl" />
+        <bean
+        class="com.fuso.enterprise.ots.srv.rest.ws.service.OTSSubscriptionImpl_Ws" />
      </jaxrs:serviceBeans>
     <jaxrs:providers>
       <ref bean="iptJaxbJsonProvider" />

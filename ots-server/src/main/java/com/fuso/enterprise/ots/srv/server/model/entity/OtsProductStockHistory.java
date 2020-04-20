@@ -20,33 +20,45 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author SERAJKU
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_product_stock_history")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsProductStockHistory.findAll", query = "SELECT o FROM OtsProductStockHistory o"),
-    @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryId", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryId = :otsProductStockHistoryId"),
-    @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryQty", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryQty = :otsProductStockHistoryQty"),
-    @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockAddDate", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockAddDate = :otsProductStockAddDate"),
-    @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockOrderId", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockOrderId = :otsProductStockOrderId")})
+    @NamedQuery(name = "OtsProductStockHistory.findAll", query = "SELECT o FROM OtsProductStockHistory o")
+    , @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryId", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryId = :otsProductStockHistoryId")
+    , @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryQty", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryQty = :otsProductStockHistoryQty")
+    , @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryCreated", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryCreated = :otsProductStockHistoryCreated")
+    , @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockHistoryTimestamp", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockHistoryTimestamp = :otsProductStockHistoryTimestamp")
+    , @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockAddDate", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockAddDate = :otsProductStockAddDate")
+    , @NamedQuery(name = "OtsProductStockHistory.findByOtsProductStockOrderId", query = "SELECT o FROM OtsProductStockHistory o WHERE o.otsProductStockOrderId = :otsProductStockOrderId")})
 public class OtsProductStockHistory implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ots_product_stock_history_id")
     private Integer otsProductStockHistoryId;
+    @Size(max = 45)
     @Column(name = "ots_product_stock_history_qty")
     private String otsProductStockHistoryQty;
+    @Column(name = "ots_product_stock_history_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsProductStockHistoryCreated;
+    @Column(name = "ots_product_stock_history_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsProductStockHistoryTimestamp;
     @Column(name = "ots_product_stock_add_date")
     @Temporal(TemporalType.DATE)
     private Date otsProductStockAddDate;
+    @Size(max = 45)
     @Column(name = "ots_product_stock_order_id")
     private String otsProductStockOrderId;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
@@ -77,6 +89,22 @@ public class OtsProductStockHistory implements Serializable {
 
     public void setOtsProductStockHistoryQty(String otsProductStockHistoryQty) {
         this.otsProductStockHistoryQty = otsProductStockHistoryQty;
+    }
+
+    public Date getOtsProductStockHistoryCreated() {
+        return otsProductStockHistoryCreated;
+    }
+
+    public void setOtsProductStockHistoryCreated(Date otsProductStockHistoryCreated) {
+        this.otsProductStockHistoryCreated = otsProductStockHistoryCreated;
+    }
+
+    public Date getOtsProductStockHistoryTimestamp() {
+        return otsProductStockHistoryTimestamp;
+    }
+
+    public void setOtsProductStockHistoryTimestamp(Date otsProductStockHistoryTimestamp) {
+        this.otsProductStockHistoryTimestamp = otsProductStockHistoryTimestamp;
     }
 
     public Date getOtsProductStockAddDate() {

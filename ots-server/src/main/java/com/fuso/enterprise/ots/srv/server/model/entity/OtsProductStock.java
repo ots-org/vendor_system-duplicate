@@ -20,31 +20,43 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author SERAJKU
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_product_stock")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsProductStock.findAll", query = "SELECT o FROM OtsProductStock o"),
-    @NamedQuery(name = "OtsProductStock.findByOtsProdcutStockId", query = "SELECT o FROM OtsProductStock o WHERE o.otsProdcutStockId = :otsProdcutStockId"),
-    @NamedQuery(name = "OtsProductStock.findByOtsProdcutStockActQty", query = "SELECT o FROM OtsProductStock o WHERE o.otsProdcutStockActQty = :otsProdcutStockActQty"),
-    @NamedQuery(name = "OtsProductStock.findByOtsProdcutStockStatus", query = "SELECT o FROM OtsProductStock o WHERE o.otsProdcutStockStatus = :otsProdcutStockStatus")})
+    @NamedQuery(name = "OtsProductStock.findAll", query = "SELECT o FROM OtsProductStock o")
+    , @NamedQuery(name = "OtsProductStock.findByOtsProdcutStockId", query = "SELECT o FROM OtsProductStock o WHERE o.otsProdcutStockId = :otsProdcutStockId")
+    , @NamedQuery(name = "OtsProductStock.findByOtsProdcutStockActQty", query = "SELECT o FROM OtsProductStock o WHERE o.otsProdcutStockActQty = :otsProdcutStockActQty")
+    , @NamedQuery(name = "OtsProductStock.findByOtsProdcutStockStatus", query = "SELECT o FROM OtsProductStock o WHERE o.otsProdcutStockStatus = :otsProdcutStockStatus")
+    , @NamedQuery(name = "OtsProductStock.findByOtsProdcutStockTimestamp", query = "SELECT o FROM OtsProductStock o WHERE o.otsProdcutStockTimestamp = :otsProdcutStockTimestamp")
+    , @NamedQuery(name = "OtsProductStock.findByOtsProdcutStockCreated", query = "SELECT o FROM OtsProductStock o WHERE o.otsProdcutStockCreated = :otsProdcutStockCreated")})
 public class OtsProductStock implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ots_prodcut_stock_id")
     private Integer otsProdcutStockId;
+    @Size(max = 45)
     @Column(name = "ots_prodcut_stock_act_qty")
     private String otsProdcutStockActQty;
+    @Size(max = 45)
     @Column(name = "ots_prodcut_stock_status")
     private String otsProdcutStockStatus;
+    @Column(name = "ots_prodcut_stock_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsProdcutStockTimestamp;
+    @Column(name = "ots_prodcut_stock_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsProdcutStockCreated;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
     @ManyToOne(optional = false)
     private OtsProduct otsProductId;
@@ -81,6 +93,22 @@ public class OtsProductStock implements Serializable {
 
     public void setOtsProdcutStockStatus(String otsProdcutStockStatus) {
         this.otsProdcutStockStatus = otsProdcutStockStatus;
+    }
+
+    public Date getOtsProdcutStockTimestamp() {
+        return otsProdcutStockTimestamp;
+    }
+
+    public void setOtsProdcutStockTimestamp(Date otsProdcutStockTimestamp) {
+        this.otsProdcutStockTimestamp = otsProdcutStockTimestamp;
+    }
+
+    public Date getOtsProdcutStockCreated() {
+        return otsProdcutStockCreated;
+    }
+
+    public void setOtsProdcutStockCreated(Date otsProdcutStockCreated) {
+        this.otsProdcutStockCreated = otsProdcutStockCreated;
     }
 
     public OtsProduct getOtsProductId() {

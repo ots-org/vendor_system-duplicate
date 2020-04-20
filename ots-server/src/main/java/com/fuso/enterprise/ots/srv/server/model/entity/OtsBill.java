@@ -29,25 +29,27 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author shashikumar.ys
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_bill")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsBill.findAll", query = "SELECT o FROM OtsBill o"),
-    @NamedQuery(name = "OtsBill.findByOtsBillId", query = "SELECT o FROM OtsBill o WHERE o.otsBillId = :otsBillId"),
-    @NamedQuery(name = "OtsBill.findByOtsBillNumber", query = "SELECT o FROM OtsBill o WHERE o.otsBillNumber = :otsBillNumber"),
-    @NamedQuery(name = "OtsBill.findByOtsBillAmount", query = "SELECT o FROM OtsBill o WHERE o.otsBillAmount = :otsBillAmount"),
-    @NamedQuery(name = "OtsBill.findByOtsBillAmountReceived", query = "SELECT o FROM OtsBill o WHERE o.otsBillAmountReceived = :otsBillAmountReceived"),
-    @NamedQuery(name = "OtsBill.findByOtsBillGenerated", query = "SELECT o FROM OtsBill o WHERE o.otsBillGenerated = :otsBillGenerated"),
-    @NamedQuery(name = "OtsBill.findByOtsBillStatus", query = "SELECT o FROM OtsBill o WHERE o.otsBillStatus = :otsBillStatus"),
-    @NamedQuery(name = "OtsBill.findByOtsBillCreated", query = "SELECT o FROM OtsBill o WHERE o.otsBillCreated = :otsBillCreated"),
-    @NamedQuery(name = "OtsBill.findByOtsbillIGST", query = "SELECT o FROM OtsBill o WHERE o.otsbillIGST = :otsbillIGST"),
-    @NamedQuery(name = "OtsBill.findByOtsbillSGST", query = "SELECT o FROM OtsBill o WHERE o.otsbillSGST = :otsbillSGST"),
-    @NamedQuery(name = "OtsBill.findByOtsBillOutstandingAmt", query = "SELECT o FROM OtsBill o WHERE o.otsBillOutstandingAmt = :otsBillOutstandingAmt"),
-    @NamedQuery(name = "OtsBill.findByOtsBillPdf", query = "SELECT o FROM OtsBill o WHERE o.otsBillPdf = :otsBillPdf")})
+    @NamedQuery(name = "OtsBill.findAll", query = "SELECT o FROM OtsBill o")
+    , @NamedQuery(name = "OtsBill.findByOtsBillId", query = "SELECT o FROM OtsBill o WHERE o.otsBillId = :otsBillId")
+    , @NamedQuery(name = "OtsBill.findByOtsBillNumber", query = "SELECT o FROM OtsBill o WHERE o.otsBillNumber = :otsBillNumber")
+    , @NamedQuery(name = "OtsBill.findByOtsBillAmount", query = "SELECT o FROM OtsBill o WHERE o.otsBillAmount = :otsBillAmount")
+    , @NamedQuery(name = "OtsBill.findByOtsBillAmountReceived", query = "SELECT o FROM OtsBill o WHERE o.otsBillAmountReceived = :otsBillAmountReceived")
+    , @NamedQuery(name = "OtsBill.findByOtsBillGenerated", query = "SELECT o FROM OtsBill o WHERE o.otsBillGenerated = :otsBillGenerated")
+    , @NamedQuery(name = "OtsBill.findByOtsBillStatus", query = "SELECT o FROM OtsBill o WHERE o.otsBillStatus = :otsBillStatus")
+    , @NamedQuery(name = "OtsBill.findByOtsBillTimestamp", query = "SELECT o FROM OtsBill o WHERE o.otsBillTimestamp = :otsBillTimestamp")
+    , @NamedQuery(name = "OtsBill.findByOtsBillCreated", query = "SELECT o FROM OtsBill o WHERE o.otsBillCreated = :otsBillCreated")
+    , @NamedQuery(name = "OtsBill.findByOtsbillIGST", query = "SELECT o FROM OtsBill o WHERE o.otsbillIGST = :otsbillIGST")
+    , @NamedQuery(name = "OtsBill.findByOtsbillSGST", query = "SELECT o FROM OtsBill o WHERE o.otsbillSGST = :otsbillSGST")
+    , @NamedQuery(name = "OtsBill.findByOtsBillOutstandingAmt", query = "SELECT o FROM OtsBill o WHERE o.otsBillOutstandingAmt = :otsBillOutstandingAmt")
+    , @NamedQuery(name = "OtsBill.findByOtsBillPdf", query = "SELECT o FROM OtsBill o WHERE o.otsBillPdf = :otsBillPdf")})
 public class OtsBill implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,8 +70,11 @@ public class OtsBill implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_bill_status")
     private String otsBillStatus;
+    @Column(name = "ots_bill_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsBillTimestamp;
     @Column(name = "ots_bill_created")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date otsBillCreated;
     @Column(name = "ots_bill_IGST")
     private BigDecimal otsbillIGST;
@@ -139,6 +144,14 @@ public class OtsBill implements Serializable {
 
     public void setOtsBillStatus(String otsBillStatus) {
         this.otsBillStatus = otsBillStatus;
+    }
+
+    public Date getOtsBillTimestamp() {
+        return otsBillTimestamp;
+    }
+
+    public void setOtsBillTimestamp(Date otsBillTimestamp) {
+        this.otsBillTimestamp = otsBillTimestamp;
     }
 
     public Date getOtsBillCreated() {

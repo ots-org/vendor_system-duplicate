@@ -30,25 +30,28 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author shashikumar.ys
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_order")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsOrder.findAll", query = "SELECT o FROM OtsOrder o"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderId", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderId = :otsOrderId"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderNumber", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderNumber = :otsOrderNumber"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderCost", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderCost = :otsOrderCost"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderDt", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderDt = :otsOrderDt"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderDeliveryDt", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderDeliveryDt = :otsOrderDeliveryDt"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderDeliveredDt", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderDeliveredDt = :otsOrderDeliveredDt"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderStatus", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderStatus = :otsOrderStatus"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderAmountReceived", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderAmountReceived = :otsOrderAmountReceived"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderBalanceCan", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderBalanceCan = :otsOrderBalanceCan"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderOutstandingAmount", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderOutstandingAmount = :otsOrderOutstandingAmount"),
-    @NamedQuery(name = "OtsOrder.findByOtsOrderRemarks", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderRemarks = :otsOrderRemarks")})
+    @NamedQuery(name = "OtsOrder.findAll", query = "SELECT o FROM OtsOrder o")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderId", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderId = :otsOrderId")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderNumber", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderNumber = :otsOrderNumber")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderCost", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderCost = :otsOrderCost")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderDt", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderDt = :otsOrderDt")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderDeliveryDt", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderDeliveryDt = :otsOrderDeliveryDt")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderDeliveredDt", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderDeliveredDt = :otsOrderDeliveredDt")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderStatus", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderStatus = :otsOrderStatus")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderTimestamp", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderTimestamp = :otsOrderTimestamp")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderCreated", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderCreated = :otsOrderCreated")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderAmountReceived", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderAmountReceived = :otsOrderAmountReceived")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderBalanceCan", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderBalanceCan = :otsOrderBalanceCan")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderOutstandingAmount", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderOutstandingAmount = :otsOrderOutstandingAmount")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderRemarks", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderRemarks = :otsOrderRemarks")})
 public class OtsOrder implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,10 +65,10 @@ public class OtsOrder implements Serializable {
     @Column(name = "ots_order_cost")
     private BigDecimal otsOrderCost;
     @Column(name = "ots_order_dt")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderDt;
     @Column(name = "ots_order_delivery_dt")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date otsOrderDeliveryDt;
     @Column(name = "ots_order_delivered_dt")
     @Temporal(TemporalType.DATE)
@@ -73,6 +76,12 @@ public class OtsOrder implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_order_status")
     private String otsOrderStatus;
+    @Column(name = "ots_order_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsOrderTimestamp;
+    @Column(name = "ots_order_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date otsOrderCreated;
     @Column(name = "ots_order_amount_received")
     private BigDecimal otsOrderAmountReceived;
     @Size(max = 45)
@@ -160,6 +169,22 @@ public class OtsOrder implements Serializable {
 
     public void setOtsOrderStatus(String otsOrderStatus) {
         this.otsOrderStatus = otsOrderStatus;
+    }
+
+    public Date getOtsOrderTimestamp() {
+        return otsOrderTimestamp;
+    }
+
+    public void setOtsOrderTimestamp(Date otsOrderTimestamp) {
+        this.otsOrderTimestamp = otsOrderTimestamp;
+    }
+
+    public Date getOtsOrderCreated() {
+        return otsOrderCreated;
+    }
+
+    public void setOtsOrderCreated(Date otsOrderCreated) {
+        this.otsOrderCreated = otsOrderCreated;
     }
 
     public BigDecimal getOtsOrderAmountReceived() {

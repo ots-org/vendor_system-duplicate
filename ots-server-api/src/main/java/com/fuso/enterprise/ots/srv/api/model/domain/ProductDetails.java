@@ -29,6 +29,8 @@ public class ProductDetails {
 	 
 	 private String ProductType;
 	 
+	 private String productLevel;
+	 
 	public String getProductId() {
 		return productId;
 	}
@@ -92,7 +94,13 @@ public class ProductDetails {
 	public void setProductType(String productType) {
 		ProductType = productType;
 	}
-	
-	
+
+	public String getProductLevel() {
+		return productLevel;
+	}
+
+	public void setProductLevel(String productLevel) {
+		this.productLevel = productLevel;
+	}
 
 }
