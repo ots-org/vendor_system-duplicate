@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt">
+    <item android:id="@+id/nav_navigation" android:title="Notification"/>
+    <item android:id="@+id/nav_item_add_user" android:title="Users"/>
+    <item android:id="@+id/nav_item_add_product" android:title="Add Product"/>
+    <item android:id="@+id/nav_item_generate" android:title="Generate Bill"/>
+    <item android:id="@+id/nav_item_track_stack" android:title="Track Stock"/>
+    <item android:id="@+id/nav_item_report" android:title="Report"/>
+    <item android:id="@+id/nav_item_stackreport" android:title="Stack Report">
+        <menu>
+            <item android:id="@+id/nav_tnc" android:title="   Update Stock"/>
+            <item android:id="@+id/nav_pp" android:title="   Stock"/>
+        </menu>
+    </item>
+    <item android:id="@+id/nav_item_update_product_price" android:title="Update Product Price"/>
+    <item android:id="@+id/nav_item_three" android:title="Map"/>
+    <item android:id="@+id/nav_item_two" android:title="Logout"/>
+</menu>

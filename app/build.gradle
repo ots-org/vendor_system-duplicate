@@ -1,0 +1,87 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+    mavenCentral()
+}
+
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.ortusolis.water_distribution"
+        minSdkVersion 19 // changed 15 to 18 for gif display //changed to 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        resValue "string", "google_maps_key", (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "")
+        multiDexEnabled true
+        resConfigs "en", "kn"
+
+    }
+    useLibrary 'org.apache.http.legacy'
+
+    signingConfigs {
+        releaseConfig {
+            keyAlias 'buzzgrocery'
+            keyPassword 'l0gin@123'
+            storeFile file('../release.keystore')
+            storePassword 'l0gin@123'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.codemybrainsout.onboarding:onboarder:1.0.4'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.exifinterface:exifinterface:1.0.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation 'com.google.android.gms:play-services:11.0.4'
+    implementation 'com.mcxiaoke.volley:library:1.0.19'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
+    implementation 'com.google.firebase:firebase-messaging:11.0.4'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.github.david-serrano:locationprovider:1.2'
+    //
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.+' //gif
+    implementation 'com.razorpay:checkout:1.5.2'
+    implementation 'com.google.android.gms:play-services-location:11.0.2'
+    implementation 'com.github.bumptech.glide:glide:3.6.0'//image library
+    implementation 'com.google.android.gms:play-services:11.0.4'//signin
+     //
+
+}
+
+apply plugin: 'com.google.gms.google-services'
