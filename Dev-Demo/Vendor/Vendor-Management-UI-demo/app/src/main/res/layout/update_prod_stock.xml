@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="@android:color/white" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip"
+                    android:background="@color/off_white" />
+
+                <Spinner
+                    android:id="@+id/spinnerUserType"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:minHeight="@dimen/activity_margin_35"
+                    android:padding="@dimen/activity_margin_8"
+                    android:textColor="@color/textColorDark"
+                    android:textColorHint="@color/textColor"
+                    android:textSize="@dimen/text_size_small" />
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip"
+                    android:background="@color/off_white" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_margin_10"
+                        android:text="@string/presentstock"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:id="@+id/presentStock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="@dimen/activity_margin_100"
+                        android:background="@android:color/transparent"
+                        android:inputType="number"
+                        android:padding="@dimen/activity_margin_10"
+                        android:textColor="@color/textColor"
+                        android:textColorHint="@color/gray"
+                        android:textSize="@dimen/text_size_medium" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip"
+                    android:background="@color/off_white" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_margin_10"
+                        android:text="@string/addquantity"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <EditText
+                        android:id="@+id/quantityEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="@dimen/activity_margin_100"
+                        android:background="@android:color/transparent"
+                        android:gravity="right"
+                        android:hint="@string/enterquantity"
+                        android:inputType="number"
+                        android:padding="@dimen/activity_margin_10"
+                        android:textColor="@color/textColor"
+                        android:textColorHint="@color/gray"
+                        android:textSize="@dimen/text_size_medium" />
+                </RelativeLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/distributorCodeLayout"
+                >
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/off_white"
+                    />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_margin_10"
+                        android:text="@string/distributorcode"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/text_size_medium"
+                        />
+                    <TextView
+                        android:id="@+id/distributorText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_margin_100"
+                        android:padding="@dimen/activity_margin_10"
+                        android:layout_alignParentRight="true"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/colorPrimary"
+                        android:text="@string/selectdistributor"
+                        />
+                </RelativeLayout>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip"
+                    android:background="@color/off_white" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|right"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/activity_margin_12">
+
+                    <Button
+                        android:id="@+id/cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="center"
+                        android:minWidth="0.0dip"
+                        android:minHeight="0.0dip"
+                        android:padding="@dimen/activity_margin_12"
+                        android:text="@string/cancel"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <Button
+                        android:id="@+id/updateStock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginLeft="@dimen/activity_margin_8"
+                        android:gravity="center"
+                        android:minWidth="0.0dip"
+                        android:minHeight="0.0dip"
+                        android:padding="@dimen/activity_margin_12"
+                        android:text="@string/updatestock"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_large" />
+                </LinearLayout>
+            </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
+</LinearLayout>
