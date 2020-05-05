@@ -19,6 +19,7 @@ public class ProductDetails implements Parcelable {
     String stock;
     String totalProductPrice;
     String stockStatus;
+    String productImageUrl;
 
     protected ProductDetails(Parcel in) {
         productId = in.readString();
@@ -35,6 +36,7 @@ public class ProductDetails implements Parcelable {
         stock = in.readString();
         totalProductPrice = in.readString();
         stockStatus= in.readString();
+        productImageUrl=in.readString();
     }
 
     @Override
@@ -53,6 +55,7 @@ public class ProductDetails implements Parcelable {
         dest.writeString(stock);
         dest.writeString(totalProductPrice);
         dest.writeString(stockStatus);
+        dest.writeString(productImageUrl);
     }
 
     @Override
@@ -181,5 +184,13 @@ public class ProductDetails implements Parcelable {
 
     public void setstockStatus(String stockStatus) {
         this.stockStatus = stockStatus;
+    }
+
+    public String getProductImageUrl() {
+        return productImageUrl;
+    }
+
+    public void setProductImageUrl(String productImageUrl) {
+        this.productImageUrl = productImageUrl;
     }
 }

@@ -120,6 +120,7 @@ public class NavigationFragment extends Fragment {
             stockHeader.setVisibility(View.VISIBLE);
             transferOrders.setVisibility(View.GONE);
             stockReport.setVisibility(View.GONE);
+            add.setVisibility(View.GONE);
 
         }
         else if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){

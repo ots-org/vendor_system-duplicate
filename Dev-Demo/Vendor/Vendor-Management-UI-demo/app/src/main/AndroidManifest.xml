@@ -19,6 +19,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        
         android:theme="@style/AppThemeEx">
         <activity android:name="com.ortusolis.subhaksha.Activity.SplashScreenWaterOts"></activity>
         <activity

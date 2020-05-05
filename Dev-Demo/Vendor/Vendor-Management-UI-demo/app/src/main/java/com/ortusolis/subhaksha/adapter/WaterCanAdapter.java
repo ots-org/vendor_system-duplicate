@@ -36,6 +36,7 @@ import com.ortusolis.subhaksha.pojo.ProductDetails;
 import com.ortusolis.subhaksha.pojo.UpdateProductStatusResponse;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -133,6 +134,12 @@ public class WaterCanAdapter extends BaseAdapter {
 
         if (decodedByte != null) {
             picture.setImageBitmap(decodedByte);
+//
+//            String imageUrl = "https://homepages.cae.wisc.edu/~ece533/images/airplane.png";
+//
+//            //Loading image using Picasso
+//            Picasso.get().load(imageUrl).into(picture);
+//
         } else {
             picture.setImageResource(R.drawable.no_image);
         }

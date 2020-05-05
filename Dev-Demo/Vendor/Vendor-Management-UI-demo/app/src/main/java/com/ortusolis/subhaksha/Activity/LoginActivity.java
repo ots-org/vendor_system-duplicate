@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity{
             public void onClick(View v) {
 
                 AlertDialog.Builder builderSingle = new AlertDialog.Builder(LoginActivity.this);
-                builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose your choice</font>"));
+                builderSingle.setTitle(Html.fromHtml("<font color='#000000'>"+getString(R.string.chooseYourChoice)+"</font>"));
 
                 // add a radio button list
                 final String[] strOpts = {"Register as customer"/*, "Register as distributor", "Register as an admin", "Register as an employee"*/};
@@ -138,21 +138,21 @@ public class LoginActivity extends AppCompatActivity{
                     }
                 });
 
-                builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                builderSingle.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
 
-                builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                builderSingle.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
 
-                builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                builderSingle.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
@@ -204,7 +204,7 @@ public class LoginActivity extends AppCompatActivity{
               }
               else {
                   final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                  builder.setMessage("Please Enter Username and Password.");
+                  builder.setMessage(getString(R.string.pleaseEnterUsernameAndPassword));
                   final AlertDialog alertDialog = builder.create();
                   alertDialog.show();
 
@@ -242,7 +242,7 @@ public class LoginActivity extends AppCompatActivity{
 
         Language_array.add("Select language");
         Language_array.add("English");
-        Language_array.add("Kannada");
+        Language_array.add("ಕನ್ನಡ");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Language_array);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -260,7 +260,7 @@ public class LoginActivity extends AppCompatActivity{
                         break;
                     case 2:
                         Toast.makeText(adapterView.getContext(),
-                                "You have selected Kannada", Toast.LENGTH_SHORT)
+                                "ನೀವು ಕನ್ನಡವನ್ನು ಆರಿಸಿದ್ದೀರಿ", Toast.LENGTH_SHORT)
                                 .show();
                         setLocale("kn");
                         break;
@@ -325,7 +325,7 @@ public class LoginActivity extends AppCompatActivity{
     void login(){
         final ProgressDialog progressDialogLogin;
         progressDialogLogin = new ProgressDialog(LoginActivity.this);
-        progressDialogLogin.setMessage("Please Wait ...");
+        progressDialogLogin.setMessage(getString(R.string.pleaseWait));
         progressDialogLogin.setIndeterminate(false);
         progressDialogLogin.setCancelable(false);
         progressDialogLogin.show();

@@ -367,11 +367,11 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                             }
 
                             if (distributorResponse.getResponseData().getUserDetails().isEmpty()) {
-                                Toast.makeText(AssignedOrderListActivity.this, "No Results", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AssignedOrderListActivity.this, getString(R.string.NoResults), Toast.LENGTH_LONG).show();
                             }
 
                             AlertDialog.Builder builderSingle = new AlertDialog.Builder(AssignedOrderListActivity.this);
-                            builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Select Employee</font>"));
+                            builderSingle.setTitle(Html.fromHtml("<font color='#000000'>"+ getString(R.string.selectemployee)+"</font>"));
 
                             //First Step: convert ArrayList to an Object array.
                             Object[] objNames = empNames.toArray();
@@ -392,14 +392,14 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                                 }
                             });
 
-                            builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            builderSingle.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
                             });
 
-                            builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            builderSingle.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     employeeStr = strEmp;

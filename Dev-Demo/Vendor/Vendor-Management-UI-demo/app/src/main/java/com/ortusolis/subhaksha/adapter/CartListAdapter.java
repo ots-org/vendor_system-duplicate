@@ -2,6 +2,7 @@ package com.ortusolis.subhaksha.adapter;
 
 import android.content.Context;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.ortusolis.subhaksha.Activity.CardListActivity;
 import com.ortusolis.subhaksha.R;
 import com.ortusolis.subhaksha.Utility.SquareImageView;
 import com.ortusolis.subhaksha.pojo.ProductRequestCart;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -67,7 +69,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.Module
 
     @Override
     public void onBindViewHolder(final ModuleViewHolder holder, final int position) {
-        ProductRequestCart item = dataList.get(position);
+        final ProductRequestCart item = dataList.get(position);
         //
         holder.OrderProductName.setText(Html.fromHtml("<b>Product Name: </b>"+item.getOrderProductName()));
         //
@@ -76,7 +78,19 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.Module
         holder.orderDate.setText(Html.fromHtml("<b>Order Date: </b>"+item.getOrderDate()));
         holder.orderCost.setText(Html.fromHtml("<b>Order Cost: </b>"+context.getString(R.string.Rs)+item.getOrderCost()));
         holder.noOfProducts.setText(Html.fromHtml("<b>No. of Products: </b>"+item.getOrderedQty()));
-        holder.picture.setImageBitmap(item.getProductImage());
+//        holder.picture.setImageBitmap(item.getProductImage());
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+//                        holder.picture.setImageBitmap(item.getProductImage());
+//                        Picasso.get().load("https://homepages.cae.wisc.edu/~ece533/images/airplane.png").into(holder.picture);
+                        Log.i("tag", "This'll run 300 milliseconds later");
+                    }
+                },
+                3000);
+
+//        Picasso.get().load(item.getProductImageUrl()).into(holder.picture);
+
 //        if (position%2==0){
 //            holder.picture.setImageResource(R.drawable.nut);
 //

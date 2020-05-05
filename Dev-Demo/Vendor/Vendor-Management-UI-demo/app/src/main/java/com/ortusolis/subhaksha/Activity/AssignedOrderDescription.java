@@ -91,7 +91,7 @@ public class AssignedOrderDescription extends AppCompatActivity {
                     ActionBar.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER);
             TextView toolbarTitle = (TextView) viewActionBar.findViewById(R.id.toolbar_title);
-            toolbarTitle.setText("Assigned Order");
+            toolbarTitle.setText(getString(R.string.assignedOrder));
             action.setCustomView(viewActionBar, params);
             mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
@@ -119,7 +119,7 @@ public class AssignedOrderDescription extends AppCompatActivity {
 
                         selectDateStr = format.format(newCalendar.getTime());
 
-                        deliveryTime.setText("Selected Date ("+ selectDateStr+")");
+                        deliveryTime.setText( getString(R.string.selectedDate)+" ("+ selectDateStr+")");
 
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -129,7 +129,7 @@ public class AssignedOrderDescription extends AppCompatActivity {
         });
 
         String currentDateStr = format.format(Calendar.getInstance().getTime());
-        deliveryTime.setText("Selected Date ("+ currentDateStr+")");
+        deliveryTime.setText(getString(R.string.selectedDate)+" ("+ currentDateStr+")");
 
     }
 
@@ -205,7 +205,7 @@ public class AssignedOrderDescription extends AppCompatActivity {
 
         }
         else {
-            Toast.makeText(this, "Select Delivery date", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.selectDeliveryDate), Toast.LENGTH_LONG).show();
         }
     }
 

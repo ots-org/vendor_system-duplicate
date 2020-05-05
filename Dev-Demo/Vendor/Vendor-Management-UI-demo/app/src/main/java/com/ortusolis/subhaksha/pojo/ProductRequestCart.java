@@ -25,6 +25,7 @@ public class ProductRequestCart {
     String orderedQty;
     String productStatus;
     String productCost;
+    String productImageUrl;
 
 //
     public String getOrderProductName() {
@@ -179,4 +180,14 @@ public class ProductRequestCart {
     public void setProductCost(String productCost) {
         this.productCost = productCost;
     }
+
+    public String getProductImageUrl() {
+        return productImageUrl;
+    }
+
+    public void setProductImageUrl(String productImageUrl) {
+        this.productImageUrl = productImageUrl;
+    }
+
+
 }

@@ -154,23 +154,23 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             TextView toolbarTitle = (TextView) viewActionBar.findViewById(R.id.toolbar_title);
 
             if (bundle.containsKey("customer") && bundle.getString("customer").contains("Register as an employee")) {
-                toolbarTitle.setText("Register as Employee");
+                toolbarTitle.setText(getString(R.string.RegisterAsEmployee));
                 employeeRemoveLayout.setVisibility(View.GONE);
                 distributorCodeLayoutLL.setVisibility(View.VISIBLE);
                 employee = true;
             }
             else if (bundle.containsKey("customer") && bundle.getString("customer").contains("Register as an admin")) {
-                toolbarTitle.setText("Register");
+                toolbarTitle.setText(getString(R.string.Register));
                 admin = true;
             }
             else if (bundle.containsKey("customer") && bundle.getString("customer").contains("Register as distributor")) {
                 distributor = true;
-                toolbarTitle.setText("Register as distributor");
+                toolbarTitle.setText(getString(R.string.RegisterAsDistributor));
                 customerLayout.setVisibility(View.GONE);
             }
             else if (bundle.containsKey("customer") && bundle.getString("customer").contains("Register as customer")) {
                 customer = true;
-                toolbarTitle.setText("Register as Customer");
+                toolbarTitle.setText(getString(R.string.RegisterAsCustomer));
                 customerLayout.setVisibility(View.VISIBLE);
                 distributorCodeLayoutLL.setVisibility(View.VISIBLE);
             }
@@ -229,42 +229,42 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         boolean valid = true;
         errorMsg = "";
         if (firstNameEdit.getText().toString().isEmpty()){
-            firstNameEdit.setError("Please Enter First name");
+            firstNameEdit.setError(getString(R.string.PleaseEnterFirstName));
             // errorMsg = "Please Enter First name";
             valid = false;
         }
         else if (lastNameEdit.getText().toString().isEmpty()){
-            lastNameEdit.setError("Please Enter Last name");
+            lastNameEdit.setError(getString(R.string.pleaseEnterLastName));
             //errorMsg = "Please Enter Last name";
             valid = false;
         }
         else if (phoneEdit.getText().toString().isEmpty() ||  phoneEdit.getText().toString().length()!=10){
-            phoneEdit.setError("Please Enter Valid Phone number");
+            phoneEdit.setError(getString(R.string.pleaseEnterValidPhoneNumber));
             //errorMsg = "Please Enter Phone number";
             valid = false;
         }
         else if (address1Edit.getText().toString().isEmpty()){
-            address1Edit.setError("Please Enter Address");
+            address1Edit.setError(getString(R.string.pleaseEnterTheAddress));
             //errorMsg = "Please Enter Address";
             valid = false;
         }
         else if (pincodeEdit.getText().toString().isEmpty() || pincodeEdit.getText().toString().length() < 6){
-            pincodeEdit.setError("Please Enter valid pincode");
+            pincodeEdit.setError(getString(R.string.pleaseEnterValidPincode));
             //errorMsg = "Please Enter pincode";
             valid = false;
         }
         else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailEdit.getText().toString()).matches()){
-            emailEdit.setError("Please Enter valid Email Id");
+            emailEdit.setError(getString(R.string.pleaseEnterValidEmailId));
             //errorMsg = "Please Enter Email Id";
             valid = false;
         }
         else if (passwordEdit.getText().toString().isEmpty() && !employee){
-            passwordEdit.setError("Please Enter Password");
+            passwordEdit.setError(getString(R.string.pleaseEnterPassword));
             //errorMsg = "Please Enter Password";
             valid = false;
         }
         else if (!passwordEdit.getText().toString().equals(confirmpasswordEdit.getText().toString()) && !employee){
-            confirmpasswordEdit.setError("Password is not matching");
+            confirmpasswordEdit.setError(getString(R.string.passwordIsNotMatching));
             //errorMsg = "Please Confirm password";
             valid = false;
         }
@@ -357,11 +357,11 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                         }
 
                         if (distributorResponse.getResponseData().getUserDetails().isEmpty()){
-                            Toast.makeText(RegisterActivity.this, "No Results", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, getString(R.string.NoResults), Toast.LENGTH_LONG).show();
                         }
 
                         AlertDialog.Builder builderSingle = new AlertDialog.Builder(RegisterActivity.this);
-                        builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose distributor</font>"));
+                        builderSingle.setTitle(Html.fromHtml("<font color='#000000'>"+getString(R.string.chooseDistributor)+"</font>"));
 
                         //First Step: convert ArrayList to an Object array.
                         Object[] objNames = userNames.toArray();
@@ -382,14 +382,14 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                             }
                         });
 
-                        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        builderSingle.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         });
 
-                        builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        builderSingle.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //
@@ -441,7 +441,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         }
         final ProgressDialog progressDialogRegistration;
         progressDialogRegistration = new ProgressDialog(RegisterActivity.this);
-        progressDialogRegistration.setMessage("Please Wait ...");
+        progressDialogRegistration.setMessage(getString(R.string.pleaseWait));
         progressDialogRegistration.setIndeterminate(false);
         progressDialogRegistration.setCancelable(false);
         progressDialogRegistration.show();
@@ -568,7 +568,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                         }
 
                         AlertDialog.Builder builderSingle = new AlertDialog.Builder(RegisterActivity.this);
-                        builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose Product</font>"));
+                        builderSingle.setTitle(Html.fromHtml("<font color='#000000'>"+getString(R.string.chooseProduct)+"</font>"));
 
                         //First Step: convert ArrayList to an Object array.
                         Object[] objNames = productNames.toArray();
@@ -589,14 +589,14 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                             }
                         });
 
-                        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        builderSingle.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         });
 
-                        builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        builderSingle.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //

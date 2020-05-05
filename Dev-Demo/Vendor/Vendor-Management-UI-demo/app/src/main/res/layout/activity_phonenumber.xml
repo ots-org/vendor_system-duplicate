@@ -43,7 +43,7 @@
                 android:layout_margin="@dimen/activity_margin_10"
                 android:hint="@string/enterphone_number"
                 android:textColor="@color/textColor"
-                android:textSize="@dimen/text_size_xlarge"
+                android:textSize="@dimen/text_size_large"
                 android:inputType="phone"
                 android:background="@drawable/border_light_grey"
                 android:padding="@dimen/activity_margin_8"

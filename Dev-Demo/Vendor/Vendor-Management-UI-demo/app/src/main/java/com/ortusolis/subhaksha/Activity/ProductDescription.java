@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -56,6 +58,7 @@ import com.ortusolis.subhaksha.pojo.ProductRequestCart;
 import com.ortusolis.subhaksha.pojo.ProductsStock;
 import com.ortusolis.subhaksha.pojo.UserInfo;
 import com.ortusolis.subhaksha.service.RazorPayActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -481,15 +484,25 @@ public class ProductDescription extends AppCompatActivity {
 //        Bitmap decodedByte = null;
 
         if (productDetails.getProductImage()!=null) {
-//            byte[] decodedString = Base64.decode(productDetails.getProductImage(), Base64.DEFAULT);
-//            decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            byte[] decodedString = Base64.decode(productDetails.getProductImage(), Base64.DEFAULT);
+            decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         }
-
-//        if (decodedByte != null) {
-////            picture.setImageBitmap(decodedByte);
-//        } else {
-//            picture.setImageResource(R.drawable.no_image);
-//        }
+//        picture.setImageBitmap(decodedByte);
+        String img=productDetails.getProductImageUrl();
+        Picasso.get().load(productDetails.getProductImageUrl()).into(picture);
+        if (decodedByte != null) {
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+//                            picture.setImageBitmap(decodedByte);
+                            Log.i("tag", "This'll run 3000 milliseconds later");
+                        }
+                    },
+                    1000);
+//            picture.setImageBitmap(decodedByte);
+        } else {
+            picture.setImageResource(R.drawable.no_image);
+        }
 
         registerReceiver(broadcastReceiver, new IntentFilter("broadCastName"));
         String userRoleId=sharedPreferences.getString("userRoleId","");
@@ -849,6 +862,7 @@ public class ProductDescription extends AppCompatActivity {
                 //
                 requestS.setOrderProductName(productDetails.getProductName());
 //                requestS.setProductImage(decodedByte);
+//                requestS.setProductImageUrl(productDetails.getProductImageUrl());
                 //
                 requestS.setCustomerId(customerStr);
                 requestS.setCustomerName(customerStrName);
@@ -882,6 +896,7 @@ public class ProductDescription extends AppCompatActivity {
                 //
                 requestS.setOrderProductName(productDetails.getProductName());
 //                requestS.setProductImage(decodedByte);
+//                requestS.setProductImageUrl(productDetails.getProductImageUrl());
                 //
                 requestS.setCustomerId(customerStr);
                 requestS.setCustomerName(customerStrName);
@@ -919,9 +934,11 @@ public class ProductDescription extends AppCompatActivity {
                 @Override
                 public void run() {
                     finish();
-                    Intent intent = new Intent(ProductDescription.this, CardListActivity.class);
-//                    intent.putExtra("ImageLink", decodedByte);
-                    startActivity(intent);
+                    Toast.makeText(ProductDescription.this, productDetails.getProductName()+" added to cart successfully", Toast.LENGTH_LONG).show();
+                    onBackPressed();
+//                    Intent intent = new Intent(ProductDescription.this, CardListActivity.class);
+////                    intent.putExtra("ImageLink", decodedByte);
+//                    startActivity(intent);
                 }
             },1000);
 

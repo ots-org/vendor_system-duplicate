@@ -35,21 +35,7 @@
 
 
 
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/app_name"
-        android:textSize="35dp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:layout_marginBottom="@dimen/activity_margin_32"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
+
         <EditText
             android:id="@+id/enterUsername"
             android:layout_width="match_parent"
@@ -58,6 +44,7 @@
             android:singleLine="true"
             android:layout_margin="@dimen/activity_margin_10"
             android:hint="@string/enterusername"
+            android:textSize="@dimen/text_size_large"
             android:textColor="@color/white"
             android:background="@drawable/border_light_white"
             android:padding="@dimen/activity_margin_8"
@@ -71,6 +58,7 @@
             android:singleLine="true"
             android:layout_margin="@dimen/activity_margin_10"
             android:hint="@string/enterpassword"
+            android:textSize="@dimen/text_size_large"
             android:textColor="@color/white"
             android:inputType="textPassword"
             android:background="@drawable/border_light_white"
@@ -82,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rememberme"
+            android:textSize="@dimen/text_size_large"
             android:textColor="@color/white"
             android:buttonTint="@color/white"
             />
@@ -110,7 +99,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/forgot_password"
-              android:textSize="@dimen/text_size_small"
+              android:textSize="@dimen/text_size_large"
               android:textStyle="bold"
               android:textColor="@color/white"
               android:background="?attr/selectableItemBackgroundBorderless"
@@ -139,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/register"
                 android:layout_marginLeft="@dimen/activity_margin_4"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_large"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -158,20 +147,7 @@
             <!--language switch-->
 
         </LinearLayout>
-        <TextView
-            android:id="@+id/ortusolis"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ortusolis"
-            android:textSize="@dimen/text_size_small"
-            android:layout_gravity="center"
-            android:paddingTop="10dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
 
-            />
         <TextView
             android:id="@+id/feedBack"
             android:layout_width="wrap_content"
@@ -188,4 +164,24 @@
             />
     </LinearLayout>
 </ScrollView>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center|bottom"
+        >
+
+        <TextView
+            android:id="@+id/ortusolis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:gravity="bottom"
+            android:text="@string/ortusolis"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>

@@ -138,6 +138,7 @@ public class CardListActivity extends AppCompatActivity {
         }
         else {
             cartListAdapter = new CartListAdapter(CardListActivity.this,productRequests);
+
             recyclerView.setAdapter(cartListAdapter);
             noResult.setVisibility(View.GONE);
             checkout.setVisibility(View.VISIBLE);

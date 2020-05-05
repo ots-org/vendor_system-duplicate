@@ -211,7 +211,7 @@ public class AddProductActivity extends AppCompatActivity {
         if (isValid()) {
 
             progressDialog = new ProgressDialog(AddProductActivity.this);
-            progressDialog.setMessage("Adding Product..");
+            progressDialog.setMessage(getString(R.string.addingProduct));
             progressDialog.setCancelable(false);
             progressDialog.show();
 
@@ -320,7 +320,7 @@ public class AddProductActivity extends AppCompatActivity {
             });
         }
         else {
-            Toast.makeText(this, "All fields are mandatory", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.allFieldsAreMandatory), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -385,7 +385,7 @@ public class AddProductActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    Toast.makeText(AddProductActivity.this, "Cropping failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddProductActivity.this, getString(R.string.croppingFailed), Toast.LENGTH_LONG).show();
                 }
 
                 break;
