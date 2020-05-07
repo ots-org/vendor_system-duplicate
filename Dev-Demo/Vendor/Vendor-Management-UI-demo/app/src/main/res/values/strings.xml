@@ -45,7 +45,7 @@
     <string name="address2">Enter Address</string>
     <string name="pincode">Enter Pincode</string>
     <string name="distributorcode">Distributor Code</string>
-    <string name="selectdistributor">gsme</string>
+    <string name="selectdistributor">GSME</string>
     <string name="confirmpassword">Confirm Password</string>
     <string name="typeofproduct">Select product</string>
     <string name="enterpassword">Enter Password</string>
@@ -89,7 +89,7 @@
     <string name="nonotifications">No Notifications</string>
     <string name="assignemployee">Assign Employee</string>
     <string name="cancelorder">Cancel order</string>
-    <string name="assigntheorder">Your Orders</string>
+    <string name="assigntheorder">Close Orders</string>
     <string name="dataisnotavailable">Data is not Available</string>
     <string name="orderid">Order Id</string>
     <string name="deliverytime">Select Delivery Time</string>

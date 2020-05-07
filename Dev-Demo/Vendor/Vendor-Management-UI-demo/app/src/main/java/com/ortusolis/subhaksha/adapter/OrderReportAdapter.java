@@ -103,8 +103,8 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
         final CompleteOrderDetails item = dataList.get(position);
 
         holder.orderNo.setText(Html.fromHtml("<b>Order No: </b>"+item.getOrderId()));
-        holder.customeName.setText(Html.fromHtml("<b>Customer Name: </b>"+((item.getCustomerDetails()!=null && item.getCustomerDetails().getFirstName()!=null)?item.getCustomerDetails().getFirstName():"")+"<br/>"+(status.equalsIgnoreCase("new")?"":"<b>Assigned to: </b>"+(item.getEmployeeDetails()!=null ?(item.getEmployeeDetails().getFirstName()+" "+item.getEmployeeDetails().getLastName()):""))));
-        holder.orderDate.setText(Html.fromHtml("<b>Order Date: </b>"+item.getOrderDate()));
+        holder.customeName.setText(Html.fromHtml("<b>Customer Name: </b>"+((item.getCustomerDetails()!=null && item.getCustomerDetails().getFirstName()!=null)?item.getCustomerDetails().getFirstName():"")));
+        holder.orderDate.setText(Html.fromHtml("<b>Order Date: </b>"+item.getOrderDate().split(" ")[0]));
 
         /*float totalCost = 0;
         for (OrderResponse.RequestS.ProductOrder productRequestCart : dataList.get(position).getOrderProductDetails()) {
@@ -112,7 +112,7 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
         }*/
 
         holder.orderCost.setText(Html.fromHtml("<b>Order Cost: </b>"+context.getString(R.string.Rs)+(String.format("%.02f", (Float.valueOf(item.getOrderCost()))))));
-        holder.deliveryDate.setText(Html.fromHtml(((status.equalsIgnoreCase("close") || status.equalsIgnoreCase("generated"))?"<b>Delivered Date: </b>":"<b>Delivery Date: </b>")+item.getOrderDeliveryDate()));
+        holder.deliveryDate.setText(Html.fromHtml(((status.equalsIgnoreCase("close") || status.equalsIgnoreCase("generated"))?"<b>Delivered Date: </b>":"<b>Delivery Date: </b>")+item.getOrderDeliveryDate().split(" ")[0]));
         if (status.equalsIgnoreCase("new") || status.equalsIgnoreCase("assigned") || status.equalsIgnoreCase("cancel")){
             holder.deliveredBy.setVisibility(View.GONE);
         }
@@ -130,7 +130,7 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
 
 
         if (isAssigned && sharedPreferences.contains("userRoleId") && (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1") || sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2"))) {
-            holder.employeeText.setVisibility(View.VISIBLE);
+            holder.employeeText.setVisibility(View.GONE);
         }
         else {
             holder.employeeText.setVisibility(View.GONE);

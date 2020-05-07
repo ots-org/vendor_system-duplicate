@@ -90,7 +90,7 @@ public class OrderListActivity extends AppCompatActivity {
                     ActionBar.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER);
             TextView toolbarTitle = (TextView) viewActionBar.findViewById(R.id.toolbar_title);
-            toolbarTitle.setText("Assign Orders");
+            toolbarTitle.setText("Close Orders");
             action.setCustomView(viewActionBar, params);
             mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }

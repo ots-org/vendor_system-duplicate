@@ -182,11 +182,11 @@ public class OrderReportActivity extends AppCompatActivity {
         }
         statusList.add("Close");
         //
-        statusList.add(" Bill Generated");
+//        statusList.add(" Bill Generated");
         //
-        statusList.add("Assigned");
+//        statusList.add("Assigned");
         if (!(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3"))) {
-            statusList.add("Cancel");
+//            statusList.add("Cancel");
         }
 
         ArrayAdapter userAdapter = new ArrayAdapter(OrderReportActivity.this, android.R.layout.simple_spinner_dropdown_item, statusList);
@@ -216,14 +216,14 @@ public class OrderReportActivity extends AppCompatActivity {
                 new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
-                progressDialog = new ProgressDialog(OrderReportActivity.this);
-                progressDialog.setMessage("Loading...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-                //
-
-                getAllRegister();
+//                //code
+//                progressDialog = new ProgressDialog(OrderReportActivity.this);
+//                progressDialog.setMessage("Loading...");
+//                progressDialog.setCancelable(false);
+//                progressDialog.show();
+//                //
+//
+//                getAllRegister();
             }
         });
 
@@ -248,7 +248,7 @@ public class OrderReportActivity extends AppCompatActivity {
             String usserId = "";
             if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
                 userRole = "Distributor";
-                usserId = distributorStr;
+                usserId = "2";
             }
             else if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
                 userRole = "Distributor";
@@ -264,8 +264,8 @@ public class OrderReportActivity extends AppCompatActivity {
             }
 
             if (usserId.isEmpty()){
-                Toast.makeText(this, "Select Distributor", Toast.LENGTH_LONG).show();
-                return;
+//                Toast.makeText(this, "Select Distributor", Toast.LENGTH_LONG).show();
+//                return;
             }
 
             jsonObject.put("status", status);

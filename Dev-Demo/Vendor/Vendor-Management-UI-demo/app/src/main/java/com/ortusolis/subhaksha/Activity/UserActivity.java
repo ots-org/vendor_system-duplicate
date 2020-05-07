@@ -83,7 +83,7 @@ public class UserActivity extends AppCompatActivity {
         }
 
         progressBar.setVisibility(View.GONE);
-        getEnterpriseSearchResults(AVAILABLE_TYPE.SEARCH);
+//        getEnterpriseSearchResults(AVAILABLE_TYPE.SEARCH);
         getEnterpriseSearchResults(AVAILABLE_TYPE.ADD_USER);
     }
 

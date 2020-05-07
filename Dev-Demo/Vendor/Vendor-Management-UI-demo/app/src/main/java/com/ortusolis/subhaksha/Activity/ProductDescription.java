@@ -68,7 +68,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -84,6 +88,12 @@ public class ProductDescription extends AppCompatActivity {
     String paymentMethod="";
     //
     float totalAmountPayment=0;
+    List<ProductRequestCart> productRequests;
+    ArrayList<String> productlist = new ArrayList<String>();
+    ArrayList<ArrayList<String> > productlistPair
+            = new ArrayList<ArrayList<String> >();
+    java.util.HashMap<String,String> productlistMap=new HashMap<String,String>();
+    Map<Integer, List<String>> myMultiMap = new HashMap<Integer, List<String>>();
     //
     Toolbar mToolbar;
     ActionBar action;
@@ -161,6 +171,7 @@ public class ProductDescription extends AppCompatActivity {
         //
         float totalCost =0;
         totalAmountPayment=totalCost;
+        productRequests = new ArrayList<>();
         //
 
         userNames = new ArrayList<>();
@@ -216,7 +227,9 @@ public class ProductDescription extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //getProductStock(productDetails.getProductId(),true);
-                insertOrderAndProduct(false);
+//                insertOrderAndProduct(false);
+
+                Alertpayment();
             }
         });
 
@@ -631,7 +644,6 @@ public class ProductDescription extends AppCompatActivity {
         price = Float.valueOf(productDetails.getProductPrice());
         totalPrice.setText(getString(R.string.Rs)+price);
 
-
          /*if (productDetails.getStock().equalsIgnoreCase("no")){
              orderPlaceLayout.setVisibility(View.GONE);
          }
@@ -847,6 +859,119 @@ public class ProductDescription extends AppCompatActivity {
 
     void insertOrderAndProducttoCart(){
 
+
+
+        //
+
+        productRequests = gson.fromJson(sharedPreferences.getString("prodDesc",""), new TypeToken<ArrayList<ProductRequestCart>>(){}.getType());
+       if( productRequests!=null){
+           Log.e("productRequests", String.valueOf(productRequests.size()));
+            for(int productCountId=0;productCountId<productRequests.size();productCountId++){
+//                String[] productDetailsCart = new String[]{productRequests.get(productCountId).getProductId(),productRequests.get(productCountId).getDelivaryDate()};
+//                productlist.add(productRequests.get(productCountId).getProductId());
+//                productlistPair.get(productCountId).add(Integer.parseInt(productRequests.get(productCountId).getProductId()),productRequests.get(productCountId).getDelivaryDate());
+                productlistMap.put(productRequests.get(productCountId).getProductId(),productRequests.get(productCountId).getDelivaryDate());
+//                productlistMap.put(productRequests.get(productCountId).getProductId(), new Musician(productRequests.get(productCountId).getDelivaryDate()));
+            }
+//           ArrayList<ArrayList<String> > productlistPairDynamic
+//                   = new ArrayList<ArrayList<String> >();
+//           productlistPairDynamic.add(Integer.parseInt(productDetails.getProductId()),selectDateStr);
+//           boolean exitsInCart=false;
+//           exitsInCart =productlistPair.contains(productlistPairDynamic);
+//           if(exitsInCart){
+//               Toast.makeText(ProductDescription.this, productDetails.getProductName()+" already exist in cart 2d array", Toast.LENGTH_LONG).show();
+//               return;
+//           }else {
+//               Toast.makeText(ProductDescription.this, productDetails.getProductName()+" added in cart 2d array", Toast.LENGTH_LONG).show();
+//           }
+//           if(getProductId.length()!=0){
+
+               Set<String> keys = productlistMap.keySet(); // The set of keys in the map.
+
+               Iterator<String> keyIter = keys.iterator();
+           for(Map.Entry map  :  productlistMap.entrySet() )
+
+           {
+//               String key = keyIter.next(); containsEntry
+               String getProductIdValue="";
+               getProductIdValue=productlistMap.get(productDetails.getProductId());
+//               productlistMap.containsValue(getProductIdValue);
+               if(getProductIdValue!=null){
+                   if(getProductIdValue.equals(selectDateStr)){
+                       Toast.makeText(ProductDescription.this, productDetails.getProductName()+" already exist in cart mappping", Toast.LENGTH_LONG).show();
+                       return;
+                   }
+               }
+
+
+//                if(map.getKey().equals(productDetails.getProductId())){
+//                    if(map.getValue().equals((selectDateStr))){
+//                        Toast.makeText(ProductDescription.this, productDetails.getProductName()+" already exist in cart mappping", Toast.LENGTH_LONG).show();
+//                        return;
+//                     }
+//
+//                }
+//Step 4: Using getKey and getValue methods to retrieve key and corresponding value
+
+//               System.out.println(map.getKey()+" "+map.getValue());
+
+           }
+               // remove duplicate key
+
+//               while (keyIter.hasNext()) {
+//                   String key = keyIter.next();
+//                   String value = productlistMap.get(key);
+//
+//                   System.out.println(key + "\t" + value);
+//
+//                   String nextValue = productlistMap.get(key);
+//
+//                   if (value.equals(nextValue)) {
+//                       Toast.makeText(ProductDescription.this, productDetails.getProductName()+" already exist in cart mappping", Toast.LENGTH_LONG).show();
+//                       productlistMap.remove(key);
+////                       keyIter.remove();
+//                       return;
+//                   }
+//               }
+               // remove duplicate key
+
+//           }
+//           boolean dualProduct = productlist.contains(productDetails.getProductId());
+//            if(dualProduct){
+//                Toast.makeText(ProductDescription.this, productDetails.getProductName()+" already exist in cart", Toast.LENGTH_LONG).show();
+//              return;
+//            }
+//           Toast.makeText(ProductDescription.this, productlist.size(), Toast.LENGTH_LONG).show();
+//            if (productlist.contains(productDetails.getProductId())) {
+//                Toast.makeText(ProductDescription.this, productDetails.getProductName()+" already exist in cart", Toast.LENGTH_LONG).show();
+//              return;
+//            } else {
+//                Toast.makeText(ProductDescription.this, productDetails.getProductId()+" added ", Toast.LENGTH_LONG).show();
+//            }
+            //
+//           for(int productCount=0;productCount<productRequests.size();productCount++){
+//               if(productlist.contains(productDetails.getProductId())){
+//                   Toast.makeText(ProductDescription.this, productDetails.getProductName()+" already exist in cart", Toast.LENGTH_LONG).show();
+//                   Log.e("product id 1", productRequests.get(productCount).getProductId());
+//                   AlertDialog.Builder builder = new AlertDialog.Builder(ProductDescription.this);
+//                   builder.setMessage(productRequests.get(productCount).getOrderProductName()+" already exists in the cart")
+//                           .setCancelable(true)
+//                           .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+//                               public void onClick(DialogInterface dialog, int id) {
+//                                   //do things
+//                               }
+//                           });
+//                   AlertDialog alert = builder.create();
+//                   alert.show();
+//                    return;
+//               }
+//           }
+           //
+       }
+
+
+        //
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         String currentDate = format.format(Calendar.getInstance().getTime());
@@ -856,7 +981,9 @@ public class ProductDescription extends AppCompatActivity {
             int quant = Integer.parseInt(returnQu.getText().toString());
             ProductRequestCart requestS = null;
             ArrayList<ProductRequestCart> productOrders;
-
+                //
+//            Log.e("getOrderProductName",requestS.getOrderProductName());
+            //
             if (TextUtils.isEmpty(sharedPreferences.getString("prodDesc",""))) {
                 requestS = new ProductRequestCart();
                 //
@@ -1500,6 +1627,22 @@ public class ProductDescription extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    public  void Alertpayment(){
+        String finalprice=totalPrice.getText().toString();
+        AlertDialog.Builder builder = new AlertDialog.Builder(ProductDescription.this);
+        builder.setMessage("Your Order Cost is "+finalprice+", click Confirm to place order")
+                .setCancelable(true)
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do things
+//                        placeOrder(prepareOrder(productRequests),false);
+                        insertOrderAndProduct(false);
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
 //

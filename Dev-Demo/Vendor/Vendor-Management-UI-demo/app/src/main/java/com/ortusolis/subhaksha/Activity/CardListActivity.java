@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
@@ -55,6 +56,7 @@ public class CardListActivity extends AppCompatActivity {
     LinearLayout distributorNotification, customerNotification,distributor1,customer1,customer2,customer3;
     Gson gson;
     RecyclerView recyclerView;
+
     CartListAdapter cartListAdapter;
     TextView noResult;
     String customeId = "";
@@ -137,12 +139,43 @@ public class CardListActivity extends AppCompatActivity {
             salesVoucher.setVisibility(View.GONE);
         }
         else {
+
+
             cartListAdapter = new CartListAdapter(CardListActivity.this,productRequests);
 
             recyclerView.setAdapter(cartListAdapter);
             noResult.setVisibility(View.GONE);
             checkout.setVisibility(View.VISIBLE);
             salesVoucher.setVisibility(View.VISIBLE);
+            //
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//            for(int productCount=0;productCount<productRequests.size()-1;productCount++){
+////                for(int productCountItirate=0;productCountItirate<productRequests.size()-1;productCountItirate++){
+//                    if(productRequests.get(productCount).getProductId().equals(productRequests.get(productCount+1).getProductId())){
+//
+//                        Log.e("product id 1", productRequests.get(productCount).getProductId());
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
+//                        builder.setMessage(productRequests.get(productCount).getOrderProductName()+": appears more than once, please click on delete icon if you want to remove product from cart")
+//                                .setCancelable(true)
+//                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        //do things
+//                                    }
+//                                });
+//                        AlertDialog alert = builder.create();
+//                        alert.show();
+//
+//                    }
+////                }
+////                Log.e("product id", productRequests.get(productCount).getProductId());
+//            }
+//
+//                }
+//            },2000);
+
+            //
         }
 
         checkout.setOnClickListener(new View.OnClickListener() {
@@ -170,7 +203,7 @@ public class CardListActivity extends AppCompatActivity {
                     if(Count!=1){
                         progressDialog.dismiss();
                         AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
-                        builder.setMessage("Your Order is "+PaymentTotal+", click Confirm to place order")
+                        builder.setMessage("Your Order Cost is "+PaymentTotal+", click Confirm to place order")
                                 .setCancelable(true)
                                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
@@ -486,7 +519,7 @@ public class CardListActivity extends AppCompatActivity {
     public  void Alertpayment(){
         progressDialog.dismiss();
         AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
-        builder.setMessage("Your Order is "+PaymentTotal+", click Confirm to place order")
+        builder.setMessage("Your Order Cost is "+PaymentTotal+", click Confirm to place order")
                 .setCancelable(true)
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

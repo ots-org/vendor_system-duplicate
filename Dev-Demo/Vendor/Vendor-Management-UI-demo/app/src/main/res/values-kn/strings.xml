@@ -46,7 +46,7 @@
     <string name="address1">ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ</string>
     <string name="address2">ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ</string>
     <string name="pincode">ಪಿನ್ಕೋಡ್ ಅನ್ನು ನಮೂದಿಸಿ</string>
-    <string name="distributorcode">gsme</string>
+    <string name="distributorcode">GSME</string>
     <string name="selectdistributor">ವಿತರಕರನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="customerAddressSecondary">ಗ್ರಾಹಕ ವಿಳಾಸ ದ್ವಿತೀಯ</string>
     <string name="clickMe">ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಲು ನನ್ನನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ</string>

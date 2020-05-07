@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 public class Constants {
 
-    static String baseUrl = "http://194.59.165.40:8081/ots/api/v18_1/";
+    static String baseUrl = "http://ec2-13-232-112-42.ap-south-1.compute.amazonaws.com:8082/ots/api/v18_1/";
 
     public static String WEATHER_API = "https://api.openweathermap.org/data/2.5/weather?q=bangalore&APPID=6e2fb28203a50854054df67ab72931e4#";
 

@@ -208,12 +208,12 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //code
-                progressDialog = new ProgressDialog(CustomerLedgerReportActivity.this);
-                progressDialog.setMessage("Loading...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-                //
-                getAllRegister();
+//                progressDialog = new ProgressDialog(CustomerLedgerReportActivity.this);
+//                progressDialog.setMessage("Loading...");
+//                progressDialog.setCancelable(false);
+//                progressDialog.show();
+//                //
+//                getAllRegister();
             }
         });
 
@@ -260,7 +260,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
 
         String usserId = "";
         if (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
-            usserId = distributorStr;
+            usserId = "2";
         }
         else if (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
             usserId = sharedPreferences.getString("userid","");
@@ -270,8 +270,8 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
         }
 
         if (usserId.isEmpty()){
-            Toast.makeText(this, "Select Distributor", Toast.LENGTH_LONG).show();
-            return;
+//            Toast.makeText(this, "Select Distributor", Toast.LENGTH_LONG).show();
+//            return;
         }
         /*if (employeeStr.isEmpty()){
             Toast.makeText(this, "Select Customer", Toast.LENGTH_LONG).show();
@@ -420,7 +420,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                 orderedQty.setText(productOrder.getOtsOrderedQty());
                 orderedQty.setGravity(Gravity.RIGHT);
 
-                deliveredQty.setText(productOrder.getOtsDeliveredQty());
+                deliveredQty.setText(productOrder.getOtsOrderedQty());
                 deliveredQty.setGravity(Gravity.RIGHT);
                 emptyCanRecieved.setText(productOrder.getEmptyCanRecived());
                 emptyCanRecieved.setGravity(Gravity.RIGHT);
