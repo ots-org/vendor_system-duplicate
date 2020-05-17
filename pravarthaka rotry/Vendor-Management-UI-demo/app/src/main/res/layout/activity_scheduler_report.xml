@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="@android:color/white" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/customeLinearLayout"
+        android:visibility="gone"
+        >
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="@dimen/activity_margin_8"
+            android:text="@string/customer"
+            android:textColor="@color/textColorDark"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/customerStr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/selectcustomer"
+            android:gravity="right"
+            android:textStyle="bold"
+            android:padding="@dimen/activity_margin_8"
+            android:textColor="@color/colorPrimary"
+            />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/activity_margin_6"
+        android:layout_marginBottom="@dimen/activity_margin_6"
+        android:background="@color/light_gray"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:animateLayoutChanges="true"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_margin_4"
+            android:textColor="@color/textColorDark"
+            android:textSize="@dimen/text_size_small"
+            android:text="@string/selectdate"
+            android:textStyle="bold" />
+    <Button
+        android:id="@+id/buttonDatePick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Date"
+        android:textAllCaps="false"
+        android:drawableRight="@android:drawable/arrow_down_float"
+        android:drawablePadding="@dimen/activity_margin_6"
+        android:drawableTint="@color/white"
+        android:textSize="@dimen/text_size_small"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_pressed"
+        android:layout_marginTop="@dimen/activity_margin_4"
+        android:layout_marginBottom="@dimen/activity_margin_4"
+        />
+    <TextView
+        android:id="@+id/noResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/dataisnotavailable"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:layout_margin="@dimen/activity_margin_10"
+        android:textSize="@dimen/text_size_medium"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+</LinearLayout>

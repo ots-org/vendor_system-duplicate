@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/off_white"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:title="Orders"
+        app:titleTextColor="@android:color/white" />
+    <include layout="@layout/view_order_assigned"
+    />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp"
+        android:stretchMode="columnWidth"
+        android:numColumns="2"/>
+    <TextView
+        android:id="@+id/noResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/noorders"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:layout_margin="@dimen/activity_margin_10"
+        android:textSize="@dimen/text_size_medium"
+        />
+        <Button
+            android:id="@+id/createSaleVoucher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:text="@string/createsalesvoucher"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/activity_margin_4"
+            />
+</FrameLayout>
+</LinearLayout>

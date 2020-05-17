@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/textColorDark</item>
+        <item name="android:actionMenuTextColor">@android:color/white</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+    <style name="AppThemeEx" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColor">@color/textColorDark</item>
+        <item name="android:textColorSecondary">@color/textColorDark</item>
+        <item name="android:actionMenuTextColor">@android:color/white</item>
+        <item name="android:windowEnterTransition">@transition/default_window_fade</item>
+        <item name="android:windowExitTransition">@transition/default_window_fade</item>
+    </style>
+</resources>

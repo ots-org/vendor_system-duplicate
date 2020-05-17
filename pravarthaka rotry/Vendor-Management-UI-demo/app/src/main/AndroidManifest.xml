@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ortusolis.pravarthaka">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:name="com.ortusolis.pravarthaka.Activity.WaterApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppThemeEx">
+        <activity android:name="com.ortusolis.pravarthaka.Activity.AddSubCategory"></activity>
+        <activity android:name="com.ortusolis.pravarthaka.Activity.SwitchRole" />
+        <activity android:name="com.ortusolis.pravarthaka.Activity.SplashScreenWaterOts" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.SplashScreenActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.DistributorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.OTPActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.NotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.OrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.PasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.PhoneNumberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.CreatePlant"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.ViewPlant"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.ManualScreen"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.DistributorAct"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.CustomerAct"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.BillListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.StackReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.TrackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.ReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.UpdateProductStockActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.PlantGridActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.ProductDescription"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.UserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.AddProductActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.MapsMarkerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.UpdateUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.ProductTransactionReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.OrderListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.OrderDescription"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.BillDescription"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.EmployeeOrderAssignedListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.AssignedOrderDescription"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.CardListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.OrderReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.ProductDetailReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.BillReportActivity"
+            android:screenOrientation="portrait" /> <!--  -->
+        <!--  -->
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.AssignedOrderListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.AssignedVoucherOrderDescription"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.CustomerLedgerReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.CustomerOutstandingReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.MyBillActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.StatusListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.MybillsDescription"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.SchedulerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.TransferOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.Activity.ListMappedUsersList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.pravarthaka.cropper.CropImageActivity"
+            android:screenOrientation="portrait" /> <!--  -->
+        <activity
+            android:name="com.ortusolis.pravarthaka.service.RazorPayActivity"
+            android:screenOrientation="portrait" /> <!--  -->
+        <receiver
+            android:name="com.ortusolis.pravarthaka.Utility.RestarterBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+            <intent-filter>
+                <action android:name="com.ionsales.RestartIntent" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.SCREEN_ON" />
+                <action android:name="android.intent.action.SCREEN_OFF" />
+            </intent-filter>
+        </receiver>
+        <!--
+<service
+            android:name="com.ortusolis.water_distribution.service.UserService"
+            android:enabled="true"
+            android:process=":waterdist"
+            />
+        -->
+        <!-- Firebase Notifications -->
+        <service android:name="com.ortusolis.pravarthaka.service.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="com.ortusolis.pravarthaka.service.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service> <!-- ./Firebase Notifications -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="100213" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBlbMWQ3nywenMiPxJ8GJ41EAaUCqJDT3o" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="86d10b78830c1a0dbcc18c03f0038831e3fd593c" /> <!--  -->
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_i50l0d4Cja32Mc" /> <!--  -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <service
+            android:name="com.ortusolis.pravarthaka.location.LocationUpdatesIntentService"
+            android:exported="false" />
+
+        <receiver
+            android:name="com.ortusolis.pravarthaka.location.LocationUpdatesBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.ortusolis.pravarthaka.location.LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

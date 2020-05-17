@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:titleTextColor="@android:color/white"
+        android:background="@color/colorPrimary" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/addProductDetails"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/off_white"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_margin_10"
+                    android:text="Product Category"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/text_size_medium"
+                    />
+                <TextView
+                    android:id="@+id/selectCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin_100"
+                    android:padding="@dimen/activity_margin_10"
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"
+                    android:textSize="@dimen/text_size_medium"
+                    android:hint="Select Product Category"
+                    android:textColor="@color/colorPrimary"
+                    android:textColorHint="@color/colorPrimary"
+                    android:maxLength="25"
+                    />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/off_white"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_margin_10"
+                    android:text="Sub-Category"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/text_size_medium"
+                    />
+                <EditText
+                    android:id="@+id/selectSubCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin_100"
+                    android:padding="@dimen/activity_margin_10"
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"
+                    android:textSize="@dimen/text_size_medium"
+                    android:hint="Enter Sub-Category"
+                    android:textColor="@color/textColor"
+                    android:textColorHint="@color/gray"
+                    android:maxLength="25"
+                    />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/off_white"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/addSubCategoryLayout"
+                android:background="@android:color/white"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_margin_10"
+                    android:text="Add Sub-Category"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/text_size_medium" />
+                <EditText
+                    android:id="@+id/addSubCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin_100"
+                    android:padding="@dimen/activity_margin_10"
+                    android:background="@android:color/transparent"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textColor="@color/textColor"
+                    android:hint="Add Sub-Category"
+                    android:textColorHint="@color/gray"
+                    android:maxLength="50"
+                    />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/off_white"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_margin_10"
+                    android:text="Sub-Category Description"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/text_size_medium" />
+                <EditText
+                    android:id="@+id/productDescriptionEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin_100"
+                    android:padding="@dimen/activity_margin_10"
+                    android:background="@android:color/transparent"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textColor="@color/textColor"
+                    android:hint="Sub-Category description"
+                    android:textColorHint="@color/gray"
+                    android:maxLength="50"
+                    />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/off_white"
+                />
+            <Button
+                android:id="@+id/addSubCategoryToServer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Add Sub-Category"
+                android:padding="@dimen/activity_margin_10"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large"
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:background="@drawable/borderless_button"
+                android:layout_margin="@dimen/activity_margin_10"
+                />
+            <!---->
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
