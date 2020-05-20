@@ -38,6 +38,7 @@ import com.ortusolis.pravarthaka.adapter.WaterCanAdapter;
 import com.ortusolis.pravarthaka.pojo.DistributorResponse;
 import com.ortusolis.pravarthaka.pojo.ProductsResponse;
 import com.ortusolis.pravarthaka.pojo.UserInfo;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -89,6 +90,8 @@ public class ProductsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("broadCastName"));
+//        Picasso. .clear();
+
     }
 
     @Nullable

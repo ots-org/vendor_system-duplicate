@@ -3,6 +3,7 @@ package com.ortusolis.pravarthaka.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -367,7 +368,8 @@ public class OrderDescription extends AppCompatActivity {
                         if (responseData.getResponseCode().equalsIgnoreCase("200")) {
 
                             setResult(RESULT_OK);
-                            finish();
+//                            finish();
+                            startActivity(new Intent(OrderDescription.this,OrderListActivity.class));
                             Toast.makeText(OrderDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? " " : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                         } else
                             Toast.makeText(OrderDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Failed to assign" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();

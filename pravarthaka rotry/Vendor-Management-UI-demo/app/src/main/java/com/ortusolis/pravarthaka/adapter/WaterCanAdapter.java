@@ -33,6 +33,8 @@ import com.ortusolis.pravarthaka.pojo.ProductDetails;
 import com.ortusolis.pravarthaka.pojo.UpdateProductStatusResponse;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -126,7 +128,11 @@ public class WaterCanAdapter extends BaseAdapter {
 
         if (mData.get(position).getProductImage()!=null) {
             //Loading image using Picasso
-            Picasso.get().load(mData.get(position).getProductImage()).into(picture);
+//            Picasso.get().load(mData.get(position).getProductImage()).into(picture);
+            Picasso.get().load(mData.get(position).getProductImage()).networkPolicy(NetworkPolicy.NO_CACHE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+//                    .placeholder(R.drawable.bv_logo_default).stableKey(id)
+                    .into(picture);
         }else {
             picture.setImageResource(R.drawable.no_image);
         }

@@ -361,8 +361,9 @@ public class AddProductActivity extends AppCompatActivity {
 
             byte[] byteArray = null;
             if (uploadBitmap!=null) {
+//                uploadBitmap.toByteArray().length / 1024 > 400
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                uploadBitmap.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream);
+                uploadBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                 byteArray = byteArrayOutputStream.toByteArray();
             }
             try   {
@@ -482,6 +483,8 @@ public class AddProductActivity extends AppCompatActivity {
                             double  fileSize = (double) file.length();//in Bytes
                             if (fileSize > 100000 ) {  //Greater than 100kb
                                 Log.d("file_size is high", fileSize + "   " + fileSize);
+                                Toast.makeText(AddProductActivity.this, "Pick image less than 100kb", Toast.LENGTH_LONG).show();
+                                return;
 //                                doMiB();
 
 //                        } else if (fileSize > 1024 && fileSize <500*1024 ) {
