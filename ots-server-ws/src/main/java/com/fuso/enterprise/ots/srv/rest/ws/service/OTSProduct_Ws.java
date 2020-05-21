@@ -70,7 +70,7 @@ public interface OTSProduct_Ws {
 	Response getProductDetailsForBill(@ApiParam(value = "request", required = true) @NotNull @Valid GetProductDetailsForBillRequst getProductDetailsForBillRequst);
 	
 	@POST
-	@Path("/updateOrderStatus")
+	@Path("/updateProductStatus")
 	@ApiOperation(value = "getProductStock", notes = "get ProductList For bill By orderId", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response UpdateProductStatus(@ApiParam(value = "request", required = true) @NotNull @Valid UpdateProductStatusRequest updateProductStatusRequestModel);
@@ -88,5 +88,12 @@ public interface OTSProduct_Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response addProductAndCategory(
 	@ApiParam(value = "addProductAndCategory", required = true) @NotNull @Valid AddProductCategoryAndProductRequest addProductAndCategoryRequest);
+
+	@POST
+	@Path("/searchProduct")
+	@ApiOperation(value = "searchProduct", notes = "This operation will search Product", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response searchProduct(
+	@ApiParam(value = "addProductAndCategory", required = true) @NotNull @Valid ProductDetailsBORequest ProductDetailsBORequest);
 
 }

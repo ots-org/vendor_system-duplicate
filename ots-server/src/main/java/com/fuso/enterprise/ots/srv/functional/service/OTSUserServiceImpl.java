@@ -113,8 +113,9 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		try {
 			Integer flag = 0;
 			if(addUserDataBORequest.requestData.getUserId()=="" || addUserDataBORequest.requestData.getUserId()=="0") {
-				 flag = userRegistrationDao.CheckForExists(addUserDataBORequest);
+			// = userRegistrationDao.CheckForExists(addUserDataBORequest);
 			}
+			addUserDataBORequest.getRequestData().setMappedTo("1");
 			if(flag == 0){
 				return userDataBOResponse = addNewUser(addUserDataBORequest);
 			}else {
@@ -198,25 +199,30 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
 		
 		try {
-			if(requestBOUserBySearch.getRequestData().getDistributorId()!=null) {
-				UserList = userMapDAO.getUserForDistributor(requestBOUserBySearch.getRequestData().getDistributorId());			
-				for(int i =0 ; i<UserList.size();i++) {
-					UserDetails userData = new UserDetails();					
-					if(requestBOUserBySearch.getRequestData().getSearchvalue().equals("3")) {
-						userData = userServiceDAO.getUserDetailsForEmployee(UserList.get(i).getOtsUsersId().getOtsUsersId());
-						if(userData != null) {
-							userDetailsList.add(userData);
+			if(!(requestBOUserBySearch.getRequestData().getSearchKey().equalsIgnoreCase("UsersFirstname")
+			 ||requestBOUserBySearch.getRequestData().getSearchKey().equalsIgnoreCase("UsersLastname")
+			 ||requestBOUserBySearch.getRequestData().getSearchKey().equalsIgnoreCase("UsersEmailid"))) {
+				if(requestBOUserBySearch.getRequestData().getDistributorId()!=null) {
+					UserList = userMapDAO.getUserForDistributor(requestBOUserBySearch.getRequestData().getDistributorId());			
+					for(int i =0 ; i<UserList.size();i++) {
+						UserDetails userData = new UserDetails();					
+						if(requestBOUserBySearch.getRequestData().getSearchvalue().equals("3")) {
+							userData = userServiceDAO.getUserDetailsForEmployee(UserList.get(i).getOtsUsersId().getOtsUsersId());
+							if(userData != null) {
+								userDetailsList.add(userData);
+								}
+						}else if(requestBOUserBySearch.getRequestData().getSearchvalue().equals("4")) {
+							userData = userServiceDAO.getUserDetailsForCustomer(UserList.get(i).getOtsUsersId().getOtsUsersId());
+							if(userData != null) {
+								userData.setCustomerProductDetails(mapUserProductDAO.getCustomerProductDetailsByCustomerId(userData.getUserId()));
+								userDetailsList.add(userData);
 							}
-					}else if(requestBOUserBySearch.getRequestData().getSearchvalue().equals("4")) {
-						userData = userServiceDAO.getUserDetailsForCustomer(UserList.get(i).getOtsUsersId().getOtsUsersId());
-						if(userData != null) {
-							userData.setCustomerProductDetails(mapUserProductDAO.getCustomerProductDetailsByCustomerId(userData.getUserId()));
-							userDetailsList.add(userData);
 						}
+						
 					}
 					
+					userDataBOResponse.setUserDetails(userDetailsList);
 				}
-				userDataBOResponse.setUserDetails(userDetailsList);
 			}else{
 				List<UserDetails> userDetailList= userServiceUtilityDAO.getUserDetails(requestBOUserBySearch);
 				userDataBOResponse.setUserDetails(userDetailList);

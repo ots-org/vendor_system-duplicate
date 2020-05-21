@@ -41,6 +41,7 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	@Override
 	public List<UserDetails> getUserDetails(RequestBOUserBySearch requestBOUserBySearch) {
 		List<UserDetails> userDetails = new ArrayList<UserDetails>();
+
 		String searchKey 	= requestBOUserBySearch.getRequestData().getSearchKey();
 		String searchvalue  = requestBOUserBySearch.getRequestData().getSearchvalue();
         Map<String, Object> queryParameter = new HashMap<>();
@@ -129,13 +130,13 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 							+ "UserList Size:" +userList.size());
 		            //@formatter:off
 		            userDetails =  userList.stream().map(OtsUsers -> convertUserDetailsFromEntityToDomain(OtsUsers)).collect(Collectors.toList());
-		            for(int i=0;i<userDetails.size();i++) {
-		            	if(requestBOUserBySearch.getRequestData().getUserLat()!=null&&requestBOUserBySearch.getRequestData()!=null) {
-			            	userDetails.get(i).setDistance(distance(Double.valueOf(requestBOUserBySearch.getRequestData().getUserLat()),Double.valueOf(requestBOUserBySearch.getRequestData().getUserLong()), Double.valueOf(userDetails.get(i).getUserLat()), Double.valueOf(userDetails.get(i).getUserLong())));
-			            
-		            	}
-		            }   
-		            Collections.sort(userDetails,Collections.reverseOrder());
+//		            for(int i=0;i<userDetails.size();i++) {
+//		            	if(requestBOUserBySearch.getRequestData().getUserLat()!=null&&requestBOUserBySearch.getRequestData()!=null) {
+//			            	userDetails.get(i).setDistance(distance(Double.valueOf(requestBOUserBySearch.getRequestData().getUserLat()),Double.valueOf(requestBOUserBySearch.getRequestData().getUserLong()), Double.valueOf(userDetails.get(i).getUserLat()), Double.valueOf(userDetails.get(i).getUserLong())));
+//			            
+//		            	}
+//		            }   
+//		            Collections.sort(userDetails,Collections.reverseOrder());
 		            return userDetails;
 		            //@formatter:on
 	    	}catch (NoResultException e) {
@@ -143,11 +144,7 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	    		e.printStackTrace();
 	        	throw new BusinessException(e.getMessage(), e);
 	        }
-		}
-        
-        
-        
-        
+		}     
        
 	}
 
@@ -168,21 +165,21 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	   	userDetails.setUserLat(users.getOtsUsersLat()==null?null:users.getOtsUsersLat());
 	   	userDetails.setUserLong(users.getOtsUsersLong()==null?null:users.getOtsUsersLong());
 	   	userDetails.setUserRoleId(users.getOtsUserRoleId().getOtsUserRoleId()==null?null:users.getOtsUserRoleId().getOtsUserRoleId().toString());
-	   	userDetails.setMappedTo(users.getOtsUserMapping().getOtsMappedTo().toString());
+	   	userDetails.setMappedTo(users.getOtsUserMapping().getOtsMappedTo()==null?null:users.getOtsUserMapping().getOtsMappedTo().toString());
 	   	
-	   	List<OtsCustomerProduct> customerProductDetails = new ArrayList(users.getOtsCustomerProductCollection());
-	   	
-	   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
-	   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
-	   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
-	   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
-	   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
-	   		
-	   		userDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice());
-	   		userDetails.setProductId(customerProductDetails.get(i).getOtsProductId().getOtsProductId().toString());
-	   		
-	   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
-	   	}
+		   	List<OtsCustomerProduct> customerProductDetails = new ArrayList(users.getOtsCustomerProductCollection());
+		   	
+		   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
+		   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
+		   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
+		   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
+		   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
+		   		
+		   		userDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice());
+		   		userDetails.setProductId(customerProductDetails.get(i).getOtsProductId().getOtsProductId().toString());
+		   		
+		   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
+		   	}
 	   	
 	   	return userDetails;
    }

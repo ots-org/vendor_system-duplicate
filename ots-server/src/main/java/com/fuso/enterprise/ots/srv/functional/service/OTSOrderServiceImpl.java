@@ -215,6 +215,29 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	public OrderProductBOResponse insertOrderAndProduct(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
 		OrderDetails otsOrderDetails = new OrderDetails();
 		OrderProductBOResponse Response = new OrderProductBOResponse();
+		//---------------------------------------Check fpr stock-----------------------------------------
+				try {
+					for(int j=0;j<addOrUpdateOrderProductBOrequest.getRequest().getProductList().size();j++) {
+							GetProductStockRequest getProductStockRequest = new GetProductStockRequest();
+							GetProductRequestModel productRequestModel = new GetProductRequestModel();
+							productRequestModel.setDistributorId(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId());
+							productRequestModel.setProductId(addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(j).getProductId());
+							getProductStockRequest.setRequestData(productRequestModel);
+							System.out.println("APP------------------>"+productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity());
+							System.out.println("APP------------------>"+Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(j).getOrderedQty()));
+							if(Integer.parseInt(productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity())<Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(j).getOrderedQty())) {
+								throw new BusinessException(ErrorEnumeration.ERROR_IN_STOCK);
+							}
+					}
+				}catch(Exception e) {
+					throw new BusinessException(ErrorEnumeration.ERROR_IN_STOCK);
+				}
+				
+					
+			
+				//---------------------------------------Check fpr stock-----------------------------------------
+			
+				
 		try {
 			otsOrderDetails = orderServiceDAO.insertOrderAndGetOrderId(addOrUpdateOrderProductBOrequest);
 			try {
@@ -238,14 +261,14 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				
 				return Response;
 			}catch(Exception e){
-				throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+				throw new BusinessException(e,ErrorEnumeration.ERROR_IN_STOCK);
 			} catch (Throwable e) {
-				throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+				throw new BusinessException(e, ErrorEnumeration.ERROR_IN_STOCK);
 			}
 		}catch(Exception e){
-			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_STOCK);
 		} catch (Throwable e) {
-			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_STOCK);
 		}
 
 	}
@@ -513,6 +536,30 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	public String SalesVocher(SaleVocherBoRequest saleVocherBoRequest) {
 		try {
 
+			
+			//---------------------------------------Check for stock-----------------------------------------
+			try {
+				for(int j=0;j<saleVocherBoRequest.getRequest().getOrderProductlist().size();j++) {
+						GetProductStockRequest getProductStockRequest = new GetProductStockRequest();
+						GetProductRequestModel productRequestModel = new GetProductRequestModel();
+						productRequestModel.setDistributorId("1");
+						productRequestModel.setProductId(saleVocherBoRequest.getRequest().getOrderProductlist().get(j).getProdcutId());
+						getProductStockRequest.setRequestData(productRequestModel);
+						System.out.println("APP------------------>"+productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity());
+						System.out.println("APP------------------>"+Integer.parseInt(saleVocherBoRequest.getRequest().getOrderProductlist().get(j).getOrderQty()));
+						if(Integer.parseInt(productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity())<Integer.parseInt(saleVocherBoRequest.getRequest().getOrderProductlist().get(j).getOrderQty())) {
+							return "NO";
+						}
+				}
+			}catch(Exception e) {
+				return "NO";
+			}
+			
+				
+		
+			//---------------------------------------Check fpr stock-----------------------------------------
+		
+			
 			CustomerOutstandingBORequest customerOutstandingBORequest = new CustomerOutstandingBORequest();
 			orderDetails = orderServiceDAO.SalesVocher(saleVocherBoRequest);
 
@@ -522,7 +569,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			customerOutstandingDetails.setCustomerOutstandingAmt(saleVocherBoRequest.getRequest().getOutstandingAmount());
 			customerOutstandingBORequest.setRequestData(customerOutstandingDetails);
 
-			customerOutstandingAmtDAO.updateCustomerOutstandingAmt(customerOutstandingBORequest);
+		//	customerOutstandingAmtDAO.updateCustomerOutstandingAmt(customerOutstandingBORequest);
 
 			CustomerProductDataBORequest customerProductDataBORequest = new CustomerProductDataBORequest();
 			OrderProductDetailsSaleVocher orderedProductDetails = new OrderProductDetailsSaleVocher();
@@ -546,11 +593,11 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				customerProductDetails.setCustomerBalanceCan(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductbalanceQty());
 				customerProductDetails.setProductPrice(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost());
 				customerProductDataBORequest.setRequestData(customerProductDetails);
-				mapUserProductDAO.UpdateBySaleVocher(customerProductDataBORequest);
+//				mapUserProductDAO.UpdateBySaleVocher(customerProductDataBORequest);
 
 				addProductStock.setOrderId(saleVocherBoRequest.getRequest().getOrderId());
 				addProductStock.setUsersId(orderDetails.getDistributorId());
-				addProductStock.setProductStockQty(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getDeliveredQty());
+				addProductStock.setProductStockQty(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getOrderQty());
 				addProductStock.setProductStockStatus("Active");
 				addProductStock.setProductId(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProdcutId());
 
@@ -558,19 +605,20 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 
 				productStockHistoryDao.addProductStockHistory(addProductStockBORequest);
 				productStockDao.removeProductStock(addProductStockBORequest);
-				try {
-					UserDetails distributor;
-					distributor = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getDistributorId()));
-					String notification ="The order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+saleVocherBoRequest.getRequest().getDeliverdDate();
-					fcmPushNotification.sendPushNotification(distributor.getDeviceId(),"Bisleri Apps" , notification);
+				
+			}
+			try {
+				UserDetails distributor;
+				distributor = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getDistributorId()));
+				String notification ="The order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+saleVocherBoRequest.getRequest().getDeliverdDate();
+				fcmPushNotification.sendPushNotification(distributor.getDeviceId(),"Bisleri Apps" , notification);
 
-					UserDetails Customer;
-					Customer = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId()));
-					notification = "Your order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+ saleVocherBoRequest.getRequest().getDeliverdDate();
-					fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"Bisleri Apps" , notification);
-				}catch(Exception e) {
-					return "Updated";
-				}
+				UserDetails Customer;
+				Customer = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId()));
+				notification = "Your order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+ saleVocherBoRequest.getRequest().getDeliverdDate();
+				fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"Bisleri Apps" , notification);
+			}catch(Exception e) {
+				return "Updated";
 			}
 		}catch (BusinessException e) {
 			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
@@ -661,6 +709,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 
 	@Override
 	public String runScheduler12AMTO1AM() {
+		
 		List<OtsScheduler> schedulerList = schedulerDao.runScheduler12AMTO1AM();
 		List<OtsRequestOrder> requestOrder = requestOrderServiceDao.runSchedulerEveryDay12AMTo1AM(schedulerList);
  		
@@ -673,6 +722,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
  			orderDetailsRequest.setOrderStatus("New");
  			orderDetailsRequest.setDelivaryDate(requestOrder.get(i).getOtsScheduleDt().toString().substring(0, 10));
  			orderDetailsRequest.setOrderDate(requestOrder.get(i).getOtsScheduleDt().toString().substring(0, 10));
+ 			
  			System.out.print(requestOrder.get(i).getOtsScheduleDt());
  			List<OrderedProductDetails> productList = new ArrayList<OrderedProductDetails>();
  			OrderedProductDetails scheduleOrder = new OrderedProductDetails();
@@ -684,9 +734,10 @@ public class OTSOrderServiceImpl implements OTSOrderService {
  				scheduleOrder.setProductCost(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice());
  				//	productList.get(0).setProductCost();
  			}else {
+ 				scheduleOrder.setProductId(requestOrder.get(i).getOtsProductId().getOtsProductId().toString());
  				Float cost = Float.valueOf(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice())*Float.valueOf(requestOrder.get(i).getOtsRequestQty());
  				orderDetailsRequest.setOrderCost(cost.toString());
- 				productList.get(0).setProductCost(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsCustomerId().getOtsUsersId().toString(),requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice());
+ 				scheduleOrder.setProductCost(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice());
  			}
  			scheduleOrder.setOrderedQty(requestOrder.get(i).getOtsRequestQty().toString());
  			scheduleOrder.setDeliveredQty(requestOrder.get(i).getOtsRequestQty().toString());
@@ -695,7 +746,8 @@ public class OTSOrderServiceImpl implements OTSOrderService {
  			addOrUpdateOrderProductBOrequest.setRequest(orderDetailsRequest);
   		//	int ordercost = Math.round(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getOrderCost()));
  		//	addOrUpdateOrderProductBOrequest.getRequest().setOrderCost(String.valueOf(ordercost));
- 			schedulerOrder(addOrUpdateOrderProductBOrequest); 			 			
+ 			schedulerOrder(addOrUpdateOrderProductBOrequest); 			 		
+ 			System.out.print("------------------------Scheduler worked----------------------------------------");
  		}
  		
 		return "Done";

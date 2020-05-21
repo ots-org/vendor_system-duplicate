@@ -27,6 +27,8 @@ public class OrderProductDetails {
 
     private String type;
     
+    private String productImage;
+    
 	public String getEmptyCanRecived() {
 		return emptyCanRecived;
 	}
@@ -129,5 +131,13 @@ public class OrderProductDetails {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(String productImage) {
+		this.productImage = productImage;
 	}
 }

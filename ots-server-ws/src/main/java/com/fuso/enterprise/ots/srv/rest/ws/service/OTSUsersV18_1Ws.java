@@ -102,7 +102,7 @@ public interface OTSUsersV18_1Ws {
     @Path("/getUserDetailsByMapped")
 	@ApiOperation(value = "getUserDetailsByMapped", notes = "Getting All the details of mapped Users", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
-	Response getUserDetailsByMapped(@ApiParam(value = "request", required = true) @NotNull  @Valid MappedToBORequest mappedToBORequest);
+	Response getUserDetailsByMapped(@ApiParam(value = "request", required = false)  @Valid MappedToBORequest mappedToBORequest);
 	
 	@POST
     @Path("/getCustomerOutstandingData")

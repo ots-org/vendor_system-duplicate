@@ -31,7 +31,7 @@ public class OTSEmpLatLon_WsImpl implements OTSEmpLatLon_Ws {
 				System.out.print("calling"+empLatLongBORequest.getRequestData().getLongitude()+empLatLongBORequest.getRequestData().getLatitude()+empLatLongBORequest.getRequestData().getUserId());
 				responseData = empLatLonService.updateEmpLatLong(empLatLongBORequest);
 				if (responseData != null) {
-					logger.info("Inside Event=1022,Class:OTSEmpLatLon_WsImpl,Method:addEmpLatLong, " + "Successfull");
+					logger.info("Inside Event=1022,Class:OTSEmpLatLon_WsImpl,Method:addEmpLatLong, " + "successful");
 				}
 				response = buildResponse(200,responseData);
 			}catch (BusinessException e) {
@@ -52,7 +52,7 @@ public class OTSEmpLatLon_WsImpl implements OTSEmpLatLon_Ws {
 		try {
 			getEmpLatLongBOResponse = empLatLonService.getEmpLatLong(getEmpLatLongBORequest);
 				if (getEmpLatLongBOResponse != null) {
-					logger.info("Inside Event=1022,Class:OTSEmpLatLon_WsImpl,Method:addEmpLatLong, " + "Successfull");
+					logger.info("Inside Event=1022,Class:OTSEmpLatLon_WsImpl,Method:addEmpLatLong, " + "successful");
 				}
 				response = responseWrapper.buildResponse(getEmpLatLongBOResponse);
 			} catch (BusinessException e) {

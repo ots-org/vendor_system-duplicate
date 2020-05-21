@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
 import org.jvnet.hk2.annotations.Service;
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -79,7 +80,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			if (UserDataBOResponse != null) {
 				logger.info("Inside Event=1004,Class:OTSUsersV18_1WsImpl,Method:addNewUser, " + "UserList Size:"
 						+ UserDataBOResponse.getUserDetails().size());
-				response = responseWrapper.buildResponse(UserDataBOResponse,"Successfull");
+				response = responseWrapper.buildResponse(UserDataBOResponse,"successful");
 			}else
 			{
 				response = responseWrapper.buildResponse(UserDataBOResponse,"User Details are already present In DB");
@@ -99,7 +100,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	  try {
 		  responseData = otsUserService.mappUser(mapUsersDataBORequest);
 			if (responseData != null) {
-				logger.info("Inside Event=1005,Class:OTSUsersV18_1WsImpl,Method:mappUser, " + "Successfull");
+				logger.info("Inside Event=1005,Class:OTSUsersV18_1WsImpl,Method:mappUser, " + "successful");
 			}
 			response = buildResponse(200,responseData);
 		} catch (BusinessException e) {
@@ -126,7 +127,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 				if(UserDataBOResponse.getUserDetails().size() == 0) {
 					response = buildResponse(600,"input is not present in DB");
 				}else{
-					response = buildResponse(UserDataBOResponse,"Successfull");
+					response = buildResponse(UserDataBOResponse,"successful");
 				}
 				
 			}catch(BusinessException e) {
@@ -155,7 +156,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 					logger.info("Inside Event=1001,Class:OTSUsersV18_1WsImpl,Method:addUserRegistration, "
 							+ "UserEmail:" +userRegistrationResponce.getEmailId());
 				}
-			response = responseWrapper.buildResponse(userRegistrationResponce.getEmailId(),"User Successfully Added for Registration");
+			response = responseWrapper.buildResponse(userRegistrationResponce.getEmailId(),"User successfuly Added for Registration");
 			}catch(BusinessException e) {
 				throw new BusinessException(e,ErrorEnumeration.USR_REGISTER_failure);
 				}catch(Throwable e) {
@@ -200,13 +201,11 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 					logger.info("Inside Event=1008,Class:OTSUsersV18_1WsImpl,Method:getUserDetails, "
 							+ "UserData" +loginUserResponse.getUserDetails());
 				}
-				LoginAuthenticationModel loginAuth = new LoginAuthenticationModel();
-				if(loginUserResponse.getUserDetails().getEmailId().isEmpty()||!loginAuthenticationBOrequest.getRequestData().getPassword().equals(loginUserResponse.getUserDetails().getUsrPassword())) {
+				if (BCrypt.checkpw(loginAuthenticationBOrequest.getRequestData().getPassword(), loginUserResponse.getUserDetails().getUsrPassword())) {
+					response = buildResponse(loginUserResponse,"Successful");
+				}else {
 					response = buildResponse(600,"Password is Incorrect");
-				}else{
-					response = buildResponse(loginUserResponse,"Successfull");
 				}
-				
 			}catch(BusinessException e) {
 				throw new BusinessException(e,ErrorEnumeration.USER_NOT_EXISTS);
 			}catch(Throwable e) {
@@ -221,6 +220,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		}
 	}
 
+
 	@Override
 	public Response mapUserProduct(CustomerProductDataBORequest customerProductDataBORequest) {
 		String responseData;
@@ -229,7 +229,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		try {
 		  responseData =otsUserService.mapUserProduct(customerProductDataBORequest);
 			if (responseData != null) {
-				logger.info("Inside Event=1006,Class:OTSUsersV18_1WsImpl,Method:mapUserProduct " + "Successfull");
+				logger.info("Inside Event=1006,Class:OTSUsersV18_1WsImpl,Method:mapUserProduct " + "successful");
 			}
 			response = buildResponse(200,responseData);
 		} catch (BusinessException e) {
@@ -250,7 +250,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		try {
 			approveRegistrationResponse = otsUserService.approveRegistration(approveRegistrationBORequest);
 			if(!approveRegistrationResponse.getFirstName().isEmpty()) {
-			response = buildResponse(approveRegistrationResponse.getFirstName(),"Successfully approved. User can login with his credentials");
+			response = buildResponse(approveRegistrationResponse.getFirstName(),"successfuly approved. User can login with his credentials");
 			}
 		}catch(BusinessException e) {
 			throw new BusinessException(e,ErrorEnumeration.APPROVE_REGISTRATION_FAILURE);
@@ -275,13 +275,13 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	@Override
 	public Response getUserDetailsByMapped(MappedToBORequest mappedToBORequest) {
 		try {	
-			if(!mappedToBORequest.getRequestData().getMappedTo().isEmpty())
-				{
+//			if(!mappedToBORequest.getRequestData().getMappedTo().isEmpty())
+//				{
 					Response response =null;
 					logger.info("Inside Event=1,Class:OTSUsersV18_1WsImpl, Method:getUserDetailsByMapped, mappedToBORequest:"+mappedToBORequest);
 					UserDataBOResponse UserDataBOResponse = new UserDataBOResponse();
 	
-					UserDataBOResponse = otsUserService.getUserDetailsByMapped(mappedToBORequest.getRequestData().getMappedTo());
+					UserDataBOResponse = otsUserService.getUserDetailsByMapped("1");
 					if(UserDataBOResponse!=null) {
 						logger.info("Inside Event=1,Class:OTSUsersV18_1WsImpl,Method:getUserIDUsers, "
 									+ "UserList Size:" +UserDataBOResponse.getUserDetails().size());
@@ -292,11 +292,11 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 						return response;
 					}
 			
-		}else
-		{
-			Response response = buildResponse(600,"Please Check your Input");
-			return response;
-		}
+//		}else
+//		{
+//			Response response = buildResponse(600,"Please Check your Input");
+//			return response;
+//		}
 	
 		}catch(BusinessException e) {
 			throw new BusinessException(ErrorEnumeration.Mapped_to_value_is_empty);
@@ -333,7 +333,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	public Response rejectUser(RejectUserModel rejectUserModel) {
 		try {
 				Response response = null;
-				response =  responseWrapper.buildResponse(otsUserService.rejectUser(rejectUserModel),"user rejected Successfully");
+				response =  responseWrapper.buildResponse(otsUserService.rejectUser(rejectUserModel),"user rejected successfuly");
 				return response;
 			}
 			catch(BusinessException e) {

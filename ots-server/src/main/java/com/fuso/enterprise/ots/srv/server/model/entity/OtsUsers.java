@@ -64,13 +64,13 @@ public class OtsUsers implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_users_firstname")
     private String otsUsersFirstname;
-    @Size(max = 45)
+    @Size(max = 1000)
     @Column(name = "ots_users_lastname")
     private String otsUsersLastname;
-    @Size(max = 45)
+    @Size(max = 1000)
     @Column(name = "ots_users_addr1")
     private String otsUsersAddr1;
-    @Size(max = 45)
+    @Size(max = 1000)
     @Column(name = "ots_users_addr2")
     private String otsUsersAddr2;
     @Size(max = 45)
@@ -92,7 +92,7 @@ public class OtsUsers implements Serializable {
     @Column(name = "ots_users_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsUsersCreated;
-    @Size(max = 45)
+    @Size(max = 1000)
     @Column(name = "ots_users_password")
     private String otsUsersPassword;
     @Size(max = 45)

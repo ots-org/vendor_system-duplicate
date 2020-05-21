@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import javax.imageio.IIOImage;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.codec.binary.Base64;
 import com.fuso.enterprise.ots.srv.server.dao.ProductCategoryMappingDAO;
+import com.fuso.enterprise.ots.srv.api.model.domain.AddProductCategoryAndProductModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductRequestModel;
@@ -46,6 +48,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBOReque
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ProductBulkUploadRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.BillProductDetailsResponse;
@@ -125,7 +128,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 			List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
 			List<GetProductBOStockResponse> productStockvalue = new ArrayList<GetProductBOStockResponse>();
 			
-			if(productDetailsBORequest.getRequestData().getSearchKey().equals("All") && productDetailsBORequest.getRequestData().getDistributorId().equals("1")) {
+			if(productDetailsBORequest.getRequestData().getSearchKey().equals("All")) {
 				productDetailsBOResponse = productServiceDAO.getProductList(productDetailsBORequest);
 			}else if(productDetailsBORequest.getRequestData().getCustomerId()!=null){
 				try {
@@ -154,7 +157,10 @@ public class OTSProductServiceImpl implements OTSProductService {
 				} catch (Exception e) {
 					throw new BusinessException(e.getMessage(), e);
 				}
-			}else {
+			}else if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("FirstLetter")){
+				productDetailsBOResponse = productServiceDAO.getProductList(productDetailsBORequest);
+			}
+			else{
 				System.out.print("3");
 				productStockvalue = productStockDao.getProductStockByUid(productDetailsBORequest.getRequestData().getDistributorId());
 				for(int i=0;i<productStockvalue.size();i++) {
@@ -383,7 +389,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 		String encodedString = null;
 		try {
 			fileContent = FileUtils.readFileToByteArray(new File(path));
-		//	encodedString = Base64.getEncoder().encodeToString(fileContent);
+			encodedString = Base64.encodeBase64String(fileContent);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -409,11 +415,13 @@ public class OTSProductServiceImpl implements OTSProductService {
 	}
 
 	@Override
-	public String productBulkUpload(String base64Excel) {
-		AddorUpdateProductBORequest addorUpdateProductBORequest = new AddorUpdateProductBORequest();
-		byte[] decodedString = Base64.decodeBase64(base64Excel.getBytes(StandardCharsets.UTF_8));
-		String excelPartFileName = "Product" + "1" + ".xlsx";
-		String uploadpath = "C:\\product\\data\\" + excelPartFileName;
+	public String productBulkUpload(ProductBulkUploadRequest base64Excel) {
+		AddProductCategoryAndProductRequest addorUpdateProductBORequest = new AddProductCategoryAndProductRequest();
+		byte[] decodedString = Base64.decodeBase64(base64Excel.getBase64ExcelString().getBytes(StandardCharsets.UTF_8));
+		Random rand = new Random(); 
+		int name = rand.nextInt(1000); 
+		String excelPartFileName = "Product" + name + ".xlsx";
+		String uploadpath = "/home/mobdev/images/rotary/" + excelPartFileName;
 		File dwldsPath = new File(uploadpath);
 		FileOutputStream os;
 		createFolder();
@@ -429,14 +437,14 @@ public class OTSProductServiceImpl implements OTSProductService {
 //			------------------------------------READ ALL IMAGES---------------------------------------------
 			List lst = workbook.getAllPictures();
 			
-			for(int i=0;i<product.getLastRowNum();i++)
+			for(int i=1;i<product.getLastRowNum();i++)
 			{
 				
-				PictureData pict = (PictureData) lst.get(i);
-				byte[] data = pict.getData();
-				FileOutputStream out = new FileOutputStream("C:\\product\\data\\img.jpg");
-				out.write(data);
-				out.close();
+//				PictureData pict = (PictureData) lst.get(i);
+//				byte[] data = pict.getData();
+//				FileOutputStream out = new FileOutputStream("C:\\product\\data\\img.jpg");
+//				out.write(data);
+//				out.close();
 				
 //				------------------------------------Fetching and getting image---------------------------------------------				
 				Row ro = product.getRow(i);
@@ -445,18 +453,31 @@ public class OTSProductServiceImpl implements OTSProductService {
 				productDetails.setProductDescription(ro.getCell(1).toString());
 				productDetails.setProductPrice(ro.getCell(2).toString());
 				productDetails.setProductType(ro.getCell(3).toString());
-				
-				productDetails.setProductImage(ImageToBase64("C:\\product\\data\\img.jpg"));
+				productDetails.setProductLevel("3");
+			//	productDetails.setProductImage(ImageToBase64("C:\\product\\data\\img.jpg"));
 				productDetails.setProductStatus("active");
 				productDetails.setProductId("string");
-				addorUpdateProductBORequest.setRequestData(productDetails);
-				productServiceDAO.addOrUpdateProduct(addorUpdateProductBORequest);
-				System.out.print(productDetails.getProductName()+productDetails.getProductImage());
+				
+				//-----------------------setting request object-----------------------
+				List<ProductDetails> productDetailsListvalue = new ArrayList<ProductDetails>(); 
+				productDetailsListvalue.add(productDetails);
+				AddProductCategoryAndProductModelRequest AddProductCategoryAndProductModelRequest = new AddProductCategoryAndProductModelRequest();
+				AddProductCategoryAndProductModelRequest.setProductDetails(productDetailsListvalue);
+				AddProductCategoryAndProductModelRequest.setKey("subAndProd");
+				AddProductCategoryAndProductModelRequest.setProductCategoryId(base64Excel.getSubcategoryId());
+				AddProductCategoryAndProductModelRequest.setUserId("1");
+				//--------------------------------------------------------------------
+				AddProductCategoryAndProductRequest addProductAndCategoryRequest = new AddProductCategoryAndProductRequest();
+				addProductAndCategoryRequest.setRequestData(AddProductCategoryAndProductModelRequest);
+				
+				addProductAndCategory(addProductAndCategoryRequest);
+				//productServiceDAO.addOrUpdateProduct(addorUpdateProductBORequest);
+				//System.out.print(productDetails.getProductName()+productDetails.getProductImage());
 			}
 				return "Data Uploaded";
 			}catch(Exception e) {
 				System.out.print(e);
-				return "Error in excel";
+				throw new BusinessException(e, ErrorEnumeration.ADD_UPDATE_PRODUCT_FAILURE);
 			}
 	}
 	
@@ -496,21 +517,40 @@ public class OTSProductServiceImpl implements OTSProductService {
 	
 	@Override
 	public String addProductAndCategory(AddProductCategoryAndProductRequest addProductAndCategoryRequest) {
-		try {
-			//------------------------------adding list of Product category with main category----------------------------------------
-			addProductAndCategoryRequest = productServiceDAO.addProductAndCategory(addProductAndCategoryRequest);
-			if(addProductAndCategoryRequest.getRequestData().getKey().equalsIgnoreCase("MainAndSub")) {
-				//------------------------------mapping Customer Sub Category----------------------------------------
-				mapUserProductDAO.addProductAndCategory(addProductAndCategoryRequest);
+		if(!addProductAndCategoryRequest.getRequestData().getKey().equalsIgnoreCase("productUpdate")) {
+			try {
+				//------------------------------adding list of Product category with main category----------------------------------------
+				addProductAndCategoryRequest = productServiceDAO.addProductAndCategory(addProductAndCategoryRequest);
+				if(addProductAndCategoryRequest.getRequestData().getKey().equalsIgnoreCase("MainAndSub")) {
+					//------------------------------mapping Customer Sub Category----------------------------------------
+					mapUserProductDAO.addProductAndCategory(addProductAndCategoryRequest);
+				}
+				//------------------------------map category and sub category----------------------------------------
+				productCategoryMappingDAO.mapProductAndCategory(addProductAndCategoryRequest);
+			}catch(Exception e) {
+				throw new BusinessException(e.getMessage(), e);
 			}
-			//------------------------------map category and sub category----------------------------------------
-			productCategoryMappingDAO.mapProductAndCategory(addProductAndCategoryRequest);
-		}catch(Exception e) {
-			throw new BusinessException(e.getMessage(), e);
+		}else {
+			AddorUpdateProductBORequest addorUpdateProductBORequest = new AddorUpdateProductBORequest ();
+			ProductDetails productDetails = new ProductDetails();
+;			productDetails.setProductId(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductId());
+			productDetails.setProductImage(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductImage());
+			productDetails.setProductStatus(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductStatus());
+			productDetails.setProductName(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductName());
+			productDetails.setProductDescription(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductDescription());
+			productDetails.setProductPrice(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductPrice());
+			productDetails.setProductLevel(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductLevel());
+			addorUpdateProductBORequest.setRequestData(productDetails);
+			addOrUpdateProduct(addorUpdateProductBORequest);
 		}
-		
 		return null;
 	}
+	@Override
+	public ProductDetailsBOResponse searchProduct() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
 
 

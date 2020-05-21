@@ -47,7 +47,7 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
                     response = responseWrapper.buildResponse(productDetailsBOResponse,
                         "Record is not present in DataBase");
                 } else {
-                    response = responseWrapper.buildResponse(productDetailsBOResponse, "Successfull");
+                    response = responseWrapper.buildResponse(productDetailsBOResponse, "successful");
                 }
             } catch (BusinessException e) {
                 throw new BusinessException(e, ErrorEnumeration.GET_PRODUCT_LIST_FAILURE);
@@ -70,7 +70,7 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
         try {
             responseData = otsProductService.addOrUpdateProduct(addorUpdateProductBORequest);
             if (responseData != null) {
-                logger.info("Inside Event=1011,Class:OTSProduct_WsImpl,Method:addOrUpdateProduct, " + "Successfull");
+                logger.info("Inside Event=1011,Class:OTSProduct_WsImpl,Method:addOrUpdateProduct, " + "successful");
             }
             response = buildResponse(200, responseData);
         } catch (BusinessException e) {
@@ -127,7 +127,7 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
                 GetProductStockListBOResponse = otsProductService.getProductStockList(getProductStockListRequest);
                 if (!GetProductStockListBOResponse.getProductStockDetail().isEmpty()) {
 
-                    response = responseWrapper.buildResponse(GetProductStockListBOResponse, "Successfull");
+                    response = responseWrapper.buildResponse(GetProductStockListBOResponse, "successful");
                 } else {
                     response = responseWrapper
                         .buildResponse("We do not have DATA for this Request,please check the input");
@@ -148,9 +148,9 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
         try {
             getProductBOStockResponse = otsProductService.getProductStockByUidAndPid(getProductStockRequest);
             if (!(getProductBOStockResponse.getProductStockId() == null)) {
-                response = responseWrapper.buildResponse(getProductBOStockResponse, "Successfull");
+                response = responseWrapper.buildResponse(getProductBOStockResponse, "Successful");
             } else {
-                response = responseWrapper.buildResponse(400, "stock npt found");
+                response = responseWrapper.buildResponse(400, "stock not found");
             }
         } catch (BusinessException e) {
             throw new BusinessException(e.getMessage(), e);
@@ -165,7 +165,7 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
         try {
             Response response = null;
             response = responseWrapper.buildResponse(
-                otsProductService.getProductDetailsForBill(getProductDetailsForBillRequst), "Successfull");
+                otsProductService.getProductDetailsForBill(getProductDetailsForBillRequst), "Successful");
             return response;
         } catch (BusinessException e) {
             throw new BusinessException(e.getMessage(), e);
@@ -178,7 +178,7 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
         try {
             Response response = null;
             response = responseWrapper.buildResponse(
-                otsProductService.UpdateProductStatus(updateProductStatusRequestModel), "Successfull");
+                otsProductService.UpdateProductStatus(updateProductStatusRequestModel), "Successful");
             return response;
         } catch (BusinessException e) {
             throw new BusinessException(e.getMessage(), e);
@@ -191,7 +191,7 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
     public Response productBulkUpload(ProductBulkUploadRequest partsBase64Excel) {
         try {
             Response response = null;
-            response = responseWrapper.buildResponse(otsProductService.productBulkUpload(partsBase64Excel.getBase64ExcelString()), "Successfull");
+            response = responseWrapper.buildResponse(otsProductService.productBulkUpload(partsBase64Excel), "successful");
             return response;
         } catch (BusinessException e) {
             throw new BusinessException(e.getMessage(), e);
@@ -204,13 +204,19 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 	public Response addProductAndCategory(AddProductCategoryAndProductRequest addProductAndCategoryRequest) {
 		Response response = null;
 		try {
-	            response = responseWrapper.buildResponse(otsProductService.addProductAndCategory(addProductAndCategoryRequest), "Successfull");
+	            response = responseWrapper.buildResponse(otsProductService.addProductAndCategory(addProductAndCategoryRequest), "successful");
 	        } catch (BusinessException e) {
 	            throw new BusinessException(e.getMessage(), e);
 	        } catch (Throwable e) {
 	            throw new BusinessException(e.getMessage(), e);
 	        }// TODO Auto-generated method stub
 		return response;
+	}
+
+	@Override
+	public Response searchProduct(ProductDetailsBORequest ProductDetailsBORequest) {
+		
+		return null;
 	}
 
 }

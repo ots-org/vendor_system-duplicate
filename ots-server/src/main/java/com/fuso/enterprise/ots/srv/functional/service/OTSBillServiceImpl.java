@@ -83,6 +83,7 @@ public class OTSBillServiceImpl implements OTSBillService {
     private OTSProductService otsProductService;
     long millis = System.currentTimeMillis();
     java.sql.Date date = new java.sql.Date(millis);
+  
     @Override
     public BillDetailsBOResponse addOrUpdateBill(BillDetailsBORequest billDetailsBORequest) {
         BillDetailsBOResponse billDetailsBOResponse = new BillDetailsBOResponse();
@@ -303,14 +304,14 @@ public class OTSBillServiceImpl implements OTSBillService {
                         billNumber.add(billIdResponse1.getBillNumber().get(i));
                     }
                 }
-                if (billReportBasedOnDateBORequest.getRequestData().getPdf().equalsIgnoreCase("yes")) {
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                    LocalDateTime now = LocalDateTime.now();
-                    String pdf = genratePdfForbillReportBydate(billNumber, userServiceDAO.getUserIdUsers(billReportBasedOnDateBORequest.getRequestData().getUserId()).get(0).getFirstName(), now.toString().substring(0, 10));
-                    billIdResponse.setPdf(pdf);
-                }
-                billIdResponse.setBillNumber(billNumber);
             }
+            if (billReportBasedOnDateBORequest.getRequestData().getPdf().equalsIgnoreCase("yes")) {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                LocalDateTime now = LocalDateTime.now();
+                String pdf = genratePdfForbillReportBydate(billNumber, userServiceDAO.getUserIdUsers(billReportBasedOnDateBORequest.getRequestData().getUserId()).get(0).getFirstName(), now.toString().substring(0, 10));
+                billIdResponse.setPdf(pdf);
+            }
+            billIdResponse.setBillNumber(billNumber);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage(), e);
         }

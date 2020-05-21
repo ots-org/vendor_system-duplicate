@@ -230,6 +230,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			otsOrder.setOtsOrderCost(costData);
 			otsOrder.setOtsOrderStatus(addOrUpdateOrderProductBOrequest.getRequest().getOrderStatus());
 			otsOrder.setOtsOrderDt(Date.valueOf(addOrUpdateOrderProductBOrequest.getRequest().getOrderDate()));
+			otsOrder.setOtsOrderDeliveryDt(Date.valueOf(addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()));
 		if(addOrUpdateOrderProductBOrequest.getRequest().getDeliverdDate()==null)
 		{
 			otsOrder.setOtsOrderDeliveredDt(null);
@@ -435,6 +436,8 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			Map<String, Object> queryParameter = new HashMap<>();
 	    	OtsUsers userId = new OtsUsers();
 	    	userId.setOtsUsersId(Integer.parseInt(getListOfOrderByDateBORequest.getRequest().getUserId()));
+	    	int realDate = getListOfOrderByDateBORequest.getRequest().getStartDate().getDate()-1;
+	    	getListOfOrderByDateBORequest.getRequest().getStartDate().setDate(realDate);
 	    	queryParameter.put("FromDate",getListOfOrderByDateBORequest.getRequest().getStartDate());
 			queryParameter.put("ToDate",getListOfOrderByDateBORequest.getRequest().getEndDate());
 			switch(getListOfOrderByDateBORequest.getRequest().getRole())

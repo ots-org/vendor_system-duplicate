@@ -106,6 +106,7 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 			orderDetails.setOtsProductId(otsOrderProduct.getOtsProductId().getOtsProductId()==null?null:otsOrderProduct.getOtsProductId().getOtsProductId().toString());
 			orderDetails.setEmptyCanRecived(otsOrderProduct.getOtsReceivedCans()==null?null:otsOrderProduct.getOtsReceivedCans().toString());
 			orderDetails.setType(otsOrderProduct.getOtsProductId().getOtsProductType()==null?null:otsOrderProduct.getOtsProductId().getOtsProductType().toString());
+			orderDetails.setProductImage(otsOrderProduct.getOtsProductId().getOtsProductImage()==null?null:otsOrderProduct.getOtsProductId().getOtsProductImage());
 			return orderDetails;		
 		}
 
@@ -250,8 +251,8 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 			otsOrderProduct.setOtsOrderProductStatus(orderedProductDetails.getProductStatus());
 			BigDecimal ProductCost=new BigDecimal(orderedProductDetails.getProductCost());
 			otsOrderProduct.setOtsOrderProductCost(ProductCost);
-			otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(orderedProductDetails.getOts_delivered_qty()));
-			otsOrderProduct.setOtsReceivedCans(Integer.valueOf(orderedProductDetails.getReceivedQty()));
+			otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(otsOrderProduct.getOtsOrderedQty()));
+			otsOrderProduct.setOtsReceivedCans(Integer.valueOf(otsOrderProduct.getOtsOrderedQty()));
 			if(orderedProductDetails.getOrderProductId()==null) {
 			System.out.println("Inserted");
 			save(otsOrderProduct);

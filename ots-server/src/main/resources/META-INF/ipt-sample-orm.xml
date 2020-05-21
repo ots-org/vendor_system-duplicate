@@ -32,6 +32,8 @@
 			OtsProduct o 
 		WHERE 
 			o.otsProductName LIKE :FirstLetter
+			AND
+			o.otsProductLevelId = :otsProductLevelId
 		</query>
 	</named-query>
 	<named-query name="OtsUsers.findByPattrenMatchingotsUsersFirstname">
@@ -519,6 +521,14 @@
 			o.otsUsersId =:distributorId
 		AND
 			o.otsProductId = :otsProductId
+		</query>
+	</named-query>
+	<named-query name="OtsProduct.findAllProduct">
+		<query>SELECT o 
+			FROM 
+				OtsProduct o 
+			WHERE 
+				o.otsProductLevelId = :otsProductLevelId
 		</query>
 	</named-query>
 </entity-mappings>

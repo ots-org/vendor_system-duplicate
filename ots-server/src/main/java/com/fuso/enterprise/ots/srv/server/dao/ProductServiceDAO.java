@@ -1,5 +1,6 @@
 package com.fuso.enterprise.ots.srv.server.dao;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
@@ -13,7 +14,7 @@ public interface ProductServiceDAO {
 
 	ProductDetailsBOResponse getProductList(ProductDetailsBORequest productDetailsBORequest);
 
-	String addOrUpdateProduct(AddorUpdateProductBORequest addorUpdateProductBORequest);
+	String addOrUpdateProduct(AddorUpdateProductBORequest addorUpdateProductBORequest) throws IOException;
 
 	ProductDetails getProductDetils(String productId);
 

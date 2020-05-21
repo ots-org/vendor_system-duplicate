@@ -34,9 +34,9 @@ public class OTSBill_WsImpl implements OTSBill_Ws {
 		try {
 			billDetailsBOResponse = otsBillService.addOrUpdateBill(billDetailsBORequest);
 			if (billDetailsBOResponse != null) {
-				logger.info("Inside Event=1021,Class:OTSBill_WsImpl,Method:addOrUpdateBill, " + "Successfull");
+				logger.info("Inside Event=1021,Class:OTSBill_WsImpl,Method:addOrUpdateBill, " + "successful");
 			}
-			response = responseWrapper.buildResponse(billDetailsBOResponse,"Bill added/updated Successfully");
+			response = responseWrapper.buildResponse(billDetailsBOResponse,"Bill added/updated successfuly");
 		} catch (BusinessException e) {
 			throw new BusinessException(e, ErrorEnumeration.ADD_UPDATE_BILL_FAILURE);
 		} catch (Throwable e) {
@@ -55,7 +55,7 @@ public class OTSBill_WsImpl implements OTSBill_Ws {
 		try {
 			  responseData =otsBillService.updateCustomerOutstandingAmt(customerOutstandingBORequest);
 				if (responseData != null) {
-					logger.info("Inside Event=1022,Class:OTSBill_WsImpl,Method:updateCustomerOutstandingAmt" + "Successfull");
+					logger.info("Inside Event=1022,Class:OTSBill_WsImpl,Method:updateCustomerOutstandingAmt" + "successful");
 				}
 		response = buildResponse(200,responseData);
 		} catch (BusinessException e) {
@@ -79,7 +79,7 @@ public class OTSBill_WsImpl implements OTSBill_Ws {
 			try {
 				    customerOutstandingAmtResponse =otsBillService.getCustomerOutstandingAmt(getCustomerOutstandingAmtBORequest);
 					if (customerOutstandingAmtResponse != null) {
-					logger.info("Inside Event=1022,Class:OTSBill_WsImpl,Method:getCustomerOutstandingAmt" + "Successfull");
+					logger.info("Inside Event=1022,Class:OTSBill_WsImpl,Method:getCustomerOutstandingAmt" + "successful");
 						System.out.println(customerOutstandingAmtResponse.getCustomerOutstandingAmount().size());
 					}
 					
@@ -87,7 +87,7 @@ public class OTSBill_WsImpl implements OTSBill_Ws {
 						response = buildResponse(200,"No Outstanding Balance found for given Customer Id");
 					}
 					else {
-					response = responseWrapper.buildResponse(customerOutstandingAmtResponse,"Successfull");
+					response = responseWrapper.buildResponse(customerOutstandingAmtResponse,"successful");
 					}
 			} catch (BusinessException e) {
 				throw new BusinessException(e, ErrorEnumeration.GET_CUSTOMER_OUTSTANDINGAMT_FAILURE_WRONG_INPUT);
@@ -109,7 +109,7 @@ public class OTSBill_WsImpl implements OTSBill_Ws {
 		public Response getBillByOrderId(GetBillByOrderIdBORequest getBillByOrderIdBORequest) {
 	    	Response response = null;
 	    	try {
-		    	response = responseWrapper.buildResponse(otsBillService.getBillDetailsByOrderId(getBillByOrderIdBORequest),"Successfull");}
+		    	response = responseWrapper.buildResponse(otsBillService.getBillDetailsByOrderId(getBillByOrderIdBORequest),"successful");}
 		    	catch(Exception e) {
 		    	response = buildResponse(600,"Bill doesn't have any Order");
 	    	}
@@ -122,7 +122,7 @@ public class OTSBill_WsImpl implements OTSBill_Ws {
 			BillReportByDateBOResponse billIdResponse=new BillReportByDateBOResponse();
 			try {
 				billIdResponse=otsBillService.getBillReportByDate(billReportBasedOnDateBORequest);
-				response = responseWrapper.buildResponse(billIdResponse,"Successfull");
+				response = responseWrapper.buildResponse(billIdResponse,"successful");
 			} catch (BusinessException e) {
 				throw new BusinessException(e, ErrorEnumeration.GET_BILL_REPORT_BY_DATE);
 			} catch (Throwable e) {
