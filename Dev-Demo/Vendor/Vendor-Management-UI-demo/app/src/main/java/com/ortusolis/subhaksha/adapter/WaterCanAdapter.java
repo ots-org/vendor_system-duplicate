@@ -125,24 +125,33 @@ public class WaterCanAdapter extends BaseAdapter {
             picture.setImageBitmap(bitmap);
         }*/
 
-        Bitmap decodedByte = null;
+//        Bitmap decodedByte = null;
+//
+//        if (mData.get(position).getProductImage()!=null) {
+//            byte[] decodedString = Base64.decode(mData.get(position).getProductImage(), Base64.DEFAULT);
+//            decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+//        }
 
+//        if (decodedByte != null) {
+////            picture.setImageBitmap(decodedByte);
+////
+            String imageUrl = "https://homepages.cae.wisc.edu/~ece533/images/airplane.png";
+////
+//
+////
+//        } else {
+//            picture.setImageResource(R.drawable.no_image);
+//        }
+
+        //
         if (mData.get(position).getProductImage()!=null) {
-            byte[] decodedString = Base64.decode(mData.get(position).getProductImage(), Base64.DEFAULT);
-            decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        }
-
-        if (decodedByte != null) {
-            picture.setImageBitmap(decodedByte);
-//
-//            String imageUrl = "https://homepages.cae.wisc.edu/~ece533/images/airplane.png";
-//
-//            //Loading image using Picasso
-//            Picasso.get().load(imageUrl).into(picture);
-//
-        } else {
+            //Loading image using Picasso
+            Picasso.get().load(mData.get(position).getProductImage()).into(picture);
+        }else {
             picture.setImageResource(R.drawable.no_image);
         }
+
+        //
 
         description.setText("Price " + context.getString(R.string.Rs) + (String.format("%.02f", Float.valueOf(mData.get(position).getProductPrice()))));
 

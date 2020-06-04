@@ -78,26 +78,8 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.Module
         holder.orderDate.setText(Html.fromHtml("<b>Order Date: </b>"+item.getOrderDate()));
         holder.orderCost.setText(Html.fromHtml("<b>Order Cost: </b>"+context.getString(R.string.Rs)+item.getOrderCost()));
         holder.noOfProducts.setText(Html.fromHtml("<b>No. of Products: </b>"+item.getOrderedQty()));
-//        holder.picture.setImageBitmap(item.getProductImage());
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-//                        holder.picture.setImageBitmap(item.getProductImage());
-//                        Picasso.get().load("https://homepages.cae.wisc.edu/~ece533/images/airplane.png").into(holder.picture);
-                        Log.i("tag", "This'll run 300 milliseconds later");
-                    }
-                },
-                3000);
 
-//        Picasso.get().load(item.getProductImageUrl()).into(holder.picture);
-
-//        if (position%2==0){
-//            holder.picture.setImageResource(R.drawable.nut);
-//
-//        }
-//        else {
-//            holder.picture.setImageResource(R.drawable.nut);
-//        }
+        Picasso.get().load(item.getProductImageUrl()).into(holder.picture);
 
         holder.customerLay.setOnClickListener(new View.OnClickListener() {
             @Override

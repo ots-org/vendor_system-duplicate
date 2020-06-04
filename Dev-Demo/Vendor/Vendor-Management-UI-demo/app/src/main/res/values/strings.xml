@@ -158,7 +158,7 @@
     <string name="RegisterAsDistributor">Register as distributor</string>
     <string name="RegisterAsCustomer">Register as Customer</string>
     <string name="PleaseEnterFirstName">Please Enter First name</string>
-    <string name="pleaseEnterLastName">Please Enter Last name</string>Please Enter Valid Phone number
+    <string name="pleaseEnterLastName">Please Enter Last name</string>
     <string name="pleaseEnterValidPhoneNumber">Please Enter Valid Phone number</string>
     <string name="pleaseEnterTheAddress">Please Enter Address</string>
     <string name="pleaseEnterValidPincode">Please Enter valid pincode</string>

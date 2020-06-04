@@ -494,25 +494,10 @@ public class ProductDescription extends AppCompatActivity {
             }
         });
 
-//        Bitmap decodedByte = null;
 
         if (productDetails.getProductImage()!=null) {
-            byte[] decodedString = Base64.decode(productDetails.getProductImage(), Base64.DEFAULT);
-            decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        }
-//        picture.setImageBitmap(decodedByte);
-        String img=productDetails.getProductImageUrl();
-        Picasso.get().load(productDetails.getProductImageUrl()).into(picture);
-        if (decodedByte != null) {
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-//                            picture.setImageBitmap(decodedByte);
-                            Log.i("tag", "This'll run 3000 milliseconds later");
-                        }
-                    },
-                    1000);
-//            picture.setImageBitmap(decodedByte);
+            Picasso.get().load(productDetails.getProductImage()).into(picture);
+            Log.i("tag", "This'll run 3000 milliseconds later");
         } else {
             picture.setImageResource(R.drawable.no_image);
         }
@@ -830,7 +815,7 @@ public class ProductDescription extends AppCompatActivity {
 //                                builder.show();
                                 CashResponseOnly=distributorResponse;
 //                                showAlertDialog();
-                                Toast.makeText(ProductDescription.this, "SuccessFull", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ProductDescription.this, distributorResponse.getResponseDescription(), Toast.LENGTH_LONG).show();
 //                            showAlertDialog(productRequest);
                                 onBackPressed();
                             }
@@ -989,7 +974,7 @@ public class ProductDescription extends AppCompatActivity {
                 //
                 requestS.setOrderProductName(productDetails.getProductName());
 //                requestS.setProductImage(decodedByte);
-//                requestS.setProductImageUrl(productDetails.getProductImageUrl());
+                requestS.setProductImageUrl(productDetails.getProductImage());
                 //
                 requestS.setCustomerId(customerStr);
                 requestS.setCustomerName(customerStrName);
@@ -1023,7 +1008,7 @@ public class ProductDescription extends AppCompatActivity {
                 //
                 requestS.setOrderProductName(productDetails.getProductName());
 //                requestS.setProductImage(decodedByte);
-//                requestS.setProductImageUrl(productDetails.getProductImageUrl());
+                requestS.setProductImageUrl(productDetails.getProductImage());
                 //
                 requestS.setCustomerId(customerStr);
                 requestS.setCustomerName(customerStrName);
@@ -1050,10 +1035,7 @@ public class ProductDescription extends AppCompatActivity {
                 else {
                     productOrders.add(requestS);
                 }
-
             }
-
-
 
             sharedPreferences.edit().putString("prodDesc",gson.toJson(productOrders)).apply();
 

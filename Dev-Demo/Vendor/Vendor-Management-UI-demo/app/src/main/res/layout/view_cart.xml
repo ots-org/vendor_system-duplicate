@@ -76,22 +76,38 @@
                 android:padding="@dimen/activity_margin_4"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_medium" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
-                <ImageView
-                    android:id="@+id/delete"
+
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:id="@+id/noOfProductsaa"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:text=""
                     android:padding="@dimen/activity_margin_4"
-                    android:layout_gravity="right"
-                    android:clickable="true"
-                    android:src="@android:drawable/ic_menu_delete"
-                    android:tint="@color/textColorDark"
-                    />
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/text_size_medium" />
             </FrameLayout>
         </LinearLayout>
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_4"
+                android:layout_gravity="right"
+                android:clickable="true"
+                android:src="@android:drawable/ic_menu_delete"
+                android:tint="@color/textColorDark"
+                />
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 </LinearLayout>

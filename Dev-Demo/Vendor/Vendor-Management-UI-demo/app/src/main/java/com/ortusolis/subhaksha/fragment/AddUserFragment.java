@@ -541,6 +541,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
                         address1Edit.setText("");
                         address2Edit.setText("");
                         pincodeEdit.setText("");
+                        password2Edit.setText("");
 //                        productEdit.setText("");
 //                        productText.setText("Select Product");
                         distributorText.setText("Select Distributor");

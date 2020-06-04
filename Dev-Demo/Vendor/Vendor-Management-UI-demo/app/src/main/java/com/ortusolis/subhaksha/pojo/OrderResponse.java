@@ -304,6 +304,7 @@ public class OrderResponse {
         String otsOrderProductStatus;
         String otsOrderId;
         String otsProductId;
+        String  productImage;
         String productName;
         String balanceCan;
         String outSbalanceCan;
@@ -320,6 +321,7 @@ public class OrderResponse {
                 otsOrderId = in.readString();
                 otsProductId = in.readString();
                 productName = in.readString();
+                productImage = in.readString();
                 balanceCan = in.readString();
                 outSbalanceCan = in.readString();
                 canRecieved = in.readString();
@@ -337,6 +339,7 @@ public class OrderResponse {
                 dest.writeString(otsOrderId);
                 dest.writeString(otsProductId);
                 dest.writeString(productName);
+                dest.writeString(productImage);
                 dest.writeString(balanceCan);
                 dest.writeString(outSbalanceCan);
                 dest.writeString(canRecieved);
@@ -423,6 +426,14 @@ public class OrderResponse {
 
             public void setProductName(String productName) {
                 this.productName = productName;
+            }
+
+            public String getProductImage() {
+                return productImage;
+            }
+
+            public void setProductImage(String productImage) {
+                this.productImage = productImage;
             }
 
             public String getBalanceCan() {

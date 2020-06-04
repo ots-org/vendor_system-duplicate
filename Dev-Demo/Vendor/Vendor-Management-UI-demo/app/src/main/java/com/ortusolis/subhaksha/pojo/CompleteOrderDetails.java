@@ -11,6 +11,7 @@ public class CompleteOrderDetails {
     String orderDate;
     String status;
     String orderDeliveryDate;
+    String orderDeliverdDate;
     List<OrderResponse.RequestS.ProductOrder> orderProductDetails;
     UserInfo distributorDetails;
     UserInfo customerDetails;
@@ -70,6 +71,14 @@ public class CompleteOrderDetails {
 
     public void setOrderDeliveryDate(String orderDeliveryDate) {
         this.orderDeliveryDate = orderDeliveryDate;
+    }
+
+    public String getOrderDeliverdDate() {
+        return orderDeliverdDate;
+    }
+
+    public void setOrderDeliverdDate(String orderDeliverdDate) {
+        this.orderDeliverdDate = orderDeliverdDate;
     }
 
     public List<OrderResponse.RequestS.ProductOrder> getOrderProductDetails() {

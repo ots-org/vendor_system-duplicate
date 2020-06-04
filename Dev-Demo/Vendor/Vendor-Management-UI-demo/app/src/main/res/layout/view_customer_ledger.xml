@@ -104,6 +104,7 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/grey_300"
+            android:visibility="gone"
             />
         <TextView
             android:id="@+id/emptyCanRecieved"
@@ -111,12 +112,14 @@
             android:layout_height="wrap_content"
             android:text="@string/emptycan"
             android:gravity="center"
+            android:visibility="gone"
             android:padding="@dimen/activity_margin_4"
             />
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/grey_300"
+            android:visibility="gone"
             />
         <TextView
             android:id="@+id/balanceCan"
@@ -124,6 +127,7 @@
             android:layout_height="wrap_content"
             android:text="@string/balancecan"
             android:gravity="center"
+            android:visibility="gone"
             android:padding="@dimen/activity_margin_4"
             />
         <View
@@ -163,6 +167,7 @@
             android:layout_height="wrap_content"
             android:text="@string/outstandingamoount"
             android:gravity="center"
+            android:visibility="gone"
             android:padding="@dimen/activity_margin_4"
             />
     </LinearLayout>

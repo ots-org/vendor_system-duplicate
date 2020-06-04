@@ -2,9 +2,12 @@ package com.ortusolis.subhaksha.Activity;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -16,7 +19,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ortusolis.subhaksha.R;
@@ -40,6 +45,7 @@ public class UserActivity extends AppCompatActivity {
     CardView emptyView;
     Adapter adapter;
     Gson gson;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -58,7 +64,11 @@ public class UserActivity extends AppCompatActivity {
 
         adapter = new Adapter(getSupportFragmentManager());
         gson = new Gson();
-
+        //
+        sharedPreferences = getSharedPreferences("water_management",0);
+        FrameLayout.LayoutParams tabsParameter =
+                (FrameLayout.LayoutParams) tabs.getLayoutParams();
+        //
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -85,6 +95,12 @@ public class UserActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
 //        getEnterpriseSearchResults(AVAILABLE_TYPE.SEARCH);
         getEnterpriseSearchResults(AVAILABLE_TYPE.ADD_USER);
+        if(sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
+            tabsParameter.height=0;
+        }
+        if(sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
+            tabsParameter.height=0;
+        }
     }
 
     private void getEnterpriseSearchResults(final AVAILABLE_TYPE type) {

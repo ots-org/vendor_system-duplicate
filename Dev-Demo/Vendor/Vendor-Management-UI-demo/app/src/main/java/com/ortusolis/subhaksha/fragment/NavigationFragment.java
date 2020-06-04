@@ -121,6 +121,8 @@ public class NavigationFragment extends Fragment {
             transferOrders.setVisibility(View.GONE);
             stockReport.setVisibility(View.GONE);
             add.setVisibility(View.GONE);
+            notification.setVisibility(View.GONE);
+            billReport.setVisibility(View.GONE);
 
         }
         else if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
@@ -168,6 +170,8 @@ public class NavigationFragment extends Fragment {
             reportsHeader.setVisibility(View.VISIBLE);
             productsLL.setVisibility(View.VISIBLE);
             stockReport.setVisibility(View.GONE);
+            notification.setVisibility(View.GONE);
+            billReport.setVisibility(View.GONE);
         }
         nav_header_textView.setText(sharedPreferences.getString("username","")+" ( "+userRole+" )");
 

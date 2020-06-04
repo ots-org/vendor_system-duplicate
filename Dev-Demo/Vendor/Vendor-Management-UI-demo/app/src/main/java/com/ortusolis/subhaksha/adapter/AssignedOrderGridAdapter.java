@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ortusolis.subhaksha.R;
 import com.ortusolis.subhaksha.pojo.OrderResponse;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -107,12 +108,12 @@ public class AssignedOrderGridAdapter extends BaseAdapter {
             byte[] decodedString = Base64.decode(item.getProductImage(), Base64.DEFAULT);
             decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         }
-
-        if (decodedByte != null) {
-            picture.setImageBitmap(decodedByte);
-        } else {*/
+*/
+        if (item.getProductImage()!=null) {
+            Picasso.get().load(item.getProductImage()).into(picture);
+        } else {
             picture.setImageResource(R.drawable.no_image);
-        //}
+        }
 
         return v;
     }

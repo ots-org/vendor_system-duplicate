@@ -112,7 +112,7 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
         }*/
 
         holder.orderCost.setText(Html.fromHtml("<b>Order Cost: </b>"+context.getString(R.string.Rs)+(String.format("%.02f", (Float.valueOf(item.getOrderCost()))))));
-        holder.deliveryDate.setText(Html.fromHtml(((status.equalsIgnoreCase("close") || status.equalsIgnoreCase("generated"))?"<b>Delivered Date: </b>":"<b>Delivery Date: </b>")+item.getOrderDeliveryDate().split(" ")[0]));
+        holder.deliveryDate.setText(Html.fromHtml(((status.equalsIgnoreCase("close") || status.equalsIgnoreCase("generated"))?"<b>Delivered Date: </b>"+item.getOrderDeliverdDate().split(" ")[0]:"<b>Delivery Date: </b>"+item.getOrderDeliveryDate().split(" ")[0])));
         if (status.equalsIgnoreCase("new") || status.equalsIgnoreCase("assigned") || status.equalsIgnoreCase("cancel")){
             holder.deliveredBy.setVisibility(View.GONE);
         }
