@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Filter;
@@ -86,6 +87,7 @@ public class WaterCanAdapter extends BaseAdapter {
         final ImageView checkBoxImg;
         final Button buyNow;
         final Button scheduleButton;
+//        boolean flag_loading=false;
         final SharedPreferences sharedPreferences = context.getSharedPreferences("water_management",0);
 
         if (v == null) {
@@ -109,6 +111,26 @@ public class WaterCanAdapter extends BaseAdapter {
         buyNow = (Button) v.getTag(R.id.buyButton);
         scheduleButton = (Button) v.getTag(R.id.scheduleButton);
 
+//        v.setScrollY(new AbsListView.OnScrollListener() {
+//
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//
+//
+//            }
+//
+//            public void onScroll(AbsListView view, int firstVisibleItem,
+//                                 int visibleItemCount, int totalItemCount) {
+//
+//                if(firstVisibleItem+visibleItemCount == totalItemCount && totalItemCount!=0)
+//                {
+//                    if(flag_loading == false)
+//                    {
+//                        flag_loading = true;
+////                        additems();
+//                    }
+//                }
+//            }
+//        });
         //final PlantModel item = (PlantModel) getItem(position);
 
         final String regex = "\\d+";
@@ -137,7 +159,9 @@ public class WaterCanAdapter extends BaseAdapter {
             picture.setImageResource(R.drawable.no_image);
         }
 
-        description.setText("Price " + context.getString(R.string.Rs) + (String.format("%.02f", Float.valueOf(mData.get(position).getProductPrice()))));
+        if(mData.get(position).getProductPrice()!=null) {
+            description.setText("Price " + context.getString(R.string.Rs) + (String.format("%.02f", Float.valueOf(mData.get(position).getProductPrice()))));
+        }
 
         name.setText(mData.get(position).getProductName());
         /*description.setText(item.getDescription()!=null?item.getDescription():"");*/
@@ -339,7 +363,7 @@ public class WaterCanAdapter extends BaseAdapter {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(WebserviceController.returnErrorMessage(error));
                 stringBuilder.append("");
-                Toast.makeText(context , stringBuilder.toString(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(context , stringBuilder.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }

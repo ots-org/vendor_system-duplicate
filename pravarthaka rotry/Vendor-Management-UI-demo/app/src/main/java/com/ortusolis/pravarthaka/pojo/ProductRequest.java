@@ -22,6 +22,8 @@ public class ProductRequest {
     String delivaryDate;
     String distributorId;
     String orderCost;
+    String userLat;
+    String userLong;
     String assignedId;
     String orderStatus;
     String orderNumber;
@@ -74,6 +76,21 @@ public class ProductRequest {
 
         public void setOrderCost(String orderCost) {
             this.orderCost = orderCost;
+        }
+        public String getUserLat() {
+            return userLat;
+        }
+
+        public void setUserLat(String userLat) {
+            this.userLat = userLat;
+        }
+
+        public String getUserLong() {
+            return userLong;
+        }
+
+        public void setUserLong(String userLong) {
+            this.userLong = userLong;
         }
 
         public String getAssignedId() {

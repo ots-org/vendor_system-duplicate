@@ -572,7 +572,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
             public void notifyError(VolleyError error) {
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -735,7 +735,7 @@ if(flag.equals("0")){
                     getProducts(prodId);
                 }
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
 
         });
@@ -880,7 +880,7 @@ if(flag.equals("0")){
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
     }

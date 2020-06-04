@@ -472,7 +472,7 @@ public class AssignedVoucherOrderDescription extends AppCompatActivity {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                    Toast.makeText(AssignedVoucherOrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AssignedVoucherOrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
     }
@@ -576,7 +576,7 @@ public class AssignedVoucherOrderDescription extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(AssignedVoucherOrderDescription.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(AssignedVoucherOrderDescription.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -643,7 +643,7 @@ public class AssignedVoucherOrderDescription extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(WebserviceController.returnErrorMessage(error));
                 stringBuilder.append("");
-                Toast.makeText(AssignedVoucherOrderDescription.this , stringBuilder.toString(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(AssignedVoucherOrderDescription.this , stringBuilder.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }

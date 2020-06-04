@@ -320,7 +320,7 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                         assignedOrderReportAdapter.clearAll();
                     noResult.setVisibility(View.VISIBLE);
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                    Toast.makeText(AssignedOrderListActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AssignedOrderListActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -429,7 +429,7 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                 public void notifyError(VolleyError error) {
                     empClick = false;
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                    Toast.makeText(AssignedOrderListActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AssignedOrderListActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
                 }
             });
         }

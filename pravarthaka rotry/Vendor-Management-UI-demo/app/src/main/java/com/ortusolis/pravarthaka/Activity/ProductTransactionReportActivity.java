@@ -269,7 +269,7 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
                 noResult.setVisibility(View.VISIBLE);
                 addLL.removeAllViews();
-                Toast.makeText(ProductTransactionReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(ProductTransactionReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -439,7 +439,7 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(ProductTransactionReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(ProductTransactionReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 

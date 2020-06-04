@@ -213,7 +213,7 @@ public class BillReportActivity extends AppCompatActivity {
                 noResult.setVisibility(View.VISIBLE);
                 if (billReportAdapter!=null)
                     billReportAdapter.clearAll();
-                Toast.makeText(BillReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(BillReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 

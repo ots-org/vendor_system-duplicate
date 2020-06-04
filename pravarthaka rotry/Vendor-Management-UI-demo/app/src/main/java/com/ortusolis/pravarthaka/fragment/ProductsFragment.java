@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -43,6 +45,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -69,9 +72,11 @@ public class ProductsFragment extends Fragment {
     //
     List<String> userNames, userIdList;
     boolean custSelect = false;
+    boolean flag_loading=false;
     ProgressBar loading_indicator;
     Button searchButtonHome;
     EditText searchContent;
+    ProductsResponse responseDatafinal;
 
     public String getCustomerStr() {
         return customerStr;
@@ -159,7 +164,10 @@ public class ProductsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //
-                ProductSearch();
+                if(searchContent.getText().length()>0){
+                    ProductSearch();
+                }
+
 
                 //
             }
@@ -172,8 +180,31 @@ public class ProductsFragment extends Fragment {
                 progressDialog.dismiss();
             }
         }else {
-            getProductCatqgory();
+            getProductsMain();
+            if (progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
         }
+//        gridview.setOnScrollListener(new AbsListView.OnScrollListener() {
+//
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//
+//
+//            }
+//
+//            public void onScroll(AbsListView view, int firstVisibleItem,
+//                                 int visibleItemCount, int totalItemCount) {
+//
+//                if(firstVisibleItem+visibleItemCount == totalItemCount && totalItemCount!=0)
+//                {
+//                    if(flag_loading == false)
+//                    {
+//                        flag_loading = true;
+//                        new loadMoreListView().execute();
+//                    }
+//                }
+//            }
+//        });
 
         return view;
     }
@@ -185,6 +216,11 @@ public class ProductsFragment extends Fragment {
             if(sharedPreferences.getString("userProductSelect","").equalsIgnoreCase("yes")){
                 progressStatus="yes";
                 getProducts();
+                if (progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+            }else{
+                getProductsMain();
                 if (progressDialog.isShowing()){
                     progressDialog.dismiss();
                 }
@@ -303,7 +339,7 @@ public class ProductsFragment extends Fragment {
                 }
 
                 try {
-                    Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -457,7 +493,7 @@ public class ProductsFragment extends Fragment {
                 custSelect = false;
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -562,7 +598,7 @@ public class ProductsFragment extends Fragment {
                 custSelect = false;
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -672,7 +708,7 @@ public class ProductsFragment extends Fragment {
                 progressDialog.dismiss();
                 custSelect = false;
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -769,7 +805,7 @@ public class ProductsFragment extends Fragment {
             public void notifyError(VolleyError error) {
                 custSelect = false;
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -795,12 +831,12 @@ public class ProductsFragment extends Fragment {
             @Override
             public void notifySuccess(String response, int statusCode) {
                 //loading_indicator.setVisibility(View.GONE);
-
-                sharedPreferences.edit().putString("userProductSelect","yes").commit();
-                sharedPreferences.edit().putString("userProductSelectId",productCust).commit();
-                sharedPreferences.edit().putString("userProductSelectProduct",productName).commit();
-                customerProductStr.setText(productName );
-                customerProductStrBase.setText("Selected Product");
+//
+//                sharedPreferences.edit().putString("userProductSelect","yes").commit();
+//                sharedPreferences.edit().putString("userProductSelectId",productCust).commit();
+//                sharedPreferences.edit().putString("userProductSelectProduct",productName).commit();
+//                customerProductStr.setText(productName );
+//                customerProductStrBase.setText("Selected Product");
                 try {
                     Log.e("login response",response);
                     ProductsResponse responseData = gson.fromJson(response,ProductsResponse.class);
@@ -849,7 +885,7 @@ public class ProductsFragment extends Fragment {
                 }
 
                 try {
-                    Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -857,5 +893,255 @@ public class ProductsFragment extends Fragment {
             }
         });
     }
+//    private class loadMoreListView extends AsyncTask< Void, Void, String> {
+//
+//
+//        protected String doInBackground(Void... unused) {
+//            flag_loading = false;
+//            final String[] result = {null};
+//            WebserviceController wss = new WebserviceController(getActivity());
+//            //loading_indicator.setVisibility(View.VISIBLE);
+//
+//            JSONObject requestObject = new JSONObject();
+//
+//            JSONObject jsonObject = new JSONObject();
+//            try {
+//                jsonObject.put("searchKey", "product");
+//                jsonObject.put("searchvalue", productCust);
+////            jsonObject.put("distributorId", ((sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2") || sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")) ? sharedPreferences.getString("userid","") : sharedPreferences.getString("distId","")));
+////
+////            if (customerStr!=null && !customerStr.isEmpty())
+////                jsonObject.put("customerId", customerStr);
+//
+//                requestObject.put("requestData",jsonObject);
+//
+//            }
+//            catch (Exception e){
+//                e.printStackTrace();
+//            }
+//
+//            // Restricted Image size.
+//            // File file = new File(selectedPath);
+//            // int file_size = Integer.parseInt(String.valueOf(file.length()/1024));
+//            //
+//
+//            wss.postLoginVolley(Constants.GET_PRODUCT_API, requestObject.toString(), new IResult() {
+//                @Override
+//                public void notifySuccess(String response, int statusCode) {
+//                    //loading_indicator.setVisibility(View.GONE);
+////                progressDialog.dismiss();
+////                    sharedPreferences.edit().putString("userProductSelect","yes").commit();
+////                    sharedPreferences.edit().putString("userProductSelectId",productCust).commit();
+////                    sharedPreferences.edit().putString("userProductSelectProduct",productName).commit();
+////                    customerProductStr.setText(productName );
+////                    customerProductStrBase.setText("Selected Sub-Category");
+//                    try {
+//                        Log.e("login response",response);
+//                        ProductsResponse responseData = gson.fromJson(response,ProductsResponse.class);
+//
+//                        if (responseData.getResponseCode().equalsIgnoreCase("200")) {
+//
+//                        /*ArrayList<ProductDetails> productDetailsS = new ArrayList<>();
+//                        for (ProductDetails productDetails : responseData.getResponseData().getProductDetails()){
+//                            if (productDetails.getStock().equalsIgnoreCase("yes")){
+//                                productDetailsS.add(productDetails);
+//                            }
+//                        }*/
+////                            StringBuffer buffer = new StringBuffer();
+////                            result=buffer.toString();
+//                            responseDatafinal=responseData;
+//                            result[0] ="";
+////                            waterCanAdapter = new WaterCanAdapter(getActivity(),responseData.getResponseData().getProductDetails(),ProductsFragment.this);
+////                            gridview.setAdapter(waterCanAdapter);
+////                            waterCanAdapter.notifyDataSetChanged();
+//
+//
+//                            if (responseData.getResponseData().getProductDetails().isEmpty()){
+//                                noResult.setVisibility(View.VISIBLE);
+//                            }
+//                            else {
+//                                noResult.setVisibility(View.GONE);
+//                            }
+//
+//                        }
+//                        else {
+//
+//                            Toast.makeText(getActivity(), TextUtils.isEmpty(responseData.getResponseDescription())? "Login Failed" :responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                    catch (Exception e){
+//                        progressDialog.dismiss();
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void notifyError(VolleyError error) {
+//                    Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
+//                    //loading_indicator.setVisibility(View.GONE);
+//                    if (waterCanAdapter == null || waterCanAdapter.getCount()==0){
+//                        noResult.setVisibility(View.VISIBLE);
+//                    }
+//                    else {
+//                        noResult.setVisibility(View.GONE);
+//                    }
+//
+//                    try {
+//                        Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                    }
+//                    catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+////            String url = "http://api.androidhive.info/json/imdb_top_250.php?offset=" + offset;
+////            try {
+////                URL mUrl = new URL(url);
+////                HttpURLConnection urlConnection = (HttpURLConnection) mUrl.openConnection();
+////                urlConnection.connect();
+////                InputStream inputStream = urlConnection.getInputStream();
+////                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+////                StringBuffer buffer = new StringBuffer();
+////                String str = "";
+////                while ((str = br.readLine()) != null) {
+////                    buffer.append(str);
+////                }
+////                result = buffer.toString();
+////            } catch (Exception e) {
+////                e.printStackTrace();
+////            }
+//
+//            return result[0];
+//        }
+//
+//        protected void onPostExecute(String result) {
+//
+//            if (result != null) {
+//            waterCanAdapter = new WaterCanAdapter(getActivity(),responseDatafinal.getResponseData().getProductDetails(),ProductsFragment.this);
+//            gridview.setAdapter(waterCanAdapter);
+//            waterCanAdapter.notifyDataSetChanged();
+////                try {
+////                    JSONArray array = new JSONArray(result);
+////                    for (int i = 0; i < array.length(); i++) {
+////                        arrayList.add(array.getJSONObject(i).getString("title"));
+////                    }
+////                    adapter.notifyDataSetChanged();
+////                    offset++;
+////                    loadingMore = false;
+////                } catch (Exception e) {
+////                    e.printStackTrace();
+////                }
+////            } else {
+////                lv.removeFooterView(pb);
+//            }
+//        }
+//    }
+void getProductsMain(){
+//        code
 
+    if(progressStatus.equals("yes")) {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+    WebserviceController wss = new WebserviceController(getActivity());
+    //loading_indicator.setVisibility(View.VISIBLE);
+
+    JSONObject requestObject = new JSONObject();
+
+    JSONObject jsonObject = new JSONObject();
+    try {
+        jsonObject.put("searchKey", "All");
+//            jsonObject.put("distributorId", ((sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2") || sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")) ? sharedPreferences.getString("userid","") : sharedPreferences.getString("distId","")));
+//
+//            if (customerStr!=null && !customerStr.isEmpty())
+//                jsonObject.put("customerId", customerStr);
+
+        requestObject.put("requestData",jsonObject);
+
+    }
+    catch (Exception e){
+        e.printStackTrace();
+    }
+
+    // Restricted Image size.
+    // File file = new File(selectedPath);
+    // int file_size = Integer.parseInt(String.valueOf(file.length()/1024));
+    //
+
+    wss.postLoginVolley(Constants.GET_PRODUCT_API, requestObject.toString(), new IResult() {
+        @Override
+        public void notifySuccess(String response, int statusCode) {
+            //loading_indicator.setVisibility(View.GONE);
+//                progressDialog.dismiss();
+            try {
+                Log.e("login response",response);
+                ProductsResponse responseData = gson.fromJson(response,ProductsResponse.class);
+
+                if (responseData.getResponseCode().equalsIgnoreCase("200")) {
+
+                        /*ArrayList<ProductDetails> productDetailsS = new ArrayList<>();
+                        for (ProductDetails productDetails : responseData.getResponseData().getProductDetails()){
+                            if (productDetails.getStock().equalsIgnoreCase("yes")){
+                                productDetailsS.add(productDetails);
+                            }
+                        }*/
+
+                    waterCanAdapter = new WaterCanAdapter(getActivity(),responseData.getResponseData().getProductDetails(),ProductsFragment.this);
+                    gridview.setAdapter(waterCanAdapter);
+                    waterCanAdapter.notifyDataSetChanged();
+                    if(progressStatus.equals("yes")){
+                        progressDialog.dismiss();
+                        progressStatus="no";
+                    }
+
+
+                    if (responseData.getResponseData().getProductDetails().isEmpty()){
+                        noResult.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        noResult.setVisibility(View.GONE);
+                    }
+
+                }
+                else {
+                    if(progressStatus.equals("yes")){
+                        progressDialog.dismiss();
+                        progressStatus="no";
+                    }
+                    Toast.makeText(getActivity(), TextUtils.isEmpty(responseData.getResponseDescription())? "Login Failed" :responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
+                }
+            }
+            catch (Exception e){
+                progressDialog.dismiss();
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void notifyError(VolleyError error) {
+            if(progressStatus.equals("yes")){
+                progressDialog.dismiss();
+                progressStatus="no";
+            }
+            Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
+            //loading_indicator.setVisibility(View.GONE);
+            if (waterCanAdapter == null || waterCanAdapter.getCount()==0){
+                noResult.setVisibility(View.VISIBLE);
+            }
+            else {
+                noResult.setVisibility(View.GONE);
+            }
+
+            try {
+//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    });
+
+}
 }

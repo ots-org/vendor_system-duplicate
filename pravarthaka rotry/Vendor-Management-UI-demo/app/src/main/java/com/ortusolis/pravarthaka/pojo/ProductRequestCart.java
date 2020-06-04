@@ -13,6 +13,9 @@ public class ProductRequestCart {
     String orderNumber;
     String deliverdDate;
 
+    String userLat;
+    String userLong;
+
     String ots_delivered_qty;
     String orderProductId;
     String orderdId;
@@ -77,6 +80,22 @@ public String getOrderProductName() {
 
     public void setOrderCost(String orderCost) {
         this.orderCost = orderCost;
+    }
+
+    public String getUserLat() {
+        return userLat;
+    }
+
+    public void setUserLat(String userLat) {
+        this.userLat = userLat;
+    }
+
+    public String getUserLong() {
+        return userLong;
+    }
+
+    public void setUserLong(String userLong) {
+        this.userLong = userLong;
     }
 
     public String getAssignedId() {

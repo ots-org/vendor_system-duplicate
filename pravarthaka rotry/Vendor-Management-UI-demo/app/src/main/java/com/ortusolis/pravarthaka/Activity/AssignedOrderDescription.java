@@ -199,7 +199,7 @@ public class AssignedOrderDescription extends AppCompatActivity {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                    Toast.makeText(AssignedOrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AssignedOrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
 

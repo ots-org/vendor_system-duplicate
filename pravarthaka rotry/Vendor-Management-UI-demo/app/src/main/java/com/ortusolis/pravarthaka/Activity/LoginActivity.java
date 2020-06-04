@@ -162,8 +162,8 @@ public class LoginActivity extends AppCompatActivity{
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              if (isValid()){
-                   login();
+                if (isValid()){
+                    login();
 
                   /*sharedPreferences.edit().putString("userid","1").commit();
                   sharedPreferences.edit().putString("userRoleId","1").commit();
@@ -187,21 +187,21 @@ public class LoginActivity extends AppCompatActivity{
                       startActivity(intent);
                       finish();
                   }*/
-              }
-              else {
-                  final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                  builder.setMessage("Please Enter Username and Password.");
-                  final AlertDialog alertDialog = builder.create();
-                  alertDialog.show();
+                }
+                else {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setMessage("Please Enter Username and Password.");
+                    final AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
 
-                  new Handler().postDelayed(new Runnable() {
-                      @Override
-                      public void run() {
-                          alertDialog.dismiss();
-                      }
-                  },3000);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            alertDialog.dismiss();
+                        }
+                    },3000);
 
-              }
+                }
             }
         });
 
@@ -292,7 +292,7 @@ public class LoginActivity extends AppCompatActivity{
         refresh.putExtra(currentLang, lang);
         startActivity(refresh);
 
-        }
+    }
     //spinner
 
 
@@ -323,6 +323,7 @@ public class LoginActivity extends AppCompatActivity{
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+        sharedPreferences.edit().putString("userPhoneNumberPayment",enterUsername.getText().toString()).commit();
         //
         WebserviceController wss = new WebserviceController(LoginActivity.this);
 
@@ -364,6 +365,7 @@ public class LoginActivity extends AppCompatActivity{
                         sharedPreferences.edit().putString("userid",responseData.getResponseData().getUserDetails().getUserId()).commit();
                         sharedPreferences.edit().putString("username",responseData.getResponseData().getUserDetails().getFirstName()+" "+responseData.getResponseData().getUserDetails().getLastName()).commit();
                         sharedPreferences.edit().putString("userRoleId",responseData.getResponseData().getUserDetails().getUserRoleId()).commit();
+                        sharedPreferences.edit().putString("emailIdUser", responseData.getResponseData().getUserDetails().getEmailId()).commit();
                         //
                         sharedPreferences.edit().putString("userSwitchRoleId",responseData.getResponseData().getUserDetails().getUserRoleId()).commit();
                         //
@@ -394,7 +396,7 @@ public class LoginActivity extends AppCompatActivity{
             public void notifyError(VolleyError error) {
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(LoginActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
+//                Toast.makeText(LoginActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
     }

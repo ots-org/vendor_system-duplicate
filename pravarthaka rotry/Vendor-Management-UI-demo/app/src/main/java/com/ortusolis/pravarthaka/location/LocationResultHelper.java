@@ -170,7 +170,8 @@ public class LocationResultHelper {
                 jsonObject.put("latLongId", "null");
 
                 requestObject.put("requestData", jsonObject);
-
+                sharedPreferences.edit().putString("latitude",latS).commit();
+                sharedPreferences.edit().putString("longitude",lonS).commit();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -188,8 +189,8 @@ public class LocationResultHelper {
 
 
                         } else {
-                            Toast.makeText(mContext,"Hello Javatpoint1",Toast.LENGTH_SHORT).show();
-                            Toast.makeText(mContext, (TextUtils.isEmpty(responseData.getResponseDescription())) ? "Location Failed" : responseData.getResponseDescription(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(mContext,"Hello Javatpoint1",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(mContext, (TextUtils.isEmpty(responseData.getResponseDescription())) ? "Location Failed" : responseData.getResponseDescription(), Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -199,7 +200,7 @@ public class LocationResultHelper {
                 @Override
                 public void notifyError(VolleyError error) {
                     try {
-                        Toast.makeText(mContext, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(mContext, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                     }
                     catch (Exception e){
                         e.printStackTrace();

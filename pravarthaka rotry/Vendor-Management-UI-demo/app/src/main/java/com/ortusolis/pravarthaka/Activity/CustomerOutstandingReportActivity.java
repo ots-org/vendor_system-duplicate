@@ -266,7 +266,7 @@ CheckBox checkBoxReport;
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
                 noResult.setVisibility(View.VISIBLE);
-                Toast.makeText(CustomerOutstandingReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(CustomerOutstandingReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -441,7 +441,7 @@ CheckBox checkBoxReport;
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(CustomerOutstandingReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(CustomerOutstandingReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 

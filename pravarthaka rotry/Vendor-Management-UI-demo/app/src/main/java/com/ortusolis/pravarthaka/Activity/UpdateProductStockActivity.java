@@ -277,7 +277,7 @@ public class UpdateProductStockActivity extends AppCompatActivity {
                 public void notifyError(VolleyError error) {
                     isgettingUsers = false;
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                    Toast.makeText(UpdateProductStockActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(UpdateProductStockActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -339,7 +339,7 @@ public class UpdateProductStockActivity extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(WebserviceController.returnErrorMessage(error));
                 stringBuilder.append("");
-                Toast.makeText(context, stringBuilder.toString(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, stringBuilder.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -435,7 +435,7 @@ public class UpdateProductStockActivity extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(WebserviceController.returnErrorMessage(error));
                 stringBuilder.append("");
-                Toast.makeText(context, stringBuilder.toString(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, stringBuilder.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }

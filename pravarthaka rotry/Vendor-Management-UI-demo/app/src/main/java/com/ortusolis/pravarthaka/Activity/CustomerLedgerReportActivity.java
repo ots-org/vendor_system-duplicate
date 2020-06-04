@@ -350,7 +350,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
                 noResult.setVisibility(View.VISIBLE);
-                Toast.makeText(CustomerLedgerReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(CustomerLedgerReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -573,7 +573,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(CustomerLedgerReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(CustomerLedgerReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -691,7 +691,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(CustomerLedgerReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(CustomerLedgerReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -810,7 +810,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(WebserviceController.returnErrorMessage(error));
                 stringBuilder.append("");
-                Toast.makeText(context, stringBuilder.toString(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, stringBuilder.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }

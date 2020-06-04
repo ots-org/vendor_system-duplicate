@@ -285,7 +285,7 @@ public class CustomerAct extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -332,7 +332,7 @@ public class CustomerAct extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -385,7 +385,7 @@ public class CustomerAct extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -435,7 +435,7 @@ public class CustomerAct extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -545,7 +545,7 @@ public class CustomerAct extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -675,7 +675,7 @@ public class CustomerAct extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
+//                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
     }

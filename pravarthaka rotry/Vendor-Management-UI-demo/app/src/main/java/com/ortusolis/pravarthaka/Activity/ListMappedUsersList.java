@@ -141,7 +141,7 @@ public class ListMappedUsersList extends AppCompatActivity {
                 recyclerView.setVisibility(View.GONE);
                 noResult.setVisibility(View.VISIBLE);
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(ListMappedUsersList.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(ListMappedUsersList.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 

@@ -410,7 +410,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(RegisterActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(RegisterActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -512,7 +512,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             public void notifyError(VolleyError error) {
                 progressDialogRegistration.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(RegisterActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
+//                Toast.makeText(RegisterActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -619,7 +619,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(RegisterActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
+//                Toast.makeText(RegisterActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
     }

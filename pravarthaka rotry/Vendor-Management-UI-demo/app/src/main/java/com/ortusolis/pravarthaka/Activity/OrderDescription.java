@@ -269,6 +269,7 @@ public class OrderDescription extends AppCompatActivity {
 
 
                             setResult(RESULT_OK);
+                            startActivity(new Intent(OrderDescription.this,OrderListActivity.class));
                             finish();
                             Toast.makeText(OrderDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? " " : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                         } else
@@ -281,7 +282,7 @@ public class OrderDescription extends AppCompatActivity {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                    Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -368,8 +369,9 @@ public class OrderDescription extends AppCompatActivity {
                         if (responseData.getResponseCode().equalsIgnoreCase("200")) {
 
                             setResult(RESULT_OK);
-//                            finish();
+
                             startActivity(new Intent(OrderDescription.this,OrderListActivity.class));
+                            finish();
                             Toast.makeText(OrderDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? " " : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                         } else
                             Toast.makeText(OrderDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Failed to assign" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
@@ -381,7 +383,7 @@ public class OrderDescription extends AppCompatActivity {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                    Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -416,6 +418,7 @@ public class OrderDescription extends AppCompatActivity {
 
 
                         setResult(RESULT_OK);
+                        startActivity(new Intent(OrderDescription.this,OrderListActivity.class));
                         finish();
                         Toast.makeText(OrderDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? " " : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                     } else
@@ -428,7 +431,7 @@ public class OrderDescription extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -532,7 +535,7 @@ public class OrderDescription extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 

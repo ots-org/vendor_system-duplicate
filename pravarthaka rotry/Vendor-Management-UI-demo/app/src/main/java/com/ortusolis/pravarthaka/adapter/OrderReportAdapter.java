@@ -298,7 +298,7 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
                 public void notifyError(VolleyError error) {
                     isLoadingS = false;
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                    Toast.makeText(context, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(context, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -347,7 +347,7 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(context, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 

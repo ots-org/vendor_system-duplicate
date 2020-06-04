@@ -214,7 +214,7 @@ public class AddSubCategory extends AppCompatActivity {
             public void notifyError(VolleyError error) {
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(getApplicationContext(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -296,7 +296,7 @@ public class AddSubCategory extends AppCompatActivity {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                    Toast.makeText(AddSubCategory.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AddSubCategory.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
                 }
             });
             //

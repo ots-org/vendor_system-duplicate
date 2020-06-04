@@ -181,7 +181,7 @@ public class SchedulerActivity extends AppCompatActivity {
                 noResult.setVisibility(View.VISIBLE);
                 if (schedulerListAdapter!=null)
                     schedulerListAdapter.clearAll();
-                Toast.makeText(SchedulerActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(SchedulerActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 

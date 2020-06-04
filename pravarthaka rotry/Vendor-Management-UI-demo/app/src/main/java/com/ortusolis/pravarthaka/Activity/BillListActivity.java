@@ -257,7 +257,7 @@ public class BillListActivity extends AppCompatActivity {
                         addedOrders.clear();
                         if (billGridAdapter!=null)
                             billGridAdapter.clearAll();
-                        Toast.makeText(BillListActivity.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Failed" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(BillListActivity.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Failed" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                     }
 
                 } catch (Exception e) {
@@ -276,7 +276,7 @@ public class BillListActivity extends AppCompatActivity {
                 addedOrders.clear();
                 if (billGridAdapter!=null)
                     billGridAdapter.clearAll();
-                Toast.makeText(BillListActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(BillListActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -488,7 +488,7 @@ public class BillListActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(BillListActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(BillListActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 

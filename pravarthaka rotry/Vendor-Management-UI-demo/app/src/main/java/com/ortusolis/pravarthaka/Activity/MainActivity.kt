@@ -849,7 +849,7 @@ GoogleApiClient.OnConnectionFailedListener {
 
                 override fun notifyError(error: VolleyError) {
                     try {
-                        Toast.makeText(this@MainActivity, WebserviceController.returnErrorMessage(error)!! + "", Toast.LENGTH_LONG).show()
+//                        Toast.makeText(this@MainActivity, WebserviceController.returnErrorMessage(error)!! + "", Toast.LENGTH_LONG).show()
                     }
                     catch (e:Exception){
                         e.printStackTrace()

@@ -236,7 +236,7 @@ public class PasswordActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(PasswordActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
+//                Toast.makeText(PasswordActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -283,7 +283,7 @@ public class PasswordActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(PasswordActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
+//                Toast.makeText(PasswordActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
     }

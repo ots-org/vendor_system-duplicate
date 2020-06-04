@@ -285,7 +285,7 @@ public class TransferOrderActivity extends AppCompatActivity {
                 noResult.setVisibility(View.VISIBLE);
                 if (orderReportAdapter!=null)
                 orderReportAdapter.clearAll();
-                Toast.makeText(TransferOrderActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+//                Toast.makeText(TransferOrderActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -394,7 +394,7 @@ public class TransferOrderActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                Toast.makeText(TransferOrderActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+//                Toast.makeText(TransferOrderActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
