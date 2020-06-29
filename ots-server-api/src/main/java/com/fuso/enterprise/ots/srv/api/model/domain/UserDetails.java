@@ -264,6 +264,11 @@ public class UserDetails implements Comparable{
 		// TODO Auto-generated method stub
 		return this.distance.compareTo(((UserDetails)arg0).getDistance());
 	}
+
+	public void setAdsAuthentication(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
   
 	
 }
