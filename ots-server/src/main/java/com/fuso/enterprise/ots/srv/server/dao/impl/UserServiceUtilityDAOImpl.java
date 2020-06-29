@@ -41,6 +41,7 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	@Override
 	public List<UserDetails> getUserDetails(RequestBOUserBySearch requestBOUserBySearch) {
 		List<UserDetails> userDetails = new ArrayList<UserDetails>();
+
 		String searchKey 	= requestBOUserBySearch.getRequestData().getSearchKey();
 		String searchvalue  = requestBOUserBySearch.getRequestData().getSearchvalue();
         Map<String, Object> queryParameter = new HashMap<>();
@@ -120,7 +121,6 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 		            					queryParameter.put("otsUserRoleId", otsUserRole);
 										userList  = super.getResultListByNamedQuery("OtsUsers.findByUserOtsRoleId", queryParameter);
 										break;
-		           
 		            default:
 		            					return null;
 
@@ -143,48 +143,52 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 	    		e.printStackTrace();
 	        	throw new BusinessException(e.getMessage(), e);
 	        }
-		}
-        
-        
-        
-        
+		}     
        
 	}
 
 	private UserDetails convertUserDetailsFromEntityToDomain(OtsUsers users) {
-	   	UserDetails userDetails = new UserDetails();
-	   	userDetails.setUserId(users.getOtsUsersId()==null?null:Integer.toString(users.getOtsUsersId()));
-	   	userDetails.setFirstName(users.getOtsUsersFirstname()==null?null:users.getOtsUsersFirstname());
-	   	userDetails.setLastName(users.getOtsUsersLastname()==null?null:users.getOtsUsersLastname());
-	   	userDetails.setAddress1(users.getOtsUsersAddr1()==null?null:users.getOtsUsersAddr1());
-	   	userDetails.setAddress2(users.getOtsUsersAddr2()==null?null:users.getOtsUsersAddr2());
-	   	userDetails.setPincode(users.getOtsUsersPincode()==null?null:users.getOtsUsersPincode());
-	   	userDetails.setEmailId(users.getOtsUsersEmailid()==null?null:users.getOtsUsersEmailid());
-	   	userDetails.setProfilePic(users.getOtsUsersProfilePic()==null?null:users.getOtsUsersProfilePic());
-	   	userDetails.setUsrStatus(users.getOtsUsersStatus()==null?null:users.getOtsUsersStatus());
-	   	userDetails.setUsrStatus(users.getOtsUsersStatus()==null?null:users.getOtsUsersStatus());
-	    userDetails.setUsrPassword(users.getOtsUsersPassword()==null?null:users.getOtsUsersPassword());
-	   	userDetails.setContactNo(users.getOtsUsersContactNo()==null?null:users.getOtsUsersContactNo());
-	   	userDetails.setUserLat(users.getOtsUsersLat()==null?null:users.getOtsUsersLat());
-	   	userDetails.setUserLong(users.getOtsUsersLong()==null?null:users.getOtsUsersLong());
-	   	userDetails.setUserRoleId(users.getOtsUserRoleId().getOtsUserRoleId()==null?null:users.getOtsUserRoleId().getOtsUserRoleId().toString());
-	   	userDetails.setMappedTo(users.getOtsUserMapping().getOtsMappedTo()==null?null:users.getOtsUserMapping().getOtsMappedTo().toString());
-	   	
-		   	List<OtsCustomerProduct> customerProductDetails = new ArrayList(users.getOtsCustomerProductCollection());
+		try {
+			UserDetails userDetails = new UserDetails();
+		   	userDetails.setUserId(users.getOtsUsersId()==null?null:Integer.toString(users.getOtsUsersId()));
+		   	userDetails.setFirstName(users.getOtsUsersFirstname()==null?null:users.getOtsUsersFirstname());
+		   	userDetails.setLastName(users.getOtsUsersLastname()==null?null:users.getOtsUsersLastname());
+		   	userDetails.setAddress1(users.getOtsUsersAddr1()==null?null:users.getOtsUsersAddr1());
+		   	userDetails.setAddress2(users.getOtsUsersAddr2()==null?null:users.getOtsUsersAddr2());
+		   	userDetails.setPincode(users.getOtsUsersPincode()==null?null:users.getOtsUsersPincode());
+		   	userDetails.setEmailId(users.getOtsUsersEmailid()==null?null:users.getOtsUsersEmailid());
+		   	userDetails.setProfilePic(users.getOtsUsersProfilePic()==null?null:users.getOtsUsersProfilePic());
+		   	userDetails.setUsrStatus(users.getOtsUsersStatus()==null?null:users.getOtsUsersStatus());
+		   	userDetails.setUsrStatus(users.getOtsUsersStatus()==null?null:users.getOtsUsersStatus());
+		    userDetails.setUsrPassword(users.getOtsUsersPassword()==null?null:users.getOtsUsersPassword());
+		   	userDetails.setContactNo(users.getOtsUsersContactNo()==null?null:users.getOtsUsersContactNo());
+		   	userDetails.setUserLat(users.getOtsUsersLat()==null?null:users.getOtsUsersLat());
+		   	userDetails.setUserLong(users.getOtsUsersLong()==null?null:users.getOtsUsersLong());
+		   	userDetails.setUserRoleId(users.getOtsUserRoleId().getOtsUserRoleId()==null?null:users.getOtsUserRoleId().getOtsUserRoleId().toString());
+		   	userDetails.setMappedTo(users.getOtsUserMapping().getOtsMappedTo()==null?null:users.getOtsUserMapping().getOtsMappedTo().toString());
 		   	
-		   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
-		   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
-		   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
-		   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
-		   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
-		   		
-		   		userDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice());
-		   		userDetails.setProductId(customerProductDetails.get(i).getOtsProductId().getOtsProductId().toString());
-		   		
-		   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
-		   	}
+		   	List<OtsCustomerProduct> customerProductDetails = new ArrayList(users.getOtsCustomerProductCollection());
+			   	
+			   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
+			   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
+			   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
+			   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
+			   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
+			   		
+			   		userDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice());
+			   		userDetails.setProductId(customerProductDetails.get(i).getOtsProductId().getOtsProductId().toString());
+			   		
+			   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
+			   	}
+		   	
+		   	return userDetails;
+		}catch (NoResultException e) {
+        	logger.error("Exception while fetching data from DB :"+e.getMessage());
+        	
+    		e.printStackTrace();
+        	throw new BusinessException(e.getMessage(), e);
+        }
 	   	
-	   	return userDetails;
    }
 
 	 @Override
@@ -225,8 +229,45 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 				dist = Math.toDegrees(dist);
 				dist = dist * 60 * 1.1515;
 				dist = dist * 1.609344;
+				System.out.println(dist);
 				return (dist);
 			}
 		}
+
+	@Override
+	public List<UserDetails> findNearestDistributor(RequestBOUserBySearch requestBOUserBySearch) {
+		Map<String, Object> queryParameter = new HashMap<>();
+		List<UserDetails> userDetails = new ArrayList<UserDetails>();
+		List<OtsUsers> userList = null;
+		try {
+			OtsUserRole otsUserRole = new OtsUserRole();
+			otsUserRole.setOtsUserRoleId(Integer.parseInt("2"));
+			queryParameter.put("otsUserRoleId", otsUserRole);
+			
+			OtsUserRole adminRole = new OtsUserRole();
+			adminRole.setOtsUserRoleId(Integer.parseInt("1"));
+			queryParameter.put("adminRole", adminRole);
+			
+			userList  = super.getResultListByNamedQuery("OtsUsers.findByUserOtsRoleIdAdmin", queryParameter);
+			userDetails =  userList.stream().map(otsUsers -> convertUserDetailsFromEntityToDomain(otsUsers)).collect(Collectors.toList());
+			for(int i=0;i<userDetails.size();i++) {
+            	if(requestBOUserBySearch.getRequestData().getUserLat()!=null&&requestBOUserBySearch.getRequestData()!=null) {
+	            	userDetails.get(i).setDistance(distance(Double.valueOf(requestBOUserBySearch.getRequestData().getUserLat()),Double.valueOf(requestBOUserBySearch.getRequestData().getUserLong()), Double.valueOf(userDetails.get(i).getUserLat()), Double.valueOf(userDetails.get(i).getUserLong())));	            	            	
+            	}
+            }   
+           Collections.sort(userDetails);
+           
+           for(int i=0;i<userDetails.size();i++) {
+        	   System.out.println("--------name-----------"+userDetails.get(i).getFirstName()+"--------Distance-----------"+userDetails.get(i).getDistance());
+           }  
+           
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return userDetails;
+	}
+	
+	
 
 }

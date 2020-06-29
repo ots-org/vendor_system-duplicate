@@ -6,6 +6,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBOReque
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.ProductBulkUploadRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.BillProductDetailsResponse;
@@ -31,9 +32,9 @@ public interface OTSProductService {
 	
 	//ProductDetailsBOResponse productBulkUpload(String base64Excel);
 	
-	String productBulkUpload(String base64Excel);
-	
 	String addProductAndCategory(AddProductCategoryAndProductRequest addProductAndCategoryRequest);
 	
 	ProductDetailsBOResponse searchProduct();
+
+	String productBulkUpload(ProductBulkUploadRequest base64Excel);
 }

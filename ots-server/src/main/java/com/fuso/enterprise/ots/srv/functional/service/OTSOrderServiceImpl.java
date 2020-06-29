@@ -2,46 +2,39 @@ package com.fuso.enterprise.ots.srv.functional.service;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import java.util.List;
-import java.sql.Date;
 import javax.inject.Inject;
-
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.AddProductStock;
-import com.fuso.enterprise.ots.srv.api.model.domain.AddScheduler;
-import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
-import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.CompleteOrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerOutstandingDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.DonationBoResponse;
+import com.fuso.enterprise.ots.srv.api.model.domain.DonationModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.DonationResponseByStatus;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetCustomerOutstandingAmt;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductRequestModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.GetUserDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetailsSaleVocher;
-import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductListRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderedProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.SaleVocherModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.SchedulerResponceOrderModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.UpdateOrderDetailsModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
+import com.fuso.enterprise.ots.srv.api.service.request.AddDonationtoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
@@ -54,39 +47,48 @@ import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequ
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetDonationByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetDonationReportByDateRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetUserDetailsForRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateDonationRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderStatusRequest;
-import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.GetDonationReportByDateResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
-import com.fuso.enterprise.ots.srv.api.service.response.GetProductBOStockResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetSchedulerResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.GetUserDetailsForResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderProductBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.dao.CustomerOutstandingAmtDAO;
+import com.fuso.enterprise.ots.srv.server.dao.DonationRequestMappingDAO;
+import com.fuso.enterprise.ots.srv.server.dao.DonationServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
+import com.fuso.enterprise.ots.srv.server.dao.OrderRequestMappingDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.ProductServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockDao;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockHistoryDao;
 import com.fuso.enterprise.ots.srv.server.dao.RequestOrderServiceDao;
+import com.fuso.enterprise.ots.srv.server.dao.RequestProductDao;
 import com.fuso.enterprise.ots.srv.server.dao.SchedulerDao;
 import com.fuso.enterprise.ots.srv.server.dao.UserMapDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
-import com.fuso.enterprise.ots.srv.server.dao.impl.CustomerOutstandingAmtDAOImpl;
+import com.fuso.enterprise.ots.srv.server.dao.UserServiceUtilityDAO;
 import com.fuso.enterprise.ots.srv.server.dao.impl.UserServiceDAOImpl;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsDonationRequestMapping;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsRequestOrder;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsScheduler;
-import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
 import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
 
@@ -107,9 +109,19 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	private RequestOrderServiceDao requestOrderServiceDao;
 	private ProductServiceDAO productServiceDAO;
 	private UserMapDAO userMapDAO;
+	private UserServiceUtilityDAO userServiceUtilityDAO;
+	private RequestProductDao requestProductDao;
+	private OrderRequestMappingDAO orderRequestMappingDAO;
+	private DonationServiceDAO donationServiceDAO;
+	private DonationRequestMappingDAO donationRequestMappingDAO;
 	@Inject
-	public OTSOrderServiceImpl(UserMapDAO userMapDAO,OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,MapUserProductDAO mapUserProductDAO,SchedulerDao schedulerDao,RequestOrderServiceDao requestOrderServiceDao,ProductServiceDAO productServiceDAO)
+	public OTSOrderServiceImpl(DonationRequestMappingDAO donationRequestMappingDAO,DonationServiceDAO donationServiceDAO,OrderRequestMappingDAO orderRequestMappingDAO,RequestProductDao requestProductDao,UserServiceUtilityDAO userServiceUtilityDAO,UserMapDAO userMapDAO,OrderServiceDAO orderServiceDAO , OrderProductDAO orderProductDao,ProductStockHistoryDao productStockHistoryDao,ProductStockDao productStockDao,UserServiceDAOImpl userServiceDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,MapUserProductDAO mapUserProductDAO,SchedulerDao schedulerDao,RequestOrderServiceDao requestOrderServiceDao,ProductServiceDAO productServiceDAO)
 	{
+		this.donationRequestMappingDAO = donationRequestMappingDAO;
+		this.donationServiceDAO = donationServiceDAO;
+		this.orderRequestMappingDAO = orderRequestMappingDAO;
+		this.requestProductDao = requestProductDao;
+		this.userServiceUtilityDAO = userServiceUtilityDAO;
 		this.userMapDAO = userMapDAO;
 		this.orderServiceDAO = orderServiceDAO ;
 		this.orderProductDao = orderProductDao;
@@ -173,6 +185,17 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		orderDetailsAndProductDetails.setOrderDate(orderDetails.getOrderDate());
 		orderDetailsAndProductDetails.setDelivaredDate(orderDetails.getOrderDeliverdDate());
 		orderDetailsAndProductDetails.setCustomerDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId()))); 
+		if(orderDetails.getDonatorId() !=null) {
+			orderDetailsAndProductDetails.setDonarDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getDonatorId())));
+			orderDetailsAndProductDetails.setDonationStatus(orderDetails.getDonationStatus());
+		}
+		
+		
+		orderDetailsAndProductDetails.setAddressToBePlaced(orderDetails.getAddress());
+		if(!orderDetails.getPaymentStatus().equalsIgnoreCase("cash")) {
+			orderDetailsAndProductDetails.setPaymentId(orderDetails.getPaymentId());
+		}
+		orderDetailsAndProductDetails.setPayementStatus(orderDetails.getPaymentStatus());
 		return orderDetailsAndProductDetails;
 	}
 
@@ -203,11 +226,18 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		orderDetailsAndProductDetails.setOrderDate(orderDetails.getOrderDate());
 		orderDetailsAndProductDetails.setDelivaredDate(orderDetails.getOrderDeliverdDate());
 		orderDetailsAndProductDetails.setOutStandingAmount(CustomerAmount);
+		orderDetailsAndProductDetails.setPayementStatus(orderDetails.getPaymentStatus());
+		if(!orderDetails.getPaymentStatus().equalsIgnoreCase("cash")) {
+			orderDetailsAndProductDetails.setPaymentId(orderDetails.getPaymentId());
+		}
 		orderDetailsAndProductDetails.setDistributorDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getDistributorId())));
 		orderDetailsAndProductDetails.setCustomerDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId())));
+		orderDetailsAndProductDetails.setAddressToBePlaced(orderDetails.getAddress());
 		if(orderDetails.getAssignedId()!= null) {
 			orderDetailsAndProductDetails.setEmployeeDetails(userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getAssignedId())));
 		}	
+		
+		
 		return orderDetailsAndProductDetails;
 	}
 
@@ -215,39 +245,90 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	public OrderProductBOResponse insertOrderAndProduct(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
 		OrderDetails otsOrderDetails = new OrderDetails();
 		OrderProductBOResponse Response = new OrderProductBOResponse();
-		try {
-			otsOrderDetails = orderServiceDAO.insertOrderAndGetOrderId(addOrUpdateOrderProductBOrequest);
+		List<UserDetails> userDetails = new ArrayList<UserDetails>();
+		RequestBOUserBySearch requestBOUserBySearch = new RequestBOUserBySearch();	
+		GetUserDetailsBORequest userDetailsBORequest = new GetUserDetailsBORequest();
+		userDetailsBORequest.setUserLat(addOrUpdateOrderProductBOrequest.getRequest().getUserLat());
+		userDetailsBORequest.setUserLong(addOrUpdateOrderProductBOrequest.getRequest().getUserLong());
+		requestBOUserBySearch.setRequestData(userDetailsBORequest);
+		userDetails = userServiceUtilityDAO.findNearestDistributor(requestBOUserBySearch);
+		addOrUpdateOrderProductBOrequest.getRequest().setDistributorId(userDetails.get(0).getUserId());
+		
+		UserDetails user = new UserDetails();
+		user = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId()));
+		UserDetails Customer = new UserDetails();
+		Customer = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getCustomerId()));
+		
+		if(!addOrUpdateOrderProductBOrequest.getRequest().getOrderStatus().equalsIgnoreCase("newRequest")) {
 			try {
-				for(int i=0 ; i <addOrUpdateOrderProductBOrequest.getRequest().getProductList().size() ; i++)
-				{
-					orderProductDao.insertOrdrerProductByOrderId(Integer.parseInt(otsOrderDetails.getOrderId()), addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(i));
-				}
-				Response = getOrderDiruectSalesVoucher(otsOrderDetails.getOrderId());
-				UserDetails user = new UserDetails();
-				user = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId()));
-				UserDetails Customer = new UserDetails();
-				Customer = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getCustomerId()));
+				otsOrderDetails = orderServiceDAO.insertOrderAndGetOrderId(addOrUpdateOrderProductBOrequest);
 				try {
-					String notification = otsOrderDetails.getOrderNumber() + " had been placed by " + Customer.getFirstName()+" "+Customer.getLastName()+" and requested delivery date is "+addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()+" please click here to assign the Employee for order";
-					fcmPushNotification.sendPushNotification(user.getDeviceId(),"Bislari App" ,notification);
-					notification = "Order Placed : Your order "+otsOrderDetails.getOrderNumber()+" had been placed";
-					fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"Bislari App" ,notification);
-				}catch(Exception e) {
+					for(int i=0 ; i <addOrUpdateOrderProductBOrequest.getRequest().getProductList().size() ; i++)
+					{
+						orderProductDao.insertOrdrerProductByOrderId(Integer.parseInt(otsOrderDetails.getOrderId()), addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(i));
+					}
+					Response = getOrderDiruectSalesVoucher(otsOrderDetails.getOrderId());
+					try {
+						String notification = otsOrderDetails.getOrderNumber() + " had been placed by " + Customer.getFirstName()+" "+Customer.getLastName()+" and requested delivery date is "+addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()+" please click here to assign the Employee for order";
+						fcmPushNotification.sendPushNotification(user.getDeviceId(),"pravarthaka App" ,notification);
+						notification = "Order Placed : Your order "+otsOrderDetails.getOrderNumber()+" had been placed";
+						fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"pravarthaka App" ,notification);
+					}catch(Exception e) {
+						return Response;
+					}
+					
 					return Response;
+				}catch(Exception e){
+					throw new BusinessException(e,ErrorEnumeration.ERROR_IN_STOCK);
+				} catch (Throwable e) {
+					throw new BusinessException(e, ErrorEnumeration.ERROR_IN_STOCK);
 				}
-				
-				return Response;
 			}catch(Exception e){
-				throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+				throw new BusinessException(e, ErrorEnumeration.ERROR_IN_STOCK);
 			} catch (Throwable e) {
-				throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+				throw new BusinessException(e, ErrorEnumeration.ERROR_IN_STOCK);
 			}
-		}catch(Exception e){
-			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
-		} catch (Throwable e) {
-			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+		}else {
+			AddOrUpdateOrderProductBOrequest requestProduct = new AddOrUpdateOrderProductBOrequest();
+			requestProduct.setRequest(addOrUpdateOrderProductBOrequest.getRequest());
+			System.out.println("size before"+requestProduct.getRequest().getProductList().size());
+			for(int j=0;j<requestProduct.getRequest().getProductList().size();j++) {
+				OrderDetailsRequest orderDetailsRequest = new OrderDetailsRequest();
+				orderDetailsRequest = requestProduct.getRequest();
+				List<OrderedProductDetails> ProductList = new ArrayList<OrderedProductDetails>();
+				orderDetailsRequest.setProductList(requestProduct.getRequest().getProductList());
+				System.out.println("size after - 0 "+requestProduct.getRequest().getProductList().size());
+				addOrUpdateOrderProductBOrequest.setRequest(orderDetailsRequest);
+				System.out.println("size after - 1 "+requestProduct.getRequest().getProductList().size());
+				try {
+					Float totalProductCost = Float.parseFloat(addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(j).getProductCost()) *  Float.parseFloat(addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(j).getOrderedQty());
+					addOrUpdateOrderProductBOrequest.getRequest().setOrderCost(totalProductCost.toString());
+					otsOrderDetails = orderServiceDAO.insertOrderAndGetOrderId(addOrUpdateOrderProductBOrequest);
+					System.out.println("size after +0"+requestProduct.getRequest().getProductList().size());
+					try {
+							orderProductDao.insertOrdrerProductByOrderId(Integer.parseInt(otsOrderDetails.getOrderId()), addOrUpdateOrderProductBOrequest.getRequest().getProductList().get(j));
+						Response = getOrderDiruectSalesVoucher(otsOrderDetails.getOrderId());	
+						try {
+							String notification = "Donation request is in progress";
+							fcmPushNotification.sendPushNotification(user.getDeviceId(),"pravarthaka App" ,notification);
+							notification = "New Donation request";
+							fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"pravarthaka App" ,notification);
+						}catch(Exception e) {
+							
+						}
+					}catch(Exception e){
+						throw new BusinessException(e,ErrorEnumeration.ERROR_IN_STOCK);
+					} catch (Throwable e) {
+						throw new BusinessException(e, ErrorEnumeration.ERROR_IN_STOCK);
+					}
+				}catch(Exception e){
+					throw new BusinessException(e, ErrorEnumeration.ERROR_IN_STOCK);
+				} catch (Throwable e) {
+					throw new BusinessException(e, ErrorEnumeration.ERROR_IN_STOCK);
+				}
+			}
 		}
-
+		return Response;
 	}
 	
 	
@@ -321,7 +402,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			try {
 				UserDetails User;
 				User = userServiceDAO.getUserDetails(Integer.parseInt(updateOrderDetailsRequest.getRequest().getAssignedId()));
-				fcmPushNotification.sendPushNotification(User.getDeviceId(),"Bisleri Apps" , "Your registration Succesful,please login to your account");
+				fcmPushNotification.sendPushNotification(User.getDeviceId(),"pravarthaka Apps" , "Your registration Succesful,please login to your account");
 			}catch(Exception e) {
 				return Response;
 			}
@@ -346,11 +427,11 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				Employee = userServiceDAO.getUserDetails(Integer.parseInt(updateForAssgineBOrequest.getRequest().getAssignedId()));
 
 				String Notification = otsOrderDetails.getOrderNumber()+" have been assigned to you, please click to view the order details ";
-				fcmPushNotification.sendPushNotification(Employee.getDeviceId(),"Bislari app" , Notification);
+				fcmPushNotification.sendPushNotification(Employee.getDeviceId(),"pravarthaka app" , Notification);
 
 				UserDetails customer = userServiceDAO.getUserDetails(Integer.getInteger(otsOrderDetails.getCustomerId()));
 				Notification =" Order Placed : Your order "+ otsOrderDetails.getOrderNumber()+" has been confirmed and will be delivered on or before "+otsOrderDetails.getOrderDeliveryDate();
-				fcmPushNotification.sendPushNotification(customer.getDeviceId(),"Bislari app" , Notification);
+				fcmPushNotification.sendPushNotification(customer.getDeviceId(),"pravarthaka app" , Notification);
 			}catch(Exception e) {
 				return Response;
 			}
@@ -390,7 +471,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				OrderProductDetails orderProductDetails = new OrderProductDetails();
 				orderProductDetails.setType(orderProductDetailsList.get(j).getType());
 				orderProductDetails = orderProductDetailsList.get(j);
-				orderProductDetails.setStock(productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity()==null?null:productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity());
+				orderProductDetails.setStock("0");
 				orderProductDetailsList2.add(j,orderProductDetails);
 			}
 			
@@ -513,6 +594,30 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	public String SalesVocher(SaleVocherBoRequest saleVocherBoRequest) {
 		try {
 
+			
+			//---------------------------------------Check for stock-----------------------------------------
+//			try {
+//				for(int j=0;j<saleVocherBoRequest.getRequest().getOrderProductlist().size();j++) {
+//						GetProductStockRequest getProductStockRequest = new GetProductStockRequest();
+//						GetProductRequestModel productRequestModel = new GetProductRequestModel();
+//						productRequestModel.setDistributorId(saleVocherBoRequest.getRequest().getDistributorId());
+//						productRequestModel.setProductId(saleVocherBoRequest.getRequest().getOrderProductlist().get(j).getProdcutId());
+//						getProductStockRequest.setRequestData(productRequestModel);
+//						System.out.println("APP------------------>"+productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity());
+//						System.out.println("APP------------------>"+Integer.parseInt(saleVocherBoRequest.getRequest().getOrderProductlist().get(j).getOrderQty()));
+//						if(Integer.parseInt(productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity())<Integer.parseInt(saleVocherBoRequest.getRequest().getOrderProductlist().get(j).getOrderQty())) {
+//							return "NO";
+//						}
+//				}
+//			}catch(Exception e) {
+//				return "NO";
+//			}
+//			
+				
+		
+			//---------------------------------------Check fpr stock-----------------------------------------
+		
+			
 			CustomerOutstandingBORequest customerOutstandingBORequest = new CustomerOutstandingBORequest();
 			orderDetails = orderServiceDAO.SalesVocher(saleVocherBoRequest);
 
@@ -522,7 +627,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			customerOutstandingDetails.setCustomerOutstandingAmt(saleVocherBoRequest.getRequest().getOutstandingAmount());
 			customerOutstandingBORequest.setRequestData(customerOutstandingDetails);
 
-			customerOutstandingAmtDAO.updateCustomerOutstandingAmt(customerOutstandingBORequest);
+		//	customerOutstandingAmtDAO.updateCustomerOutstandingAmt(customerOutstandingBORequest);
 
 			CustomerProductDataBORequest customerProductDataBORequest = new CustomerProductDataBORequest();
 			OrderProductDetailsSaleVocher orderedProductDetails = new OrderProductDetailsSaleVocher();
@@ -546,11 +651,11 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				customerProductDetails.setCustomerBalanceCan(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductbalanceQty());
 				customerProductDetails.setProductPrice(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost());
 				customerProductDataBORequest.setRequestData(customerProductDetails);
-				mapUserProductDAO.UpdateBySaleVocher(customerProductDataBORequest);
+//				mapUserProductDAO.UpdateBySaleVocher(customerProductDataBORequest);
 
 				addProductStock.setOrderId(saleVocherBoRequest.getRequest().getOrderId());
 				addProductStock.setUsersId(orderDetails.getDistributorId());
-				addProductStock.setProductStockQty(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getDeliveredQty());
+				addProductStock.setProductStockQty(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getOrderQty());
 				addProductStock.setProductStockStatus("Active");
 				addProductStock.setProductId(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProdcutId());
 
@@ -558,19 +663,20 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 
 				productStockHistoryDao.addProductStockHistory(addProductStockBORequest);
 				productStockDao.removeProductStock(addProductStockBORequest);
-				try {
-					UserDetails distributor;
-					distributor = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getDistributorId()));
-					String notification ="The order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+saleVocherBoRequest.getRequest().getDeliverdDate();
-					fcmPushNotification.sendPushNotification(distributor.getDeviceId(),"Bisleri Apps" , notification);
+				
+			}
+			try {
+				UserDetails distributor;
+				distributor = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getDistributorId()));
+				String notification ="The order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+saleVocherBoRequest.getRequest().getDeliverdDate();
+				fcmPushNotification.sendPushNotification(distributor.getDeviceId(),"pravarthaka Apps" , notification);
 
-					UserDetails Customer;
-					Customer = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId()));
-					notification = "Your order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+ saleVocherBoRequest.getRequest().getDeliverdDate();
-					fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"Bisleri Apps" , notification);
-				}catch(Exception e) {
-					return "Updated";
-				}
+				UserDetails Customer;
+				Customer = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId()));
+				notification = "Your order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+ saleVocherBoRequest.getRequest().getDeliverdDate();
+				fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"pravarthaka Apps" , notification);
+			}catch(Exception e) {
+				return "Updated";
 			}
 		}catch (BusinessException e) {
 			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
@@ -661,6 +767,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 
 	@Override
 	public String runScheduler12AMTO1AM() {
+		
 		List<OtsScheduler> schedulerList = schedulerDao.runScheduler12AMTO1AM();
 		List<OtsRequestOrder> requestOrder = requestOrderServiceDao.runSchedulerEveryDay12AMTo1AM(schedulerList);
  		
@@ -673,6 +780,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
  			orderDetailsRequest.setOrderStatus("New");
  			orderDetailsRequest.setDelivaryDate(requestOrder.get(i).getOtsScheduleDt().toString().substring(0, 10));
  			orderDetailsRequest.setOrderDate(requestOrder.get(i).getOtsScheduleDt().toString().substring(0, 10));
+ 			
  			System.out.print(requestOrder.get(i).getOtsScheduleDt());
  			List<OrderedProductDetails> productList = new ArrayList<OrderedProductDetails>();
  			OrderedProductDetails scheduleOrder = new OrderedProductDetails();
@@ -684,9 +792,10 @@ public class OTSOrderServiceImpl implements OTSOrderService {
  				scheduleOrder.setProductCost(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice());
  				//	productList.get(0).setProductCost();
  			}else {
+ 				scheduleOrder.setProductId(requestOrder.get(i).getOtsProductId().getOtsProductId().toString());
  				Float cost = Float.valueOf(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice())*Float.valueOf(requestOrder.get(i).getOtsRequestQty());
  				orderDetailsRequest.setOrderCost(cost.toString());
- 				productList.get(0).setProductCost(mapUserProductDAO.getCustomerProductDetailsByUserIdandProductId(requestOrder.get(i).getOtsCustomerId().getOtsUsersId().toString(),requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice());
+ 				scheduleOrder.setProductCost(productServiceDAO.getProductDetils(requestOrder.get(i).getOtsProductId().getOtsProductId().toString()).getProductPrice());
  			}
  			scheduleOrder.setOrderedQty(requestOrder.get(i).getOtsRequestQty().toString());
  			scheduleOrder.setDeliveredQty(requestOrder.get(i).getOtsRequestQty().toString());
@@ -695,7 +804,8 @@ public class OTSOrderServiceImpl implements OTSOrderService {
  			addOrUpdateOrderProductBOrequest.setRequest(orderDetailsRequest);
   		//	int ordercost = Math.round(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getOrderCost()));
  		//	addOrUpdateOrderProductBOrequest.getRequest().setOrderCost(String.valueOf(ordercost));
- 			schedulerOrder(addOrUpdateOrderProductBOrequest); 			 			
+ 			schedulerOrder(addOrUpdateOrderProductBOrequest); 			 		
+ 			System.out.print("------------------------Scheduler worked----------------------------------------");
  		}
  		
 		return "Done";
@@ -802,9 +912,9 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				Customer = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getCustomerId()));
 				try {
 					String notification = otsOrderDetails.getOrderNumber() + " had been placed by " + Customer.getFirstName()+" "+Customer.getLastName()+" and requested delivery date is "+addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()+" please click here to assign the Employee for order";
-					fcmPushNotification.sendPushNotification(user.getDeviceId(),"Bislari App" ,notification);
+					fcmPushNotification.sendPushNotification(user.getDeviceId(),"pravarthaka App" ,notification);
 					notification = "Order Placed : Your order "+otsOrderDetails.getOrderNumber()+" had been placed";
-					fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"Bislari App" ,notification);
+					fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"pravarthaka App" ,notification);
 				}catch(Exception e) {
 					return Response;
 				}
@@ -848,7 +958,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				OrderProductDetails orderProductDetails = new OrderProductDetails();
 				orderProductDetails.setType(orderProductDetailsList.get(j).getType());
 				orderProductDetails = orderProductDetailsList.get(j);
-				orderProductDetails.setStock(productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity()==null?null:productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity());
+			//	orderProductDetails.setStock(productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity()==null?null:productStockDao.getProductStockByUidAndPid(getProductStockRequest).getStockQuantity());
 				orderProductDetailsList2.add(j,orderProductDetails);
 			}
 			
@@ -857,12 +967,22 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		}
 		
 		orderProductBOResponse.setOrderList(GetOrderDetailsAndProductDetails);
-		return orderProductBOResponse;}
-	catch(Exception e){
-			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);}
-	catch (Throwable e) {
-			throw new BusinessException(e,ErrorEnumeration.FAILURE_ORDER_GET);
+		if(GetOrderDetailsAndProductDetails.get(0).getOrderStatus().equalsIgnoreCase("newRequest")) {
+			System.out.println("----------"+GetOrderDetailsAndProductDetails.get(0).getOrderStatus()+"-----------");
+			OrderDetailsAndProductDetails requestProductDetails =  requestProductDao.addOrUpdateRequest(orderProductBOResponse.getOrderList().get(0));
+
+			orderRequestMappingDAO.MapOrderAndRequest(requestProductDetails);
+			
 		}
+		return orderProductBOResponse;
+	}
+	catch(Exception e){
+		
+	}
+	catch (Throwable e) {
+		
+		}
+	return null;
 	}
 
 	public String  orderLedgureReportPDF(List<OrderDetailsAndProductDetails> getOrderDetailsAndProductDetails ,String distributorName, String date) {
@@ -959,6 +1079,146 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		
 		return encodedString;	
 			
+	}
+
+
+	@Override
+	public DonationResponseByStatus getDonationListBystatus(GetDonationByStatusRequest donationByStatusRequest) {
+		return requestProductDao.getDonationListBystatus(donationByStatusRequest);
+	}
+	
+	@Override
+	public String addNewDonation(AddDonationtoRequest addDonationtoRequest) {
+		//--------------------------- to reduce bulk request---------------------------------------------
+		try {
+			if(addDonationtoRequest.getRequest().get(0).getDonationStatus().equalsIgnoreCase("directDonation")) {
+				donationServiceDAO.addNewDonation(addDonationtoRequest);
+			}else {
+				DonationBoResponse donationBoResponse = requestProductDao.addNewDonation(addDonationtoRequest);
+				donationBoResponse.setDonationId(donationServiceDAO.addNewDonation(addDonationtoRequest));
+				donationRequestMappingDAO.addNewDonation(donationBoResponse);
+				donationBoResponse.setOrderId(addDonationtoRequest.getRequest().get(0).getOrderId());
+				//--------------------------- end of reduce bulk request---------------------------------------------
+				
+				if(addDonationtoRequest.getRequest().get(0).getDonationMethod().equalsIgnoreCase("cash")) {	
+					if(!addDonationtoRequest.getRequest().get(0).getOrderId().equalsIgnoreCase("any")) {
+					//----------------------------donor selected the beneficiary------------------------------------------------
+						orderServiceDAO.UpdateOrderForRequest(donationBoResponse);
+					}
+					//----------------------------to add stock to rotary------------------------------------------------
+					AddProductStock addProductStock = new AddProductStock();
+					addProductStock.setProductId(addDonationtoRequest.getRequest().get(0).getProductId());
+					addProductStock.setProductStockQty(addDonationtoRequest.getRequest().get(0).getDonatedQty());
+					addProductStock.setUsersId("1");
+//					AddProductStockBORequest addProductStockBORequest = new AddProductStockBORequest();
+//					addProductStockBORequest.setRequestData(addProductStock);
+//					productStockDao.addProductStock(addProductStockBORequest);
+					
+				}else if(addDonationtoRequest.getRequest().get(0).getDonationMethod().equalsIgnoreCase("kind")){
+					if(addDonationtoRequest.getRequest().get(0).getOrderId().equalsIgnoreCase("any")) {
+						
+//						AddProductStock addProductStock = new AddProductStock();
+//						addProductStock.setProductId(addDonationtoRequest.getRequest().get(0).getProductId());
+//						addProductStock.setProductStockQty(addDonationtoRequest.getRequest().get(0).getDonatedQty());
+//						addProductStock.setUsersId("1");
+//						AddProductStockBORequest addProductStockBORequest = new AddProductStockBORequest();
+//						addProductStockBORequest.setRequestData(addProductStock);
+//						productStockDao.addProductStock(addProductStockBORequest);
+						
+					}else {
+						orderServiceDAO.UpdateOrderForRequest(donationBoResponse);
+					}
+				}
+				
+				return "success";
+			}
+		}catch(Exception e) {
+			System.out.print(e);
+		}
+		
+		return "success";
+		
+	}
+
+
+	@Override
+	public GetDonationReportByDateResponse getDonationReportByDate(
+			GetDonationReportByDateRequest donationReportByDateRequest) {
+		try {
+			return donationRequestMappingDAO.getDonationReportByDate(donationReportByDateRequest);
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.No_Donation);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.No_Donation);
+		}
+	}
+
+
+	@Override
+	public GetUserDetailsForResponse getListOfOrderDetailsForRequest(
+			GetUserDetailsForRequest getUserDetailsForRequest) {
+		try {
+			GetUserDetailsForResponse userDetailsForResponse = new GetUserDetailsForResponse();
+			userDetailsForResponse = orderRequestMappingDAO.getListOfOrderDetailsForRequest(getUserDetailsForRequest);
+			
+			for(int i=0 ; i<userDetailsForResponse.getRequestProductDetails().size();i++) {
+				List<OrderProductDetails> orderProductDetailsList = new ArrayList<OrderProductDetails>();
+				orderProductDetailsList = orderProductDao.getProductListByOrderId(userDetailsForResponse.getRequestProductDetails().get(i).getOrderDetails().getOrderId());
+				userDetailsForResponse.getRequestProductDetails().get(i).getOrderDetails().setOrderdProducts(orderProductDetailsList);
+			}
+			
+			return userDetailsForResponse;
+		}catch(Exception e) {
+			throw new BusinessException(e, ErrorEnumeration.No_Donation);
+		}
+	}
+
+
+	@Override
+	public GetDonationReportByDateResponse getDonationForUpdateStatus(GetDonationByStatusRequest donationByStatusRequest) {
+		GetDonationReportByDateResponse getDonationReportByDateResponse = new GetDonationReportByDateResponse();
+		System.out.print("2");
+		getDonationReportByDateResponse = donationServiceDAO.getDonationForUpdateStatus(donationByStatusRequest);
+		if(!donationByStatusRequest.getRequest().getStatus().equalsIgnoreCase("directDonation")) {
+			getDonationReportByDateResponse = donationRequestMappingDAO.getRequestByDonationId(getDonationReportByDateResponse);	
+		}
+		
+		return getDonationReportByDateResponse;
+	}
+
+
+	@Override
+	public String updateDonation(UpdateDonationRequest updateDonationRequest) {
+		if(updateDonationRequest.getRequest().getDonationStatus().equalsIgnoreCase("reciveDonation")) {
+			AddProductStock addProductStock = new AddProductStock();
+
+			System.out.print("1");
+			addProductStock.setProductId(updateDonationRequest.getRequest().getProductDetails().getProductId());
+			addProductStock.setProductStockQty(updateDonationRequest.getRequest().getDonatedQty());
+			
+			addProductStock.setUsersId("1");
+			AddProductStockBORequest addProductStockBORequest = new AddProductStockBORequest();
+			addProductStockBORequest.setRequestData(addProductStock);
+			productStockDao.addProductStock(addProductStockBORequest);	
+			return donationServiceDAO.updateDonation(updateDonationRequest);
+		}else if(updateDonationRequest.getRequest().getDonationStatus().equalsIgnoreCase("assigneeRequest")) {
+			return donationServiceDAO.updateDonation(updateDonationRequest);
+		}
+		return null;
+		
+	
+	}
+
+
+	@Override
+	public String donateDonation(SaleVocherBoRequest saleVocherBoRequest) {
+		// TODO Auto-generated method stub
+		AddProductStockBORequest addProductStockBORequest = new AddProductStockBORequest();
+		addProductStockBORequest.getRequestData().setProductId(saleVocherBoRequest.getRequest().getOrderProductlist().get(0).getProdcutId());
+		addProductStockBORequest.getRequestData().setProductStockQty(saleVocherBoRequest.getRequest().getOrderProductlist().get(0).getOrderQty());
+		addProductStockBORequest.getRequestData().setUsersId("1");
+		productStockDao.removeProductStock(addProductStockBORequest);
+		return orderServiceDAO.donateDonation(saleVocherBoRequest);
 	}
 	
 }

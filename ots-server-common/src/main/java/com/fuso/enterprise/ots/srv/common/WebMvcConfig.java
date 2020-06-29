@@ -16,7 +16,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/swagger-ui/**")
 				.addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/2.1.3/");
 
-		registry.addResourceHandler("/rotary/**").addResourceLocations("file:/home/mobdev/images/rotary/");
+		registry.addResourceHandler("/rotary2/**").addResourceLocations("file:/home/mobdev/images/rotary2/");
 
 		registry.addResourceHandler("/bomchildparts/**").addResourceLocations("file:///C:/otsfiles/bomchildparts/");
 

@@ -55,7 +55,7 @@ public class ProductCategoryMappingDAOImpl extends AbstractIptDao<OtsProductCate
 	}
 
 	@Override
-	public AddProductCategoryAndProductRequest mapProductAndCategory(
+ 	public AddProductCategoryAndProductRequest mapProductAndCategory(
 			AddProductCategoryAndProductRequest addProductAndCategoryRequest) {
 		try {
 			OtsProductCategoryMapping OtsProductCategoryMapping = new OtsProductCategoryMapping();

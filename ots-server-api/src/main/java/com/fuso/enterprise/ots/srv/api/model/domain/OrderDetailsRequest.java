@@ -14,9 +14,26 @@ public class OrderDetailsRequest {
 	private String DeliverdDate;
 	private String OrderStatus;
 	private String CustomerName;
-	
+	private String userLat;
+	private String userLong;
+	private String customerLat;
+	private String address;
+	private String paymentId;
+	private String paymentStatus;
 	private List<OrderedProductDetails> ProductList;
 	
+	public String getUserLat() {
+		return userLat;
+	}
+	public void setUserLat(String userLat) {
+		this.userLat = userLat;
+	}
+	public String getCustomerLat() {
+		return customerLat;
+	}
+	public void setCustomerLat(String customerLat) {
+		this.customerLat = customerLat;
+	}
 	public String getDistributorId() {
 		return DistributorId;
 	}
@@ -82,6 +99,30 @@ public class OrderDetailsRequest {
 	}
 	public void setCustomerName(String customerName) {
 		CustomerName = customerName;
+	}
+	public String getUserLong() {
+		return userLong;
+	}
+	public void setUserLong(String userLong) {
+		this.userLong = userLong;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getPaymentId() {
+		return paymentId;
+	}
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
 	}
 	
 	

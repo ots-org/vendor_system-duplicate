@@ -50,6 +50,54 @@ public class OrderDetails {
 	 
 	 @Size(max = 20)
 	 private String outstandingAmount;
+	 
+	 private String address;
+	 
+	 private String paymentStatus;
+	 
+	 private String paymentId;
+	 
+	 private String donationId;
+	 
+	 private String donatorId;
+	 
+	 private String donarAddress;
+	 
+	 private String donarContactNumber;
+	 
+	 private String donationStatus;
+	 
+	public String getDonarAddress() {
+		return donarAddress;
+	}
+
+	public void setDonarAddress(String donarAddress) {
+		this.donarAddress = donarAddress;
+	}
+
+	public String getDonarContactNumber() {
+		return donarContactNumber;
+	}
+
+	public void setDonarContactNumber(String donarContactNumber) {
+		this.donarContactNumber = donarContactNumber;
+	}
+
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
+
+	public String getPaymentId() {
+		return paymentId;
+	}
+
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
 
 	public String getAmountRecived() {
 		return amountRecived;
@@ -169,6 +217,38 @@ public class OrderDetails {
 
 	public void setBillId(String billId) {
 		this.billId = billId;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getDonationId() {
+		return donationId;
+	}
+
+	public void setDonationId(String donationId) {
+		this.donationId = donationId;
+	}
+
+	public String getDonationStatus() {
+		return donationStatus;
+	}
+
+	public void setDonationStatus(String donationStatus) {
+		this.donationStatus = donationStatus;
+	}
+
+	public String getDonatorId() {
+		return donatorId;
+	}
+
+	public void setDonatorId(String donatorId) {
+		this.donatorId = donatorId;
 	}
 
 	 

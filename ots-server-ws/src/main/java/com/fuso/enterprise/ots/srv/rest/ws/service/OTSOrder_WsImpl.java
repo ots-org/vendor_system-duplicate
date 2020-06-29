@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
+import com.fuso.enterprise.ots.srv.api.service.request.AddDonationtoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
@@ -17,11 +18,15 @@ import com.fuso.enterprise.ots.srv.api.service.request.DirectSalesVoucherRequest
 import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetDonationByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetDonationReportByDateRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetUserDetailsForRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateDonationRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderStatusRequest;
@@ -35,7 +40,6 @@ import com.fuso.enterprise.ots.srv.server.util.ResponseWrapper;
 @Configuration
 @EnableScheduling
 public class OTSOrder_WsImpl implements OTSOrder_Ws{
-	
 	
 	@Inject
 	OTSOrderService oTSOrderService;
@@ -67,7 +71,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 					!getOrderBORequest.getRequest().getToTime().equals(null)){	
 			    orderDetailsBOResponse = oTSOrderService.getOrderBydate(getOrderBORequest);
 				if (!oTSOrderService.getOrderBydate(getOrderBORequest).getOrderDetails().get(0).equals(null)) {
-					logger.info("Inside Event=1011,Class:OTSProduct_WsImpl,Method:getOrderList, " + "Successfull");
+					logger.info("Inside Event=1011,Class:OTSProduct_WsImpl,Method:getOrderList, " + "Successful");
 					response = buildResponse(orderDetailsBOResponse,"Successfull");
 				}else{
 					response = buildResponse(600,"No order from"+getOrderBORequest.getRequest().getFromTime()+"To"+getOrderBORequest.getRequest().getToTime());
@@ -96,7 +100,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 				System.out.println( orderProductBOResponse.getOrderList().get(0).getOrderDate()+"in WS");
 				
 				if (!orderProductBOResponse.getOrderList().isEmpty()) {
-					logger.info("Inside Event=1011,Class:OTSProduct_WsImpl,Method:getOrderList, " + "Successfull");
+					logger.info("Inside Event=1011,Class:OTSProduct_WsImpl,Method:getOrderList, " + "Successful");
 					response = buildResponse(orderProductBOResponse,"Successfull");
 				}else{
 					response = buildResponse(600,"No Order For You");
@@ -119,13 +123,28 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		Response response = null;
 		logger.info("Inside Event=1020,Class:OTSOrder_WsImpl,Method:insertOrderAndProduct,addOrUpdateOrderProductBOrequest " + addOrUpdateOrderProductBOrequest);
 		try {	
+			try {
+				if(addOrUpdateOrderProductBOrequest.getRequest().getAddress() == null ||addOrUpdateOrderProductBOrequest.getRequest().getAddress().equals("")) {
+					return response = buildResponse(404,"Please Enter your address");
+				}
+			}catch(Exception e) {
+				return response = buildResponse(404,"Please Enter your address");
+			}
+			try {
+				if(addOrUpdateOrderProductBOrequest.getRequest().getUserLat() == null ||addOrUpdateOrderProductBOrequest.getRequest().getUserLong().equals("")||addOrUpdateOrderProductBOrequest.getRequest().getUserLong().equals("")||addOrUpdateOrderProductBOrequest.getRequest().getUserLong() == null) {
+					return response = buildResponse(404,"please turn on location to place the order");
+				}
+			}catch(Exception e) {
+				throw new BusinessException(e, ErrorEnumeration.NO_lOCATION);
+			}
+			
 			OrderProductBOResponse ResponseValue = oTSOrderService.insertOrderAndProduct(addOrUpdateOrderProductBOrequest);
 			
-			response = buildResponse(ResponseValue,"your order is placed and order number is "+ResponseValue.getOrderList().get(0).getOrderNumber());
+			response = buildResponse(ResponseValue,"Order is Requested");
 		}catch(Exception e){
-			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_STOCK);
 		} catch (Throwable e) {
-			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
+			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_STOCK);
 		}
 		 return response;
 	}
@@ -273,7 +292,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		GetListOfOrderByDateBOResponse getListOfOrderByDateBOResponse = new GetListOfOrderByDateBOResponse();
 		try {
 			getListOfOrderByDateBOResponse=oTSOrderService.getListOfOrderByDate(getListOfOrderByDateBORequest);
-			response = buildResponse(getListOfOrderByDateBOResponse,"Successfull");
+			response = buildResponse(getListOfOrderByDateBOResponse,"Successful");
 			return response;
 		}catch (BusinessException e) {
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
@@ -284,18 +303,23 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 
 	@Override
 	public Response saleVocher(SaleVocherBoRequest saleVocherBoRequest) {
-		Response response;
+		Response response = null;
 		logger.info("Inside Event=1035,Class:OTSOrder_WsImpl, Method:saleVocher, saleVocherBoRequest:"
 				+ saleVocherBoRequest);
 		try {
-			oTSOrderService.SalesVocher(saleVocherBoRequest);
-			response = buildResponse("updated","Successfull");
-			return response;
+			if(oTSOrderService.SalesVocher(saleVocherBoRequest).equalsIgnoreCase("NO")) {
+				response = buildResponse(600,"there is no stock , please update stock before placing the order");
+			}else {
+				response = buildResponse("updated","Successful");
+				return response;
+			}
+			
 		}catch (BusinessException e) {
 			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
 		} catch (Throwable e) {
 			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
 		}
+		return response;
 	}
 
 
@@ -303,7 +327,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	public Response orderReportByDate(GetOrderBORequest getOrderBORequest) {
 		try {
 				Response response;
-				response = buildResponse(oTSOrderService.orderReportByDate(getOrderBORequest),"Successfull");
+				response = buildResponse(oTSOrderService.orderReportByDate(getOrderBORequest),"Successful");
 				return response;
 			}catch (BusinessException e) {
 				throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
@@ -316,7 +340,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	public Response InsertScheduler(AddSchedulerRequest  addSchedulerRequest) {
 		Response response;
 		try {
-			response = buildResponse(oTSOrderService.InsertScheduler(addSchedulerRequest),"Successfull");
+			response = buildResponse(oTSOrderService.InsertScheduler(addSchedulerRequest),"Successful");
 			return response;
 		}catch (BusinessException e) {
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SCHEDULER);
@@ -330,7 +354,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	public Response getScheduler(GetSchedulerRequest getSchedulerRequest) {
 		Response response;
 		try {
-			response = buildResponse(oTSOrderService.getScheduler(getSchedulerRequest),"Successfull");
+			response = buildResponse(oTSOrderService.getScheduler(getSchedulerRequest),"Successful");
 			return response;
 		}catch (BusinessException e) {
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_SCHEDULER);
@@ -343,13 +367,13 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	public void scheduleFixed12AM() {
 		oTSOrderService.runScheduler12AMTO1AM();
 	    System.out.println(
-	      "runnng cron @12AM " + System.currentTimeMillis() / 1000);
+	      "------------------------------------runnng cron @12AM " + System.currentTimeMillis() / 1000 + "--------------------------------------------");
 	}	
 	
 	@Override
 	public Response CheckSchedulerCronJob() {
 		Response response;
-		response = buildResponse(oTSOrderService.runScheduler12AMTO1AM(),"Successfull");
+		response = buildResponse(oTSOrderService.runScheduler12AMTO1AM(),"Successful");
 		return null;
 	}
 
@@ -357,7 +381,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	public Response employeeTransferOrder(EmployeeOrderTransferRequest employeeOrderTransferRequest) {
 		try {
 			Response response;
-			response = buildResponse(oTSOrderService.employeeTransferOrder(employeeOrderTransferRequest),"Successfull");
+			response = buildResponse(oTSOrderService.employeeTransferOrder(employeeOrderTransferRequest),"Successful");
 			return response;
 		}catch(Exception e){
 			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
@@ -370,7 +394,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	public Response getOrderByStatus(UpdateOrderStatusRequest updateOrderStatusRequest) {
 		try {
 			Response response;
-			response = buildResponse(oTSOrderService.UpdateOrderStatus(updateOrderStatusRequest),"Successfull");
+			response = buildResponse(oTSOrderService.UpdateOrderStatus(updateOrderStatusRequest),"Successful");
 			return response;
 		}catch(Exception e){
 			throw new BusinessException(e, ErrorEnumeration.INPUT_PARAMETER_INCORRECT);
@@ -383,9 +407,69 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	public Response directSalesVoucher(DirectSalesVoucherRequest directSalesVoucherRequest) {
 		Response response;
 		System.out.print("data");
-		response = buildResponse(oTSOrderService.directSalesVoucher(directSalesVoucherRequest),"Successfull");
+		response = buildResponse(oTSOrderService.directSalesVoucher(directSalesVoucherRequest),"Successful");
 		return response;
 	}
 
+	@Override
+	public Response getDonationListBystatus(GetDonationByStatusRequest donationByStatusRequest) {
+		Response response;
+		response = buildResponse(oTSOrderService.getDonationListBystatus(donationByStatusRequest),"Successful");
+		return response;
+	}
+
+	@Override
+	public Response addNewDonation(AddDonationtoRequest addDonationtoRequest) {
+		Response response;
+		System.out.println("1");
+		response = buildResponse(oTSOrderService.addNewDonation(addDonationtoRequest),"Successful");
+		return response;
+	}
+
+	@Override
+	public Response getDonationReportByDate(GetDonationReportByDateRequest donationReportByDateRequest) {
 		
+		Response response;
+		try {
+			System.out.println("1");
+			response = buildResponse(oTSOrderService.getDonationReportByDate(donationReportByDateRequest),"Successful");	
+		}catch(Exception e){
+			throw new BusinessException(e, ErrorEnumeration.No_Donation);
+		} catch (Throwable e) {
+			throw new BusinessException(e, ErrorEnumeration.No_Donation);
+		}
+		return response;
+	}
+
+	@Override
+	public Response getListOfOrderDetailsForRequest(GetUserDetailsForRequest getUserDetailsForRequest) {
+		Response response;
+		response = buildResponse(oTSOrderService.getListOfOrderDetailsForRequest(getUserDetailsForRequest),"Successful");	
+		return response;
+	}
+	
+	@Override
+	public Response getDonationForUpdateStatus(GetDonationByStatusRequest donationByStatusRequest) {
+		Response response;
+		System.out.print("1");
+		response = buildResponse(oTSOrderService.getDonationForUpdateStatus(donationByStatusRequest),"Successful");
+		
+		return response;
+	}
+
+	@Override
+	public Response updateDonation(UpdateDonationRequest updateDonationRequest) {
+		System.out.println("1");
+		Response response;
+		response = buildResponse(oTSOrderService.updateDonation(updateDonationRequest),"Successful");
+		return response;
+	}
+
+	@Override
+	public Response donateDonation(SaleVocherBoRequest saleVocherBoRequest) {
+		System.out.println("1");
+		Response response;
+		response = buildResponse(oTSOrderService.donateDonation(saleVocherBoRequest),"Successful");
+		return response;
+	}
 }

@@ -52,7 +52,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "OtsUsers.findByOtsUsersContactNo", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersContactNo = :otsUsersContactNo")
     , @NamedQuery(name = "OtsUsers.findByOtsDeviceToken", query = "SELECT o FROM OtsUsers o WHERE o.otsDeviceToken = :otsDeviceToken")
     , @NamedQuery(name = "OtsUsers.findByOtsUsersLong", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLong = :otsUsersLong")
-    , @NamedQuery(name = "OtsUsers.findByOtsUsersLat", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLat = :otsUsersLat")})
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersLat", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLat = :otsUsersLat")
+    , @NamedQuery(name = "OtsUsers.findByOtsUserPannumber", query = "SELECT o FROM OtsUsers o WHERE o.otsUserPannumber = :otsUserPannumber")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersRotarynumber", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersRotarynumber = :otsUsersRotarynumber")})
 public class OtsUsers implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,10 +69,10 @@ public class OtsUsers implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_users_lastname")
     private String otsUsersLastname;
-    @Size(max = 45)
+    @Size(max = 1000)
     @Column(name = "ots_users_addr1")
     private String otsUsersAddr1;
-    @Size(max = 45)
+    @Size(max = 1000)
     @Column(name = "ots_users_addr2")
     private String otsUsersAddr2;
     @Size(max = 45)
@@ -92,7 +94,7 @@ public class OtsUsers implements Serializable {
     @Column(name = "ots_users_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsUsersCreated;
-    @Size(max = 45)
+    @Size(max = 1000)
     @Column(name = "ots_users_password")
     private String otsUsersPassword;
     @Size(max = 45)
@@ -107,20 +109,42 @@ public class OtsUsers implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_users_lat")
     private String otsUsersLat;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
-    private Collection<OtsBill> otsBillCollection;
+    @Size(max = 45)
+    @Column(name = "ots_user_pannumber")
+    private String otsUserPannumber;
+    @Size(max = 45)
+    @Column(name = "ots_users_rotarynumber")
+    private String otsUsersRotarynumber;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private OtsUserMapping otsUserMapping;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
-    private Collection<OtsCustomerProduct> otsCustomerProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsStockDistOb> otsStockDistObCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersusersId")
-    private Collection<OtsLatLon> otsLatLonCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsProductStock> otsProductStockCollection;
+    @JoinColumn(name = "ots_registration_id", referencedColumnName = "ots_registration_id")
+    @ManyToOne
+    private OtsRegistration otsRegistrationId;
+    @JoinColumn(name = "ots_user_role_id", referencedColumnName = "ots_user_role_id")
+    @ManyToOne(optional = false)
+    private OtsUserRole otsUserRoleId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsDonorsId")
+    private Collection<OtsDonation> otsDonationCollection;
+    @OneToMany(mappedBy = "otsAssgineId")
+    private Collection<OtsDonation> otsDonationCollection1;
+    @OneToMany(mappedBy = "otsUsersMappedTo")
+    private Collection<OtsRegistration> otsRegistrationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsDistributorId")
+    private Collection<OtsScheduler> otsSchedulerCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
+    private Collection<OtsScheduler> otsSchedulerCollection1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
+    private Collection<OtsBill> otsBillCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
+    private Collection<OtsCustomerProduct> otsCustomerProductCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersusersId")
+    private Collection<OtsLatLon> otsLatLonCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsSubscriptionOrderHistory> otsSubscriptionOrderHistoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsDistributorId")
@@ -129,12 +153,6 @@ public class OtsUsers implements Serializable {
     private Collection<OtsOrder> otsOrderCollection1;
     @OneToMany(mappedBy = "otsAssignedId")
     private Collection<OtsOrder> otsOrderCollection2;
-    @JoinColumn(name = "ots_registration_id", referencedColumnName = "ots_registration_id")
-    @ManyToOne
-    private OtsRegistration otsRegistrationId;
-    @JoinColumn(name = "ots_user_role_id", referencedColumnName = "ots_user_role_id")
-    @ManyToOne(optional = false)
-    private OtsUserRole otsUserRoleId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
     private Collection<OtsRequestOrder> otsRequestOrderCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsDistributorId")
@@ -143,12 +161,6 @@ public class OtsUsers implements Serializable {
     private OtsCustomerOutstanding otsCustomerOutstanding;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private Collection<OtsSubscriptionOrder> otsSubscriptionOrderCollection;
-    @OneToMany(mappedBy = "otsUsersMappedTo")
-    private Collection<OtsRegistration> otsRegistrationCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsDistributorId")
-    private Collection<OtsScheduler> otsSchedulerCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsCustomerId")
-    private Collection<OtsScheduler> otsSchedulerCollection1;
 
     public OtsUsers() {
     }
@@ -285,13 +297,20 @@ public class OtsUsers implements Serializable {
         this.otsUsersLat = otsUsersLat;
     }
 
-    @XmlTransient
-    public Collection<OtsBill> getOtsBillCollection() {
-        return otsBillCollection;
+    public String getOtsUserPannumber() {
+        return otsUserPannumber;
     }
 
-    public void setOtsBillCollection(Collection<OtsBill> otsBillCollection) {
-        this.otsBillCollection = otsBillCollection;
+    public void setOtsUserPannumber(String otsUserPannumber) {
+        this.otsUserPannumber = otsUserPannumber;
+    }
+
+    public String getOtsUsersRotarynumber() {
+        return otsUsersRotarynumber;
+    }
+
+    public void setOtsUsersRotarynumber(String otsUsersRotarynumber) {
+        this.otsUsersRotarynumber = otsUsersRotarynumber;
     }
 
     public OtsUserMapping getOtsUserMapping() {
@@ -300,15 +319,6 @@ public class OtsUsers implements Serializable {
 
     public void setOtsUserMapping(OtsUserMapping otsUserMapping) {
         this.otsUserMapping = otsUserMapping;
-    }
-
-    @XmlTransient
-    public Collection<OtsCustomerProduct> getOtsCustomerProductCollection() {
-        return otsCustomerProductCollection;
-    }
-
-    public void setOtsCustomerProductCollection(Collection<OtsCustomerProduct> otsCustomerProductCollection) {
-        this.otsCustomerProductCollection = otsCustomerProductCollection;
     }
 
     @XmlTransient
@@ -330,21 +340,100 @@ public class OtsUsers implements Serializable {
     }
 
     @XmlTransient
-    public Collection<OtsLatLon> getOtsLatLonCollection() {
-        return otsLatLonCollection;
-    }
-
-    public void setOtsLatLonCollection(Collection<OtsLatLon> otsLatLonCollection) {
-        this.otsLatLonCollection = otsLatLonCollection;
-    }
-
-    @XmlTransient
     public Collection<OtsProductStock> getOtsProductStockCollection() {
         return otsProductStockCollection;
     }
 
     public void setOtsProductStockCollection(Collection<OtsProductStock> otsProductStockCollection) {
         this.otsProductStockCollection = otsProductStockCollection;
+    }
+
+    public OtsRegistration getOtsRegistrationId() {
+        return otsRegistrationId;
+    }
+
+    public void setOtsRegistrationId(OtsRegistration otsRegistrationId) {
+        this.otsRegistrationId = otsRegistrationId;
+    }
+
+    public OtsUserRole getOtsUserRoleId() {
+        return otsUserRoleId;
+    }
+
+    public void setOtsUserRoleId(OtsUserRole otsUserRoleId) {
+        this.otsUserRoleId = otsUserRoleId;
+    }
+
+    @XmlTransient
+    public Collection<OtsDonation> getOtsDonationCollection() {
+        return otsDonationCollection;
+    }
+
+    public void setOtsDonationCollection(Collection<OtsDonation> otsDonationCollection) {
+        this.otsDonationCollection = otsDonationCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsDonation> getOtsDonationCollection1() {
+        return otsDonationCollection1;
+    }
+
+    public void setOtsDonationCollection1(Collection<OtsDonation> otsDonationCollection1) {
+        this.otsDonationCollection1 = otsDonationCollection1;
+    }
+
+    @XmlTransient
+    public Collection<OtsRegistration> getOtsRegistrationCollection() {
+        return otsRegistrationCollection;
+    }
+
+    public void setOtsRegistrationCollection(Collection<OtsRegistration> otsRegistrationCollection) {
+        this.otsRegistrationCollection = otsRegistrationCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsScheduler> getOtsSchedulerCollection() {
+        return otsSchedulerCollection;
+    }
+
+    public void setOtsSchedulerCollection(Collection<OtsScheduler> otsSchedulerCollection) {
+        this.otsSchedulerCollection = otsSchedulerCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsScheduler> getOtsSchedulerCollection1() {
+        return otsSchedulerCollection1;
+    }
+
+    public void setOtsSchedulerCollection1(Collection<OtsScheduler> otsSchedulerCollection1) {
+        this.otsSchedulerCollection1 = otsSchedulerCollection1;
+    }
+
+    @XmlTransient
+    public Collection<OtsBill> getOtsBillCollection() {
+        return otsBillCollection;
+    }
+
+    public void setOtsBillCollection(Collection<OtsBill> otsBillCollection) {
+        this.otsBillCollection = otsBillCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsCustomerProduct> getOtsCustomerProductCollection() {
+        return otsCustomerProductCollection;
+    }
+
+    public void setOtsCustomerProductCollection(Collection<OtsCustomerProduct> otsCustomerProductCollection) {
+        this.otsCustomerProductCollection = otsCustomerProductCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsLatLon> getOtsLatLonCollection() {
+        return otsLatLonCollection;
+    }
+
+    public void setOtsLatLonCollection(Collection<OtsLatLon> otsLatLonCollection) {
+        this.otsLatLonCollection = otsLatLonCollection;
     }
 
     @XmlTransient
@@ -383,22 +472,6 @@ public class OtsUsers implements Serializable {
         this.otsOrderCollection2 = otsOrderCollection2;
     }
 
-    public OtsRegistration getOtsRegistrationId() {
-        return otsRegistrationId;
-    }
-
-    public void setOtsRegistrationId(OtsRegistration otsRegistrationId) {
-        this.otsRegistrationId = otsRegistrationId;
-    }
-
-    public OtsUserRole getOtsUserRoleId() {
-        return otsUserRoleId;
-    }
-
-    public void setOtsUserRoleId(OtsUserRole otsUserRoleId) {
-        this.otsUserRoleId = otsUserRoleId;
-    }
-
     @XmlTransient
     public Collection<OtsRequestOrder> getOtsRequestOrderCollection() {
         return otsRequestOrderCollection;
@@ -432,33 +505,6 @@ public class OtsUsers implements Serializable {
 
     public void setOtsSubscriptionOrderCollection(Collection<OtsSubscriptionOrder> otsSubscriptionOrderCollection) {
         this.otsSubscriptionOrderCollection = otsSubscriptionOrderCollection;
-    }
-
-    @XmlTransient
-    public Collection<OtsRegistration> getOtsRegistrationCollection() {
-        return otsRegistrationCollection;
-    }
-
-    public void setOtsRegistrationCollection(Collection<OtsRegistration> otsRegistrationCollection) {
-        this.otsRegistrationCollection = otsRegistrationCollection;
-    }
-
-    @XmlTransient
-    public Collection<OtsScheduler> getOtsSchedulerCollection() {
-        return otsSchedulerCollection;
-    }
-
-    public void setOtsSchedulerCollection(Collection<OtsScheduler> otsSchedulerCollection) {
-        this.otsSchedulerCollection = otsSchedulerCollection;
-    }
-
-    @XmlTransient
-    public Collection<OtsScheduler> getOtsSchedulerCollection1() {
-        return otsSchedulerCollection1;
-    }
-
-    public void setOtsSchedulerCollection1(Collection<OtsScheduler> otsSchedulerCollection1) {
-        this.otsSchedulerCollection1 = otsSchedulerCollection1;
     }
 
     @Override

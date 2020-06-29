@@ -49,7 +49,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "OtsOrder.findByOtsOrderAmountReceived", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderAmountReceived = :otsOrderAmountReceived")
     , @NamedQuery(name = "OtsOrder.findByOtsOrderBalanceCan", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderBalanceCan = :otsOrderBalanceCan")
     , @NamedQuery(name = "OtsOrder.findByOtsOrderOutstandingAmount", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderOutstandingAmount = :otsOrderOutstandingAmount")
-    , @NamedQuery(name = "OtsOrder.findByOtsOrderRemarks", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderRemarks = :otsOrderRemarks")})
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderRemarks", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderRemarks = :otsOrderRemarks")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderAddress", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderAddress = :otsOrderAddress")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderLat", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderLat = :otsOrderLat")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderLong", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderLong = :otsOrderLong")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderPayementId", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderPayementId = :otsOrderPayementId")
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderPaymentStatus", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderPaymentStatus = :otsOrderPaymentStatus")})
 public class OtsOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -93,9 +98,31 @@ public class OtsOrder implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_order_remarks")
     private String otsOrderRemarks;
+    @Size(max = 20000)
+    @Column(name = "ots_order_address")
+    private String otsOrderAddress;
+    @Size(max = 45)
+    @Column(name = "ots_order_lat")
+    private String otsOrderLat;
+    @Size(max = 45)
+    @Column(name = "ots_order_long")
+    private String otsOrderLong;
+    @Size(max = 45)
+    @Column(name = "ots_order_payement_id")
+    private String otsOrderPayementId;
+    @Size(max = 45)
+    @Column(name = "ots_order_payment_status")
+    private String otsOrderPaymentStatus;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsOrderId")
+    private Collection<OtsOrderProduct> otsOrderProductCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsOrderId")
+    private Collection<OtsOrderrequestMapping> otsOrderrequestMappingCollection;
     @JoinColumn(name = "ots_bill_id", referencedColumnName = "ots_bill_id")
     @ManyToOne
     private OtsBill otsBillId;
+    @JoinColumn(name = "ots_donation_id", referencedColumnName = "ots_donation_id")
+    @ManyToOne
+    private OtsDonation otsDonationId;
     @JoinColumn(name = "ots_distributor_id", referencedColumnName = "ots_users_id")
     @ManyToOne(optional = false)
     private OtsUsers otsDistributorId;
@@ -105,8 +132,6 @@ public class OtsOrder implements Serializable {
     @JoinColumn(name = "ots_assigned_id", referencedColumnName = "ots_users_id")
     @ManyToOne
     private OtsUsers otsAssignedId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsOrderId")
-    private Collection<OtsOrderProduct> otsOrderProductCollection;
 
     public OtsOrder() {
     }
@@ -219,12 +244,78 @@ public class OtsOrder implements Serializable {
         this.otsOrderRemarks = otsOrderRemarks;
     }
 
+    public String getOtsOrderAddress() {
+        return otsOrderAddress;
+    }
+
+    public void setOtsOrderAddress(String otsOrderAddress) {
+        this.otsOrderAddress = otsOrderAddress;
+    }
+
+    public String getOtsOrderLat() {
+        return otsOrderLat;
+    }
+
+    public void setOtsOrderLat(String otsOrderLat) {
+        this.otsOrderLat = otsOrderLat;
+    }
+
+    public String getOtsOrderLong() {
+        return otsOrderLong;
+    }
+
+    public void setOtsOrderLong(String otsOrderLong) {
+        this.otsOrderLong = otsOrderLong;
+    }
+
+    public String getOtsOrderPayementId() {
+        return otsOrderPayementId;
+    }
+
+    public void setOtsOrderPayementId(String otsOrderPayementId) {
+        this.otsOrderPayementId = otsOrderPayementId;
+    }
+
+    public String getOtsOrderPaymentStatus() {
+        return otsOrderPaymentStatus;
+    }
+
+    public void setOtsOrderPaymentStatus(String otsOrderPaymentStatus) {
+        this.otsOrderPaymentStatus = otsOrderPaymentStatus;
+    }
+
+    @XmlTransient
+    public Collection<OtsOrderProduct> getOtsOrderProductCollection() {
+        return otsOrderProductCollection;
+    }
+
+    public void setOtsOrderProductCollection(Collection<OtsOrderProduct> otsOrderProductCollection) {
+        this.otsOrderProductCollection = otsOrderProductCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsOrderrequestMapping> getOtsOrderrequestMappingCollection() {
+        return otsOrderrequestMappingCollection;
+    }
+
+    public void setOtsOrderrequestMappingCollection(Collection<OtsOrderrequestMapping> otsOrderrequestMappingCollection) {
+        this.otsOrderrequestMappingCollection = otsOrderrequestMappingCollection;
+    }
+
     public OtsBill getOtsBillId() {
         return otsBillId;
     }
 
     public void setOtsBillId(OtsBill otsBillId) {
         this.otsBillId = otsBillId;
+    }
+
+    public OtsDonation getOtsDonationId() {
+        return otsDonationId;
+    }
+
+    public void setOtsDonationId(OtsDonation otsDonationId) {
+        this.otsDonationId = otsDonationId;
     }
 
     public OtsUsers getOtsDistributorId() {
@@ -249,15 +340,6 @@ public class OtsOrder implements Serializable {
 
     public void setOtsAssignedId(OtsUsers otsAssignedId) {
         this.otsAssignedId = otsAssignedId;
-    }
-
-    @XmlTransient
-    public Collection<OtsOrderProduct> getOtsOrderProductCollection() {
-        return otsOrderProductCollection;
-    }
-
-    public void setOtsOrderProductCollection(Collection<OtsOrderProduct> otsOrderProductCollection) {
-        this.otsOrderProductCollection = otsOrderProductCollection;
     }
 
     @Override

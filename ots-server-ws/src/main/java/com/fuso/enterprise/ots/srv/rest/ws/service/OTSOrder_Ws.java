@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetUserDetailsForRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.UpdateDonationRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderStatusRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.AddScheduler;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddDonationtoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddSchedulerRequest;
@@ -28,6 +31,8 @@ import com.fuso.enterprise.ots.srv.api.service.request.DirectSalesVoucherRequest
 import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetAssginedOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusBOrequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetDonationByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetDonationReportByDateRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetEmployeeOrder;
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 
@@ -159,4 +164,45 @@ public interface OTSOrder_Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response directSalesVoucher(@ApiParam(value = "request", required = true) @NotNull  @Valid DirectSalesVoucherRequest  DirectSalesVoucherRequest);
 	
+	@POST
+    @Path("/getDonationListBystatus")
+	@ApiOperation(value = "getOrder", notes = "Get List of donation by status", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getDonationListBystatus(@ApiParam(value = "request", required = true) @NotNull  @Valid GetDonationByStatusRequest  donationByStatusRequest);
+	
+	@POST
+    @Path("/addNewDonation")
+	@ApiOperation(value = "getOrder", notes = "add List of donation by status", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response addNewDonation(@ApiParam(value = "request", required = true) @NotNull  @Valid AddDonationtoRequest  addDonationtoRequest);
+	
+	@POST
+    @Path("/getDonationReportByDate")
+	@ApiOperation(value = "getOrder", notes = "to Get Donation Report By Date", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getDonationReportByDate(@ApiParam(value = "request", required = true) @NotNull  @Valid GetDonationReportByDateRequest  donationReportByDateRequest);
+
+	@POST
+    @Path("/getListOfOrderDetailsForRequest")
+	@ApiOperation(value = "getOrder", notes = "to Get Donation Report By Date", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getListOfOrderDetailsForRequest(@ApiParam(value = "request", required = true) @NotNull  @Valid GetUserDetailsForRequest  getUserDetailsForRequest);
+
+	@POST
+    @Path("/getDonationForUpdateStatus")
+	@ApiOperation(value = "getOrder", notes = "to Get Donation Report By Date", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getDonationForUpdateStatus(GetDonationByStatusRequest donationByStatusRequest);
+
+	@POST
+    @Path("/updateDonation")
+	@ApiOperation(value = "getOrder", notes = "to Get Donation Report By Date", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response updateDonation(UpdateDonationRequest UpdateDonationRequest);
+	
+	@POST
+    @Path("/donateDonation")
+	@ApiOperation(value = "getOrder", notes = "to Get Donation Report By Date", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response donateDonation(SaleVocherBoRequest  saleVocherBoRequest);
 }

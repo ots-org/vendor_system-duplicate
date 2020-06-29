@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import javax.persistence.NoResultException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,11 @@ import org.springframework.stereotype.Repository;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.CompleteOrderDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.DonationBoResponse;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetBillDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
+import com.fuso.enterprise.ots.srv.api.service.request.AddDonationtoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
@@ -41,9 +45,13 @@ import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.dao.OrderServiceDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsBill;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsDonation;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsOrder;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.AbstractIptDao;
+import com.razorpay.Payment;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 
 @Repository
 public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implements OrderServiceDAO {
@@ -153,6 +161,16 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		orderDetails.setOutstandingAmount(otsOrder.getOtsOrderOutstandingAmount());
 		orderDetails.setAmountRecived(otsOrder.getOtsOrderAmountReceived()==null?null:otsOrder.getOtsOrderAmountReceived().toString());
 		orderDetails.setOrderNumber(otsOrder.getOtsOrderNumber());
+		orderDetails.setAddress(otsOrder.getOtsOrderAddress());
+		orderDetails.setPaymentStatus(otsOrder.getOtsOrderPaymentStatus()==null?"":otsOrder.getOtsOrderPaymentStatus());
+		orderDetails.setPaymentId(otsOrder.getOtsOrderPayementId()==null?null:otsOrder.getOtsOrderPayementId());
+		if(otsOrder.getOtsDonationId()!=null) {
+			orderDetails.setDonatorId(otsOrder.getOtsDonationId().getOtsDonorsId().getOtsUsersId().toString());
+			orderDetails.setDonationId(otsOrder.getOtsDonationId().getOtsDonationId()==null?null:otsOrder.getOtsDonationId().toString());
+			orderDetails.setDonarContactNumber(otsOrder.getOtsDonationId().getOtsDonorsId().getOtsUsersContactNo());
+			orderDetails.setDonarAddress(otsOrder.getOtsDonationId().getOtsDonorsId().getOtsUsersAddr1()==null?null:otsOrder.getOtsDonationId().getOtsDonorsId().getOtsUsersAddr1());
+			orderDetails.setDonationStatus(otsOrder.getOtsDonationId().getOtsDonationStatus() == null?null:otsOrder.getOtsDonationId().getOtsDonationStatus());
+		}
 		return orderDetails;
 	}
 
@@ -208,7 +226,14 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 
 	private OtsOrder convertDomainToOrderEntity(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest)
 	{
-		OtsOrder otsOrder = new OtsOrder();
+ 		OtsOrder otsOrder = new OtsOrder();
+ 		
+ 		if(addOrUpdateOrderProductBOrequest.getRequest().getPaymentStatus().equalsIgnoreCase("paid")) {
+ 			otsOrder.setOtsOrderStatus(addOrUpdateOrderProductBOrequest.getRequest().getPaymentStatus());
+ 			otsOrder.setOtsOrderPayementId(addOrUpdateOrderProductBOrequest.getRequest().getPaymentId());
+ 		}else {
+ 			otsOrder.setOtsOrderPaymentStatus(addOrUpdateOrderProductBOrequest.getRequest().getPaymentStatus());
+ 		}
 
 		OtsUsers DistributorId = new OtsUsers();
 		DistributorId.setOtsUsersId(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId()));
@@ -218,6 +243,10 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		CustomerId.setOtsUsersId(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getCustomerId()));
 		otsOrder.setOtsCustomerId(CustomerId);
 
+		otsOrder.setOtsOrderAddress(addOrUpdateOrderProductBOrequest.getRequest().getAddress());
+		
+		
+		
 		if(addOrUpdateOrderProductBOrequest.getRequest().getAssignedId()==null)
 		{
 			otsOrder.setOtsAssignedId(null);
@@ -230,6 +259,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			otsOrder.setOtsOrderCost(costData);
 			otsOrder.setOtsOrderStatus(addOrUpdateOrderProductBOrequest.getRequest().getOrderStatus());
 			otsOrder.setOtsOrderDt(Date.valueOf(addOrUpdateOrderProductBOrequest.getRequest().getOrderDate()));
+			otsOrder.setOtsOrderDeliveryDt(Date.valueOf(addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()));
 		if(addOrUpdateOrderProductBOrequest.getRequest().getDeliverdDate()==null)
 		{
 			otsOrder.setOtsOrderDeliveredDt(null);
@@ -435,6 +465,8 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			Map<String, Object> queryParameter = new HashMap<>();
 	    	OtsUsers userId = new OtsUsers();
 	    	userId.setOtsUsersId(Integer.parseInt(getListOfOrderByDateBORequest.getRequest().getUserId()));
+	    	int realDate = getListOfOrderByDateBORequest.getRequest().getStartDate().getDate()-1;
+	    	getListOfOrderByDateBORequest.getRequest().getStartDate().setDate(realDate);
 	    	queryParameter.put("FromDate",getListOfOrderByDateBORequest.getRequest().getStartDate());
 			queryParameter.put("ToDate",getListOfOrderByDateBORequest.getRequest().getEndDate());
 			switch(getListOfOrderByDateBORequest.getRequest().getRole())
@@ -505,7 +537,16 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		try {
 			OtsOrder otsOrder = new OtsOrder();
 			Map<String, Object> queryParameter = new HashMap<>();
-
+			try {
+				if(!saleVocherBoRequest.getRequest().getPaymentStatus().equalsIgnoreCase("cash")) {
+					Float amount = Float.parseFloat(saleVocherBoRequest.getRequest().getAmountReceived()) * 100;
+					razorPay(amount.toString(), saleVocherBoRequest.getRequest().getPaymentId());
+				}
+			}catch(Exception e){
+				throw new BusinessException(e, ErrorEnumeration.FAILURE_RazorPay);
+			}
+			
+			
 			queryParameter.put("otsOrderId",Integer.parseInt( saleVocherBoRequest.getRequest().getOrderId()));
 			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
 			otsOrder.setOtsOrderDeliveredDt(saleVocherBoRequest.getRequest().getDeliverdDate());
@@ -514,6 +555,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			otsOrder.setOtsOrderAmountReceived(canData);
 			otsOrder.setOtsOrderCost(costData);
 			otsOrder.setOtsOrderOutstandingAmount(saleVocherBoRequest.getRequest().getOutstandingAmount());
+			
 			otsOrder.setOtsOrderStatus("close");
 			super.getEntityManager().merge(otsOrder);
 			otsOrderDetails = convertOrderDetailsFromEntityToDomain(otsOrder);
@@ -668,6 +710,58 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_ORDER_INSERTION);
 		}
 
+	}
+	
+	public void razorPay(String amount , String paymentId) throws RazorpayException, JSONException {
+		RazorpayClient razorpay = new RazorpayClient("rzp_test_i50l0d4Cja32Mc", "Hv0j2n4laXp9SQa3eXDv36i3");
+		try {
+			  JSONObject captureRequest = new JSONObject();
+			  captureRequest.put("amount", amount);
+			  captureRequest.put("currency", "INR");
+
+			  Payment payment = razorpay.Payments.capture("pay_Et08nx2YlPUzAE", captureRequest);
+			} catch (RazorpayException e) {
+			  // Handle Exception
+			  System.out.println(e.getMessage());
+			}
+	}
+
+	@Override
+	public String UpdateOrderForRequest(DonationBoResponse donationBoResponse) {
+		try {
+
+			OtsOrder otsOrder = new OtsOrder();
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsOrderId",Integer.parseInt(donationBoResponse.getOrderId()));
+			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
+			OtsDonation donationId = new OtsDonation();
+			donationId.setOtsDonationId(Integer.parseInt(donationBoResponse.getDonationId()));
+			otsOrder.setOtsDonationId(donationId);
+			otsOrder.setOtsOrderStatus("closeRequest");
+			otsOrder.getOtsDonationId();
+			super.getEntityManager().merge(otsOrder);
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return "Success";
+	}
+
+	@Override
+	public String donateDonation(SaleVocherBoRequest saleVocherBoRequest) {
+		try {
+
+			OtsOrder otsOrder = new OtsOrder();
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsOrderId",Integer.parseInt(saleVocherBoRequest.getRequest().getOrderId()));
+			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
+			otsOrder.setOtsOrderStatus("donationDone");
+			super.getEntityManager().merge(otsOrder);
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return "Success";
 	}
 
 }

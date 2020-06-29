@@ -23,6 +23,7 @@ public enum ErrorEnumeration {
 	USR_REGISTER_failure(1001,"err.user.register.failure"),
 	ADD_UPDATE_BILL_FAILURE(1021,"err.add.update.bill.failure"),
 	FAILURE_ORDER_GET(1004,"err.ordrer.get"),
+	FAILURE_RazorPay(1004,"err.ordrer.razorpay"),
 	ERROR_IN_ORDER_INSERTION(1006,"err.in.ordertable"),
 	ERROR_IN_ORDER_PRODUCT_INSERTION(1006,"err.in.orderproducttable"),
 	ADD_EMP_LATLONG_FAILURE(1022,"err.in.emplatlongtable"), 
@@ -39,7 +40,11 @@ public enum ErrorEnumeration {
 	ERROR_IN_SCHEDULERREQUEST(1004,"err.in.schedulerRequest"),
 	USER_NOT_EXISTS(1004,"err.in.user"),
 	EXCEL_ERROR(1001,"err.in.excel"),
-	ERROR_IN_SUBSCRIPTION(100,"err.in.subscription")
+	ERROR_IN_SUBSCRIPTION(100,"err.in.subscription"),
+	ERROR_IN_STOCK(100,"err.in.stock"),
+	ERROR_IN_SALEVOUCHER(100,"err.in.salesvoucher"),
+	NO_lOCATION(100,"err.in.location"),
+	No_Donation(100,"err.in.donation")
 	;
 	
     ErrorEnumeration(int errorCode, String messageKey) {

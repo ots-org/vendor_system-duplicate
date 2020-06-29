@@ -72,8 +72,6 @@ public class OtsScheduler implements Serializable {
     @Column(name = "ots_scheduler_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsSchedulerTimestamp;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsSchedulerId")
-    private Collection<OtsRequestOrder> otsRequestOrderCollection;
     @JoinColumn(name = "ots_product_id", referencedColumnName = "ots_product_id")
     @ManyToOne(optional = false)
     private OtsProduct otsProductId;
@@ -83,6 +81,8 @@ public class OtsScheduler implements Serializable {
     @JoinColumn(name = "ots_customer_id", referencedColumnName = "ots_users_id")
     @ManyToOne(optional = false)
     private OtsUsers otsCustomerId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsSchedulerId")
+    private Collection<OtsRequestOrder> otsRequestOrderCollection;
 
     public OtsScheduler() {
     }
@@ -155,15 +155,6 @@ public class OtsScheduler implements Serializable {
         this.otsSchedulerTimestamp = otsSchedulerTimestamp;
     }
 
-    @XmlTransient
-    public Collection<OtsRequestOrder> getOtsRequestOrderCollection() {
-        return otsRequestOrderCollection;
-    }
-
-    public void setOtsRequestOrderCollection(Collection<OtsRequestOrder> otsRequestOrderCollection) {
-        this.otsRequestOrderCollection = otsRequestOrderCollection;
-    }
-
     public OtsProduct getOtsProductId() {
         return otsProductId;
     }
@@ -186,6 +177,15 @@ public class OtsScheduler implements Serializable {
 
     public void setOtsCustomerId(OtsUsers otsCustomerId) {
         this.otsCustomerId = otsCustomerId;
+    }
+
+    @XmlTransient
+    public Collection<OtsRequestOrder> getOtsRequestOrderCollection() {
+        return otsRequestOrderCollection;
+    }
+
+    public void setOtsRequestOrderCollection(Collection<OtsRequestOrder> otsRequestOrderCollection) {
+        this.otsRequestOrderCollection = otsRequestOrderCollection;
     }
 
     @Override

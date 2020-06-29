@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.NoResultException;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,6 +138,13 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 
     @Override
 	public UserDataBOResponse addNewUser(AddUserDataBORequest addUserDataBORequest) {
+    	String password = "Password";
+    	if(addUserDataBORequest.getRequestData().getUsrPassword()!= null) {
+    		password = encryptPassword(addUserDataBORequest.getRequestData().getUsrPassword());
+    	}else {
+    		password = encryptPassword("Password");
+    	}
+    	 
 		 List<UserDetails> userDetails = new ArrayList<UserDetails>();
 		 UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
 	 		try{
@@ -147,7 +155,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 				userEntity.setOtsUsersAddr2(addUserDataBORequest.getRequestData().getAddress2());
 				userEntity.setOtsUsersPincode(addUserDataBORequest.getRequestData().getPincode());
 				userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
-				userEntity.setOtsUsersPassword(addUserDataBORequest.getRequestData().getUsrPassword()==null?"Password":addUserDataBORequest.getRequestData().getUsrPassword());
+				userEntity.setOtsUsersPassword(password);
 				userEntity.setOtsUsersEmailid(addUserDataBORequest.getRequestData().getEmailId());
 				userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
 				OtsUserRole otsUserRole = new OtsUserRole();
@@ -347,6 +355,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 			userList = super.getResultByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
 			userDetails = convertUserDetailsFromEntityToDomain(userList);
 		}catch(Exception e) {
+			System.out.print(e);
 			return null;
 		}
 			return userDetails;
@@ -437,14 +446,13 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 		queryParameter.put("otsUsersId",Integer.parseInt(updatePasswordRequest.getUpdatePassword().getUserId()));
 		userData = super.getResultByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
 		
-		if(userData.getOtsUsersPassword().equals(updatePasswordRequest.getUpdatePassword().getOldPassword())) {
-			userData.setOtsUsersPassword(updatePasswordRequest.getUpdatePassword().getNewPassword());
+		if (BCrypt.checkpw(updatePasswordRequest.getUpdatePassword().getOldPassword(), userData.getOtsUsersPassword())) {
+			userData.setOtsUsersPassword(encryptPassword(updatePasswordRequest.getUpdatePassword().getNewPassword()));
 			super.getEntityManager().merge(userData);
 			userDetails = convertUserDetailsFromEntityToDomain(userData);
 		}else {
 			return "404";
 		}
-		
 	}catch(Exception e) {
 		System.out.println(e);
 		return "Not updated";
@@ -452,5 +460,8 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 		return "200";
 	}
 
-	
+	public String encryptPassword(String password) {
+		String pw_hash = BCrypt.hashpw(password, BCrypt.gensalt());
+		return pw_hash;
+	}
 }

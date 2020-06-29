@@ -270,6 +270,7 @@ private Logger logger = LoggerFactory.getLogger(getClass());
 				super.getEntityManager().flush();
 			}
 		}catch(Exception e) {
+			System.out.println(e);
 			throw new BusinessException(e.getMessage(), e);
 		}
 		

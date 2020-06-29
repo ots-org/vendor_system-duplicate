@@ -24,12 +24,29 @@ public class OrderDetailsAndProductDetails {
     private String amountRecived;
     private String orderOutStanding;
     private String balanceCan;
+    private String addressToBePlaced;
+    private String payementStatus;
+    private String paymentId;
     private UserDetails DistributorDetails;
     private UserDetails EmployeeDetails;
     private UserDetails CustomerDetails;
-    private List<OrderProductDetails> OrderdProducts;  
+    private UserDetails donarDetails;
+    private List<OrderProductDetails> OrderdProducts; 
     private String emptyCanRecived;
-    
+    private String address;
+    private String donationStatus;
+	public String getPayementStatus() {
+		return payementStatus;
+	}
+	public void setPayementStatus(String payementStatus) {
+		this.payementStatus = payementStatus;
+	}
+	public String getPaymentId() {
+		return paymentId;
+	}
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
 	public String getEmptyCanRecived() {
 		return emptyCanRecived;
 	}
@@ -180,6 +197,30 @@ public class OrderDetailsAndProductDetails {
 	}
 	public void setDistributorDetails(UserDetails distributorDetails) {
 		DistributorDetails = distributorDetails;
+	}
+	public String getAddressToBePlaced() {
+		return addressToBePlaced;
+	}
+	public void setAddressToBePlaced(String addressToBePlaced) {
+		this.addressToBePlaced = addressToBePlaced;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public UserDetails getDonarDetails() {
+		return donarDetails;
+	}
+	public void setDonarDetails(UserDetails donarDetails) {
+		this.donarDetails = donarDetails;
+	}
+	public String getDonationStatus() {
+		return donationStatus;
+	}
+	public void setDonationStatus(String donationStatus) {
+		this.donationStatus = donationStatus;
 	}
 	
 	

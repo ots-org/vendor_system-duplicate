@@ -62,7 +62,11 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 								    break;
 				
 	            case "All":
-					                productList  = super.getResultListByNamedQuery("OtsProduct.findAll",queryParameter);
+	            					OtsProductLevel productLevelId = new OtsProductLevel();
+	            					productLevelId.setOtsProductLevelId(3);
+	            					queryParameter.put("status", productDetailsBORequest.getRequestData().getStatus());
+	            					queryParameter.put("otsProductLevelId", productLevelId);
+					                productList  = super.getResultListByNamedQuery("OtsProduct.findAllProduct",queryParameter);
 				                    break;
 				                    
 	            case "FirstLetter":
@@ -97,29 +101,37 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		String responseData;
 		try{
 			OtsProduct otsProduct = new OtsProduct();
+			if(addorUpdateProductBORequest.getRequestData().getProductPrice() !=null) {
+				BigDecimal productPrice=new BigDecimal(addorUpdateProductBORequest.getRequestData().getProductPrice());
+				otsProduct.setOtsProductPrice(productPrice);
+			}
+			
 			if(addorUpdateProductBORequest.getRequestData().getProductId().isEmpty()||addorUpdateProductBORequest.getRequestData().getProductId().equalsIgnoreCase("string")) { 
 				otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
 				otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
-				BigDecimal productPrice=new BigDecimal(addorUpdateProductBORequest.getRequestData().getProductPrice());
-				otsProduct.setOtsProductPrice(productPrice);
 				otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
 				otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
-				otsProduct.setOtsProductType(addorUpdateProductBORequest.getRequestData().getProductType());
+				otsProduct.setOtsProductType(addorUpdateProductBORequest.getRequestData().getProductType());	
 			}else{
 				System.out.print("_____");
 				otsProduct.setOtsProductId(Integer.parseInt(addorUpdateProductBORequest.getRequestData().getProductId()));
 				otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
 				otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
-				BigDecimal productPrice=new BigDecimal(addorUpdateProductBORequest.getRequestData().getProductPrice());
-				otsProduct.setOtsProductPrice(productPrice);
 				otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
 				otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
 				otsProduct.setOtsProductType(addorUpdateProductBORequest.getRequestData().getProductType());
 			}
+			OtsProductLevel productLevel = new OtsProductLevel();
+			productLevel.setOtsProductLevelId(Integer.parseInt(addorUpdateProductBORequest.getRequestData().getProductLevel()));
+			otsProduct.setOtsProductLevelId(productLevel);
 			try {
 				otsProduct = super.getEntityManager().merge(otsProduct);
-				String image = Base64UtilImage.convertBase64toImage(addorUpdateProductBORequest.getRequestData().getProductImage(),otsProduct.getOtsProductId());
-				otsProduct.setOtsProductImage(image);
+				if(addorUpdateProductBORequest.getRequestData().getProductImage() !=null) {
+					String image = Base64UtilImage.convertBase64toImage(addorUpdateProductBORequest.getRequestData().getProductImage(),otsProduct.getOtsProductId());
+					otsProduct.setOtsProductImage(image);
+					super.getEntityManager().merge(otsProduct);
+				}
+				
 			}catch (NoResultException e) {
 				logger.error("Exception while Inserting data to DB :"+e.getMessage());
 	    		e.printStackTrace();
@@ -236,8 +248,22 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 				OtsProductLevel productLevel = new OtsProductLevel();
 				productLevel.setOtsProductLevelId(Integer.parseInt(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductLevel()));
 				OtsProduct.setOtsProductLevelId(productLevel);
+				
+				if(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductPrice() !=null) {
+					BigDecimal price= new BigDecimal(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductPrice()); 
+					OtsProduct.setOtsProductPrice(price);
+				}	
+				OtsProduct.setOtsProductDescription(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductDescription());
+				OtsProduct.setOtsProductStatus(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductStatus());
+				OtsProduct.setOtsProductType(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductType());
 				save(OtsProduct);
 				super.getEntityManager().flush();
+				System.out.print(addProductAndCategoryRequest.getRequestData().getKey());
+				if(addProductAndCategoryRequest.getRequestData().getKey().equalsIgnoreCase("subAndProd")&&addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductImage()!=null) {
+					String image = Base64UtilImage.convertBase64toImage(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductImage(),OtsProduct.getOtsProductId());
+					OtsProduct.setOtsProductImage(image);
+					save(OtsProduct);
+				}
 				productDetails = convertProductDetailsFromEntityToDomain(OtsProduct); 
 				productList.add(productDetails) ;
 			}

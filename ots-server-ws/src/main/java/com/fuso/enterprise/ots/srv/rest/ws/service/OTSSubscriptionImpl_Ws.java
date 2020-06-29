@@ -34,21 +34,21 @@ public class OTSSubscriptionImpl_Ws implements OTSSubscription_Ws{
 	@Override
 	public Response addNewSubscriptionDetails(AddSubscriptionBORequest addSubscriptionBORequest) {
 		Response response =null;
-		response = buildResponse(oTSSubscriptionService.addUserSubscription(addSubscriptionBORequest),"Successfull");
+		response = buildResponse(oTSSubscriptionService.addUserSubscription(addSubscriptionBORequest),"successful");
 		return response;
 	}
 
 	@Override
 	public Response getSubscriptionDetails(GetSubscriptionDetailsRequest subscriptionDetailsRequest) {
 		Response response =null;
-		response = buildResponse(oTSSubscriptionService.getSubscriptionDetails(subscriptionDetailsRequest),"Successfull");
+		response = buildResponse(oTSSubscriptionService.getSubscriptionDetails(subscriptionDetailsRequest),"successful");
 		return response;
 	}
 
 	@Override
 	public Response getCurrentSubscriptionDetails(GetSubscriptionDetailsRequest subscriptionDetailsRequest) {
 		Response response =null;
-		response = buildResponse(oTSSubscriptionService.getCurrentSubscriptionDetails(subscriptionDetailsRequest),"Successfull");
+		response = buildResponse(oTSSubscriptionService.getCurrentSubscriptionDetails(subscriptionDetailsRequest),"successful");
 		return response;
 	}
 

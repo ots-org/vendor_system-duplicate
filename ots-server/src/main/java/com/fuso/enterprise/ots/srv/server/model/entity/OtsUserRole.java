@@ -64,9 +64,9 @@ public class OtsUserRole implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsUserRoleCreated;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
-    private Collection<OtsSubscriptionOrderroledetails> otsSubscriptionOrderroledetailsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
     private Collection<OtsUsers> otsUsersCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
+    private Collection<OtsSubscriptionOrderroledetails> otsSubscriptionOrderroledetailsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
     private Collection<OtsRegistration> otsRegistrationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
@@ -128,21 +128,21 @@ public class OtsUserRole implements Serializable {
     }
 
     @XmlTransient
-    public Collection<OtsSubscriptionOrderroledetails> getOtsSubscriptionOrderroledetailsCollection() {
-        return otsSubscriptionOrderroledetailsCollection;
-    }
-
-    public void setOtsSubscriptionOrderroledetailsCollection(Collection<OtsSubscriptionOrderroledetails> otsSubscriptionOrderroledetailsCollection) {
-        this.otsSubscriptionOrderroledetailsCollection = otsSubscriptionOrderroledetailsCollection;
-    }
-
-    @XmlTransient
     public Collection<OtsUsers> getOtsUsersCollection() {
         return otsUsersCollection;
     }
 
     public void setOtsUsersCollection(Collection<OtsUsers> otsUsersCollection) {
         this.otsUsersCollection = otsUsersCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsSubscriptionOrderroledetails> getOtsSubscriptionOrderroledetailsCollection() {
+        return otsSubscriptionOrderroledetailsCollection;
+    }
+
+    public void setOtsSubscriptionOrderroledetailsCollection(Collection<OtsSubscriptionOrderroledetails> otsSubscriptionOrderroledetailsCollection) {
+        this.otsSubscriptionOrderroledetailsCollection = otsSubscriptionOrderroledetailsCollection;
     }
 
     @XmlTransient

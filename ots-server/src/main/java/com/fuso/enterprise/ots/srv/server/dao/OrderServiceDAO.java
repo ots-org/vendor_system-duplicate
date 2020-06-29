@@ -5,9 +5,11 @@ import java.util.List;
 import com.fuso.enterprise.ots.srv.api.model.domain.AssgineEmployeeModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CloseOrderModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.CompleteOrderDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.DonationBoResponse;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetBillDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
+import com.fuso.enterprise.ots.srv.api.service.request.AddDonationtoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOrderProductBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CloseOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.EmployeeOrderTransferRequest;
@@ -45,4 +47,6 @@ public interface OrderServiceDAO {
 	OrderDetails directSalesVoucher(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest);
 	OrderDetails getLastOrder();
 	List<OrderDetails> GetOrderForDrectSalesVoucheri(String OrderId);
+	String UpdateOrderForRequest(DonationBoResponse donationBoResponse);
+	String donateDonation(SaleVocherBoRequest saleVocherBoRequest);
 }

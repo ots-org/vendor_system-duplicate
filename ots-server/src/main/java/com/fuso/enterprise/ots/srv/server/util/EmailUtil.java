@@ -7,6 +7,8 @@ import javax.activation.*;
 
 public class EmailUtil {
 	
+	final String username = "sanathinfotechblr@gmail.com";
+	
 	public static void sendEmailBill(String to,String cc,String sub,String msg,String billFileName,String filePath){   
 		
 		final String username = "sanathinfotechblr@gmail.com";

@@ -117,7 +117,7 @@ public class RequestOrderServiceDaoImpl extends AbstractIptDao<OtsRequestOrder, 
     		return today.with(TemporalAdjusters.next(DayOfWeek.MONDAY)).toString();
     	case "Tuesday":
     		return today.with(TemporalAdjusters.next(DayOfWeek.TUESDAY)).toString();
-    	case "Wednesday ":
+    	case "Wednesday":
     		return today.with(TemporalAdjusters.next(DayOfWeek.WEDNESDAY)).toString();
     	case "Thursday":
     		return today.with(TemporalAdjusters.next(DayOfWeek.THURSDAY)).toString();
@@ -167,6 +167,8 @@ public class RequestOrderServiceDaoImpl extends AbstractIptDao<OtsRequestOrder, 
 	@Override
 	public List<OtsRequestOrder> runSchedulerEveryDay12AMTo1AM(List<OtsScheduler> schedulerList) {
 		List<OtsRequestOrder> requestOrderOutputList = new ArrayList<OtsRequestOrder>() ;
+		Calendar todaycal = Calendar.getInstance();
+		//System.out.print("-----data-----------"+todaycal.getTime().toString().split(" ")+"--------data---------");
 		try {
 			Map<String, Object> queryParameter = new HashMap<>();
 			List<OtsRequestOrder> requestOrderList = new ArrayList<OtsRequestOrder>() ;

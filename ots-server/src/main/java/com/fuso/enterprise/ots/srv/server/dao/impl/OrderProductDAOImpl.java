@@ -2,6 +2,7 @@ package com.fuso.enterprise.ots.srv.server.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +28,7 @@ import com.fuso.enterprise.ots.srv.server.model.entity.OtsOrderProduct;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct;
 import com.fuso.enterprise.ots.srv.server.util.AbstractIptDao;
 
-@Service
-@Transactional
+@Repository
 public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String> implements OrderProductDAO {
 
 	@Autowired
@@ -251,8 +251,8 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 			otsOrderProduct.setOtsOrderProductStatus(orderedProductDetails.getProductStatus());
 			BigDecimal ProductCost=new BigDecimal(orderedProductDetails.getProductCost());
 			otsOrderProduct.setOtsOrderProductCost(ProductCost);
-			otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(orderedProductDetails.getOts_delivered_qty()));
-			otsOrderProduct.setOtsReceivedCans(Integer.valueOf(orderedProductDetails.getReceivedQty()));
+			otsOrderProduct.setOtsDeliveredQty(Integer.valueOf(otsOrderProduct.getOtsOrderedQty()));
+			otsOrderProduct.setOtsReceivedCans(Integer.valueOf(otsOrderProduct.getOtsOrderedQty()));
 			if(orderedProductDetails.getOrderProductId()==null) {
 			System.out.println("Inserted");
 			save(otsOrderProduct);

@@ -27,9 +27,13 @@ public class ProductDetails {
 	 @Size(max = 20)
 	 private String Stock;
 	 
+	 private String addedStock;
+	 
 	 private String ProductType;
 	 
 	 private String productLevel;
+	 
+	 private String donationRequestId;
 	 
 	public String getProductId() {
 		return productId;
@@ -101,6 +105,22 @@ public class ProductDetails {
 
 	public void setProductLevel(String productLevel) {
 		this.productLevel = productLevel;
+	}
+
+	public String getAddedStock() {
+		return addedStock;
+	}
+
+	public void setAddedStock(String addedStock) {
+		this.addedStock = addedStock;
+	}
+
+	public String getDonationRequestId() {
+		return donationRequestId;
+	}
+
+	public void setDonationRequestId(String donationRequestId) {
+		this.donationRequestId = donationRequestId;
 	}
 
 }

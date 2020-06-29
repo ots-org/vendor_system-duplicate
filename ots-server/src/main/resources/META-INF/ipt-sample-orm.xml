@@ -13,6 +13,16 @@
 			o.otsUserRoleId = :otsUserRoleId 
 		</query>
 	</named-query> 	
+	<named-query name="OtsUsers.findByUserOtsRoleIdAdmin">
+		<query>SELECT o 
+		FROM 
+			OtsUsers o	
+		WHERE  	
+			o.otsUserRoleId = :otsUserRoleId 
+		OR
+			o.otsUserRoleId = :adminRole 
+		</query>
+	</named-query> 
 	<named-query name="OtsUsers.findByRegistrationTable">
 		<query>SELECT r 
 		FROM 
@@ -523,4 +533,66 @@
 			o.otsProductId = :otsProductId
 		</query>
 	</named-query>
+	<named-query name="OtsProduct.findAllProduct">
+		<query>SELECT o 
+			FROM 
+				OtsProduct o 
+			WHERE 
+				o.otsProductLevelId = :otsProductLevelId
+			AND 
+				o.otsProductStatus = :status
+		</query>
+	</named-query>
+	<named-query name="OtsRequestProduct.getNewRequestProduct">
+		<query>SELECT o 
+		FROM 
+			OtsRequestProduct o	
+		WHERE  	
+			o.otsProductId = :productId 
+		AND
+			o.otsRequestProductStatus = :status 
+		</query>
+	</named-query> 
+	<named-query name="OtsRequestProduct.getDonationListBystatus">
+		<query>SELECT o 
+		FROM 
+			OtsRequestProduct o	
+		WHERE  	
+			o.otsRequestProductStatus = :status 
+		</query>
+	</named-query>
+	<named-query name="OtsDonation.getDonationReportByDate">
+		<query>SELECT o 
+		FROM 
+			OtsDonationRequestMapping o	
+		WHERE  	
+			(o.otsDonationDate >= :startDate AND  :endDate >=o.otsDonationDate)
+		</query>
+	</named-query>  
+	<named-query name="OtsOrderrequestMapping.findByRequestProduct">
+		<query>SELECT o 
+		FROM 
+			OtsOrderrequestMapping o	
+		WHERE  	
+			o.otsRequestProductId = :OtsRequestProductId
+		</query>
+	</named-query>
+	<named-query name="OtsDonation.getRequestByDonationId">
+		<query>SELECT o 
+		FROM 
+			OtsDonationRequestMapping o	
+		WHERE  	
+			o.otsDonationId = :otsDonationId
+		</query>
+	</named-query>
+	<named-query name="OtsDonation.getRequestByDonationIdAndStatus">
+		<query>SELECT o 
+		FROM 
+			OtsDonation o	
+		WHERE  	
+			o.otsDonationStatus = :otsDonationStatus
+		AND
+			o.otsAssgineId = :otsAssgineId
+		</query>
+	</named-query>  
 </entity-mappings>

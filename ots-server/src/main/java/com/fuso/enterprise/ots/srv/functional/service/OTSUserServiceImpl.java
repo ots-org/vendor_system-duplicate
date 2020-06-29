@@ -1,4 +1,4 @@
-package com.fuso.enterprise.ots.srv.functional.service;
+ package com.fuso.enterprise.ots.srv.functional.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +14,8 @@ import java.util.Random;
 import javax.inject.Inject;
 
 import org.apache.commons.io.FileUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -70,6 +72,9 @@ import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.EmailUtil;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
 import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
+import com.razorpay.Payment;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 
 @Service
 @Transactional
@@ -101,12 +106,13 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		try {
 			List<UserDetails> userDetailList= userServiceDAO.getUserIdUsers(userId);
 			userDataBOResponse.setUserDetails(userDetailList);
+			//razorPay();
 		}catch(Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		return userDataBOResponse;
 	}
-
+	
 	@Override
 	public UserDataBOResponse checkForUserExistsOrNot(AddUserDataBORequest addUserDataBORequest) {
 		UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
@@ -115,7 +121,9 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			if(addUserDataBORequest.requestData.getUserId()=="" || addUserDataBORequest.requestData.getUserId()=="0") {
 			// = userRegistrationDao.CheckForExists(addUserDataBORequest);
 			}
-			addUserDataBORequest.getRequestData().setMappedTo("1");
+			if(addUserDataBORequest.requestData.getUserRoleId().equalsIgnoreCase("4")) {
+				addUserDataBORequest.requestData.setMappedTo("1");
+			}
 			if(flag == 0){
 				return userDataBOResponse = addNewUser(addUserDataBORequest);
 			}else {
@@ -199,25 +207,30 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
 		
 		try {
-			if(requestBOUserBySearch.getRequestData().getDistributorId()!=null) {
-				UserList = userMapDAO.getUserForDistributor(requestBOUserBySearch.getRequestData().getDistributorId());			
-				for(int i =0 ; i<UserList.size();i++) {
-					UserDetails userData = new UserDetails();					
-					if(requestBOUserBySearch.getRequestData().getSearchvalue().equals("3")) {
-						userData = userServiceDAO.getUserDetailsForEmployee(UserList.get(i).getOtsUsersId().getOtsUsersId());
-						if(userData != null) {
-							userDetailsList.add(userData);
+			if(!(requestBOUserBySearch.getRequestData().getSearchKey().equalsIgnoreCase("UsersFirstname")
+			 ||requestBOUserBySearch.getRequestData().getSearchKey().equalsIgnoreCase("UsersLastname")
+			 ||requestBOUserBySearch.getRequestData().getSearchKey().equalsIgnoreCase("UsersEmailid"))) {
+				if(requestBOUserBySearch.getRequestData().getDistributorId()!=null) {
+					UserList = userMapDAO.getUserForDistributor(requestBOUserBySearch.getRequestData().getDistributorId());			
+					for(int i =0 ; i<UserList.size();i++) {
+						UserDetails userData = new UserDetails();					
+						if(requestBOUserBySearch.getRequestData().getSearchvalue().equals("3")) {
+							userData = userServiceDAO.getUserDetailsForEmployee(UserList.get(i).getOtsUsersId().getOtsUsersId());
+							if(userData != null) {
+								userDetailsList.add(userData);
+								}
+						}else if(requestBOUserBySearch.getRequestData().getSearchvalue().equals("4")) {
+							userData = userServiceDAO.getUserDetailsForCustomer(UserList.get(i).getOtsUsersId().getOtsUsersId());
+							if(userData != null) {
+								userData.setCustomerProductDetails(mapUserProductDAO.getCustomerProductDetailsByCustomerId(userData.getUserId()));
+								userDetailsList.add(userData);
 							}
-					}else if(requestBOUserBySearch.getRequestData().getSearchvalue().equals("4")) {
-						userData = userServiceDAO.getUserDetailsForCustomer(UserList.get(i).getOtsUsersId().getOtsUsersId());
-						if(userData != null) {
-							userData.setCustomerProductDetails(mapUserProductDAO.getCustomerProductDetailsByCustomerId(userData.getUserId()));
-							userDetailsList.add(userData);
 						}
+						
 					}
 					
+					userDataBOResponse.setUserDetails(userDetailsList);
 				}
-				userDataBOResponse.setUserDetails(userDetailsList);
 			}else{
 				List<UserDetails> userDetailList= userServiceUtilityDAO.getUserDetails(requestBOUserBySearch);
 				userDataBOResponse.setUserDetails(userDetailList);

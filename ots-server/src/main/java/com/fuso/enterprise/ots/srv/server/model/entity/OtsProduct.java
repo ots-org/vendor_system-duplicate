@@ -79,19 +79,17 @@ public class OtsProduct implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_product_type")
     private String otsProductType;
-    @OneToMany(mappedBy = "otsProductId")
-    private Collection<OtsCustomerProduct> otsCustomerProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsStockDistOb> otsStockDistObCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsProductStock> otsProductStockCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
+    private Collection<OtsRequestProduct> otsRequestProductCollection;
     @JoinColumn(name = "ots_product_level_id", referencedColumnName = "ots_product_level_id")
     @ManyToOne(optional = false)
     private OtsProductLevel otsProductLevelId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
-    private Collection<OtsRequestOrder> otsRequestOrderCollection;
     @OneToMany(mappedBy = "otsProductId")
     private Collection<OtsRegistration> otsRegistrationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductCategoryId")
@@ -102,6 +100,10 @@ public class OtsProduct implements Serializable {
     private Collection<OtsOrderProduct> otsOrderProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsScheduler> otsSchedulerCollection;
+    @OneToMany(mappedBy = "otsProductId")
+    private Collection<OtsCustomerProduct> otsCustomerProductCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
+    private Collection<OtsRequestOrder> otsRequestOrderCollection;
 
     public OtsProduct() {
     }
@@ -183,15 +185,6 @@ public class OtsProduct implements Serializable {
     }
 
     @XmlTransient
-    public Collection<OtsCustomerProduct> getOtsCustomerProductCollection() {
-        return otsCustomerProductCollection;
-    }
-
-    public void setOtsCustomerProductCollection(Collection<OtsCustomerProduct> otsCustomerProductCollection) {
-        this.otsCustomerProductCollection = otsCustomerProductCollection;
-    }
-
-    @XmlTransient
     public Collection<OtsProductStockHistory> getOtsProductStockHistoryCollection() {
         return otsProductStockHistoryCollection;
     }
@@ -218,21 +211,21 @@ public class OtsProduct implements Serializable {
         this.otsProductStockCollection = otsProductStockCollection;
     }
 
+    @XmlTransient
+    public Collection<OtsRequestProduct> getOtsRequestProductCollection() {
+        return otsRequestProductCollection;
+    }
+
+    public void setOtsRequestProductCollection(Collection<OtsRequestProduct> otsRequestProductCollection) {
+        this.otsRequestProductCollection = otsRequestProductCollection;
+    }
+
     public OtsProductLevel getOtsProductLevelId() {
         return otsProductLevelId;
     }
 
     public void setOtsProductLevelId(OtsProductLevel otsProductLevelId) {
         this.otsProductLevelId = otsProductLevelId;
-    }
-
-    @XmlTransient
-    public Collection<OtsRequestOrder> getOtsRequestOrderCollection() {
-        return otsRequestOrderCollection;
-    }
-
-    public void setOtsRequestOrderCollection(Collection<OtsRequestOrder> otsRequestOrderCollection) {
-        this.otsRequestOrderCollection = otsRequestOrderCollection;
     }
 
     @XmlTransient
@@ -278,6 +271,24 @@ public class OtsProduct implements Serializable {
 
     public void setOtsSchedulerCollection(Collection<OtsScheduler> otsSchedulerCollection) {
         this.otsSchedulerCollection = otsSchedulerCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsCustomerProduct> getOtsCustomerProductCollection() {
+        return otsCustomerProductCollection;
+    }
+
+    public void setOtsCustomerProductCollection(Collection<OtsCustomerProduct> otsCustomerProductCollection) {
+        this.otsCustomerProductCollection = otsCustomerProductCollection;
+    }
+
+    @XmlTransient
+    public Collection<OtsRequestOrder> getOtsRequestOrderCollection() {
+        return otsRequestOrderCollection;
+    }
+
+    public void setOtsRequestOrderCollection(Collection<OtsRequestOrder> otsRequestOrderCollection) {
+        this.otsRequestOrderCollection = otsRequestOrderCollection;
     }
 
     @Override

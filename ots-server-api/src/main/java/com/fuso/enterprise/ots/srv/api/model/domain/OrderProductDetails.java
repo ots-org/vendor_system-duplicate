@@ -29,6 +29,8 @@ public class OrderProductDetails {
     
     private String productImage;
     
+    private String requestedId;
+    
 	public String getEmptyCanRecived() {
 		return emptyCanRecived;
 	}
@@ -139,5 +141,13 @@ public class OrderProductDetails {
 
 	public void setProductImage(String productImage) {
 		this.productImage = productImage;
+	}
+
+	public String getRequestedId() {
+		return requestedId;
+	}
+
+	public void setRequestedId(String requestedId) {
+		this.requestedId = requestedId;
 	}
 }
