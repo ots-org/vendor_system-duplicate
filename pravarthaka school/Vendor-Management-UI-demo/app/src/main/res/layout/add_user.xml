@@ -243,7 +243,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/activity_margin_10"
-                android:text="@string/address1"
+                android:text="@string/primaryAddress"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_medium"
                 />
@@ -278,7 +278,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/activity_margin_10"
-                android:text="@string/address2"
+                android:text="@string/secondaryAddress"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_medium"
                 />

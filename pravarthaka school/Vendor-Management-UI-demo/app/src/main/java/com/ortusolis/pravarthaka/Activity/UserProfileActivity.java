@@ -61,14 +61,7 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
     Gson gson;
     LatLng p1First = null;
     LatLng p1Second = null;
-//    Handler handler = new Handler();
-//    Runnable runnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            getMapLocation(userId);
-//            handler.postDelayed(this,15000);
-//        }
-//    };
+    String lat,lng, latSecond,lngSecond;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,7 +155,7 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
             @Override
             public void onMarkerDragStart(Marker arg0) {
                 // TODO Auto-generated method stub
-                Log.d("System out", "onMarkerDragStart..."+arg0.getPosition().latitude+"..."+arg0.getPosition().longitude);
+                           Log.d("System out", "onMarkerDragStart..."+arg0.getPosition().latitude+"..."+arg0.getPosition().longitude);
             }
 
             @SuppressWarnings("unchecked")
@@ -170,7 +163,13 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
             public void onMarkerDragEnd(Marker arg0) {
                 // TODO Auto-generated method stub
                 Log.d("System out", "onMarkerDragEnd..."+arg0.getPosition().latitude+"..."+arg0.getPosition().longitude);
-
+                if(arg0.getTitle().equals("Primary delivery location")){
+                    lat= arg0.getPosition().latitude+"";
+                    lng=arg0.getPosition().longitude+"";
+                }else{
+                    latSecond= arg0.getPosition().latitude+"";
+                    lngSecond=arg0.getPosition().longitude+"";
+                }
                 googleMap.animateCamera(CameraUpdateFactory.newLatLng(arg0.getPosition()));
             }
 
@@ -190,7 +189,6 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
         Barcode.GeoPoint p2 = null;
 //
         String primryAddress= address1Edit.getText().toString();
-//        String primryAddress= "69, 12th Main Rd, 4th T Block East, Jayanagar 3rd Block East, Jayanagar, Bengaluru, Karnataka 560011";
         String secondaryAddress= address2Edit.getText().toString();
         try {
             address = coder.getFromLocationName(primryAddress,5);
@@ -201,28 +199,42 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
             if (addressSecond==null) {
 //                return null;
             }
-            Address location=address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-            p1First = new LatLng(location.getLatitude(), location.getLongitude() );
-            p1 = new Barcode.GeoPoint((double) (location.getLatitude() * 1E6),
-                    (double) (location.getLongitude() * 1E6));
+            if(!sharedPreferences.getString("userlatitudeProfile","").equals("")){
+                LatLng latLng1 = new LatLng(Double.parseDouble(sharedPreferences.getString("userlatitudeProfile","")), Double.parseDouble(sharedPreferences.getString("userlangitudeProfile","")));
+                lat= sharedPreferences.getString("userlatitudeProfile","");
+                lng=sharedPreferences.getString("userlangitudeProfile","");
+                LatLng latLng2 = new LatLng(Double.parseDouble(sharedPreferences.getString("userlatitudeSecondProfile","")),Double.parseDouble(sharedPreferences.getString("userlangitudeSecondProfile","")));
+                mapLocator(latLng1,latLng2);
+            }else {
+                Address location=address.get(0);
+                location.getLatitude();
+                location.getLongitude();
+                p1First = new LatLng(location.getLatitude(), location.getLongitude() );
+                p1 = new Barcode.GeoPoint((double) (location.getLatitude() * 1E6),
+                        (double) (location.getLongitude() * 1E6));
+                Address locationSecond=addressSecond.get(0);
+                locationSecond.getLatitude();
+                locationSecond.getLongitude();
+                p1Second= new LatLng(locationSecond.getLatitude(), locationSecond.getLongitude() );
+                p2 = new Barcode.GeoPoint((double) (locationSecond.getLatitude() * 1E6),
+                        (double) (locationSecond.getLongitude() * 1E6));
+                LatLng latLng1 = new LatLng(p1First.latitude, p1First.longitude);
+                LatLng latLng2 = new LatLng(p1Second.latitude, p1Second.longitude);
+                lat= p1First.latitude+"";
+                lng=p1First.longitude+"";
+                latSecond= p1Second.latitude+"";
+                lngSecond=p1Second.longitude+"";
+                mapLocator(latLng1,latLng2 );
 
-            Address locationSecond=addressSecond.get(0);
-            locationSecond.getLatitude();
-            locationSecond.getLongitude();
-            p1Second= new LatLng(locationSecond.getLatitude(), locationSecond.getLongitude() );
-            p2 = new Barcode.GeoPoint((double) (locationSecond.getLatitude() * 1E6),
-                    (double) (locationSecond.getLongitude() * 1E6));
+            }
+
 
 //            return p1;
         } catch (IOException e) {
             e.printStackTrace();
         }
 //    }
-        LatLng latLng1 = new LatLng(p1First.latitude, p1First.longitude);
-        LatLng latLng2 = new LatLng(p1Second.latitude, p1Second.longitude);
-        mapLocator(latLng1,latLng2 );
+
     }
 
     void mapLocator(LatLng latLng1, LatLng latLng2){
@@ -280,27 +292,12 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
 
             JSONObject requestObject = new JSONObject();
 
-//            byte[] byteArray = null;
-//            if (uploadBitmap!=null) {
-//                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//                uploadBitmap.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream);
-//                byteArray = byteArrayOutputStream.toByteArray();
-//            }
-//            else {
-//                uploadBitmap = BitmapFactory.decodeResource(getActivity().getResources(),
-//                        R.drawable.profle_icon);
-//                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//                uploadBitmap.compress(Bitmap.CompressFormat.PNG, 20, byteArrayOutputStream);
-//                byteArray = byteArrayOutputStream.toByteArray();
-//            }
-
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("userId",sharedPreferences.getString("userid", ""));
                 jsonObject.put("firstName", firstNameEdit.getText().toString());
                 jsonObject.put("lastName", lastNameEdit.getText().toString());
                 jsonObject.put("emailId", emailEdit.getText().toString());
-                // jsonObject.put("usrStatus", existingUserId==null? "NEW" : userStatusCheck.isChecked()?"Active":"Inactive");
                 jsonObject.put("usrPassword",sharedPreferences.getString("password", ""));
                 jsonObject.put("contactNo", phoneEdit.getText().toString());
                 jsonObject.put("address1", address1Edit.getText().toString());
@@ -311,27 +308,12 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
                 jsonObject.put("usersCreated", new Date().getTime());
                 jsonObject.put("usersCreated", JSONObject.NULL);
                 jsonObject.put("registrationId", JSONObject.NULL);
-
-//                if (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1") && addUser == null){
-//                    jsonObject.put("mappedTo",  sharedPreferences.getString("userid", ""));
-//                }
-//                else {
-                    jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
-//                }
-
-//                jsonObject.put("productPrice", productEdit.getText().toString().isEmpty()?JSONObject.NULL:productEdit.getText().toString());
-//                jsonObject.put("productId", (productDist==null || productDist.isEmpty())? JSONObject.NULL : productDist);
+                jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
                 jsonObject.put("userRoleId", sharedPreferences.getString("userRoleId",""));
-
-                //
-                jsonObject.put("userLat",p1First.latitude);
-                jsonObject.put("userLong",p1First.longitude);
-
-                //
+                jsonObject.put("userLat",lat);
+                jsonObject.put("userLong",lng);
 
                 requestObject.put("requestData", jsonObject);
-
-
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -345,15 +327,14 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
                     try {
                         Log.e("getPlants response", response);
 
-
                         DistributorResponse distributorResponse = gson.fromJson(response, DistributorResponse.class);
 
                         if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-                            String lat= p1First.latitude+"";
-                            String lng=p1First.longitude+"";
-
-                            String latSecond= p1Second.latitude+"";
-                            String lngSecond=p1Second.longitude+"";
+//                            String lat= p1First.latitude+"";
+//                            String lng=p1First.longitude+"";
+//
+//                            String latSecond= p1Second.latitude+"";
+//                            String lngSecond=p1Second.longitude+"";
 
                             sharedPreferences.edit().putString("emailIdUser", emailEdit.getText().toString()).commit();
                             sharedPreferences.edit().putString("userFirstName",firstNameEdit.getText().toString()).commit();

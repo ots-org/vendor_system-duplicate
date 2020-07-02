@@ -114,6 +114,18 @@
                     android:padding="@dimen/activity_margin_8"
                     android:text="Add Sub-Category"
                     android:textColor="@color/textColorDark" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white_pressed" />
+
+                <TextView
+                    android:id="@+id/confirmRequestProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_margin_8"
+                    android:text="Confirm Product"
+                    android:textColor="@color/textColorDark" />
 
                 <View
                     android:layout_width="match_parent"
@@ -210,6 +222,19 @@
                     android:text="@string/salesvoucher"
                     android:textColor="@color/textColorDark"
                     android:visibility="gone" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white_pressed" />
+
+                <TextView
+                    android:id="@+id/empAssignRequest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_margin_8"
+                    android:text="Deliver Donation"
+                    android:textColor="@color/textColorDark"
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"
@@ -268,7 +293,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_margin_8"
-                    android:text="@string/assigntheorder"
+                    android:text="Assign Order"
+                    android:textColor="@color/textColorDark" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white_pressed" />
+
+                <TextView
+                    android:id="@+id/assignRequest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_margin_8"
+                    android:text="@string/assigntheRequest"
                     android:textColor="@color/textColorDark" />
                 <View
                     android:layout_width="match_parent"
@@ -416,6 +453,19 @@
                     android:padding="@dimen/activity_margin_8"
                     android:text="@string/customeroutstanding"
                     android:textColor="@color/textColorDark" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white_pressed" />
+
+                <TextView
+                    android:id="@+id/donationReport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_margin_8"
+                    android:text="@string/donationReport"
+                    android:textColor="@color/textColorDark" />
             </LinearLayout>
 
             <View
@@ -446,6 +496,64 @@
                 android:text="@string/switchRoleLan"
                 android:textColor="@color/textColorDark"
                 android:textStyle="bold" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white_pressed" />
+
+            <TextView
+                android:id="@+id/donation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_12"
+                android:text="@string/donation"
+                android:textColor="@color/textColorDark"
+                android:textStyle="bold" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white_pressed" />
+
+            <TextView
+                android:id="@+id/donationStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_12"
+                android:text="Donation Status"
+                android:textColor="@color/textColorDark"
+                android:textStyle="bold" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="gone"
+                android:id="@+id/donationReportCustomerView"
+                android:background="@color/white_pressed" />
+
+            <TextView
+                android:id="@+id/donationReportCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_12"
+                android:text="Donation Report"
+                android:textColor="@color/textColorDark"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="gone"
+                android:id="@+id/requestProductCustomerView"
+                android:background="@color/white_pressed" />
+
+            <TextView
+                android:id="@+id/requestProductCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_12"
+                android:text="Request Product"
+                android:textColor="@color/textColorDark"
+                android:textStyle="bold"
+                android:visibility="gone"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

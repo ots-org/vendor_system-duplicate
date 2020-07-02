@@ -63,16 +63,18 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Modu
     @Override
     public void onBindViewHolder(final ModuleViewHolder holder, final int position) {
         final OrderResponse.RequestS item = dataList.get(position);
-
-        holder.orderNo.setText(Html.fromHtml("<b>Order Number: </b>"+item.getOrderId()));
-        holder.customeName.setText(Html.fromHtml("<b>Ordered Date: </b>"+CommonFunctions.converDateStr(item.getOrderDate())));
+        if(item.getOrderStatus().contains("Request")){
+            holder.orderNo.setText(Html.fromHtml("<b>Request Number: </b>"+item.getOrderId()));
+            holder.customeName.setText(Html.fromHtml("<b>Request Date: </b>"+CommonFunctions.converDateStr(item.getOrderDate())));
+            holder.orderCost.setText(Html.fromHtml("<b>Request Cost: </b>"+item.getOrderCost()+context.getString(R.string.Rs)));
+        } else {
+            holder.orderNo.setText(Html.fromHtml("<b>Order Number: </b>"+item.getOrderId()));
+            holder.customeName.setText(Html.fromHtml("<b>Ordered Date: </b>"+CommonFunctions.converDateStr(item.getOrderDate())));
+            holder.orderCost.setText(Html.fromHtml("<b>Order Cost: </b>"+item.getOrderCost()+context.getString(R.string.Rs)));
+        }
         holder.orderDate.setText(Html.fromHtml("<b>Customer Name: </b>"+item.getCustomerDetails().getFirstName()));
-        holder.orderCost.setText(Html.fromHtml("<b>Order Cost: </b>"+item.getOrderCost()+context.getString(R.string.Rs)));
         holder.deliveryDate.setText(Html.fromHtml("<b>Delivery Date: </b>"+ CommonFunctions.converDateStr(item.getDelivaryDate())));
         holder.deliveredBy.setVisibility(View.GONE);
-        //holder.deliveredBy.setText(Html.fromHtml("<b>Distributor Name: </b>"+item.getDistributorDetails().getFirstName()));
-
-        //holder.outstandingAmt.setText(Html.fromHtml("<b>Outstanding Amount: </b>"+item.getOutStandingAmount()+context.getString(R.string.Rs)));
         holder.outstandingAmt.setVisibility(View.GONE);
 
         holder.customerLay.setOnClickListener(new View.OnClickListener() {

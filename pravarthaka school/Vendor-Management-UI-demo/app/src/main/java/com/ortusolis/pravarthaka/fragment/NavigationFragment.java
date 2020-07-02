@@ -20,8 +20,12 @@ import com.ortusolis.pravarthaka.Activity.AddProductActivity;
 import com.ortusolis.pravarthaka.Activity.AddSubCategory;
 import com.ortusolis.pravarthaka.Activity.AssignedOrderListActivity;
 import com.ortusolis.pravarthaka.Activity.BillListActivity;
+import com.ortusolis.pravarthaka.Activity.ConfirmRequest;
 import com.ortusolis.pravarthaka.Activity.CustomerLedgerReportActivity;
 import com.ortusolis.pravarthaka.Activity.CustomerOutstandingReportActivity;
+import com.ortusolis.pravarthaka.Activity.DonationActivity;
+import com.ortusolis.pravarthaka.Activity.DonationReport;
+import com.ortusolis.pravarthaka.Activity.DonationStatus;
 import com.ortusolis.pravarthaka.Activity.EmployeeOrderAssignedListActivity;
 import com.ortusolis.pravarthaka.Activity.LoginActivity;
 import com.ortusolis.pravarthaka.Activity.MainActivity;
@@ -46,7 +50,7 @@ import org.jetbrains.annotations.Nullable;
 public class NavigationFragment extends Fragment {
 
     TextView mastersHeader,stockHeader,ordersHeader,billsHeader,reportsHeader;
-    TextView notification,list_products,users,products,updateStock,closeOrder,salesVoucher,scheduler,add,assign,transferOrders,generateBill,myBills,stockReport,orderReport,billReport,customerLedgerReport,customerOutstandingReport,logout,switchRoll,profile,SubProducts,bills;
+    TextView notification,list_products,users,products,updateStock,closeOrder,salesVoucher,scheduler,add,assign,transferOrders,generateBill,myBills,stockReport,orderReport,billReport,customerLedgerReport,customerOutstandingReport,logout,switchRoll,profile,SubProducts,donation,donationReport,donationReportCustomer,assignRequest,empAssignRequest,requestProductCustomer,confirmRequestProduct,donationStatus,bills;
    //code raghuram
     TextView changepassword;
     TextView changepasswordGlobal;
@@ -55,6 +59,7 @@ public class NavigationFragment extends Fragment {
     TextView nav_header_textView;
     SharedPreferences sharedPreferences;
     ImageView imageView;
+    View requestProductCustomerView;
 
     public static NavigationFragment newInstance() {
         
@@ -86,6 +91,14 @@ public class NavigationFragment extends Fragment {
         users = view.findViewById(R.id.users);
         products = view.findViewById(R.id.products);
         SubProducts = view.findViewById(R.id.SubProducts);
+        donation = view.findViewById(R.id.donation);
+        donationStatus= view.findViewById(R.id.donationStatus);
+        donationReportCustomer= view.findViewById(R.id.donationReportCustomer);
+        assignRequest = view.findViewById(R.id.assignRequest);
+        empAssignRequest= view.findViewById(R.id.empAssignRequest);
+        requestProductCustomer= view.findViewById(R.id.requestProductCustomer);
+        requestProductCustomerView= view.findViewById(R.id.requestProductCustomerView);
+        confirmRequestProduct= view.findViewById(R.id.confirmRequestProduct);
         //code raghuram ots
         changepassword = view.findViewById(R.id.changepassword);
         changepasswordGlobal =view.findViewById(R.id.changepasswordGlobal);
@@ -109,6 +122,7 @@ public class NavigationFragment extends Fragment {
 //
         switchRoll=view.findViewById(R.id.switchRoll);
         profile=view.findViewById(R.id.profile);
+        donationReport=view.findViewById(R.id.donationReport);
         //
         mastersLL = view.findViewById(R.id.mastersLL);
         stockLL = view.findViewById(R.id.stockLL);
@@ -125,7 +139,7 @@ public class NavigationFragment extends Fragment {
         }
         //
         if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
-            userRole = "Distributor";
+            userRole = "Facilitator";
             products.setVisibility(View.GONE);
             notification.setVisibility(View.GONE);
             SubProducts.setVisibility(View.GONE);
@@ -141,6 +155,7 @@ public class NavigationFragment extends Fragment {
         }
         else if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
             userRole = "Employee";
+            assignRequest.setText("Assigned Request");
             notification.setVisibility(View.GONE);
             mastersHeader.setVisibility(View.GONE);
             stockHeader.setVisibility(View.GONE);
@@ -155,12 +170,12 @@ public class NavigationFragment extends Fragment {
             billsHeader.setVisibility(View.GONE);
             scheduler.setVisibility(View.GONE);
             generateBill.setVisibility(View.GONE);
-            //
+            donationStatus.setVisibility(View.GONE);
             changepasswordGlobal.setVisibility(View.VISIBLE);
-            //
+            empAssignRequest.setVisibility(View.VISIBLE);
         }
         else if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("4")){
-            userRole = "Customer";
+            userRole = "Donor/Requestor";
             notification.setVisibility(View.GONE);
             mastersHeader.setVisibility(View.GONE);
             stockHeader.setVisibility(View.GONE);
@@ -171,10 +186,14 @@ public class NavigationFragment extends Fragment {
             customerOutstandingReport.setVisibility(View.GONE);
             generateBill.setVisibility(View.GONE);
             scheduler.setVisibility(View.GONE);
-            //
+            donationReportCustomer.setVisibility(View.VISIBLE);
+            requestProductCustomer.setVisibility(View.VISIBLE);
+            requestProductCustomerView.setVisibility(View.VISIBLE);
+            assignRequest.setVisibility(View.GONE);
+            empAssignRequest.setVisibility(View.GONE);
+            donationStatus.setVisibility(View.GONE);
             changepasswordGlobal.setVisibility(View.VISIBLE);
             billsHeader.setVisibility(View.GONE);
-            //
         }
         else {
             stockHeader.setVisibility(View.GONE);
@@ -307,6 +326,60 @@ public class NavigationFragment extends Fragment {
                 ((MainActivity)getActivity()).closeDrawer();
             }
         });
+        donation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), DonationActivity.class));
+                ((MainActivity)getActivity()).closeDrawer();
+            }
+        });
+        donationReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), DonationReport.class));
+                ((MainActivity)getActivity()).closeDrawer();
+            }
+        });
+        donationReportCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), DonationReport.class));
+                ((MainActivity)getActivity()).closeDrawer();
+            }
+        });
+        donationStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent donationStatus = new Intent(getActivity(), DonationStatus.class);
+                startActivity(donationStatus);
+                ((MainActivity)getActivity()).closeDrawer();
+            }
+        });
+        assignRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
+                    Intent assignRequest = new Intent(getActivity(), DonationStatus.class);
+                    assignRequest.putExtra("assignRequest", sharedPreferences.getString("userRoleId",""));
+                    startActivity(assignRequest);
+                    ((MainActivity)getActivity()).closeDrawer();
+                }else {
+                    Intent assignRequest = new Intent(getActivity(), OrderListActivity.class);
+                    assignRequest.putExtra("assignRequest", sharedPreferences.getString("userRoleId", ""));
+                    startActivity(assignRequest);
+                    ((MainActivity) getActivity()).closeDrawer();
+                }
+            }
+        });
+        empAssignRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent empAssignRequest = new Intent(getActivity(), AssignedOrderListActivity.class);
+                empAssignRequest.putExtra("deliverDonation", "deliverDonation");
+                startActivity(empAssignRequest);
+                ((MainActivity)getActivity()).closeDrawer();
+            }
+        });
         //
         switchRoll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -320,6 +393,23 @@ public class NavigationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), UserProfileActivity.class));
+                ((MainActivity)getActivity()).closeDrawer();
+            }
+        });
+        requestProductCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent requestProductCustomer = new Intent(getActivity(), AddProductActivity.class);
+                requestProductCustomer.putExtra("requestProductCustomer", "requestProductCustomer");
+                startActivity(requestProductCustomer);
+                ((MainActivity)getActivity()).closeDrawer();
+            }
+        });
+        confirmRequestProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent confirmRequestProduct = new Intent(getActivity(), ConfirmRequest.class);
+                startActivity(confirmRequestProduct);
                 ((MainActivity)getActivity()).closeDrawer();
             }
         });

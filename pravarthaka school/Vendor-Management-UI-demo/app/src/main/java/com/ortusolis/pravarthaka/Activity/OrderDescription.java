@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,18 +52,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class OrderDescription extends AppCompatActivity {
 
-    TextView textName,orderDate,deliveryDate,orderCost,orderStatus,customerName,assignEmpLoyee,customerPhoneNumber,customerAddress,customerAddressSecondary;
-    //
+    TextView textName,orderDate,deliveryDate,orderCost,orderStatus,customerName,assignEmpLoyee,customerPhoneNumber,customerAddress,customerAddressSecondary,donarName,donarAddress,donarPhoneNumber,donarPaymentMethod,orderNumberText,orderDateText,orderCostText,orderStatusText;
     ProgressDialog progressDialog;
-    //
     Button assignButton,cancelOrder,closeOrder;
-
     Toolbar mToolbar;
     ActionBar action;
-
     int price = 0;
     OrderResponse.RequestS orderDetails;
-//    List<OrderResponse.RequestS.ProductOrder> dataOrderDetails;
     SharedPreferences sharedPreferences;
     Gson gson;
     String distributorStr = null;
@@ -71,7 +67,9 @@ public class OrderDescription extends AppCompatActivity {
     String strDist = null;
     GridView gridview;
     TextView noResult;
+    LinearLayout donarLayout;
     AssignedOrderGridAdapter assignedOrderGridAdapter;
+    String assignRequest="no";
     String orderIdSalesVocher,orderDateSalesVocher,deliveryDateSalesVocher,orderCostSalesVocher,orderStatusSalesVocher,customerNameSalesVocher,customerIdSalesVocher;
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -83,10 +81,8 @@ public class OrderDescription extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
         assignButton = findViewById(R.id.placeOrder);
-        gson = new Gson()/*new GsonBuilder().serializeNulls().create()*/;
-//
+        gson = new Gson();
         closeOrder=findViewById(R.id.closeOrderAssignOrder);
-        //
         mToolbar = findViewById(R.id.toolbar);
         textName = findViewById(R.id.productName);
         orderDate = findViewById(R.id.orderDate);
@@ -101,9 +97,17 @@ public class OrderDescription extends AppCompatActivity {
         cancelOrder = findViewById(R.id.cancelOrder);
         gridview = findViewById(R.id.gridview);
         noResult = findViewById(R.id.noResult);
+        donarName = findViewById(R.id.donarName);
+        donarAddress = findViewById(R.id.donarAddress);
+        donarPhoneNumber= findViewById(R.id.donarPhoneNumber);
+        donarPaymentMethod= findViewById(R.id.donarPaymentMethod);
+        donarLayout= findViewById(R.id.donarLayout);
+        orderNumberText= findViewById(R.id.orderNumberText);
+        orderDateText= findViewById(R.id.orderDateText);
+        orderCostText= findViewById(R.id.orderCostText);
+        orderStatusText= findViewById(R.id.orderStatusText);
 
         sharedPreferences = getSharedPreferences("water_management",0);
-
         userNames = new ArrayList<>();
         userIdList = new ArrayList<>();
 
@@ -113,45 +117,50 @@ public class OrderDescription extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
                     ActionBar.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER);
             TextView toolbarTitle = (TextView) viewActionBar.findViewById(R.id.toolbar_title);
-            toolbarTitle.setText("Assign Orders");
+            if (getIntent().hasExtra("assignRequest")){
+                toolbarTitle.setText("Assign Request");
+                assignRequest="yes";
+            }else {
+                toolbarTitle.setText("Assign Orders");
+            }
             action.setCustomView(viewActionBar, params);
             mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
 
         if (getIntent().hasExtra("order")){
             orderDetails = getIntent().getExtras().getParcelable("order");
-//            dataOrderDetails= getIntent().getExtras().getParcelable("order");
+        }
+        if (getIntent().hasExtra("assignRequestEmp")){
+            assignButton.setVisibility(View.GONE);
+            cancelOrder.setVisibility(View.GONE);
         }
 
         setValues();
-
         assignButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 assignOrder(orderDetails);
             }
         });
-        //
         closeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                closeOrder(orderDetails);
+                if (getIntent().hasExtra("assignRequest")){
+                    CloseRequest(orderDetails);
+                }else {
+                    closeOrder(orderDetails);
+                }
+
             }
         });
-        //
-
     }
 
     void setValues(){
@@ -175,6 +184,27 @@ public class OrderDescription extends AppCompatActivity {
         customerAddress.setText(orderDetails.getCustomerDetails().getAddress1());
         customerAddressSecondary.setText(orderDetails.getCustomerDetails().getAddress2());
         //
+        if (getIntent().hasExtra("assignRequest") && !(orderDetails.getDonationStatus() ==null)){
+            orderNumberText.setText("Request Number");
+            orderDateText.setText("Request Date");
+            orderCostText.setText("Request Cost");
+            orderStatusText.setText("Request Status");
+
+            donarName.setText(orderDetails.getDonarDetails().getFirstName());
+            donarAddress.setText(orderDetails.getDonarDetails().getAddress1());
+            donarPhoneNumber.setText(orderDetails.getDonarDetails().getContactNo());
+            donarPaymentMethod.setText(orderDetails.getDonationStatus());
+        }else if(getIntent().hasExtra("assignRequest")){
+            orderNumberText.setText("Request Number");
+            orderDateText.setText("Request Date");
+            orderCostText.setText("Request Cost");
+            orderStatusText.setText("Request Status");
+            donarLayout.setVisibility(View.GONE);
+        }else {
+            donarLayout.setVisibility(View.GONE);
+        }
+
+        //
         assignEmpLoyee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,20 +217,6 @@ public class OrderDescription extends AppCompatActivity {
                 getAllRegister();
             }
         });
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-//        alertDialogBuilder.setMessage("Api request "  +orderDetails.getOrderdProducts()..toString());
-//                alertDialogBuilder.setPositiveButton("yes",
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface arg0, int arg1) {
-//                                Toast.makeText(OrderDescription.this,"You clicked yes button",Toast.LENGTH_LONG).show();
-//                            }
-//                        });
-//
-//
-//
-//        AlertDialog alertDialog = alertDialogBuilder.create();
-//        alertDialog.show();
 
         assignedOrderGridAdapter = new AssignedOrderGridAdapter(OrderDescription.this,orderDetails.getOrderdProducts());
         gridview.setAdapter(assignedOrderGridAdapter);
@@ -247,7 +263,12 @@ public class OrderDescription extends AppCompatActivity {
             try {
                 jsonObject.put("orderId", data.getOrderId());
                 jsonObject.put("assignedId", distributorStr);
-                jsonObject.put("orderStatus", "Assigned");
+                if(assignRequest.equals("yes")){
+                    jsonObject.put("orderStatus", "AssignedRequestToEmployee");
+                }else {
+                    jsonObject.put("orderStatus", "Assigned");
+                }
+
                 jsonObject.put("deliveryDate", CommonFunctions.converDateStr(data.getDelivaryDate()));
 
                 requestObject.put("request", jsonObject);
@@ -265,11 +286,12 @@ public class OrderDescription extends AppCompatActivity {
                         RegisterResponse responseData = new Gson().fromJson(response, RegisterResponse.class);
 
                         if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
-
-
                             setResult(RESULT_OK);
-                            startActivity(new Intent(OrderDescription.this,OrderListActivity.class));
+                            Intent assignRequestIntent = new Intent(OrderDescription.this, OrderListActivity.class);
+                            if(assignRequest.equals("yes")){
+                                assignRequestIntent.putExtra("assignRequest", "assignRequest");
+                            }
+                            startActivity(assignRequestIntent);
                             finish();
                             Toast.makeText(OrderDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? " " : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                         } else
@@ -319,21 +341,8 @@ public class OrderDescription extends AppCompatActivity {
             jsonObject.put("distributorId", sharedPreferences.getString("userid", ""));
             JSONArray jsonArray = new JSONArray();
 
-//            for (OrderResponse.RequestS.ProductOrder  productOrder: dataOrderDetails){
-//            JSONObject jsonObject1 = new JSONObject();
-////            for (int orderItirate=0;orderItirate<=orderDetails.getOrderdProducts().size()-1;orderItirate++){
-//            jsonObject1.put("deliveredQty",orderDetails.getOrderdProducts().get(orderItirate).getOtsDeliveredQty());//productOrder.getOtsDeliveredQty();
-//            jsonObject1.put("emptyCan","0");
-//            jsonObject1.put("orderQty",orderDetails.getOrderdProducts().get(orderItirate).getOtsOrderedQty());
-//            jsonObject1.put("prodcutId",orderDetails.getOrderdProducts().get(orderItirate).getOtsProductId());
-//            jsonObject1.put("productbalanceQty","0");
-//            jsonObject1.put("productCost",orderDetails.getOrderdProducts().get(orderItirate).getOtsOrderProductCost());
-//            jsonArray.put(jsonObject1);
-//            }
             for (OrderResponse.RequestS.ProductOrder  productOrder: orderDetails.getOrderdProducts()){
                 JSONObject jsonObject1 = new JSONObject();
-//            for (int orderItirate=0;orderItirate<=orderDetails.getOrderdProducts().size()-1;orderItirate++){
-                jsonObject1.put("deliveredQty",productOrder.getOtsDeliveredQty());//productOrder.getOtsDeliveredQty();
                 jsonObject1.put("emptyCan","0");
                 jsonObject1.put("orderQty",productOrder.getOtsOrderedQty());
                 jsonObject1.put("prodcutId",productOrder.getOtsProductId());
@@ -371,8 +380,12 @@ public class OrderDescription extends AppCompatActivity {
                         if (responseData.getResponseCode().equalsIgnoreCase("200")) {
 
                             setResult(RESULT_OK);
-
-                            startActivity(new Intent(OrderDescription.this,OrderListActivity.class));
+                            Intent assignRequest = new Intent(OrderDescription.this, OrderListActivity.class);
+                            if(assignRequest.equals("yes")){
+                                assignRequest.putExtra("assignRequest", "assignRequest");
+                            }
+                            startActivity(assignRequest);
+//                            startActivity(new Intent(OrderDescription.this,OrderListActivity.class));
                             finish();
                             Toast.makeText(OrderDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? " " : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                         } else
@@ -400,7 +413,12 @@ public class OrderDescription extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("orderId", data.getOrderId());
-            jsonObject.put("status", "cancel");
+            if(assignRequest.equals("yes")){
+                jsonObject.put("status", "cancelRequest");
+            }else {
+                jsonObject.put("status", "cancel");
+            }
+
 
             requestObject.put("request", jsonObject);
 
@@ -420,7 +438,11 @@ public class OrderDescription extends AppCompatActivity {
 
 
                         setResult(RESULT_OK);
-                        startActivity(new Intent(OrderDescription.this,OrderListActivity.class));
+                        Intent assignRequest = new Intent(OrderDescription.this, OrderListActivity.class);
+                        if(assignRequest.equals("yes")){
+                            assignRequest.putExtra("assignRequest", "assignRequest");
+                        }
+                        startActivity(assignRequest);
                         finish();
                         Toast.makeText(OrderDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? " " : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                     } else
@@ -445,7 +467,7 @@ public class OrderDescription extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
+            jsonObject.put("mappedTo", "1");
 
             requestObject.put("requestData",jsonObject);
         }
@@ -537,10 +559,53 @@ public class OrderDescription extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
     }
+    public void CloseRequest(OrderResponse.RequestS data){
+
+            WebserviceController wss = new WebserviceController(OrderDescription.this);
+
+            JSONObject requestObject = new JSONObject();
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("orderId", data.getOrderId());
+                jsonObject.put("status", "DoneDonation");
+                requestObject.put("request", jsonObject);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            wss.postLoginVolley(Constants.updateOrderStatus, requestObject.toString(), new IResult() {
+                @Override
+                public void notifySuccess(String response, int statusCode) {
+                    try {
+                        Log.e("login response", response);
+
+                        RegisterResponse responseData = new Gson().fromJson(response, RegisterResponse.class);
+
+                        if (responseData.getResponseCode().equalsIgnoreCase("200")) {
+
+                            setResult(RESULT_OK);
+                            finish();
+                            Toast.makeText(OrderDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? " " : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
+                        } else
+                            Toast.makeText(OrderDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Failed to assign" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void notifyError(VolleyError error) {
+                    Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
+//                Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
+                }
+            });
+     }
+
 
 }

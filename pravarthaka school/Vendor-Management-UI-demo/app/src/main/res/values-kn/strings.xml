@@ -11,7 +11,10 @@
     </string-array>
     <string name="home">ಮನೆ</string>
     <string name="profile">ಪ್ರೊಫೈಲ್</string>
+    <string name="donationReport">ದೇಣಿಗೆ ವರದಿ</string>
+    <string name="assigntheRequest">ವಿನಂತಿಯನ್ನು ನಿಗದಿಪಡಿಸಿ</string>
     <string name="firstName">ಮೊದಲ ಹೆಸರು</string>
+    <string name="donation">ದಾನ</string>
     <string name="enterusername">ಬಳಕೆದಾರ ಹೆಸರನ್ನು ನಮೂದಿಸಿ</string>
     <string name="rememberme">ನನ್ನನ್ನು ನೆನಪಿನಲ್ಲಿಡು</string>
     <string name="enterfirstName">ಮೊದಲ ಹೆಸರನ್ನು ನಮೂದಿಸಿ</string>

@@ -211,7 +211,7 @@ GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
 
                         } else {
-                            Toast.makeText(this@UserService, if (TextUtils.isEmpty(responseData.getResponseDescription())) "Location Failed" else responseData.getResponseDescription(), Toast.LENGTH_LONG).show()
+//                            Toast.makeText(this@UserService, if (TextUtils.isEmpty(responseData.getResponseDescription())) "Location Failed" else responseData.getResponseDescription(), Toast.LENGTH_LONG).show()
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()

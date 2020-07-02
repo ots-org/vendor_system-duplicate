@@ -1,6 +1,7 @@
 package com.ortusolis.pravarthaka.Activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +20,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -69,6 +71,7 @@ public class LoginActivity extends AppCompatActivity{
     SharedPreferences sharedPreferences;
     SharedPreferences sharedPreferencesFCM;
     Gson gson;
+    View v;
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -94,7 +97,7 @@ public class LoginActivity extends AppCompatActivity{
         rememberMe = findViewById(R.id.rememberMe);
 
         gson = new Gson();
-
+        v= this.findViewById(android.R.id.content);
         /*FlowingGradientClass grad = new FlowingGradientClass();
         grad.setBackgroundResource(R.drawable.translate)
                 .onLinearLayout(rootView)
@@ -382,19 +385,37 @@ public class LoginActivity extends AppCompatActivity{
                         Geocoder coder = new Geocoder(getBaseContext());
                         List<Address> address;
                         address = coder.getFromLocationName(responseData.getResponseData().getUserDetails().getAddress1(),5);
-                        Address location=address.get(0);
-                        location.getLatitude();
-                        location.getLongitude();
-                        LatLng p1First = new LatLng(location.getLatitude(), location.getLongitude() );
-                        String lat= p1First.latitude+"";
-                        String lng=p1First.longitude+"";
-                        sharedPreferences.edit().putString("userlatitudeProfile", lat).commit();
-                        sharedPreferences.edit().putString("userlangitudeProfile",lng).commit();
+                        if(address.size()!=0){
+                            Address location=address.get(0);
+                            location.getLatitude();
+                            location.getLongitude();
+                            LatLng p1First = new LatLng(location.getLatitude(), location.getLongitude() );
+                            String lat= p1First.latitude+"";
+                            String lng=p1First.longitude+"";
+                            sharedPreferences.edit().putString("userlatitudeProfile", lat).commit();
+                            sharedPreferences.edit().putString("userlangitudeProfile",lng).commit();
+                        }
+
+
+                        Geocoder coderSecond = new Geocoder(getBaseContext());
+                        List<Address> addressSecond;
+                        addressSecond = coderSecond.getFromLocationName(responseData.getResponseData().getUserDetails().getAddress2(),5);
+                        if(addressSecond.size()!=0){
+                            Address locationSecond=addressSecond.get(0);
+                            locationSecond.getLatitude();
+                            locationSecond.getLongitude();
+                            LatLng p1Second = new LatLng(locationSecond.getLatitude(), locationSecond.getLongitude() );
+                            String latSecond= p1Second.latitude+"";
+                            String lngSecond=p1Second.longitude+"";
+                            sharedPreferences.edit().putString("userlatitudeSecondProfile", latSecond).commit();
+                            sharedPreferences.edit().putString("userlangitudeSecondProfile",lngSecond).commit();
+                        }
+
                         //
                         sharedPreferences.edit().putString("distId",responseData.getResponseData().getUserDetails().getDistributorId()).commit();
                         sharedPreferences.edit().putString("profilePic",responseData.getResponseData().getUserDetails().getProfilePic()).commit();
                         sharedPreferences.edit().putBoolean("login",true).commit();
-
+                        hideKeybaord(v);
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         //intent.putExtra("mobile",responseData.getResponseData().getCustomer().getPhone1());
                         startActivity(intent);
@@ -418,8 +439,12 @@ public class LoginActivity extends AppCompatActivity{
             public void notifyError(VolleyError error) {
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(LoginActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
+    }
+    private void hideKeybaord(View v) {
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
     }
 }

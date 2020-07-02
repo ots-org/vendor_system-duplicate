@@ -72,7 +72,7 @@ public class SwitchRole extends AppCompatActivity {
         userRole = new ArrayList();
 
         userRole.add("Select role");
-        if(sharedPreferences.contains("userSwitchRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
+        if(sharedPreferences.contains("userSwitchRoleId") && sharedPreferences.getString("userSwitchRoleId","").equalsIgnoreCase("1")){
             if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
                 userRole.add("Distributor");
 //            userRole.add("Employee");

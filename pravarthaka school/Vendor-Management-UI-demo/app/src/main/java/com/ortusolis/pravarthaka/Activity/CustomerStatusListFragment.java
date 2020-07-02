@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ public class CustomerStatusListFragment extends Fragment {
     List<OrderResponse.RequestS> data;
     TextView noResult;
     String statusTex;
+    Spinner Spinner;
 
     public static CustomerStatusListFragment newInstance() {
 
@@ -66,7 +68,8 @@ public class CustomerStatusListFragment extends Fragment {
         mToolbar = view.findViewById(R.id.toolbar);
         recyclerView = view.findViewById(R.id.recyclerView);
         noResult = view.findViewById(R.id.noResult);
-
+        Spinner =view.findViewById(R.id.spinnerStatus);
+        Spinner.setVisibility(View.GONE);
         data = new ArrayList<>();
 
         gson = new Gson();

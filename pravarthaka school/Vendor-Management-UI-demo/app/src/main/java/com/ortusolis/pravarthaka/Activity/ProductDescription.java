@@ -90,8 +90,9 @@ public class ProductDescription extends AppCompatActivity {
     ImageView picture;
     LinearLayout orderPlaceLayout,customerLayout,normalLL,scheduleLL;
     View customeLinearLayoutView;
-String paymentMethod="";
+    String paymentMethod="";
     String salesVaocherFalg="no";
+    String delivaryAddress="";
     //
     float totalAmountPayment=0;
     String m_Text = "";
@@ -175,6 +176,7 @@ String paymentMethod="";
         float totalCost =0;
         totalAmountPayment=totalCost;
         productRequests = new ArrayList<>();
+
         //
 
         userNames = new ArrayList<>();
@@ -230,8 +232,8 @@ String paymentMethod="";
             @Override
             public void onClick(View v) {
                 //getProductStock(productDetails.getProductId(),true);
-//                insertOrderAndProduct(false);
-                Alertpayment();
+                insertOrderAndProduct(false);
+//                Alertpayment();
             }
         });
 
@@ -1473,12 +1475,9 @@ String paymentMethod="";
         requestS.setDelivaryDate(selectDateStr);
         requestS.setDistributorId(distributorStr);
         requestS.setOrderCost((price * quant)+"");
-        requestS.setAddress(sharedPreferences.getString("userAddress1",""));
-        requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile",""));
-        requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile",""));
 
         requestS.setAssignedId(salesVoucher?sharedPreferences.getString("userid","") : null);
-        requestS.setOrderStatus(salesVoucher?"Assigned":"New");
+
         requestS.setOrderNumber("");
         requestS.setDeliverdDate("");
 
@@ -1495,34 +1494,42 @@ String paymentMethod="";
 
         requestS.setProductList(productOrders);
 
-
-
-
-
-
-        final String finalprice=totalPrice.getText().toString();
-        final float totalfinalprice=Float.valueOf(finalprice.substring(1,finalprice.length()));
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ProductDescription.this);
-        alertDialog.setTitle("Choose Payment Option");
-        String[] items = {"Cash","Payment"};
-        int checkedItem = 1;
-         paymentMethod="";
+        alertDialog.setTitle("Choose Delivery Address");
+        String[] items = {"Primary Address","Secondary Address"};
+        int checkedItem = 0;
+        delivaryAddress="Primary";
+        final TextView input = new TextView (this);
+        input.setPadding(80, 20, 20, 20);
+        alertDialog.setView(input);
+        input.setText("Address: "+sharedPreferences.getString("userAddress1",""));
         alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        Toast.makeText(ProductDescription.this, "Clicked on Cash", Toast.LENGTH_LONG).show();
-                        paymentMethod="Cash";
+                        Toast.makeText(ProductDescription.this, "Primary Address", Toast.LENGTH_LONG).show();
+                        delivaryAddress="Primary";
+                        input.setText("Address: "+sharedPreferences.getString("userAddress1",""));
                         break;
                     case 1:
-                        Toast.makeText(ProductDescription.this, "Clicked on Payment", Toast.LENGTH_LONG).show();
-                        paymentMethod="Payment";
+                        Toast.makeText(ProductDescription.this, "Secondary Address", Toast.LENGTH_LONG).show();
+                        delivaryAddress="Secondary";
+                        input.setText("Address: "+sharedPreferences.getString("userAddress2",""));
                         break;
 
                 }
             }
         });
+        alertDialog.setNeutralButton("Profile", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(ProductDescription.this, UserProfileActivity.class);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+//
         alertDialog.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -1535,20 +1542,82 @@ String paymentMethod="";
             public void onClick(DialogInterface dialog, int which) {
                 // navigation
                 Toast.makeText(ProductDescription.this, paymentMethod, Toast.LENGTH_LONG).show();
-                if (paymentMethod.equals("Cash")) {
-                    dialog.dismiss();
-                    requestS.setPaymentStatus("cash");
-                    productRequest.setRequest(requestS);
-
-                    productRequestFinal=productRequest;
-                    String str = gson.toJson(productRequest);
-                    CashAlert();
+                if (delivaryAddress.equals("Primary")) {
+                    input.setText(sharedPreferences.getString("userAddress1",""));
+                    requestS.setAddress(sharedPreferences.getString("userAddress1",""));
+                    requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile",""));
+                    requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile",""));
                 } else {
-                    requestS.setPaymentStatus("paid");
-                    productRequest.setRequest(requestS);
+                    input.setText(sharedPreferences.getString("userAddress2",""));
+                    requestS.setAddress(sharedPreferences.getString("userAddress2",""));
+                    requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile",""));
+                    requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile",""));
+                }
+                dialog.dismiss();
+                final String finalprice=totalPrice.getText().toString();
+                final float totalfinalprice=Float.valueOf(finalprice.substring(1,finalprice.length()));
+                AlertDialog.Builder alertDialogCash = new AlertDialog.Builder(ProductDescription.this);
+                alertDialogCash.setTitle("Choose Payment Option");
+                String[] itemsCash = {"Request","Payment"};
+                int checkedItemCash = 1;
+                paymentMethod="";
+                alertDialogCash.setSingleChoiceItems(itemsCash, checkedItemCash, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+//                                Toast.makeText(ProductDescription.this, "Clicked on Request", Toast.LENGTH_LONG).show();
+                                paymentMethod="Cash";
+                                break;
+                            case 1:
+//                                Toast.makeText(ProductDescription.this, "Clicked on Payment", Toast.LENGTH_LONG).show();
+                                paymentMethod="Payment";
+                                break;
 
-                    productRequestFinal=productRequest;
-                    String str = gson.toJson(productRequest);
+                        }
+                    }
+                });
+                alertDialogCash.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alertDialogCash.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // navigation
+//                        Toast.makeText(ProductDescription.this, paymentMethod, Toast.LENGTH_LONG).show();
+//                        Alertpayment();
+                        final String finalprice=totalPrice.getText().toString();
+                        final float totalfinalprice=Float.valueOf(finalprice.substring(1,finalprice.length()));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ProductDescription.this);
+                        if (paymentMethod.equals("Cash")) {
+                            builder.setMessage("Your Order Cost is "+finalprice+", click Confirm to place request");
+                        }else {
+                            builder.setMessage("Your Order Cost is "+finalprice+", click Confirm to place order");
+                        }
+
+                        builder.setCancelable(true)
+                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        if (paymentMethod.equals("Cash")) {
+                                            dialog.dismiss();
+                                            requestS.setPaymentStatus("NewRequest");
+                                            requestS.setOrderStatus("NewRequest");
+                                            productRequest.setRequest(requestS);
+
+                                            productRequestFinal=productRequest;
+                                            String str = gson.toJson(productRequest);
+                                            CashAlert();
+                                        } else {
+                                            requestS.setPaymentStatus("paid");
+                                            requestS.setOrderStatus("New");
+                                            productRequest.setRequest(requestS);
+
+                                            productRequestFinal=productRequest;
+                                            String str = gson.toJson(productRequest);
 
                                     /*   Intent myIntent = new Intent(ProductDescription.this, RazorPayActivity.class);
                                        myIntent.putExtra("totalAmountPayment", Float.toString(totalAmountPayment));
@@ -1556,35 +1625,64 @@ String paymentMethod="";
 
 
 //                    if (paymentMethod.equals("Payment")) {
-                    String useremail= sharedPreferences.getString("emailIdUser","");
-                    Log.e("useremail",sharedPreferences.getString("emailIdUser",""));
-                    final String strProductRequests = str;
+                                            String useremail= sharedPreferences.getString("emailIdUser","");
+                                            Log.e("useremail",sharedPreferences.getString("emailIdUser",""));
+                                            final String strProductRequests = str;
 //                    final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
 //
 //                     if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
 //                        buildAlertMessageNoGps();
 //                    }else{
 
-                        onBackPressed();
-                        Intent totalAmountPaymentintent = new Intent(ProductDescription.this, RazorPayActivity.class);
-                        //                               // pass amount
-                        totalAmountPaymentintent.putExtra("totalAmountPayment", totalfinalprice);
-                        totalAmountPaymentintent.putExtra("salesVaocherFalg", salesVaocherFalg);
-                        totalAmountPaymentintent.putExtra("classFlag", "placeorder");
-                        totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
-                        //                                 Log.d("hi",Parsef totalAmountPayment);
-                        startActivity(totalAmountPaymentintent);
+                                            onBackPressed();
+                                            Intent totalAmountPaymentintent = new Intent(ProductDescription.this, RazorPayActivity.class);
+                                            //                               // pass amount
+                                            totalAmountPaymentintent.putExtra("totalAmountPayment", totalfinalprice);
+                                            totalAmountPaymentintent.putExtra("salesVaocherFalg", salesVaocherFalg);
+                                            totalAmountPaymentintent.putExtra("classFlag", "placeorder");
+                                            totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
+                                            //                                 Log.d("hi",Parsef totalAmountPayment);
+                                            startActivity(totalAmountPaymentintent);
 //                    }
 
-                    }
+                                        }
+                                        //do things
+//                        placeOrder(prepareOrder(productRequests),false);
+//                                        insertOrderAndProduct(false);
+//                        showAlertDialog();
+//                        Intent totalAmountPaymentintent = new Intent(ProductDescription.this, RazorPayActivity.class);
+////                    // pass amount
+//                        totalAmountPaymentintent.putExtra("totalAmountPayment",totalfinalprice );
+//                        totalAmountPaymentintent.putExtra("salesVaocherFalg",salesVaocherFalg );
+//                        totalAmountPaymentintent.putExtra("productRequests",productRequests.toString() );
+////                  Log.d("hi",Parsef totalAmountPayment);
+//                        startActivity(totalAmountPaymentintent);
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
 
 //                    }
 //                }
+                    }
+                });
+                AlertDialog alert = alertDialogCash.create();
+                alert.setCanceledOnTouchOutside(false);
+                alert.show();
+
+
             }
         });
-        AlertDialog alert = alertDialog.create();
-        alert.setCanceledOnTouchOutside(false);
-        alert.show();
+        AlertDialog alertAddress = alertDialog.create();
+        alertAddress.setCanceledOnTouchOutside(false);
+
+        alertAddress.show();
+
+
+
+
+
     }
 
     //

@@ -73,6 +73,7 @@ public class OrderResponse {
     String assignedId;
     String orderStatus;
     String orderId;
+    String donationStatus;
     String orderNumber;
     String deliverdDate;
     String delivaredDate;
@@ -83,6 +84,7 @@ public class OrderResponse {
     String outStandingAmount;
     UserInfo employeeDetails;
     UserInfo customerDetails;
+    UserInfo donarDetails;
     UserInfo distributorDetails;
     ArrayList<ProductOrder> orderdProducts;
 
@@ -95,6 +97,7 @@ public class OrderResponse {
             assignedId = in.readString();
             orderStatus = in.readString();
             orderId = in.readString();
+            donationStatus= in.readString();
             orderNumber = in.readString();
             deliverdDate = in.readString();
             delivaredDate = in.readString();
@@ -105,6 +108,7 @@ public class OrderResponse {
             outStandingAmount = in.readString();
             employeeDetails = in.readParcelable(UserInfo.class.getClassLoader());
             customerDetails = in.readParcelable(UserInfo.class.getClassLoader());
+            donarDetails = in.readParcelable(UserInfo.class.getClassLoader());
             distributorDetails = in.readParcelable(UserInfo.class.getClassLoader());
             orderdProducts = in.createTypedArrayList(ProductOrder.CREATOR);
         }
@@ -119,6 +123,7 @@ public class OrderResponse {
             dest.writeString(assignedId);
             dest.writeString(orderStatus);
             dest.writeString(orderId);
+            dest.writeString(donationStatus);
             dest.writeString(orderNumber);
             dest.writeString(deliverdDate);
             dest.writeString(delivaredDate);
@@ -129,6 +134,7 @@ public class OrderResponse {
             dest.writeString(outStandingAmount);
             dest.writeParcelable(employeeDetails, flags);
             dest.writeParcelable(customerDetails, flags);
+            dest.writeParcelable(donarDetails, flags);
             dest.writeParcelable(distributorDetails, flags);
             dest.writeTypedList(orderdProducts);
         }
@@ -214,6 +220,14 @@ public class OrderResponse {
             this.orderId = orderId;
         }
 
+        public String getDonationStatus() {
+            return donationStatus;
+        }
+
+        public void setDonationStatus(String donationStatus) {
+            this.donationStatus = donationStatus;
+        }
+
         public String getOrderNumber() {
             return orderNumber;
         }
@@ -277,6 +291,14 @@ public class OrderResponse {
 
         public void setCustomerDetails(UserInfo customerDetails) {
             this.customerDetails = customerDetails;
+        }
+
+        public UserInfo getDonarDetails() {
+            return donarDetails;
+        }
+
+        public void setDonarDetails(UserInfo donarDetails) {
+            this.donarDetails = donarDetails;
         }
 
         public UserInfo getDistributorDetails() {

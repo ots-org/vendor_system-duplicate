@@ -282,8 +282,11 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         try {
-
-            jsonObject.put("distributorsId", usserId);
+            if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
+                jsonObject.put("distributorsId", "1");
+            }else {
+                jsonObject.put("distributorsId", usserId);
+            }
             jsonObject.put("status", "close");
             jsonObject.put("fromTime", buttonDatePick.getText().toString());
             jsonObject.put("toTime", buttonDatePickEnd.getText().toString());

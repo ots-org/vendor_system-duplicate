@@ -2,26 +2,28 @@
     <!--<string name="app_name">PRA-VARTHAKA</string>
     <string name="water_distribution">PRA-VARTHAKA</string>-->
 
+    <plurals name="num_locations_reported">
+        <item quantity="zero">No location reported</item>
+        <item quantity="one">One location reported</item>
+        <item quantity="other">%d locations reported</item>
+    </plurals>
     <string name="app_name">Pravarthaka</string>
     <string name="water_distribution">Water distribution</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="new_user">New User?</string>
     <string name="register">Register</string>
-    <string-array name="Language_array">
-        <item>English</item>
-        <item>Kannada</item>
-    </string-array>
     <string name="home">Home</string>
     <string name="firstName">First Name</string>
     <string name="notification">Notifications</string>
     <string name="users">Users</string>
     <string name="stock">Stock</string>
-    <string name="orders">Orders</string>
+    <string name="orders">Orders And Requests</string>
     <string name="bills">Bills</string>
     <string name="reports">Reports</string>
     <string name="logout">Logout</string>
     <string name="switchRoleLan">Switch Role</string>
     <string name="profile">Profile</string>
+    <string name="donation">Donation</string>
     <string name="products">Products</string>
     <string name="customer">Customer</string>
     <string name="searchProduct">Search Product here..</string>
@@ -90,13 +92,14 @@
     <string name="selectemployee">Select Employee</string>
     <string name="nonotifications">No Notifications</string>
     <string name="assignemployee">Assign Employee</string>
-    <string name="cancelorder">Cancel order</string>
+    <string name="cancelorder">Cancel</string>
     <!--<string name="closeorder">Close order</string>-->
-    <string name="assigntheorder">Assign Order</string>
+    <string name="assigntheorder">Assign</string>
+    <string name="assigntheRequest">Assign Request</string>
     <string name="dataisnotavailable">Data is not Available</string>
     <string name="orderid">Order Id</string>
     <string name="deliverytime">Select Delivery Time</string>
-    <string name="closeorder">Close Order</string>
+    <string name="closeorder">Close</string>
 
     <string name="entername">Enter Name</string>
     <string name="customerid">Customer Id</string>
@@ -172,9 +175,9 @@
     <string name="remainingcans">Remaining cans</string>
     <string name="createsalesvoucher">Create Sales voucher</string>
 
-    <string name="enterpincode">Enter pincode</string>
-    <string name="enteraddress1">Enter Address1</string>
-    <string name="enteraddress2">Enter Address2</string>
+    <string name="enterpincode">Enter Pincode</string>
+    <string name="enteraddress1">Enter Primary Address</string>
+    <string name="enteraddress2">Enter Secondary Address</string>
     <string name="productprice">Product Price</string>
     <string name="enterproductprice">Enter Product Price</string>
     <string name="userstatus">User Status</string>
@@ -253,6 +256,7 @@
     <string name="billreport">Bill Report</string>
     <string name="customerledger">Customer Ledger Report</string>
     <string name="customeroutstanding">Customer Outstanding Report</string>
+    <string name="donationReport">Donation Report</string>
 
 
     <string name="crop_image_activity_title"></string>
@@ -264,16 +268,15 @@
     <string name="crop_image_menu_flip_vertically">Flip vertically</string>
     <string name="crop_image_activity_no_permissions">Cancelling, required permissions are not granted</string>
 
-    <plurals name="num_locations_reported">
-        <item quantity="zero">No location reported</item>
-        <item quantity="one">One location reported</item>
-        <item quantity="other">%d locations reported</item>
-    </plurals>
-
     <string name="default_channel">Default channel</string>
+
     <string name="permission_rationale">Location permission is needed for core functionality</string>
     <string name="permission_denied_explanation">Permission was denied, but is needed for core
         functionality.</string>
     <string name="settings">Settings</string>
     <string name="ok">OK</string>
+    <string-array name="Language_array">
+        <item>English</item>
+        <item>Kannada</item>
+    </string-array>
 </resources>

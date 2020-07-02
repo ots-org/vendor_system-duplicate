@@ -204,7 +204,12 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("userId", usserId);
+            if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
+                jsonObject.put("userId", "1");
+            }else {
+                jsonObject.put("userId", usserId);
+            }
+
             jsonObject.put("productId", "");
             jsonObject.put("todaysDate", dateString);
             //

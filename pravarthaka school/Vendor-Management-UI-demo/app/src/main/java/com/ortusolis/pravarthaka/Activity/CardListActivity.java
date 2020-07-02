@@ -155,9 +155,9 @@ public class CardListActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (!productRequests.isEmpty()){
-                    progressDialog = new ProgressDialog(CardListActivity.this);
-                    progressDialog.setMessage("Placing Order..");
-                    progressDialog.show();
+//                    progressDialog = new ProgressDialog(CardListActivity.this);
+//                    progressDialog.setMessage("Placing Order..");
+//                    progressDialog.show();
 
                     requestS =  new ProductRequest.RequestS();
 
@@ -167,16 +167,47 @@ public class CardListActivity extends AppCompatActivity {
                     requestS.setDelivaryDate(productRequests.get(0).getDelivaryDate());
                     requestS.setDistributorId(productRequests.get(0).getDistributorId());
                     requestS.setAssignedId(productRequests.get(0).getAssignedId());
-                    requestS.setOrderStatus(productRequests.get(0).getOrderStatus());
+
                     requestS.setOrderNumber(productRequests.get(0).getOrderNumber());
                     requestS.setDeliverdDate(productRequests.get(0).getDeliverdDate());
 
 
+//                    requestS.setAddress(sharedPreferences.getString("userAddress1",""));
+//                    requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile",""));
+//                    requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile",""));
+//
+//                    if(Count!=1){
+//                        progressDialog.dismiss();
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
+//                        builder.setMessage("Your Order Cost is "+PaymentTotal+", click Confirm to place order")
+//                                .setCancelable(true)
+//                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        //do things
+//                                        placeOrder(prepareOrder(productRequests),false);
+//                                    }
+//                                });
+//                        builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                Count=1;
+////                                finish();
+//                            }
+//                        });
+//                        AlertDialog alert = builder.create();
+//                        alert.show();
+//                    }else {
+//                        placeOrder(prepareOrder(productRequests),false);
+//                    }
+
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(CardListActivity.this);
                     alertDialog.setTitle("Choose Delivery Address");
-                    String[] items = {"Primary Address from profile","Secondary Address from profile"};
-                    int checkedItem = 1;
-                    delivaryAddress="";
+                    String[] items = {"Primary Address","Secondary Address"};
+                    int checkedItem = 0;
+                    delivaryAddress="Primary";
+                    final TextView input = new TextView (getBaseContext());
+                    input.setPadding(80, 20, 20, 20);
+                    alertDialog.setView(input);
+                    input.setText("Address: "+sharedPreferences.getString("userAddress1",""));
                     alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -184,13 +215,22 @@ public class CardListActivity extends AppCompatActivity {
                                 case 0:
                                     Toast.makeText(CardListActivity.this, "Primary Address", Toast.LENGTH_LONG).show();
                                     delivaryAddress="Primary";
+                                    input.setText("Address: "+sharedPreferences.getString("userAddress1",""));
                                     break;
                                 case 1:
                                     Toast.makeText(CardListActivity.this, "Secondary Address", Toast.LENGTH_LONG).show();
                                     delivaryAddress="Secondary";
+                                    input.setText("Address: "+sharedPreferences.getString("userAddress2",""));
                                     break;
-
                             }
+                        }
+                    });
+                    alertDialog.setNeutralButton("Profile", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(CardListActivity.this, UserProfileActivity.class);
+                            startActivity(intent);
+                            dialog.dismiss();
                         }
                     });
                     alertDialog.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -205,8 +245,8 @@ public class CardListActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             // navigation
                             Toast.makeText(CardListActivity.this, paymentMethod, Toast.LENGTH_LONG).show();
-                            if (paymentMethod.equals("Primary")) {
-                                dialog.dismiss();
+                            if (delivaryAddress.equals("Primary")) {
+
                                 requestS.setAddress(sharedPreferences.getString("userAddress1",""));
                                 requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile",""));
                                 requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile",""));
@@ -215,35 +255,91 @@ public class CardListActivity extends AppCompatActivity {
                                 requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile",""));
                                 requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile",""));
                             }
+                            dialog.dismiss();
+//                            if(PaymentTotal==0.0){
+//                                paymentMethod="Cash";
+//                                requestS.setPaymentStatus("newRequest");
+//                                placeOrder(prepareOrder(productRequests),false);
+//                                return;
+//                            }
+                            AlertDialog.Builder alertDialogPay = new AlertDialog.Builder(CardListActivity.this);
+                            alertDialogPay.setTitle("Choose Payment Option");
+                            String[] items = {"Request","Payment"};
+                            int checkedItem = 1;
+                            paymentMethod="Payment";
+                            alertDialogPay.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which) {
+                                        case 0:
+//                                            Toast.makeText(CardListActivity.this, "Clicked on Request", Toast.LENGTH_LONG).show();
+                                            paymentMethod="Cash";
 
-                            if(Count!=1){
-                                progressDialog.dismiss();
-                                AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
-                                builder.setMessage("Your Order Cost is "+PaymentTotal+", click Confirm to place order")
-                                        .setCancelable(true)
-                                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                //do things
-                                                placeOrder(prepareOrder(productRequests),false);
+                                            break;
+                                        case 1:
+//                                            Toast.makeText(CardListActivity.this, "Clicked on Payment", Toast.LENGTH_LONG).show();
+                                            paymentMethod="Payment";
+
+                                            break;
+                                    }
+
+                                }
+                            });
+                            alertDialogPay.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                            alertDialogPay.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // navigation
+                                    if(paymentMethod.equals("Cash")){
+                                        requestS.setPaymentStatus("newRequest");
+                                        requestS.setOrderStatus("newRequest");
+                                    }else {
+                                        requestS.setPaymentStatus("Paid");
+                                        requestS.setOrderStatus("New");
+                                    }
+                                    if(Count!=1){
+//                                        progressDialog.dismiss();
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
+                                        builder.setMessage("Your Order Cost is "+PaymentTotal+", click Confirm to place order")
+                                                .setCancelable(true)
+                                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        //do things
+                                                        placeOrder(prepareOrder(productRequests),false);
+                                                    }
+                                                });
+                                        builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Count=1;
                                             }
                                         });
-                                builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Count=1;
-//                                finish();
+                                        AlertDialog alert = builder.create();
+                                        alert.setCanceledOnTouchOutside(false);
+                                        alert.show();
+                                    }else {
+                                        placeOrder(prepareOrder(productRequests),false);
                                     }
-                                });
-                                AlertDialog alert = builder.create();
-                                alert.show();
-                            }else {
-                                placeOrder(prepareOrder(productRequests),false);
-                            }
+                                    dialog.dismiss();
+//                                    Toast.makeText(CardListActivity.this, paymentMethod, Toast.LENGTH_LONG).show();
+
+                                }
+                            });
+                            AlertDialog alertCash = alertDialogPay.create();
+                            alertCash.setCanceledOnTouchOutside(false);
+                            alertCash.show();
+
                         }
                     });
                     AlertDialog alertAddress = alertDialog.create();
                     alertAddress.setCanceledOnTouchOutside(false);
-                    alertAddress.show();
 
+                    alertAddress.show();
 
                 }
 
@@ -256,9 +352,9 @@ public class CardListActivity extends AppCompatActivity {
 
                 if (!productRequests.isEmpty()){
 
-                    progressDialog = new ProgressDialog(CardListActivity.this);
-                    progressDialog.setMessage("Placing Order..");
-                    progressDialog.show();
+//                    progressDialog = new ProgressDialog(CardListActivity.this);
+//                    progressDialog.setMessage("Placing Order..");
+//                    progressDialog.show();
 
                     requestS =  new ProductRequest.RequestS();
 
@@ -274,7 +370,7 @@ public class CardListActivity extends AppCompatActivity {
 
                     salesVaocherFalg="yes";
                     if(Count!=1){
-                        progressDialog.dismiss();
+//                        progressDialog.dismiss();
                         AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
                         builder.setMessage("Your Order Cost is "+PaymentTotal+", click Confirm to place order")
                                 .setCancelable(false)
@@ -303,7 +399,7 @@ public class CardListActivity extends AppCompatActivity {
     }
 
     ProductRequest prepareOrder(List<ProductRequestCart> productRequestCartList){
-        ProductRequest productRequest = new ProductRequest();
+            ProductRequest productRequest = new ProductRequest();
 
         if (productOrders==null){
             productOrders = new ArrayList<>();
@@ -349,14 +445,24 @@ public class CardListActivity extends AppCompatActivity {
             Alertpayment();
             return;
         }else {
-
             String str = gson.toJson(productRequest);
-            showAlertDialog(productRequestFinal,str);
+//            showAlertDialog(productRequest,str);
+            if (paymentMethod.equals("Cash")) {
+                CashAlert(productRequest);
+            } else {
+                final String strProductRequests = str;
+                onBackPressed();
+                Intent totalAmountPaymentintent = new Intent(CardListActivity.this, RazorPayActivity.class);
+                totalAmountPaymentintent.putExtra("totalAmountPayment", totalAmountPayment);
+                totalAmountPaymentintent.putExtra("salesVaocherFalg", salesVaocherFalg);
+                totalAmountPaymentintent.putExtra("classFlag", "cart");
+                totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
+                startActivity(totalAmountPaymentintent);
+            }
 //            deleteFormCart();
 //            onBackPressed();
             return;
         }
-
 //        WebserviceController wss = new WebserviceController(CardListActivity.this);
 //
 //        String str = gson.toJson(productRequest);
@@ -460,14 +566,13 @@ public class CardListActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        Toast.makeText(CardListActivity.this, "Clicked on Cash", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(CardListActivity.this, "Clicked on Request", Toast.LENGTH_LONG).show();
                         paymentMethod="Cash";
                         break;
                     case 1:
-                        Toast.makeText(CardListActivity.this, "Clicked on Payment", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(CardListActivity.this, "Clicked on Payment", Toast.LENGTH_LONG).show();
                         paymentMethod="Payment";
                         break;
-
                 }
             }
         });
@@ -482,7 +587,7 @@ public class CardListActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // navigation
-                Toast.makeText(CardListActivity.this, paymentMethod, Toast.LENGTH_LONG).show();
+//                Toast.makeText(CardListActivity.this, paymentMethod, Toast.LENGTH_LONG).show();
                 if (paymentMethod.equals("Cash")) {
                     dialog.dismiss();
                     CashAlert(productRequest);
@@ -540,8 +645,6 @@ public class CardListActivity extends AppCompatActivity {
 //
 //                        builder.show();
 //                    }else {
-                        onBackPressed();
-
                         Intent totalAmountPaymentintent = new Intent(CardListActivity.this, RazorPayActivity.class);
 //                               // pass amount
                         totalAmountPaymentintent.putExtra("totalAmountPayment", totalAmountPayment);
@@ -550,8 +653,8 @@ public class CardListActivity extends AppCompatActivity {
                         totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
 //                                 Log.d("hi",Parsef totalAmountPayment);
                         startActivity(totalAmountPaymentintent);
+                    onBackPressed();
 //                    }
-
 //                    }
                 }
             }
@@ -566,9 +669,10 @@ public class CardListActivity extends AppCompatActivity {
     //
     public  void  CashAlert(final ProductRequest productRequest){
 
-                WebserviceController wss = new WebserviceController(CardListActivity.this);
+        WebserviceController wss = new WebserviceController(CardListActivity.this);
 
         String str = gson.toJson(productRequest);
+        Log.e("cashrequest",str);
 
 //        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 //        alertDialogBuilder.setMessage("api request "+str);
@@ -595,6 +699,7 @@ public class CardListActivity extends AppCompatActivity {
                     final AssignedResponse distributorResponse = gson.fromJson(response, AssignedResponse.class);
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
+                        sharedPreferences.edit().remove("prodDesc").apply();
 //        ProductRequest productRequest = new ProductRequest();
                         AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
 //        builder.setMessage(Html.fromHtml((CashResponseOnly.getResponseDescription() != null ? CashResponseOnly.getResponseDescription() : "") + "<br/><br/> Delivery date is " + ""));
@@ -626,9 +731,9 @@ public class CardListActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                if (progressDialog!=null && progressDialog.isShowing()){
-                    progressDialog.dismiss();
-                }
+//                if (progressDialog!=null && progressDialog.isShowing()){
+//                    progressDialog.dismiss();
+//                }
 //                Toast.makeText(CardListActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
@@ -678,7 +783,7 @@ public class CardListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public  void Alertpayment(){
-        progressDialog.dismiss();
+//        progressDialog.dismiss();
         AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
         builder.setMessage("Your Order Cost is "+PaymentTotal+", click Confirm to place order")
                 .setCancelable(false) //

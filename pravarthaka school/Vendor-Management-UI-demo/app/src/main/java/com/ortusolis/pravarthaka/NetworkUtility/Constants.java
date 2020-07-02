@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 public class Constants {
 
-    static String baseUrl = "http://apps.ortusolis.com:8085/ots/api/v18_1/";
+    static String baseUrl = "http://apps.ortusolis.com:8084/ots/api/v18_1/";
 
     public static String WEATHER_API = "https://api.openweathermap.org/data/2.5/weather?q=bangalore&APPID=6e2fb28203a50854054df67ab72931e4#";
 
@@ -105,6 +105,19 @@ public class Constants {
     public static String getProductCategory = baseUrl + "product/addUpdateOrderAndProduct";
 
     public static String addProductAndCategory = baseUrl + "product/addProductAndCategory";
+
+    public static String getDonationListBystatus = baseUrl + "order/getDonationListBystatus";
+
+    public static String addNewDonation = baseUrl + "order/addNewDonation";
+
+    public static String getDonationReportByDate = baseUrl + "order/getDonationReportByDate";
+
+    public static String getListOfOrderDetailsForRequest = baseUrl + "order/getListOfOrderDetailsForRequest";
+
+    public static String getDonationForUpdateStatus = baseUrl + "order/getDonationForUpdateStatus";
+
+    public static String updateDonation = baseUrl + "order/updateDonation";
+
 
 //
 

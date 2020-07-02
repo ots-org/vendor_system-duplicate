@@ -52,6 +52,7 @@ import com.ortusolis.pravarthaka.NetworkUtility.Constants;
 import com.ortusolis.pravarthaka.NetworkUtility.IResult;
 import com.ortusolis.pravarthaka.NetworkUtility.WebserviceController;
 import com.ortusolis.pravarthaka.R;
+import com.ortusolis.pravarthaka.adapter.DonationAdapter;
 import com.ortusolis.pravarthaka.cropper.CropImage;
 import com.ortusolis.pravarthaka.cropper.CropImageView;
 import com.ortusolis.pravarthaka.fragment.ProductsFragment;
@@ -84,29 +85,28 @@ public class AddProductActivity extends AppCompatActivity {
     ActionBar action;
     private Toolbar toolbar;
     ImageView imageView;
-    EditText productName,productDescription,productPrice,addSubCategoryProduct;
+    EditText productName,productDescription,productPrice,addSubCategoryProduct,productID;
     TextView textSelect,selectProductCategory,selectProductSubCategory;
     FrameLayout photoLL;
-    Button addProduct,addSubCategoryButtton;
-//    CheckBox box;
+    Button addProduct;
     Gson gson;
     ProductDetails productDetails;
     Bitmap uploadBitmap = null;
     ProgressDialog progressDialog;
     android.widget.RelativeLayout subCatLayout,catLayout;
-    //
     String flagBulk="";
-    Button bulkUpload;
+    Button bulkUpload,cancelRequest,confirmRequest;
     File tempFile;
     String UpdateYes="no";
+    String featherStatus="";
     String imageSelected="no";
-//    Spinner spinnerProductCategory,spinnerSubProductCategory;
+    ArrayList<String> finalList;
     List<String> productCategory;
     List<String> productCategoryId;
     List<String> subProductCategory;
     List<String> subProductCategoryId;
     android.widget.RelativeLayout RelativeLayout;
-    String selctedProductCategory, displayProductCategory;
+    String selctedProductCategory, displayProductCategory,productId,productStaus;
     SharedPreferences sharedPreferences;
     String productNameCat = null;
     String productCust = null;
@@ -114,8 +114,7 @@ public class AddProductActivity extends AppCompatActivity {
     String subCat="";
     List<String> productCatagoryNames, productCatagoryIdList;
     LinearLayout linearLayout;
-    //
-
+    LinearLayout requestProductLayout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,27 +128,27 @@ public class AddProductActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         textSelect = findViewById(R.id.textSelect);
         photoLL = findViewById(R.id.photoLL);
-//        box = findViewById(R.id.box);
-        //
+        productId="";
+        productStaus="";
         bulkUpload = findViewById(R.id.bulkUpload);
+        cancelRequest= findViewById(R.id.cancelRequest);
+        confirmRequest= findViewById(R.id.confirmRequest);
         productCategory = new ArrayList();
         productCategoryId= new ArrayList();
         subProductCategory = new ArrayList();
         subProductCategoryId = new ArrayList();
         selectProductCategory=findViewById(R.id.selectCategory);
         selectProductSubCategory=findViewById(R.id.selectSubCategory);
-//        addSubCategoryButtton= findViewById(R.id.addSubCategoryButtton);
         RelativeLayout = findViewById(R.id.addSubCategoryLayout);
         productCatagoryNames = new ArrayList<>();
         productCatagoryIdList = new ArrayList<>();
         sharedPreferences = getSharedPreferences("water_management",0);
-//        getProductCatqgory();
         subCatLayout=findViewById(R.id.subCatLayout);
         catLayout=findViewById(R.id.catLayout);
         selctedProductCategory="no";
         displayProductCategory="yes";
         linearLayout = findViewById(R.id.bulkLayout);
-
+        requestProductLayout = findViewById(R.id.requestProductLayout);
         gson = new Gson();
 
         setSupportActionBar(toolbar);
@@ -161,13 +160,8 @@ public class AddProductActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -179,6 +173,32 @@ public class AddProductActivity extends AppCompatActivity {
                 addProduct.setText("Update product");
                 UpdateYes="yes";
             }
+            else if(getIntent().hasExtra("requestProductCustomer")){
+                toolbarTitle.setText("Request Product");
+                addProduct.setText("Request product");
+                productName.setHint("");
+                productDescription.setHint("");
+                productPrice.setHint("");
+                subCatLayout.setVisibility(View.GONE);
+                catLayout.setVisibility(View.GONE);
+                featherStatus="requestProductCustomer";
+            }
+            else if(getIntent().hasExtra("confirmRequestProduct")){
+                toolbarTitle.setText("Confirm Product");
+                productName.setHint("");
+                productDescription.setHint("");
+                productPrice.setHint("");
+                addProduct.setVisibility(View.GONE);
+                requestProductLayout.setVisibility(View.VISIBLE);
+                finalList = new ArrayList<>();
+                finalList = (ArrayList<String>)getIntent().getSerializableExtra("finalList");
+                productName.setText(finalList.get(0));
+                productPrice.setText(finalList.get(1));
+                productDescription.setText(finalList.get(2));
+                productId=finalList.get(3);
+                productStaus=finalList.get(4);
+                featherStatus="confirmRequestProduct";
+            }
             else {
                 toolbarTitle.setText("Add Product");
             }
@@ -189,19 +209,12 @@ public class AddProductActivity extends AppCompatActivity {
 
         if (productDetails!=null){
             displayProductCategory="no";
-
-
-
             subCatLayout.setVisibility(View.GONE);
             catLayout.setVisibility(View.GONE);
             productName.setText(productDetails.getProductName());
             productDescription.setText(productDetails.getProductDescription());
             productPrice.setText(productDetails.getProductPrice());
-//            imageView.s
-
-
             if(productDetails.getProductType()!=null && productDetails.getProductType().equalsIgnoreCase("box")){
-//                box.setChecked(true);
             }
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -211,10 +224,8 @@ public class AddProductActivity extends AppCompatActivity {
                 Picasso.get().invalidate((productDetails.getProductImage()));
                 Picasso.get().load(productDetails.getProductImage()).into(imageView);
                     textSelect.setVisibility(View.GONE);
-                    //
                 Runnable runnable;
                 Handler newHandler;
-
                 newHandler = new Handler();
                 runnable = new Runnable() {
                     @Override
@@ -233,11 +244,7 @@ public class AddProductActivity extends AppCompatActivity {
                     }
                 };
                 runnable.run();
-
-
-
             }
-
         }
 
         photoLL.setOnClickListener(new View.OnClickListener() {
@@ -260,7 +267,23 @@ public class AddProductActivity extends AppCompatActivity {
 
             }
         });
-        //
+        cancelRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CancelProduct();
+            }
+        });
+        confirmRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog = new ProgressDialog(AddProductActivity.this);
+                progressDialog.setMessage("Confirm Product..");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                ConfirmProduct();
+            }
+        });
+
         selectProductCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -268,6 +291,7 @@ public class AddProductActivity extends AppCompatActivity {
                 SelectProductcat();
             }
         });
+
         selectProductSubCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -280,7 +304,6 @@ public class AddProductActivity extends AppCompatActivity {
             }
         });
 
-        //
         bulkUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -288,7 +311,6 @@ public class AddProductActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(selectProductCategory.getText().toString())){
                     Toast.makeText(AddProductActivity.this, "Select Category to upload", Toast.LENGTH_LONG).show();
                     return;
-
                 }
                 else if (TextUtils.isEmpty(selectProductSubCategory.getText().toString()))
                 {
@@ -310,21 +332,15 @@ public class AddProductActivity extends AppCompatActivity {
 
                 // REQUEST_CODE = <some-integer>
                 startActivityForResult(intent, 0);
-
                // addProducts();
             }
         });
-//
-//        getProductCatqgory();
-
-        //
     }
 
     boolean isValid(){
         boolean ret = true;
         if (TextUtils.isEmpty(productName.getText().toString())){
             ret = false;
-
         }
         else if (TextUtils.isEmpty(productDescription.getText().toString()))
         {
@@ -346,22 +362,37 @@ public class AddProductActivity extends AppCompatActivity {
         return ret;
     }
 
+    boolean isProductRequestValid(){
+        boolean ret = true;
+        if (TextUtils.isEmpty(productName.getText().toString())){
+            ret = false;
+        }
+        else if (TextUtils.isEmpty(productDescription.getText().toString()))
+        {
+            ret = false;
+        }
+        else if (TextUtils.isEmpty(productPrice.getText().toString())){
+            ret = false;
+        }
+
+        if(!ret){
+            progressDialog.dismiss();
+        }
+        return ret;
+    }
+
     void addProducts()  {
+        if(featherStatus.equals("requestProductCustomer")){
+            RequestProduct();
+            return;
+        }
         if (isValid()) {
-//            if (addSubCategoryProduct.getText().equals("")){
-//
-//            }else {
-//                subCat=addSubCategoryProduct.getText().toString();
-//            }
-
-
             WebserviceController wss = new WebserviceController(AddProductActivity.this);
 
             JSONObject requestObject = new JSONObject();
 
             byte[] byteArray = null;
             if (uploadBitmap!=null) {
-//                uploadBitmap.toByteArray().length / 1024 > 400
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 uploadBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                 byteArray = byteArrayOutputStream.toByteArray();
@@ -383,10 +414,8 @@ public class AddProductActivity extends AppCompatActivity {
                 jsonObject.put("productDescription", productDescription.getText().toString());
                 jsonObject.put("productStatus", "ACTIVE");
                 jsonObject.put("productPrice", productPrice.getText().toString());
-//                jsonObject.put("productType", box.isChecked()?"BOX":"");
                 if(UpdateYes.equals("yes")){
                     String image="";
-
                     jsonObject.put("productImage", (imageSelected.equals("no")) ? Base64.encodeToString(byteArray, Base64.DEFAULT) : Base64.encodeToString(byteArray, Base64.DEFAULT));
                 }else {
                     jsonObject.put("productImage", (uploadBitmap == null) ? JSONObject.NULL : Base64.encodeToString(byteArray, Base64.DEFAULT));
@@ -398,7 +427,6 @@ public class AddProductActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            //
             try {
                 Log.e("request base64",requestObject.toString());
             }
@@ -418,7 +446,6 @@ public class AddProductActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(AddProductActivity.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Failed" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                             }
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -428,9 +455,163 @@ public class AddProductActivity extends AppCompatActivity {
                     public void notifyError(VolleyError error) {
                         progressDialog.dismiss();
                         Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                        Toast.makeText(AddProductActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                     }
                 });
+        }
+        else {
+            Toast.makeText(this, "All fields are mandatory", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void RequestProduct(){
+        if (isProductRequestValid()) {
+            WebserviceController wss = new WebserviceController(AddProductActivity.this);
+
+            JSONObject requestObject = new JSONObject();
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("productId", "");
+                jsonObject.put("productName", productName.getText());
+                jsonObject.put("productDescription", productDescription.getText());
+                jsonObject.put("productStatus", "pending");
+                jsonObject.put("productPrice", productPrice.getText());
+                jsonObject.put("productLevel", "3");
+                requestObject.put("requestData",jsonObject);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
+            wss.postLoginVolley(Constants.addorUpdateProduct, requestObject.toString(), new IResult() {
+                @Override
+                public void notifySuccess(String response, int statusCode) {
+                    try {
+                        Log.e("Product response", response);
+                        JSONObject obj = new JSONObject(response);
+                        if (obj.getString("responseCode").equalsIgnoreCase("200")) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),""+obj.getString("responseDescription"), Toast.LENGTH_LONG).show();
+                            finish();
+                        }else {
+                            Toast.makeText(getApplicationContext(), ""+obj.getString("responseDescription"), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void notifyError(VolleyError error) {
+                    progressDialog.dismiss();
+                    Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
+                }
+            });
+        } else {
+            Toast.makeText(this, "All fields are mandatory", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void CancelProduct(){
+        WebserviceController wss = new WebserviceController(AddProductActivity.this);
+
+        JSONObject requestObject = new JSONObject();
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("productId", productId);
+            jsonObject.put("productName", productName.getText());
+            jsonObject.put("productDescription", productDescription.getText());
+            jsonObject.put("productStatus", "cancel");
+            jsonObject.put("productPrice", productPrice.getText());
+            jsonObject.put("productLevel", "3");
+            requestObject.put("requestData",jsonObject);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        wss.postLoginVolley(Constants.addorUpdateProduct, requestObject.toString(), new IResult() {
+            @Override
+            public void notifySuccess(String response, int statusCode) {
+                try {
+                    Log.e("Product response", response);
+                    JSONObject obj = new JSONObject(response);
+                    if (obj.getString("responseCode").equalsIgnoreCase("200")) {
+                        Toast.makeText(getApplicationContext(),""+obj.getString("responseDescription"), Toast.LENGTH_LONG).show();
+                        finish();
+                    }else {
+                        Toast.makeText(getApplicationContext(), ""+obj.getString("responseDescription"), Toast.LENGTH_LONG).show();
+                    }
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void notifyError(VolleyError error) {
+                Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
+            }
+        });
+    }
+
+    public void ConfirmProduct(){
+        if (isValid()) {
+
+            WebserviceController wss = new WebserviceController(AddProductActivity.this);
+
+            JSONObject requestObject = new JSONObject();
+
+            try   {
+                JSONObject jsonObjectUser = new JSONObject();
+                jsonObjectUser.put("key","active");
+                jsonObjectUser.put("productCategoryId",2); // level 2 id
+                JSONArray  jsonArray= new JSONArray();
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("productId", productId);
+                jsonObject.put("productName", productName.getText().toString());
+                jsonObject.put("productDescription", productDescription.getText().toString());
+                jsonObject.put("productStatus", "active");
+                jsonObject.put("productPrice", productPrice.getText().toString());
+                jsonObject.put("productType", JSONObject.NULL);
+                jsonObject.put("productLevel", "3");
+                jsonArray.put(jsonObject);
+                jsonObjectUser.put("productDetails", jsonArray);
+                requestObject.put("requestData", jsonObjectUser);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                Log.e("requestData",requestObject.toString());
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            wss.postLoginVolley(Constants.addProductAndCategory, requestObject.toString(), new IResult() {
+                @Override
+                public void notifySuccess(String response, int statusCode) {
+                    try {
+                        Log.e(" response", response);
+                        progressDialog.dismiss();
+                        GeneralResponse responseData = new Gson().fromJson(response, GeneralResponse.class);
+                        if (responseData.getResponseCode().equalsIgnoreCase("200")) {
+                            finish();
+                            Toast.makeText(AddProductActivity.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Success" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(AddProductActivity.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Failed" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void notifyError(VolleyError error) {
+                    progressDialog.dismiss();
+                    Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
+                }
+            });
         }
         else {
             Toast.makeText(this, "All fields are mandatory", Toast.LENGTH_LONG).show();
@@ -448,30 +629,16 @@ public class AddProductActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//
-//        Toast.makeText(AddProductActivity.this, "select option", Toast.LENGTH_LONG).show();
-//
-//    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String flag="bulk";
-//        if(data.getFlags() == 0)
-//        {
-//            return ;
-//        }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (resultCode == Activity.RESULT_OK) {
                     try {
                         imageSelected="yes";
-                        //
                         flag="SelectProductPhoto";
-                        //
 
                         //Getting the Bitmap from Gallery
                         uploadBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result.getUri());
@@ -485,25 +652,14 @@ public class AddProductActivity extends AppCompatActivity {
                                 Log.d("file_size is high", fileSize + "   " + fileSize);
                                 Toast.makeText(AddProductActivity.this, "Pick image less than 100kb", Toast.LENGTH_LONG).show();
                                 return;
-//                                doMiB();
-
-//                        } else if (fileSize > 1024 && fileSize <500*1024 ) {
-//                                Log.d("file_size is in Kb",  fileSize+"   "+ fileSize);
-////                            doKiB();
-                        } else {
-                                Log.d("file_size is in Range",  fileSize+"   "+ fileSize);
-//                            doByte();
-                        }
+                            } else {
+                                    Log.d("file_size is in Range",  fileSize+"   "+ fileSize);
+                            }
 
                             imageView.setImageBitmap(uploadBitmap);
                             textSelect.setVisibility(View.GONE);
-                            //
                             compressedImg = getFileDataFromDrawable(uploadBitmap);
-
-                            //
-
                         }
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -514,133 +670,9 @@ public class AddProductActivity extends AppCompatActivity {
                     Toast.makeText(AddProductActivity.this, "Image not selected", Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                 e.printStackTrace();
-            }
                 }
-
-//                break;
+                }
         }
-        //
-//        if(flagBulk.equals("bulk")){
-//            try {
-//
-//                final Uri exclUri = data.getData();
-//                final InputStream exclStream = getContentResolver().openInputStream(exclUri);
-//                final Bitmap selectedImage = BitmapFactory.decodeStream(exclStream);
-//                String encodedExcl = encodeExcl(selectedImage,exclUri);
-//                Log.e("encodedImage",encodedExcl);
-//                //
-////                FileInputStream fis = new FileInputStream(data.getDataString());
-////                final Bitmap selectedImage =   BitmapFactory.decodeStream( fis);
-////                String encodedExcl="";
-////                try {
-////                    byte[] bytes = exclStream.toString().getBytes();
-////                    String strImage = data.getDataString();
-//
-////                    ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-////                    int bufferSize = 1024;
-////                    byte[] buffer = new byte[bufferSize];
-////
-////                    // we need to know how may bytes were read to write them to the byteBuffer
-////                    int len = 0;
-////                    while ((len = exclStream.read(buffer)) != -1) {
-////                        byteBuffer.write(buffer, 0, len);
-////                    }
-////                    byteBuffer.toByteArray();
-////                    File file= new File(data.getDataString());
-////                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-////                    byte[] decodedString = Base64.decode(strImage, Base64.DEFAULT);
-////                    Bitmap bmp= BitmapFactory.decodeByteArray(decodedString,0,decodedString.length);
-////                    encodedExcl= encodeExcl(bmp,exclUri);
-////                    Log.e("encodedImage",encodedExcl);
-////                } catch (FileNotFoundException e) {
-////                    e.printStackTrace();
-////                }
-////                //
-//
-////                try {
-////                    final Bitmap selectedImage = BitmapFactory.decodeStream(exclStream);
-////                    Log.e("BitmapFactory", BitmapFactory.decodeStream(exclStream).toString());
-////                    encodedExcl= encodeExcl(selectedImage,exclUri);
-////                    Log.e("encodedImage",encodedExcl);
-////                } catch (Exception e) {
-////                    e.printStackTrace();
-////                }
-//
-////                InputStream(exclUri);
-//
-//
-////
-////                HttpGet httpRequest = new HttpGet(URI.create(data.getDataString()) );
-////                HttpClient httpclient = new DefaultHttpClient();
-////                HttpResponse response = (HttpResponse) httpclient.execute(httpRequest);
-////                HttpEntity entity = response.getEntity();
-////                BufferedHttpEntity bufHttpEntity = new BufferedHttpEntity(entity);
-////                InputStream instream = bufHttpEntity.getContent();
-//                //
-//                WebserviceController wss = new WebserviceController(AddProductActivity.this);
-//
-//
-//                JSONObject requestObject = new JSONObject();
-//
-//                  JSONObject jsonObject = new JSONObject();
-//                try {
-//                     jsonObject.put("base64ExcelString", encodedExcl);
-//                     jsonObject.put("subcategoryId", productCust);
-//                    requestObject.put("base64ExcelString",jsonObject);
-//                    Log.e("request base64",requestObject.toString());
-//                }
-//                catch (Exception e){
-//                    e.printStackTrace();
-//                }
-////                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-////                alertDialogBuilder.setMessage("Api request "+requestObject.toString());
-////                        alertDialogBuilder.setPositiveButton("yes",
-////                                new DialogInterface.OnClickListener() {
-////                                    @Override
-////                                    public void onClick(DialogInterface arg0, int arg1) {
-////                                        Toast.makeText(AddProductActivity.this,"You clicked yes button",Toast.LENGTH_LONG).show();
-////                                    }
-////                                });
-////
-////
-////                AlertDialog alertDialog = alertDialogBuilder.create();
-////                alertDialog.show();
-//
-//                wss.postLoginVolley(Constants.updateExcel, requestObject.toString(), new IResult() {
-//                    @Override
-//                    public void notifySuccess(String response, int statusCode) {
-//                        try {
-//                            Log.e("Excel response",response);
-//
-//                            GeneralResponse responseData = new Gson().fromJson(response, GeneralResponse.class);
-//                            if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-//                                finish();
-//                                Toast.makeText(AddProductActivity.this, TextUtils.isEmpty(responseData.getResponseDescription())? "Success" :responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
-//                            }else{
-//                                Toast.makeText(AddProductActivity.this, TextUtils.isEmpty(responseData.getResponseDescription())? "Failed" :responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
-//                            }
-//
-//                        }
-//                        catch (Exception e){
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void notifyError(VolleyError error) {
-//                        Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                        Toast.makeText(AddProductActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//                //
-//
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-        //
     }
 
     public byte[] getFileDataFromDrawable(Bitmap bitmap) {
@@ -648,21 +680,7 @@ public class AddProductActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
     }
-    //Bitmap imageBitmap;
 
-          /*  if(uploadBitmap.equals("NEW")) {
-        imageBitmap = ((BitmapDrawable)itemImage.getDrawable()).getBitmap();
-    }
-
-    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 25, byteArrayOutputStream);
-    byteArrayToUpload = byteArrayOutputStream.toByteArray(); */
-    //
-
-
-
-
-    //
     private String encodeExcl(Bitmap bm,Uri exclUri) throws IOException {
 
         String base64 = "";
@@ -680,7 +698,6 @@ public class AddProductActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return base64;
-//        return base64;
     }
 
 
@@ -707,14 +724,12 @@ private static byte[] loadFile(File file) throws IOException {
     is.close();
     return bytes;
 }
-    //
+
     public void getProductCatqgory(){
-        //code
         progressDialog = new ProgressDialog(AddProductActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        //
         WebserviceController wss = new WebserviceController(AddProductActivity.this);
 
         JSONObject requestObject = new JSONObject();
@@ -757,22 +772,17 @@ private static byte[] loadFile(File file) throws IOException {
 
             @Override
             public void notifyError(VolleyError error) {
-
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getApplicationContext(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     public void getProductSubCatqgory(String prdCatId){
-        //code
         progressDialog = new ProgressDialog(AddProductActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        //
         WebserviceController wss = new WebserviceController(AddProductActivity.this);
 
         JSONObject requestObject = new JSONObject();
@@ -787,7 +797,6 @@ private static byte[] loadFile(File file) throws IOException {
         catch (Exception e){
             e.printStackTrace();
         }
-
         productCatagoryNames.clear();
         productCatagoryIdList.clear();
 
@@ -844,13 +853,7 @@ private static byte[] loadFile(File file) throws IOException {
                                 //
                                 selectProductSubCategory.setText(productNameCat);
                                 subCat=productNameCat;
-//                                getProductfinalList(productCust);
-//                                getProducts();
                                 Toast.makeText(getApplicationContext(), "selected Product Sub-Category is "+ productNameCat, Toast.LENGTH_LONG).show();
-//                                //
-//                                customerStrName = strCustName;
-//                                customerStr = strCust;
-//                                getProducts();
                             }
                         });
 
@@ -867,19 +870,16 @@ private static byte[] loadFile(File file) throws IOException {
             public void notifyError(VolleyError error) {
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getApplicationContext(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
 
 
     public void SelectProductcat(){
-        //code
         progressDialog = new ProgressDialog(AddProductActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        //
         WebserviceController wss = new WebserviceController(AddProductActivity.this);
 
         JSONObject requestObject = new JSONObject();
@@ -953,13 +953,8 @@ private static byte[] loadFile(File file) throws IOException {
                                 selectProductCategory.setText(productNameCat);
                                 getProductSubCatqgory(productCustMain);
                                 Toast.makeText(getApplicationContext(), "selected Product category is "+ productNameCat, Toast.LENGTH_LONG).show();
-//                                //
-//                                customerStrName = strCustName;
-//                                customerStr = strCust;
-//                                getProducts();
                             }
                         });
-
                         builderSingle.show();
                     }
 
@@ -973,18 +968,7 @@ private static byte[] loadFile(File file) throws IOException {
             public void notifyError(VolleyError error) {
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getApplicationContext(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
-//    private static InputStream fetch(String address) throws MalformedURLException,IOException {
-//        HttpGet httpRequest = new HttpGet(URI.create(address) );
-//        HttpClient httpclient = new DefaultHttpClient();
-//        HttpResponse response = (HttpResponse) httpclient.execute(httpRequest);
-//        HttpEntity entity = response.getEntity();
-//        BufferedHttpEntity bufHttpEntity = new BufferedHttpEntity(entity);
-//        InputStream instream = bufHttpEntity.getContent();
-//        return instream;
-//    }
-
 }

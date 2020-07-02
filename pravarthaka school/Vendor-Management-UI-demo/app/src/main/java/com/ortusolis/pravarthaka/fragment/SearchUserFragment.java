@@ -144,7 +144,7 @@ public class SearchUserFragment extends Fragment {
 //            roleIdList.add("1");
 
             rolenameList.add("Distributor");
-//            roleIdList.add("2");
+            roleIdList.add("2");
         }
 
         rolenameList.add("Employee");

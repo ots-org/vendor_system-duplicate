@@ -95,8 +95,6 @@ public class ProductsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("broadCastName"));
-//        Picasso. .clear();
-
     }
 
     @Nullable
@@ -180,16 +178,16 @@ public class ProductsFragment extends Fragment {
         }else {
             getProductsMain();
         }
+
         gridview.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
 
             }
 
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
-
+                searchContent.setText("");
                 if(firstVisibleItem+visibleItemCount == totalItemCount && totalItemCount!=0)
                 {
                     if(flag_loading == false)
@@ -215,18 +213,10 @@ public class ProductsFragment extends Fragment {
                     progressDialog.dismiss();
                 }
             }
-
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//    }
-
     void getProducts(){
-//        code
-
         if(progressStatus.equals("yes")) {
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("Loading...");
@@ -242,11 +232,6 @@ public class ProductsFragment extends Fragment {
         try {
             jsonObject.put("searchKey", "product");
             jsonObject.put("searchvalue", productCust);
-//            jsonObject.put("distributorId", ((sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2") || sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")) ? sharedPreferences.getString("userid","") : sharedPreferences.getString("distId","")));
-//
-//            if (customerStr!=null && !customerStr.isEmpty())
-//                jsonObject.put("customerId", customerStr);
-
             requestObject.put("requestData",jsonObject);
 
         }
@@ -254,16 +239,10 @@ public class ProductsFragment extends Fragment {
             e.printStackTrace();
         }
 
-        // Restricted Image size.
-       // File file = new File(selectedPath);
-       // int file_size = Integer.parseInt(String.valueOf(file.length()/1024));
-        //
-
         wss.postLoginVolley(Constants.GET_PRODUCT_API, requestObject.toString(), new IResult() {
             @Override
             public void notifySuccess(String response, int statusCode) {
-                //loading_indicator.setVisibility(View.GONE);
-//                progressDialog.dismiss();
+                searchContent.setText("");
                 sharedPreferences.edit().putString("userProductSelect","yes").commit();
                 sharedPreferences.edit().putString("userProductSelectId",productCust).commit();
                 sharedPreferences.edit().putString("userProductSelectProduct",productName).commit();
@@ -274,14 +253,6 @@ public class ProductsFragment extends Fragment {
                     ProductsResponse responseData = gson.fromJson(response,ProductsResponse.class);
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
-                        /*ArrayList<ProductDetails> productDetailsS = new ArrayList<>();
-                        for (ProductDetails productDetails : responseData.getResponseData().getProductDetails()){
-                            if (productDetails.getStock().equalsIgnoreCase("yes")){
-                                productDetailsS.add(productDetails);
-                            }
-                        }*/
-
                         waterCanAdapter = new WaterCanAdapter(getActivity(),responseData.getResponseData().getProductDetails(),ProductsFragment.this);
                         gridview.setAdapter(waterCanAdapter);
                         waterCanAdapter.notifyDataSetChanged();
@@ -289,7 +260,6 @@ public class ProductsFragment extends Fragment {
                             progressDialog.dismiss();
                             progressStatus="no";
                         }
-
 
                         if (responseData.getResponseData().getProductDetails().isEmpty()){
                             noResult.setVisibility(View.VISIBLE);
@@ -320,19 +290,11 @@ public class ProductsFragment extends Fragment {
                     progressStatus="no";
                 }
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                //loading_indicator.setVisibility(View.GONE);
                 if (waterCanAdapter == null || waterCanAdapter.getCount()==0){
                     noResult.setVisibility(View.VISIBLE);
                 }
                 else {
                     noResult.setVisibility(View.GONE);
-                }
-
-                try {
-//                    Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
-                }
-                catch (Exception e){
-                    e.printStackTrace();
                 }
             }
         });
@@ -341,8 +303,6 @@ public class ProductsFragment extends Fragment {
 
 
     void getProductsMain(){
-//        code
-
         if(progressStatus.equals("yes")) {
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("Loading...");
@@ -350,18 +310,13 @@ public class ProductsFragment extends Fragment {
             progressDialog.show();
         }
         WebserviceController wss = new WebserviceController(getActivity());
-        //loading_indicator.setVisibility(View.VISIBLE);
 
         JSONObject requestObject = new JSONObject();
 
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("searchKey", "All");
-//            jsonObject.put("distributorId", ((sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2") || sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")) ? sharedPreferences.getString("userid","") : sharedPreferences.getString("distId","")));
-//
-//            if (customerStr!=null && !customerStr.isEmpty())
-//                jsonObject.put("customerId", customerStr);
-
+            jsonObject.put("status", "active");
             requestObject.put("requestData",jsonObject);
 
         }
@@ -369,34 +324,14 @@ public class ProductsFragment extends Fragment {
             e.printStackTrace();
         }
 
-        // Restricted Image size.
-        // File file = new File(selectedPath);
-        // int file_size = Integer.parseInt(String.valueOf(file.length()/1024));
-        //
-
         wss.postLoginVolley(Constants.GET_PRODUCT_API, requestObject.toString(), new IResult() {
             @Override
             public void notifySuccess(String response, int statusCode) {
-                //loading_indicator.setVisibility(View.GONE);
-//                progressDialog.dismiss();
-//                sharedPreferences.edit().putString("userProductSelect","yes").commit();
-//                sharedPreferences.edit().putString("userProductSelectId",productCust).commit();
-//                sharedPreferences.edit().putString("userProductSelectProduct",productName).commit();
-//                customerProductStr.setText(productName );
-//                customerProductStrBase.setText("Selected Sub-Category");
                 try {
                     Log.e("login response",response);
                     ProductsResponse responseData = gson.fromJson(response,ProductsResponse.class);
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
-                        /*ArrayList<ProductDetails> productDetailsS = new ArrayList<>();
-                        for (ProductDetails productDetails : responseData.getResponseData().getProductDetails()){
-                            if (productDetails.getStock().equalsIgnoreCase("yes")){
-                                productDetailsS.add(productDetails);
-                            }
-                        }*/
-
                         waterCanAdapter = new WaterCanAdapter(getActivity(),responseData.getResponseData().getProductDetails(),ProductsFragment.this);
                         gridview.setAdapter(waterCanAdapter);
                         waterCanAdapter.notifyDataSetChanged();
@@ -435,27 +370,16 @@ public class ProductsFragment extends Fragment {
                     progressStatus="no";
                 }
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                //loading_indicator.setVisibility(View.GONE);
                 if (waterCanAdapter == null || waterCanAdapter.getCount()==0){
                     noResult.setVisibility(View.VISIBLE);
                 }
                 else {
                     noResult.setVisibility(View.GONE);
                 }
-
-                try {
-//                    Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
             }
         });
 
     }
-
-
-
 
     @Override
     public void onDestroyView() {
@@ -494,20 +418,6 @@ public class ProductsFragment extends Fragment {
             }
 
             requestObject.put("requestData",jsonObject);
-//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-//            alertDialogBuilder.setMessage("Api request, "+requestObject.toString());
-//                    alertDialogBuilder.setPositiveButton("yes",
-//                            new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface arg0, int arg1) {
-//                                    Toast.makeText(getContext(),"You clicked yes button",Toast.LENGTH_LONG).show();
-//                                }
-//                            });
-//
-//
-//
-//            AlertDialog alertDialog = alertDialogBuilder.create();
-//            alertDialog.show();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -525,10 +435,7 @@ public class ProductsFragment extends Fragment {
                     DistributorResponse distributorResponse = gson.fromJson(response, DistributorResponse.class);
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-                        //
                         progressDialog.dismiss();
-                        //
-
                         strCust = "";
                         userNames.clear();
                         userIdList.clear();
@@ -578,12 +485,9 @@ public class ProductsFragment extends Fragment {
                         builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                               //
                                 customerText.setText(strCustName );
-                                //
                                 customerStrName = strCustName;
                                 customerStr = strCust;
-//                                getProducts();
                             }
                         });
 
@@ -601,19 +505,17 @@ public class ProductsFragment extends Fragment {
                 custSelect = false;
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
     }
 
     public void getProductCatqgory(){
-        //code
+        searchContent.setText("");
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        //
         WebserviceController wss = new WebserviceController(getActivity());
 
         JSONObject requestObject = new JSONObject();
@@ -681,20 +583,13 @@ public class ProductsFragment extends Fragment {
                         builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //
-//                                customerProductStr.setText(productName );
                                 getProductSubCatqgory(productCust);
                                 Toast.makeText(getActivity(), "selected Product category is "+ productName, Toast.LENGTH_LONG).show();
-//                                //
-//                                customerStrName = strCustName;
-//                                customerStr = strCust;
-//                                getProducts();
+
                             }
                         });
-
                         builderSingle.show();
                     }
-
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -706,19 +601,17 @@ public class ProductsFragment extends Fragment {
                 custSelect = false;
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
     }
 
     public void getProductSubCatqgory(String prdCatId){
-        //code
+
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        //
         WebserviceController wss = new WebserviceController(getActivity());
 
         JSONObject requestObject = new JSONObject();
@@ -787,18 +680,12 @@ public class ProductsFragment extends Fragment {
                         builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //
-//                                customerProductStr.setText(productName );
-//                                getProductfinalList(productCust);
+
                                 getProducts();
                                 if (progressDialog.isShowing()){
                                     progressDialog.dismiss();
                                 }
                                 Toast.makeText(getActivity(), "selected Product Sub-Category is "+ productName, Toast.LENGTH_LONG).show();
-//                                //
-//                                customerStrName = strCustName;
-//                                customerStr = strCust;
-//                                getProducts();
                             }
                         });
 
@@ -816,7 +703,6 @@ public class ProductsFragment extends Fragment {
                 progressDialog.dismiss();
                 custSelect = false;
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -893,16 +779,10 @@ public class ProductsFragment extends Fragment {
                                 customerProductStr.setText(productName );
                                 customerProductStrBase.setText("Selected Product");
                                 Toast.makeText(getActivity(), "selected id is "+ productName, Toast.LENGTH_LONG).show();
-//                                //
-//                                customerStrName = strCustName;
-//                                customerStr = strCust;
-//                                getProducts();
                             }
                         });
-
                         builderSingle.show();
                     }
-
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -913,7 +793,6 @@ public class ProductsFragment extends Fragment {
             public void notifyError(VolleyError error) {
                 custSelect = false;
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -938,38 +817,19 @@ public class ProductsFragment extends Fragment {
         wss.postLoginVolley(Constants.GET_PRODUCT_API, requestObject.toString(), new IResult() {
             @Override
             public void notifySuccess(String response, int statusCode) {
-                //loading_indicator.setVisibility(View.GONE);
-
-                sharedPreferences.edit().putString("userProductSelect","yes").commit();
-                sharedPreferences.edit().putString("userProductSelectId",productCust).commit();
-                sharedPreferences.edit().putString("userProductSelectProduct",productName).commit();
-                customerProductStr.setText(productName );
-                customerProductStrBase.setText("Selected Product");
                 try {
                     Log.e("login response",response);
                     ProductsResponse responseData = gson.fromJson(response,ProductsResponse.class);
-
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
-                        /*ArrayList<ProductDetails> productDetailsS = new ArrayList<>();
-                        for (ProductDetails productDetails : responseData.getResponseData().getProductDetails()){
-                            if (productDetails.getStock().equalsIgnoreCase("yes")){
-                                productDetailsS.add(productDetails);
-                            }
-                        }*/
-
                         waterCanAdapter = new WaterCanAdapter(getActivity(),responseData.getResponseData().getProductDetails(),ProductsFragment.this);
                         gridview.setAdapter(waterCanAdapter);
-//                        progressDialog.dismiss();
                         waterCanAdapter.notifyDataSetChanged();
-
                         if (responseData.getResponseData().getProductDetails().isEmpty()){
                             noResult.setVisibility(View.VISIBLE);
                         }
                         else {
                             noResult.setVisibility(View.GONE);
                         }
-
                     }
                     else {
                         Toast.makeText(getActivity(), TextUtils.isEmpty(responseData.getResponseDescription())? "Login Failed" :responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
@@ -984,19 +844,11 @@ public class ProductsFragment extends Fragment {
             public void notifyError(VolleyError error) {
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                //loading_indicator.setVisibility(View.GONE);
                 if (waterCanAdapter == null || waterCanAdapter.getCount()==0){
                     noResult.setVisibility(View.VISIBLE);
                 }
                 else {
                     noResult.setVisibility(View.GONE);
-                }
-
-                try {
-//                    Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
-                }
-                catch (Exception e){
-                    e.printStackTrace();
                 }
             }
         });
@@ -1008,7 +860,6 @@ public class ProductsFragment extends Fragment {
             flag_loading = false;
             final String[] result = {null};
             WebserviceController wss = new WebserviceController(getActivity());
-            //loading_indicator.setVisibility(View.VISIBLE);
 
             JSONObject requestObject = new JSONObject();
 
@@ -1016,64 +867,28 @@ public class ProductsFragment extends Fragment {
             try {
                 jsonObject.put("searchKey", "product");
                 jsonObject.put("searchvalue", productCust);
-//            jsonObject.put("distributorId", ((sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2") || sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")) ? sharedPreferences.getString("userid","") : sharedPreferences.getString("distId","")));
-//
-//            if (customerStr!=null && !customerStr.isEmpty())
-//                jsonObject.put("customerId", customerStr);
-
                 requestObject.put("requestData",jsonObject);
-
             }
             catch (Exception e){
                 e.printStackTrace();
             }
-
-            // Restricted Image size.
-            // File file = new File(selectedPath);
-            // int file_size = Integer.parseInt(String.valueOf(file.length()/1024));
-            //
-
             wss.postLoginVolley(Constants.GET_PRODUCT_API, requestObject.toString(), new IResult() {
                 @Override
                 public void notifySuccess(String response, int statusCode) {
-                    //loading_indicator.setVisibility(View.GONE);
-//                progressDialog.dismiss();
-//                    sharedPreferences.edit().putString("userProductSelect","yes").commit();
-//                    sharedPreferences.edit().putString("userProductSelectId",productCust).commit();
-//                    sharedPreferences.edit().putString("userProductSelectProduct",productName).commit();
-//                    customerProductStr.setText(productName );
-//                    customerProductStrBase.setText("Selected Sub-Category");
                     try {
                         Log.e("login response",response);
                         ProductsResponse responseData = gson.fromJson(response,ProductsResponse.class);
-
                         if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
-                        /*ArrayList<ProductDetails> productDetailsS = new ArrayList<>();
-                        for (ProductDetails productDetails : responseData.getResponseData().getProductDetails()){
-                            if (productDetails.getStock().equalsIgnoreCase("yes")){
-                                productDetailsS.add(productDetails);
-                            }
-                        }*/
-//                            StringBuffer buffer = new StringBuffer();
-//                            result=buffer.toString();
                             responseDatafinal=responseData;
                             result[0] ="";
-//                            waterCanAdapter = new WaterCanAdapter(getActivity(),responseData.getResponseData().getProductDetails(),ProductsFragment.this);
-//                            gridview.setAdapter(waterCanAdapter);
-//                            waterCanAdapter.notifyDataSetChanged();
-
-
                             if (responseData.getResponseData().getProductDetails().isEmpty()){
                                 noResult.setVisibility(View.VISIBLE);
                             }
                             else {
                                 noResult.setVisibility(View.GONE);
                             }
-
                         }
                         else {
-
                             Toast.makeText(getActivity(), TextUtils.isEmpty(responseData.getResponseDescription())? "Login Failed" :responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                         }
                     }
@@ -1086,61 +901,24 @@ public class ProductsFragment extends Fragment {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                    //loading_indicator.setVisibility(View.GONE);
                     if (waterCanAdapter == null || waterCanAdapter.getCount()==0){
                         noResult.setVisibility(View.VISIBLE);
                     }
                     else {
                         noResult.setVisibility(View.GONE);
                     }
-
-                    try {
-//                        Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
                 }
             });
-//            String url = "http://api.androidhive.info/json/imdb_top_250.php?offset=" + offset;
-//            try {
-//                URL mUrl = new URL(url);
-//                HttpURLConnection urlConnection = (HttpURLConnection) mUrl.openConnection();
-//                urlConnection.connect();
-//                InputStream inputStream = urlConnection.getInputStream();
-//                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-//                StringBuffer buffer = new StringBuffer();
-//                String str = "";
-//                while ((str = br.readLine()) != null) {
-//                    buffer.append(str);
-//                }
-//                result = buffer.toString();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
 
             return result[0];
         }
 
         protected void onPostExecute(String result) {
-
             if (result != null) {
+            searchContent.setText("");
             waterCanAdapter = new WaterCanAdapter(getActivity(),responseDatafinal.getResponseData().getProductDetails(),ProductsFragment.this);
             gridview.setAdapter(waterCanAdapter);
             waterCanAdapter.notifyDataSetChanged();
-//                try {
-//                    JSONArray array = new JSONArray(result);
-//                    for (int i = 0; i < array.length(); i++) {
-//                        arrayList.add(array.getJSONObject(i).getString("title"));
-//                    }
-//                    adapter.notifyDataSetChanged();
-//                    offset++;
-//                    loadingMore = false;
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            } else {
-//                lv.removeFooterView(pb);
             }
         }
     }

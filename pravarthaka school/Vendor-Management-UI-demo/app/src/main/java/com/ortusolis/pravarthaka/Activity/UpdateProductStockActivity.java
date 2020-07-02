@@ -305,7 +305,7 @@ public class UpdateProductStockActivity extends AppCompatActivity {
             jsonObject.put("productStockAddDate", df.format(new Date()));
             jsonObject.put("productId", this.productStr);
             jsonObject.put("orderId", "");
-            jsonObject.put("usersId", this.sharedPreferences.getString("userid", ""));
+            jsonObject.put("usersId", "1");
             requestObject.put("requestData", jsonObject);
         } catch (Exception e) {
             e.printStackTrace();
@@ -352,6 +352,7 @@ public class UpdateProductStockActivity extends AppCompatActivity {
             jsonObject.put("searchKey", "All");
             jsonObject.put("searchvalue", "");
             jsonObject.put("distributorId", "1"/*sharedPreferences.getString("userid", "")*/);
+            jsonObject.put("status", "active");
             requestObject.put("requestData", jsonObject);
         } catch (Exception e) {
             e.printStackTrace();
@@ -446,7 +447,7 @@ public class UpdateProductStockActivity extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("productId", productId);
-            jsonObject.put("distributorId", sharedPreferences.getString("userid", ""));
+            jsonObject.put("distributorId","1");
             requestObject.put("requestData", jsonObject);
         } catch (Exception e) {
             e.printStackTrace();

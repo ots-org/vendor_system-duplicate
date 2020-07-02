@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -51,6 +52,7 @@ public class WaterCanAdapter extends BaseAdapter {
     Context context;
     private PlantFilter mFilter = new PlantFilter();
     ProductsFragment productsFragment;
+    EditText searchContent;
 
     // data is passed into the constructor
     public WaterCanAdapter(Context context, ArrayList<ProductDetails> data, ProductsFragment productsFragment) {
@@ -78,6 +80,7 @@ public class WaterCanAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+
         View v = convertView;
         final ImageView picture;
         final TextView name;
@@ -87,7 +90,6 @@ public class WaterCanAdapter extends BaseAdapter {
         final ImageView checkBoxImg;
         final Button buyNow;
         final Button scheduleButton;
-//        boolean flag_loading=false;
         final SharedPreferences sharedPreferences = context.getSharedPreferences("water_management",0);
 
         if (v == null) {
@@ -111,49 +113,9 @@ public class WaterCanAdapter extends BaseAdapter {
         buyNow = (Button) v.getTag(R.id.buyButton);
         scheduleButton = (Button) v.getTag(R.id.scheduleButton);
 
-//        v.setScrollY(new AbsListView.OnScrollListener() {
-//
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//
-//
-//            }
-//
-//            public void onScroll(AbsListView view, int firstVisibleItem,
-//                                 int visibleItemCount, int totalItemCount) {
-//
-//                if(firstVisibleItem+visibleItemCount == totalItemCount && totalItemCount!=0)
-//                {
-//                    if(flag_loading == false)
-//                    {
-//                        flag_loading = true;
-////                        additems();
-//                    }
-//                }
-//            }
-//        });
-        //final PlantModel item = (PlantModel) getItem(position);
-
-        final String regex = "\\d+";
-
-        /*if (item.getPath().matches(regex)) {
-            picture.setImageResource(Integer.valueOf(item.getPath()));
-        }
-        else {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            options.inSampleSize = 2;
-            Bitmap bitmap = BitmapFactory.decodeFile(item.getPath(), options);
-            picture.setImageBitmap(bitmap);
-        }*/
-
-
-
         if (mData.get(position).getProductImage()!=null) {
-            //Loading image using Picasso
-//            Picasso.get().load(mData.get(position).getProductImage()).into(picture);
             Picasso.get().load(mData.get(position).getProductImage()).networkPolicy(NetworkPolicy.NO_CACHE)
                     .memoryPolicy(MemoryPolicy.NO_CACHE)
-//                    .placeholder(R.drawable.bv_logo_default).stableKey(id)
                     .into(picture);
         }else {
             picture.setImageResource(R.drawable.no_image);
@@ -164,7 +126,6 @@ public class WaterCanAdapter extends BaseAdapter {
         }
 
         name.setText(mData.get(position).getProductName());
-        /*description.setText(item.getDescription()!=null?item.getDescription():"");*/
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -175,6 +136,7 @@ public class WaterCanAdapter extends BaseAdapter {
 
                 }
                 else {
+
                     Intent intent = new Intent(context, ProductDescription.class);
                     Pair[] views = new Pair[]{
                             new Pair<View, String>(picture, "object_image"),

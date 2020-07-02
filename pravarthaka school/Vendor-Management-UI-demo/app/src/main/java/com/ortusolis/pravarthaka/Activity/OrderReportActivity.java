@@ -274,7 +274,12 @@ public class OrderReportActivity extends AppCompatActivity {
             }
 
             jsonObject.put("status", status);
-            jsonObject.put("userId", usserId);
+            if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
+                jsonObject.put("userId", "1");
+            }else {
+                jsonObject.put("userId", usserId);
+            }
+
             jsonObject.put("role", userRole);
             jsonObject.put("startDate", buttonDatePick.getText().toString());
             jsonObject.put("endDate", buttonDatePickEnd.getText().toString());

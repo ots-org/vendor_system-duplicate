@@ -149,7 +149,7 @@
                 android:hint="Enter Product name"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/gray"
-                android:maxLength="25"
+                android:maxLength="50"
                 />
         </RelativeLayout>
         <View
@@ -174,7 +174,7 @@
                 android:id="@+id/productDescriptionEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin_100"
+                android:layout_marginLeft="@dimen/activity_margin_150"
                 android:padding="@dimen/activity_margin_10"
                 android:background="@android:color/transparent"
                 android:layout_alignParentRight="true"
@@ -182,7 +182,7 @@
                 android:textColor="@color/textColor"
                 android:hint="Description"
                 android:textColorHint="@color/gray"
-                android:maxLength="50"
+                android:maxLength="100"
                 />
         </RelativeLayout>
         <View
@@ -218,7 +218,73 @@
                 android:inputType="numberDecimal"
                 />
         </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/off_white"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_10"
+                android:text="GST"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/text_size_medium"
+                />
+            <EditText
+                android:id="@+id/productPriceGSTEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin_100"
+                android:padding="@dimen/activity_margin_10"
+                android:background="@android:color/transparent"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/textColor"
+                android:hint="Enter GST"
+                android:textColorHint="@color/gray"
+                android:inputType="numberDecimal"
+                />
+        </RelativeLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/off_white"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_10"
+                android:text="Final Product Price"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/text_size_medium"
+                />
+            <EditText
+                android:id="@+id/finalProductPriceGSTEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin_100"
+                android:padding="@dimen/activity_margin_10"
+                android:background="@android:color/transparent"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/textColor"
+                android:hint="Enter Final Product price"
+                android:textColorHint="@color/gray"
+                android:inputType="numberDecimal"
+                />
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
@@ -240,6 +306,44 @@
             android:layout_margin="@dimen/activity_margin_10"
             />
         <!---->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/requestProductLayout"
+            android:visibility="gone"
+            >
+
+            <Button
+                android:id="@+id/cancelRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Cancel Request"
+                android:layout_weight="1"
+                android:padding="@dimen/activity_margin_10"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large"
+                android:textAllCaps="false"
+                android:background="@drawable/borderless_button"
+                android:layout_margin="@dimen/activity_margin_10"
+                />
+            <Button
+                android:id="@+id/confirmRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Confirm Request"
+                android:layout_weight="1"
+                android:padding="@dimen/activity_margin_10"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large"
+                android:textAllCaps="false"
+                android:background="@drawable/borderless_button"
+                android:layout_margin="@dimen/activity_margin_10"
+                />
+            <!---->
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

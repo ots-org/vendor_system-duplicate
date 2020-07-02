@@ -485,7 +485,7 @@ GoogleApiClient.OnConnectionFailedListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if (sharedPreferences?.contains("userRoleId")!! && !sharedPreferences?.getString("userRoleId", "")!!.equals("1", ignoreCase = true)) {
+        if (sharedPreferences?.contains("userRoleId")!! && (!sharedPreferences?.getString("userRoleId", "")!!.equals("1", ignoreCase = true)&&!sharedPreferences?.getString("userRoleId", "")!!.equals("2", ignoreCase = true))) {
             menuInflater.inflate(R.menu.content_main, menu)
         }
         return true

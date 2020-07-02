@@ -17,7 +17,8 @@
                     android:id="@+id/gifImageView"
                     android:layout_width="450dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/logo_home" />
+                    android:background="@color/active_indicator"
+                    android:src="@drawable/rotarylogo" />
 <!--    </LinearLayout>-->
 
     <ScrollView
@@ -47,7 +48,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
         <EditText
             android:id="@+id/enterUsername"
             android:layout_width="match_parent"

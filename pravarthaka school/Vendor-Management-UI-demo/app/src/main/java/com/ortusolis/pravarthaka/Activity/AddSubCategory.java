@@ -70,20 +70,15 @@ public class AddSubCategory extends AppCompatActivity {
         selectCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 SelectProductcat();
-
             }
         });
         AddSubCatagoryToServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 setAddSubCatagoryToServer();
-
             }
         });
-
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -100,7 +95,6 @@ public class AddSubCategory extends AppCompatActivity {
                     Gravity.CENTER);
             TextView toolbarTitle = (TextView) viewActionBar.findViewById(R.id.toolbar_title);
             toolbarTitle.setText("Add Sub-Category");
-
             action.setCustomView(viewActionBar, params);
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
@@ -118,12 +112,10 @@ public class AddSubCategory extends AppCompatActivity {
 
 
     public void SelectProductcat(){
-        //code
         progressDialog = new ProgressDialog(AddSubCategory.this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        //
         WebserviceController wss = new WebserviceController(AddSubCategory.this);
 
         JSONObject requestObject = new JSONObject();
@@ -191,13 +183,8 @@ public class AddSubCategory extends AppCompatActivity {
                         builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //
                                 selectCategory.setText(productNameCat);
                                 Toast.makeText(getApplicationContext(), "selected Product category is "+ productNameCat, Toast.LENGTH_LONG).show();
-//                                //
-//                                customerStrName = strCustName;
-//                                customerStr = strCust;
-//                                getProducts();
                             }
                         });
 
@@ -214,7 +201,6 @@ public class AddSubCategory extends AppCompatActivity {
             public void notifyError(VolleyError error) {
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getApplicationContext(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -278,7 +264,6 @@ public class AddSubCategory extends AppCompatActivity {
                 public void notifySuccess(String response, int statusCode) {
                     try {
                         Log.e(" response",response);
-
                         GeneralResponse responseData = new Gson().fromJson(response, GeneralResponse.class);
                         if (responseData.getResponseCode().equalsIgnoreCase("200")) {
                             finish();
@@ -286,7 +271,6 @@ public class AddSubCategory extends AppCompatActivity {
                         }else{
                             Toast.makeText(AddSubCategory.this, TextUtils.isEmpty(responseData.getResponseDescription())? "Failed" :responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                         }
-
                     }
                     catch (Exception e){
                         e.printStackTrace();
@@ -296,10 +280,8 @@ public class AddSubCategory extends AppCompatActivity {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                    Toast.makeText(AddSubCategory.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
                 }
             });
-            //
         }
         else {
             Toast.makeText(this, "All fields are mandatory", Toast.LENGTH_LONG).show();

@@ -17,7 +17,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +53,12 @@ public class OrderListActivity extends AppCompatActivity {
     OrderListAdapter ordersAdapter;
     List<OrderResponse.RequestS> data;
     TextView noResult;
-
+    String assignRequest="no";
+    List<String> donationStatus;
+    Spinner spinnerStatus;
+    String donationStatusName="";
+    String roleId="";
+    TextView toolbarTitle;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -71,6 +79,42 @@ public class OrderListActivity extends AppCompatActivity {
 
         gson = new Gson();
 
+        donationStatus = new ArrayList<>();
+        spinnerStatus = (Spinner) findViewById(R.id.spinnerStatus);
+        if (getIntent().hasExtra("assignRequest")){
+            donationStatus.add("Select Request Status");
+            donationStatus.add("New Request");
+            donationStatus.add("Close Request");
+        }else {
+            spinnerStatus.setVisibility(View.GONE);
+            getOrderByStatusAndDistributor();
+        }
+
+
+        spinnerStatus.setAdapter(new ArrayAdapter(OrderListActivity.this, android.R.layout.simple_spinner_dropdown_item, donationStatus));
+        spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
+                recyclerView.setAdapter(null);
+                switch (i) {
+                    case 0:
+                        break;
+                    case 1:
+                        donationStatusName="NewRequest";
+                        getOrderByStatusAndDistributor();
+                        break;
+                    case 2:
+                        donationStatusName="CloseRequest";
+                        getOrderByStatusAndDistributor();
+                        break;
+                }
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(OrderListActivity.this);
         recyclerView.setLayoutManager(mLayoutManager);
 
@@ -91,18 +135,31 @@ public class OrderListActivity extends AppCompatActivity {
                     ActionBar.LayoutParams.WRAP_CONTENT,
                     ActionBar.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER);
-            TextView toolbarTitle = (TextView) viewActionBar.findViewById(R.id.toolbar_title);
-            toolbarTitle.setText("Assign Orders");
+            toolbarTitle = (TextView) viewActionBar.findViewById(R.id.toolbar_title);
+            if (getIntent().hasExtra("assignRequest")){
+                toolbarTitle.setText("Assign Request");
+                assignRequest="yes";
+            }else  {
+                toolbarTitle.setText("Assign Orders");
+            }
             action.setCustomView(viewActionBar, params);
             mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getOrderByStatusAndDistributor();
+        if(!donationStatusName.equals("")){
+            if(assignRequest.equals("yes")){
+                toolbarTitle.setText("Assign Request");
+            }
+            else {
+                toolbarTitle.setText("Assign Orders");
+            }
+            getOrderByStatusAndDistributor();
+        }
+
     }
 
     @Override
@@ -126,14 +183,20 @@ public class OrderListActivity extends AppCompatActivity {
 
     void getOrderByStatusAndDistributor(){
 
+
             WebserviceController wss = new WebserviceController(OrderListActivity.this);
 
             JSONObject requestObject = new JSONObject();
 
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("status", "NEW");
-                jsonObject.put("distrubitorId", sharedPreferences.getString("userid", ""));
+                if(assignRequest.equals("yes")){
+                    jsonObject.put("status", donationStatusName);
+                }else {
+                    jsonObject.put("status", "NEW");
+                }
+
+                jsonObject.put("distrubitorId","1");
 
                 requestObject.put("request", jsonObject);
 
@@ -158,6 +221,9 @@ public class OrderListActivity extends AppCompatActivity {
                                 public void click(OrderResponse.RequestS ordersss) {
 
                                     Intent intent = new Intent(OrderListActivity.this, OrderDescription.class);
+                                    if(assignRequest.equals("yes")){
+                                        intent.putExtra("assignRequest", "assignRequest");
+                                    }
                                     intent.putExtra("order", ordersss);
                                     startActivityForResult(intent, 200);
 
@@ -167,13 +233,6 @@ public class OrderListActivity extends AppCompatActivity {
                             recyclerView.setAdapter(ordersAdapter);
 
                             ordersAdapter.notifyDataSetChanged();
-
-                            if (responseData.getResponseData().getOrderList().isEmpty()){
-                                noResult.setVisibility(View.VISIBLE);
-                            }
-                            else {
-                                noResult.setVisibility(View.GONE);
-                            }
 
                         }
                         else {
@@ -187,10 +246,8 @@ public class OrderListActivity extends AppCompatActivity {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                    Toast.makeText(OrderListActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
-
     }
 
 }

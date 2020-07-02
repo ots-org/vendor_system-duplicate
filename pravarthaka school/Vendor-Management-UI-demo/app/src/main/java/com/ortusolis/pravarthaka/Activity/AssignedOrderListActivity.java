@@ -22,6 +22,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ import com.ortusolis.pravarthaka.NetworkUtility.IResult;
 import com.ortusolis.pravarthaka.NetworkUtility.WebserviceController;
 import com.ortusolis.pravarthaka.R;
 import com.ortusolis.pravarthaka.adapter.AssignedOrderReportAdapter;
+import com.ortusolis.pravarthaka.adapter.DonationListAdapter;
+import com.ortusolis.pravarthaka.adapter.DonorDonationListAdapter;
 import com.ortusolis.pravarthaka.pojo.AssignedOrderModel;
 import com.ortusolis.pravarthaka.pojo.AssignedResponse;
 import com.ortusolis.pravarthaka.pojo.DistributorResponse;
@@ -39,6 +42,7 @@ import com.ortusolis.pravarthaka.pojo.UserInfo;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -62,15 +66,32 @@ public class AssignedOrderListActivity extends AppCompatActivity {
     String strEmp = null;
     String strEmpName = null;
     String employeeStr = "";
+    String assignRequest="no";
     TextView employeeText;
-    //
     ProgressDialog progressDialog;
-    //
     LinearLayout employeeCodeLayout;
+    Spinner spinnerStatus;
     boolean empClick = false;
     String orderId="";
     boolean loadedOnce = false;
-
+    String[] productName;
+    String[] productQuantity;
+    String[] DonarName;
+    String[] DonarcontactNumber;
+    String[] Donaraddress;
+    String[] Donaramount;
+    String[] Donardate;
+    String[] DonarQty;
+    ArrayList<String> productNameList;
+    ArrayList<String> productPriceList;
+    ArrayList<String> productIdList;
+    ArrayList<String> donarNameList;
+    ArrayList<String> donarAddressList;
+    ArrayList<String> donarQtyList;
+    ArrayList<String> donarAmountList;
+    ArrayList<String> donarContactNumnerList;
+    ArrayList<String> donarDonationIdList;
+    ArrayList<String> finalList;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -82,19 +103,26 @@ public class AssignedOrderListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notifications);
 
         sharedPreferences = getSharedPreferences("water_management",0);
-
         mToolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.recyclerView);
         noResult = findViewById(R.id.noResult);
         employeeText = findViewById(R.id.employeeText);
         employeeCodeLayout = findViewById(R.id.employeeCodeLayout);
-
+        spinnerStatus = findViewById(R.id.spinnerStatus);
         data = new ArrayList<>();
-
         empNames = new ArrayList<>();
         empIdList = new ArrayList<>();
-
         gson = new Gson();
+        productNameList = new ArrayList<>();
+        productPriceList = new ArrayList<>();
+        productIdList = new ArrayList<>();
+        donarNameList = new ArrayList<>();
+        donarAddressList = new ArrayList<>();
+        donarQtyList = new ArrayList<>();
+        donarAmountList = new ArrayList<>();
+        donarContactNumnerList = new ArrayList<>();
+        donarDonationIdList= new ArrayList<>();
+        finalList= new ArrayList<>();
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(AssignedOrderListActivity.this);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -109,66 +137,35 @@ public class AssignedOrderListActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
                     ActionBar.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER);
             TextView toolbarTitle = (TextView) viewActionBar.findViewById(R.id.toolbar_title);
-            toolbarTitle.setText("Sales Voucher");
+            if (getIntent().hasExtra("assignRequest")){
+                toolbarTitle.setText("Assigned Request");
+                assignRequest="yes";
+                spinnerStatus.setVisibility(View.GONE);
+            }else if(getIntent().hasExtra("deliverDonation")){
+                assignRequest="deliverDonation";
+                toolbarTitle.setText("Deliver Donation");
+                spinnerStatus.setVisibility(View.GONE);
+            }
+            else {
+                toolbarTitle.setText("Sales Voucher");
+                spinnerStatus.setVisibility(View.GONE);
+            }
             action.setCustomView(viewActionBar, params);
             mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
 
         noResult.setText("No Orders");
-        /*if (sharedPreferences.getBoolean("distributor",false)){
-            distributorNotification.setVisibility(View.VISIBLE);
-            customerNotification.setVisibility(View.GONE);
-        }
-        else {
-            distributorNotification.setVisibility(View.GONE);
-            customerNotification.setVisibility(View.VISIBLE);
-        }
-
-        if (distributorNotification.getVisibility()==View.VISIBLE){
-            distributorNotification.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(NotificationActivity.this, OrderActivity.class);
-                    startActivity(intent);
-                }
-            });
-        }
-
-        distributor1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NotificationActivity.this, DistributorAct.class);
-                startActivity(intent);
-            }
-        });
-
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NotificationActivity.this, CustomerAct.class);
-                startActivity(intent);
-            }
-        };
-
-        customer1.setOnClickListener(onClickListener);
-        customer2.setOnClickListener(onClickListener);
-        customer3.setOnClickListener(onClickListener);*/
 
         if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
             employeeCodeLayout.setVisibility(View.VISIBLE);
-
         }
         else {
             employeeCodeLayout.setVisibility(View.GONE);
@@ -183,16 +180,13 @@ public class AssignedOrderListActivity extends AppCompatActivity {
         employeeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(AssignedOrderListActivity.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
                 getAllRegisterEmployee();
             }
         });
-
     }
 
     @Override
@@ -239,21 +233,23 @@ public class AssignedOrderListActivity extends AppCompatActivity {
     }
 
     void getAssginedOrder(String userId){
-//code
         progressDialog = new ProgressDialog(AssignedOrderListActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        //
             WebserviceController wss = new WebserviceController(AssignedOrderListActivity.this);
-
             JSONObject requestObject = new JSONObject();
-
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("status", "Assigned");
+                if(assignRequest.equals("yes")){
+                    jsonObject.put("status", "assigneeRequest");
+                }else if(assignRequest.equals("deliverDonation")){
+                    jsonObject.put("status", "AssignedRequestToEmployee");
+                }
+                else {
+                    jsonObject.put("status", "Assigned");
+                }
                 jsonObject.put("employeeId", userId);
-
                 requestObject.put("request", jsonObject);
 
             } catch (Exception e) {
@@ -277,6 +273,12 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                                 public void click(AssignedOrderModel item) {
                                     Intent intent = new Intent(AssignedOrderListActivity.this, AssignedVoucherOrderDescription.class);
                                     intent.putExtra("order",item);
+                                    if(getIntent().hasExtra("deliverDonation")){
+                                        intent.putExtra("deliverDonation","deliverDonation");
+                                    }else if(getIntent().hasExtra("assignRequest")){
+                                        intent.putExtra("AssignedRequest","AssignedRequest");
+                                    }
+
                                     startActivityForResult(intent,3533);
                                 }
                             });
@@ -300,7 +302,6 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                                     return;
                                 }
                             }
-
                         }
                         else {
                             progressDialog.dismiss();
@@ -320,10 +321,8 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                         assignedOrderReportAdapter.clearAll();
                     noResult.setVisibility(View.VISIBLE);
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                    Toast.makeText(AssignedOrderListActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
-
     }
 
     void getAllRegisterEmployee(){
@@ -336,9 +335,7 @@ public class AssignedOrderListActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject();
 
             try {
-
                 jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
-
                 requestObject.put("requestData", jsonObject);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -357,15 +354,10 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                         DistributorResponse distributorResponse = new Gson().fromJson(response, DistributorResponse.class);
 
                         if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-                            //
                             progressDialog.dismiss();
-                            //
-
                             strEmp = "";
-
                             empNames.clear();
                             empIdList.clear();
-
                             for (UserInfo userInfo1 : distributorResponse.getResponseData().getUserDetails()) {
                                 if (userInfo1.getUserRoleId().equalsIgnoreCase("3")) {
                                     empNames.add(userInfo1.getFirstName());
@@ -410,15 +402,11 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     employeeStr = strEmp;
-                                    //
                                     employeeText.setText(strEmpName );
-                                    //
                                     getAssginedOrder(employeeStr);
                                 }
                             });
-
                             builderSingle.show();
-
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -429,10 +417,8 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                 public void notifyError(VolleyError error) {
                     empClick = false;
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                    Toast.makeText(AssignedOrderListActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
                 }
             });
         }
     }
-
 }
