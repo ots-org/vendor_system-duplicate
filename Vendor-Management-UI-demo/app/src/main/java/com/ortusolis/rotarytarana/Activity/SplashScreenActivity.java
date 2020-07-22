@@ -25,31 +25,26 @@ public class SplashScreenActivity extends AhoyOnboarderActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//
         sharedPreferences = getSharedPreferences("water_management",0);
 
         if (sharedPreferences.getBoolean("login",false)){
             Intent intent = null;
             if (sharedPreferences.getBoolean("distributor",false)) {
-               // intent = new Intent(SplashScreenActivity.this, SplashScreenWaterOts.class);
                 intent = new Intent(SplashScreenActivity.this, DistributorActivity.class);
                 intent.putExtra("activity","DistributorActivity");
                 sharedPreferences.edit().putBoolean("distributor",true).commit();
             }
             else {
-             //   intent = new Intent(SplashScreenActivity.this, SplashScreenWaterOts.class);
                 intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                 intent.putExtra("activity","MainActivity");
             }
             startActivity(intent);
             finish();
-
         }
-//
+
         AhoyOnboarderCard ahoyOnboarderCard1 = new AhoyOnboarderCard("Search Products", "Search from the range of Products to match your needs.", R.drawable.search);
         AhoyOnboarderCard ahoyOnboarderCard2 = new AhoyOnboarderCard("Order Online", "Order for the Product from your place of comfort.", R.drawable.order);
         AhoyOnboarderCard ahoyOnboarderCard3 = new AhoyOnboarderCard("Track Order", "Track your order turn by turn using our tracking system.", R.drawable.map);
-
         ahoyOnboarderCard1.setBackgroundColor(R.color.black_transparent);
         ahoyOnboarderCard2.setBackgroundColor(R.color.black_transparent);
         ahoyOnboarderCard3.setBackgroundColor(R.color.black_transparent);
@@ -68,27 +63,15 @@ public class SplashScreenActivity extends AhoyOnboarderActivity {
         setFinishButtonTitle("Get Started");
         showNavigationControls(true);
         setGradientBackground();
-        //setImageBackground(R.drawable.water_background);
-
-        /*Typeface face = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
-        setFont(face);*/
-
         setInactiveIndicatorColor(R.color.grey_600);
         setActiveIndicatorColor(R.color.white);
-
         setOnboardPages(pages);
-        //
     }
 
     @Override
     public void onFinishButtonPressed() {
-        /*//
-        Intent intent2 = null;
-            intent2 = new Intent(SplashScreenActivity.this, SplashScreenWaterOts.class);
-            intent2.putExtra("activity","LoginActivity");
-        startActivity(intent2);*/
+
         startActivity(new Intent(SplashScreenActivity.this,LoginActivity.class));
-        //
         finish();
     }
 

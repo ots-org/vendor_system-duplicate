@@ -49,10 +49,8 @@ public class ReportActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -71,7 +69,6 @@ public class ReportActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }

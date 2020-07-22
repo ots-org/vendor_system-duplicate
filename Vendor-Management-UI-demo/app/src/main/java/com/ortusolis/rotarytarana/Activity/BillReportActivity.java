@@ -82,8 +82,6 @@ public class BillReportActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-            //action.setTitle("Stock");
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
 
@@ -213,7 +211,6 @@ public class BillReportActivity extends AppCompatActivity {
                 noResult.setVisibility(View.VISIBLE);
                 if (billReportAdapter!=null)
                     billReportAdapter.clearAll();
-//                Toast.makeText(BillReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 

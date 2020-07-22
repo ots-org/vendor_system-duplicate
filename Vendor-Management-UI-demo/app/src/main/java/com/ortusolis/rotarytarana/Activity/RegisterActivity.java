@@ -53,23 +53,16 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class RegisterActivity extends AppCompatActivity implements LocationListener {
 
     Toolbar mToolbar;
-    //
     ProgressDialog progressDialog;
-    //
     ActionBar action;
     EditText firstNameEdit, lastNameEdit, phoneEdit, emailEdit, passwordEdit, confirmpasswordEdit, address1Edit, address2Edit, pincodeEdit;
     LinearLayout customerLayout, employeeRemoveLayout, distributorCodeLayoutLL;
     TextView productText, distributorCodeEdit;
-    //
     protected LocationManager locationManager;
     protected LocationListener locationListener;
-
     protected String latitude, longitude;
     protected boolean gps_enabled, network_enabled;
     String userLat, userLong;
-
-
-    //
     String strName = null;
     String strDistName = null;
     String strDist = null;
@@ -107,31 +100,15 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         pincodeEdit = findViewById(R.id.pincodeEdit);
         passwordEdit = findViewById(R.id.passwordEdit);
         confirmpasswordEdit = findViewById(R.id.confirmpasswordEdit);
-//        productText = findViewById(R.id.productText);
         customerLayout = findViewById(R.id.customerLayout);
         employeeRemoveLayout = findViewById(R.id.employeeRemoveLayout);
         distributorCodeLayoutLL = findViewById(R.id.distributorCodeLayoutLL);
-//        distributorCodeEdit = findViewById(R.id.distributorCodeEdit);
-
-        //
-//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-//                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermision();
-//            return;
-//        }
-//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60, 0, this);
-        //
-
-
         setSupportActionBar(mToolbar);
         gson = new Gson();
-
         userNames = new ArrayList<>();
         userIdList = new ArrayList<>();
         productNames = new ArrayList<>();
         productIdList = new ArrayList<>();
-
         bundle = getIntent().getExtras();
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF,0);
 
@@ -139,12 +116,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -177,37 +150,6 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             action.setCustomView(viewActionBar, params);
             mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
-
-//        distributorCodeEdit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //code
-//                progressDialog = new ProgressDialog(RegisterActivity.this);
-//                progressDialog.setMessage("Loading...");
-//                progressDialog.setCancelable(false);
-//                progressDialog.show();
-//                //
-//
-//                getAllRegister();
-//
-//
-//            }
-//        });
-
-//        productText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //code
-//                progressDialog = new ProgressDialog(RegisterActivity.this);
-//                progressDialog.setMessage("Loading...");
-//                progressDialog.setCancelable(false);
-//                progressDialog.show();
-//                //
-//
-//                getProducts();
-//            }
-//        });
-
     }
 
     @Override
@@ -229,73 +171,43 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         errorMsg = "";
         if (firstNameEdit.getText().toString().isEmpty()){
             firstNameEdit.setError("Please Enter First name");
-            // errorMsg = "Please Enter First name";
             valid = false;
         }
         else if (lastNameEdit.getText().toString().isEmpty()){
             lastNameEdit.setError("Please Enter Last name");
-            //errorMsg = "Please Enter Last name";
             valid = false;
         }
         else if (phoneEdit.getText().toString().isEmpty() ||  phoneEdit.getText().toString().length()!=10){
             phoneEdit.setError("Please Enter Valid Phone number");
-            //errorMsg = "Please Enter Phone number";
             valid = false;
         }
         else if (address1Edit.getText().toString().isEmpty()){
             address1Edit.setError("Please Enter Address");
-            //errorMsg = "Please Enter Address";
             valid = false;
         }
         else if (pincodeEdit.getText().toString().isEmpty() || pincodeEdit.getText().toString().length() < 6){
             pincodeEdit.setError("Please Enter valid pincode");
-            //errorMsg = "Please Enter pincode";
             valid = false;
         }
         else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailEdit.getText().toString()).matches()){
             emailEdit.setError("Please Enter valid Email Id");
-            //errorMsg = "Please Enter Email Id";
             valid = false;
         }
         else if (passwordEdit.getText().toString().isEmpty() && !employee){
             passwordEdit.setError("Please Enter Password");
-            //errorMsg = "Please Enter Password";
             valid = false;
         }
         else if (!passwordEdit.getText().toString().equals(confirmpasswordEdit.getText().toString()) && !employee){
             confirmpasswordEdit.setError("Password is not matching");
-            //errorMsg = "Please Confirm password";
             valid = false;
         }
-        /*else if (address2Edit.getText().toString().isEmpty()){
-            valid = false;
-        }*/
         return valid;
     }
 
     void doneRegister(){
         if (validate()) {
-            /*AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-            builder.setMessage("Registration form have been submitted successfully.");
-            final AlertDialog alertDialog = builder.create();
-            alertDialog.show();*/
-
             customerRegister();
-
         }
-        /*else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-            builder.setMessage("You have not filled all the details.");
-            final AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    alertDialog.dismiss();
-                }
-            },3000);
-        }*/
     }
 
     @Override
@@ -313,15 +225,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         try {
             jsonObject.put("searchKey", "UserRoleId");
             jsonObject.put("searchvalue", "2");
-
-
-            //
             jsonObject.put("userLat",userLat);
             jsonObject.put("userLong",userLong);
-
-            //
-
-
             requestObject.put("requestData",jsonObject);
         }
         catch (Exception e){
@@ -341,12 +246,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
 
-                        //
                         progressDialog.dismiss();
-                        //
-
                         strDist = "";
-
                         userNames.clear();
                         userIdList.clear();
 
@@ -391,15 +292,11 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                         builderSingle.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //
-//                                distributorCodeEdit.setText(strDistName);
-                                //
                                 distributorStr = strDist;
                             }
                         });
 
                         builderSingle.show();
-
                     }
                 }
                 catch (Exception e){
@@ -410,23 +307,14 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(RegisterActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
-
-//
-    //Getting the location
-
-
-    //Raghuram
     private void requestPermision() {
         ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, 1);
     }
 
-    //
     void customerRegister(){
         String userId = "2";
         if (customer){
@@ -464,18 +352,9 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             jsonObject.put("profilePic", "");
             jsonObject.put("mappedTo", distributor ? "1" : JSONObject.NULL );
             jsonObject.put("deviceId", sharedPreferences.getString("regId",""));
-//          jsonObject.put("productId", productDist==null ? JSONObject.NULL : productDist);
             jsonObject.put("userRoleId", userId);
-
-            //
-//            jsonObject.put("userLat",userLat);
-//            jsonObject.put("userLong",userLong);
-
-            //
-
             requestObject.put("requestData",jsonObject);
             Log.e("jsonObject",requestObject.toString());
-
         }
         catch (Exception e){
             e.printStackTrace();
@@ -487,7 +366,6 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                 progressDialogRegistration.dismiss();
                 try {
                     Log.e("getPlants response",response);
-//                    RegisterResponse areaResponse = new Gson().fromJson(response,RegisterResponse.class);
                     JSONObject apiResponce = new JSONObject(response);
                     String  responseCode = apiResponce.getString("responseCode");
                     if (responseCode.equals("200")) {
@@ -502,7 +380,6 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                         onBackPressed();
                     }
                     Toast.makeText(RegisterActivity.this, apiResponce.getString("responseDescription"), Toast.LENGTH_LONG).show();
-
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -520,7 +397,6 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     }
 
     void getProducts(){
-
         WebserviceController wss = new WebserviceController(RegisterActivity.this);
 
         JSONObject requestObject = new JSONObject();
@@ -531,10 +407,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             jsonObject.put("searchvalue", "");
             jsonObject.put("distributorId", distributor ? "1" : distributorStr);
             jsonObject.put("customerId", "");
-
-
             requestObject.put("requestData",jsonObject);
-
         }
         catch (Exception e){
             e.printStackTrace();
@@ -553,12 +426,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
 
-                        //
                         progressDialog.dismiss();
-                        //
-
                         productDist = "";
-
                         productNames.clear();
                         productIdList.clear();
 
@@ -599,9 +468,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                         builderSingle.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //
-//                                productText.setText(productDistName);
-                                //
+
                             }
                         });
 
@@ -620,11 +487,10 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(RegisterActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
     }
-    //
+
     @Override
     public void onLocationChanged(Location location) {
         userLat= String.valueOf(location.getLatitude());
@@ -647,5 +513,4 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     public void onProviderDisabled(String provider) {
 
     }
-    //
 }

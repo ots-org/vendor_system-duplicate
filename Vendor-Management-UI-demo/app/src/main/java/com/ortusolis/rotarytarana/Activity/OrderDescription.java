@@ -106,7 +106,6 @@ public class OrderDescription extends AppCompatActivity {
         orderDateText= findViewById(R.id.orderDateText);
         orderCostText= findViewById(R.id.orderCostText);
         orderStatusText= findViewById(R.id.orderStatusText);
-
         sharedPreferences = getSharedPreferences("water_management",0);
         userNames = new ArrayList<>();
         userIdList = new ArrayList<>();
@@ -171,25 +170,20 @@ public class OrderDescription extends AppCompatActivity {
         orderStatusSalesVocher=orderDetails.getOrderStatus();
         customerNameSalesVocher=orderDetails.getCustomerDetails().getFirstName();
         customerIdSalesVocher =orderDetails.getCustomerId();
-        //
         textName.setText(orderDetails.getOrderId());
         orderDate.setText(CommonFunctions.converDateStr(orderDetails.getOrderDate()));
         deliveryDate.setText(CommonFunctions.converDateStr(orderDetails.getDelivaryDate()));
-
         orderCost.setText(orderDetails.getOrderCost()+getString(R.string.Rs));
         orderStatus.setText(orderDetails.getOrderStatus());
         customerName.setText(orderDetails.getCustomerDetails().getFirstName());
-        //
         customerPhoneNumber.setText(orderDetails.getCustomerDetails().getContactNo());
         customerAddress.setText(orderDetails.getCustomerDetails().getAddress1());
         customerAddressSecondary.setText(orderDetails.getCustomerDetails().getAddress2());
-        //
         if (getIntent().hasExtra("assignRequest") && !(orderDetails.getDonationStatus() ==null)){
             orderNumberText.setText("Request Number");
             orderDateText.setText("Request Date");
             orderCostText.setText("Request Cost");
             orderStatusText.setText("Request Status");
-
             donarName.setText(orderDetails.getDonarDetails().getFirstName());
             donarAddress.setText(orderDetails.getDonarDetails().getAddress1());
             donarPhoneNumber.setText(orderDetails.getDonarDetails().getContactNo());
@@ -204,16 +198,13 @@ public class OrderDescription extends AppCompatActivity {
             donarLayout.setVisibility(View.GONE);
         }
 
-        //
         assignEmpLoyee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(OrderDescription.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
                 getAllRegister();
             }
         });
@@ -304,7 +295,6 @@ public class OrderDescription extends AppCompatActivity {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                    Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -316,14 +306,10 @@ public class OrderDescription extends AppCompatActivity {
 
     void closeOrder(OrderResponse.RequestS data){
 
-//        {"request":{"orderId":"19","customerId":"8","outstandingAmount":"0","deliverdDate":"2020-05-11","orderCost":"150.00","amountReceived":"orderCost","orderProductlist":[{"deliveredQty":"orderQty","emptyCan":"0","orderQty":"1","prodcutId":"6","productbalanceQty":"0","productCost":"150.00"}]}}
-
-        //current date
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String CurrentDate = df.format(c);
-        //current date
         WebserviceController wss = new WebserviceController(OrderDescription.this);
 
         JSONObject requestObject = new JSONObject();
@@ -333,7 +319,6 @@ public class OrderDescription extends AppCompatActivity {
             jsonObject.put("orderId", orderIdSalesVocher);
             jsonObject.put("customerId", customerIdSalesVocher);
             jsonObject.put("outstandingAmount", "0");
-
             jsonObject.put("deliverdDate", CurrentDate);
             jsonObject.put("orderCost", orderCostSalesVocher);
             jsonObject.put("amountReceived", orderCostSalesVocher);
@@ -352,7 +337,6 @@ public class OrderDescription extends AppCompatActivity {
             }
 
             jsonObject.put("orderProductlist", jsonArray);
-
             requestObject.put("request", jsonObject);
             Log.e("jsonObject",requestObject.toString());
 
@@ -385,7 +369,6 @@ public class OrderDescription extends AppCompatActivity {
                                 assignRequest.putExtra("assignRequest", "assignRequest");
                             }
                             startActivity(assignRequest);
-//                            startActivity(new Intent(OrderDescription.this,OrderListActivity.class));
                             finish();
                             Toast.makeText(OrderDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? " " : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                         } else
@@ -398,7 +381,6 @@ public class OrderDescription extends AppCompatActivity {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                    Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -418,8 +400,6 @@ public class OrderDescription extends AppCompatActivity {
             }else {
                 jsonObject.put("status", "cancel");
             }
-
-
             requestObject.put("request", jsonObject);
 
         } catch (Exception e) {
@@ -435,8 +415,6 @@ public class OrderDescription extends AppCompatActivity {
                     RegisterResponse responseData = new Gson().fromJson(response, RegisterResponse.class);
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
-
                         setResult(RESULT_OK);
                         Intent assignRequestIntent = new Intent(OrderDescription.this, OrderListActivity.class);
                         if(assignRequest.equals("yes")){
@@ -455,7 +433,6 @@ public class OrderDescription extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -487,12 +464,9 @@ public class OrderDescription extends AppCompatActivity {
                     DistributorResponse distributorResponse = gson.fromJson(response, DistributorResponse.class);
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-                        //
+
                         progressDialog.dismiss();
-                        //
-
                         strDist = "";
-
                         userNames.clear();
                         userIdList.clear();
 
@@ -539,16 +513,12 @@ public class OrderDescription extends AppCompatActivity {
                         builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //
                                 assignEmpLoyee.setText(strDistName);
-                                //
                                 distributorStr = strDist;
-
                             }
                         });
 
                         builderSingle.show();
-
                     }
                 }
                 catch (Exception e){
@@ -602,7 +572,6 @@ public class OrderDescription extends AppCompatActivity {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
      }

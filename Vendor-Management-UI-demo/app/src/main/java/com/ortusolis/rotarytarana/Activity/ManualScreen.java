@@ -73,7 +73,6 @@ public class ManualScreen extends AppCompatActivity {
             action.setHomeButtonEnabled(true);
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -82,7 +81,6 @@ public class ManualScreen extends AppCompatActivity {
             TextView toolbarTitle = (TextView) viewActionBar.findViewById(R.id.toolbar_title);
             toolbarTitle.setText("Manual");
             action.setCustomView(viewActionBar, params);
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
             }
@@ -98,9 +96,6 @@ public class ManualScreen extends AppCompatActivity {
                 fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                 startActivityForResult(intent,21212);
-                /*Intent i = new Intent(Intent.ACTION_PICK);
-                i.setType("image/*");
-                startActivityForResult(Intent.createChooser(i, "Select Picture"), 21212);*/
             }
         });
     }
@@ -111,7 +106,6 @@ public class ManualScreen extends AppCompatActivity {
         if (requestCode == 21212 && resultCode == RESULT_OK) {
             try{
                 imagePath = fileUri.getPath();
-
                 //Getting the Bitmap from Gallery
                 Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
                 //Setting the Bitmap to ImageView
@@ -155,9 +149,7 @@ public class ManualScreen extends AppCompatActivity {
                 return true;
             case R.id.save:
                 if (!imagePath.isEmpty() ){
-
                     Constants.SendSms(ManualScreen.this, switchButton.isChecked() ? "/motor on/" : "/motor off/");
-
                     Intent returnIntent = new Intent(ManualScreen.this,HomeActivity.class);
                     Bundle bundle = getIntent().getExtras();
                     bundle.putBoolean("manual_rep",switchButton.isChecked());

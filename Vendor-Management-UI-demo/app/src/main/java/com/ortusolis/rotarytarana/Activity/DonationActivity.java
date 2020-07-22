@@ -215,7 +215,6 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getApplicationContext(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -224,22 +223,16 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
 
         if (donarAmount.getText().toString().isEmpty()){
             donarAmount.setError("Please Enter Amount");
-            // errorMsg = "Please Enter First name";
             valid = false;
         }
         else if (donarDescription.getText().toString().isEmpty() ){
             donarDescription.setError("Please Enter Description");
-            //errorMsg = "Please Enter Last name";
             valid = false;
         }
         else if (donarPan.getText().toString().isEmpty()&& Integer.parseInt(donarAmount.getText().toString()) > 20000){
             donarPan.setError("Please Enter Pan Number");
-            //errorMsg = "Please Enter Last name";
             valid = false;
         }
-        /*else if (address2Edit.getText().toString().isEmpty()){
-            valid = false;
-        }*/
         return valid;
     }
     public void donationCash(){
@@ -259,12 +252,9 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
             }else {
                 donationCashlist.add(donarGst.getText().toString());
             }
-
             Intent donationCashIntent = new Intent(DonationActivity.this, RazorPayActivity.class);
             donationCashIntent.putExtra("donationCashlist", donationCashlist);
             startActivity(donationCashIntent);
-
-
         }
 
     }

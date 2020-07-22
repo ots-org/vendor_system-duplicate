@@ -67,15 +67,11 @@ public class OrderListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notifications);
 
         sharedPreferences = getSharedPreferences("water_management",0);
-
         mToolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.recyclerView);
         noResult = findViewById(R.id.noResult);
-
         data = new ArrayList<>();
-
         gson = new Gson();
-
         donationStatus = new ArrayList<>();
         spinnerStatus = (Spinner) findViewById(R.id.spinnerStatus);
         if (getIntent().hasExtra("assignRequest")){
@@ -86,7 +82,6 @@ public class OrderListActivity extends AppCompatActivity {
             spinnerStatus.setVisibility(View.GONE);
             getOrderByStatusAndDistributor();
         }
-
 
         spinnerStatus.setAdapter(new ArrayAdapter(OrderListActivity.this, android.R.layout.simple_spinner_dropdown_item, donationStatus));
         spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -105,7 +100,6 @@ public class OrderListActivity extends AppCompatActivity {
                         getOrderByStatusAndDistributor();
                         break;
                 }
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -121,12 +115,8 @@ public class OrderListActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -180,7 +170,6 @@ public class OrderListActivity extends AppCompatActivity {
 
     void getOrderByStatusAndDistributor(){
 
-
             WebserviceController wss = new WebserviceController(OrderListActivity.this);
 
             JSONObject requestObject = new JSONObject();
@@ -194,9 +183,6 @@ public class OrderListActivity extends AppCompatActivity {
                     jsonObject.put("distrubitorId",sharedPreferences.getString("userid",""));
                     jsonObject.put("status", "NEW");
                 }
-
-
-
                 requestObject.put("request", jsonObject);
 
             } catch (Exception e) {
@@ -228,11 +214,8 @@ public class OrderListActivity extends AppCompatActivity {
 
                                 }
                             });
-
                             recyclerView.setAdapter(ordersAdapter);
-
                             ordersAdapter.notifyDataSetChanged();
-
                         }
                         else {
                             noResult.setVisibility(View.VISIBLE);
@@ -248,5 +231,4 @@ public class OrderListActivity extends AppCompatActivity {
                 }
             });
     }
-
 }

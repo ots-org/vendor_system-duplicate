@@ -51,10 +51,8 @@ public class NavigationFragment extends Fragment {
 
     TextView mastersHeader,stockHeader,ordersHeader,billsHeader,reportsHeader;
     TextView notification,list_products,users,products,updateStock,closeOrder,salesVoucher,scheduler,add,assign,transferOrders,generateBill,myBills,stockReport,orderReport,billReport,customerLedgerReport,customerOutstandingReport,logout,switchRoll,profile,SubProducts,donation,donationReport,donationReportCustomer,assignRequest,empAssignRequest,requestProductCustomer,confirmRequestProduct,donationStatus,bills;
-   //code raghuram
     TextView changepassword;
     TextView changepasswordGlobal;
-    //code raghuram
     LinearLayout mastersLL,stockLL,ordersLL,billsLL,reportsLL,myOrder,myRequests,productsLL;
     TextView nav_header_textView;
     SharedPreferences sharedPreferences;
@@ -64,7 +62,6 @@ public class NavigationFragment extends Fragment {
     public static NavigationFragment newInstance() {
         
         Bundle args = new Bundle();
-        
         NavigationFragment fragment = new NavigationFragment();
         fragment.setArguments(args);
         return fragment;
@@ -76,14 +73,12 @@ public class NavigationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_navigation,null);
 
         sharedPreferences = getActivity().getSharedPreferences("water_management",0);
-
         mastersHeader = view.findViewById(R.id.masters);
         stockHeader = view.findViewById(R.id.stock);
         ordersHeader = view.findViewById(R.id.orders);
         billsHeader = view.findViewById(R.id.bills);
         reportsHeader = view.findViewById(R.id.reports);
         imageView = view.findViewById(R.id.nav_header_imageView);
-
         nav_header_textView = view.findViewById(R.id.nav_header_textView);
         notification = view.findViewById(R.id.notification);
         productsLL = view.findViewById(R.id.productsLL);
@@ -99,10 +94,8 @@ public class NavigationFragment extends Fragment {
         requestProductCustomer= view.findViewById(R.id.requestProductCustomer);
         requestProductCustomerView= view.findViewById(R.id.requestProductCustomerView);
         confirmRequestProduct= view.findViewById(R.id.confirmRequestProduct);
-        //code raghuram ots
         changepassword = view.findViewById(R.id.changepassword);
         changepasswordGlobal =view.findViewById(R.id.changepasswordGlobal);
-        //code raghuram ots
         updateStock = view.findViewById(R.id.updateStock);
         closeOrder = view.findViewById(R.id.closeOrder);
         salesVoucher = view.findViewById(R.id.salesVoucher);
@@ -120,11 +113,9 @@ public class NavigationFragment extends Fragment {
         customerLedgerReport = view.findViewById(R.id.customerLedgerReport);
         customerOutstandingReport = view.findViewById(R.id.customerOutstandingReport);
         logout = view.findViewById(R.id.logout);
-//
         switchRoll=view.findViewById(R.id.switchRoll);
         profile=view.findViewById(R.id.profile);
         donationReport=view.findViewById(R.id.donationReport);
-        //
         mastersLL = view.findViewById(R.id.mastersLL);
         stockLL = view.findViewById(R.id.stockLL);
         ordersLL = view.findViewById(R.id.ordersLL);
@@ -137,7 +128,7 @@ public class NavigationFragment extends Fragment {
         }else {
             switchRoll.setVisibility(View.GONE);
         }
-        //
+
         if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
             userRole = "Facilitator";
             products.setVisibility(View.GONE);
@@ -382,7 +373,6 @@ public class NavigationFragment extends Fragment {
                 ((MainActivity)getActivity()).closeDrawer();
             }
         });
-        //
         switchRoll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -415,31 +405,25 @@ public class NavigationFragment extends Fragment {
                 ((MainActivity)getActivity()).closeDrawer();
             }
         });
-        //
-       // code by Raghuram Ots
         changepassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent ChangePassword = new Intent(getActivity(), PasswordActivity.class);
                 ChangePassword.putExtra("ChangePassword", "ChangePassword");
                 startActivity(ChangePassword);
-               // startActivity(new Intent(getActivity(), PasswordActivity.class));
                 ((MainActivity)getActivity()).closeDrawer();
             }
         });
-        // code by Raghuram Ots
         changepasswordGlobal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent changepasswordGlobal = new Intent(getActivity(), PasswordActivity.class);
                 changepasswordGlobal.putExtra("changepasswordGlobal", "changepasswordGlobal");
                 startActivity(changepasswordGlobal);
-                // startActivity(new Intent(getActivity(), PasswordActivity.class));
                 ((MainActivity)getActivity()).closeDrawer();
             }
         });
 
-        //code by Raghuram Ots
 
         updateStock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -503,7 +487,6 @@ public class NavigationFragment extends Fragment {
                 Intent myRequests = new Intent(getActivity(), StatusListActivity.class);
                 myRequests.putExtra("myRequests", "myRequests");
                 startActivity(myRequests);
-                // startActivity(new Intent(getActivity(), PasswordActivity.class));
                 ((MainActivity)getActivity()).closeDrawer();
             }
         });
@@ -513,7 +496,6 @@ public class NavigationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), MyBillActivity.class));
-                //startActivity(new Intent(getActivity(), BillReportActivity.class));
                 ((MainActivity)getActivity()).closeDrawer();
             }
         });
@@ -583,12 +565,8 @@ public class NavigationFragment extends Fragment {
                 sharedPreferences.edit().clear().commit();
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();
-
             }
         });
-
-
-
         return view;
     }
 }

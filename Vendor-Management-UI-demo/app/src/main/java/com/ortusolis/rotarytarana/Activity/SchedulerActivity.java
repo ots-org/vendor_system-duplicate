@@ -76,8 +76,6 @@ public class SchedulerActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-            //action.setTitle("Stock");
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
 
@@ -149,16 +147,13 @@ public class SchedulerActivity extends AppCompatActivity {
                     SchedulerResponse responseData = gson.fromJson(response, SchedulerResponse.class);
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-                        // code change ortusolis
                         recyclerView.setBackgroundColor(Color.parseColor("#2b6fdd"));
-                        //code change ortusolis
                         if (responseData.getResponseData()!=null && responseData.getResponseData().getResponse()!=null) {
                             noResult.setVisibility(View.GONE);
                             schedulerListAdapter = new SchedulerListAdapter(SchedulerActivity.this, responseData.getResponseData().getResponse());
                             recyclerView.setAdapter(schedulerListAdapter);
                             schedulerListAdapter.notifyDataSetChanged();
                         }
-
                     }
                     else {
                         noResult.setVisibility(View.VISIBLE);
@@ -181,7 +176,6 @@ public class SchedulerActivity extends AppCompatActivity {
                 noResult.setVisibility(View.VISIBLE);
                 if (schedulerListAdapter!=null)
                     schedulerListAdapter.clearAll();
-//                Toast.makeText(SchedulerActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 

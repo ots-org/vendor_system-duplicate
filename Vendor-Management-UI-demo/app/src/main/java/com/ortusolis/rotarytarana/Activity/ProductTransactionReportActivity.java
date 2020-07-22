@@ -57,9 +57,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ProductTransactionReportActivity extends AppCompatActivity {
 
     Button buttonDatePick;
-    //
     Button report;
-    //
     LinearLayout addLL;
     Calendar newCalendar;
     DatePickerDialog startTime;
@@ -69,15 +67,12 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
     Toolbar mToolbar;
     ActionBar action;
     ProgressDialog progressDialog;
-
     LinearLayout distributorCodeLayout;
     String distributorStr = "";
     TextView distributorText;
     String strDistName = null;
     String strDist = null;
-    //
     String pdf="no";
-    //
     List<String> userNames, userIdList;
 
     @Override
@@ -91,16 +86,13 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_transaction_report);
         addLL = findViewById(R.id.addLL);
         buttonDatePick = findViewById(R.id.buttonDatePick);
-
         mToolbar = findViewById(R.id.toolbar);
         noResult = findViewById(R.id.noResult);
         distributorCodeLayout = findViewById(R.id.distributorCodeLayout);
         distributorText = findViewById(R.id.distributorText);
         sharedPreferences = getSharedPreferences("water_management",0);
         gson = new Gson();
-
         setSupportActionBar(mToolbar);
-
         gson = new Gson();
 
         userNames = new ArrayList<>();
@@ -110,11 +102,8 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-            //action.setTitle("Stock");
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -158,18 +147,13 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
         distributorText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(ProductTransactionReportActivity.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
                 getAllRegister();
             }
         });
-
-
-
     }
 
     public void itemClicked(View v) {
@@ -177,7 +161,6 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
         CheckBox checkBox = (CheckBox)v;
         if(checkBox.isChecked()){
             pdf="yes";
-
         }
     }
     void getProductStockList(String dateString){
@@ -212,9 +195,7 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
 
             jsonObject.put("productId", "");
             jsonObject.put("todaysDate", dateString);
-            //
             jsonObject.put("pdf", pdf);
-            //
             requestObject.put("requestData", jsonObject);
 
         } catch (Exception e) {
@@ -274,7 +255,6 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
                 noResult.setVisibility(View.VISIBLE);
                 addLL.removeAllViews();
-//                Toast.makeText(ProductTransactionReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -295,11 +275,8 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
         addLL.removeAllViews();
         if (!requestS.isEmpty()) {
             addRow(null);
-
             for (ProductDetails requestSdata : requestS) {
-
                 addRow(requestSdata);
-
             }
         }
         else {
@@ -308,18 +285,14 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
     }
 
     void addRow(ProductDetails requestSdata){
-
-
         if (requestSdata!=null){
 
                 View view = getLayoutInflater().inflate(R.layout.view_product_transaction,null);
-
                 TextView name = (TextView) view.findViewById(R.id.title);
                 TextView openBalance = (TextView) view.findViewById(R.id.openBalance);
                 TextView stockAddition = (TextView) view.findViewById(R.id.stockAddition);
                 TextView orderDelivered = (TextView) view.findViewById(R.id.orderDelivered);
                 TextView closingBalance = (TextView) view.findViewById(R.id.closingBalance);
-
                 name.setText(requestSdata.getProductName());
                 openBalance.setText(requestSdata.getOtsProductOpenBalance());
                 openBalance.setGravity(Gravity.RIGHT);
@@ -327,19 +300,16 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
                 stockAddition.setGravity(Gravity.RIGHT);
                 orderDelivered.setText(requestSdata.getOtsProductOrderDelivered());
                 orderDelivered.setGravity(Gravity.RIGHT);
-
                 float closingBal = (Float.valueOf(requestSdata.getOtsProductOpenBalance())
                         +Float.valueOf(requestSdata.getOtsProductStockAddition()))
                         -Float.valueOf(requestSdata.getOtsProductOrderDelivered());
 
                 closingBalance.setText((int)closingBal+"");
                 closingBalance.setGravity(Gravity.RIGHT);
-
                 addLL.addView(view);
         }
         else {
             View view = getLayoutInflater().inflate(R.layout.view_product_transaction,null);
-
             addLL.addView(view);
         }
     }
@@ -353,7 +323,6 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
         try {
             jsonObject.put("searchKey", "UserRoleId");
             jsonObject.put("searchvalue", "2");
-
             requestObject.put("requestData",jsonObject);
         }
         catch (Exception e){
@@ -373,12 +342,8 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
 
-                        //
                         progressDialog.dismiss();
-                        //
-
                         strDist = "";
-
                         userNames.clear();
                         userIdList.clear();
 
@@ -389,9 +354,7 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
 
                         if (distributorResponse.getResponseData().getUserDetails().isEmpty()){
                             Toast.makeText(ProductTransactionReportActivity.this, "No Results", Toast.LENGTH_LONG).show();
-                            //
                             progressDialog.dismiss();
-                            //
                         }
 
                             AlertDialog.Builder builderSingle = new AlertDialog.Builder(ProductTransactionReportActivity.this);
@@ -426,7 +389,6 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
                             builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                 //   distributorText.setText(strDistName + " (" + strDist + ")");
                                     distributorText.setText(strDistName );
                                     distributorStr = strDist;
                                 }
@@ -444,10 +406,7 @@ public class ProductTransactionReportActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(ProductTransactionReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
-
     }
-
 }

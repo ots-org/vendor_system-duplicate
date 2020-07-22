@@ -282,9 +282,6 @@ public class AddProductActivity extends AppCompatActivity {
                double finalPrice= Float.parseFloat(productPrice.getText().toString())+ Float.parseFloat(productPrice.getText().toString())*(Float.parseFloat(gst.getText().toString()) * (0.01));
                String finalPriceText= finalPrice+"";
                finalProductPriceGSTEdit.setText(finalPriceText);
-                // you can call or do what you want with your EditText here
-
-                // yourEditText...
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -309,7 +306,6 @@ public class AddProductActivity extends AppCompatActivity {
                 progressDialog.setCancelable(false);
                 progressDialog.show();
                     addProducts();
-
             }
         });
         cancelRequest.setOnClickListener(new View.OnClickListener() {
@@ -472,7 +468,6 @@ public class AddProductActivity extends AppCompatActivity {
                     }else {
                         jsonObject.put("productImage",  Base64.encodeToString(byteArray, Base64.DEFAULT) );
                     }
-
                 }else {
                     jsonObject.put("productImage", (uploadBitmap == null) ? JSONObject.NULL : Base64.encodeToString(byteArray, Base64.DEFAULT));
                 }

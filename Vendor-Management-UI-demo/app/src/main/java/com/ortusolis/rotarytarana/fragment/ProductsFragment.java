@@ -62,12 +62,10 @@ public class ProductsFragment extends Fragment {
     String strCustName = null;
     String strCust = null;
     TextView customerText;
-    //
     ProgressDialog progressDialog;
     List<String> productCatagoryNames, productCatagoryIdList;
     String productName = null;
     String productCust = null;
-    //
     List<String> userNames, userIdList;
     boolean custSelect = false;
     boolean flag_loading=false;
@@ -83,7 +81,6 @@ public class ProductsFragment extends Fragment {
     public static ProductsFragment newInstance() {
 
         Bundle args = new Bundle();
-
         ProductsFragment fragment = new ProductsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -107,8 +104,6 @@ public class ProductsFragment extends Fragment {
         loading_indicator = view.findViewById(R.id.loading_indicator);
         gson = new Gson();
         sharedPreferences = getActivity().getSharedPreferences("water_management",0);
-        //
-        //
         customerProductStr= view.findViewById(R.id.customerProductStr);
         customerProductStrBase=view.findViewById(R.id.customerProductStrBase);
         productCatagoryNames = new ArrayList<>();
@@ -116,7 +111,6 @@ public class ProductsFragment extends Fragment {
         searchButtonHome =  view.findViewById(R.id.searchButtonHome);
         searchContent=  view.findViewById(R.id.searchContent);
         progressStatus="yes";
-        //
         userNames = new ArrayList<>();
         userIdList = new ArrayList<>();
 
@@ -135,36 +129,28 @@ public class ProductsFragment extends Fragment {
         customerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(getContext());
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
                 if (!custSelect) {
                     custSelect = true;
                     getMappedRegister();
                 }
-                //getAllRegister(true,true);
             }
         });
         customerProductStr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
                 getProductCatqgory();
-
-                //
             }
         });
         searchButtonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
                 if(searchContent.getText().length()>0){
                     ProductSearch();
                 }
-                //
             }
         });
         if(sharedPreferences.getString("userProductSelect","").equalsIgnoreCase("yes")){
@@ -223,7 +209,6 @@ public class ProductsFragment extends Fragment {
             progressDialog.show();
         }
         WebserviceController wss = new WebserviceController(getActivity());
-        //loading_indicator.setVisibility(View.VISIBLE);
 
         JSONObject requestObject = new JSONObject();
 
@@ -266,7 +251,6 @@ public class ProductsFragment extends Fragment {
                         else {
                             noResult.setVisibility(View.GONE);
                         }
-
                     }
                     else {
                         if(progressStatus.equals("yes")){
@@ -339,14 +323,12 @@ public class ProductsFragment extends Fragment {
                             progressStatus="no";
                         }
 
-
                         if (responseData.getResponseData().getProductDetails().isEmpty()){
                             noResult.setVisibility(View.VISIBLE);
                         }
                         else {
                             noResult.setVisibility(View.GONE);
                         }
-
                     }
                     else {
                         if(progressStatus.equals("yes")){

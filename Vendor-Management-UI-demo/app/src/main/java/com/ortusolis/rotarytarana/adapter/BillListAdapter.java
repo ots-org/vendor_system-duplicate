@@ -88,11 +88,7 @@ public class BillListAdapter extends RecyclerView.Adapter<BillListAdapter.Module
                     holder.selectableImage.setImageResource(android.R.drawable.checkbox_off_background);
                 }
 
-                /*Intent intent = new Intent(context, BillDescription.class);
 
-                intent.putExtra("bill",dataList.get(position));
-
-                context.startActivity(intent);*/
             }
         });
 

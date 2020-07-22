@@ -77,17 +77,13 @@ public class DonationReport extends AppCompatActivity {
         empIdList = new ArrayList<>();
         customerText= findViewById(R.id.customerText);
         customerLayoutDonation= findViewById(R.id.customerLayoutDonation);
-
         customerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(DonationReport.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
-
                 getAllRegisterEmployee();
             }
         });
@@ -151,8 +147,6 @@ public class DonationReport extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-            //action.setTitle("Stock");
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
 
@@ -214,7 +208,6 @@ public class DonationReport extends AppCompatActivity {
                 jsonObject.put("userId", sharedPreferences.getString("userid",""));
                 jsonObject.put("status", "donorId");
             }
-
             jsonObject.put("startDate", buttonDatePick.getText().toString());
             jsonObject.put("endDate", buttonDatePickEnd.getText().toString());
             requestObject.put("request", jsonObject);
@@ -237,26 +230,7 @@ public class DonationReport extends AppCompatActivity {
                         if (responseData!=null &&donationList!=null) {
                             noResult.setVisibility(View.GONE);
                             loadData(responseData);
-//                            if(pdf.equals("yes")){
-//                                String txt=responseData.getResponseData().getPdf();
-//                                final File dwldsPath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + "Product Transaction Report" + ".pdf");
-//                                byte[] pdfAsBytes = Base64.decode(txt, 0);
-//                                FileOutputStream os;
-//                                try {
-//                                    os = new FileOutputStream(dwldsPath, false);
-//                                    os.write(pdfAsBytes);
-//                                    os.flush();
-//                                    os.close();
-//                                    Toast.makeText(getApplicationContext(), "Product Transaction Report Pdf Available", Toast.LENGTH_LONG).show();
-//                                } catch (FileNotFoundException e) {
-//                                    e.printStackTrace();
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-
                         }
-
                     }
                     else {
                         noResult.setVisibility(View.VISIBLE);
@@ -277,7 +251,6 @@ public class DonationReport extends AppCompatActivity {
                 addLL.removeAllViews();
             }
         });
-
     }
 
 

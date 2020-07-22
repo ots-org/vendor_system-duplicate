@@ -38,9 +38,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.Module
         LinearLayout customerLay;
         SquareImageView picture;
         ImageView delete;
-        //
         TextView OrderProductName;
-        //
 
         public ModuleViewHolder(View itemView) {
             super(itemView);
@@ -67,18 +65,13 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.Module
     @Override
     public void onBindViewHolder(final ModuleViewHolder holder, final int position) {
         ProductRequestCart item = dataList.get(position);
-        //
         holder.OrderProductName.setText(Html.fromHtml("<b>Product Name: </b>"+item.getOrderProductName()));
-        //
         holder.customeName.setText(Html.fromHtml("<b>Customer Name: </b>"+item.getCustomerName()));
         holder.orderId.setText(Html.fromHtml("<b>Delivery Date: </b>"+item.getDelivaryDate()));
         holder.orderDate.setText(Html.fromHtml("<b>Order Date: </b>"+item.getOrderDate()));
         holder.orderCost.setText(Html.fromHtml("<b>Order Cost: </b>"+item.getOrderCost()+context.getString(R.string.Rs)));
         holder.noOfProducts.setText(Html.fromHtml("<b>No. of Products: </b>"+item.getOrderedQty()));
-//        if(item.getProductImageUrl().length()!=0){
-            Picasso.get().load(item.getProductImageUrl()).into(holder.picture);
-//        }
-
+        Picasso.get().load(item.getProductImageUrl()).into(holder.picture);
 
         holder.customerLay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +86,6 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.Module
                 dataList.remove(position);
                 notifyDataSetChanged();
                 ((CardListActivity)context ).deleteItemFromList(position);
-//                ((CardListActivity)context ).deleteFormCart();
             }
         });
 

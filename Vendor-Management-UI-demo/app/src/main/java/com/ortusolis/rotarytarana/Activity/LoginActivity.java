@@ -98,12 +98,6 @@ public class LoginActivity extends AppCompatActivity{
         ots = findViewById(R.id.ots);
         gson = new Gson();
         v= this.findViewById(android.R.id.content);
-        /*FlowingGradientClass grad = new FlowingGradientClass();
-        grad.setBackgroundResource(R.drawable.translate)
-                .onLinearLayout(rootView)
-                .setTransitionDuration(4000)
-                .start();*/
-
         sharedPreferences = getSharedPreferences("water_management",0);
         sharedPreferencesFCM = getSharedPreferences(Config.SHARED_PREF,0);
 
@@ -167,11 +161,6 @@ public class LoginActivity extends AppCompatActivity{
         ots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setAction(Intent.ACTION_VIEW);
-//                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-//                intent.setData(Uri.parse("https://www.ortusolis.com/"));
-//                startActivity(intent);
                 Uri uri = Uri.parse("https://www.ortusolis.com/"); // missing 'http://' will cause crashed
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
@@ -184,29 +173,6 @@ public class LoginActivity extends AppCompatActivity{
             public void onClick(View v) {
               if (isValid()){
                    login();
-
-                  /*sharedPreferences.edit().putString("userid","1").commit();
-                  sharedPreferences.edit().putString("userRoleId","1").commit();
-                  sharedPreferences.edit().putBoolean("login",true).commit();
-
-                  Intent intent = new Intent(LoginActivity.this,PhoneNumberActivity.class);
-                  //intent.putExtra("mobile",responseData.getResponseData().getCustomer().getPhone1());
-                  startActivity(intent);
-
-                  finish();*/
-                  /*if (enterPassword.getText().toString().equalsIgnoreCase("123456")) {
-                      Intent intent = null;
-                      if (enterUsername.getText().toString().contains("dist")) {
-                          intent = new Intent(LoginActivity.this, DistributorActivity.class);
-                          sharedPreferences.edit().putBoolean("distributor",true).commit();
-                      }
-                      else {
-                          intent = new Intent(LoginActivity.this, PhoneNumberActivity.class);
-                      }
-                      sharedPreferences.edit().putBoolean("login",true).commit();
-                      startActivity(intent);
-                      finish();
-                  }*/
               }
               else {
                   final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
@@ -239,7 +205,6 @@ public class LoginActivity extends AppCompatActivity{
             }
 
         }
-        //spinner
         currentLanguage = getIntent().getStringExtra(currentLang);
 
         spinnerctrl  = (Spinner) findViewById(R.id.language_spinner);
@@ -278,19 +243,6 @@ public class LoginActivity extends AppCompatActivity{
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
-       /* Locale locale = new Locale("kn");
-        Locale.setDefault(locale);
-        // Create a new configuration object
-        Configuration config = new Configuration();
-        // Set the locale of the new configuration
-        config.locale = locale;
-        // Update the configuration of the Accplication context
-        getResources().updateConfiguration(
-                config,
-                getResources().getDisplayMetrics()
-        );
-*/
-
     }
 
     @Override
@@ -311,9 +263,7 @@ public class LoginActivity extends AppCompatActivity{
         Intent refresh = new Intent(this, LoginActivity.class);
         refresh.putExtra(currentLang, lang);
         startActivity(refresh);
-
         }
-    //spinner
 
 
     @Override
@@ -321,8 +271,6 @@ public class LoginActivity extends AppCompatActivity{
 
         if (requestCode == REQUEST_EXTERNAL_STORAGE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // permission was granted, yay! Do the
-                //showFileChooser();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -338,13 +286,11 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     void login(){
-        //code
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         sharedPreferences.edit().putString("userPhoneNumberPayment",enterUsername.getText().toString()).commit();
-        //
         WebserviceController wss = new WebserviceController(LoginActivity.this);
 
 
@@ -355,7 +301,6 @@ public class LoginActivity extends AppCompatActivity{
             jsonObject.put("phoneNumber", enterUsername.getText().toString());
             jsonObject.put("password", enterPassword.getText().toString());
             jsonObject.put("deviceId", sharedPreferencesFCM.getString("regId",""));
-
             requestObject.put("requestData",jsonObject);
 
         }
@@ -372,21 +317,17 @@ public class LoginActivity extends AppCompatActivity{
                     LoginResponse responseData = gson.fromJson(response,LoginResponse.class);
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-                        //
                         progressDialog.dismiss();
-                        //
 
                         if (rememberMe.isChecked()) {
                             sharedPreferencesFCM.edit().putString("username", enterUsername.getText().toString()).commit();
                             sharedPreferencesFCM.edit().putString("password", enterPassword.getText().toString()).commit();
                         }
 
-                        //sharedPreferences.edit().putString("mobile",responseData.getResponseData().getCustomer().getPhone1()).commit();
                         sharedPreferences.edit().putString("userid",responseData.getResponseData().getUserDetails().getUserId()).commit();
                         sharedPreferences.edit().putString("username",responseData.getResponseData().getUserDetails().getFirstName()+" "+responseData.getResponseData().getUserDetails().getLastName()).commit();
                         sharedPreferences.edit().putString("userRoleId",responseData.getResponseData().getUserDetails().getUserRoleId()).commit();
                         sharedPreferences.edit().putString("emailIdUser", responseData.getResponseData().getUserDetails().getEmailId()).commit();
-                        //
                         sharedPreferences.edit().putString("userSwitchRoleId",responseData.getResponseData().getUserDetails().getUserRoleId()).commit();
                         sharedPreferences.edit().putString("userFirstName",responseData.getResponseData().getUserDetails().getFirstName()).commit();
                         sharedPreferences.edit().putString("userLastName",responseData.getResponseData().getUserDetails().getLastName()).commit();
@@ -425,23 +366,17 @@ public class LoginActivity extends AppCompatActivity{
                             sharedPreferences.edit().putString("userlangitudeSecondProfile",lngSecond).commit();
                         }
 
-                        //
                         sharedPreferences.edit().putString("distId",responseData.getResponseData().getUserDetails().getDistributorId()).commit();
                         sharedPreferences.edit().putString("profilePic",responseData.getResponseData().getUserDetails().getProfilePic()).commit();
                         sharedPreferences.edit().putBoolean("login",true).commit();
                         hideKeybaord(v);
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        //intent.putExtra("mobile",responseData.getResponseData().getCustomer().getPhone1());
                         startActivity(intent);
-
                         finish();
-
                     }
                     else {
                         Toast.makeText(LoginActivity.this, TextUtils.isEmpty(responseData.getResponseDescription())? "Login Failed" :responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
-                        //
                         progressDialog.dismiss();
-                        //
                     }
                 }
                 catch (Exception e){

@@ -102,7 +102,6 @@ public class MapsMarkerActivity extends AppCompatActivity
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
                 finish();
-//                Toast.makeText(MapsMarkerActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
     }

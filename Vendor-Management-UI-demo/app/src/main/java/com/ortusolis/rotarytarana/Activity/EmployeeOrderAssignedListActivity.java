@@ -58,13 +58,10 @@ public class EmployeeOrderAssignedListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_orders);
 
         sharedPreferences = getSharedPreferences("water_management",0);
-
         mToolbar = findViewById(R.id.toolbar);
         gridview = findViewById(R.id.gridview);
         noResult = findViewById(R.id.noResult);
-
         data = new ArrayList<>();
-
         gson = new Gson();
 
         setSupportActionBar(mToolbar);
@@ -73,12 +70,8 @@ public class EmployeeOrderAssignedListActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -95,12 +88,6 @@ public class EmployeeOrderAssignedListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent intent = new Intent(EmployeeOrderAssignedListActivity.this, AssignedOrderDescription.class);
-               /* Pair[] views = new Pair[]{
-                        new Pair<View, String>(picture, "object_image"),
-                        new Pair<View, String>(name, "object_name"),
-                        new Pair<View, String>(description, "object_description")
-                };*/
-
                 if (position%2==0){
                     intent.putExtra("price",30);
                 }
@@ -108,52 +95,9 @@ public class EmployeeOrderAssignedListActivity extends AppCompatActivity {
                     intent.putExtra("price",20);
                 }
                 intent.putExtra("order",data.get(position));
-                /*ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation((Activity)context, views);*/
-
                 startActivityForResult(intent,200);
             }
         });
-
-        /*if (sharedPreferences.getBoolean("distributor",false)){
-            distributorNotification.setVisibility(View.VISIBLE);
-            customerNotification.setVisibility(View.GONE);
-        }
-        else {
-            distributorNotification.setVisibility(View.GONE);
-            customerNotification.setVisibility(View.VISIBLE);
-        }
-
-        if (distributorNotification.getVisibility()==View.VISIBLE){
-            distributorNotification.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(NotificationActivity.this, OrderActivity.class);
-                    startActivity(intent);
-                }
-            });
-        }
-
-        distributor1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NotificationActivity.this, DistributorAct.class);
-                startActivity(intent);
-            }
-        });
-
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NotificationActivity.this, CustomerAct.class);
-                startActivity(intent);
-            }
-        };
-
-        customer1.setOnClickListener(onClickListener);
-        customer2.setOnClickListener(onClickListener);
-        customer3.setOnClickListener(onClickListener);*/
-
     }
 
     @Override
@@ -234,7 +178,6 @@ public class EmployeeOrderAssignedListActivity extends AppCompatActivity {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                    Toast.makeText(EmployeeOrderAssignedListActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
 

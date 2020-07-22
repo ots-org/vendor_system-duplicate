@@ -275,7 +275,6 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                                     }else if(getIntent().hasExtra("assignRequest")){
                                         intent.putExtra("AssignedRequest","AssignedRequest");
                                     }
-
                                     startActivityForResult(intent,3533);
                                 }
                             });

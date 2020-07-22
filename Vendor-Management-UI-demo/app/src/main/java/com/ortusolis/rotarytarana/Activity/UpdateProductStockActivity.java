@@ -58,9 +58,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class UpdateProductStockActivity extends AppCompatActivity {
     ActionBar action;
     Button cancel;
-    //
     ProgressDialog progressDialog;
-    //
     Gson gson;
     List<String> productIdList;
     List<String> productNames;
@@ -101,7 +99,6 @@ public class UpdateProductStockActivity extends AppCompatActivity {
         cancel = (Button) findViewById(R.id.cancel);
         distributorText = findViewById(R.id.distributorText);
         distributorCodeLayout = findViewById(R.id.distributorCodeLayout);
-
         setSupportActionBar(this.toolbar);
         gson = new Gson();
         sharedPreferences = getSharedPreferences("water_management", 0);
@@ -110,22 +107,16 @@ public class UpdateProductStockActivity extends AppCompatActivity {
         productPriceList = new ArrayList();
         userNames = new ArrayList<>();
         userIdList = new ArrayList<>();
-  //
             progressDialog = new ProgressDialog(UpdateProductStockActivity.this);
             progressDialog.setMessage("Loading...");
             progressDialog.setCancelable(false);
             progressDialog.show();
-            //
         if (getSupportActionBar() != null) {
-
             this.action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -158,14 +149,12 @@ public class UpdateProductStockActivity extends AppCompatActivity {
 
                 getAllRegister(true);
 
-
             }
         });
-    }
+        }
         else{
         distributorText.setTextColor(getResources().getColor(R.color.textColor));
-    }
-
+        }
         getAllRegister(false);
     }
 
@@ -202,7 +191,6 @@ public class UpdateProductStockActivity extends AppCompatActivity {
                         if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
 
                             strDist = "";
-
                             userNames.clear();
                             userIdList.clear();
 
@@ -213,9 +201,7 @@ public class UpdateProductStockActivity extends AppCompatActivity {
                                 if (!showPop && sharedPreferences.getString("userid", "").equalsIgnoreCase(userInfo1.getUserId())) {
                                     strDist = userInfo1.getUserId();
                                     strDistName = userInfo1.getFirstName();
-                                    //
                                     distributorText.setText(strDistName);
-                                    //
                                     distributorStr = strDist;
                                 }
                             }
@@ -266,7 +252,6 @@ public class UpdateProductStockActivity extends AppCompatActivity {
 
                                 builderSingle.show();
                             }
-
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -277,7 +262,6 @@ public class UpdateProductStockActivity extends AppCompatActivity {
                 public void notifyError(VolleyError error) {
                     isgettingUsers = false;
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                    Toast.makeText(UpdateProductStockActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -296,8 +280,6 @@ public class UpdateProductStockActivity extends AppCompatActivity {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         JSONObject requestObject = new JSONObject();
         JSONObject jsonObject = new JSONObject();
-
-        //int prodStock = initialQty + Integer.parseInt(quantityEdit.getText().toString());
 
         try {
             jsonObject.put("productStockQty", quantityEdit.getText().toString());
@@ -339,7 +321,6 @@ public class UpdateProductStockActivity extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(WebserviceController.returnErrorMessage(error));
                 stringBuilder.append("");
-//                Toast.makeText(context, stringBuilder.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -371,17 +352,13 @@ public class UpdateProductStockActivity extends AppCompatActivity {
                     ProductsResponse responseData = (ProductsResponse) gson.fromJson(response, ProductsResponse.class);
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
 
-                        //
                         progressDialog.dismiss();
-                        //
                         strProd = "";
                         strProdName = "";
                         productStrPrice = "";
-
                         productNames.clear();
                         productIdList.clear();
                         productPriceList.clear();
-
                         productNames.add("Select Product");
                         productIdList.add("0");
                         productPriceList.add("0");
@@ -393,11 +370,6 @@ public class UpdateProductStockActivity extends AppCompatActivity {
                             productIdList.add(productDetails.getProductId());
                             productPriceList.add(productDetails.getProductPrice());
                         }
-                        /*if (!productIdList.isEmpty()) {
-                            strProd = (String) productIdList.get(0);
-                            strProdName = (String) productNames.get(0);
-                            productStrPrice = (String) productPriceList.get(0);
-                        }*/
 
                         spinnerUserType.setAdapter(new ArrayAdapter(UpdateProductStockActivity.this, android.R.layout.simple_spinner_dropdown_item, productNames));
                         spinnerUserType.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -436,7 +408,6 @@ public class UpdateProductStockActivity extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(WebserviceController.returnErrorMessage(error));
                 stringBuilder.append("");
-//                Toast.makeText(context, stringBuilder.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -468,7 +439,6 @@ public class UpdateProductStockActivity extends AppCompatActivity {
 
                     } else {
                         presentStock.setText("0");
-//                        Toast.makeText(UpdateProductStockActivity.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Failed" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
                     presentStock.setText("0");
@@ -483,7 +453,6 @@ public class UpdateProductStockActivity extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(WebserviceController.returnErrorMessage(error));
                 stringBuilder.append("");
-//                Toast.makeText(context, stringBuilder.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }

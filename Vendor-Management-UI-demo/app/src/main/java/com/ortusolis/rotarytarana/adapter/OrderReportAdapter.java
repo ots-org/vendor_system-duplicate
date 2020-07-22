@@ -45,9 +45,7 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
     private static final String TAG = "ContentItemAdapter";
 
     String distributorStr = "";
-    //
     ProgressDialog progressDialog;
-    //
     String strDistName = null;
     String strDist = null;
     List<String> userNames, userIdList;
@@ -159,12 +157,10 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
         holder.employeeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(context);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
                 getAllRegister(item.getOrderId());
             }
         });
@@ -229,12 +225,8 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
 
                         if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
 
-                            //
                             progressDialog.dismiss();
-                            //
-
                             strDist = "";
-
                             userNames.clear();
                             userIdList.clear();
 
@@ -298,7 +290,6 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
                 public void notifyError(VolleyError error) {
                     isLoadingS = false;
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                    Toast.makeText(context, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -347,7 +338,6 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(context, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 

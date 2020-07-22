@@ -57,24 +57,16 @@ public class CustomerOutstandingReportActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     Toolbar mToolbar;
     ActionBar action;
-//
-CheckBox checkBoxReport;
-    //
+    CheckBox checkBoxReport;
     LinearLayout distributorCodeLayout;
     String distributorStr = "";
     TextView distributorText;
-    //
     ProgressDialog progressDialog;
-    //
     String strDistName = null;
-    //
     Button getReport;
-    //
     String strDist = null;
     List<String> userNames, userIdList;
-    //
     String pdf="no";
-    //
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -86,12 +78,8 @@ CheckBox checkBoxReport;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_outstanding_report);
         addLL = findViewById(R.id.addLL);
-        //
         getReport = findViewById(R.id.getReport);
         checkBoxReport = (CheckBox)findViewById(R.id.checkboxOutstandingReport);
-        //
-
-//
         checkBoxReport.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -111,7 +99,6 @@ CheckBox checkBoxReport;
                getListOfOrderByDate();
             }
         });
-        //
         mToolbar = findViewById(R.id.toolbar);
         noResult = findViewById(R.id.noResult);
         distributorCodeLayout = findViewById(R.id.distributorCodeLayout);
@@ -130,11 +117,8 @@ CheckBox checkBoxReport;
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-            //action.setTitle("Stock");
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -151,38 +135,20 @@ CheckBox checkBoxReport;
         }
         else {
             distributorCodeLayout.setVisibility(View.GONE);
-
-            // check checkbox, if check flag==0
-//            if(checkBox.isChecked()){
-//                pdf="yes";
-////                    Toast.makeText(CustomerOutstandingReportActivity.this, "Clicked", Toast.LENGTH_LONG).show();
-//            }
-           // getListOfOrderByDate();
         }
 
         distributorText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(CustomerOutstandingReportActivity.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
                 getAllRegister();
             }
         });
     }
-//    //
-//    public void itemClicked(View v) {
-//        //code to check if this checkbox is checked!
-//        CheckBox checkBox = (CheckBox)v;
-//        if(checkBox.isChecked()){
-//            pdf="yes";
-//            Toast.makeText(CustomerOutstandingReportActivity.this, "Clicked", Toast.LENGTH_LONG).show();
-//        }
-//    }
-////
+
     void getListOfOrderByDate(){
 
         WebserviceController wss = new WebserviceController(CustomerOutstandingReportActivity.this);
@@ -203,16 +169,11 @@ CheckBox checkBoxReport;
             return;
         }
 
-        //JSONObject requestObject = new JSONObject();
-
         JSONObject jsonObject = new JSONObject();
         try {
 
             jsonObject.put("distributorId", usserId);
-            //
             jsonObject.put("pdf", pdf);
-            //
-            //requestObject.put("request", jsonObject);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -266,7 +227,6 @@ CheckBox checkBoxReport;
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
                 noResult.setVisibility(View.VISIBLE);
-//                Toast.makeText(CustomerOutstandingReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -314,12 +274,9 @@ CheckBox checkBoxReport;
                 TextView oustandingAmount = view.findViewById(R.id.oustandingAmount);
                 TextView outstandingCan = view.findViewById(R.id.outstandingCan);
 
-
                 productName.setText(productBalanceCan.getProductName());
-
                 outstandingCan.setText(productBalanceCan.getBalanceCan());
                 outstandingCan.setGravity(Gravity.RIGHT);
-
                 if (requestSdata.getCustomerId()==null || requestSdata.getCustomerId().equalsIgnoreCase(customerStr)) {
                     customerName.setText("");
                     oustandingAmount.setText("");
@@ -329,14 +286,12 @@ CheckBox checkBoxReport;
                     oustandingAmount.setText(requestSdata.getOutstandingAmount());
                     oustandingAmount.setGravity(Gravity.RIGHT);
                 }
-
                 addLL.addView(view);
             }
 
         }
         else {
             View view = getLayoutInflater().inflate(R.layout.view_customer_outstanding,null);
-
             addLL.addView(view);
         }
 
@@ -371,12 +326,8 @@ CheckBox checkBoxReport;
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
 
-                        //
                         progressDialog.dismiss();
-                        //
-
                         strDist = "";
-
                         userNames.clear();
                         userIdList.clear();
 
@@ -421,11 +372,8 @@ CheckBox checkBoxReport;
                         builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //
                                 distributorText.setText(strDistName );
-                                //
                                 distributorStr = strDist;
-                             // getListOfOrderByDate();
                             }
                         });
 
@@ -441,7 +389,6 @@ CheckBox checkBoxReport;
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(CustomerOutstandingReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 

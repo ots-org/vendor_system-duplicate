@@ -67,9 +67,7 @@ public class BillListActivity extends AppCompatActivity {
     List<CompleteOrderDetails> data;
     List<CompleteOrderDetails> addedOrders;
     TextView noResult,customerText;
-    //
     ProgressDialog progressDialog;
-    //
     String customeId = "";
     String orderIds = "";
     String customerStrName = null;
@@ -97,13 +95,10 @@ public class BillListActivity extends AppCompatActivity {
         getReport = findViewById(R.id.getReport);
         customerText = findViewById(R.id.customerStr);
         customeLinearLayout = findViewById(R.id.customeLinearLayout);
-
         data = new ArrayList<>();
         addedOrders = new ArrayList<>();
-
         userNames = new ArrayList<>();
         userIdList = new ArrayList<>();
-
         gson = new Gson();
 
         setSupportActionBar(mToolbar);
@@ -112,12 +107,8 @@ public class BillListActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -139,9 +130,7 @@ public class BillListActivity extends AppCompatActivity {
                 newCalendar.set(year, monthOfYear, dayOfMonth);
 
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
                 String dateStr = format.format(newCalendar.getTime());
-
                 buttonDatePick.setText(dateStr);
 
             }
@@ -153,9 +142,7 @@ public class BillListActivity extends AppCompatActivity {
                 newCalendarEnd.set(year, monthOfYear, dayOfMonth);
 
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
                 String dateStr = format.format(newCalendarEnd.getTime());
-
                 buttonDatePickEnd.setText(dateStr);
             }
         }, newCalendarEnd.get(Calendar.YEAR), newCalendarEnd.get(Calendar.MONTH), newCalendarEnd.get(Calendar.DAY_OF_MONTH));
@@ -184,12 +171,10 @@ public class BillListActivity extends AppCompatActivity {
         customerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(BillListActivity.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
                 getAllRegister();
             }
         });
@@ -276,7 +261,6 @@ public class BillListActivity extends AppCompatActivity {
                 addedOrders.clear();
                 if (billGridAdapter!=null)
                     billGridAdapter.clearAll();
-//                Toast.makeText(BillListActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -289,7 +273,6 @@ public class BillListActivity extends AppCompatActivity {
         }
 
         if (checkIfSameCustomer(requestS)){
-
             if (checkIfSameOrder(requestS)){
                 removeOrder(requestS);
                 return false;
@@ -298,8 +281,6 @@ public class BillListActivity extends AppCompatActivity {
                 addedOrders.add(requestS);
                 return true;
             }
-
-
         }
         else {
             Toast.makeText(this, "Please select the orders of same Customer", Toast.LENGTH_LONG).show();
@@ -416,10 +397,7 @@ public class BillListActivity extends AppCompatActivity {
                     DistributorResponse distributorResponse = gson.fromJson(response, DistributorResponse.class);
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-
-                        //
                         progressDialog.dismiss();
-                        //
                         customeId = "";
                         userNames.clear();
                         userIdList.clear();
@@ -488,7 +466,6 @@ public class BillListActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(BillListActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 

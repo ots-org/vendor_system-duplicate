@@ -165,53 +165,6 @@ public class DonationActivityDiscription extends AppCompatActivity {
                         return;
                     }
                 }
-
-//                AlertDialog.Builder alertDialogPay = new AlertDialog.Builder(DonationActivityDiscription.this);
-//                alertDialogPay.setTitle("Choose Payment Option");
-//                String[] items = {"Kind","Payment"};
-//                int checkedItem = 1;
-//                paymentMethod="Payment";
-//                alertDialogPay.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        switch (which) {
-//                            case 0:
-//                                paymentMethod="Kind";
-//                                break;
-//                            case 1:
-//                                paymentMethod="Payment";
-//                                break;
-//                        }
-//                    }
-//                });
-//                alertDialogPay.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//                alertDialogPay.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // navigation
-//                        if(paymentMethod.equals("Kind")){
-////                            requestS.setPaymentStatus("newRequest");
-////                            requestS.setOrderStatus("newRequest");
-//                        }else {
-//
-////                            requestS.setPaymentStatus("Paid");
-////                            requestS.setOrderStatus("New");
-//
-//                        }
-//                        pay();
-//                        dialog.dismiss();
-//
-//                    }
-//                });
-//                AlertDialog alertCash = alertDialogPay.create();
-//                alertCash.setCanceledOnTouchOutside(false);
-//                alertCash.show();
                 paymentMethod="Payment";
                 pay();
             }
@@ -275,7 +228,6 @@ public class DonationActivityDiscription extends AppCompatActivity {
         }
         donationQuantity.setText(dAmount.toString().substring(0,dAmount.toString().length()-2));
         req= Double.valueOf(finalList.get(3))-Double.valueOf(finalList.get(2))-Double.valueOf(String.valueOf(donationQuantity.getText()));
-//        requiredQuantity.setText(req.toString().substring(0,req.toString().length()-2));
         totalP=Double.valueOf(finalList.get(1))*Double.valueOf(String.valueOf(donationQuantity.getText()));
         totalAmount.setText(totalP.toString());
     }
@@ -287,7 +239,6 @@ public class DonationActivityDiscription extends AppCompatActivity {
         Double iAmount=Double.valueOf(String.valueOf(donationQuantity.getText()))+1.0;
         donationQuantity.setText(iAmount.toString().substring(0,iAmount.toString().length()-2));
         req= Double.valueOf(finalList.get(3))-Double.valueOf(finalList.get(2))-Double.valueOf(String.valueOf(donationQuantity.getText()));
-//        requiredQuantity.setText(req.toString().substring(0,req.toString().length()-2));
         totalP=Double.valueOf(finalList.get(1))*Double.valueOf(String.valueOf(donationQuantity.getText()));
         totalAmount.setText(totalP.toString());
     }
@@ -360,8 +311,6 @@ public class DonationActivityDiscription extends AppCompatActivity {
                     JSONArray requestProductDetails = responseData.getJSONArray("requestProductDetails");
                     obj.getString("responseCode");
                     if (obj.getString("responseCode").equalsIgnoreCase("200")) {
-//                        Beneficiary= new String[requestProductDetails.length()];
-//                        productPrice= new String[requestProductDetails.length()];
                         for (int ProdCategory=0;ProdCategory<requestProductDetails.length();ProdCategory++){
                             JSONObject productDetailsobject = requestProductDetails.getJSONObject(ProdCategory);
                             JSONObject orderDetails = productDetailsobject.getJSONObject("orderDetails");
@@ -383,7 +332,6 @@ public class DonationActivityDiscription extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getApplicationContext(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -451,7 +399,6 @@ public class DonationActivityDiscription extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getApplicationContext(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }

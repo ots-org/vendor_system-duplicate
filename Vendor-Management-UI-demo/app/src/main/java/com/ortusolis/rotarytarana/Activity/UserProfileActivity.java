@@ -66,7 +66,6 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
         address2Edit = findViewById(R.id.address2Edit);
         pincodeEdit = findViewById(R.id.pincodeEdit);
         updateUserDetails= findViewById(R.id.updateUserDetails);
-
         firstNameEdit.setText( sharedPreferences.getString("userFirstName",""));
         lastNameEdit.setText( sharedPreferences.getString("userLastName",""));
         emailEdit.setText( sharedPreferences.getString("emailIdUser",""));
@@ -74,7 +73,6 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
         address1Edit.setText(sharedPreferences.getString("userAddress1",""));
         address2Edit.setText(sharedPreferences.getString("userAddress2",""));
         pincodeEdit.setText( sharedPreferences.getString("userPincode",""));
-
         lat=sharedPreferences.getString("userlatitudeProfile","");
         lng=sharedPreferences.getString("userlangitudeProfile","");
         latSecond=sharedPreferences.getString("userlatitudeSecondProfile","");
@@ -92,28 +90,13 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
                 .findFragmentById(R.id.mapPrimary);
         mapFragment.getMapAsync( this);
 
-        // Getting a reference to the map
-//        googleMap = mapFragment.getMap();// getMap();
-
-        // Setting a click event handler for the map
-
-
-//        SupportMapFragment mapFragmentSecond = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.mapSecondary);
-//        mapFragmentSecond.getMapAsync( this);
-
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -178,21 +161,17 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
         Geocoder coder = new Geocoder(this);
         List<Address> address;
         Barcode.GeoPoint p1 = null;
-
         Geocoder coderSecond = new Geocoder(this);
         List<Address> addressSecond;
         Barcode.GeoPoint p2 = null;
-//
         String primryAddress= address1Edit.getText().toString();
         String secondaryAddress= address2Edit.getText().toString();
         try {
             address = coder.getFromLocationName(primryAddress,5);
             if (address==null) {
-//                return null;
             }
             addressSecond = coderSecond.getFromLocationName(secondaryAddress,5);
             if (addressSecond==null) {
-//                return null;
             }
             if(!sharedPreferences.getString("userlatitudeProfile","").equals("")){
                 LatLng latLng1 = new LatLng(Double.parseDouble(sharedPreferences.getString("userlatitudeProfile","")), Double.parseDouble(sharedPreferences.getString("userlangitudeProfile","")));
@@ -220,27 +199,20 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
                 latSecond= p1Second.latitude+"";
                 lngSecond=p1Second.longitude+"";
                 mapLocator(latLng1,latLng2 );
-
             }
 
-
-//            return p1;
         } catch (IOException e) {
             e.printStackTrace();
         }
-//    }
-
     }
 
     void mapLocator(LatLng latLng1, LatLng latLng2){
-//        LatLng latLng = new LatLng(lat, lng);
         googleMap.addMarker(new MarkerOptions().position(latLng1)
                 .title("Primary delivery location")
                 .draggable(true));
         googleMap.addMarker(new MarkerOptions().position(latLng2)
                 .title("Secondary delivery location")
                 .draggable(true));
-
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 15));
     }
 
@@ -249,31 +221,22 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
         boolean valid = true;
         if (firstNameEdit.getText().toString().isEmpty()) {
             firstNameEdit.setError("Please Enter First name");
-            // errorMsg = "Please Enter First name";
             valid = false;
         } else if (lastNameEdit.getText().toString().isEmpty()) {
             lastNameEdit.setError("Please Enter Last name");
-            //errorMsg = "Please Enter Last name";
             valid = false;
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailEdit.getText().toString()).matches()) {
             emailEdit.setError("Please Enter valid Email Id");
-            //errorMsg = "Please Enter Email Id";
             valid = false;
         } else if (phoneEdit.getText().toString().isEmpty() || phoneEdit.getText().toString().length() != 10) {
             phoneEdit.setError("Please Enter Valid Phone number");
-            //errorMsg = "Please Enter Phone number";
             valid = false;
         } else if (pincodeEdit.getText().toString().isEmpty() || pincodeEdit.getText().toString().length() < 6) {
             pincodeEdit.setError("Please Enter valid pincode");
-            //errorMsg = "Please Enter pincode";
             valid = false;
         } else if (address1Edit.getText().toString().isEmpty()) {
             address1Edit.setError("Please Enter Address");
-            //errorMsg = "Please Enter Address";
             valid = false;
-
-
-
         }
         return valid;
     }
@@ -325,11 +288,6 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
                         DistributorResponse distributorResponse = gson.fromJson(response, DistributorResponse.class);
 
                         if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-//                            String lat= p1First.latitude+"";
-//                            String lng=p1First.longitude+"";
-//
-//                            String latSecond= p1Second.latitude+"";
-//                            String lngSecond=p1Second.longitude+"";
 
                             sharedPreferences.edit().putString("emailIdUser", emailEdit.getText().toString()).commit();
                             sharedPreferences.edit().putString("userFirstName",firstNameEdit.getText().toString()).commit();
@@ -354,13 +312,11 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
                 }
             });
         }
         else {
             Toast.makeText(this, "Enter all fields", Toast.LENGTH_LONG).show();
         }
-
     }
 }

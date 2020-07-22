@@ -10,10 +10,8 @@ import com.ortusolis.rotarytarana.R;
 public class SplashScreenWaterOts extends AppCompatActivity {
     String Activity;
     Intent  intentNav=null;
-    //
     String Login;
     Intent intent2=null;
-    //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

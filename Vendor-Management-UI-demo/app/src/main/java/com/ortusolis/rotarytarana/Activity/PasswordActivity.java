@@ -41,14 +41,12 @@ public class PasswordActivity extends AppCompatActivity {
     Toolbar mToolbar;
     ActionBar action;
     EditText newPassword,reEnterNewPassword;
-   //
     EditText existingPassword;
     String value="";
     String valueGlobal="";
     String ChangePassword="ChangePassword";
     String changepasswordGlobal="changepasswordGlobal";
     SharedPreferences sharedPreferences;
-    //
     Button submit;
     String userId = "";
 
@@ -64,37 +62,22 @@ public class PasswordActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         newPassword = findViewById(R.id.enterPassword);
         reEnterNewPassword = findViewById(R.id.enterNewPassword);
-        //
         existingPassword= findViewById(R.id.existingPassword);
         sharedPreferences = getSharedPreferences("water_management",0);
-        //
         submit = findViewById(R.id.submit);
         Intent intent1 = getIntent();
         if (getIntent().hasExtra("userId")){
             userId = getIntent().getStringExtra("userId");
         }else if(ChangePassword.equals(intent1.getExtras().getString("ChangePassword"))) {
-            //userid
-
             userId = sharedPreferences.getString("userid","");
-            // recive intent
-
             value = intent1.getExtras().getString("ChangePassword");
-
-//            if (value.equals("ChangePassword")||valueGlobal.equals("changepasswordGlobal")) {
             Log.e("","");
-                existingPassword.setVisibility(View.VISIBLE);
-//            }
+            existingPassword.setVisibility(View.VISIBLE);
         }else if(changepasswordGlobal.equals(intent1.getExtras().getString("changepasswordGlobal"))) {
             userId = sharedPreferences.getString("userid","");
-            // recive intent
-
-
             valueGlobal  = intent1.getExtras().getString("changepasswordGlobal");
-//            if (value.equals("ChangePassword")||valueGlobal.equals("changepasswordGlobal")) {
-                existingPassword.setVisibility(View.VISIBLE);
-//            }
+            existingPassword.setVisibility(View.VISIBLE);
         }
-        //
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) {
@@ -145,14 +128,11 @@ public class PasswordActivity extends AppCompatActivity {
 
     boolean validate(){
         boolean valid = true;
-        //
         if (value.equals(ChangePassword)||valueGlobal.equals(changepasswordGlobal)) {
             if (existingPassword.getText().toString().isEmpty()){
                 valid = false;
             }
         }
-        //
-
         if (newPassword.getText().toString().isEmpty()){
             valid = false;
         }
@@ -162,27 +142,23 @@ public class PasswordActivity extends AppCompatActivity {
         else if (!newPassword.getText().toString().equals(reEnterNewPassword.getText().toString())){
             valid = false;
         }
-
         return valid;
     }
 
     void doneRegister(){
         if (validate()) {
-            //
             if (value.equals(ChangePassword)||valueGlobal.equals(changepasswordGlobal)) {
                 ChangePassword();
             }
             else {
                 login();
             }
-            //
         }
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(PasswordActivity.this);
             builder.setMessage("Enter Passwords");
             final AlertDialog alertDialog = builder.create();
             alertDialog.show();
-
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -195,7 +171,6 @@ public class PasswordActivity extends AppCompatActivity {
     void login(){
 
         WebserviceController wss = new WebserviceController(PasswordActivity.this);
-
 
         JSONObject requestObject = new JSONObject();
 
@@ -221,12 +196,8 @@ public class PasswordActivity extends AppCompatActivity {
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
                         sharedPreferences.edit().putString("password",newPassword.getText().toString()).commit();
                         finish();
-
                     }
                     Toast.makeText(PasswordActivity.this, TextUtils.isEmpty(responseData.getResponseDescription())? "Failed" :responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
-
-
-
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -236,15 +207,13 @@ public class PasswordActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(PasswordActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
     }
-    //create function change password Raghuram ots
+
     void ChangePassword(){
 
         WebserviceController wss = new WebserviceController(PasswordActivity.this);
-
 
         JSONObject requestObject = new JSONObject();
 
@@ -254,7 +223,6 @@ public class PasswordActivity extends AppCompatActivity {
             jsonObject.put("newPassword", newPassword.getText().toString());
             jsonObject.put("oldPassword", existingPassword.getText().toString());
             requestObject.put("updatePassword",jsonObject);
-
         }
         catch (Exception e){
             e.printStackTrace();
@@ -265,7 +233,6 @@ public class PasswordActivity extends AppCompatActivity {
             public void notifySuccess(String response, int statusCode) {
                 try {
                     Log.e("login response",response);
-
                     GeneralResponse responseData = new Gson().fromJson(response, GeneralResponse.class);
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
                         finish();
@@ -273,7 +240,6 @@ public class PasswordActivity extends AppCompatActivity {
                     }else{
                         Toast.makeText(PasswordActivity.this, TextUtils.isEmpty(responseData.getResponseDescription())? "Failed" :responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                     }
-
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -283,10 +249,7 @@ public class PasswordActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(PasswordActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
     }
-//code raghuram ots
-
 }

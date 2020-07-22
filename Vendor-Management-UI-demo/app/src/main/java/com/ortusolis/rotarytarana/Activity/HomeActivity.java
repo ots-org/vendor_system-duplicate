@@ -135,7 +135,6 @@ public class HomeActivity extends AppCompatActivity {
                             numberFormat.setMaximumFractionDigits(1);
                             currentTemp.setText(numberFormat.format(celsius) + " C");
                             humidity.setText(mainJsonObject.getString("humidity") + " C");
-
                             currentTemp1.setText(numberFormat.format(celsius) + " C");
                             humidity1.setText(mainJsonObject.getString("humidity") + " C");
 

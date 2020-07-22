@@ -62,21 +62,15 @@ public class CardListActivity extends AppCompatActivity {
     String customeId = "";
     String orderIds = "";
     String m_Text = "";
-    //
     String paymentMethod="";
     String delivaryAddress="";
-
     float totalAmountPayment=0;
-    //
     String Flag="no";
     String salesVaocherFalg="no";
     Integer Count=1;
     float PaymentTotal=0;
-    //
     public AssignedResponse CashResponseOnly;
     ProductRequest productRequestFinal;
-    //
-
     List<ProductRequestCart> productRequests;
     Button checkout, salesVoucher;
     ProgressDialog progressDialog;
@@ -100,9 +94,7 @@ public class CardListActivity extends AppCompatActivity {
         noResult = findViewById(R.id.noResult);
         checkout = findViewById(R.id.checkout);
         salesVoucher = findViewById(R.id.salesVoucher);
-
         productRequests = new ArrayList<>();
-
         gson = new Gson();
         String item=sharedPreferences.getString("prodDesc","");
         Log.e("item",item);
@@ -115,9 +107,6 @@ public class CardListActivity extends AppCompatActivity {
 
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -154,50 +143,15 @@ public class CardListActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (!productRequests.isEmpty()){
-//                    progressDialog = new ProgressDialog(CardListActivity.this);
-//                    progressDialog.setMessage("Placing Order..");
-//                    progressDialog.show();
-
                     requestS =  new ProductRequest.RequestS();
-
                     requestS.setCustomerId(productRequests.get(0).getCustomerId());
                     requestS.setCustomerName(productRequests.get(0).getCustomerName());
                     requestS.setOrderDate(productRequests.get(0).getOrderDate());
                     requestS.setDelivaryDate(productRequests.get(0).getDelivaryDate());
                     requestS.setDistributorId(productRequests.get(0).getDistributorId());
                     requestS.setAssignedId(productRequests.get(0).getAssignedId());
-
                     requestS.setOrderNumber(productRequests.get(0).getOrderNumber());
                     requestS.setDeliverdDate(productRequests.get(0).getDeliverdDate());
-
-
-//                    requestS.setAddress(sharedPreferences.getString("userAddress1",""));
-//                    requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile",""));
-//                    requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile",""));
-//
-//                    if(Count!=1){
-//                        progressDialog.dismiss();
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
-//                        builder.setMessage("Your Order Cost is "+PaymentTotal+", click Confirm to place order")
-//                                .setCancelable(true)
-//                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        //do things
-//                                        placeOrder(prepareOrder(productRequests),false);
-//                                    }
-//                                });
-//                        builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                Count=1;
-////                                finish();
-//                            }
-//                        });
-//                        AlertDialog alert = builder.create();
-//                        alert.show();
-//                    }else {
-//                        placeOrder(prepareOrder(productRequests),false);
-//                    }
-
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(CardListActivity.this);
                     alertDialog.setTitle("Choose Delivery Address");
                     String[] items = {"Primary Address","Secondary Address"};
@@ -245,7 +199,6 @@ public class CardListActivity extends AppCompatActivity {
                             // navigation
                             Toast.makeText(CardListActivity.this, paymentMethod, Toast.LENGTH_LONG).show();
                             if (delivaryAddress.equals("Primary")) {
-
                                 requestS.setAddress(sharedPreferences.getString("userAddress1",""));
                                 requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile",""));
                                 requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile",""));
@@ -255,12 +208,6 @@ public class CardListActivity extends AppCompatActivity {
                                 requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile",""));
                             }
                             dialog.dismiss();
-//                            if(PaymentTotal==0.0){
-//                                paymentMethod="Cash";
-//                                requestS.setPaymentStatus("newRequest");
-//                                placeOrder(prepareOrder(productRequests),false);
-//                                return;
-//                            }
                             AlertDialog.Builder alertDialogPay = new AlertDialog.Builder(CardListActivity.this);
                             alertDialogPay.setTitle("Choose Payment Option");
                             String[] items = {"Request","Payment"};
@@ -271,14 +218,10 @@ public class CardListActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     switch (which) {
                                         case 0:
-//                                            Toast.makeText(CardListActivity.this, "Clicked on Request", Toast.LENGTH_LONG).show();
                                             paymentMethod="Cash";
-
                                             break;
                                         case 1:
-//                                            Toast.makeText(CardListActivity.this, "Clicked on Payment", Toast.LENGTH_LONG).show();
                                             paymentMethod="Payment";
-
                                             break;
                                     }
 
@@ -303,7 +246,6 @@ public class CardListActivity extends AppCompatActivity {
                                         requestS.setOrderStatus("New");
                                     }
                                     if(Count!=1){
-//                                        progressDialog.dismiss();
                                         AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
                                         builder.setMessage("Your Order Cost is "+PaymentTotal+", click Confirm to place order")
                                                 .setCancelable(true)
@@ -325,8 +267,6 @@ public class CardListActivity extends AppCompatActivity {
                                         placeOrder(prepareOrder(productRequests),false);
                                     }
                                     dialog.dismiss();
-//                                    Toast.makeText(CardListActivity.this, paymentMethod, Toast.LENGTH_LONG).show();
-
                                 }
                             });
                             AlertDialog alertCash = alertDialogPay.create();
@@ -337,11 +277,8 @@ public class CardListActivity extends AppCompatActivity {
                     });
                     AlertDialog alertAddress = alertDialog.create();
                     alertAddress.setCanceledOnTouchOutside(false);
-
                     alertAddress.show();
-
                 }
-
             }
         });
 
@@ -350,13 +287,7 @@ public class CardListActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (!productRequests.isEmpty()){
-
-//                    progressDialog = new ProgressDialog(CardListActivity.this);
-//                    progressDialog.setMessage("Placing Order..");
-//                    progressDialog.show();
-
                     requestS =  new ProductRequest.RequestS();
-
                     requestS.setCustomerId(productRequests.get(0).getCustomerId());
                     requestS.setCustomerName(productRequests.get(0).getCustomerName());
                     requestS.setOrderDate(productRequests.get(0).getOrderDate());
@@ -366,10 +297,8 @@ public class CardListActivity extends AppCompatActivity {
                     requestS.setOrderStatus("Assigned");
                     requestS.setOrderNumber(productRequests.get(0).getOrderNumber());
                     requestS.setDeliverdDate(productRequests.get(0).getDeliverdDate());
-
                     salesVaocherFalg="yes";
                     if(Count!=1){
-//                        progressDialog.dismiss();
                         AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
                         builder.setMessage("Your Order Cost is "+PaymentTotal+", click Confirm to place order")
                                 .setCancelable(false)
@@ -384,10 +313,7 @@ public class CardListActivity extends AppCompatActivity {
                     }else {
                         placeOrder(prepareOrder(productRequests),false);
                     }
-//                        placeOrder(prepareOrder(productRequests),true);
-
                 }
-
             }
         });
 
@@ -445,7 +371,6 @@ public class CardListActivity extends AppCompatActivity {
             return;
         }else {
             String str = gson.toJson(productRequest);
-//            showAlertDialog(productRequest,str);
             if (paymentMethod.equals("Cash")) {
                 CashAlert(productRequest);
             } else {
@@ -458,99 +383,8 @@ public class CardListActivity extends AppCompatActivity {
                 totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
                 startActivity(totalAmountPaymentintent);
             }
-//            deleteFormCart();
-//            onBackPressed();
             return;
         }
-//        WebserviceController wss = new WebserviceController(CardListActivity.this);
-//
-//        String str = gson.toJson(productRequest);
-//
-////        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-////        alertDialogBuilder.setMessage("api request "+str);
-////        alertDialogBuilder.setPositiveButton("yes",
-////                new DialogInterface.OnClickListener() {
-////                    @Override
-////                    public void onClick(DialogInterface arg0, int arg1) {
-////                        Toast.makeText(CardListActivity.this,"You clicked yesbutton",Toast.LENGTH_LONG).show();
-////                    }
-////                });
-////
-////
-////
-////        AlertDialog alertDialog = alertDialogBuilder.create();
-////        alertDialog.show();
-//
-//        wss.postLoginVolley(Constants.insertOrderAndProduct, str, new IResult() {
-//            @Override
-//            public void notifySuccess(String response, int statusCode) {
-////                deleteFormCart();
-//                try {
-//                    Log.e("getPlants response", response);
-//
-//                    final AssignedResponse distributorResponse = gson.fromJson(response, AssignedResponse.class);
-//
-//                    if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-////                        Intent intente = new Intent(CardListActivity.this, AssignedOrderListActivity.class);
-//////                            if (!distributorResponse.getResponseData().getOrderList().isEmpty())
-////                        intente.putExtra("orderId",distributorResponse.getResponseData().getOrderList().get(0).getOrderId());
-////                        startActivity(intente);
-//
-////                            if (progressDialog!=null && progressDialog.isShowing()){
-////                                progressDialog.dismiss();
-////                            }
-////                        Toast.makeText(CardListActivity.this,""+salesVoucherValue+"AssignedOrderListActivity",Toast.LENGTH_LONG).show();
-//                        if (salesVaocherFalg.equals("yes")) {
-//                            sharedPreferences.edit().remove("prodDesc").apply();
-//                            Intent intent = new Intent(CardListActivity.this, AssignedOrderListActivity.class);
-////                            if (!distributorResponse.getResponseData().getOrderList().isEmpty())
-//                                intent.putExtra("orderId",distributorResponse.getResponseData().getOrderList().get(0).getOrderId());
-//                            startActivity(intent);
-//                            Toast.makeText(CardListActivity.this,"AssignedOrderListActivity",Toast.LENGTH_LONG).show();
-//                        }
-//                        else {
-//                            deleteFormCart();
-////                            onBackPressed();
-//
-////                            OnBackPressed()
-//                       /*     AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
-//                            builder.setMessage(Html.fromHtml((distributorResponse.getResponseDescription() != null ? distributorResponse.getResponseDescription() : "") + "<br/><br/> Delivery date is " + productRequest.getRequest().getDelivaryDate()));
-//                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    sharedPreferences.edit().remove("prodDesc").apply();
-//                                }
-//                            });*/
-//
-//                           /* builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                                @Override
-//                                public void onDismiss(DialogInterface dialog) {
-//                                    onBackPressed();
-//                                }
-//                            });
-//                            builder.show();*/
-//                            //
-//                            CashResponseOnly=distributorResponse;
-////                            showAlertDialog(productRequest);
-//                            //
-//                        }
-//
-//                    }else
-//                        Toast.makeText(CardListActivity.this, distributorResponse.getResponseDescription()!=null?distributorResponse.getResponseDescription(): "", Toast.LENGTH_LONG).show();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void notifyError(VolleyError error) {
-//                Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                if (progressDialog!=null && progressDialog.isShowing()){
-//                    progressDialog.dismiss();
-//                }
-//                Toast.makeText(CardListActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
-//            }
-//        });
     }
 
     //
@@ -565,11 +399,9 @@ public class CardListActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-//                        Toast.makeText(CardListActivity.this, "Clicked on Request", Toast.LENGTH_LONG).show();
                         paymentMethod="Cash";
                         break;
                     case 1:
-//                        Toast.makeText(CardListActivity.this, "Clicked on Payment", Toast.LENGTH_LONG).show();
                         paymentMethod="Payment";
                         break;
                 }
@@ -586,75 +418,19 @@ public class CardListActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // navigation
-//                Toast.makeText(CardListActivity.this, paymentMethod, Toast.LENGTH_LONG).show();
                 if (paymentMethod.equals("Cash")) {
                     dialog.dismiss();
                     CashAlert(productRequest);
                 } else {
-                   //
-//                                        Intent myIntent = new Intent(CardListActivity.this, RazorPayActivity.class);
-                    //                    myIntent.putExtra("totalAmountPayment", Float.toString(totalAmountPayment));
-                    //                    startActivity(myIntent);
-                    //
-                    //                    //
-//                    if (paymentMethod.equals("Payment")) {
-//                    Toast.makeText(CardListActivity.this, sharedPreferences.getString("emailIdUser",""), Toast.LENGTH_LONG).show();
-//
-//                    String useremail= sharedPreferences.getString("emailIdUser","");
-//                    Log.e("useremail",sharedPreferences.getString("emailIdUser",""));
                     final String strProductRequests = strProductRequest;
-//                    if( useremail.equals("")){
-////                       String m_Text = "";
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
-//                        builder.setTitle("Enter EmailId for payment Process");
-//
-//// Set up the input
-//                        final EditText input = new EditText(CardListActivity.this);
-//// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-//                        input.setInputType(InputType.TYPE_CLASS_TEXT );
-//                        builder.setView(input);
-//
-//// Set up the buttons
-//                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                m_Text = input.getText().toString();
-//                                if(!android.util.Patterns.EMAIL_ADDRESS.matcher(input.getText().toString()).matches()){
-//                                    Toast.makeText(CardListActivity.this,"Please Enter valid Email Id",Toast.LENGTH_LONG).show();
-//                                }else {
-//                                    sharedPreferences.edit().putString("emailIdUser", m_Text).commit();
-//                                    onBackPressed();
-//                                    Intent totalAmountPaymentintent = new Intent(CardListActivity.this, RazorPayActivity.class);
-////                               // pass amount
-//                                    totalAmountPaymentintent.putExtra("totalAmountPayment", totalAmountPayment);
-//                                    totalAmountPaymentintent.putExtra("salesVaocherFalg", salesVaocherFalg);
-//                                    totalAmountPaymentintent.putExtra("classFlag", "cart");
-//                                    totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
-////                                 Log.d("hi",Parsef totalAmountPayment);
-//                                    startActivity(totalAmountPaymentintent);
-//                                }
-//                            }
-//                        });
-//                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.cancel();
-//                            }
-//                        });
-//
-//                        builder.show();
-//                    }else {
+
                         Intent totalAmountPaymentintent = new Intent(CardListActivity.this, RazorPayActivity.class);
-//                               // pass amount
                         totalAmountPaymentintent.putExtra("totalAmountPayment", totalAmountPayment);
                         totalAmountPaymentintent.putExtra("salesVaocherFalg", salesVaocherFalg);
                         totalAmountPaymentintent.putExtra("classFlag", "cart");
                         totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
-//                                 Log.d("hi",Parsef totalAmountPayment);
                         startActivity(totalAmountPaymentintent);
                     onBackPressed();
-//                    }
-//                    }
                 }
             }
         });
@@ -663,9 +439,6 @@ public class CardListActivity extends AppCompatActivity {
         alert.show();
     }
 
-    //
-
-    //
     public  void  CashAlert(final ProductRequest productRequest){
 
         WebserviceController wss = new WebserviceController(CardListActivity.this);
@@ -673,25 +446,9 @@ public class CardListActivity extends AppCompatActivity {
         String str = gson.toJson(productRequest);
         Log.e("cashrequest",str);
 
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-//        alertDialogBuilder.setMessage("api request "+str);
-//        alertDialogBuilder.setPositiveButton("yes",
-//                new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface arg0, int arg1) {
-//                        Toast.makeText(CardListActivity.this,"You clicked yesbutton",Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//
-//
-//
-//        AlertDialog alertDialog = alertDialogBuilder.create();
-//        alertDialog.show();
-
         wss.postLoginVolley(Constants.insertOrderAndProduct, str, new IResult() {
             @Override
             public void notifySuccess(String response, int statusCode) {
-//                deleteFormCart();
                 try {
                     Log.e("getPlants response", response);
 
@@ -699,9 +456,7 @@ public class CardListActivity extends AppCompatActivity {
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
                         sharedPreferences.edit().remove("prodDesc").apply();
-//        ProductRequest productRequest = new ProductRequest();
                         AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
-//        builder.setMessage(Html.fromHtml((CashResponseOnly.getResponseDescription() != null ? CashResponseOnly.getResponseDescription() : "") + "<br/><br/> Delivery date is " + ""));
                         builder.setMessage(Html.fromHtml((distributorResponse.getResponseDescription() != null ? distributorResponse.getResponseDescription() : "") + "<br/><br/> Delivery date is " + productRequest.getRequest().getDelivaryDate()));
                         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
@@ -730,23 +485,13 @@ public class CardListActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                if (progressDialog!=null && progressDialog.isShowing()){
-//                    progressDialog.dismiss();
-//                }
-//                Toast.makeText(CardListActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
-
-
-
     }
-
-//
 
     @Override
     protected void onResume() {
         super.onResume();
-        //getOrderByStatusAndDistributor();
     }
 
     @Override
@@ -782,21 +527,18 @@ public class CardListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public  void Alertpayment(){
-//        progressDialog.dismiss();
         AlertDialog.Builder builder = new AlertDialog.Builder(CardListActivity.this);
         builder.setMessage("Your Order Cost is "+PaymentTotal+", click Confirm to place order")
                 .setCancelable(false) //
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //do things
-//                        showAlertDialog(productRequestFinal);
                         placeOrder(prepareOrder(productRequests),false);
                     }
                 });
         builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Count=1;
-//                finish();
             }
         });
         AlertDialog alert = builder.create();
@@ -817,15 +559,11 @@ public class CardListActivity extends AppCompatActivity {
                     JSONObject positionEntry= null;
                         finalEntry = (JSONObject) completeArray .get(i);
                         positionEntry= (JSONObject) completeArray .get(position);
-//                        finalEntry.getString("productId");
                         if(finalEntry.getString("productId").equals(positionEntry.getString("productId"))){
-                            completeArray.remove(i);// for remove only one entry object you need to add your own logic
-//                            finalArray.put(finalEntry);
+                            completeArray.remove(i);
                         }else {
-//                            finalArray.put(finalEntry);
                     }
                 }
-
                 Log.e("finalEntry",gson.toJson(completeArray).toString());
                 Log.e("finalEntry",gson.toJson(finalArray).toString());
                 sharedPreferences.edit().putString("prodDesc",completeArray.toString()).apply();
@@ -834,35 +572,5 @@ public class CardListActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-    }
-    public void testPayment(){
-//        List<NameValuePair> params = new ArrayList<NameValuePair>();
-//// Add required parameters
-//        String jsonStr = sh.makeServiceCall(Constants.JSON_URL, ServiceHandler.POST, params);
-////modifying string as per requirement
-//        jsonStr = jsonStr.substring(0,jsonStr.length()-1).replace(&quot;processData(&quot;,&quot;&quot;);
-//        JSONArray payOptList = new JSONArray(jsonStr);
-//// looping through All Payment Options
-//        for (int i=0;i&lt;payOptList.length();i++) {
-//            JSONObject payOpt = payOptList.getJSONObject(i);
-//            String payOptStr = payOpt.getString(&quot;payOpt&quot;);
-//            try{
-//                if(payOpt.getString(payOptStr)!=null){
-//                    payOptionList.add(payOptions.get(payOptStr));//Add payment
-//
-//                    option only if it includes any card
-//
-//                    JSONArray cardArr = new JSONArray(payOpt.getString(payOptStr));
-//                    for(int j=0;j&lt;cardArr.length();j++){
-//                        JSONObject card = cardArr.getJSONObject(j);
-//                        CardTypeDTO cardTypeDTO = new CardTypeDTO();
-//// set values in the above dto and add the dto to respective
-//
-//                        list objects
-//
-//                    }
-//                }
-//            }catch (Exception e) {}
-//        }
     }
 }

@@ -52,7 +52,6 @@ public class ProductDetailReportActivity extends AppCompatActivity {
         headerLL = findViewById(R.id.headerLL);
         sharedPreferences = getSharedPreferences("water_management",0);
         gson = new Gson();
-
         setSupportActionBar(mToolbar);
 
         gson = new Gson();
@@ -61,11 +60,8 @@ public class ProductDetailReportActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-            //action.setTitle("Stock");
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,

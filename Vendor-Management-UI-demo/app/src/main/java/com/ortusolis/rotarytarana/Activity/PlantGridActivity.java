@@ -67,7 +67,6 @@ public class PlantGridActivity extends AppCompatActivity{
         mToolbar = findViewById(R.id.toolbar);
         fab = findViewById(R.id.fab);
         sharedPreferences = getSharedPreferences("plants",0);
-
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) {
@@ -76,7 +75,6 @@ public class PlantGridActivity extends AppCompatActivity{
             action.setHomeButtonEnabled(true);
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -94,7 +92,6 @@ public class PlantGridActivity extends AppCompatActivity{
             mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
         plantsString = new ArrayList<>();
-
         String allPlantsObj = sharedPreferences.getString("plantsobj","");
         gson = new Gson();
         ArrayList<PlantModel> plan = gson.fromJson(allPlantsObj,new TypeToken<ArrayList<PlantModel>>(){}.getType());

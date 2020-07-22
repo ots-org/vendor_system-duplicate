@@ -131,9 +131,6 @@ public class CustomerAct extends AppCompatActivity {
                 distributorCodeLayout.setVisibility(View.GONE);
                 distributorText.setText(sharedPreferences.getString("username","")+" ("+sharedPreferences.getString("userid","")+" )");
                 productLayout.setVisibility(View.GONE);
-
-
-
             }
             else if (userInfo.getUserRoleId().equalsIgnoreCase("3")){
                 toolbarTitle.setText("New Partner");
@@ -148,7 +145,6 @@ public class CustomerAct extends AppCompatActivity {
                 }
                 else {
                     distributorCodeLayout.setVisibility(View.VISIBLE);
-
                 }
 
                 productLayout.setVisibility(View.GONE);
@@ -194,12 +190,9 @@ public class CustomerAct extends AppCompatActivity {
             }
         });
 
-
-
         if (userInfo!=null && userInfo.getUserRoleId().equalsIgnoreCase("4")){
             getProducts(false);
         }
-
 
         approveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,7 +200,6 @@ public class CustomerAct extends AppCompatActivity {
                 approveNewUserRegistration();
             }
         });
-
         rejectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,12 +208,6 @@ public class CustomerAct extends AppCompatActivity {
         });
     }
 
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.content_approve, menu);
-        return true;
-    }*/
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -229,9 +215,6 @@ public class CustomerAct extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            /*case R.id.done:
-                approveNewUserRegistration();
-                return true;*/
         }
         return super.onOptionsItemSelected(item);
     }
@@ -263,17 +246,9 @@ public class CustomerAct extends AppCompatActivity {
                     GeneralResponse responseData = gson.fromJson(response, GeneralResponse.class);
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
-                        //if (userInfo.getUserRoleId().equalsIgnoreCase("2")){
                             setResult(RESULT_OK);
                             Toast.makeText(CustomerAct.this, responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                             finish();
-                        /*}
-                        else if (userInfo.getUserRoleId().equalsIgnoreCase("3") || userInfo.getUserRoleId().equalsIgnoreCase("4")){
-                            Toast.makeText(CustomerAct.this, responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
-                            mappUser();
-                        }*/
-
                     }
 
                     Toast.makeText(CustomerAct.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Approval Failed" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
@@ -285,7 +260,6 @@ public class CustomerAct extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -317,10 +291,8 @@ public class CustomerAct extends AppCompatActivity {
                     GeneralResponse responseData = gson.fromJson(response, GeneralResponse.class);
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
                             setResult(RESULT_OK);
                             finish();
-
                     }
 
                     Toast.makeText(CustomerAct.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "No Description from API" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
@@ -332,7 +304,6 @@ public class CustomerAct extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -364,16 +335,12 @@ public class CustomerAct extends AppCompatActivity {
                     GeneralResponse responseData = gson.fromJson(response, GeneralResponse.class);
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
-                        //if (userInfo.getUserRoleId().equalsIgnoreCase("3")){
                             setResult(RESULT_OK);
                             Toast.makeText(CustomerAct.this, responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                             finish();
-                        //}
                         if (userInfo.getUserRoleId().equalsIgnoreCase("4")){
                             MapUserProduct();
                         }
-
                     }
 
                     Toast.makeText(CustomerAct.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Login Failed" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
@@ -385,7 +352,6 @@ public class CustomerAct extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -435,7 +401,6 @@ public class CustomerAct extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -545,7 +510,6 @@ public class CustomerAct extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -589,7 +553,6 @@ public class CustomerAct extends AppCompatActivity {
                         productDist = null;
                         productDistName = null;
                         productPrice = null;
-
                         productNames.clear();
                         productIdList.clear();
                         productPriceList.clear();
@@ -598,7 +561,6 @@ public class CustomerAct extends AppCompatActivity {
                             productNames.add(productDetails.getProductName());
                             productIdList.add(productDetails.getProductId());
                             productPriceList.add(productDetails.getProductPrice());
-
                         }
 
                         if (!showPop && !productIdList.isEmpty()){
@@ -612,7 +574,6 @@ public class CustomerAct extends AppCompatActivity {
                                 }
 
                             }
-
                             productText.setText(productDistName + "");
                             productEdit.setText(productPrice+"");
 
@@ -675,7 +636,6 @@ public class CustomerAct extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(CustomerAct.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
     }

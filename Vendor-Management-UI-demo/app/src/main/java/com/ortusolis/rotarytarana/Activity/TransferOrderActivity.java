@@ -63,7 +63,6 @@ public class TransferOrderActivity extends AppCompatActivity {
     Toolbar mToolbar;
     ActionBar action;
     Spinner selectStatus;
-
     LinearLayout distributorCodeLayout;
     String distributorStr = "";
     TextView distributorText;
@@ -91,11 +90,8 @@ public class TransferOrderActivity extends AppCompatActivity {
         distributorText = findViewById(R.id.distributorText);
         sharedPreferences = getSharedPreferences("water_management",0);
         gson = new Gson();
-
         setSupportActionBar(mToolbar);
-
         gson = new Gson();
-
         userNames = new ArrayList<>();
         userIdList = new ArrayList<>();
         getReport.setText("Get Orders");
@@ -105,11 +101,8 @@ public class TransferOrderActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-            //action.setTitle("Stock");
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -230,7 +223,6 @@ public class TransferOrderActivity extends AppCompatActivity {
             jsonObject.put("role", userRole);
             jsonObject.put("startDate", buttonDatePick.getText().toString());
             jsonObject.put("endDate", buttonDatePickEnd.getText().toString());
-
             requestObject.put("request", jsonObject);
 
         } catch (Exception e) {
@@ -262,7 +254,6 @@ public class TransferOrderActivity extends AppCompatActivity {
                             if (orderReportAdapter!=null)
                                 orderReportAdapter.clearAll();
                         }
-
                     }
                     else {
                         noResult.setVisibility(View.VISIBLE);
@@ -285,7 +276,6 @@ public class TransferOrderActivity extends AppCompatActivity {
                 noResult.setVisibility(View.VISIBLE);
                 if (orderReportAdapter!=null)
                 orderReportAdapter.clearAll();
-//                Toast.makeText(TransferOrderActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -332,7 +322,6 @@ public class TransferOrderActivity extends AppCompatActivity {
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
 
                         strDist = "";
-
                         userNames.clear();
                         userIdList.clear();
 
@@ -383,7 +372,6 @@ public class TransferOrderActivity extends AppCompatActivity {
                         });
 
                         builderSingle.show();
-
                     }
                 }
                 catch (Exception e){
@@ -394,7 +382,6 @@ public class TransferOrderActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(TransferOrderActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 

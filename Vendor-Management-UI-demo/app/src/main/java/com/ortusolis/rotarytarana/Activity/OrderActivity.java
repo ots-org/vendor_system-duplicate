@@ -33,7 +33,6 @@ public class OrderActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
     ActionBar action;
-
     TextView deliveryTime,deliveryDate,employee;
     String selEmpl = "";
     LinearLayout orderDel;
@@ -64,9 +63,6 @@ public class OrderActivity extends AppCompatActivity {
 
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -186,12 +182,10 @@ public class OrderActivity extends AppCompatActivity {
         employee.setOnClickListener(null);
         deliveryDate.setOnClickListener(null);
         deliveryTime.setOnClickListener(null);
-
         orderDel.setVisibility(View.VISIBLE);
         MenuItem doneMenuItem = menu.findItem(R.id.done);
         doneMenuItem.setTitle("Track Order");
         done = true;
-
         employee.setTextColor(ContextCompat.getColor(OrderActivity.this, R.color.textColor));
         deliveryDate.setTextColor(ContextCompat.getColor(OrderActivity.this, R.color.textColor));
         deliveryTime.setTextColor(ContextCompat.getColor(OrderActivity.this, R.color.textColor));

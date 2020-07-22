@@ -72,9 +72,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
 
     LinearLayout distributorCodeLayout;
     String distributorStr = "";
-    //
     ProgressDialog progressDialog;
-    //
     String employeeStr = "";
     String productStr = "";
     TextView distributorText;
@@ -89,9 +87,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
     List<String> userNames, userIdList;
     List<String> empNames, empIdList;
     List<String> productNames, productIdList;
-    //
     String pdf="no";
-    //
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -118,13 +114,10 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         gson = new Gson();
-
         userNames = new ArrayList<>();
         userIdList = new ArrayList<>();
-
         empNames = new ArrayList<>();
         empIdList = new ArrayList<>();
-
         productNames = new ArrayList<>();
         productIdList = new ArrayList<>();
 
@@ -132,8 +125,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-            //action.setTitle("Stock");
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
 
@@ -207,12 +198,10 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                 new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(CustomerLedgerReportActivity.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
                 getAllRegister();
             }
         });
@@ -220,13 +209,10 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
         employeeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(CustomerLedgerReportActivity.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
-
                 getAllRegisterEmployee();
             }
         });
@@ -234,12 +220,10 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
         productText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(CustomerLedgerReportActivity.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
                 getProducts();
             }
         });
@@ -250,7 +234,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
         CheckBox checkBox = (CheckBox)v;
         if(checkBox.isChecked()){
             pdf="yes";
-
         }
     }
 
@@ -273,10 +256,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
             Toast.makeText(this, "Select Facilitator", Toast.LENGTH_LONG).show();
             return;
         }
-        /*if (employeeStr.isEmpty()){
-            Toast.makeText(this, "Select Requester/Donor", Toast.LENGTH_LONG).show();
-            return;
-        }*/
 
         JSONObject requestObject = new JSONObject();
 
@@ -290,14 +269,11 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
             jsonObject.put("status", "close");
             jsonObject.put("fromTime", buttonDatePick.getText().toString());
             jsonObject.put("toTime", buttonDatePickEnd.getText().toString());
-            //
             jsonObject.put("pdf", pdf);
-            //
             if (!employeeStr.isEmpty())
             jsonObject.put("customerId", employeeStr);
             if (!productStr.isEmpty())
             jsonObject.put("productId", productStr);
-
             requestObject.put("request", jsonObject);
 
         } catch (Exception e) {
@@ -353,7 +329,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
                 noResult.setVisibility(View.VISIBLE);
-//                Toast.makeText(CustomerLedgerReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -378,9 +353,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
             addRow(null);
 
             for (OrderResponse.RequestS requestSdata : requestS) {
-
                 addRow(requestSdata);
-
             }
         }
         else {
@@ -392,7 +365,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
 
 
         if (requestSdata!=null){
-
             String orderIDRec = "";
             String amtRec = "";
             String outStd = "";
@@ -403,7 +375,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                 slNumber = slNumber+1;
 
                 View view = getLayoutInflater().inflate(R.layout.view_customer_ledger,null);
-
                 TextView slNo = view.findViewById(R.id.slNo);
                 TextView customerName = view.findViewById(R.id.customerName);
                 TextView orderNo = view.findViewById(R.id.orderNo);
@@ -422,7 +393,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                 productName.setText(productOrder.getProductName());
                 orderedQty.setText(productOrder.getOtsOrderedQty());
                 orderedQty.setGravity(Gravity.RIGHT);
-
                 deliveredQty.setText(productOrder.getOtsDeliveredQty());
                 deliveredQty.setGravity(Gravity.RIGHT);
                 emptyCanRecieved.setText(productOrder.getEmptyCanRecived());
@@ -441,7 +411,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                         customerNameStr = requestSdata.getCustomerDetails().getFirstName();
                         orderNo.setText(orderIDRec);
                         orderNo.setGravity(Gravity.RIGHT);
-
                         productCost.setText(orderCo);
                         productCost.setGravity(Gravity.RIGHT);
                         deliveredDate.setText(requestSdata.getDelivaredDate());
@@ -469,7 +438,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
         }
         else {
             View view = getLayoutInflater().inflate(R.layout.view_customer_ledger,null);
-
             addLL.addView(view);
         }
     }
@@ -483,7 +451,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
         try {
             jsonObject.put("searchKey", "UserRoleId");
             jsonObject.put("searchvalue", "2");
-
             requestObject.put("requestData",jsonObject);
         }
         catch (Exception e){
@@ -503,12 +470,8 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
 
-                        //
                         progressDialog.dismiss();
-                        //
-
                         strDist = "";
-
                         userNames.clear();
                         userIdList.clear();
 
@@ -553,14 +516,11 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                         builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //
                                 distributorText.setText(strDistName);
-                                //
                                 distributorStr = strDist;
                                 employeeStr = "";
                                 productStr = "";
                                 employeeText.setText("Select Requester/Donor");
-                                //productText.setText("Select Product");
                             }
                         });
 
@@ -576,7 +536,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(CustomerLedgerReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -589,19 +548,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
 
-//        String usserId = "";
-//        if (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
-//            usserId = distributorStr;
-//        }
-//        else if (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
-//            usserId = sharedPreferences.getString("userid","");
-//        }
-//        else {
-//            usserId = sharedPreferences.getString("distId","");
-//        }
-
         try {
-
             jsonObject.put("mappedTo", "1");
 
             requestObject.put("requestData",jsonObject);
@@ -622,13 +569,8 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                     DistributorResponse distributorResponse = new Gson().fromJson(response, DistributorResponse.class);
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-
-                        //
                         progressDialog.dismiss();
-                        //
-
                         strEmp = "";
-
                         empNames.clear();
                         empIdList.clear();
 
@@ -676,9 +618,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 employeeStr = strEmp;
-                               //
                                 employeeText.setText(strEmpName);
-                                //
                             }
                         });
 
@@ -694,7 +634,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(CustomerLedgerReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -737,13 +676,9 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
 
                     ProductsResponse responseData = (ProductsResponse) gson.fromJson(response, ProductsResponse.class);
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
-                        //
                         progressDialog.dismiss();
-                        //
                         strProd = "";
                         strProdName = "";
-
                         productNames.clear();
                         productIdList.clear();
 
@@ -791,12 +726,9 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 productStr = strProd;
-                                //
                                 productText.setText(strProdName);
-                       //
                             }
                         });
-
                         builderSingle.show();
 
                     } else {
@@ -813,7 +745,6 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(WebserviceController.returnErrorMessage(error));
                 stringBuilder.append("");
-//                Toast.makeText(context, stringBuilder.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -42,9 +42,7 @@ public class SearchUserFragment extends Fragment {
     Spinner spinnerUserType,spinnerRoleType;
     ImageView searchButton;
     EditText searchEdit;
-    //
     ProgressDialog progressDialog;
-    //
     LinearLayout distributorCodeLayout,productIdLayout,productPriceLayout,searchLL;
     ArrayList<String> usernameList = new ArrayList<>();
     ArrayList<String> userTypeList = new ArrayList<>();
@@ -59,7 +57,6 @@ public class SearchUserFragment extends Fragment {
     public static SearchUserFragment newInstance() {
 
         Bundle args = new Bundle();
-
         SearchUserFragment fragment = new SearchUserFragment();
         fragment.setArguments(args);
         return fragment;
@@ -76,7 +73,6 @@ public class SearchUserFragment extends Fragment {
         searchEdit = view.findViewById(R.id.searchEdit);
         searchButton = view.findViewById(R.id.searchButton);
         searchLL = view.findViewById(R.id.searchLL);
-
         recyclerView = view.findViewById(R.id.recyclerView);
         sharedPreferences = getActivity().getSharedPreferences("water_management",0);
 
@@ -84,16 +80,10 @@ public class SearchUserFragment extends Fragment {
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-
-        //usernameList.add("Users Id");
         usernameList.add("First Name");
         usernameList.add("Last Name");
-
-
-        //userTypeList.add("UsersId");
         userTypeList.add("UsersFirstname");
         userTypeList.add("UsersLastname");
-
 
         if (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1") || sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
             usernameList.add("Role");
@@ -107,10 +97,7 @@ public class SearchUserFragment extends Fragment {
 
 
         ArrayAdapter userAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, usernameList);
-
-
         spinnerUserType.setAdapter(userAdapter);
-
         spinnerUserType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -140,17 +127,12 @@ public class SearchUserFragment extends Fragment {
         roleIdList.add("0");
 
         if (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")) {
-//            rolenameList.add("Admin");
-//            roleIdList.add("1");
-
             rolenameList.add("Distributor");
             roleIdList.add("2");
         }
 
         rolenameList.add("Employee");
         roleIdList.add("3");
-
-
         rolenameList.add("Customer");
         roleIdList.add("4");
 
@@ -166,12 +148,6 @@ public class SearchUserFragment extends Fragment {
                     if (notificationAdapter != null) {
                         notificationAdapter.clearAll();
                     }
-//                    //
-//                    progressDialog = new ProgressDialog(getActivity());
-//                    progressDialog.setMessage("Loading...");
-//                    progressDialog.setCancelable(false);
-//                    progressDialog.show();
-//                    //
                     searchEdit.setText("");
                     getAllRegister(false);
                 }
@@ -207,12 +183,10 @@ public class SearchUserFragment extends Fragment {
     }
 
     void getAllRegister(boolean typed){
-        //
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        //
         WebserviceController wss = new WebserviceController(getActivity());
 
         JSONObject requestObject = new JSONObject();
@@ -221,14 +195,7 @@ public class SearchUserFragment extends Fragment {
         try {
             jsonObject.put("searchKey", userTypeList.get(spinnerUserType.getSelectedItemPosition()));
             jsonObject.put("searchvalue", typed ? searchEdit.getText().toString() : roleIdList.get(spinnerRoleType.getSelectedItemPosition()));
-
-//            if (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
-
-                jsonObject.put("distributorId", sharedPreferences.getString("userid", ""));
-
-//            }
-//
-
+            jsonObject.put("distributorId", sharedPreferences.getString("userid", ""));
             requestObject.put("requestData",jsonObject);
         }
         catch (Exception e){
@@ -249,10 +216,6 @@ public class SearchUserFragment extends Fragment {
                     DistributorResponse distributorResponse = gson.fromJson(response, DistributorResponse.class);
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-                        //
-//                        progressDialog.dismiss();
-                        //
-
                         notificationAdapter = new UserAdapter(distributorResponse.getResponseData().getUserDetails(),getActivity(),true, rolenameList.get(spinnerRoleType.getSelectedItemPosition()).equalsIgnoreCase("Distributor"));
                         recyclerView.setAdapter(notificationAdapter);
 
@@ -272,10 +235,7 @@ public class SearchUserFragment extends Fragment {
             public void notifyError(VolleyError error) {
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
-
     }
-
 }

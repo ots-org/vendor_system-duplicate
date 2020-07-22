@@ -64,10 +64,8 @@ public class ListMappedUsersList extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -80,7 +78,6 @@ public class ListMappedUsersList extends AppCompatActivity {
         }
 
         noResult.setText("No Users");
-
         getAllRegister();
     }
 
@@ -140,7 +137,6 @@ public class ListMappedUsersList extends AppCompatActivity {
                 recyclerView.setVisibility(View.GONE);
                 noResult.setVisibility(View.VISIBLE);
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(ListMappedUsersList.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 

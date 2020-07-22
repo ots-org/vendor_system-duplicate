@@ -69,22 +69,14 @@ public class AddUserFragment extends  Fragment implements LocationListener {
     Spinner spinnerUserType;
     TextView productText,distributorText,textSelect;
     FrameLayout photoLL;
-    //CheckBox userStatusCheck;
     LinearLayout distributorCodeLayout,productIdLayout;
     EditText firstNameEdit,lastNameEdit,phoneEdit,emailEdit,passwordEdit,address1Edit,address2Edit,pincodeEdit,productEdit,password2Edit;
-   //code Raghuram OTS
     ProgressDialog progressDialog;
-    //code Raghuram OTS
-
-    //
     protected LocationManager locationManager;
     protected LocationListener locationListener;
-
     protected String latitude, longitude;
     protected boolean gps_enabled, network_enabled;
     private String userLat, userLong;
-    //
-
 
     ArrayList<String> userTypeList = new ArrayList<>();
     UserInfo addUser = null;
@@ -95,9 +87,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
     String distributorStr = "";
     List<String> userNames, userIdList;
     String userRoleId = "1";
-    //
     String flag="1";
-    //
     Button addUserButton;
     String existingUserId = null;
 
@@ -114,7 +104,6 @@ public class AddUserFragment extends  Fragment implements LocationListener {
     public static AddUserFragment newInstance() {
 
         Bundle args = new Bundle();
-
         AddUserFragment fragment = new AddUserFragment();
         fragment.setArguments(args);
         return fragment;
@@ -132,10 +121,8 @@ public class AddUserFragment extends  Fragment implements LocationListener {
         productText = view.findViewById(R.id.productText);
         imageView = view.findViewById(R.id.imageView);
         textSelect = view.findViewById(R.id.textSelect);
-       // userStatusCheck = view.findViewById(R.id.userStatusCheck);
         photoLL = view.findViewById(R.id.photoLL);
         passwordLayout = view.findViewById(R.id.passwordLayout);
-
         firstNameEdit = view.findViewById(R.id.firstNameEdit);
         lastNameEdit = view.findViewById(R.id.lastNameEdit);
         phoneEdit = view.findViewById(R.id.phoneEdit);
@@ -146,8 +133,6 @@ public class AddUserFragment extends  Fragment implements LocationListener {
         productEdit = view.findViewById(R.id.productEdit);
         password2Edit = view.findViewById(R.id.password2Edit);
         addUserButton = view.findViewById(R.id.addUser);
-
-
         sharedPreferences = getActivity().getSharedPreferences("water_management",0);
 
         gson = new Gson();
@@ -159,11 +144,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
         productPriceList = new ArrayList<>();
         Bundle bundle = getArguments();
 
-
-
-        //
         locationManager= (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        //locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(getContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getContext(),
@@ -194,24 +175,18 @@ public class AddUserFragment extends  Fragment implements LocationListener {
         }*/
 
         if (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")) {
-            //
             userTypeList.add("Select User Type");
-            //
             userTypeList.add("Distributor");
             distributorCodeLayout.setVisibility(View.GONE);
             productIdLayout.setVisibility(View.GONE);
 
         }else{
-            //
             userTypeList.add("Select User Type");
             distributorCodeLayout.setVisibility(View.GONE);
             productIdLayout.setVisibility(View.GONE);
-            //
         }
 
         if (!sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")) {
-
-//            userTypeList.add("Distributor");
             distributorCodeLayout.setVisibility(View.GONE);
         }
         userTypeList.add("Employee");
@@ -257,16 +232,11 @@ public class AddUserFragment extends  Fragment implements LocationListener {
             distributorText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //progress code
                     progressDialog = new ProgressDialog(getActivity());
                     progressDialog.setMessage("Loading...");
                     progressDialog.setCancelable(false);
                     progressDialog.show();
-                    //
-
                     getAllRegister(true,"");
-
-
                 }
             });
         }
@@ -277,12 +247,10 @@ public class AddUserFragment extends  Fragment implements LocationListener {
         productText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //progress code
-                            progressDialog = new ProgressDialog(getActivity());
-                            progressDialog.setMessage("Loading...");
-                            progressDialog.setCancelable(false);
-                            progressDialog.show();
-                //
+                progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setMessage("Loading...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 getProducts("");
             }
         });
@@ -316,13 +284,11 @@ public class AddUserFragment extends  Fragment implements LocationListener {
     }
 
     void loadExistingUser(){
-        //
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         flag="0";
-        //
         if (addUser !=null){
             existingUserId = addUser.getUserId();
             firstNameEdit.setText(addUser.getFirstName()!=null? addUser.getFirstName():"");
@@ -332,7 +298,6 @@ public class AddUserFragment extends  Fragment implements LocationListener {
             address1Edit.setText(addUser.getAddress1()!=null?addUser.getAddress1():"");
             address2Edit.setText(addUser.getAddress2()!=null?addUser.getAddress2():"");
             pincodeEdit.setText(addUser.getPincode()!=null?addUser.getPincode():"");
-
             userRoleId = addUser.getUserRoleId();
             distributorStr = addUser.getMappedTo();
 
@@ -346,9 +311,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
 
             }*/
             prodId = addUser.getProductId();
-
             password2Edit.setText(addUser.getUsrPassword());
-
             addUserButton.setText("Update user");
             passwordLayout.setVisibility(View.GONE);
 
@@ -374,8 +337,6 @@ public class AddUserFragment extends  Fragment implements LocationListener {
             if(prodId!= null) {
                 getAllRegister(false, prodId);
             }
-
-           // userStatusCheck.setChecked(addUser.getUsrStatus().equalsIgnoreCase("active"));
 
             if (addUser.getUserRoleId()!=null) {
 
@@ -406,31 +367,25 @@ public class AddUserFragment extends  Fragment implements LocationListener {
         }
         else if (lastNameEdit.getText().toString().isEmpty()){
             lastNameEdit.setError("Please Enter Last name");
-            //errorMsg = "Please Enter Last name";
             valid = false;
         }
         else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailEdit.getText().toString()).matches()){
             emailEdit.setError("Please Enter valid Email Id");
-            //errorMsg = "Please Enter Email Id";
             valid = false;
         }
         else if (phoneEdit.getText().toString().isEmpty() ||  phoneEdit.getText().toString().length()!=10){
             phoneEdit.setError("Please Enter Valid Phone number");
-            //errorMsg = "Please Enter Phone number";
             valid = false;
         }
         else if (pincodeEdit.getText().toString().isEmpty() || pincodeEdit.getText().toString().length() < 6){
             pincodeEdit.setError("Please Enter valid pincode");
-            //errorMsg = "Please Enter pincode";
             valid = false;
         }
         else if (address1Edit.getText().toString().isEmpty()){
             address1Edit.setError("Please Enter Address");
-            //errorMsg = "Please Enter Address";
             valid = false;
         }else if (password2Edit.getText().toString().isEmpty()){
             password2Edit.setError("Please Enter Password");
-            //errorMsg = "Please Enter Address";
             valid = false;
         }
         else if((distributorStr==null || TextUtils.isEmpty(distributorStr)) && distributorCodeLayout.getVisibility()==View.VISIBLE){
@@ -438,22 +393,16 @@ public class AddUserFragment extends  Fragment implements LocationListener {
             valid = false;
         }
 
-
         return valid;
     }
 
-
-    //Raghuram
     private void requestPermision() {
         ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION}, 1);
     }
 
-    //
-
     void addUser(){
 
     if (isValid()) {
-
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Updating..");
@@ -484,7 +433,6 @@ public class AddUserFragment extends  Fragment implements LocationListener {
             jsonObject.put("firstName", firstNameEdit.getText().toString());
             jsonObject.put("lastName", lastNameEdit.getText().toString());
             jsonObject.put("emailId", emailEdit.getText().toString());
-           // jsonObject.put("usrStatus", existingUserId==null? "NEW" : userStatusCheck.isChecked()?"Active":"Inactive");
             jsonObject.put("usrPassword", password2Edit.getText().toString());
             jsonObject.put("contactNo", phoneEdit.getText().toString());
             jsonObject.put("address1", address1Edit.getText().toString());
@@ -506,16 +454,9 @@ public class AddUserFragment extends  Fragment implements LocationListener {
             jsonObject.put("productPrice", productEdit.getText().toString().isEmpty()?JSONObject.NULL:productEdit.getText().toString());
             jsonObject.put("productId", (productDist==null || productDist.isEmpty())? JSONObject.NULL : productDist);
             jsonObject.put("userRoleId", userRoleId);
-
-            //
             jsonObject.put("userLat",userLat);
             jsonObject.put("userLong",userLong);
-
-            //
-
             requestObject.put("requestData", jsonObject);
-
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -528,9 +469,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
 
                 try {
                     Log.e("getPlants response", response);
-
                     progressDialog.dismiss();
-
                     DistributorResponse distributorResponse = gson.fromJson(response, DistributorResponse.class);
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
@@ -542,9 +481,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
                         address1Edit.setText("");
                         address2Edit.setText("");
                         pincodeEdit.setText("");
-                        //
                         password2Edit.setText("");
-                        //
                         productEdit.setText("");
                         productText.setText("Select Product");
                         distributorText.setText("Select Facilitator");
@@ -572,7 +509,6 @@ public class AddUserFragment extends  Fragment implements LocationListener {
             public void notifyError(VolleyError error) {
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -584,9 +520,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
 
     void getAllRegister(final boolean showPop, final String prod){
 
-
         WebserviceController wss = new WebserviceController(getActivity());
-
 
         JSONObject requestObject = new JSONObject();
 
@@ -615,15 +549,10 @@ public class AddUserFragment extends  Fragment implements LocationListener {
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
 
-if(flag.equals("0")){
-       // cancel progress
-                        progressDialog.dismiss();
-                        //
-}
-
-
+                        if(flag.equals("0")){
+                           progressDialog.dismiss();
+                        }
                         strDist = "";
-
                         userNames.clear();
                         userIdList.clear();
 
@@ -650,8 +579,6 @@ if(flag.equals("0")){
                                     distributorText.setText(strDistName );
                                     distributorStr = strDist;
                                 }
-
-
                             }
 
                         }
@@ -691,10 +618,7 @@ if(flag.equals("0")){
                             builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //
                                     progressDialog.dismiss();
-                                    //
-                                    //dialog.dismiss();
                                 }
                             });
 
@@ -704,10 +628,7 @@ if(flag.equals("0")){
 
                                     distributorText.setText(strDistName );
                                     distributorStr = strDist;
-
-                                    //
                                     progressDialog.dismiss();
-                                    //
                                 }
                             });
 
@@ -735,26 +656,20 @@ if(flag.equals("0")){
                     getProducts(prodId);
                 }
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
 
         });
-
-
     }
 
 
 
     void getProducts(final String prod){
 
-
         if (distributorStr==null || distributorStr.isEmpty()){
 
             Toast.makeText(getActivity(), "Select Facilitator", Toast.LENGTH_LONG).show();
             return;
         }
-
-
 
         WebserviceController wss = new WebserviceController(getActivity());
 
@@ -766,7 +681,6 @@ if(flag.equals("0")){
             jsonObject.put("searchvalue", "");
             jsonObject.put("distributorId", distributorStr);
             jsonObject.put("customerId", "");
-
             requestObject.put("requestData",jsonObject);
 
         }
@@ -788,12 +702,8 @@ if(flag.equals("0")){
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
 
-                        //
                         progressDialog.dismiss();
-                        //
-
                         productDist = "";
-
                         productNames.clear();
                         productIdList.clear();
                         productPriceList.clear();
@@ -807,14 +717,8 @@ if(flag.equals("0")){
                                 if (prod.equalsIgnoreCase(productDetails.getProductId())) {
                                     productDist = productDetails.getProductId();
                                     productDistName = productDetails.getProductName();
-                                    //
                                     productText.setText(productDistName );
-                                    //
                                     productEdit.setText(addUser.getProductPrice());
-
-                        /*  // cancel progress
-                        progressDialog.dismiss();
-                        //*/
                                 }
                             }
 
@@ -858,9 +762,7 @@ if(flag.equals("0")){
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     productEdit.setText("");
-                                    //
                                     productText.setText(productDistName );
-                            //
                                 }
                             });
 
@@ -880,7 +782,6 @@ if(flag.equals("0")){
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -912,7 +813,6 @@ if(flag.equals("0")){
         }
     }
 
-//
     @Override
     public void onLocationChanged(Location location) {
         userLat= String.valueOf(location.getLatitude());
@@ -937,4 +837,3 @@ if(flag.equals("0")){
 
     }
 }
-//

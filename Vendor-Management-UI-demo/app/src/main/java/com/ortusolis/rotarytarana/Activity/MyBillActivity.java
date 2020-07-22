@@ -70,16 +70,11 @@ public class MyBillActivity extends AppCompatActivity {
     LinearLayout distributorCodeLayout;
     String distributorStr = "";
     TextView distributorText;
-    //
     ProgressDialog progressDialog;
-    //
     String strDistName = null;
     String strDist = null;
-    //
     String pdf="no";
-    //
     List<String> userNames, userIdList;
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -100,7 +95,6 @@ public class MyBillActivity extends AppCompatActivity {
         distributorText = findViewById(R.id.distributorText);
         sharedPreferences = getSharedPreferences("water_management",0);
         gson = new Gson();
-
         setSupportActionBar(mToolbar);
 
         gson = new Gson();
@@ -112,8 +106,6 @@ public class MyBillActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-            //action.setTitle("Stock");
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
 
@@ -187,17 +179,15 @@ public class MyBillActivity extends AppCompatActivity {
                 new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(MyBillActivity.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
                 getAllRegister();
             }
         });
     }
-//
+
     public void itemClicked(View v) {
         //code to check if this checkbox is checked!
         CheckBox checkBox = (CheckBox)v;
@@ -206,7 +196,6 @@ public class MyBillActivity extends AppCompatActivity {
 
         }
     }
-//
 
     void getListOfOrderByDate(){
 
@@ -245,9 +234,7 @@ public class MyBillActivity extends AppCompatActivity {
             jsonObject.put("toDate", buttonDatePickEnd.getText().toString());
             jsonObject.put("userId", usserId);
             jsonObject.put("roleId", userRole);
-            //
             jsonObject.put("pdf", pdf);
-            //
 
             requestObject.put("requestData", jsonObject);
 
@@ -306,10 +293,8 @@ public class MyBillActivity extends AppCompatActivity {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
                 noResult.setVisibility(View.VISIBLE);
                 addLL.removeAllViews();
-//                Toast.makeText(MyBillActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     @Override
@@ -331,7 +316,6 @@ public class MyBillActivity extends AppCompatActivity {
             for (BillRequest.RequestS requestSdata : requestS) {
                 i = i + 1;
                 addRow(requestSdata, i);
-
             }
         }
         else {
@@ -346,29 +330,22 @@ public class MyBillActivity extends AppCompatActivity {
         TextView customerNameS = view.findViewById(R.id.customerNameS);
 
         if (requestSdata!=null){
-
                 TextView customerName = view.findViewById(R.id.customerName);
                 TextView productName = view.findViewById(R.id.productName);
                 TextView oustandingAmount = view.findViewById(R.id.oustandingAmount);
-               // TextView recievedAmount = view.findViewById(R.id.recievedAmount);
                 TextView billDate = view.findViewById(R.id.billDate);
-
                 customerName.setText(requestSdata.getBillId());
                 productName.setText(requestSdata.getBillAmount());
                 productName.setGravity(Gravity.RIGHT);
                 oustandingAmount.setText(requestSdata.getOutstandingAmount());
                 oustandingAmount.setGravity(Gravity.RIGHT);
-              //  recievedAmount.setText(requestSdata.getBillAmountReceived());
-              //  recievedAmount.setGravity(Gravity.RIGHT);
                 billDate.setText(requestSdata.getBilldate()!=null?requestSdata.getBilldate():"");
                 customerNameS.setText((requestSdata.getCustomerDetails()!=null && requestSdata.getCustomerDetails().getFirstName()!=null)?(requestSdata.getCustomerDetails().getFirstName()+" "+requestSdata.getCustomerDetails().getLastName()):"");
-
         }
 
         if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("4")) {
             customerNameS.setVisibility(View.GONE);
         }
-
         addLL.addView(view);
 
     }
@@ -382,7 +359,6 @@ public class MyBillActivity extends AppCompatActivity {
         try {
             jsonObject.put("searchKey", "UserRoleId");
             jsonObject.put("searchvalue", "2");
-
             requestObject.put("requestData",jsonObject);
         }
         catch (Exception e){
@@ -402,11 +378,8 @@ public class MyBillActivity extends AppCompatActivity {
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
 
-                        //
                         progressDialog.dismiss();
-                        //
                         strDist = "";
-
                         userNames.clear();
                         userIdList.clear();
 
@@ -451,9 +424,7 @@ public class MyBillActivity extends AppCompatActivity {
                         builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                               //Removing the UserId
                                 distributorText.setText(strDistName );
-                                //
                                 distributorStr = strDist;
                             }
                         });
@@ -470,7 +441,6 @@ public class MyBillActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(MyBillActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 

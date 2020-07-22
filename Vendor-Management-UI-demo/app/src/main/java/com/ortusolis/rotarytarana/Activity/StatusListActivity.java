@@ -54,24 +54,17 @@ public class StatusListActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         emptyView = findViewById(R.id.empty_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         adapter = new Adapter(getSupportFragmentManager());
         gson = new Gson();
-
         viewpager.setOffscreenPageLimit(3);
-
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -90,7 +83,6 @@ public class StatusListActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.GONE);
         getEnterpriseSearchResults(AVAILABLE_TYPE.NEW);
-        //getEnterpriseSearchResults(AVAILABLE_TYPE.OPEN);
         getEnterpriseSearchResults(AVAILABLE_TYPE.ASSIGNED);
         getEnterpriseSearchResults(AVAILABLE_TYPE.CLOSED);
         if (getIntent().hasExtra("myRequests")){

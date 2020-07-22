@@ -67,10 +67,8 @@ public class MybillsDescription extends AppCompatActivity {
         orderCostText = findViewById(R.id.orderCostText);
         orderStatusText = findViewById(R.id.orderStatusText);
         orderNumberText = findViewById(R.id.orderNumberText);
-        //code by raghu
         amountrecieved=findViewById(R.id.amountRecieved);
         outstandingbalance = findViewById(R.id.outstandingbalance);
-        //code by raghu
         gridview = findViewById(R.id.gridview);
         noResult = findViewById(R.id.noResult);
 
@@ -88,9 +86,6 @@ public class MybillsDescription extends AppCompatActivity {
 
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -114,10 +109,8 @@ public class MybillsDescription extends AppCompatActivity {
         if (getIntent().hasExtra("order")){
             orderDetails = getIntent().getExtras().getParcelable("order");
         }
-
         setValues();
-
-    }//
+    }
 
      void setValues(){
          textName.setText(orderDetails.getOrderId());
@@ -127,13 +120,10 @@ public class MybillsDescription extends AppCompatActivity {
          orderCost.setText(orderDetails.getOrderCost()+getString(R.string.Rs));
          orderStatus.setText(orderDetails.getOrderStatus());
          customerName.setText(orderDetails.getCustomerDetails().getFirstName());
-         //code raghuram ots
          amountrecieved.setText(orderDetails.getAmountRecived());
          outstandingbalance.setText(orderDetails.getOutStandingAmount());
-         //code raghuram ots
          assignedOrderGridAdapter = new AssignedOrderGridAdapter(MybillsDescription.this,orderDetails.getOrderdProducts());
          gridview.setAdapter(assignedOrderGridAdapter);
-
          assignedOrderGridAdapter.notifyDataSetChanged();
     }
 

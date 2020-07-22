@@ -67,7 +67,6 @@ public class OrderReportActivity extends AppCompatActivity {
     ActionBar action;
     Spinner selectStatus;
     ArrayList<String> statusList;
-
     LinearLayout distributorCodeLayout;
     String distributorStr = "";
     TextView distributorText;
@@ -96,9 +95,7 @@ public class OrderReportActivity extends AppCompatActivity {
         distributorText = findViewById(R.id.distributorText);
         sharedPreferences = getSharedPreferences("water_management",0);
         gson = new Gson();
-
         setSupportActionBar(mToolbar);
-
         gson = new Gson();
 
         userNames = new ArrayList<>();
@@ -108,11 +105,8 @@ public class OrderReportActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-            //action.setTitle("Stock");
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -181,9 +175,6 @@ public class OrderReportActivity extends AppCompatActivity {
             statusList.add("New");
         }
         statusList.add("Close");
-        //
-//        statusList.add("Generated");
-        //
         statusList.add("Assigned");
         if (!(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3"))) {
             statusList.add("Cancel");
@@ -196,12 +187,10 @@ public class OrderReportActivity extends AppCompatActivity {
         selectStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
@@ -216,13 +205,10 @@ public class OrderReportActivity extends AppCompatActivity {
                 new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(OrderReportActivity.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
-
                 getAllRegister();
             }
         });
@@ -236,19 +222,16 @@ public class OrderReportActivity extends AppCompatActivity {
     }
 
     void getListOfOrderByDate(String status){
-        //code
         progressDialog = new ProgressDialog(OrderReportActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        //
         WebserviceController wss = new WebserviceController(OrderReportActivity.this);
 
         JSONObject requestObject = new JSONObject();
 
         JSONObject jsonObject = new JSONObject();
         try {
-
             String userRole = "";
             String usserId = "";
             if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
@@ -339,7 +322,6 @@ public class OrderReportActivity extends AppCompatActivity {
                 noResult.setVisibility(View.VISIBLE);
                 if (orderReportAdapter!=null)
                 orderReportAdapter.clearAll();
-//                Toast.makeText(OrderReportActivity.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -365,7 +347,6 @@ public class OrderReportActivity extends AppCompatActivity {
         try {
             jsonObject.put("searchKey", "UserRoleId");
             jsonObject.put("searchvalue", "2");
-
             requestObject.put("requestData",jsonObject);
         }
         catch (Exception e){
@@ -385,11 +366,8 @@ public class OrderReportActivity extends AppCompatActivity {
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
 
-                        //
                         progressDialog.dismiss();
-                        //
                         strDist = "";
-
                         userNames.clear();
                         userIdList.clear();
 
@@ -434,15 +412,11 @@ public class OrderReportActivity extends AppCompatActivity {
                         builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                               //
                                 distributorText.setText(strDistName );
-                                //
                                 distributorStr = strDist;
                             }
                         });
-
                         builderSingle.show();
-
                     }
                 }
                 catch (Exception e){
@@ -453,7 +427,6 @@ public class OrderReportActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(OrderReportActivity.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 

@@ -87,14 +87,12 @@ public class ProductDescription extends AppCompatActivity {
     String paymentMethod="";
     String salesVaocherFalg="no";
     String delivaryAddress="";
-    //
     float totalAmountPayment=0;
     String m_Text = "";
     ProductRequest productRequestFinal = new ProductRequest();
     List<ProductRequestCart> productRequests;
     java.util.HashMap<String,String> productlistMap=new HashMap<String,String>();
     ProgressDialog progressDialog;
-    //
     Toolbar mToolbar;
     ActionBar action;
 
@@ -121,9 +119,7 @@ public class ProductDescription extends AppCompatActivity {
     boolean schedule = false;
     String scheduleString = "Daily";
     List<String> scheduleDays = null;
-    //
     public AssignedResponse CashResponseOnly;
-    //
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -167,13 +163,9 @@ public class ProductDescription extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.toolbar);
         sharedPreferences = getSharedPreferences("water_management",0);
-        //
         float totalCost =0;
         totalAmountPayment=totalCost;
         productRequests = new ArrayList<>();
-
-        //
-
         userNames = new ArrayList<>();
         userIdList = new ArrayList<>();
         scheduleDays = new ArrayList<>();
@@ -184,12 +176,8 @@ public class ProductDescription extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,
@@ -210,7 +198,6 @@ public class ProductDescription extends AppCompatActivity {
         }
 
         if (getIntent().hasExtra("customerId") && sharedPreferences.contains("userRoleId") && !(sharedPreferences.getString("userRoleId","").equalsIgnoreCase("4"))){
-//            getMappedRegister(getIntent().getStringExtra("customerId"));
         }
 
         setValues();
@@ -218,7 +205,6 @@ public class ProductDescription extends AppCompatActivity {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //getProductStock(productDetails.getProductId(),false);
                     insertOrderAndProducttoCart();
             }
         });
@@ -226,9 +212,7 @@ public class ProductDescription extends AppCompatActivity {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //getProductStock(productDetails.getProductId(),true);
                 insertOrderAndProduct(false);
-//                Alertpayment();
             }
         });
 
@@ -236,7 +220,6 @@ public class ProductDescription extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 salesVaocherFalg="yes";
-//                showAlertDialog();
                 insertOrderAndProduct(true);
             }
         });
@@ -314,7 +297,6 @@ public class ProductDescription extends AppCompatActivity {
                 int quant = Integer.parseInt(returnQuantity.getText().toString());
                 quant = quant + 1;
                 returnQuantity.setText(quant+"");
-
             }
         });
 
@@ -345,18 +327,11 @@ public class ProductDescription extends AppCompatActivity {
             customeLinearLayoutView.setVisibility(View.VISIBLE);
             customerLayout.setVisibility(View.VISIBLE);
         }
-        /*distributorText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getAllRegister(true,false);
-            }
-        });
-*/
+
         customerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getMappedRegister("");
-//                getAllRegister(true,true);
             }
         });
 
@@ -435,9 +410,8 @@ public class ProductDescription extends AppCompatActivity {
 
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-//
+
                 startDate.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-//
                 startDate.show();
             }
         });
@@ -495,7 +469,6 @@ public class ProductDescription extends AppCompatActivity {
             }
         });
 
-
         scheduleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -507,20 +480,6 @@ public class ProductDescription extends AppCompatActivity {
             }
         });
 
-//        Bitmap decodedByte = null;
-//
-//        if (productDetails.getProductImage()!=null) {
-//            byte[] decodedString = Base64.decode(productDetails.getProductImage(), Base64.DEFAULT);
-//            decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//        }
-//
-//        if (decodedByte != null) {
-//            picture.setImageBitmap(decodedByte);
-//        } else {
-//            picture.setImageResource(R.drawable.no_image);
-//        }
-        //
-
         if (productDetails.getProductImage()!=null) {
             Picasso.get().load(productDetails.getProductImage()).into(picture);
             Log.i("tag", "This'll run 3000 milliseconds later");
@@ -528,7 +487,6 @@ public class ProductDescription extends AppCompatActivity {
             picture.setImageResource(R.drawable.no_image);
         }
         distributorStr="1";
-        //
 
         registerReceiver(broadcastReceiver, new IntentFilter("broadCastName"));
 
@@ -647,20 +605,13 @@ public class ProductDescription extends AppCompatActivity {
          textName.setText(""+productDetails.getProductName());
          description.setText("Price "+getString(R.string.Rs)+Float.valueOf(productDetails.getProductPrice()));
          descriptionText.setText(""+productDetails.getProductDescription());
-
          price = Float.valueOf(productDetails.getProductPrice());
-         Double priceWithGst= Float.valueOf(productDetails.getProductPrice())+Float.valueOf(productDetails.getProductPrice())* (Float.valueOf(productDetails.getGst())*0.01);
-         totalPrice.setText(getString(R.string.Rs)+price);
-         totalPriceWithGst.setText(getString(R.string.Rs)+priceWithGst);
-
-
-         /*if (productDetails.getStock().equalsIgnoreCase("no")){
-             orderPlaceLayout.setVisibility(View.GONE);
+         if(productDetails.getProductPrice()!=null && productDetails.getGst() !=null){
+             Double priceWithGst= Float.valueOf(productDetails.getProductPrice())+Float.valueOf(productDetails.getProductPrice())* (Float.valueOf(productDetails.getGst())*0.01);
+             totalPriceWithGst.setText(getString(R.string.Rs)+priceWithGst);
          }
-         else {*/
-             orderPlaceLayout.setVisibility(View.VISIBLE);
-         //}
-
+         totalPrice.setText(getString(R.string.Rs)+price);
+         orderPlaceLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -698,168 +649,13 @@ public class ProductDescription extends AppCompatActivity {
     };
 
     void insertOrderAndProduct(final boolean salesVoucher){
-//        new LocationResultHelper().
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         String currentDate = format.format(Calendar.getInstance().getTime());
 
         if (distributorStr != null && customerStr != null ) { //&& selectDateStr!=null
-//            //code
-//            progressDialog = new ProgressDialog(ProductDescription.this);
-//            progressDialog.setMessage("Loading...");
-//            progressDialog.setCancelable(false);
-//            progressDialog.show();
-//            //
-//            WebserviceController wss = new WebserviceController(ProductDescription.this);
-
-//            int quant = Integer.parseInt(returnQu.getText().toString());
-//
-//            ProductRequest productRequest = new ProductRequest();
-//
-//            ProductRequest.RequestS requestS =  new ProductRequest.RequestS();
-//
-//            requestS.setCustomerId(customerStr);
-//            requestS.setCustomerName(customerStrName);
-//            requestS.setOrderDate(currentDate);
-//            requestS.setDelivaryDate(selectDateStr);
-//            requestS.setDistributorId(distributorStr);
-//            requestS.setOrderCost((price * quant)+"");
-//            requestS.setUserLat(sharedPreferences.getString("latitude",""));
-//            requestS.setUserLong(sharedPreferences.getString("longitude",""));
-//            requestS.setPaymentStatus("paid");
-//            requestS.setAssignedId(salesVoucher?sharedPreferences.getString("userid","") : null);
-//            requestS.setOrderStatus(salesVoucher?"Assigned":"New");
-//            requestS.setOrderNumber("");
-//            requestS.setDeliverdDate("");
-//
-//            ProductRequest.RequestS.ProductOrder productOrder = new ProductRequest.RequestS.ProductOrder();
-//            productOrder.setOts_delivered_qty("0");
-//            productOrder.setOrderProductId(null);
-//            productOrder.setOrderdId(null);
-//            productOrder.setProductId(productDetails.getProductId());
-//            productOrder.setOrderedQty(quant+"");
-//            productOrder.setProductStatus("New");
-//            productOrder.setProductCost(price+"");
-//            ArrayList<ProductRequest.RequestS.ProductOrder> productOrders = new ArrayList<>();
-//            productOrders.add(productOrder);
-//
-//            requestS.setProductList(productOrders);
-//
-//            productRequest.setRequest(requestS);
-//
-//            /*JSONObject jsonObject = new JSONObject();
-//            try {
-//                jsonObject.put("customerId", sharedPreferences.getString("userid", ""));
-//                jsonObject.put("orderDate", dateStr);
-//                jsonObject.put("delivaryDate", JSONObject.NULL);
-//                jsonObject.put("distributorId", distributorStr);
-//                jsonObject.put("orderCost", price+"");
-//                jsonObject.put("assignedId", JSONObject.NULL);
-//                jsonObject.put("orderStatus", "NEW");
-//                jsonObject.put("orderNumber", JSONObject.NULL);
-//                jsonObject.put("deliverdDate", JSONObject.NULL);
-//
-//                JSONArray jsonArray = new JSONArray();
-//
-//                JSONObject jsonObject1 = new JSONObject();
-//
-//                jsonObject1.put("ots_delivered_qty", JSONObject.NULL);
-//                jsonObject1.put("orderProductId", JSONObject.NULL);
-//                jsonObject1.put("orderdId", JSONObject.NULL);
-//                jsonObject1.put("productId", productDetails.getProductId());
-//                jsonObject1.put("orderedQty", quant+"");
-//                jsonObject1.put("productStatus", "Active");
-//                jsonObject1.put("productCost", price+"");
-//
-//                jsonArray.put(jsonObject1);
-//
-//                jsonObject.put("productList", jsonObject1);
-//
-//                requestObject.put("requestData", jsonObject);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }*/
-//            productRequestFinal=productRequest;
-//            String str = gson.toJson(productRequest);
             showAlertDialog(salesVoucher);
-//
-//            wss.postLoginVolley(Constants.insertOrderAndProduct, str, new IResult() {
-//                @Override
-//                public void notifySuccess(String response, int statusCode) {
-//                    progressDialog.dismiss();
-//                    try {
-//                        Log.e("getPlants response", response);
-//
-//                        final AssignedResponse distributorResponse = gson.fromJson(response, AssignedResponse.class);
-//
-//                        if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-//
-//                            if (salesVoucher){
-//
-//                                Intent intent = new Intent(ProductDescription.this, AssignedOrderListActivity.class);
-//                                if (!distributorResponse.getResponseData().getOrderList().isEmpty())
-//                                    intent.putExtra("orderId",distributorResponse.getResponseData().getOrderList().get(0).getOrderId());
-//                                startActivity(intent);
-//                            }
-//                            else {
-//                                Toast.makeText(ProductDescription.this, distributorResponse.getResponseDescription()!=null?distributorResponse.getResponseDescription(): "", Toast.LENGTH_LONG).show();
-////
-////                                AlertDialog.Builder builder = new AlertDialog.Builder(ProductDescription.this);
-////                                builder.setMessage(Html.fromHtml((distributorResponse.getResponseDescription() != null ? distributorResponse.getResponseDescription() : "") + "<br/><br/> Delivery date is " + selectDateStr));
-////
-////                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-////                                    @Override
-////                                    public void onClick(DialogInterface dialog, int which) {
-////
-//////                                        //
-//////                                        final Dialog dialog = new Dialog(this);
-//////                                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//////                                        dialog.setContentView(R.layout.dialog_layout);
-//////                                        List<String> stringList=new ArrayList<>();  // here is list
-//////                                        for(int i=0;i<2;i++) {
-//////                                            if (i==0){
-//////                                                stringList.add("Number Mode");
-//////                                            }else {
-//////                                                stringList.add("Character Mode");
-//////                                            }
-//////
-//////                                        }
-//////                                        //
-////
-////
-////                                    }
-////                                });
-////
-////                                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-////                                    @Override
-////                                    public void onDismiss(DialogInterface dialog) {
-////                                        onBackPressed();
-////                                    }
-////                                });
-////                                builder.show();
-//                                CashResponseOnly=distributorResponse;
-//                                onBackPressed();
-////                                showAlertDialog();
-//                            }
-//
-//                        }else
-//                        Toast.makeText(ProductDescription.this, distributorResponse.getResponseDescription()!=null?distributorResponse.getResponseDescription(): "", Toast.LENGTH_LONG).show();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                @Override
-//                public void notifyError(VolleyError error) {
-//                    progressDialog.dismiss();
-//                    Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                    Toast.makeText(ProductDescription.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
-//                }
-//            });
         }
-//        else if (selectDateStr == null){
-//            Toast.makeText(this, "Please select Delivery Date", Toast.LENGTH_LONG).show();
-//        }
         else if (distributorStr == null){
             Toast.makeText(this, "Please select Facilitator", Toast.LENGTH_LONG).show();
         }
@@ -890,7 +686,6 @@ public class ProductDescription extends AppCompatActivity {
             }
         }
 
-
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         String currentDate = format.format(Calendar.getInstance().getTime());
@@ -903,12 +698,9 @@ public class ProductDescription extends AppCompatActivity {
 
             if (TextUtils.isEmpty(sharedPreferences.getString("prodDesc",""))) {
                 requestS = new ProductRequestCart();
-
                 requestS.setCustomerId(customerStr);
-
                 requestS.setOrderProductName(productDetails.getProductName());
                 requestS.setProductImageUrl(productDetails.getProductImage());
-
                 requestS.setCustomerName(customerStrName);
                 requestS.setOrderDate(currentDate);
                 requestS.setDelivaryDate(selectDateStr);
@@ -921,7 +713,6 @@ public class ProductDescription extends AppCompatActivity {
                 requestS.setOrderStatus("New");
                 requestS.setOrderNumber("");
                 requestS.setDeliverdDate("");
-
                 requestS.setOts_delivered_qty("0");
                 requestS.setOrderProductId(null);
                 requestS.setOrderdId(null);
@@ -931,20 +722,15 @@ public class ProductDescription extends AppCompatActivity {
                 requestS.setProductCost(price+"");
                 productOrders = new ArrayList<>();
                 productOrders.add(requestS);
-
-
             }
             else {
                 productOrders = gson.fromJson(sharedPreferences.getString("prodDesc",""), new TypeToken<ArrayList<ProductRequestCart>>(){}.getType());
 
                 int position = findProdS(productOrders);
-
                 requestS  =  new ProductRequestCart();
                 requestS.setCustomerId(customerStr);
-
                 requestS.setOrderProductName(productDetails.getProductName());
                 requestS.setProductImageUrl(productDetails.getProductImage());
-
                 requestS.setCustomerName(customerStrName);
                 requestS.setOrderDate(currentDate);
                 requestS.setDelivaryDate(selectDateStr);
@@ -957,7 +743,6 @@ public class ProductDescription extends AppCompatActivity {
                 requestS.setOrderStatus("New");
                 requestS.setOrderNumber("");
                 requestS.setDeliverdDate("");
-
                 requestS.setOts_delivered_qty("0");
                 requestS.setOrderProductId(null);
                 requestS.setOrderdId(null);
@@ -975,8 +760,6 @@ public class ProductDescription extends AppCompatActivity {
 
             }
 
-
-
             sharedPreferences.edit().putString("prodDesc",gson.toJson(productOrders)).apply();
 
             new Handler().postDelayed(new Runnable() {
@@ -985,57 +768,10 @@ public class ProductDescription extends AppCompatActivity {
                     finish();
                     Toast.makeText(ProductDescription.this, productDetails.getProductName()+" added to cart successfully", Toast.LENGTH_LONG).show();
                     onBackPressed();
-//                    Intent intent = new Intent(ProductDescription.this, CardListActivity.class);
-//                    startActivity(intent);
                 }
             },1000);
-
-
-            /*wss.postLoginVolley(Constants.insertOrderAndProduct, str, new IResult() {
-                @Override
-                public void notifySuccess(String response, int statusCode) {
-                    try {
-                        Log.e("getPlants response", response);
-
-                        DistributorResponse distributorResponse = gson.fromJson(response, DistributorResponse.class);
-
-                        if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ProductDescription.this);
-                            builder.setMessage(Html.fromHtml((distributorResponse.getResponseDescription()!=null?distributorResponse.getResponseDescription(): "")+"<br/><br/> Delivery date is "+selectDateStr));
-                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            });
-
-                            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    onBackPressed();
-                                }
-                            });
-                            builder.show();
-
-
-                        }else
-                        Toast.makeText(ProductDescription.this, distributorResponse.getResponseDescription()!=null?distributorResponse.getResponseDescription(): "", Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void notifyError(VolleyError error) {
-                Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-                    Toast.makeText(ProductDescription.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
-                }
-            });*/
         }
-//        else if (selectDateStr == null){
-//            Toast.makeText(this, "Please select Delivery Date", Toast.LENGTH_LONG).show();
-//        }
+
         else if (distributorStr == null){
             Toast.makeText(this, "Please select Facilitator", Toast.LENGTH_LONG).show();
         }
@@ -1064,7 +800,6 @@ public class ProductDescription extends AppCompatActivity {
             jsonObject.put("searchKey", "UserRoleId");
             jsonObject.put("searchvalue", customer?"4":"2");
             jsonObject.put("distributorId", "1");
-
             requestObject.put("requestData",jsonObject);
         }
         catch (Exception e){
@@ -1110,7 +845,6 @@ public class ProductDescription extends AppCompatActivity {
                                 else {
                                     strDist = userInfo1.getUserId();
                                     strDistName = userInfo1.getFirstName();
-//                                    distributorText.setText(strDistName + " (" + strDist + ")");
                                     distributorStr = strDist;
                                 }
 
@@ -1173,7 +907,6 @@ public class ProductDescription extends AppCompatActivity {
                                         customerStrName = strCustName;
                                     }
                                     else {
-//                                        distributorText.setText(strDistName + " (" + strDist + ")");
                                         distributorStr = strDist;
                                     }
                                 }
@@ -1191,8 +924,6 @@ public class ProductDescription extends AppCompatActivity {
                                         break;
                                     }
                                 }
-
-//                                distributorText.setText(strDistName + " (" + strDist + ")");
                                 distributorStr = strDist;
                             }
                         }
@@ -1203,11 +934,9 @@ public class ProductDescription extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(ProductDescription.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -1234,25 +963,11 @@ public class ProductDescription extends AppCompatActivity {
 
                     ProductsStock responseData = gson.fromJson(response, ProductsStock.class);
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
-                        //if (Integer.valueOf(responseData.getResponseData().getStockQuantity())>0 && (Integer.parseInt(returnQu.getText().toString()) <= Integer.valueOf(responseData.getResponseData().getStockQuantity()))){
-
                             if (yesT){
-//                                insertOrderAndProduct(false);
                             }
                             else {
                                 insertOrderAndProducttoCart();
                             }
-
-                        /*}
-                        else {
-                            if((Integer.parseInt(returnQu.getText().toString()) > Integer.valueOf(responseData.getResponseData().getStockQuantity()))){
-                                Toast.makeText(ProductDescription.this, "Please order a smaller quantity, available quantity is only "+responseData.getResponseData().getStockQuantity() , Toast.LENGTH_LONG).show();
-                            }
-                            else
-                            Toast.makeText(ProductDescription.this, "Out of Stock", Toast.LENGTH_LONG).show();
-                        }*/
-
                     } else {
                     }
                 } catch (Exception e) {
@@ -1265,7 +980,6 @@ public class ProductDescription extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(WebserviceController.returnErrorMessage(error));
                 stringBuilder.append("");
-//                Toast.makeText(ProductDescription.this , stringBuilder.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -1312,13 +1026,8 @@ public class ProductDescription extends AppCompatActivity {
                         GeneralResponse distributorResponse = gson.fromJson(response, GeneralResponse.class);
 
                         if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-
                             onBackPressed();
-
-
-
                         }
-
                         Toast.makeText(ProductDescription.this, distributorResponse.getResponseDescription()!=null?distributorResponse.getResponseDescription(): "", Toast.LENGTH_LONG).show();
 
                     } catch (Exception e) {
@@ -1329,16 +1038,12 @@ public class ProductDescription extends AppCompatActivity {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                    Toast.makeText(ProductDescription.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
                 }
             });
         }
         else if (selectStartDateStr == null){
             Toast.makeText(this, "Please select Start Date", Toast.LENGTH_LONG).show();
         }
-//        else if (selectEndDateStr == null){
-//            Toast.makeText(this, "Please select End Date", Toast.LENGTH_LONG).show();
-//        }
         else if (customerStr == null){
             Toast.makeText(this, "Please select Requester/Donor", Toast.LENGTH_LONG).show();
         }
@@ -1348,24 +1053,16 @@ public class ProductDescription extends AppCompatActivity {
     }
 
     void getMappedRegister(final String custId){
-        //code
         progressDialog = new ProgressDialog(ProductDescription.this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        //
         WebserviceController wss = new WebserviceController(ProductDescription.this);
 
         JSONObject requestObject = new JSONObject();
 
         JSONObject jsonObject = new JSONObject();
         try {
-//            if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
-//                jsonObject.put("mappedTo", sharedPreferences.getString("distId", ""));
-//            }
-//            else {
-//                jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
-//            }
             jsonObject.put("mappedTo", "1");
             requestObject.put("requestData",jsonObject);
         }
@@ -1462,12 +1159,11 @@ public class ProductDescription extends AppCompatActivity {
             public void notifyError(VolleyError error) {
                 progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(ProductDescription.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
 
     }
-    //
+
     private void showAlertDialog(Boolean salesVoucher) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -1641,15 +1337,12 @@ public class ProductDescription extends AppCompatActivity {
                                             final String strProductRequests = str;
                                             onBackPressed();
                                             Intent totalAmountPaymentintent = new Intent(ProductDescription.this, RazorPayActivity.class);
-                                            //                               // pass amount
                                             totalAmountPaymentintent.putExtra("totalAmountPayment", totalfinalprice);
                                             totalAmountPaymentintent.putExtra("salesVaocherFalg", salesVaocherFalg);
                                             totalAmountPaymentintent.putExtra("classFlag", "placeorder");
                                             totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
-                                            //                                 Log.d("hi",Parsef totalAmountPayment);
                                             startActivity(totalAmountPaymentintent);
                                         }
-                                        //do things
                                     }
                                 });
                         AlertDialog alert = builder.create();
@@ -1663,18 +1356,10 @@ public class ProductDescription extends AppCompatActivity {
         });
         AlertDialog alertAddress = alertDialog.create();
         alertAddress.setCanceledOnTouchOutside(false);
-
         alertAddress.show();
-
-
-
-
-
     }
 
-    //
-    //
-public  void  CashAlert(){ //
+public  void  CashAlert(){
 
     WebserviceController wss = new WebserviceController(ProductDescription.this);
 
@@ -1683,7 +1368,6 @@ public  void  CashAlert(){ //
     wss.postLoginVolley(Constants.insertOrderAndProduct, str, new IResult() {
         @Override
         public void notifySuccess(String response, int statusCode) {
-//                deleteFormCart();
             try {
                 Log.e("getPlants response", response);
 
@@ -1724,13 +1408,12 @@ public  void  CashAlert(){ //
             if (progressDialog!=null && progressDialog.isShowing()){
                 progressDialog.dismiss();
             }
-//            Toast.makeText(ProductDescription.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
         }
     });
 
 }
 
-    public  void Alertpayment(){
+public  void Alertpayment(){
       final String finalprice=totalPrice.getText().toString();
         final float totalfinalprice=Float.valueOf(finalprice.substring(1,finalprice.length()));
         AlertDialog.Builder builder = new AlertDialog.Builder(ProductDescription.this);
@@ -1738,146 +1421,14 @@ public  void  CashAlert(){ //
                 .setCancelable(true)
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //do things
-//                        placeOrder(prepareOrder(productRequests),false);
                         insertOrderAndProduct(false);
-//                        showAlertDialog();
-//                        Intent totalAmountPaymentintent = new Intent(ProductDescription.this, RazorPayActivity.class);
-////                    // pass amount
-//                        totalAmountPaymentintent.putExtra("totalAmountPayment",totalfinalprice );
-//                        totalAmountPaymentintent.putExtra("salesVaocherFalg",salesVaocherFalg );
-//                        totalAmountPaymentintent.putExtra("productRequests",productRequests.toString() );
-////                  Log.d("hi",Parsef totalAmountPayment);
-//                        startActivity(totalAmountPaymentintent);
                     }
                 });
         AlertDialog alert = builder.create();
         alert.show();
     }
 
-//    void getCustomerDetails(){
-//        WebserviceController wss = new WebserviceController(ProductDescription.this);
-//
-//        JSONObject requestObject = new JSONObject();
-//
-//        JSONObject jsonObject = new JSONObject();
-//        try {
-//            jsonObject.put("searchKey", "UserRoleId");
-//            jsonObject.put("searchvalue", "2");
-//            jsonObject.put("distributorId", "1");
-//
-//            requestObject.put("requestData",jsonObject);
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//        userNames.clear();
-//        userIdList.clear();
-//
-//        wss.postLoginVolley(Constants.getUserDetails, requestObject.toString(), new IResult() {
-//            @Override
-//            public void notifySuccess(String response, int statusCode) {
-//                try {
-//                    Log.e("getPlants response", response);
-//
-//                    DistributorResponse distributorResponse = gson.fromJson(response, DistributorResponse.class);
-//
-//                    if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-//
-//
-//
-//                        if (showPop){
-//
-//                            AlertDialog.Builder builderSingle = new AlertDialog.Builder(ProductDescription.this);
-//                            builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose distributor</font>"));
-//
-//                            //First Step: convert ArrayList to an Object array.
-//                            Object[] objNames = userNames.toArray();
-//
-//                            //Second Step: convert Object array to String array
-//
-//                            final String[] strOpts = Arrays.copyOf(objNames, objNames.length, String[].class);
-//
-//                            int checkedItem = 0;
-//                            if (customer){
-//                                strCust = userIdList.get(checkedItem);
-//                                strCustName = userNames.get(checkedItem);
-//                            }
-//                            else {
-//                                strDist = userIdList.get(checkedItem);
-//                                strDistName = userNames.get(checkedItem);
-//                            }
-//                            builderSingle.setSingleChoiceItems(strOpts, checkedItem, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    // user checked an item
-//                                    if (customer){
-//                                        strCust = userIdList.get(which);
-//                                        strCustName = userNames.get(which);
-//                                    }
-//                                    else {
-//                                        strDist = userIdList.get(which);
-//                                        strDistName = userNames.get(which);
-//                                    }
-//                                }
-//                            });
-//
-//                            builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                }
-//                            });
-//
-//                            builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    if (customer){
-//                                        customerText.setText(strCustName + " (" + strCust + ")");
-//                                        customerStr = strCust;
-//                                        customerStrName = strCustName;
-//                                    }
-//                                    else {
-////                                        distributorText.setText(strDistName + " (" + strDist + ")");
-//                                        distributorStr = strDist;
-//                                    }
-//                                }
-//                            });
-//
-//                            builderSingle.show();
-//                        }
-//                        else if (!showPop){
-//                            if (!userIdList.isEmpty() && !userNames.isEmpty()) {
-//
-//                                for (int i = 0;i<userIdList.size();i++){
-//                                    if (sharedPreferences.getString("distId","").equalsIgnoreCase(userIdList.get(i))){
-//                                        strDist = userIdList.get(i);
-//                                        strDistName = userNames.get(i);
-//                                        break;
-//                                    }
-//                                }
-//
-////                                distributorText.setText(strDistName + " (" + strDist + ")");
-//                                distributorStr = strDist;
-//                            }
-//                        }
-//
-//                    }
-//                }
-//                catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void notifyError(VolleyError error) {
-//                Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(ProductDescription.this, WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//    }
+
 private void buildAlertMessageNoGps() {
     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
@@ -1895,31 +1446,4 @@ private void buildAlertMessageNoGps() {
     final AlertDialog alert = builder.create();
     alert.show();
 }
-
-//    public Barcode.GeoPoint getLocationFromAddress(String strAddress){
-//
-//        Geocoder coder = new Geocoder(this);
-//        List<Address> address;
-//        Barcode.GeoPoint p1 = null;
-//
-//        try {
-//            address = coder.getFromLocationName(strAddress,5);
-//            if (address==null) {
-//                return null;
-//            }
-//            Address location=address.get(0);
-//            location.getLatitude();
-//            location.getLongitude();
-//
-//            p1 = new Barcode.GeoPoint((double) (location.getLatitude() * 1E6),
-//                    (double) (location.getLongitude() * 1E6));
-//
-////            return p1;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return p1;
-//    }
-
 }
-//

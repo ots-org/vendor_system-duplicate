@@ -35,11 +35,8 @@ public class PendingRequestAdapter extends ArrayAdapter<String> {
         TextView pendingDescriptionText = (TextView) rowView.findViewById(R.id.pendingDescription);
 
         pendingProductNameText.setText( " Product Name: "+pendingProductName[position]);
-//        pendingProductNameText.append(pendingProductName[position]);
         pendingProductPriceText.setText("Product Price: "+pendingProductPrice[position]);
-//        pendingProductPriceText.append(pendingProductPrice[position]);
         pendingDescriptionText.setText("Description: "+pendingDescripetion[position]);
-//        pendingDescriptionText.append(pendingDescripetion[position]);
 
         return rowView;
 

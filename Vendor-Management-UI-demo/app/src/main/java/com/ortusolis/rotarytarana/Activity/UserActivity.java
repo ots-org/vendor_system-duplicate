@@ -55,7 +55,6 @@ public class UserActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         emptyView = findViewById(R.id.empty_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         adapter = new Adapter(getSupportFragmentManager());
         gson = new Gson();
 
@@ -68,9 +67,6 @@ public class UserActivity extends AppCompatActivity {
 
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                     ActionBar.LayoutParams.WRAP_CONTENT,

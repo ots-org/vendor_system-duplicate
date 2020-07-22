@@ -64,19 +64,14 @@ public class SchedulerListAdapter extends RecyclerView.Adapter<SchedulerListAdap
     @Override
     public void onBindViewHolder(final ModuleViewHolder holder, final int position) {
         final SchedulerModel.SchedulerModelInternal item = dataList.get(position);
-//code change by ortusolis- raghu
         holder.customer.setText(Html.fromHtml("<b>Customer: </b>"+item.getUserDetails().getFirstName()));
         holder.phoneNumber.setText(Html.fromHtml("<b>Phone Number: </b>"+ item.getUserDetails().getContactNo()));
         holder.productName.setText(Html.fromHtml("<b>Product Name: </b>"+item.getProductDetails().getProductName()));
         holder.productPrice.setText(Html.fromHtml("<b>Product Price: </b>"+item.getProductDetails().getProductPrice()+context.getString(R.string.Rs)));
         holder.qtyRequest.setText(Html.fromHtml("<b>Qty requested: </b>"+item.getRequestedQty()));
-
         holder.scheduledOn.setText(Html.fromHtml("<b>Created Date: </b>"+CommonFunctions.converDateStr(item.getScheduledDate())));
-
         holder.nextScheduledOn.setText(Html.fromHtml("<b>End date: </b>"+CommonFunctions.converDateStr(item.getNxtScheduledDate())));
-//code raghuram
         holder.scheduleDay.setText(Html.fromHtml("<b>Schedule Day: </b>"+item.getday()));
-        //code change by ortusolis- raghu
         holder.customerLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

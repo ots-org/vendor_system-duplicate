@@ -70,62 +70,16 @@ public class CustomerStatusListFragment extends Fragment {
         Spinner =view.findViewById(R.id.spinnerStatus);
         Spinner.setVisibility(View.GONE);
         data = new ArrayList<>();
-
         gson = new Gson();
-
         statusTex = getArguments().getString("status");
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-
         mToolbar.setVisibility(View.GONE);
-        /*setSupportActionBar(mToolbar);
-
-        if (getSupportActionBar() != null) {
-            action = getSupportActionBar();
-            action.setDisplayHomeAsUpEnabled(true);
-            action.setHomeButtonEnabled(true);
-
-            action.setDisplayShowTitleEnabled(false);
-            action.setDisplayShowCustomEnabled(true);
-
-            //this.action.setTitle((CharSequence) "Update Stock");
-
-            View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
-            ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-                    ActionBar.LayoutParams.WRAP_CONTENT,
-                    ActionBar.LayoutParams.MATCH_PARENT,
-                    Gravity.CENTER);
-            TextView toolbarTitle = (TextView) viewActionBar.findViewById(R.id.toolbar_title);
-            toolbarTitle.setText("My Orders");
-            action.setCustomView(viewActionBar, params);
-            mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-        }*/
         noResult.setText("No Data");
         getCustomerOrderStatus();
-
         return view;
     }
-
-
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==200 && resultCode==RESULT_OK){
-            onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
 
     void getCustomerOrderStatus(){
 
@@ -193,7 +147,6 @@ public class CustomerStatusListFragment extends Fragment {
                 @Override
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                    Toast.makeText(getActivity(), WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
 

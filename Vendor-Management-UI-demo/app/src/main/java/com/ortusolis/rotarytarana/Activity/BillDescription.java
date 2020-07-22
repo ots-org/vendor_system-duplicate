@@ -104,7 +104,6 @@ public class BillDescription extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
 
@@ -132,7 +131,6 @@ public class BillDescription extends AppCompatActivity {
         }
 
         Log.d("Order ID Bill Desc",orderId);
-
         if (getIntent().hasExtra("fromDate")){
             fromDateStr = getIntent().getExtras().getString("fromDate");
         }
@@ -169,12 +167,10 @@ public class BillDescription extends AppCompatActivity {
          TextWatcher textWatcher = new TextWatcher() {
              @Override
              public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
              }
 
              @Override
              public void onTextChanged(CharSequence s, int start, int before, int count) {
-
              }
 
              @Override
@@ -184,9 +180,7 @@ public class BillDescription extends AppCompatActivity {
 
                     cgstcost.setText(f.format(ctot)+"");
                     sgstcost.setText(f.format(stot)+"");
-
                     fulltotal.setText(f.format(fullProdTotal+ctot+stot)+"");
-
              }
          };
 
@@ -198,7 +192,6 @@ public class BillDescription extends AppCompatActivity {
 
          cgstcost.setText(f.format(ctot)+"");
          sgstcost.setText(f.format(stot)+"");
-
          fulltotal.setText(f.format(fullProdTotal+ctot+stot)+"");
 
     }
@@ -256,9 +249,7 @@ public class BillDescription extends AppCompatActivity {
                         RegisterResponse responseData = new Gson().fromJson(response, RegisterResponse.class);
 
                         if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
                             addOrUpdateBill();
-
                         } else
                             Toast.makeText(BillDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? "Failed to assign" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
@@ -270,7 +261,6 @@ public class BillDescription extends AppCompatActivity {
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
                     prog();
-//                    Toast.makeText(BillDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -329,7 +319,6 @@ public class BillDescription extends AppCompatActivity {
                 public void notifyError(VolleyError error) {
                     Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
                     prog();
-//                    Toast.makeText(BillDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -356,7 +345,6 @@ public class BillDescription extends AppCompatActivity {
             }
 
             jsonObject.put("orderId", jsonArray);
-
             requestObject.put("request", jsonObject);
 
         } catch (Exception e) {
@@ -376,9 +364,7 @@ public class BillDescription extends AppCompatActivity {
                         if (!responseData.getResponseData().getProductDeatils().isEmpty()){
                             setValues(responseData.getResponseData());
                         }
-
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -387,7 +373,6 @@ public class BillDescription extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(BillDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -399,7 +384,6 @@ public class BillDescription extends AppCompatActivity {
             addRow(null);
             for (ProductDetails requestSdata : requestS) {
                 addRow(requestSdata);
-
             }
         }
         else {
@@ -410,28 +394,21 @@ public class BillDescription extends AppCompatActivity {
     void addRow(ProductDetails productDetails){
 
         if (productDetails!=null){
-
                 View view = getLayoutInflater().inflate(R.layout.view_bill_report,null);
-
                 TextView descriptionText = view.findViewById(R.id.descriptionText);
                 TextView unitQuantity = view.findViewById(R.id.unitQuantity);
                 TextView rate = view.findViewById(R.id.rate);
                 TextView amount = view.findViewById(R.id.amount);
-
                 descriptionText.setText(productDetails.getProductName());
                 unitQuantity.setText(productDetails.getProductqty());
                 rate.setText(productDetails.getProductPrice());
                 float totalAmt = Float.valueOf(productDetails.getProductPrice()) * Float.valueOf(productDetails.getProductqty());
                 amount.setText(""+totalAmt);
-
                 fullProdTotal = fullProdTotal + totalAmt;
-
                 addLL.addView(view);
-
         }
         else {
             View view = getLayoutInflater().inflate(R.layout.view_bill_report,null);
-
             addLL.addView(view);
         }
 

@@ -49,9 +49,7 @@ public class PhoneNumberActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!enterPhoneNumber.getText().toString().isEmpty()) {
-
                     login();
-
                 }
             }
         });
@@ -60,7 +58,6 @@ public class PhoneNumberActivity extends AppCompatActivity {
     void login(){
 
         WebserviceController wss = new WebserviceController(PhoneNumberActivity.this);
-
 
         JSONObject requestObject = new JSONObject();
 
@@ -90,7 +87,6 @@ public class PhoneNumberActivity extends AppCompatActivity {
                         intent.putExtra("userId",responseData.getResponseData().getUserId());
                         startActivity(intent);
                         finish();
-
                     }
                     Toast.makeText(PhoneNumberActivity.this, TextUtils.isEmpty(responseData.getResponseDescription())? "Failed" :responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
 
@@ -103,9 +99,7 @@ public class PhoneNumberActivity extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(PhoneNumberActivity.this, WebserviceController.returnErrorMessage(error)+"", Toast.LENGTH_LONG).show();
             }
         });
     }
-
 }

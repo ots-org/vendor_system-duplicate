@@ -85,11 +85,6 @@ public class DistributorActivity extends AppCompatActivity implements Navigation
         return super.onOptionsItemSelected(item);
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.content_profile, menu);
-        return true;
-    }*/
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

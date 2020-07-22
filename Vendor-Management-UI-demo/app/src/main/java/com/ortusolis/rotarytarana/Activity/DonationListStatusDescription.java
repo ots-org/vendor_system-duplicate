@@ -80,7 +80,6 @@ public class DonationListStatusDescription extends AppCompatActivity {
         userIdList = new ArrayList<>();
         finalList = new ArrayList<>();
         finalList = (ArrayList<String>)getIntent().getSerializableExtra("finalList");
-
         productNameText=finalList.get(0);
         productpriceText=finalList.get(1);
         donarNameText=finalList.get(2);
@@ -115,12 +114,10 @@ public class DonationListStatusDescription extends AppCompatActivity {
         assignEmpLoyee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //code
                 progressDialog = new ProgressDialog(DonationListStatusDescription.this);
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                //
                 getAllRegister();
             }
         });
@@ -168,7 +165,6 @@ public class DonationListStatusDescription extends AppCompatActivity {
             }else {
                 toolbarTitle.setText("Donation Status");
             }
-
             action.setCustomView(viewActionBar, params);
             mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
@@ -212,9 +208,7 @@ public class DonationListStatusDescription extends AppCompatActivity {
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
                         progressDialog.dismiss();
-
                         strDist = "";
-
                         userNames.clear();
                         userIdList.clear();
 
@@ -385,7 +379,6 @@ public class DonationListStatusDescription extends AppCompatActivity {
 
                         if (responseData.getResponseCode().equalsIgnoreCase("200")) {
                             setResult(RESULT_OK);
-
                             finish();
                             Toast.makeText(DonationListStatusDescription.this, TextUtils.isEmpty(responseData.getResponseDescription()) ? " " : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
                         } else

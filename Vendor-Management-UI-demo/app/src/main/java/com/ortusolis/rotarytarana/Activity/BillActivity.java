@@ -38,7 +38,6 @@ public class BillActivity extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
 
@@ -54,7 +53,6 @@ public class BillActivity extends AppCompatActivity {
             action.setCustomView(viewActionBar, params);
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
-
     }
 
     @Override

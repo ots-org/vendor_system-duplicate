@@ -31,8 +31,6 @@ public class AssignedOrderGridAdapter extends BaseAdapter {
         this.mData = data;
         this.mOriginalData = data;
         this.context = context;
-
-
     }
 
     @Override
@@ -95,25 +93,10 @@ public class AssignedOrderGridAdapter extends BaseAdapter {
         deliveredQuantityText.setVisibility(View.VISIBLE);
         deliveredQuantityText.setText("Delivery Quantity: "+item.getOtsDeliveredQty());
         if (item.getOutSbalanceCan()!=null || item.getBalanceCan() != null) {
-//            orderQtyText.setText("Outstanding Can: " + (item.getOutSbalanceCan() != null ? item.getOutSbalanceCan() : item.getBalanceCan()));
         }
         else {
             orderQtyText.setVisibility(View.GONE);
         }
-        /*description.setText(item.getDescription()!=null?item.getDescription():"");*/
-
-        /*Bitmap decodedByte = null;
-
-        if (item.getProductImage()!=null) {
-            byte[] decodedString = Base64.decode(item.getProductImage(), Base64.DEFAULT);
-            decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        }
-
-        if (decodedByte != null) {
-            picture.setImageBitmap(decodedByte);
-        } else {*/
-//            picture.setImageResource(R.drawable.no_image);
-        //}
         if (item.getProductImage()!=null) {
             Picasso.get().load(item.getProductImage()).into(picture);
         } else {

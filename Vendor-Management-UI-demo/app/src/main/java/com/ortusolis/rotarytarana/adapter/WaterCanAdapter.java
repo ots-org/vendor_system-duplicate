@@ -326,7 +326,6 @@ public class WaterCanAdapter extends BaseAdapter {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(WebserviceController.returnErrorMessage(error));
                 stringBuilder.append("");
-//                Toast.makeText(context , stringBuilder.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }

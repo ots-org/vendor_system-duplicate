@@ -117,7 +117,6 @@ public class AssignedVoucherOrderDescription extends AppCompatActivity {
             data = assignedOrderModel.getOrderdProducts();
         }
 
-
         setSupportActionBar(mToolbar);
 
         if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
@@ -142,7 +141,6 @@ public class AssignedVoucherOrderDescription extends AppCompatActivity {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
             action.setHomeButtonEnabled(true);
-
             action.setDisplayShowTitleEnabled(false);
             action.setDisplayShowCustomEnabled(true);
             View viewActionBar = getLayoutInflater().inflate(R.layout.view_custom_toolbar, null);
@@ -176,7 +174,6 @@ public class AssignedVoucherOrderDescription extends AppCompatActivity {
         customerAdd2.setText(Html.fromHtml("<b>Secondary Address: </b>"+assignedOrderModel.getCustomerDetails().getAddress2()));
         assignedOrderGridAdapter = new AssignedOrderGridAdapter(AssignedVoucherOrderDescription.this,data);
         gridview.setAdapter(assignedOrderGridAdapter);
-
         assignedOrderGridAdapter.notifyDataSetChanged();
 
         if (assignedOrderModel.getEmployeeDetails() != null && assignedOrderModel.getEmployeeDetails().getFirstName()!=null && assignedOrderModel.getEmployeeDetails().getLastName()!=null ){
@@ -202,10 +199,8 @@ public class AssignedVoucherOrderDescription extends AppCompatActivity {
                     String dateStr = format.format(newCalendar.getTime());
                     closeOrder("0",assignedOrderModel.getOrderCost(),assignedOrderModel.getOrderCost(),dateStr);
                 }
-
             }
         });
-
     }
 
     @Override
@@ -499,7 +494,6 @@ public class AssignedVoucherOrderDescription extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(OrderDescription.this, WebserviceController.returnErrorMessage(error) + "", Toast.LENGTH_LONG).show();
             }
         });
     }

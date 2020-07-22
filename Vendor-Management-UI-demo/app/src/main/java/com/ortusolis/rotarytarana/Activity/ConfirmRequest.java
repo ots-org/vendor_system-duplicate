@@ -63,8 +63,6 @@ public class ConfirmRequest extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
                 finalList.clear();
                 // TODO Auto-generated method stub
-//                if(position == 0) {
-                //code specific to first list item
                 list.getItemAtPosition(position);
                 finalList.add(productNameList.get(position));
                 finalList.add(productPriceList.get(position));
@@ -171,7 +169,6 @@ public class ConfirmRequest extends AppCompatActivity {
             @Override
             public void notifyError(VolleyError error) {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
-//                Toast.makeText(getApplicationContext(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
     }
