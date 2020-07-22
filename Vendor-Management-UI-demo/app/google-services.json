@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "317286278269",
+    "firebase_url": "https://water-distribution-24879.firebaseio.com",
+    "project_id": "water-distribution-24879",
+    "storage_bucket": "water-distribution-24879.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317286278269:android:4c30b821425e0a617b7d14",
+        "android_client_info": {
+          "package_name": "com.ortusolis.rotarytarana"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317286278269-92m7p97aqjhp2edcj1af5ahv69e6624f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlbMWQ3nywenMiPxJ8GJ41EAaUCqJDT3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317286278269-92m7p97aqjhp2edcj1af5ahv69e6624f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
