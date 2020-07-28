@@ -95,7 +95,7 @@ public class NotificationFragment extends Fragment {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("mappedTo", sharedPreferences.getString("userid",""));
+            jsonObject.put("searchKey", "pending");
 
             requestObject.put("requestData", jsonObject);
 
@@ -103,7 +103,7 @@ public class NotificationFragment extends Fragment {
             e.printStackTrace();
         }
 
-        wss.postLoginVolley(Constants.getNewRegistration, requestObject.toString(), new IResult() {
+        wss.postLoginVolley(Constants.getUserDetails, requestObject.toString(), new IResult() {
             @Override
             public void notifySuccess(String response, int statusCode) {
                 try {

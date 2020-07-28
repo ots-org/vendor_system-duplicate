@@ -127,13 +127,13 @@ public class SearchUserFragment extends Fragment {
         roleIdList.add("0");
 
         if (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")) {
-            rolenameList.add("Distributor");
+            rolenameList.add("Facilitator");
             roleIdList.add("2");
         }
 
-        rolenameList.add("Employee");
+        rolenameList.add("Partner");
         roleIdList.add("3");
-        rolenameList.add("Customer");
+        rolenameList.add("Donor/Requester");
         roleIdList.add("4");
 
         ArrayAdapter roleAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, rolenameList);

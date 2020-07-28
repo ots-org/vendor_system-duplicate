@@ -234,7 +234,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:padding="@dimen/activity_margin_8"
-                        android:text="Customer Phone Number"
+                        android:text="Requester/Donor Phone Number"
                         android:textColor="@color/textColorDark"
                         android:textStyle="bold" />
 
@@ -263,7 +263,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:padding="@dimen/activity_margin_8"
-                        android:text="Customer Address"
+                        android:text="Primary Address"
                         android:textColor="@color/textColorDark"
                         android:textStyle="bold" />
 
@@ -292,7 +292,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:padding="@dimen/activity_margin_8"
-                        android:text="Customer Address 2"
+                        android:text="Secondary Address"
                         android:textColor="@color/textColorDark"
                         android:textStyle="bold" />
 

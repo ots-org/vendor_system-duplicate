@@ -176,7 +176,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
 
         if (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")) {
             userTypeList.add("Select User Type");
-            userTypeList.add("Distributor");
+            userTypeList.add("Facilitator");
             distributorCodeLayout.setVisibility(View.GONE);
             productIdLayout.setVisibility(View.GONE);
 
@@ -189,8 +189,8 @@ public class AddUserFragment extends  Fragment implements LocationListener {
         if (!sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")) {
             distributorCodeLayout.setVisibility(View.GONE);
         }
-        userTypeList.add("Employee");
-        userTypeList.add("Customer");
+        userTypeList.add("Partner");
+        userTypeList.add("Donor/Requester");
 
         userAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, userTypeList);
 
@@ -204,17 +204,17 @@ public class AddUserFragment extends  Fragment implements LocationListener {
                     distributorCodeLayout.setVisibility(View.GONE);
                     productIdLayout.setVisibility(View.GONE);
                     userRoleId = "1";
-                }else if (userTypeList.get(i).equalsIgnoreCase("Distributor")){
+                }else if (userTypeList.get(i).equalsIgnoreCase("roleIdList")){
                     distributorCodeLayout.setVisibility(View.GONE);
                     productIdLayout.setVisibility(View.GONE);
                     userRoleId = "2";
                 }
-                else if (userTypeList.get(i).equalsIgnoreCase("Employee")){
+                else if (userTypeList.get(i).equalsIgnoreCase("Partner")){
                     distributorCodeLayout.setVisibility(View.GONE);
                     productIdLayout.setVisibility(View.GONE);
                     userRoleId = "3";
                 }
-                else if (userTypeList.get(i).equalsIgnoreCase("Customer")){
+                else if (userTypeList.get(i).equalsIgnoreCase("Donor/Requester")){
                     distributorCodeLayout.setVisibility(View.GONE);
                     productIdLayout.setVisibility(View.GONE);
                     userRoleId = "4";

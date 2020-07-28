@@ -72,7 +72,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Modu
             holder.customeName.setText(Html.fromHtml("<b>Ordered Date: </b>"+CommonFunctions.converDateStr(item.getOrderDate())));
             holder.orderCost.setText(Html.fromHtml("<b>Order Cost: </b>"+item.getOrderCost()+context.getString(R.string.Rs)));
         }
-        holder.orderDate.setText(Html.fromHtml("<b>Customer Name: </b>"+item.getCustomerDetails().getFirstName()));
+        holder.orderDate.setText(Html.fromHtml("<b>Donor/Requester Name: </b>"+item.getCustomerDetails().getFirstName()));
         holder.deliveryDate.setText(Html.fromHtml("<b>Delivery Date: </b>"+ CommonFunctions.converDateStr(item.getDelivaryDate())));
         holder.deliveredBy.setVisibility(View.GONE);
         holder.outstandingAmt.setVisibility(View.GONE);

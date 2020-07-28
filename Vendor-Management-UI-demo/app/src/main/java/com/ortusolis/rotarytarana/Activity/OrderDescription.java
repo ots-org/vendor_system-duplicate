@@ -482,7 +482,7 @@ public class OrderDescription extends AppCompatActivity {
                         }
 
                         AlertDialog.Builder builderSingle = new AlertDialog.Builder(OrderDescription.this);
-                        builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose employee</font>"));
+                        builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose Partner</font>"));
 
                         //First Step: convert ArrayList to an Object array.
                         Object[] objNames = userNames.toArray();

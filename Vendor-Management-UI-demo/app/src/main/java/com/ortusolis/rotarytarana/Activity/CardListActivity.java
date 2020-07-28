@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -154,12 +155,21 @@ public class CardListActivity extends AppCompatActivity {
                     requestS.setDeliverdDate(productRequests.get(0).getDeliverdDate());
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(CardListActivity.this);
                     alertDialog.setTitle("Choose Delivery Address");
-                    String[] items = {"Primary Address","Secondary Address"};
+                    String[] items = {"Primary Address","Secondary Address","New Address"};
                     int checkedItem = 0;
                     delivaryAddress="Primary";
-                    final TextView input = new TextView (getBaseContext());
+                    LinearLayout layout = new LinearLayout(CardListActivity.this);
+                    layout.setOrientation(LinearLayout.VERTICAL);
+
+                    final TextView input = new TextView (CardListActivity.this);
                     input.setPadding(80, 20, 20, 20);
-                    alertDialog.setView(input);
+                    layout.addView(input);
+
+                    final EditText Address_textbox = new EditText(CardListActivity.this);
+                    layout.addView(Address_textbox);
+
+                    alertDialog.setView(layout);
+                    Address_textbox.setVisibility(View.GONE);
                     input.setText("Address: "+sharedPreferences.getString("userAddress1",""));
                     alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
                         @Override
@@ -169,11 +179,18 @@ public class CardListActivity extends AppCompatActivity {
                                     Toast.makeText(CardListActivity.this, "Primary Address", Toast.LENGTH_LONG).show();
                                     delivaryAddress="Primary";
                                     input.setText("Address: "+sharedPreferences.getString("userAddress1",""));
+                                    Address_textbox.setVisibility(View.GONE);
                                     break;
                                 case 1:
                                     Toast.makeText(CardListActivity.this, "Secondary Address", Toast.LENGTH_LONG).show();
                                     delivaryAddress="Secondary";
                                     input.setText("Address: "+sharedPreferences.getString("userAddress2",""));
+                                    Address_textbox.setVisibility(View.GONE);
+                                    break;
+                                case 2:
+                                    delivaryAddress="New";
+                                    input.setText("Enter New Address");
+                                    Address_textbox.setVisibility(View.VISIBLE);
                                     break;
                             }
                         }
@@ -199,11 +216,23 @@ public class CardListActivity extends AppCompatActivity {
                             // navigation
                             Toast.makeText(CardListActivity.this, paymentMethod, Toast.LENGTH_LONG).show();
                             if (delivaryAddress.equals("Primary")) {
+                                input.setText(sharedPreferences.getString("userAddress1",""));
                                 requestS.setAddress(sharedPreferences.getString("userAddress1",""));
                                 requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile",""));
                                 requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile",""));
-                            } else {
+                            }
+//                            else {
+//                                requestS.setAddress(sharedPreferences.getString("userAddress2",""));
+//                                requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile",""));
+//                                requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile",""));
+//                            }
+                            else if (delivaryAddress.equals("Secondary")) {
+                                input.setText(sharedPreferences.getString("userAddress2",""));
                                 requestS.setAddress(sharedPreferences.getString("userAddress2",""));
+                                requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile",""));
+                                requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile",""));
+                            }else {
+                                requestS.setAddress(Address_textbox.getText().toString());
                                 requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile",""));
                                 requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile",""));
                             }

@@ -7,7 +7,7 @@
         <item quantity="one">One location reported</item>
         <item quantity="other">%d locations reported</item>
     </plurals>
-    <string name="app_name">e-Tarana</string>
+    <string name="app_name">e-Taarana</string>
     <string name="water_distribution">Water distribution</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="new_user">New User?</string>

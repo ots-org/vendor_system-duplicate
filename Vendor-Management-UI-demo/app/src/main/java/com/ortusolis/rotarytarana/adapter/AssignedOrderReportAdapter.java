@@ -66,10 +66,10 @@ public class AssignedOrderReportAdapter extends RecyclerView.Adapter<AssignedOrd
 
         holder.orderNo.setText(Html.fromHtml("<b>Order Number: </b>"+item.getOrderId()));
         holder.customeName.setText(Html.fromHtml("<b>Ordered Date: </b>"+CommonFunctions.converDateStr(item.getOrderDate())));
-        holder.orderDate.setText(Html.fromHtml("<b>Customer Name: </b>"+item.getCustomerDetails().getFirstName()));
+        holder.orderDate.setText(Html.fromHtml("<b>Donor/Requester Name: </b>"+item.getCustomerDetails().getFirstName()));
         holder.orderCost.setText(Html.fromHtml("<b>Order Cost: </b>"+item.getOrderCost()));
         holder.deliveryDate.setText(Html.fromHtml("<b>Delivery Date: </b>"+ CommonFunctions.converDateStr(item.getDelivaryDate())));
-        holder.deliveredBy.setText(Html.fromHtml("<b>Distributor Name: </b>"+item.getDistributorDetails().getFirstName()));
+        holder.deliveredBy.setText(Html.fromHtml("<b>Facilitator Name: </b>"+item.getDistributorDetails().getFirstName()));
 
         holder.customerLay.setOnClickListener(new View.OnClickListener() {
             @Override

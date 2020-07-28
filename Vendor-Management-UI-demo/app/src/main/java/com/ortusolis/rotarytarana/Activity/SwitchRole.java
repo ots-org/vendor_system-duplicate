@@ -72,36 +72,36 @@ public class SwitchRole extends AppCompatActivity {
         userRole.add("Select role");
         if(sharedPreferences.contains("userSwitchRoleId") && sharedPreferences.getString("userSwitchRoleId","").equalsIgnoreCase("1")){
             if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
-                userRole.add("Distributor");
-                userRole.add("Customer");
+                userRole.add("Facilitator");
+                userRole.add("Donor/Requester");
             }
             else if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
                 userRole.add("Admin");
-                userRole.add("Customer");
+                userRole.add("Donor/Requester");
             }
             else if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
             userRole.add("Admin");
-                userRole.add("Distributor");
-                userRole.add("Customer");
+                userRole.add("Facilitator");
+                userRole.add("Donor/Requester");
             }
             else {
                 userRole.add("Admin");
-                userRole.add("Distributor");
+                userRole.add("Facilitator");
             }
         }else {
             if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
-                userRole.add("Distributor");
-                userRole.add("Customer");
+                userRole.add("Facilitator");
+                userRole.add("Donor/Requester");
             }
             else if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
-                userRole.add("Customer");
+                userRole.add("Donor/Requester");
             }
             else if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
-                userRole.add("Distributor");
-                userRole.add("Customer");
+                userRole.add("Facilitator");
+                userRole.add("Donor/Requester");
             }
             else {
-                userRole.add("Distributor");
+                userRole.add("Facilitator");
             }
         }
         spinnerUserType.setAdapter(new ArrayAdapter(SwitchRole.this, android.R.layout.simple_spinner_dropdown_item, userRole));
@@ -167,19 +167,19 @@ public class SwitchRole extends AppCompatActivity {
                 Toast.makeText(this, "Selected role to Admin", Toast.LENGTH_LONG).show();
                 // Whatever you want to happen when the thrid item gets selected
                 break;
-            case "Distributor":
+            case "Facilitator":
                 sharedPreferences.edit().putString("userRoleId","2").commit();
                 ReloadFragment();
                 Toast.makeText(this, "Selected role to Distributor", Toast.LENGTH_LONG).show();
                 // Whatever you want to happen when the first item gets selected
                 break;
-            case "Employee":
+            case "Partner":
                 sharedPreferences.edit().putString("userRoleId","3").commit();
                 ReloadFragment();
                 Toast.makeText(this, "Selected role to Partner", Toast.LENGTH_LONG).show();
                 // Whatever you want to happen when the second item gets selected
                 break;
-            case "Customer":
+            case "Donor/Requester":
                 sharedPreferences.edit().putString("userRoleId","4").commit();
                 ReloadFragment();
                 Toast.makeText(this, "Selected role to Customer", Toast.LENGTH_LONG).show();

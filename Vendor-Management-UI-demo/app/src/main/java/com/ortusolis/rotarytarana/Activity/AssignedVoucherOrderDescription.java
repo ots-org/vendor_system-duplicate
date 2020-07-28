@@ -166,9 +166,9 @@ public class AssignedVoucherOrderDescription extends AppCompatActivity {
 
         orderNo.setText(Html.fromHtml("<b>Order Number: </b>"+assignedOrderModel.getOrderId()));
         customeName.setText(Html.fromHtml("<b>Ordered Date: </b>"+CommonFunctions.converDateStr(assignedOrderModel.getOrderDate())));
-        orderDate.setText(Html.fromHtml("<b>Customer Name: </b>"+assignedOrderModel.getCustomerDetails().getFirstName()));
+        orderDate.setText(Html.fromHtml("<b>Donor/Requester Name: </b>"+assignedOrderModel.getCustomerDetails().getFirstName()));
         deliveryDate.setText(Html.fromHtml("<b>Delivery Date: </b>"+ CommonFunctions.converDateStr(assignedOrderModel.getDelivaryDate())));
-        deliveredBy.setText(Html.fromHtml("<b>Distributor Name: </b>"+assignedOrderModel.getDistributorDetails().getFirstName()));
+        deliveredBy.setText(Html.fromHtml("<b>Facilitator Name: </b>"+assignedOrderModel.getDistributorDetails().getFirstName()));
         customerPhNumber.setText(Html.fromHtml("<b>Phone Number: </b>"+assignedOrderModel.getCustomerDetails().getContactNo()));
         customerAdd1.setText(Html.fromHtml("<b>Primary Address: </b>"+assignedOrderModel.getCustomerDetails().getAddress1()));
         customerAdd2.setText(Html.fromHtml("<b>Secondary Address: </b>"+assignedOrderModel.getCustomerDetails().getAddress2()));

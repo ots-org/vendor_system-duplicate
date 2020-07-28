@@ -108,7 +108,7 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
         }
 
         holder.orderNo.setText(Html.fromHtml("<b>Order No: </b>"+item.getOrderId()));
-        holder.customeName.setText(Html.fromHtml("<b>Customer Name: </b>"+((item.getCustomerDetails()!=null && item.getCustomerDetails().getFirstName()!=null)?item.getCustomerDetails().getFirstName():"")+"<br/>"+(status.equalsIgnoreCase("new")?"":"<b>Assigned to: </b>"+(item.getEmployeeDetails()!=null ?(item.getEmployeeDetails().getFirstName()+" "+item.getEmployeeDetails().getLastName()):""))));
+        holder.customeName.setText(Html.fromHtml("<b>Donor/Requester Name: </b>"+((item.getCustomerDetails()!=null && item.getCustomerDetails().getFirstName()!=null)?item.getCustomerDetails().getFirstName():"")+"<br/>"+(status.equalsIgnoreCase("new")?"":"<b>Assigned to: </b>"+(item.getEmployeeDetails()!=null ?(item.getEmployeeDetails().getFirstName()+" "+item.getEmployeeDetails().getLastName()):""))));
         holder.orderDate.setText(Html.fromHtml("<b>Order Date: </b>"+getOrderDate));
 
         /*float totalCost = 0;
@@ -242,7 +242,7 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
                             }
 
                             AlertDialog.Builder builderSingle = new AlertDialog.Builder(context);
-                            builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose Employee</font>"));
+                            builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose Partner</font>"));
 
                             //First Step: convert ArrayList to an Object array.
                             Object[] objNames = userNames.toArray();
