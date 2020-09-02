@@ -27,7 +27,7 @@ public class ProductCategoryMappingDAOImpl extends AbstractIptDao<OtsProductCate
 	public ProductCategoryMappingDAOImpl() {
 		super(OtsProductCategoryMapping.class);
 	}
-
+	
 	@Override
 	public List<ProductCategoryProductMappingModel> getProductListByProductCategory(ProductDetailsBORequest productDetailsBORequest) {
 		List<ProductCategoryProductMappingModel> productMappingModel = new ArrayList<ProductCategoryProductMappingModel>();
@@ -58,18 +58,21 @@ public class ProductCategoryMappingDAOImpl extends AbstractIptDao<OtsProductCate
  	public AddProductCategoryAndProductRequest mapProductAndCategory(
 			AddProductCategoryAndProductRequest addProductAndCategoryRequest) {
 		try {
+			System.out.print("-------------------------SHOULD NOT COME------------------------------------------");
 			OtsProductCategoryMapping OtsProductCategoryMapping = new OtsProductCategoryMapping();
 			for(int i = 0;i<addProductAndCategoryRequest.getRequestData().getProductDetails().size();i++) {
-				
 				OtsProduct productId = new OtsProduct();
 				productId.setOtsProductId(Integer.parseInt(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductId()));	
 				OtsProductCategoryMapping.setOtsProductId(productId);
-			
 				OtsProduct productCatId = new OtsProduct();
 				productCatId.setOtsProductId(Integer.parseInt(addProductAndCategoryRequest.getRequestData().getProductCategoryId()));
 				OtsProductCategoryMapping.setOtsProductCategoryId(productCatId);
-				
-				super.getEntityManager().merge(OtsProductCategoryMapping);
+				try {
+					OtsProductCategoryMapping = super.getEntityManager().merge(OtsProductCategoryMapping);
+				}catch(Exception e) {
+					
+				}
+				System.out.println(OtsProductCategoryMapping.getOtsProductCategorytMappingId());
 			}
 		}catch(Exception e) {
 			System.out.println(e);
@@ -111,6 +114,8 @@ public class ProductCategoryMappingDAOImpl extends AbstractIptDao<OtsProductCate
 		productDetails.setProductDescription(customerProduct.getOtsProductId().getOtsProductDescription()==null?null:customerProduct.getOtsProductId().getOtsProductDescription());
 		productDetails.setProductStatus(customerProduct.getOtsProductId().getOtsProductStatus()==null?null:customerProduct.getOtsProductId().getOtsProductStatus());
 		productDetails.setProductType(customerProduct.getOtsProductId().getOtsProductType()==null?null:customerProduct.getOtsProductId().getOtsProductType());
+		productDetails.setGst(customerProduct.getOtsProductId().getOtsProductGst()==null?null:customerProduct.getOtsProductId().getOtsProductGst());
+		productDetails.setProductBasePrice(customerProduct.getOtsProductId().getOtsProductBasePrice()==null?null:customerProduct.getOtsProductId().getOtsProductBasePrice());
 		return productDetails;
 	}
 }

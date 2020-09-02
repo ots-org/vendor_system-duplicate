@@ -15,4 +15,5 @@ public class OrderDetailsBOResponse {
 	public void setOrderDetails(List<OrderDetails> orderDetails) {
 		OrderDetails = orderDetails;
 	}
+
 }

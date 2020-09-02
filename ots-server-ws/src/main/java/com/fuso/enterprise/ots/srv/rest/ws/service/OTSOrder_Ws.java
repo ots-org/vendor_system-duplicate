@@ -205,4 +205,10 @@ public interface OTSOrder_Ws {
 	@ApiOperation(value = "getOrder", notes = "to Get Donation Report By Date", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response donateDonation(SaleVocherBoRequest  saleVocherBoRequest);
+	
+	@POST
+    @Path("/getRazorPayOrder")
+	@ApiOperation(value = "getOrder", notes = "to Get Donation Report By Date", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getRazorPayOrder(UpdateOrderDetailsRequest  updateOrderDetailsRequest);
 }

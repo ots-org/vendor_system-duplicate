@@ -2,6 +2,7 @@ package com.fuso.enterprise.ots.srv.server.dao.impl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +28,7 @@ public class ProductStockHistoryDaoImpl extends AbstractIptDao<OtsProductStockHi
 	private static final DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     Date localDate = new Date();
+    LocalDateTime now = LocalDateTime.now();  
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired

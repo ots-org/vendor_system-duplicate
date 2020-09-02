@@ -8,6 +8,7 @@ import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductCategoryAndProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AirTableRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
@@ -217,6 +218,31 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 	public Response searchProduct(ProductDetailsBORequest ProductDetailsBORequest) {
 		
 		return null;
+	}
+
+	@Override
+	public Response addAirTabelData(AirTableRequest airTableRequest) {
+		Response response = null;
+		try {
+	            response = responseWrapper.buildResponse(otsProductService.addAirTabelData(airTableRequest), "successful");
+	        } catch (BusinessException e) {
+	            throw new BusinessException(e.getMessage(), e);
+	        } catch (Throwable e) {
+	            throw new BusinessException(e.getMessage(), e);
+	        }// TODO Auto-generated method stub
+		return response;
+	}
+
+	@Override
+	public Response airTabelCaluclation(GetProductStockListRequest airTableRequest) {
+		Response response = null;
+		try {
+			response = responseWrapper.buildResponse(otsProductService.airTabelCaluclation(airTableRequest), "successful");
+		}catch (Throwable e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+		
+		return response;
 	}
 
 }

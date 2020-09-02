@@ -40,34 +40,49 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 		super(OtsOrderProduct.class);
 	}
 
-		@Override
-		public long getListOfDeliverdQuantityOfDay(List<OtsOrder> orderList, Integer otsProductId) {
+	@Override
+	 public long getListOfDeliverdQuantityOfDay(List<OtsOrder> orderList, Integer otsProductId) {
 		int orderProductList = 0;
 		try {
-			logger.info("Inside Event=1015,Class:OrderProductDAOImpl, Method:getListOfDeliverdQuantityOfDay, orderList:"
-					+ orderList + "otsProductId: "+otsProductId);
-			Iterator<OtsOrder> iterator = orderList.iterator();
-			OtsProduct otsProduct= new OtsProduct();
-			otsProduct.setOtsProductId(otsProductId);
-			while (iterator.hasNext()) {	
-				OtsOrder otsOrder = iterator.next();
-				Map<String, Object> queryParameter = new HashMap<>();
-				queryParameter.put("otsOrderId", otsOrder);
-				queryParameter.put("otsProductId", otsProduct);
-				OtsOrderProduct otsOrderProduct = new OtsOrderProduct();
-				try {
-					 otsOrderProduct = super.getResultByNamedQuery("OtsOrder.fetchOtsSoldProducts", queryParameter);
-				}catch(NoResultException e) {
-					otsOrderProduct.setOtsDeliveredQty(0);
-				}
-				orderProductList += otsOrderProduct.getOtsDeliveredQty();
-			}
-		} catch (NoResultException e) {
-			logger.error("Exception while fetching data from DB :" + e.getMessage());
-			e.printStackTrace();
+			System.out.println("");
+		    logger.info("Inside Event=1015,Class:OrderProductDAOImpl, Method:getListOfDeliverdQuantityOfDay, orderList:"
+		     + orderList + "otsProductId: "+otsProductId);
+		    OtsProduct otsProduct= new OtsProduct();
+		    otsProduct.setOtsProductId(otsProductId);
+		    for(int i=0;i<orderList.size();i++) { 
+			    Map<String, Object> queryParameter = new HashMap<>();
+			    queryParameter.put("otsOrderId", orderList.get(i));
+			    queryParameter.put("otsProductId", otsProduct);
+			    OtsOrderProduct otsOrderProduct = new OtsOrderProduct();
+			    
+			    otsOrderProduct = getQuantity(queryParameter);
+			    
+			    orderProductList += otsOrderProduct.getOtsOrderedQty();
+		}
+		}catch(Exception e) {
+			return 0;
 		}
 		return orderProductList;
-	}
+	 
+	  }
+	  
+	  
+	  public OtsOrderProduct getQuantity(Map<String, Object> queryParameter) {
+	  
+	   OtsOrderProduct otsOrderProduct = new OtsOrderProduct();
+	  
+	   try {
+	    otsOrderProduct = super.getResultByNamedQuery("OtsOrder.fetchOtsSoldProducts", queryParameter);
+	    return otsOrderProduct;
+	   }
+	   catch(NoResultException e) {
+	    otsOrderProduct.setOtsOrderedQty(0);
+	    return otsOrderProduct;
+	   }  catch (Exception e) {
+		    otsOrderProduct.setOtsOrderedQty(0);
+		    return otsOrderProduct;
+		   } 
+	  }
 
 		@Override
 		public List<OrderProductDetails> getUserByStatuesAndDistributorId(OrderDetails orderDetails) {

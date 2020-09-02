@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SABBABU
+ * @author lenovo
  */
 @Entity
 @Table(name = "ots_users")
@@ -54,7 +54,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "OtsUsers.findByOtsUsersLong", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLong = :otsUsersLong")
     , @NamedQuery(name = "OtsUsers.findByOtsUsersLat", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLat = :otsUsersLat")
     , @NamedQuery(name = "OtsUsers.findByOtsUserPannumber", query = "SELECT o FROM OtsUsers o WHERE o.otsUserPannumber = :otsUserPannumber")
-    , @NamedQuery(name = "OtsUsers.findByOtsUsersRotarynumber", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersRotarynumber = :otsUsersRotarynumber")})
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersRotarynumber", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersRotarynumber = :otsUsersRotarynumber")
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersAdminFlag", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersAdminFlag = :otsUsersAdminFlag")})
 public class OtsUsers implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -115,6 +116,9 @@ public class OtsUsers implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_users_rotarynumber")
     private String otsUsersRotarynumber;
+    @Size(max = 1)
+    @Column(name = "ots_users_admin_flag")
+    private String otsUsersAdminFlag;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private OtsUserMapping otsUserMapping;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
@@ -311,6 +315,14 @@ public class OtsUsers implements Serializable {
 
     public void setOtsUsersRotarynumber(String otsUsersRotarynumber) {
         this.otsUsersRotarynumber = otsUsersRotarynumber;
+    }
+
+    public String getOtsUsersAdminFlag() {
+        return otsUsersAdminFlag;
+    }
+
+    public void setOtsUsersAdminFlag(String otsUsersAdminFlag) {
+        this.otsUsersAdminFlag = otsUsersAdminFlag;
     }
 
     public OtsUserMapping getOtsUserMapping() {

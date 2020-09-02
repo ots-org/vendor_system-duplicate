@@ -41,7 +41,7 @@ public class OrderDAOImpl extends AbstractIptDao<OtsOrder, String> implements Or
 					+ getProductStockListRequest+"otsProductId:"+otsProductId);
 			OtsUsers OtsUsers= new OtsUsers();
 			OtsProduct otsProduct= new OtsProduct();
-			OtsUsers.setOtsUsersId(Integer.parseInt(getProductStockListRequest.getRequestData().getUserId()));
+			OtsUsers.setOtsUsersId(Integer.parseInt("1"));
 			otsProduct.setOtsProductId(otsProductId);
 			orderList = super.getEntityManager()
 					.createQuery("from OtsOrder where  otsDistributorId = ?1 and otsOrderDeliveredDt = ?2  ", OtsOrder.class)
@@ -50,9 +50,8 @@ public class OrderDAOImpl extends AbstractIptDao<OtsOrder, String> implements Or
 					.getResultList();
 			
    		} catch (NoResultException e) {
-	    	logger.error("Exception while fetching data from DB :"+e.getMessage());
-			e.printStackTrace();
-			throw new BusinessException(e.getMessage(), e);
+	    	System.out.println("no order");
+	    	return null;
 	    }
 		return orderList;
 	}

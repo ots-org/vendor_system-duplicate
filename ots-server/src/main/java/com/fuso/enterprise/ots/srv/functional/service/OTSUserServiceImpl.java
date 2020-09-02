@@ -6,24 +6,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-
 import javax.inject.Inject;
-
 import org.apache.commons.io.FileUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.fuso.enterprise.ots.srv.api.model.domain.BalanceCan;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerOutstanding;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
@@ -44,14 +34,11 @@ import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequ
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
-import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OutstandingCustomerResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
-import com.fuso.enterprise.ots.srv.api.service.request.UpdatePassword;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdatePasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
-import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ForgotPasswordResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
@@ -68,13 +55,9 @@ import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceUtilityDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUserMapping;
-import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.EmailUtil;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
 import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
-import com.razorpay.Payment;
-import com.razorpay.RazorpayClient;
-import com.razorpay.RazorpayException;
 
 @Service
 @Transactional
@@ -207,9 +190,12 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
 		
 		try {
+			requestBOUserBySearch.getRequestData().setDistributorId("1");
 			if(!(requestBOUserBySearch.getRequestData().getSearchKey().equalsIgnoreCase("UsersFirstname")
 			 ||requestBOUserBySearch.getRequestData().getSearchKey().equalsIgnoreCase("UsersLastname")
-			 ||requestBOUserBySearch.getRequestData().getSearchKey().equalsIgnoreCase("UsersEmailid"))) {
+			 ||requestBOUserBySearch.getRequestData().getSearchKey().equalsIgnoreCase("UsersEmailid")
+			 ||requestBOUserBySearch.getRequestData().getSearchKey().equalsIgnoreCase("UserRoleId")
+			 ||requestBOUserBySearch.getRequestData().getSearchKey().equalsIgnoreCase("pending"))) {
 				if(requestBOUserBySearch.getRequestData().getDistributorId()!=null) {
 					UserList = userMapDAO.getUserForDistributor(requestBOUserBySearch.getRequestData().getDistributorId());			
 					for(int i =0 ; i<UserList.size();i++) {
@@ -223,6 +209,12 @@ public class OTSUserServiceImpl implements  OTSUserService{
 							userData = userServiceDAO.getUserDetailsForCustomer(UserList.get(i).getOtsUsersId().getOtsUsersId());
 							if(userData != null) {
 								userData.setCustomerProductDetails(mapUserProductDAO.getCustomerProductDetailsByCustomerId(userData.getUserId()));
+								userDetailsList.add(userData);
+							}
+						}else if(requestBOUserBySearch.getRequestData().getSearchvalue().equals("2")){
+							userData = userServiceDAO.getUserDetails(UserList.get(i).getOtsUsersId().getOtsUsersId());
+							if(userData != null) {
+								//userData.setCustomerProductDetails(mapUserProductDAO.getCustomerProductDetailsByCustomerId(userData.getUserId()));
 								userDetailsList.add(userData);
 							}
 						}

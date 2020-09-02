@@ -74,6 +74,10 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 			            					queryParameter.put("otsUserRoleId", otsUserRole);
 											userList  = super.getResultListByNamedQuery("OtsUsers.findByUserOtsRoleId", queryParameter);
 											break;
+			            case "pending":
+				        					queryParameter.put("otsUsersStatus", requestBOUserBySearch.getRequestData().getSearchKey());
+											userList  = super.getResultListByNamedQuery("OtsUsers.findByOtsUsersStatus", queryParameter);
+											break;
 			           
 			            default:
 			            					return null;
@@ -165,21 +169,26 @@ public class UserServiceUtilityDAOImpl  extends AbstractIptDao<OtsUsers, String>
 		   	userDetails.setUserLat(users.getOtsUsersLat()==null?null:users.getOtsUsersLat());
 		   	userDetails.setUserLong(users.getOtsUsersLong()==null?null:users.getOtsUsersLong());
 		   	userDetails.setUserRoleId(users.getOtsUserRoleId().getOtsUserRoleId()==null?null:users.getOtsUserRoleId().getOtsUserRoleId().toString());
-		   	userDetails.setMappedTo(users.getOtsUserMapping().getOtsMappedTo()==null?null:users.getOtsUserMapping().getOtsMappedTo().toString());
+		   	userDetails.setUserAdminFlag(users.getOtsUsersAdminFlag()==null?null:users.getOtsUsersAdminFlag());
+		   	userDetails.setMappedTo("1");
 		   	
 		   	List<OtsCustomerProduct> customerProductDetails = new ArrayList(users.getOtsCustomerProductCollection());
-			   	
-			   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
-			   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
-			   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
-			   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
-			   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
+			   	try {
+			   		for(int i=0 ; i<customerProductDetails.size() ; i++) {
+				   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
+				   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
+				   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
+				   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
+				   		
+				   		userDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice());
+				   		userDetails.setProductId(customerProductDetails.get(i).getOtsProductId().getOtsProductId().toString());
+				   		
+				   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
+				   	}
+			   	}catch(Exception e) {
 			   		
-			   		userDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice());
-			   		userDetails.setProductId(customerProductDetails.get(i).getOtsProductId().getOtsProductId().toString());
-			   		
-			   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
 			   	}
+			   	
 		   	
 		   	return userDetails;
 		}catch (NoResultException e) {

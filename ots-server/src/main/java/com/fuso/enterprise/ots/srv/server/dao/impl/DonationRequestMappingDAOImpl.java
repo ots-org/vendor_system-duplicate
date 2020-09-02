@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +78,7 @@ public class DonationRequestMappingDAOImpl extends AbstractIptDao<OtsDonationReq
 			queryParameter.put("startDate", donationReportByDateRequest.getRequest().getStartDate());
 			queryParameter.put("endDate", donationReportByDateRequest.getRequest().getEndDate());
 			donationRequestMapping = super.getResultListByNamedQuery("OtsDonation.getDonationReportByDate", queryParameter);
-			System.out.print(donationRequestMapping.get(0).getOtsDonationId());
+			
 			donationModelList = donationRequestMapping.stream().map(OtsDonationRequestMapping -> convertEntityToModel(OtsDonationRequestMapping)).collect(Collectors.toList());
 
 			donationReportByDateResponse.setDonationList(donationModelList);
@@ -106,6 +107,8 @@ public class DonationRequestMappingDAOImpl extends AbstractIptDao<OtsDonationReq
 		donationModelResponse.setDonationAmount(donationRequestMapping.getOtsDonationId().getOtsDonationAmount());
 		donationModelResponse.setDonatedQty(donationRequestMapping.getOtsDonationId().getOtsDonationDonatedqty());
 		donationModelResponse.setDonationId(donationRequestMapping.getOtsDonationId().getOtsDonationId().toString());
+		donationModelResponse.setDonationStatus(donationRequestMapping.getOtsDonationId().getOtsDonationStatus());
+		donationModelResponse.setDonationMethod(donationRequestMapping.getOtsDonationId().getOtsDonationPaymentMethod());
 		productDetails.setProductName(donationRequestMapping.getOtsRequestProductId().getOtsProductId().getOtsProductName());
 		productDetails.setProductPrice(donationRequestMapping.getOtsRequestProductId().getOtsProductId().getOtsProductPrice().toString());
 		

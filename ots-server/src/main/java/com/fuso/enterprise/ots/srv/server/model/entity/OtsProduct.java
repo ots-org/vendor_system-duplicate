@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SABBABU
+ * @author lenovo
  */
 @Entity
 @Table(name = "ots_product")
@@ -45,7 +45,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "OtsProduct.findByOtsProductTimestamp", query = "SELECT o FROM OtsProduct o WHERE o.otsProductTimestamp = :otsProductTimestamp")
     , @NamedQuery(name = "OtsProduct.findByOtsProductCreated", query = "SELECT o FROM OtsProduct o WHERE o.otsProductCreated = :otsProductCreated")
     , @NamedQuery(name = "OtsProduct.findByOtsProductPrice", query = "SELECT o FROM OtsProduct o WHERE o.otsProductPrice = :otsProductPrice")
-    , @NamedQuery(name = "OtsProduct.findByOtsProductType", query = "SELECT o FROM OtsProduct o WHERE o.otsProductType = :otsProductType")})
+    , @NamedQuery(name = "OtsProduct.findByOtsProductType", query = "SELECT o FROM OtsProduct o WHERE o.otsProductType = :otsProductType")
+    , @NamedQuery(name = "OtsProduct.findByOtsProductThresholdDay", query = "SELECT o FROM OtsProduct o WHERE o.otsProductThresholdDay = :otsProductThresholdDay")
+    , @NamedQuery(name = "OtsProduct.findByOtsProductGst", query = "SELECT o FROM OtsProduct o WHERE o.otsProductGst = :otsProductGst")
+    , @NamedQuery(name = "OtsProduct.findByOtsProductProducerName", query = "SELECT o FROM OtsProduct o WHERE o.otsProductProducerName = :otsProductProducerName")
+    , @NamedQuery(name = "OtsProduct.findByOtsProductAirtableId", query = "SELECT o FROM OtsProduct o WHERE o.otsProductAirtableId = :otsProductAirtableId")
+    , @NamedQuery(name = "OtsProduct.findByOtsProductBasePrice", query = "SELECT o FROM OtsProduct o WHERE o.otsProductBasePrice = :otsProductBasePrice")})
 public class OtsProduct implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,10 +59,10 @@ public class OtsProduct implements Serializable {
     @Basic(optional = false)
     @Column(name = "ots_product_id")
     private Integer otsProductId;
-    @Size(max = 45)
+    @Size(max = 100)
     @Column(name = "ots_product_name")
     private String otsProductName;
-    @Size(max = 45)
+    @Size(max = 1000)
     @Column(name = "ots_product_description")
     private String otsProductDescription;
     @Size(max = 45)
@@ -79,6 +84,21 @@ public class OtsProduct implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_product_type")
     private String otsProductType;
+    @Size(max = 45)
+    @Column(name = "ots_product_threshold_day")
+    private String otsProductThresholdDay;
+    @Size(max = 45)
+    @Column(name = "ots_product_gst")
+    private String otsProductGst;
+    @Size(max = 45)
+    @Column(name = "ots_product_producer_name")
+    private String otsProductProducerName;
+    @Size(max = 45)
+    @Column(name = "ots_product_airtable_id")
+    private String otsProductAirtableId;
+    @Size(max = 45)
+    @Column(name = "ots_product_base_price")
+    private String otsProductBasePrice;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
@@ -182,6 +202,46 @@ public class OtsProduct implements Serializable {
 
     public void setOtsProductType(String otsProductType) {
         this.otsProductType = otsProductType;
+    }
+
+    public String getOtsProductThresholdDay() {
+        return otsProductThresholdDay;
+    }
+
+    public void setOtsProductThresholdDay(String otsProductThresholdDay) {
+        this.otsProductThresholdDay = otsProductThresholdDay;
+    }
+
+    public String getOtsProductGst() {
+        return otsProductGst;
+    }
+
+    public void setOtsProductGst(String otsProductGst) {
+        this.otsProductGst = otsProductGst;
+    }
+
+    public String getOtsProductProducerName() {
+        return otsProductProducerName;
+    }
+
+    public void setOtsProductProducerName(String otsProductProducerName) {
+        this.otsProductProducerName = otsProductProducerName;
+    }
+
+    public String getOtsProductAirtableId() {
+        return otsProductAirtableId;
+    }
+
+    public void setOtsProductAirtableId(String otsProductAirtableId) {
+        this.otsProductAirtableId = otsProductAirtableId;
+    }
+
+    public String getOtsProductBasePrice() {
+        return otsProductBasePrice;
+    }
+
+    public void setOtsProductBasePrice(String otsProductBasePrice) {
+        this.otsProductBasePrice = otsProductBasePrice;
     }
 
     @XmlTransient

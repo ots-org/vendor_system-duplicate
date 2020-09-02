@@ -1,8 +1,12 @@
 package com.fuso.enterprise.ots.srv.api.service.functional;
 
+import java.util.List;
+
+import com.fuso.enterprise.ots.srv.api.model.domain.AirTableModel;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductCategoryAndProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AirTableRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
@@ -37,4 +41,8 @@ public interface OTSProductService {
 	ProductDetailsBOResponse searchProduct();
 
 	String productBulkUpload(ProductBulkUploadRequest base64Excel);
+	
+	String addAirTabelData(AirTableRequest airTableRequest);
+
+	List<AirTableModel> airTabelCaluclation(GetProductStockListRequest todaysDate);
 }

@@ -73,6 +73,8 @@ public class UserDetails implements Comparable{
 	 private String userLong;
 	 
 	 private Double distance;
+	 
+	 private String userAdminFlag;
 
 	public String getUserLat() {
 		return userLat;
@@ -268,6 +270,14 @@ public class UserDetails implements Comparable{
 	public void setAdsAuthentication(boolean b) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public String getUserAdminFlag() {
+		return userAdminFlag;
+	}
+
+	public void setUserAdminFlag(String userAdminFlag) {
+		this.userAdminFlag = userAdminFlag;
 	}
   
 	

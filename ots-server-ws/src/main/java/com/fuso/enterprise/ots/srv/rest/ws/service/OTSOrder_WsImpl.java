@@ -3,6 +3,7 @@ package com.fuso.enterprise.ots.srv.rest.ws.service;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -140,7 +141,7 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 			
 			OrderProductBOResponse ResponseValue = oTSOrderService.insertOrderAndProduct(addOrUpdateOrderProductBOrequest);
 			
-			response = buildResponse(ResponseValue,"Order is Requested");
+			response = buildResponse(ResponseValue,"Updated");
 		}catch(Exception e){
 			throw new BusinessException(e, ErrorEnumeration.ERROR_IN_STOCK);
 		} catch (Throwable e) {
@@ -472,4 +473,17 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		response = buildResponse(oTSOrderService.donateDonation(saleVocherBoRequest),"Successful");
 		return response;
 	}
+
+	@Override
+	public Response getRazorPayOrder(UpdateOrderDetailsRequest updateOrderDetailsRequest) {
+		Response response = null;
+		try {
+			response = buildResponse(oTSOrderService.getRazorPayOrder(updateOrderDetailsRequest),"Successful");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return response;
+	}
 }
+ 

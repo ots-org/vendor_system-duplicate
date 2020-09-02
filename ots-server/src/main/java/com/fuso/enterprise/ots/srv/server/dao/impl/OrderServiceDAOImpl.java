@@ -2,6 +2,7 @@ package com.fuso.enterprise.ots.srv.server.dao.impl;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,7 @@ import com.razorpay.RazorpayException;
 @Repository
 public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implements OrderServiceDAO {
 	private Logger logger = LoggerFactory.getLogger(getClass());
-
+	LocalDateTime now = LocalDateTime.now();  
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -537,14 +538,14 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		try {
 			OtsOrder otsOrder = new OtsOrder();
 			Map<String, Object> queryParameter = new HashMap<>();
-			try {
-				if(!saleVocherBoRequest.getRequest().getPaymentStatus().equalsIgnoreCase("cash")) {
-					Float amount = Float.parseFloat(saleVocherBoRequest.getRequest().getAmountReceived()) * 100;
-					razorPay(amount.toString(), saleVocherBoRequest.getRequest().getPaymentId());
-				}
-			}catch(Exception e){
-				throw new BusinessException(e, ErrorEnumeration.FAILURE_RazorPay);
-			}
+//			try {
+//				if(!saleVocherBoRequest.getRequest().getPaymentStatus().equalsIgnoreCase("cash")) {
+//					Float amount = Float.parseFloat(saleVocherBoRequest.getRequest().getAmountReceived()) * 100;
+//					razorPay(amount.toString(), saleVocherBoRequest.getRequest().getPaymentId());
+//				}
+//			}catch(Exception e){
+//				throw new BusinessException(e, ErrorEnumeration.FAILURE_RazorPay);
+//			}
 			
 			
 			queryParameter.put("otsOrderId",Integer.parseInt( saleVocherBoRequest.getRequest().getOrderId()));
@@ -646,7 +647,12 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			Map<String, Object> queryParameter = new HashMap<>();
 			queryParameter.put("otsOrderId",Integer.parseInt(updateOrderStatusRequest.getRequest().getOrderId()));
 			otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
+			if(updateOrderStatusRequest.getRequest().getStatus().equalsIgnoreCase("DoneDonation")) {
+				
+				otsOrder.setOtsOrderDeliveredDt(Date.valueOf(now.toLocalDate()));
+			}
 			otsOrder.setOtsOrderStatus(updateOrderStatusRequest.getRequest().getStatus());
+			super.getEntityManager().merge(otsOrder);
 		}catch(Exception e){
 			throw new BusinessException(e, ErrorEnumeration.FAILURE_ORDER_GET);
 		} catch (Throwable e) {

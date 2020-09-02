@@ -106,6 +106,7 @@ public class DonationServiceDAOImpl extends AbstractIptDao<OtsDonation, String> 
 		donationModelResponse.setDonationAmount(otsDonation.getOtsDonationAmount());
 		donationModelResponse.setDonatedQty(otsDonation.getOtsDonationDonatedqty());
 		donationModelResponse.setDonationId(otsDonation.getOtsDonationId().toString());
+		donationModelResponse.setDonationDescription(otsDonation.getOtsDonationDescription());
 		donationModelResponse.setDonationDate(otsDonation.getOtsDonationDate()==null?null:otsDonation.getOtsDonationDate().toString());
 		UserDetails userDetails = new UserDetails();
 		userDetails.setUserId(otsDonation.getOtsDonorsId().getOtsUsersId().toString());
@@ -130,10 +131,12 @@ public class DonationServiceDAOImpl extends AbstractIptDao<OtsDonation, String> 
 				otsDonation = super.getResultByNamedQuery("OtsDonation.findByOtsDonationId", queryParameter);
 				otsDonation.setOtsDonationStatus(updateDonationRequest.getRequest().getDonationStatus());
 				
-				OtsUsers OtsUsers = new OtsUsers();
-				OtsUsers.setOtsUsersId(Integer.parseInt(updateDonationRequest.getRequest().getAssignedId()));
-				otsDonation.setOtsAssgineId(OtsUsers);
-			
+				if(updateDonationRequest.getRequest().getDonationStatus().equalsIgnoreCase("assigneeRequest")) {
+					OtsUsers OtsUsers = new OtsUsers();
+					OtsUsers.setOtsUsersId(Integer.parseInt(updateDonationRequest.getRequest().getAssignedId()));
+					otsDonation.setOtsAssgineId(OtsUsers);
+				}
+				
 			super.getEntityManager().merge(otsDonation);
 			
 		}catch(Exception e) {

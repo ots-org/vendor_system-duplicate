@@ -7,18 +7,18 @@ import javax.activation.*;
 
 public class EmailUtil {
 	
-	final String username = "sanathinfotechblr@gmail.com";
+	final String username = "etaarana_support@ortusolis.in";
 	
 	public static void sendEmailBill(String to,String cc,String sub,String msg,String billFileName,String filePath){   
 		
-		final String username = "sanathinfotechblr@gmail.com";
-	    final String password = "sanath12#4%";
-
+		final String username = "etaarana_support@ortusolis.in";
+	    final String password = "lrp7QChWbX";
+ 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.auth", true);
 	    props.put("mail.smtp.starttls.enable", true);
-	    props.put("mail.smtp.host", "smtp.gmail.com");
-	    props.put("mail.smtp.port", "587");
+	    props.put("mail.smtp.host", "smtp.flockmail.com");
+	    props.put("mail.smtp.port", "465");
 
 	    Session session = Session.getInstance(props,
 	            new javax.mail.Authenticator() {
@@ -29,7 +29,7 @@ public class EmailUtil {
 	    try {
 
 	        Message message = new MimeMessage(session);
-	        message.setFrom(new InternetAddress("sanathinfotechblr@gmail.com"));
+	        message.setFrom(new InternetAddress("etaarana_support@ortusolis.in"));
 	        message.setRecipients(Message.RecipientType.TO,
 	                InternetAddress.parse(to));
 	        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
@@ -59,8 +59,8 @@ public class EmailUtil {
 	
 public static void sendOTP(String to,String cc,String sub,String msg){   
 		
-		final String username = "sanathinfotechblr@gmail.com";
-		final String password = "sanath12#4%";
+		final String username = "etaarana_support@ortusolis.in";
+		final String password = "lrp7QChWbX";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.auth", true);
@@ -77,7 +77,7 @@ public static void sendOTP(String to,String cc,String sub,String msg){
 	    try {
 
 	        Message message = new MimeMessage(session);
-	        message.setFrom(new InternetAddress("sanathinfotechblr@gmail.com"));
+	        message.setFrom(new InternetAddress("etaarana_support@ortusolis.in"));
 	        message.setRecipients(Message.RecipientType.TO,
 	                InternetAddress.parse(to));
 	        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));

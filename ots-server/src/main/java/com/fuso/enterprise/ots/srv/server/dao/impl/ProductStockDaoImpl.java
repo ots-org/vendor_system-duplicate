@@ -1,6 +1,7 @@
 package com.fuso.enterprise.ots.srv.server.dao.impl;
 
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,8 +150,9 @@ public class ProductStockDaoImpl extends AbstractIptDao<OtsProductStock, String>
 			otsProductStock.setOtsProdcutStockId(otsProductStock.getOtsProdcutStockId());
 			otsProductStock.setOtsProdcutStockActQty(stock.toString());
 			super.getEntityManager().merge(otsProductStock);
-			
+			System.out.println("productId "+addProductStockBORequest.getRequestData().getProductId()+" stock "+addProductStockBORequest.getRequestData().getProductStockQty());
 		}catch (NoResultException e) {
+			System.out.println("productId "+addProductStockBORequest.getRequestData().getProductId()+" stock "+addProductStockBORequest.getRequestData().getProductStockQty());
 			otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequestData().getUsersId()));
 			otsProductStock.setOtsUsersId(otsUsers);		 
 			otsProductStock.setOtsProdcutStockActQty(addProductStockBORequest.getRequestData().getProductStockQty());
@@ -185,5 +187,39 @@ public class ProductStockDaoImpl extends AbstractIptDao<OtsProductStock, String>
 	    	return null;
 	    }
     	return getProductBOStockResponse;
+	}
+	
+	
+	@Override
+	public String addAirtableStock(AddProductStockBORequest addProductStockBORequest) {
+		OtsProductStock otsProductStock = new OtsProductStock();		
+		OtsProduct otsProduct = new OtsProduct();
+		otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequestData().getProductId()));				
+		OtsUsers otsUsers = new OtsUsers();
+		otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequestData().getUsersId()));				
+	 	Map<String, Object> queryParameter = new HashMap<>();		
+	 	queryParameter.put("otsUsersId",otsUsers );		
+		queryParameter.put("otsProductId", otsProduct);	
+		try {
+			otsProductStock = super.getResultByNamedQuery("OtsProduct.findByOtsProductIdAndUserId", queryParameter) ;			
+			otsProductStock.setOtsProdcutStockId(otsProductStock.getOtsProdcutStockId());
+			otsProductStock.setOtsProdcutStockActQty(addProductStockBORequest.getRequestData().getProductStockQty());
+			super.getEntityManager().merge(otsProductStock);
+		}catch (NoResultException e) {
+			System.out.print(e);
+			otsUsers.setOtsUsersId(Integer.parseInt(addProductStockBORequest.getRequestData().getUsersId()));
+			otsProductStock.setOtsUsersId(otsUsers);		 
+			otsProductStock.setOtsProdcutStockActQty(addProductStockBORequest.getRequestData().getProductStockQty());
+			otsProductStock.setOtsProdcutStockStatus(addProductStockBORequest.getRequestData().getProductStockStatus());
+			otsProduct.setOtsProductId(Integer.parseInt(addProductStockBORequest.getRequestData().getProductId()));
+			otsProductStock.setOtsProductId (otsProduct);
+			super.getEntityManager().merge(otsProductStock);
+		}catch (Exception e) {
+			System.out.print(e);
+			e.printStackTrace();
+	    	throw new BusinessException(e, ErrorEnumeration.User_Not_exists);
+		}
+		logger.info("Inside Event=1014,Class:OTSProduct_WsImpl,Method:ProductStockDaoImpl ");
+		return "Stock Updated Scuccessfully";
 	}
 }

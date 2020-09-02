@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.AirTableModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductCategoryProductMappingModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UpdateProductStatusRequestModel;
@@ -64,7 +65,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 	            case "All":
 	            					OtsProductLevel productLevelId = new OtsProductLevel();
 	            					productLevelId.setOtsProductLevelId(3);
-	            					queryParameter.put("status", productDetailsBORequest.getRequestData().getStatus());
+	            					queryParameter.put("status",productDetailsBORequest.getRequestData().getStatus());
 	            					queryParameter.put("otsProductLevelId", productLevelId);
 					                productList  = super.getResultListByNamedQuery("OtsProduct.findAllProduct",queryParameter);
 				                    break;
@@ -106,24 +107,22 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 				otsProduct.setOtsProductPrice(productPrice);
 			}
 			
-			if(addorUpdateProductBORequest.getRequestData().getProductId().isEmpty()||addorUpdateProductBORequest.getRequestData().getProductId().equalsIgnoreCase("string")) { 
-				otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
-				otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
-				otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
-				otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
-				otsProduct.setOtsProductType(addorUpdateProductBORequest.getRequestData().getProductType());	
-			}else{
-				System.out.print("_____");
+			if(!(addorUpdateProductBORequest.getRequestData().getProductId().isEmpty()||addorUpdateProductBORequest.getRequestData().getProductId().equalsIgnoreCase("string"))) { 
 				otsProduct.setOtsProductId(Integer.parseInt(addorUpdateProductBORequest.getRequestData().getProductId()));
-				otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
-				otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
-				otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
-				otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
-				otsProduct.setOtsProductType(addorUpdateProductBORequest.getRequestData().getProductType());
 			}
+			
+			otsProduct.setOtsProductBasePrice(addorUpdateProductBORequest.getRequestData().getProductBasePrice());
+			otsProduct.setOtsProductGst(addorUpdateProductBORequest.getRequestData().getGst());
+			otsProduct.setOtsProductName(addorUpdateProductBORequest.getRequestData().getProductName());
+			otsProduct.setOtsProductDescription(addorUpdateProductBORequest.getRequestData().getProductDescription());
+			otsProduct.setOtsProductStatus(addorUpdateProductBORequest.getRequestData().getProductStatus());
+			otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
+			otsProduct.setOtsProductType(addorUpdateProductBORequest.getRequestData().getProductType());
+			otsProduct.setOtsProductThresholdDay(addorUpdateProductBORequest.getRequestData().getThreshHold());
 			OtsProductLevel productLevel = new OtsProductLevel();
 			productLevel.setOtsProductLevelId(Integer.parseInt(addorUpdateProductBORequest.getRequestData().getProductLevel()));
 			otsProduct.setOtsProductLevelId(productLevel);
+			
 			try {
 				otsProduct = super.getEntityManager().merge(otsProduct);
 				if(addorUpdateProductBORequest.getRequestData().getProductImage() !=null) {
@@ -149,7 +148,6 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 	
 	private ProductDetails convertProductDetailsFromEntityToDomain(OtsProduct otsProduct) {
 		ProductDetails productDetails = new ProductDetails();
-		
 		productDetails.setProductId(otsProduct.getOtsProductId()==null?null:otsProduct.getOtsProductId().toString());
 		productDetails.setProductName(otsProduct.getOtsProductName()==null?null:otsProduct.getOtsProductName());
 		productDetails.setProductDescription(otsProduct.getOtsProductDescription()==null?null:otsProduct.getOtsProductDescription());
@@ -158,6 +156,9 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		productDetails.setProductImage(otsProduct.getOtsProductImage()==null?null:otsProduct.getOtsProductImage());
 		productDetails.setProductType(otsProduct.getOtsProductType()==null?null:otsProduct.getOtsProductType());
 		productDetails.setProductLevel(otsProduct.getOtsProductLevelId().getOtsProductName()==null?null:otsProduct.getOtsProductLevelId().getOtsProductName());
+		productDetails.setGst(otsProduct.getOtsProductGst()==null?"0":otsProduct.getOtsProductGst());
+		productDetails.setThreshHold(otsProduct.getOtsProductThresholdDay()==null?null:otsProduct.getOtsProductThresholdDay());
+		productDetails.setProductBasePrice(otsProduct.getOtsProductBasePrice());
 		return productDetails;
 	}
 
@@ -252,6 +253,8 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 				if(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductPrice() !=null) {
 					BigDecimal price= new BigDecimal(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductPrice()); 
 					OtsProduct.setOtsProductPrice(price);
+					OtsProduct.setOtsProductGst(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getGst());
+					OtsProduct.setOtsProductBasePrice(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductBasePrice());
 				}	
 				OtsProduct.setOtsProductDescription(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductDescription());
 				OtsProduct.setOtsProductStatus(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductStatus());
@@ -272,8 +275,126 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 			System.out.println(e);
 			throw new BusinessException(e.getMessage(), e);
 		}
-			
-			
 		return addProductAndCategoryRequest;
+	}
+
+	@Override
+	public AirTableModel addProductAirTable(AirTableModel airTableModel) {
+		OtsProduct productCat = new OtsProduct();
+		OtsProduct productSubCat = new OtsProduct();
+		//------------------ to add category 
+		try {
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsProductAirtableId",airTableModel.getProductCategoryId());
+			productCat  = super.getResultByNamedQuery("OtsProduct.findByOtsProductAirtableId", queryParameter);
+			airTableModel.setNewCategoryId(productCat.getOtsProductId().toString());
+			airTableModel.setProductCategoryname("yes");
+		}catch(Exception e) {
+			System.out.println("Erorr");
+			airTableModel.setTempLevelId("1");
+			airTableModel.setTransactionId(airTableModel.getProductCategoryId());
+			productCat = convertAirTableToCategorySubCategoryAndProduct(airTableModel);
+			productCat = saveOrUpdate(productCat);
+			airTableModel.setNewCategoryId(productCat.getOtsProductId().toString());
+		}
+		//------------------ to add sub category 
+		try {
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsProductAirtableId",airTableModel.getProductSubCategoryId());
+			productSubCat = super.getResultByNamedQuery("OtsProduct.findByOtsProductAirtableId", queryParameter);
+			airTableModel.setProductSubCategoryName("yes");
+			airTableModel.setProductSubCategoryId(productSubCat.getOtsProductId().toString());
+		}catch(Exception e) {
+			System.out.println("Erorr");
+			airTableModel.setTempLevelId("2");
+			airTableModel.setTransactionId(airTableModel.getProductSubCategoryId());
+			productSubCat = convertAirTableToCategorySubCategoryAndProduct(airTableModel);
+			productSubCat.setOtsProductName(airTableModel.getProductSubCategoryName());
+			productSubCat = saveOrUpdate(productSubCat);
+			airTableModel.setProductSubCategoryId(productSubCat.getOtsProductId().toString());
+		}
+		//------------------ to add product ------------------------------------------
+		
+		try {
+			List<OtsProduct> productList = new ArrayList<OtsProduct>();
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsProductAirtableId",airTableModel.getProductId());
+			productList = super.getResultListByNamedQuery("OtsProduct.findByOtsProductAirtableId", queryParameter);
+			airTableModel.setProductId(productList.get(0).getOtsProductId().toString());
+			airTableModel.setPreviousDayFlag("yes");
+		}catch(Exception e) {
+			OtsProduct product = new OtsProduct();
+			System.out.print(e);
+			airTableModel.setTempLevelId("3");
+			System.out.println("Erorr");
+			product.setOtsProductName(airTableModel.getProductName());
+			product = convertAirTableToCategorySubCategoryAndProduct(airTableModel);
+			product.setOtsProductAirtableId(airTableModel.getProductId());
+			product = saveOrUpdate(product);
+			airTableModel.setProductId(product.getOtsProductId().toString());
+			airTableModel.setPreviousDayFlag("no");
+		}
+		return airTableModel;
+	}
+	
+	OtsProduct convertAirTableToCategorySubCategoryAndProduct(AirTableModel airTableModel){
+			OtsProduct product = new OtsProduct();
+			product.setOtsProductName(airTableModel.getProductName());
+		//	product.setOtsProductDescription();
+			product.setOtsProductStatus("active");
+			Float totalprice = Float.parseFloat(airTableModel.getProductGst()) * Float.parseFloat(airTableModel.getProductPrice()) +  Float.parseFloat(airTableModel.getProductPrice());
+			BigDecimal price= new BigDecimal(totalprice); 
+			product.setOtsProductPrice(price);
+			product.setOtsProductImage(airTableModel.getProductImage());
+			OtsProductLevel otsProductLevelId = new OtsProductLevel();
+			otsProductLevelId.setOtsProductLevelId(Integer.parseInt(airTableModel.getTempLevelId()));
+			product.setOtsProductLevelId(otsProductLevelId);
+			//product.setOtsProductThresholdDay(otsProductLevelId);
+			product.setOtsProductBasePrice(airTableModel.getProductPrice());
+			product.setOtsProductGst(airTableModel.getProductGst());
+			product.setOtsProductProducerName(airTableModel.getProductProducerName());
+			product.setOtsProductAirtableId(airTableModel.getTransactionId());
+			if(airTableModel.getTempLevelId().equalsIgnoreCase("2")) {
+				product.setOtsProductName(airTableModel.getProductSubCategoryName());
+			}else if (airTableModel.getTempLevelId().equalsIgnoreCase("1")) {
+				product.setOtsProductName(airTableModel.getProductCategoryname());
+			}
+			return product;
+		}
+
+	@Override
+	public List<ProductDetails> getProductDetilsByName(String productName) {
+		try {
+			List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
+			List<OtsProduct> productList = new ArrayList<OtsProduct>();
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsProductName",productName);
+			productList = super.getResultListByNamedQuery("OtsProduct.findByOtsProductName", queryParameter);
+			productDetails =  productList.stream().map(OtsProduct -> convertProductDetailsFromEntityToDomain(OtsProduct)).collect(Collectors.toList());	
+			System.out.println(productDetails.get(0).getProductId());
+			return productDetails;
+		}catch(Exception e) {
+			System.out.print(e);
+		}
+		return null;
+		
+	}
+	
+	@Override
+	public List<ProductDetails> getProductDetilsByTransactionId(String transactionId) {
+		try {
+			List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
+			List<OtsProduct> productList = new ArrayList<OtsProduct>();
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsProductAirtableId",transactionId);
+			productList = super.getResultListByNamedQuery("OtsProduct.findByOtsProductAirtableId", queryParameter);
+			productDetails =  productList.stream().map(OtsProduct -> convertProductDetailsFromEntityToDomain(OtsProduct)).collect(Collectors.toList());
+			System.out.println(productDetails.get(0).getProductId());
+			return productDetails;
+		}catch(Exception e) {
+			System.out.print(e);
+		}
+		return null;
+		
 	}
 }

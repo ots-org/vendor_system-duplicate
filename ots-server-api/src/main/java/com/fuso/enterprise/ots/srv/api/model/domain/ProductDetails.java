@@ -35,6 +35,12 @@ public class ProductDetails {
 	 
 	 private String donationRequestId;
 	 
+	 private String gst;
+	 
+	 private String threshHold;
+	 
+	 private String productBasePrice;
+	 
 	public String getProductId() {
 		return productId;
 	}
@@ -121,6 +127,30 @@ public class ProductDetails {
 
 	public void setDonationRequestId(String donationRequestId) {
 		this.donationRequestId = donationRequestId;
+	}
+
+	public String getGst() {
+		return gst;
+	}
+
+	public void setGst(String gst) {
+		this.gst = gst;
+	}
+
+	public String getThreshHold() {
+		return threshHold;
+	}
+
+	public void setThreshHold(String threshHold) {
+		this.threshHold = threshHold;
+	}
+
+	public String getProductBasePrice() {
+		return productBasePrice;
+	}
+
+	public void setProductBasePrice(String productBasePrice) {
+		this.productBasePrice = productBasePrice;
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.fuso.enterprise.ots.srv.api.model.domain;
 
-public class DonationModel {
+public class DonationModel  implements Comparable {
 
 	private ProductDetails productDetails;
 
@@ -23,6 +23,10 @@ public class DonationModel {
 	private String donationMethod;
 	
 	private String assignedId;
+	
+	private String paymentMethod;
+	
+	private String donationDescription;
 	
 	public String getDonationStatus() {
 		return donationStatus;
@@ -112,5 +116,27 @@ public class DonationModel {
 		this.donarId = donarId;
 	}
 
+	@Override
+	public int compareTo(Object arg0) {
+		// TODO Auto-generated method stub
+		// return this.distance.compareTo(((UserDetails)arg0).getDistance());
+		return this.donationId.compareTo(((DonationModel)arg0).getDonarId());
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public String getDonationDescription() {
+		return donationDescription;
+	}
+
+	public void setDonationDescription(String donationDescription) {
+		this.donationDescription = donationDescription;
+	}
 	
 }

@@ -32,7 +32,7 @@
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionRoleMapping</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductCategoryMapping</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductLevel</class>
-	
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsAirtable</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsDonationRequestMapping</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsDonation</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRequestProduct</class>

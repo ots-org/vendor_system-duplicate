@@ -76,6 +76,8 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 				+ addUserDataBORequest.getRequestData().getFirstName());
 		UserDataBOResponse UserDataBOResponse = new UserDataBOResponse();
 		try{
+			addUserDataBORequest.getRequestData().setUserLat("0");
+			addUserDataBORequest.getRequestData().setUserLong("0");
 			UserDataBOResponse = otsUserService.checkForUserExistsOrNot(addUserDataBORequest);
 			if (UserDataBOResponse != null) {
 				logger.info("Inside Event=1004,Class:OTSUsersV18_1WsImpl,Method:addNewUser, " + "UserList Size:"
@@ -84,7 +86,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			}else
 			{
 				response = responseWrapper.buildResponse(UserDataBOResponse,"User Details are already present In DB");
-			}		
+			}
 		}catch (BusinessException e){
 			throw new BusinessException(e, ErrorEnumeration.USR_REGISTER_failure);
 	    }catch (Throwable e) {
@@ -138,6 +140,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		
 			return response;
 		}else
+			
 		{
 			Response response = buildResponse(600,"Check Input");
 			return response;
@@ -201,9 +204,13 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 					logger.info("Inside Event=1008,Class:OTSUsersV18_1WsImpl,Method:getUserDetails, "
 							+ "UserData" +loginUserResponse.getUserDetails());
 				}
-				if (BCrypt.checkpw(loginAuthenticationBOrequest.getRequestData().getPassword(), loginUserResponse.getUserDetails().getUsrPassword())) {
+				if(loginUserResponse.getUserDetails().getUsrStatus().equalsIgnoreCase("pending")){
+					response = buildResponse(600,"please wait or ask for admin approval");
+				}else if(loginUserResponse.getUserDetails().getUsrStatus().equalsIgnoreCase("reject")){
+					response = buildResponse(600,"your approval process is rejected");
+				}else if (BCrypt.checkpw(loginAuthenticationBOrequest.getRequestData().getPassword(), loginUserResponse.getUserDetails().getUsrPassword())) {
 					response = buildResponse(loginUserResponse,"Successful");
-				}else {
+				}else{
 					response = buildResponse(600,"Password is Incorrect");
 				}
 			}catch(BusinessException e) {
@@ -376,7 +383,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			}
 		}catch(Exception e) {
 			response = responseWrapper.buildResponse("Some thing went wrong");
-		}		
+		}
 		return response;
 	}
 

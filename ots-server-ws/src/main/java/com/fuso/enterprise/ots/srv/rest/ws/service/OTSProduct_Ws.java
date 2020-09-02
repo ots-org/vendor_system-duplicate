@@ -2,9 +2,11 @@ package com.fuso.enterprise.ots.srv.rest.ws.service;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +16,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.AddProductCategoryAndProduct
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductCategoryAndProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AirTableRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
@@ -96,4 +99,17 @@ public interface OTSProduct_Ws {
 	Response searchProduct(
 	@ApiParam(value = "addProductAndCategory", required = true) @NotNull @Valid ProductDetailsBORequest ProductDetailsBORequest);
 
+	@POST
+	@Path("/addAirTabelData")
+	@ApiOperation(value = "getProductStock", notes = "get ProductList For bill By orderId", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response addAirTabelData(@ApiParam(value = "request", required = true) @NotNull @Valid AirTableRequest airTableRequest);
+	
+	@POST
+    @Path("/airTabelCaluclation")
+	@ApiOperation(value = "get-userID-users", notes = "this will do internal caluclation of air tabel", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response airTabelCaluclation(GetProductStockListRequest airTableRequest);
+
+	
 }

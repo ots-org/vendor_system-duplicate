@@ -14,5 +14,6 @@ public interface ProductStockDao  {
 	String updateProductStockQuantity(AddProductStockBORequest addProductStockBORequest);
 	String removeProductStock(AddProductStockBORequest addProductStockBORequest);
 	List<GetProductBOStockResponse> getProductStockByUid(String distributorId);
+	String addAirtableStock(AddProductStockBORequest addProductStockBORequest);
 	
 }

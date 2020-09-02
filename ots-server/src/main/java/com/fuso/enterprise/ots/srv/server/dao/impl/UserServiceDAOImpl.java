@@ -120,7 +120,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 			userEntity.setOtsUsersContactNo(addUserDataBORequest.getRequestData().getContactNo());
 			userEntity.setOtsUsersLat(addUserDataBORequest.getRequestData().getUserLat()); 
 			userEntity.setOtsUsersLong(addUserDataBORequest.getRequestData().getUserLong());
-			
+			userEntity.setOtsUsersAdminFlag(addUserDataBORequest.getRequestData().getUserAdminFlag());
 	    	super.getEntityManager().merge(userEntity);
 			super.getEntityManager().flush();
 			
@@ -161,11 +161,12 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 				OtsUserRole otsUserRole = new OtsUserRole();
 				otsUserRole.setOtsUserRoleId(Integer.parseInt(addUserDataBORequest.getRequestData().getUserRoleId()));
 				userEntity.setOtsUserRoleId(otsUserRole);
-			    userEntity.setOtsUsersStatus("Active");
+			    userEntity.setOtsUsersStatus(addUserDataBORequest.getRequestData().getUsrStatus());
 				userEntity.setOtsUsersProfilePic(addUserDataBORequest.getRequestData().getProfilePic());
 				userEntity.setOtsDeviceToken(addUserDataBORequest.getRequestData().getDeviceId());
 				userEntity.setOtsUsersLat(addUserDataBORequest.getRequestData().getUserLat());
 				userEntity.setOtsUsersLong(addUserDataBORequest.getRequestData().getUserLong());
+				userEntity.setOtsUsersAdminFlag(addUserDataBORequest.getRequestData().getUserAdminFlag());
 				
 				OtsRegistration otsRegistration = new OtsRegistration();
 
@@ -227,6 +228,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
         userDetails.setDeviceId(otsUsers.getOtsDeviceToken()==null?null:otsUsers.getOtsDeviceToken());
         userDetails.setMappedTo(otsUsers.getOtsUserMapping()==null?null:otsUsers.getOtsUserMapping().getOtsMappedTo().toString());
+        userDetails.setUserAdminFlag(otsUsers.getOtsUsersAdminFlag()==null?null:otsUsers.getOtsUsersAdminFlag());
         return userDetails;
     }
 
@@ -246,6 +248,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         userDetails.setUsrStatus(otsUsers.getOtsUsersStatus()==null?null:otsUsers.getOtsUsersStatus());
         userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
         userDetails.setMappedTo(otsUsers.getOtsUserMapping()==null?null:otsUsers.getOtsUserMapping().getOtsMappedTo().toString());
+        userDetails.setUserAdminFlag(otsUsers.getOtsUsersAdminFlag()==null?null:otsUsers.getOtsUsersAdminFlag());
         List<OtsCustomerProduct> customerProductDetails = new ArrayList(otsUsers.getOtsCustomerProductCollection());
 
 	   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
@@ -279,7 +282,8 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         userDetails.setUsrStatus(otsUsers.getOtsUsersStatus()==null?null:otsUsers.getOtsUsersStatus());
         userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
         userDetails.setMappedTo(otsUsers.getOtsUserMapping()==null?null:otsUsers.getOtsUserMapping().getOtsMappedTo().toString());
-       
+        userDetails.setUserAdminFlag(otsUsers.getOtsUsersAdminFlag()==null?null:otsUsers.getOtsUsersAdminFlag());
+        
         List<OtsCustomerProduct> customerProductDetails = new ArrayList(otsUsers.getOtsCustomerProductCollection());
 
 	   	for(int i=0 ; i<customerProductDetails.size() ; i++) {

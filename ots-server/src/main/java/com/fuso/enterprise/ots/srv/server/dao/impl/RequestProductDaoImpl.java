@@ -72,12 +72,22 @@ public class RequestProductDaoImpl extends AbstractIptDao<OtsRequestProduct, Str
 		List<OtsRequestProduct> requestProductList = new ArrayList<OtsRequestProduct>();
 		Map<String, Object> queryParameter = new HashMap<>();
 		queryParameter.put("status",donationByStatusRequest.getRequest().getStatus());
-		try {
-			requestProductList = super.getResultListByNamedQuery("OtsRequestProduct.getDonationListBystatus", queryParameter);
-		}catch(Exception e) {
-			System.out.print(e);
+		if(donationByStatusRequest.getRequest().getProductId()==null) {
+			try {
+				requestProductList = super.getResultListByNamedQuery("OtsRequestProduct.getDonationListBystatus", queryParameter);
+			}catch(Exception e) {
+				System.out.print(e);
+			}
+		}else {
+			try {
+				OtsProduct productId = new OtsProduct();
+				productId.setOtsProductId(Integer.parseInt(donationByStatusRequest.getRequest().getProductId()));
+				queryParameter.put("productId",productId);
+				requestProductList = super.getResultListByNamedQuery("OtsRequestProduct.getDonationListBystatusAndProduct", queryParameter);
+			}catch(Exception e) {
+				System.out.print(e);
+			}
 		}
-		
 	//	otsOrderDetails =  OrderList.stream().map(OtsOrderProduct -> convertOrderDetailsFromEntityToDomain(OtsOrderProduct)).collect(Collectors.toList());;
 		productList = requestProductList.stream().map(OtsRequestProduct -> convertEntityToModel(OtsRequestProduct)).collect(Collectors.toList());
 		donationResponseByStatus.setProductList(productList);
@@ -104,12 +114,7 @@ public class RequestProductDaoImpl extends AbstractIptDao<OtsRequestProduct, Str
 				
 				requestProduct.setOtsRequestProductStock(addDonationtoRequest.getRequest().get(i).getPresentStock());
 				requestProduct.setOtsRequestProductId(Integer.parseInt(addDonationtoRequest.getRequest().get(i).getDonationRequestId()));
-				if(addDonationtoRequest.getRequest().get(0).getOrderId().equalsIgnoreCase("any")) {
-					requestProduct.setOtsRequestProductAddedStock(addDonationtoRequest.getRequest().get(i).getDonatedQty());
-				}else {
-					requestProduct.setOtsRequestProductAddedStock(addDonationtoRequest.getRequest().get(i).getOrderQty());
-				}
-				
+				requestProduct.setOtsRequestProductAddedStock(addDonationtoRequest.getRequest().get(i).getDonatedQty());
 				requestProduct.setOtsRequestProductStatus(addDonationtoRequest.getRequest().get(i).getRequestStatus());
 			
 				OtsProduct productId = new OtsProduct();

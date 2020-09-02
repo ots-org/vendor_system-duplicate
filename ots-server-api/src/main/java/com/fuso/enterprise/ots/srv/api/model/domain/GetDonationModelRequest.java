@@ -6,6 +6,8 @@ public class GetDonationModelRequest {
 
 	private String assgineId;
 	
+	private String productId;
+	
 	public String getStatus() {
 		return status;
 	}
@@ -20,6 +22,14 @@ public class GetDonationModelRequest {
 
 	public void setAssgineId(String assgineId) {
 		this.assgineId = assgineId;
+	}
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 	
 }

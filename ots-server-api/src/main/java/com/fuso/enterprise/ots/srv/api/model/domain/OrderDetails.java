@@ -67,6 +67,8 @@ public class OrderDetails {
 	 
 	 private String donationStatus;
 	 
+	 private String receipt;
+	 
 	public String getDonarAddress() {
 		return donarAddress;
 	}
@@ -249,6 +251,14 @@ public class OrderDetails {
 
 	public void setDonatorId(String donatorId) {
 		this.donatorId = donatorId;
+	}
+
+	public String getReceipt() {
+		return receipt;
+	}
+
+	public void setReceipt(String receipt) {
+		this.receipt = receipt;
 	}
 
 	 

@@ -2,6 +2,8 @@ package com.fuso.enterprise.ots.srv.api.service.functional;
 
 import java.util.List;
 
+import org.json.JSONException;
+
 import com.fuso.enterprise.ots.srv.api.model.domain.CompleteOrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.DonationResponseByStatus;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
@@ -65,4 +67,5 @@ public interface OTSOrderService {
 	GetDonationReportByDateResponse getDonationForUpdateStatus(GetDonationByStatusRequest donationByStatusRequest);
 	String updateDonation(UpdateDonationRequest updateDonationRequest);
 	String donateDonation(SaleVocherBoRequest saleVocherBoRequest);
+	OrderDetailsBOResponse getRazorPayOrder(UpdateOrderDetailsRequest updateOrderDetailsRequest) throws JSONException;
 }

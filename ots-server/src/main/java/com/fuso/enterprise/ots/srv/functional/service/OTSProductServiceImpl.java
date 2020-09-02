@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -32,9 +33,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.codec.binary.Base64;
 import com.fuso.enterprise.ots.srv.server.dao.ProductCategoryMappingDAO;
 import com.fuso.enterprise.ots.srv.api.model.domain.AddProductCategoryAndProductModelRequest;
+import com.fuso.enterprise.ots.srv.api.model.domain.AddProductStock;
+import com.fuso.enterprise.ots.srv.api.model.domain.AirTableModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductRequestModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.GetProductStockListDomain;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductCategoryProductMappingModel;
@@ -42,9 +46,11 @@ import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetailsList;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductStockDetail;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSProductService;
+import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductCategoryAndProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductStockBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AirTableRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
@@ -57,6 +63,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.GetProductStockListBORes
 import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
+import com.fuso.enterprise.ots.srv.server.dao.AirTableDao;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OrderProductDAO;
@@ -83,8 +90,9 @@ public class OTSProductServiceImpl implements OTSProductService {
 	private OrderServiceDAO orderServiceDAO;
 	private MapUserProductDAO mapUserProductDAO;
 	private ProductCategoryMappingDAO productCategoryMappingDAO;
+	private AirTableDao airTableDao;
 	@Inject
-	public OTSProductServiceImpl(ProductServiceDAO productServiceDAO,ProductCategoryMappingDAO productCategoryMappingDAO,ProductStockDao productStockDao,ProductStockHistoryDao productStockHistoryDao,StockDistObDAO stockDistObDAO,OrderDAO orderDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO,OrderServiceDAO orderServiceDAO,MapUserProductDAO mapUserProductDAO) {
+	public OTSProductServiceImpl(AirTableDao airTableDao,ProductServiceDAO productServiceDAO,ProductCategoryMappingDAO productCategoryMappingDAO,ProductStockDao productStockDao,ProductStockHistoryDao productStockHistoryDao,StockDistObDAO stockDistObDAO,OrderDAO orderDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO,OrderServiceDAO orderServiceDAO,MapUserProductDAO mapUserProductDAO) {
 		this.productServiceDAO=productServiceDAO;
 		this.productStockDao = productStockDao;
 		this.productStockHistoryDao=productStockHistoryDao;
@@ -95,11 +103,13 @@ public class OTSProductServiceImpl implements OTSProductService {
 		this.orderServiceDAO = orderServiceDAO;
 		this.mapUserProductDAO = mapUserProductDAO;
 		this.productCategoryMappingDAO = productCategoryMappingDAO;
+		this.airTableDao = airTableDao;
 	}
 	@Override
 	public ProductDetailsBOResponse getProductList(ProductDetailsBORequest productDetailsBORequest) {
 		List<ProductCategoryProductMappingModel> productMappingModel = new ArrayList<ProductCategoryProductMappingModel>();
 		ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
+	try {
 		if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("category")) {
 			//---------------------to get list of all category-------------------------------------
 			productDetailsBOResponse = productServiceDAO.getProductCategory(productDetailsBORequest);
@@ -115,15 +125,17 @@ public class OTSProductServiceImpl implements OTSProductService {
 			}
 			//--------------------code to take mapped subcategory for particular value------------
 			productDetailsBOResponse.setUserId(productDetailsBORequest.getRequestData().getDistributorId());
-			productDetailsBOResponse.setProductDetails(productDetailsList);
-			productDetailsBOResponse = mapUserProductDAO.getProductDetailsForDistributor(productDetailsBOResponse);	
+			List<ProductDetails> newProductDetailsList = new ArrayList<ProductDetails>();
+			for(int i=0 ; i < productDetailsList.size();i++) {
+				newProductDetailsList.add(i,productServiceDAO.getProductDetils(productDetailsList.get(i).getProductId()));
+			}
+			productDetailsBOResponse.setProductDetails(newProductDetailsList);
+			//productDetailsBOResponse = mapUserProductDAO.getProductDetailsForDistributor(productDetailsBOResponse);	
 		}else if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("product")) {
 			productDetailsBOResponse = productCategoryMappingDAO.getProductListBySubcategory(productDetailsBORequest);
-		}
-		
-		else{
+		}else{
 			int loop=0;
-			
+			System.out.print("data-1");
 			List<CustomerProductDetails> customerProductDetails = new ArrayList<CustomerProductDetails>();
 			List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
 			List<GetProductBOStockResponse> productStockvalue = new ArrayList<GetProductBOStockResponse>();
@@ -132,7 +144,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 				productDetailsBOResponse = productServiceDAO.getProductList(productDetailsBORequest);
 			}else if(productDetailsBORequest.getRequestData().getCustomerId()!=null){
 				try {
-					customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByCustomerId(productDetailsBORequest.getRequestData().getCustomerId());
+			//		customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByCustomerId(productDetailsBORequest.getRequestData().getCustomerId());
 					productStockvalue = productStockDao.getProductStockByUid(productDetailsBORequest.getRequestData().getDistributorId());
 
 					if(productStockvalue!= null) {
@@ -170,19 +182,22 @@ public class OTSProductServiceImpl implements OTSProductService {
 				}
 			}
 		}
-		
-		return productDetailsBOResponse;
+		System.out.print(productDetailsBOResponse.getProductDetails().size());
+
+	}catch(Exception e) {
+		System.out.println(e);
+	}
+				return productDetailsBOResponse;
 	}
 
 	@Override
 	public String addOrUpdateProduct(AddorUpdateProductBORequest addorUpdateProductBORequest) {
 		String path;
 		try {
-			productServiceDAO.addOrUpdateProduct(addorUpdateProductBORequest);
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
-		return "Added / updated";
+		return "updated";
 	}
 
 
@@ -210,6 +225,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 			GetProductDetails getProductDetails = new GetProductDetails();
 			getProductDetails.setSearchKey("All");
 			getProductDetails.setSearchvalue("");
+			getProductDetails.setStatus("active");
 			getProductDetails.setDistributorId(getProductStockListRequest.getRequestData().getUserId());
 			productDetailsBORequest.setRequestData(getProductDetails);
 			List<ProductDetails> otsProductList = getProductList(productDetailsBORequest).getProductDetails();
@@ -247,6 +263,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 			}
 
 		}catch(Exception e) {
+			System.out.print(e);
 			throw new BusinessException(e.getMessage(), e);
 		}
 		getProductStockListBOResponse.setProductStockDetail(ProductStockDetailList);
@@ -532,6 +549,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 					//------------------------------update product when user request to add admin----------------------------------------
 					AddorUpdateProductBORequest addorUpdateProductBORequest = new AddorUpdateProductBORequest ();
 					ProductDetails productDetails = new ProductDetails();
+					productDetails.setGst(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getGst());
 					productDetails.setProductId(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductId());
 					productDetails.setProductImage(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductImage());
 					productDetails.setProductStatus(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductStatus());
@@ -539,6 +557,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 					productDetails.setProductDescription(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductDescription());
 					productDetails.setProductPrice(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductPrice());
 					productDetails.setProductLevel(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductLevel());
+					productDetails.setProductBasePrice(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductBasePrice());
 					addorUpdateProductBORequest.setRequestData(productDetails);
 					addOrUpdateProduct(addorUpdateProductBORequest);
 					
@@ -557,7 +576,9 @@ public class OTSProductServiceImpl implements OTSProductService {
 			productDetails.setProductName(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductName());
 			productDetails.setProductDescription(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductDescription());
 			productDetails.setProductPrice(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductPrice());
+			productDetails.setProductBasePrice(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductBasePrice());
 			productDetails.setProductLevel(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductLevel());
+			productDetails.setGst(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getGst());
 			addorUpdateProductBORequest.setRequestData(productDetails);
 			addOrUpdateProduct(addorUpdateProductBORequest);
 		}
@@ -565,11 +586,120 @@ public class OTSProductServiceImpl implements OTSProductService {
 	}
 	@Override
 	public ProductDetailsBOResponse searchProduct() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
+	@Override
+	public String addAirTabelData(AirTableRequest airTableRequest) {
+		return airTableDao.addAirTabelData(airTableRequest);
+	}
+	@Override
+	public List<AirTableModel> airTabelCaluclation(GetProductStockListRequest airTableRequest) {
+		List<AirTableModel> airtableModelList = airTableDao.airTabelCaluclation(airTableRequest);
+		
+		String newProductId = new String();
+		for(AirTableModel airTableModel:airtableModelList) {
+			int flag = 0;
+			if(airTableModel.getAirTableProductCaluclatedStock() == null) {
+				airTableModel.setAirTableProductCaluclatedStock("0");
+			}
+			if(airTableModel.getPreviousDayFlag().equalsIgnoreCase("no")) {
+				AirTableModel airTableModelMap = productServiceDAO.addProductAirTable(airTableModel);
+				//------------------------ to map product------------------------------------
+				if(airTableModelMap.getProductCategoryname().equalsIgnoreCase("yes") && 
+				airTableModelMap.getProductSubCategoryName().equalsIgnoreCase("yes")) {
+					// category and sub category is there, so needs to map sub category and product
+					AddProductCategoryAndProductRequest addProductCategoryAndProductRequest = new AddProductCategoryAndProductRequest();
+					AddProductCategoryAndProductModelRequest addProductCategoryAndProductModel = new AddProductCategoryAndProductModelRequest();
+					List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
+					ProductDetails productData = new ProductDetails();
+					productData.setProductId(airTableModelMap.getProductId());
+					productDetails.add(productData);
+					addProductCategoryAndProductModel.setProductCategoryId(airTableModelMap.getProductSubCategoryId());
+					addProductCategoryAndProductModel.setProductDetails(productDetails);
+					addProductCategoryAndProductRequest.setRequestData(addProductCategoryAndProductModel);
+					if(airTableModel.getPreviousDayFlag().equalsIgnoreCase("no")) {
+						productCategoryMappingDAO.mapProductAndCategory(addProductCategoryAndProductRequest);
+					}
+					flag =1;
+					newProductId = airTableModelMap.getProductId();
+				}else{
+					
+					// no category and sub category and product mapping needs to be done
+					List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
+					ProductDetails productData = new ProductDetails();
+					productData.setProductId(airTableModelMap.getProductSubCategoryId());
+					AddProductCategoryAndProductModelRequest addProductCategoryAndProductModel = new AddProductCategoryAndProductModelRequest();
+					AddProductCategoryAndProductRequest addProductCategoryAndProductRequest = new AddProductCategoryAndProductRequest();			
+					addProductCategoryAndProductModel.setProductCategoryId(airTableModelMap.getNewCategoryId());
+					productDetails.add(productData);
+					addProductCategoryAndProductModel.setProductDetails(productDetails);
+					addProductCategoryAndProductRequest.setRequestData(addProductCategoryAndProductModel);
+					//map categoy and sub category
+					productCategoryMappingDAO.mapProductAndCategory(addProductCategoryAndProductRequest);
+					//-----------------------------------------------------------------------------------------------------------------
+					//map sub category and product
+					productData.setProductId(airTableModelMap.getProductId());
+					addProductCategoryAndProductModel.setProductCategoryId(airTableModelMap.getProductSubCategoryId());
+					addProductCategoryAndProductModel.setProductDetails(productDetails);
+					productDetails.add(productData);
+					addProductCategoryAndProductRequest.setRequestData(addProductCategoryAndProductModel);
+					productCategoryMappingDAO.mapProductAndCategory(addProductCategoryAndProductRequest);
+					//-----------------------------------------------------------------------------------------------------------------
+					flag = 1;
+					newProductId = airTableModelMap.getProductId();
+				}
+			}
+			AddProductStockBORequest addProductBORequest = new AddProductStockBORequest();
+	        AddProductStock addProductStock = new AddProductStock();
+	        String productId = null ;
+	        if(flag == 1) {
+	        	productId = newProductId;
+	        }else {
+	        	productId = productServiceDAO.getProductDetilsByTransactionId(airTableModel.getTransactionId()).get(0).getProductId();
+	        }
+	        addProductStock.setProductId(productId);
+	        //getList of deliverd qty
+	        GetProductStockListDomain GetProductStockListDomain = new GetProductStockListDomain();
+	        GetProductStockListDomain.setProductId(productId);
+	        GetProductStockListDomain.setTodaysDate(airTableRequest.getRequestData().getTodaysDate());
+	        GetProductStockListRequest getProductStockListRequest = new GetProductStockListRequest();
+	        getProductStockListRequest.setRequestData(GetProductStockListDomain);
+	        // minus todays deleverd qty
+	        List<OtsOrder> orderList = orderDAO.getOrderList(Integer.parseInt(productId),getProductStockListRequest);
+	        Long deliverdQty = null;
+	        if(orderList != null) {
+		        deliverdQty = orderProductDAO.getListOfDeliverdQuantityOfDay(orderList,Integer.parseInt(productId));
+			    }else {
+			    deliverdQty = (long) 0;
+	        }
+	        
+	        
+	        Integer finalStock = Integer.parseInt(airTableModel.getCurrentDayStock()) - Integer.parseInt(String.valueOf(deliverdQty));
+	       // System.out.println("product name = "+ airTableModel.getProductName() +"product stock = " +airTableModel.getAirTableProductCaluclatedStock() +" deliverd qty = "+deliverdQty +"final stock= " + finalStock);
+	        addProductStock.setProductStockStatus("active");
+	        addProductStock.setUsersId("1");
+	        addProductStock.setProductStockQty(finalStock.toString());
+	        addProductBORequest.setRequestData(addProductStock);
+	        productStockDao.addAirtableStock(addProductBORequest);
+	        airTableModel.setAirTableProductCaluclatedStock(finalStock.toString());
+		    //	        if (Integer.parseInt(airTableModel.getProductStock()) > 0){
+//		         Integer finalStock = Integer.parseInt(airTableModel.getAirTableProductCaluclatedStock()) - Integer.parseInt(String.valueOf(deliverdQty));
+//		         addProductStock.setProductStockQty(finalStock.toString());
+//		         addProductBORequest.setRequestData(addProductStock);`
+//		         productStockDao.addAirtableStock(addProductBORequest);
+//		         System.out.println("positive " + finalStock);
+//		    //close to add stock for each of the product 
+//		      } else if(Integer.parseInt(airTableModel.getProductStock()) < 0){
+//		    //if value is negative 
+//		    	 Integer positiveStock = Math.abs(Integer.parseInt(airTableModel.getAirTableProductCaluclatedStock()));
+//		    	 Integer finalStock = positiveStock - Integer.parseInt(String.valueOf(deliverdQty));
+//		    	 addProductStock.setProductId(airTableModel.getProductId());
+//		    	 addProductStock.setProductStockQty(finalStock.toString());
+//		    	 addProductBORequest.setRequestData(addProductStock);-
+//		    	 productStockDao.addAirtableStock(addProductBORequest);
+//		    	 System.out.println("negative "+finalStock );
+//		      }
+		}
+		return airtableModelList;
+	}
 }
-
-
-

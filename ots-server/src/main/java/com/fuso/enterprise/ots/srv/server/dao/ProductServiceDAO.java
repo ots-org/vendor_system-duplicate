@@ -3,6 +3,7 @@ package com.fuso.enterprise.ots.srv.server.dao;
 import java.io.IOException;
 import java.util.List;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.AirTableModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddProductCategoryAndProductRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddorUpdateProductBORequest;
@@ -25,4 +26,10 @@ public interface ProductServiceDAO {
 	ProductDetailsBOResponse getProductCategory(ProductDetailsBORequest productDetailsBORequest);
 
 	AddProductCategoryAndProductRequest addProductAndCategory(AddProductCategoryAndProductRequest addProductAndCategoryRequest);
+
+	AirTableModel addProductAirTable(AirTableModel airTableModel);
+	
+	List<ProductDetails> getProductDetilsByName(String productName);
+
+	List<ProductDetails> getProductDetilsByTransactionId(String productName);
 }
