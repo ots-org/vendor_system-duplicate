@@ -230,12 +230,12 @@ public class ActiveDirectoryAuthentication {
 	                    if(attributeID.equals("givenName")) {
 	                    	for (Enumeration vals = atr.getAll();
 	                                vals.hasMoreElements(); 
-	                    			userDetails.setFirstname(vals.nextElement()+""));
+	                    			userDetails.setFirstName(vals.nextElement()+""));
 	                    }
 	                    if(attributeID.equals("sn")) {
 	                    	for (Enumeration vals = atr.getAll();
 	                                vals.hasMoreElements(); 
-	                    			userDetails.setLastname(vals.nextElement()+""));
+	                    			userDetails.setFirstName(vals.nextElement()+""));
 	                    }
 	                }
 	            }
