@@ -88,7 +88,7 @@ public class UserActivity extends AppCompatActivity {
                 switch (type) {
                     case SEARCH:
                         Fragment subscribedFragment = SearchUserFragment.newInstance();
-                        adapter.addFragment(subscribedFragment, "Search user");
+                        adapter.addFragment(subscribedFragment, "Search/Modify Users");
                         break;
                     case ADD_USER:
                             Fragment unsubscribedFragment = AddUserFragment.newInstance();

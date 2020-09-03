@@ -118,12 +118,17 @@ public class Constants {
 
     public static String updateDonation = baseUrl + "order/updateDonation";
 
-    public static String Transaction ="https://secure.ccavenue.com/transaction/initTrans";
-    public static String JSON ="https://secure.ccavenue.com/transaction/transaction.do";
-    public static String RSA ="https://secure.ccavenue.com/transaction/getRSAKey";
+    public static String getRazorPayOrder = baseUrl +"order/getRazorPayOrder";
 
-    public static final String JSON_URL = "https://secure.ccavenue.com/transaction/transaction.do";
-    public static final String TRANS_URL = "https://secure.ccavenue.com/transaction/initTrans";
+//    public static String Transaction ="https://secure.ccavenue.com/transaction/initTrans";
+//    public static String JSON ="https://secure.ccavenue.com/transaction/transaction.do";
+//    public static String RSA ="https://secure.ccavenue.com/transaction/getRSAKey";
+
+    public static final String PARAMETER_SEP = "&";
+    public static final String PARAMETER_EQUALS = "=";
+    public static final String JSON_URL = "https://test.ccavenue.com/transaction/transaction.do";
+    public static final String TRANS_URL = "https://test.ccavenue.com/transaction/initTrans";
+
 
 
 //

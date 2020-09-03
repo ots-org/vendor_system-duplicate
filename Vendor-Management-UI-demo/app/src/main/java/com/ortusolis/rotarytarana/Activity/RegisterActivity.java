@@ -3,11 +3,15 @@ package com.ortusolis.rotarytarana.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
@@ -16,6 +20,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +34,8 @@ import androidx.core.app.ActivityCompat;
 
 import com.android.volley.VolleyError;
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.gson.Gson;
 import com.ortusolis.rotarytarana.NetworkUtility.Constants;
 import com.ortusolis.rotarytarana.NetworkUtility.IResult;
@@ -42,6 +49,7 @@ import com.ortusolis.rotarytarana.pojo.UserInfo;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -63,6 +71,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     protected String latitude, longitude;
     protected boolean gps_enabled, network_enabled;
     String userLat, userLong;
+    LatLng p1First = null;
+    String lat,lng;
     String strName = null;
     String strDistName = null;
     String strDist = null;
@@ -79,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     String productDist = null;
     String errorMsg = "";
     SharedPreferences sharedPreferences;
+    CheckBox adminAccess,policy;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -103,6 +114,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         customerLayout = findViewById(R.id.customerLayout);
         employeeRemoveLayout = findViewById(R.id.employeeRemoveLayout);
         distributorCodeLayoutLL = findViewById(R.id.distributorCodeLayoutLL);
+        adminAccess = findViewById(R.id.adminAccess);
+        policy = findViewById(R.id.policy);
         setSupportActionBar(mToolbar);
         gson = new Gson();
         userNames = new ArrayList<>();
@@ -111,7 +124,14 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         productIdList = new ArrayList<>();
         bundle = getIntent().getExtras();
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF,0);
-
+        policy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Uri uri = Uri.parse("https://www.ortusolis.com/"); // missing 'http://' will cause crashed
+//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(intent);
+            }
+        });
         if (getSupportActionBar() != null) {
             action = getSupportActionBar();
             action.setDisplayHomeAsUpEnabled(true);
@@ -127,7 +147,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
 
             if (bundle.containsKey("customer") && bundle.getString("customer").contains("Register as an Partner")) {
                 toolbarTitle.setText("Register as Partner");
-                employeeRemoveLayout.setVisibility(View.GONE);
+                employeeRemoveLayout.setVisibility(View.VISIBLE);
                 distributorCodeLayoutLL.setVisibility(View.VISIBLE);
                 employee = true;
             }
@@ -139,10 +159,11 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                 distributor = true;
                 toolbarTitle.setText("Register as Facilitator");
                 customerLayout.setVisibility(View.GONE);
+                adminAccess.setVisibility(View.VISIBLE);
             }
-            else if (bundle.containsKey("customer") && bundle.getString("customer").contains("Register as Requester/Donor")) {
+            else if (bundle.containsKey("customer") && bundle.getString("customer").contains("Register as Donor")) {
                 customer = true;
-                toolbarTitle.setText("Register as Requester/Donor");
+                toolbarTitle.setText("Register as Donor");
                 customerLayout.setVisibility(View.VISIBLE);
                 distributorCodeLayoutLL.setVisibility(View.VISIBLE);
             }
@@ -206,7 +227,12 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
 
     void doneRegister(){
         if (validate()) {
-            customerRegister();
+            if(policy.isChecked()){
+                customerRegister();
+            }else {
+                Toast.makeText(RegisterActivity.this, "please accept terms and conditions", Toast.LENGTH_LONG).show();
+            }
+
         }
     }
 
@@ -332,6 +358,28 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         progressDialogRegistration.setIndeterminate(false);
         progressDialogRegistration.setCancelable(false);
         progressDialogRegistration.show();
+        try {
+            Geocoder coder = new Geocoder(this);
+            List<Address> address;
+            String primryAddress= address1Edit.getText().toString();
+            address = coder.getFromLocationName(primryAddress,5);
+            if(address.size()!=0) {
+                Address location = address.get(0);
+                location.getLatitude();
+                location.getLongitude();
+                p1First = new LatLng(location.getLatitude(), location.getLongitude());
+                lat = p1First.latitude + "";
+                lng = p1First.longitude + "";
+            }else {
+                progressDialogRegistration.dismiss();
+                Toast.makeText(RegisterActivity.this, "check primary address", Toast.LENGTH_LONG).show();
+                return;
+            }
+        } catch (
+        IOException e) {
+            e.printStackTrace();
+        }
+
         WebserviceController wss = new WebserviceController(RegisterActivity.this);
 
         JSONObject requestObject = new JSONObject();
@@ -343,7 +391,21 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             jsonObject.put("firstName", firstNameEdit.getText().toString());
             jsonObject.put("lastName", lastNameEdit.getText().toString());
             jsonObject.put("emailId", emailEdit.getText().toString());
-            jsonObject.put("usrStatus", "active");
+            if (bundle.containsKey("customer") && bundle.getString("customer").contains("Register as an Partner")) {
+                jsonObject.put("usrStatus", "pending");
+                jsonObject.put("userAdminFlag", "0");
+            }
+            else if (bundle.containsKey("customer") && bundle.getString("customer").contains("Register as Facilitator")) {
+                jsonObject.put("usrStatus", "pending");
+                if (adminAccess.isChecked()){
+                    jsonObject.put("userAdminFlag", "1");
+                }else {
+                    jsonObject.put("userAdminFlag", "0");
+                }
+            }else{
+                jsonObject.put("usrStatus", "active");
+            }
+
             jsonObject.put("usrPassword", passwordEdit.getText().toString());
             jsonObject.put("contactNo", phoneEdit.getText().toString());
             jsonObject.put("address1", address1Edit.getText().toString());
@@ -353,6 +415,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             jsonObject.put("mappedTo", distributor ? "1" : JSONObject.NULL );
             jsonObject.put("deviceId", sharedPreferences.getString("regId",""));
             jsonObject.put("userRoleId", userId);
+            jsonObject.put("userLat", lat);
+            jsonObject.put("userLong", lng);
             requestObject.put("requestData",jsonObject);
             Log.e("jsonObject",requestObject.toString());
         }

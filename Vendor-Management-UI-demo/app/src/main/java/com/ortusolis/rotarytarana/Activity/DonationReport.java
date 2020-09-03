@@ -345,10 +345,10 @@ public class DonationReport extends AppCompatActivity {
                         empIdList.clear();
 
                         for (UserInfo userInfo1: distributorResponse.getResponseData().getUserDetails()){
-//                            if (userInfo1.getUserRoleId().equalsIgnoreCase("4")) {
+                            if (userInfo1.getUserRoleId().equalsIgnoreCase("4")) {
                                 empNames.add(userInfo1.getFirstName());
                                 empIdList.add(userInfo1.getUserId());
-//                            }
+                            }
                         }
 
                         if (distributorResponse.getResponseData().getUserDetails().isEmpty()){

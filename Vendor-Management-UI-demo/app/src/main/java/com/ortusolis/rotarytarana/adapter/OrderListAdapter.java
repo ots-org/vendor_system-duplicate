@@ -67,12 +67,14 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Modu
             holder.orderNo.setText(Html.fromHtml("<b>Request Number: </b>"+item.getOrderId()));
             holder.customeName.setText(Html.fromHtml("<b>Request Date: </b>"+CommonFunctions.converDateStr(item.getOrderDate())));
             holder.orderCost.setText(Html.fromHtml("<b>Request Cost: </b>"+item.getOrderCost()+context.getString(R.string.Rs)));
+            holder.orderDate.setText(Html.fromHtml("<b>Beneficiary Name: </b>"+item.getCustomerDetails().getFirstName()));
         } else {
             holder.orderNo.setText(Html.fromHtml("<b>Order Number: </b>"+item.getOrderId()));
             holder.customeName.setText(Html.fromHtml("<b>Ordered Date: </b>"+CommonFunctions.converDateStr(item.getOrderDate())));
             holder.orderCost.setText(Html.fromHtml("<b>Order Cost: </b>"+item.getOrderCost()+context.getString(R.string.Rs)));
+            holder.orderDate.setText(Html.fromHtml("<b>Name: </b>"+item.getCustomerDetails().getFirstName()));
         }
-        holder.orderDate.setText(Html.fromHtml("<b>Donor/Requester Name: </b>"+item.getCustomerDetails().getFirstName()));
+
         holder.deliveryDate.setText(Html.fromHtml("<b>Delivery Date: </b>"+ CommonFunctions.converDateStr(item.getDelivaryDate())));
         holder.deliveredBy.setVisibility(View.GONE);
         holder.outstandingAmt.setVisibility(View.GONE);

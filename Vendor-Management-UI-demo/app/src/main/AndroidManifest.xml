@@ -186,6 +186,15 @@
         <activity
             android:name="com.ortusolis.rotarytarana.service.RazorPayActivity"
             android:screenOrientation="portrait" /> <!--  -->
+        <activity
+            android:name="com.ortusolis.rotarytarana.Activity.InitialScreenActivity"
+            android:screenOrientation="portrait" /> <!--  -->
+        <activity
+            android:name="com.ortusolis.rotarytarana.Activity.StatusActivity"
+            android:screenOrientation="portrait" /> <!--  -->
+        <activity
+            android:name="com.ortusolis.rotarytarana.Activity.WebViewActivity"
+            android:screenOrientation="portrait" /> <!--  -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -208,7 +217,7 @@
             android:value="86d10b78830c1a0dbcc18c03f0038831e3fd593c" />
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_i50l0d4Cja32Mc" />
+            android:value="rzp_test_NYxmr2CtwORaZd" />
         <receiver
             android:name="com.ortusolis.rotarytarana.Utility.RestarterBroadcastReceiver"
             android:enabled="true"

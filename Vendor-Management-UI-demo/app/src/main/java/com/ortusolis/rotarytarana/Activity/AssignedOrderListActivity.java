@@ -264,12 +264,12 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                         if (responseData.getResponseCode().equalsIgnoreCase("200")) {
 
                             data = responseData.getResponseData().getOrderList();
-
                             assignedOrderReportAdapter = new AssignedOrderReportAdapter(AssignedOrderListActivity.this, data, new IClickInterfaceAssigned() {
                                 @Override
                                 public void click(AssignedOrderModel item) {
                                     Intent intent = new Intent(AssignedOrderListActivity.this, AssignedVoucherOrderDescription.class);
                                     intent.putExtra("order",item);
+//                                    intent.putExtra("orderData",);
                                     if(getIntent().hasExtra("deliverDonation")){
                                         intent.putExtra("deliverDonation","deliverDonation");
                                     }else if(getIntent().hasExtra("assignRequest")){

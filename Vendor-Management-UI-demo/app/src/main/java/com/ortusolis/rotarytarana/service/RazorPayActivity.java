@@ -23,11 +23,13 @@ import com.razorpay.PaymentResultListener;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RazorPayActivity extends Activity implements PaymentResultListener {
     private String TAG = "Pravarthaka";
+    String orderID="";
 
 //
 Float totalAmountPayment ;
@@ -59,14 +61,19 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
 //
         gson = new Gson();
         productRequests = new ArrayList<>();
-        setUpWidgets();
+
         //get intent and receive cost
 
        Intent intent = getIntent();
 
-      totalAmountPayment = intent.getFloatExtra("totalAmountPayment", 0);
-        salesVaocherFalg =intent.getStringExtra("salesVaocherFalg");
-        productRequestsStr= intent.getStringExtra("productRequests");
+
+
+        if (getIntent().hasExtra("productRequests")){
+            totalAmountPayment = intent.getFloatExtra("totalAmountPayment", 0);
+            salesVaocherFalg =intent.getStringExtra("salesVaocherFalg");
+            productRequestsStr= intent.getStringExtra("productRequests");
+            DemoOrderId();
+        }
         if (getIntent().hasExtra("donationlist")){
             donationlist = (ArrayList<String>)getIntent().getSerializableExtra("donationlist");
             productId=donationlist.get(0);
@@ -81,6 +88,7 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
 
             totalAmountPayment= Float.valueOf(dontaionAmount);
             donation="yes";
+            DemoOrderId();
         }
         if (getIntent().hasExtra("donationCashlist")){
             donationCashlist = (ArrayList<String>)getIntent().getSerializableExtra("donationCashlist");
@@ -92,6 +100,7 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
             donationCashlistGST=donationCashlist.get(3);
             totalAmountPayment= Float.valueOf(donationCashlistAmount);
             donation="donationCashlist";
+            DemoOrderId();
         }
 //        productRequests= (List<ProductRequestCart>) getIntent().getSerializableExtra("productRequests");
 //        productRequestsfinal=productRequests;
@@ -100,7 +109,7 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
        intent.putExtra("product", getIntent().getExtras().getParcelable("product"));
        startActivity(intent);
         //*/
-        startPayment();
+
     }
 
     public void setUpWidgets(){
@@ -133,15 +142,17 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
              * Merchant Name
              * eg: ACME Corp || HasGeek etc.
              */
-            options.put("name", "Ortusolis");
+            options.put("name", "ORTUSOLIS TECHNOLOGY SERVICES LLP");
 
+            options.put("order_id", orderID);
+//            options.put("signature","razorpay_signature");
             /**
              * Description can be anything
              * eg: Order #123123
              *     Invoice Payment
              *     etc.
              */
-            options.put("description", "Order #123456");
+            options.put("description", "Order ID "+orderID);
 
             options.put("currency", "INR");
 
@@ -149,12 +160,12 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
              * Amount is always passed in PAISE
              * Eg: "500" = Rs 5.00
              */
-           Double finalAmount= totalAmountPayment * 100.0;
-           Log.d("totalAmountPayment",finalAmount.toString());
+           float finalAmount= totalAmountPayment * 100;
+           Log.d("totalAmountPayment", String.valueOf(finalAmount));
 
-           String amountStr = finalAmount.toString();
-            options.put("amount", amountStr);
-
+           String amountStr = String.valueOf(finalAmount);
+            options.put("amount", amountStr.substring(0,amountStr.length()-2));
+//            Order order = razorpay.Orders.create(options);
 
             checkout.open(activity, options);
 
@@ -214,7 +225,7 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
                     final AssignedResponse distributorResponse = gson.fromJson(response, AssignedResponse.class);
 
                     if (distributorResponse.getResponseCode().equalsIgnoreCase("200")) {
-                        Toast.makeText(getApplicationContext(),"payment Success",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(),"payment Success",Toast.LENGTH_SHORT).show();
                         if (salesVaocherFalg.equals("yes")) {
                             sharedPreferences.edit().remove("prodDesc").apply();
                             Intent intent = new Intent(RazorPayActivity.this, AssignedOrderListActivity.class);
@@ -296,7 +307,7 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
                     Log.e("getPlants response", response);
                     JSONObject obj = new JSONObject(response);
                     if (obj.getString("responseCode").equalsIgnoreCase("200")) {
-                        Toast.makeText(getApplicationContext(),"payment Success",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(),"payment Success",Toast.LENGTH_SHORT).show();
                     }
                 }
                 catch (Exception e){
@@ -356,9 +367,62 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
                     Log.e("getPlants response", response);
                     JSONObject obj = new JSONObject(response);
                     if (obj.getString("responseCode").equalsIgnoreCase("200")) {
-                        Toast.makeText(getApplicationContext(),"payment Success",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(),"payment Success",Toast.LENGTH_SHORT).show();
                         onBackPressed();
                     }
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void notifyError(VolleyError error) {
+                Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
+//                Toast.makeText(getApplicationContext(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void DemoOrderId(){
+        WebserviceController wss = new WebserviceController(RazorPayActivity.this);
+
+        JSONObject requestObject = new JSONObject();
+
+        try {
+            JSONArray jsonArray = new JSONArray();
+
+            JSONObject jsonObject1 = new JSONObject();
+//            Integer finalAmount= Math.round(totalAmountPayment) * 100;
+            float finalAmount= totalAmountPayment * 100;
+            Log.d("totalAmountPayment", String.valueOf(finalAmount));
+            String amountStr = String.valueOf(finalAmount);
+//            options.put("amount", amountStr.substring(0,amountStr.length()-2));
+            jsonObject1.put("distributorId", "customerId_123_randomValue");
+            jsonObject1.put("orderCost", amountStr.substring(0,amountStr.length()-2));
+
+//            jsonArray.put(jsonObject1);
+
+            requestObject.put("request",jsonObject1);
+           Log.e("ssss",requestObject.toString());
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        wss.postLoginVolley(Constants.getRazorPayOrder, requestObject.toString(), new IResult() {
+            @Override
+            public void notifySuccess(String response, int statusCode) {
+                try {
+                    Log.e("getPlants response", response);
+                    JSONObject obj= new JSONObject(response);
+                    if (obj.getString("responseCode").equalsIgnoreCase("200")) {
+//                        Toast.makeText(getApplicationContext(),"payment Success",Toast.LENGTH_SHORT).show();
+                    }
+                    orderID=obj.getJSONObject("responseData").getJSONArray("orderDetails").getJSONObject(0).getString("orderId");
+                    setUpWidgets();
+                    startPayment();
                 }
                 catch (Exception e){
                     e.printStackTrace();

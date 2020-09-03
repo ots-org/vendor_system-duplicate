@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin_100"
                 android:padding="@dimen/activity_margin_10"
-                android:layout_alignParentRight="true"
+                android:layout_marginStart="180sp"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/gray"
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin_100"
                 android:padding="@dimen/activity_margin_10"
-                android:layout_alignParentRight="true"
+                android:layout_marginStart="180sp"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/gray"
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin_100"
                 android:padding="@dimen/activity_margin_10"
-                android:layout_alignParentRight="true"
+                android:layout_marginStart="180sp"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/gray"
@@ -153,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin_100"
                 android:padding="@dimen/activity_margin_10"
-                android:layout_alignParentRight="true"
+                android:layout_marginStart="180sp"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/gray"
@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin_100"
                 android:padding="@dimen/activity_margin_10"
-                android:layout_alignParentRight="true"
+                android:layout_marginStart="180sp"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/gray"
@@ -215,7 +215,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin_100"
                 android:padding="@dimen/activity_margin_10"
-                android:layout_alignParentRight="true"
+                android:layout_marginStart="180sp"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/gray"
@@ -246,7 +246,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin_100"
                 android:padding="@dimen/activity_margin_10"
-                android:layout_alignParentRight="true"
+                android:layout_marginStart="180sp"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/gray"
@@ -318,7 +318,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin_100"
                 android:padding="@dimen/activity_margin_10"
-                android:layout_alignParentRight="true"
+                android:layout_marginStart="180sp"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/gray"
@@ -348,7 +348,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin_100"
                 android:padding="@dimen/activity_margin_10"
-                android:layout_alignParentRight="true"
+                android:layout_marginStart="180sp"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/gray"
@@ -393,7 +393,24 @@
         </RelativeLayout>
         </LinearLayout>
         </LinearLayout>
-
+        <CheckBox
+            android:id="@+id/adminAccess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Access"
+            android:textColor="@color/black"
+            android:buttonTint="@color/colorPrimary"
+            android:visibility="gone"
+            />
+        <CheckBox
+            android:id="@+id/policy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Terms and conditions"
+            android:textColor="@color/black"
+            android:buttonTint="@color/colorPrimary"
+            android:visibility="visible"
+            />
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

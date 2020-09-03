@@ -191,26 +191,42 @@ public class AddProductActivity extends AppCompatActivity {
                 Picasso.get().invalidate((finalList.get(5)));
                 Picasso.get().load(finalList.get(5)).into(imageView);
                 textSelect.setVisibility(View.GONE);
-                Runnable runnable;
-                Handler newHandler;
-                newHandler = new Handler();
-                runnable = new Runnable() {
-                    @Override
+                new Thread() {
                     public void run() {
+
                         try {
-                            //Getting the Bitmap from url
                             try {
                                 URL url = new URL(finalList.get(5));
                                 uploadBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                             } catch(IOException e) {
                                 System.out.println(e);
                             }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-                };
-                runnable.run();
+                }.start();
+//                Runnable runnable;
+//                Handler newHandler;
+//                newHandler = new Handler();
+//                runnable = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            //Getting the Bitmap from url
+//                            try {
+//                                URL url = new URL(finalList.get(5));
+//                                uploadBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//                            } catch(IOException e) {
+//                                System.out.println(e);
+//                            }
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                };
+//                runnable.run();
                 featherStatus="confirmRequestProduct";
             }
             else {
@@ -227,13 +243,15 @@ public class AddProductActivity extends AppCompatActivity {
             catLayout.setVisibility(View.GONE);
             productName.setText(productDetails.getProductName());
             productDescription.setText(productDetails.getProductDescription());
-            productPrice.setText(productDetails.getProductPrice());
+            finalProductPriceGSTEdit.setText(productDetails.getProductPrice());
+            productPrice.setText(productDetails.getProductBasePrice());
             gst.setText(productDetails.getGst());
-            if(productDetails.getProductPrice() !=null && productDetails.getGst()!=null){
-                double finalPrice= Float.parseFloat(productDetails.getProductPrice())+ Float.parseFloat(productDetails.getProductPrice())*(Float.parseFloat(productDetails.getGst()) * (0.01));
-                String finalPriceText= finalPrice+"";
-                finalProductPriceGSTEdit.setText(finalPriceText);
-            }
+//            if(productDetails.getProductPrice() !=null && productDetails.getGst()!=null){
+//                double finalPrice= Float.parseFloat(productDetails.getProductPrice())- Float.parseFloat(productDetails.getProductPrice())*(Float.parseFloat(productDetails.getGst()) * (0.01));
+//                String finalPriceText= finalPrice+"";
+//                productPrice.setText(finalPriceText);
+//
+//            }
             if(productDetails.getProductType()!=null && productDetails.getProductType().equalsIgnoreCase("box")){
             }
             if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -280,7 +298,8 @@ public class AddProductActivity extends AppCompatActivity {
                 }
 
                double finalPrice= Float.parseFloat(productPrice.getText().toString())+ Float.parseFloat(productPrice.getText().toString())*(Float.parseFloat(gst.getText().toString()) * (0.01));
-               String finalPriceText= finalPrice+"";
+//               String finalPriceText= finalPrice+"";
+                String finalPriceText=  String.format("%.2f", finalPrice);
                finalProductPriceGSTEdit.setText(finalPriceText);
             }
 
@@ -459,6 +478,7 @@ public class AddProductActivity extends AppCompatActivity {
                 jsonObject.put("productName", productName.getText().toString());
                 jsonObject.put("productDescription", productDescription.getText().toString());
                 jsonObject.put("productStatus", "ACTIVE");
+                jsonObject.put("productBasePrice", productPrice.getText().toString());
                 jsonObject.put("productPrice", finalProductPriceGSTEdit.getText().toString());
                 jsonObject.put("gst", gst.getText().toString());
                 if(UpdateYes.equals("yes")){
@@ -641,7 +661,8 @@ public class AddProductActivity extends AppCompatActivity {
                 jsonObject.put("productName", productName.getText().toString());
                 jsonObject.put("productDescription", productDescription.getText().toString());
                 jsonObject.put("productStatus", "active");
-                jsonObject.put("productPrice", productPrice.getText().toString());
+                jsonObject.put("productBasePrice", productPrice.getText().toString());
+                jsonObject.put("productPrice", finalProductPriceGSTEdit.getText().toString());
                 jsonObject.put("productType", JSONObject.NULL);
                 jsonObject.put("productLevel", "3");
                 jsonObject.put("gst", gst.getText().toString());

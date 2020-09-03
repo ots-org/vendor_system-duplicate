@@ -72,7 +72,7 @@ public class ListMappedUsersList extends AppCompatActivity {
                     ActionBar.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER);
             TextView toolbarTitle = (TextView) viewActionBar.findViewById(R.id.toolbar_title);
-            toolbarTitle.setText(userNameStr+"'s "+(customerBool?"Donor/Requester":"Partner"));
+            toolbarTitle.setText(userNameStr+"'s "+(customerBool?"Donor":"Partner"));
             action.setCustomView(viewActionBar, params);
             mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }

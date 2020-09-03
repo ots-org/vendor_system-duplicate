@@ -177,7 +177,7 @@ public class OrderDescription extends AppCompatActivity {
         orderStatus.setText(orderDetails.getOrderStatus());
         customerName.setText(orderDetails.getCustomerDetails().getFirstName());
         customerPhoneNumber.setText(orderDetails.getCustomerDetails().getContactNo());
-        customerAddress.setText(orderDetails.getCustomerDetails().getAddress1());
+        customerAddress.setText(orderDetails.getAddressToBePlaced());//getAddressToBePlaced());
         customerAddressSecondary.setText(orderDetails.getCustomerDetails().getAddress2());
         if (getIntent().hasExtra("assignRequest") && !(orderDetails.getDonationStatus() ==null)){
             orderNumberText.setText("Request Number");

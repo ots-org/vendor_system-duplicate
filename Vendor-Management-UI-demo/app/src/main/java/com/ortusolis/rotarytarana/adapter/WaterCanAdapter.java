@@ -2,8 +2,10 @@ package com.ortusolis.rotarytarana.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 
@@ -24,6 +26,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.ortusolis.rotarytarana.Activity.AddProductActivity;
+import com.ortusolis.rotarytarana.Activity.DonationActivityDiscription;
 import com.ortusolis.rotarytarana.Activity.ProductDescription;
 import com.ortusolis.rotarytarana.NetworkUtility.Constants;
 import com.ortusolis.rotarytarana.NetworkUtility.IResult;
@@ -34,6 +37,7 @@ import com.ortusolis.rotarytarana.pojo.ProductDetails;
 import com.ortusolis.rotarytarana.pojo.UpdateProductStatusResponse;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
+import com.ortusolis.rotarytarana.service.RazorPayActivity;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -52,6 +56,7 @@ public class WaterCanAdapter extends BaseAdapter {
     private PlantFilter mFilter = new PlantFilter();
     ProductsFragment productsFragment;
     EditText searchContent;
+    String paymentMethod="";
 
     // data is passed into the constructor
     public WaterCanAdapter(Context context, ArrayList<ProductDetails> data, ProductsFragment productsFragment) {
@@ -88,7 +93,7 @@ public class WaterCanAdapter extends BaseAdapter {
         final LinearLayout activeLL;
         final ImageView checkBoxImg;
         final Button buyNow;
-        final Button scheduleButton;
+//        final Button scheduleButton;
         final SharedPreferences sharedPreferences = context.getSharedPreferences("water_management",0);
 
         if (v == null) {
@@ -100,7 +105,7 @@ public class WaterCanAdapter extends BaseAdapter {
             v.setTag(R.id.checkBoxImg, v.findViewById(R.id.checkBoxImg));
             v.setTag(R.id.editProduct, v.findViewById(R.id.editProduct));
             v.setTag(R.id.buyButton, v.findViewById(R.id.buyButton));
-            v.setTag(R.id.scheduleButton, v.findViewById(R.id.scheduleButton));
+//            v.setTag(R.id.scheduleButton, v.findViewById(R.id.scheduleButton));
         }
 
         picture = (ImageView) v.getTag(R.id.picture);
@@ -110,7 +115,7 @@ public class WaterCanAdapter extends BaseAdapter {
         activeLL = (LinearLayout) v.getTag(R.id.activeLL);
         checkBoxImg = (ImageView) v.getTag(R.id.checkBoxImg);
         buyNow = (Button) v.getTag(R.id.buyButton);
-        scheduleButton = (Button) v.getTag(R.id.scheduleButton);
+//        scheduleButton = (Button) v.getTag(R.id.scheduleButton);
 
         if (mData.get(position).getProductImage()!=null) {
             Picasso.get().load(mData.get(position).getProductImage()).networkPolicy(NetworkPolicy.NO_CACHE)
@@ -137,30 +142,100 @@ public class WaterCanAdapter extends BaseAdapter {
 
                 }
                 else {
+                    AlertDialog.Builder alertDialogCash = new AlertDialog.Builder(context);
+                    alertDialogCash.setTitle("Choose Payment Option");
+                    String[] itemsCash = {"Get and Donate","Donate"};
+                    int checkedItemCash = 0;
+                    paymentMethod="Request";
+                    alertDialogCash.setSingleChoiceItems(itemsCash, checkedItemCash, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    paymentMethod="Request";
+                                    break;
+                                case 1:
+                                    paymentMethod="Donate";
+                                    break;
+                            }
+                        }
+                    });
+                    alertDialogCash.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
 
-                    Intent intent = new Intent(context, ProductDescription.class);
-                    Pair[] views = new Pair[]{
-                            new Pair<View, String>(picture, "object_image"),
-                            new Pair<View, String>(name, "object_name"),
-                            new Pair<View, String>(description, "object_description")
-                    };
+                    alertDialogCash.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // navigation
 
-                    if (position % 2 == 0) {
-                        intent.putExtra("price", 30);
-                    } else {
-                        intent.putExtra("price", 20);
-                    }
-                    intent.putExtra("product", mData.get(position));
-                    intent.putExtra("customerId", productsFragment.getCustomerStr());
-                    ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation((Activity) context, views);
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                    if (paymentMethod.equals("Cash")) {
+//                        builder.setMessage("Your Order Cost is "+mData.get(position).getProductPrice()+", click Confirm to place request");
+//                    }else {
+//                        builder.setMessage("Your Order Cost is "+mData.get(position).getProductPrice()+", click Confirm to place Donate");
+//                    }
+//                    builder.setCancelable(true)
+//                            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+                                    if (paymentMethod.equals("Request")) {
+                                        dialog.dismiss();
+                                        Intent intent = new Intent(context, ProductDescription.class);
+                                        Pair[] views = new Pair[]{
+                                                new Pair<View, String>(picture, "object_image"),
+                                                new Pair<View, String>(name, "object_name"),
+                                                new Pair<View, String>(description, "object_description")
+                                        };
 
-                    try {
-                        context.startActivity(intent, options.toBundle());
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
+                                        if (position % 2 == 0) {
+                                            intent.putExtra("price", 30);
+                                        } else {
+                                            intent.putExtra("price", 20);
+                                        }
+                                        intent.putExtra("product", mData.get(position));
+                                        intent.putExtra("customerId", productsFragment.getCustomerStr());
+                                        intent.putExtra("paymentMethod",paymentMethod);
+                                        ActivityOptionsCompat options = ActivityOptionsCompat.
+                                                makeSceneTransitionAnimation((Activity) context, views);
+
+                                        try {
+                                            context.startActivity(intent, options.toBundle());
+                                        }
+                                        catch (Exception e){
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        Intent intent = new Intent(context, DonationActivityDiscription.class);
+                                        Pair[] views = new Pair[]{
+                                                new Pair<View, String>(picture, "object_image"),
+                                                new Pair<View, String>(name, "object_name"),
+                                                new Pair<View, String>(description, "object_description")
+                                        };
+
+                                        intent.putExtra("productID", mData.get(position).getProductId());
+                                        ActivityOptionsCompat options = ActivityOptionsCompat.
+                                                makeSceneTransitionAnimation((Activity) context, views);
+
+                                        try {
+                                            context.startActivity(intent, options.toBundle());
+                                        }
+                                        catch (Exception e){
+                                            e.printStackTrace();
+                                        }
+                                    }
+//                                }
+//                            });
+//                    AlertDialog alert = builder.create();
+//                    alert.show();
+                }
+            });
+              AlertDialog alert = alertDialogCash.create();
+                alert.setCanceledOnTouchOutside(false);
+                alert.show();
+
                 }
             }
         };
@@ -169,10 +244,10 @@ public class WaterCanAdapter extends BaseAdapter {
         buyNow.setOnClickListener(onClickListener);
 
         if (context.getSharedPreferences("water_management", 0).getString("userRoleId", "").equalsIgnoreCase("2")) {
-            scheduleButton.setVisibility(View.VISIBLE);
+//            scheduleButton.setVisibility(View.VISIBLE);
             buyNow.setVisibility(View.GONE);
         } else {
-            scheduleButton.setVisibility(View.GONE);
+//            scheduleButton.setVisibility(View.GONE);
         }
         if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
             buyNow.setVisibility(View.GONE);
@@ -224,30 +299,30 @@ public class WaterCanAdapter extends BaseAdapter {
             }
         });
 
-        scheduleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    Intent intent = new Intent(context, ProductDescription.class);
-                    Pair[] views = new Pair[]{
-                            new Pair<View, String>(picture, "object_image"),
-                            new Pair<View, String>(name, "object_name"),
-                            new Pair<View, String>(description, "object_description")
-                    };
-
-                    if (position % 2 == 0) {
-                        intent.putExtra("price", 30);
-                    } else {
-                        intent.putExtra("price", 20);
-                    }
-                    intent.putExtra("product", mData.get(position));
-                    intent.putExtra("customerId", productsFragment.getCustomerStr());
-                    intent.putExtra("schedule", true);
-                    ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation((Activity) context, views);
-
-                    context.startActivity(intent, options.toBundle());
-            }
-        });
+//        scheduleButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                    Intent intent = new Intent(context, ProductDescription.class);
+//                    Pair[] views = new Pair[]{
+//                            new Pair<View, String>(picture, "object_image"),
+//                            new Pair<View, String>(name, "object_name"),
+//                            new Pair<View, String>(description, "object_description")
+//                    };
+//
+//                    if (position % 2 == 0) {
+//                        intent.putExtra("price", 30);
+//                    } else {
+//                        intent.putExtra("price", 20);
+//                    }
+//                    intent.putExtra("product", mData.get(position));
+//                    intent.putExtra("customerId", productsFragment.getCustomerStr());
+//                    intent.putExtra("schedule", true);
+//                    ActivityOptionsCompat options = ActivityOptionsCompat.
+//                            makeSceneTransitionAnimation((Activity) context, views);
+//
+//                    context.startActivity(intent, options.toBundle());
+//            }
+//        });
 
         return v;
     }

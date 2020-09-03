@@ -134,7 +134,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                     ActionBar.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER);
             TextView toolbarTitle = (TextView) viewActionBar.findViewById(R.id.toolbar_title);
-            toolbarTitle.setText("Requester/Donor Ledger Report");
+            toolbarTitle.setText("Donor Ledger Report");
             action.setCustomView(viewActionBar, params);
             mToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
@@ -304,7 +304,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                                     os.write(pdfAsBytes);
                                     os.flush();
                                     os.close();
-                                    Toast.makeText(getApplicationContext(), "Requester/Donor Ledger Report Pdf Available", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Donor Ledger Report Pdf Available", Toast.LENGTH_LONG).show();
                                 } catch (FileNotFoundException e) {
                                     e.printStackTrace();
                                 } catch (IOException e) {
@@ -586,7 +586,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
                         }
 
                         AlertDialog.Builder builderSingle = new AlertDialog.Builder(CustomerLedgerReportActivity.this);
-                        builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose Requester/Donor</font>"));
+                        builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose Donor</font>"));
 
                         //First Step: convert ArrayList to an Object array.
                         Object[] objNames = empNames.toArray();
@@ -660,6 +660,7 @@ public class CustomerLedgerReportActivity extends AppCompatActivity {
             jsonObject.put("searchKey", "All");
             jsonObject.put("searchvalue", "");
             jsonObject.put("distributorId", usserId);
+            jsonObject.put("status", "active");
             requestObject.put("requestData", jsonObject);
         } catch (Exception e) {
             e.printStackTrace();

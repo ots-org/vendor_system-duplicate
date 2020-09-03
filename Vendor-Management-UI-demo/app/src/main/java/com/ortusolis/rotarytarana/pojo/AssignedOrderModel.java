@@ -11,6 +11,7 @@ public class AssignedOrderModel implements Parcelable {
     UserInfo customerDetails;
     UserInfo distributorDetails;
     List<OrderResponse.RequestS.ProductOrder> orderdProducts;
+    String addressToBePlaced;
     String outStandingAmount;
     String orderStatus;
     String delivaryDate;
@@ -27,6 +28,7 @@ public class AssignedOrderModel implements Parcelable {
         customerDetails = in.readParcelable(UserInfo.class.getClassLoader());
         distributorDetails = in.readParcelable(UserInfo.class.getClassLoader());
         orderdProducts = in.createTypedArrayList(OrderResponse.RequestS.ProductOrder.CREATOR);
+        addressToBePlaced= in.readString();
         outStandingAmount = in.readString();
         orderStatus = in.readString();
         delivaryDate = in.readString();
@@ -83,6 +85,14 @@ public class AssignedOrderModel implements Parcelable {
         this.orderdProducts = orderdProducts;
     }
 
+        public String getAddressToBePlaced() {
+        return addressToBePlaced;
+    }
+
+    public void setAddressToBePlaced(String addressToBePlaced) {
+        this.addressToBePlaced = addressToBePlaced;
+    }
+
     public String getOutStandingAmount() {
         return outStandingAmount;
     }
@@ -90,6 +100,9 @@ public class AssignedOrderModel implements Parcelable {
     public void setOutStandingAmount(String outStandingAmount) {
         this.outStandingAmount = outStandingAmount;
     }
+
+
+
 
     public String getOrderStatus() {
         return orderStatus;
@@ -174,6 +187,7 @@ public class AssignedOrderModel implements Parcelable {
         dest.writeParcelable(customerDetails, flags);
         dest.writeParcelable(distributorDetails, flags);
         dest.writeTypedList(orderdProducts);
+        dest.writeString(addressToBePlaced);
         dest.writeString(outStandingAmount);
         dest.writeString(orderStatus);
         dest.writeString(delivaryDate);

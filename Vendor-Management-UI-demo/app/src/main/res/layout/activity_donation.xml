@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/activity_margin_10"
-                android:text="Pan Number"
+                android:text="PAN Number"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_medium"
                 />
@@ -118,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/activity_margin_10"
-                android:text="GST Number"
+                android:text="GSTIN Number"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_medium"
                 />
@@ -193,6 +193,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp">
-    </ListView>
+    </ListView>no
 
 </LinearLayout>

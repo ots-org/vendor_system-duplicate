@@ -127,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/activity_margin_10"
-                android:text="@string/customer"
+                android:text="Donor"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_medium"
                 />
@@ -140,7 +140,7 @@
                 android:layout_alignParentRight="true"
                 android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/colorPrimary"
-                android:text="@string/selectcustomer"
+                android:text="Select Donor"
                 />
         </RelativeLayout>
         <View

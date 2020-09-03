@@ -268,6 +268,12 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
                 jsonObject.put("registrationId", JSONObject.NULL);
                 jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
                 jsonObject.put("userRoleId", sharedPreferences.getString("userRoleId",""));
+                if(sharedPreferences.contains("userAdminFlag") && sharedPreferences.getString("userAdminFlag","").equalsIgnoreCase("1")) {
+                    jsonObject.put("userAdminFlag", "1");
+                }else{
+                    jsonObject.put("userAdminFlag", "0");
+                }
+                jsonObject.put("usrStatus", "active");
                 jsonObject.put("userLat",lat);
                 jsonObject.put("userLong",lng);
 

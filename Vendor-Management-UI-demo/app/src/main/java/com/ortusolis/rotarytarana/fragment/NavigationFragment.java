@@ -49,11 +49,10 @@ import org.jetbrains.annotations.Nullable;
 
 public class NavigationFragment extends Fragment {
 
-    TextView mastersHeader,stockHeader,ordersHeader,billsHeader,reportsHeader;
-    TextView notification,list_products,users,products,updateStock,closeOrder,salesVoucher,scheduler,add,assign,transferOrders,generateBill,myBills,stockReport,orderReport,billReport,customerLedgerReport,customerOutstandingReport,logout,switchRoll,profile,SubProducts,donation,donationReport,donationReportCustomer,assignRequest,empAssignRequest,requestProductCustomer,confirmRequestProduct,donationStatus,bills;
+    TextView ordersHeader,billsHeader,reportsHeader,contactUs;
+    TextView notification,list_products,users,products,updateStock,closeOrder,salesVoucher,add,assign,transferOrders,generateBill,myBills,stockReport,orderReport,billReport,customerLedgerReport,customerOutstandingReport,logout,switchRoll,profile,SubProducts,donation,donationReport,donationReportCustomer,assignRequest,empAssignRequest,requestProductCustomer,confirmRequestProduct,donationStatus,bills;
     TextView changepassword;
-    TextView changepasswordGlobal;
-    LinearLayout mastersLL,stockLL,ordersLL,billsLL,reportsLL,myOrder,myRequests,productsLL;
+    LinearLayout ordersLL,billsLL,reportsLL,myOrder,myRequests,productsLL,productLL;
     TextView nav_header_textView;
     SharedPreferences sharedPreferences;
     ImageView imageView;
@@ -73,8 +72,7 @@ public class NavigationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_navigation,null);
 
         sharedPreferences = getActivity().getSharedPreferences("water_management",0);
-        mastersHeader = view.findViewById(R.id.masters);
-        stockHeader = view.findViewById(R.id.stock);
+
         ordersHeader = view.findViewById(R.id.orders);
         billsHeader = view.findViewById(R.id.bills);
         reportsHeader = view.findViewById(R.id.reports);
@@ -82,6 +80,7 @@ public class NavigationFragment extends Fragment {
         nav_header_textView = view.findViewById(R.id.nav_header_textView);
         notification = view.findViewById(R.id.notification);
         productsLL = view.findViewById(R.id.productsLL);
+        productLL= view.findViewById(R.id.productLL);
         list_products = view.findViewById(R.id.list_products);
         users = view.findViewById(R.id.users);
         products = view.findViewById(R.id.products);
@@ -95,11 +94,9 @@ public class NavigationFragment extends Fragment {
         requestProductCustomerView= view.findViewById(R.id.requestProductCustomerView);
         confirmRequestProduct= view.findViewById(R.id.confirmRequestProduct);
         changepassword = view.findViewById(R.id.changepassword);
-        changepasswordGlobal =view.findViewById(R.id.changepasswordGlobal);
         updateStock = view.findViewById(R.id.updateStock);
         closeOrder = view.findViewById(R.id.closeOrder);
         salesVoucher = view.findViewById(R.id.salesVoucher);
-        scheduler = view.findViewById(R.id.scheduler);
         add = view.findViewById(R.id.add);
         myOrder = view.findViewById(R.id.myOrder);
         myRequests= view.findViewById(R.id.myRequest);
@@ -116,12 +113,10 @@ public class NavigationFragment extends Fragment {
         switchRoll=view.findViewById(R.id.switchRoll);
         profile=view.findViewById(R.id.profile);
         donationReport=view.findViewById(R.id.donationReport);
-        mastersLL = view.findViewById(R.id.mastersLL);
-        stockLL = view.findViewById(R.id.stockLL);
         ordersLL = view.findViewById(R.id.ordersLL);
         billsLL = view.findViewById(R.id.billsLL);
         reportsLL = view.findViewById(R.id.reportsLL);
-
+        contactUs = view.findViewById(R.id.contactUs);
         String userRole = "Administrator";
         if (sharedPreferences.contains("userSwitchRoleId") && sharedPreferences.getString("userSwitchRoleId","").equalsIgnoreCase("1")||sharedPreferences.contains("userSwitchRoleId") && sharedPreferences.getString("userSwitchRoleId","").equalsIgnoreCase("2")){
             switchRoll.setVisibility(View.VISIBLE);
@@ -132,25 +127,26 @@ public class NavigationFragment extends Fragment {
         if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
             userRole = "Facilitator";
             products.setVisibility(View.GONE);
-            notification.setVisibility(View.GONE);
+            if(sharedPreferences.contains("userAdminFlag") && sharedPreferences.getString("userAdminFlag","").equalsIgnoreCase("1")) {
+                notification.setVisibility(View.VISIBLE);
+            }else{
+                notification.setVisibility(View.GONE);
+            }
+
             SubProducts.setVisibility(View.GONE);
-            scheduler.setVisibility(View.VISIBLE);
             salesVoucher.setVisibility(View.GONE);
             customerOutstandingReport.setVisibility(View.GONE);
             myBills.setVisibility(View.GONE);
             billsHeader.setVisibility(View.GONE);
             add.setVisibility(View.GONE);
             billReport.setVisibility(View.GONE);
-            stockHeader.setVisibility(View.VISIBLE);
             transferOrders.setVisibility(View.VISIBLE);
             confirmRequestProduct.setVisibility(View.GONE);
         }
         else if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
-            userRole = "Employee";
+            userRole = "Partner";
             assignRequest.setText("Assigned Request");
             notification.setVisibility(View.GONE);
-            mastersHeader.setVisibility(View.GONE);
-            stockHeader.setVisibility(View.GONE);
             closeOrder.setVisibility(View.GONE);
             billReport.setVisibility(View.GONE);
             salesVoucher.setVisibility(View.VISIBLE);
@@ -160,43 +156,42 @@ public class NavigationFragment extends Fragment {
             customerOutstandingReport.setVisibility(View.GONE);
             myBills.setVisibility(View.GONE);
             billsHeader.setVisibility(View.GONE);
-            scheduler.setVisibility(View.GONE);
+            users.setVisibility(View.GONE);
+            updateStock.setVisibility(View.GONE);
             generateBill.setVisibility(View.GONE);
             donationStatus.setVisibility(View.GONE);
-            changepasswordGlobal.setVisibility(View.VISIBLE);
             empAssignRequest.setVisibility(View.VISIBLE);
         }
         else if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("4")){
-            userRole = "Donor/Requestor";
+            userRole = "Donor";
             notification.setVisibility(View.GONE);
-            mastersHeader.setVisibility(View.GONE);
-            stockHeader.setVisibility(View.GONE);
             assign.setVisibility(View.GONE);
+            users.setVisibility(View.GONE);
             reportsHeader.setVisibility(View.GONE);
             myOrder.setVisibility(View.VISIBLE);
             myRequests.setVisibility(View.VISIBLE);
             customerLedgerReport.setVisibility(View.GONE);
             customerOutstandingReport.setVisibility(View.GONE);
             generateBill.setVisibility(View.GONE);
-            scheduler.setVisibility(View.GONE);
             donationReportCustomer.setVisibility(View.VISIBLE);
             requestProductCustomer.setVisibility(View.VISIBLE);
             requestProductCustomerView.setVisibility(View.VISIBLE);
             assignRequest.setVisibility(View.GONE);
             empAssignRequest.setVisibility(View.GONE);
             donationStatus.setVisibility(View.GONE);
-            changepasswordGlobal.setVisibility(View.VISIBLE);
             billsHeader.setVisibility(View.GONE);
+            updateStock.setVisibility(View.GONE);
         }
         else {
-            stockHeader.setVisibility(View.GONE);
             ordersHeader.setVisibility(View.GONE);
             billsHeader.setVisibility(View.GONE);
             reportsHeader.setVisibility(View.VISIBLE);
             customerOutstandingReport.setVisibility(View.GONE);
-            notification.setVisibility(View.GONE);
+            notification.setVisibility(View.VISIBLE);
             productsLL.setVisibility(View.VISIBLE);
             billReport.setVisibility(View.GONE);
+            updateStock.setVisibility(View.GONE);
+            donationStatus.setVisibility(View.GONE);
         }
         nav_header_textView.setText(sharedPreferences.getString("username","")+" ( "+userRole+" )");
 
@@ -210,32 +205,6 @@ public class NavigationFragment extends Fragment {
         if (decodedByte != null) {
             imageView.setImageBitmap(decodedByte);
         }
-
-        mastersHeader.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mastersLL.getVisibility()== View.VISIBLE){
-                    mastersLL.setVisibility(View.GONE);
-                }
-                else {
-                    mastersLL.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
-
-        stockHeader.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (stockLL.getVisibility()== View.VISIBLE){
-                    stockLL.setVisibility(View.GONE);
-                }
-                else {
-                    stockLL.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
 
         ordersHeader.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,12 +248,12 @@ public class NavigationFragment extends Fragment {
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
-                    ((MainActivity)getActivity()).loadNotificationsScreen();
-                }
-                else {
+//                if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
+//                    ((MainActivity)getActivity()).loadNotificationsScreen();
+//                }
+//                else {
                     startActivity(new Intent(getActivity(), NotificationActivity.class));
-                }
+//                }
                 ((MainActivity)getActivity()).closeDrawer();
             }
         });
@@ -292,8 +261,12 @@ public class NavigationFragment extends Fragment {
         list_products.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).loadProducts();
-                ((MainActivity)getActivity()).closeDrawer();
+                if (productLL.getVisibility()== View.VISIBLE){
+                    productLL.setVisibility(View.GONE);
+                }
+                else {
+                    productLL.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -414,16 +387,6 @@ public class NavigationFragment extends Fragment {
                 ((MainActivity)getActivity()).closeDrawer();
             }
         });
-        changepasswordGlobal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent changepasswordGlobal = new Intent(getActivity(), PasswordActivity.class);
-                changepasswordGlobal.putExtra("changepasswordGlobal", "changepasswordGlobal");
-                startActivity(changepasswordGlobal);
-                ((MainActivity)getActivity()).closeDrawer();
-            }
-        });
-
 
         updateStock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -461,14 +424,6 @@ public class NavigationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), OrderReportActivity.class));
-                ((MainActivity)getActivity()).closeDrawer();
-            }
-        });
-
-        scheduler.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), SchedulerActivity.class));
                 ((MainActivity)getActivity()).closeDrawer();
             }
         });
@@ -552,6 +507,20 @@ public class NavigationFragment extends Fragment {
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), TransferOrderActivity.class));
                 ((MainActivity)getActivity()).closeDrawer();
+            }
+        });
+
+        contactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("message/rfc822");
+                intent.setPackage("com.google.android.gm");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"etaarana_support@ortusolis.in"});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "FeedBack");
+                intent.putExtra(Intent.EXTRA_TEXT, "your feedback");
+                startActivity(Intent.createChooser(intent, "Send Email"));
+
             }
         });
 

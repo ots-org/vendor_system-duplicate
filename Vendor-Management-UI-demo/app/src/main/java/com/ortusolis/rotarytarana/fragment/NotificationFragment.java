@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,16 +23,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.VolleyError;
 import com.ortusolis.rotarytarana.Activity.CustomerAct;
+import com.ortusolis.rotarytarana.Activity.DonationStatus;
+import com.ortusolis.rotarytarana.Activity.NotificationActivity;
 import com.ortusolis.rotarytarana.NetworkUtility.Constants;
 import com.ortusolis.rotarytarana.NetworkUtility.IResult;
 import com.ortusolis.rotarytarana.NetworkUtility.WebserviceController;
 import com.ortusolis.rotarytarana.R;
+import com.ortusolis.rotarytarana.adapter.DonorDonationListAdapter;
 import com.ortusolis.rotarytarana.adapter.NotificationAdapter;
+import com.ortusolis.rotarytarana.adapter.NotificationAdminAdapter;
 import com.ortusolis.rotarytarana.pojo.NotificationResponse;
 import com.ortusolis.rotarytarana.pojo.UserInfo;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class NotificationFragment extends Fragment {
@@ -42,8 +48,17 @@ public class NotificationFragment extends Fragment {
     LinearLayout distributorNotification, customerNotification,distributor1,customer1,customer2,customer3;
     Gson gson;
     RecyclerView recyclerView;
+    ListView list;
     NotificationAdapter notificationAdapter;
     TextView noResult;
+    String[] firstName;
+    String[] lastName;
+    String[] emailId;
+    String[] contactNo;
+    String[] address1;
+    String[] address2;
+    String[] pincode;
+    String[] userRoleId;
 
     public static NotificationFragment newInstance() {
 
@@ -60,7 +75,7 @@ public class NotificationFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_notifications,null);
 
         sharedPreferences = getActivity().getSharedPreferences("water_management",0);
-
+        list=view.findViewById(R.id.list);
         mToolbar = view.findViewById(R.id.toolbar);
         recyclerView = view.findViewById(R.id.recyclerView);
         noResult = view.findViewById(R.id.noResult);
@@ -108,23 +123,44 @@ public class NotificationFragment extends Fragment {
             public void notifySuccess(String response, int statusCode) {
                 try {
                     Log.e("login response", response);
+                    JSONObject obj = new JSONObject(response);
+                    JSONObject responseData = obj.getJSONObject("responseData");
+                    String responseDescription =obj.getString("responseDescription");
+                        JSONArray userList = responseData.getJSONArray("userDetails");
+                        if (obj.getString("responseCode").equalsIgnoreCase("200")) {
+                            firstName= new String[userList.length()];
+                            lastName= new String[userList.length()];
+                            emailId= new String[userList.length()];
+                            contactNo= new String[userList.length()];
+                            address1= new String[userList.length()];
+                            address2= new String[userList.length()];
+                            pincode= new String[userList.length()];
+                            userRoleId= new String[userList.length()];
+                            for (int userListObject=0;userListObject<userList.length();userListObject++){
+                                JSONObject userListDetailsobject = userList.getJSONObject(userListObject);
+                                firstName[userListObject]=  userListDetailsobject.getString("firstName");
+                                lastName[userListObject]= userListDetailsobject.getString("lastName");
+                                emailId[userListObject]= userListDetailsobject.getString("emailId");
+                                contactNo[userListObject]= userListDetailsobject.getString("contactNo");
+                                address1[userListObject]= userListDetailsobject.getString("address1");
+                                address2[userListObject]= userListDetailsobject.getString("address2");
+                                pincode[userListObject]= userListDetailsobject.getString("pincode");
+                                userRoleId[userListObject]= userListDetailsobject.getString("userRoleId");
+//                                NotificationAdminAdapter adapter=new NotificationAdminAdapter(NotificationActivity.this, firstName, lastName,emailId, contactNo, address1,address2,pincode,userRoleId);
+//                                list.setAdapter(adapter);
+                            }
+//                        notificationAdapter = new NotificationAdapter(obj.getJSONObject("responseData"),getActivity(),NotificationFragment.this);
+//                        recyclerView.setAdapter(notificationAdapter);
 
-                    NotificationResponse responseData = gson.fromJson(response, NotificationResponse.class);
-
-                    if (responseData.getResponseCode().equalsIgnoreCase("200")) {
-
-                        notificationAdapter = new NotificationAdapter(responseData.getResponseData(),getActivity(),NotificationFragment.this);
-                        recyclerView.setAdapter(notificationAdapter);
-
-                        if (responseData.getResponseData().isEmpty()){
-                            noResult.setVisibility(View.VISIBLE);
+                        if (responseData.has("userDetails")){
+                            noResult.setVisibility(View.GONE);
                         }
                         else {
-                            noResult.setVisibility(View.GONE);
+                            noResult.setVisibility(View.VISIBLE);
                         }
                     }
                     else
-                        Toast.makeText(getActivity(), TextUtils.isEmpty(responseData.getResponseDescription()) ? "Login Failed" : responseData.getResponseDescription(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "notification Failed" + responseDescription, Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

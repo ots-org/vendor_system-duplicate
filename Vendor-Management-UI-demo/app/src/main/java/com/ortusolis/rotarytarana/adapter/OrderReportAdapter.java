@@ -108,7 +108,7 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
         }
 
         holder.orderNo.setText(Html.fromHtml("<b>Order No: </b>"+item.getOrderId()));
-        holder.customeName.setText(Html.fromHtml("<b>Donor/Requester Name: </b>"+((item.getCustomerDetails()!=null && item.getCustomerDetails().getFirstName()!=null)?item.getCustomerDetails().getFirstName():"")+"<br/>"+(status.equalsIgnoreCase("new")?"":"<b>Assigned to: </b>"+(item.getEmployeeDetails()!=null ?(item.getEmployeeDetails().getFirstName()+" "+item.getEmployeeDetails().getLastName()):""))));
+        holder.customeName.setText(Html.fromHtml("<b>Donor Name: </b>"+((item.getCustomerDetails()!=null && item.getCustomerDetails().getFirstName()!=null)?item.getCustomerDetails().getFirstName():"")+"<br/>"+(status.equalsIgnoreCase("new")?"":"<b>Assigned to: </b>"+(item.getEmployeeDetails()!=null ?(item.getEmployeeDetails().getFirstName()+" "+item.getEmployeeDetails().getLastName()):""))));
         holder.orderDate.setText(Html.fromHtml("<b>Order Date: </b>"+getOrderDate));
 
         /*float totalCost = 0;

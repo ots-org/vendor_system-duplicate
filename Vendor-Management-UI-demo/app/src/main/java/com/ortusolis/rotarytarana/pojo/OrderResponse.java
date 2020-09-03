@@ -73,6 +73,7 @@ public class OrderResponse {
     String assignedId;
     String orderStatus;
     String orderId;
+    String addressToBePlaced;
     String donationStatus;
     String orderNumber;
     String deliverdDate;
@@ -97,6 +98,7 @@ public class OrderResponse {
             assignedId = in.readString();
             orderStatus = in.readString();
             orderId = in.readString();
+            addressToBePlaced= in.readString();
             donationStatus= in.readString();
             orderNumber = in.readString();
             deliverdDate = in.readString();
@@ -123,6 +125,7 @@ public class OrderResponse {
             dest.writeString(assignedId);
             dest.writeString(orderStatus);
             dest.writeString(orderId);
+            dest.writeString(addressToBePlaced);
             dest.writeString(donationStatus);
             dest.writeString(orderNumber);
             dest.writeString(deliverdDate);
@@ -218,6 +221,15 @@ public class OrderResponse {
 
         public void setOrderId(String orderId) {
             this.orderId = orderId;
+        }
+
+
+        public String getAddressToBePlaced() {
+            return addressToBePlaced;
+        }
+
+        public void setAddressToBePlaced(String addressToBePlaced) {
+            this.addressToBePlaced = addressToBePlaced;
         }
 
         public String getDonationStatus() {

@@ -79,7 +79,7 @@ public class ProductDescription extends AppCompatActivity {
 
     TextView minusQuantity, plusQuantity,minusQuantityReturn, plusQuantityReturn,textName,descriptionText,distributorText,customerText,dayText;
     TextView returnQuantity,returnQu,deliveryTime,startDateText,endDateText,scheduleText;
-    Button placeOrder,addToCart,scheduleButton,salesVoucher;
+    Button placeOrder,addToCart,salesVoucher;
     ImageButton editProduct;
     ImageView picture;
     LinearLayout orderPlaceLayout,customerLayout,normalLL,scheduleLL;
@@ -95,7 +95,11 @@ public class ProductDescription extends AppCompatActivity {
     ProgressDialog progressDialog;
     Toolbar mToolbar;
     ActionBar action;
+//
+final ProductRequest productRequest = new ProductRequest();
 
+    final ProductRequest.RequestS requestS =  new ProductRequest.RequestS();
+    //
     float price = 0;
     TextView totalPrice,description,totalPriceWithGst;
     ProductDetails productDetails;
@@ -137,7 +141,6 @@ public class ProductDescription extends AppCompatActivity {
         minusQuantityReturn = findViewById(R.id.minusQuantityReturn);
         plusQuantityReturn = findViewById(R.id.plusQuantityReturn);
         placeOrder = findViewById(R.id.placeOrder);
-        scheduleButton = findViewById(R.id.scheduleButton);
         addToCart = findViewById(R.id.addToCart);
         totalPrice = findViewById(R.id.totalPrice);
         totalPriceWithGst = findViewById(R.id.totalPriceWithGst);
@@ -191,6 +194,7 @@ public class ProductDescription extends AppCompatActivity {
 
         if (getIntent().hasExtra("product")){
             productDetails = getIntent().getExtras().getParcelable("product");
+            paymentMethod=getIntent().getStringExtra("paymentMethod");
         }
 
         if (getIntent().hasExtra("schedule")){
@@ -232,9 +236,9 @@ public class ProductDescription extends AppCompatActivity {
                     quant = quant - 1;
                     if (quant >= 1) {
                         float total = price * quant;
-                        totalPrice.setText(getString(R.string.Rs) + (String.format("%.02f", total)));
+                        totalPrice.setText(getString(R.string.Rs) + (String.format("%.02f", Float.valueOf(productDetails.getProductBasePrice())*quant)));
                         Double priceWithGst= total+total* (Float.valueOf(productDetails.getGst())*0.01);
-                        totalPriceWithGst.setText(getString(R.string.Rs)+priceWithGst);
+                        totalPriceWithGst.setText(getString(R.string.Rs)+String.format("%.2f", total));
                         returnQu.setText(quant + "");
                     }
                 }
@@ -261,9 +265,9 @@ public class ProductDescription extends AppCompatActivity {
                     int quant = Integer.parseInt(returnQu.getText().toString());
                     quant = quant + 1;
                     float total = price * quant;
-                    totalPrice.setText(getString(R.string.Rs) + (String.format("%.02f", total)));
+                     totalPrice.setText(getString(R.string.Rs) + (String.format("%.02f", Float.valueOf(productDetails.getProductBasePrice())*quant)));
                      Double priceWithGst= total+total* (Float.valueOf(productDetails.getGst())*0.01);
-                     totalPriceWithGst.setText(getString(R.string.Rs)+priceWithGst);
+                     totalPriceWithGst.setText(getString(R.string.Rs)+String.format("%.2f", total));
                     returnQu.setText(quant + "");
             }
         });
@@ -284,9 +288,9 @@ public class ProductDescription extends AppCompatActivity {
                 if (!TextUtils.isEmpty(returnQu.getText().toString())) {
                     int quant = Integer.parseInt(returnQu.getText().toString());
                     float total = price * quant;
-                    totalPrice.setText(getString(R.string.Rs) + (String.format("%.02f", total)));
+                    totalPrice.setText(getString(R.string.Rs) + (String.format("%.02f", Float.valueOf(productDetails.getProductBasePrice())*quant)));
                     Double priceWithGst= total+total* (Float.valueOf(productDetails.getGst())*0.01);
-                    totalPriceWithGst.setText(getString(R.string.Rs)+priceWithGst);
+                    totalPriceWithGst.setText(getString(R.string.Rs)+String.format("%.2f", total));
                 }
             }
         });
@@ -327,6 +331,10 @@ public class ProductDescription extends AppCompatActivity {
             customeLinearLayoutView.setVisibility(View.VISIBLE);
             customerLayout.setVisibility(View.VISIBLE);
         }
+        if(sharedPreferences.contains("userSwitchRoleId") && sharedPreferences.getString("userSwitchRoleId","").equalsIgnoreCase("1")){
+            customeLinearLayoutView.setVisibility(View.VISIBLE);
+            customerLayout.setVisibility(View.VISIBLE);
+        }
 
         customerText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -339,13 +347,11 @@ public class ProductDescription extends AppCompatActivity {
             normalLL.setVisibility(View.GONE);
             scheduleLL.setVisibility(View.VISIBLE);
             orderPlaceLayout.setVisibility(View.GONE);
-            scheduleButton.setVisibility(View.VISIBLE);
         }
         else {
             normalLL.setVisibility(View.VISIBLE);
             scheduleLL.setVisibility(View.GONE);
             orderPlaceLayout.setVisibility(View.VISIBLE);
-            scheduleButton.setVisibility(View.GONE);
         }
 
         deliveryTime.setOnClickListener(new View.OnClickListener() {
@@ -469,16 +475,6 @@ public class ProductDescription extends AppCompatActivity {
             }
         });
 
-        scheduleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    scheduleN();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
 
         if (productDetails.getProductImage()!=null) {
             Picasso.get().load(productDetails.getProductImage()).into(picture);
@@ -606,11 +602,13 @@ public class ProductDescription extends AppCompatActivity {
          description.setText("Price "+getString(R.string.Rs)+Float.valueOf(productDetails.getProductPrice()));
          descriptionText.setText(""+productDetails.getProductDescription());
          price = Float.valueOf(productDetails.getProductPrice());
-         if(productDetails.getProductPrice()!=null && productDetails.getGst() !=null){
-             Double priceWithGst= Float.valueOf(productDetails.getProductPrice())+Float.valueOf(productDetails.getProductPrice())* (Float.valueOf(productDetails.getGst())*0.01);
-             totalPriceWithGst.setText(getString(R.string.Rs)+priceWithGst);
-         }
-         totalPrice.setText(getString(R.string.Rs)+price);
+//         if(productDetails.getProductPrice()!=null && productDetails.getGst() !=null){
+//             Double priceWithGst= Float.valueOf(productDetails.getProductPrice())+Float.valueOf(productDetails.getProductPrice())* (Float.valueOf(productDetails.getGst())*0.01);
+//             totalPriceWithGst.setText(getString(R.string.Rs)+priceWithGst);
+////           price = priceWithGst.floatValue();
+//         }
+         totalPriceWithGst.setText(getString(R.string.Rs)+Float.valueOf(productDetails.getProductPrice()));
+         totalPrice.setText(getString(R.string.Rs)+Float.valueOf(productDetails.getProductBasePrice()));
          orderPlaceLayout.setVisibility(View.VISIBLE);
     }
 
@@ -798,7 +796,7 @@ public class ProductDescription extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("searchKey", "UserRoleId");
-            jsonObject.put("searchvalue", customer?"4":"2");
+            jsonObject.put("searchvalue", customer?"5":"2");
             jsonObject.put("distributorId", "1");
             requestObject.put("requestData",jsonObject);
         }
@@ -1045,7 +1043,7 @@ public class ProductDescription extends AppCompatActivity {
             Toast.makeText(this, "Please select Start Date", Toast.LENGTH_LONG).show();
         }
         else if (customerStr == null){
-            Toast.makeText(this, "Please select Requester/Donor", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please select Requester", Toast.LENGTH_LONG).show();
         }
         else if (distributorStr == null){
             Toast.makeText(this, "Please select Facilitator", Toast.LENGTH_LONG).show();
@@ -1090,7 +1088,7 @@ public class ProductDescription extends AppCompatActivity {
 
                         for (UserInfo userInfo1: distributorResponse.getResponseData().getUserDetails()){
 
-                            if (userInfo1.getUserRoleId().equalsIgnoreCase("4")) {
+                            if (userInfo1.getUserRoleId().equalsIgnoreCase("5")) {
                                 userNames.add(userInfo1.getFirstName());
                                 userIdList.add(userInfo1.getUserId());
                             }
@@ -1108,7 +1106,7 @@ public class ProductDescription extends AppCompatActivity {
                         }
 
                         AlertDialog.Builder builderSingle = new AlertDialog.Builder(ProductDescription.this);
-                        builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose Customer</font>"));
+                        builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose Beneficiary</font>"));
 
                         //First Step: convert ArrayList to an Object array.
                         Object[] objNames = userNames.toArray();
@@ -1170,15 +1168,15 @@ public class ProductDescription extends AppCompatActivity {
         String currentDate = format.format(Calendar.getInstance().getTime());
         int quant = Integer.parseInt(returnQu.getText().toString());
 
-        final ProductRequest productRequest = new ProductRequest();
-
-        final ProductRequest.RequestS requestS =  new ProductRequest.RequestS();
+//        final ProductRequest productRequest = new ProductRequest();
+//
+//        final ProductRequest.RequestS requestS =  new ProductRequest.RequestS();
 
         requestS.setCustomerId(customerStr);
         requestS.setCustomerName(customerStrName);
         requestS.setOrderDate(currentDate);
         requestS.setDelivaryDate(selectDateStr);
-        requestS.setDistributorId(distributorStr);
+        requestS.setDistributorId("1"); //distributorStr
         requestS.setOrderCost((price * quant)+"");
         requestS.setAssignedId(salesVoucher?sharedPreferences.getString("userid","") : null);
         requestS.setOrderNumber("");
@@ -1259,39 +1257,42 @@ public class ProductDescription extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // navigation
-                Toast.makeText(ProductDescription.this, paymentMethod, Toast.LENGTH_LONG).show();
+//                Toast.makeText(ProductDescription.this, paymentMethod, Toast.LENGTH_LONG).show();
                 if (delivaryAddress.equals("Primary")) {
-                    input.setText(sharedPreferences.getString("userAddress1",""));
-                    requestS.setAddress(sharedPreferences.getString("userAddress1",""));
-                    requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile",""));
-                    requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile",""));
+                    input.setText(sharedPreferences.getString("userAddress1", ""));
+                    requestS.setAddress(sharedPreferences.getString("userAddress1", ""));
+                    requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile", ""));
+                    requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile", ""));
                 } else if (delivaryAddress.equals("Secondary")) {
-                    input.setText(sharedPreferences.getString("userAddress2",""));
-                    requestS.setAddress(sharedPreferences.getString("userAddress2",""));
-                    requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile",""));
-                    requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile",""));
-                }else {
+                    input.setText(sharedPreferences.getString("userAddress2", ""));
+                    requestS.setAddress(sharedPreferences.getString("userAddress2", ""));
+                    requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile", ""));
+                    requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile", ""));
+                } else {
                     requestS.setAddress(Address_textbox.getText().toString());
-                    requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile",""));
-                    requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile",""));
+                    requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile", ""));
+                    requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile", ""));
                 }
                 dialog.dismiss();
-                final String finalprice=totalPrice.getText().toString();
-                final float totalfinalprice=Float.valueOf(finalprice.substring(1,finalprice.length()));
+                final String finalprice = totalPriceWithGst.getText().toString();
+                final float totalfinalprice = Float.valueOf(finalprice.substring(1, finalprice.length()));
+                if (sharedPreferences.contains("userSwitchRoleId") && (sharedPreferences.getString("userSwitchRoleId", "").equalsIgnoreCase("1")) || (sharedPreferences.getString("userSwitchRoleId", "").equalsIgnoreCase("2"))) {
+
+
                 AlertDialog.Builder alertDialogCash = new AlertDialog.Builder(ProductDescription.this);
                 alertDialogCash.setTitle("Choose Payment Option");
-                String[] itemsCash = {"Request","Payment"};
+                String[] itemsCash = {"Request", "Payment"};
                 int checkedItemCash = 1;
-                paymentMethod="";
+                paymentMethod = "";
                 alertDialogCash.setSingleChoiceItems(itemsCash, checkedItemCash, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                paymentMethod="Cash";
+                                paymentMethod = "Request";
                                 break;
                             case 1:
-                                paymentMethod="Payment";
+                                paymentMethod = "Payment";
                                 break;
                         }
                     }
@@ -1306,52 +1307,64 @@ public class ProductDescription extends AppCompatActivity {
                 alertDialogCash.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // navigation
-                        final String finalprice=totalPrice.getText().toString();
-                        final float totalfinalprice=Float.valueOf(finalprice.substring(1,finalprice.length()));
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ProductDescription.this);
-                        if (paymentMethod.equals("Cash")) {
-                            builder.setMessage("Your Order Cost is "+finalprice+", click Confirm to place request");
-                        }else {
-                            builder.setMessage("Your Order Cost is "+finalprice+", click Confirm to place order");
-                        }
-                        builder.setCancelable(true)
-                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        if (paymentMethod.equals("Cash")) {
-                                            dialog.dismiss();
-                                            requestS.setPaymentStatus("NewRequest");
-                                            requestS.setOrderStatus("NewRequest");
-                                            productRequest.setRequest(requestS);
-                                            productRequestFinal=productRequest;
-                                            String str = gson.toJson(productRequest);
-                                            CashAlert();
-                                        } else {
-                                            requestS.setPaymentStatus("paid");
-                                            requestS.setOrderStatus("New");
-                                            productRequest.setRequest(requestS);
-                                            productRequestFinal=productRequest;
-                                            String str = gson.toJson(productRequest);
-                                            String useremail= sharedPreferences.getString("emailIdUser","");
-                                            Log.e("useremail",sharedPreferences.getString("emailIdUser",""));
-                                            final String strProductRequests = str;
-                                            onBackPressed();
-                                            Intent totalAmountPaymentintent = new Intent(ProductDescription.this, RazorPayActivity.class);
-                                            totalAmountPaymentintent.putExtra("totalAmountPayment", totalfinalprice);
-                                            totalAmountPaymentintent.putExtra("salesVaocherFalg", salesVaocherFalg);
-                                            totalAmountPaymentintent.putExtra("classFlag", "placeorder");
-                                            totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
-                                            startActivity(totalAmountPaymentintent);
-                                        }
-                                    }
-                                });
-                        AlertDialog alert = builder.create();
-                        alert.show();
+//                         navigation
+                        final String finalprice = totalPrice.getText().toString();
+                        final float totalfinalprice = Float.valueOf(finalprice.substring(1, finalprice.length()));
+                        payOn();
+
+
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(ProductDescription.this);
+//                        if (paymentMethod.equals("Request")) {
+//                            builder.setMessage("Your Order Cost is "+finalprice+", click Confirm to place request");
+//                        }else {
+//                            builder.setMessage("Your Order Cost is "+finalprice+", click Confirm to place order");
+//                        }
+//                        builder.setCancelable(true)
+//                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        if (paymentMethod.equals("Request")) {
+//                                            dialog.dismiss();
+//                                            requestS.setPaymentStatus("NewRequest");
+//                                            requestS.setOrderStatus("NewRequest");
+//                                            productRequest.setRequest(requestS);
+//                                            productRequestFinal=productRequest;
+//                                            String str = gson.toJson(productRequest);
+//                                            CashAlert();
+//                                        } else {
+//                                            requestS.setPaymentStatus("paid");
+//                                            requestS.setOrderStatus("New");
+//                                            productRequest.setRequest(requestS);
+//                                            productRequestFinal=productRequest;
+//                                            String str = gson.toJson(productRequest);
+//                                            String useremail= sharedPreferences.getString("emailIdUser","");
+//                                            Log.e("useremail",sharedPreferences.getString("emailIdUser",""));
+//                                            final String strProductRequests = str;
+//                                            onBackPressed();
+//                                            Intent totalAmountPaymentintent = new Intent(ProductDescription.this, RazorPayActivity.class);
+//                                            totalAmountPaymentintent.putExtra("totalAmountPayment", totalfinalprice);
+//                                            totalAmountPaymentintent.putExtra("salesVaocherFalg", salesVaocherFalg);
+//                                            totalAmountPaymentintent.putExtra("classFlag", "placeorder");
+//                                            totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
+//                                            startActivity(totalAmountPaymentintent);
+//                                        }
+//                                    }
+//                                });
+//                        AlertDialog alert = builder.create();
+//                        alert.show();
+
+
                     }
                 });
                 AlertDialog alert = alertDialogCash.create();
                 alert.setCanceledOnTouchOutside(false);
                 alert.show();
+            }else {
+                    paymentMethod="Payment";
+                    payOn();
+                }
+
+
+
             }
         });
         AlertDialog alertAddress = alertDialog.create();
@@ -1444,6 +1457,50 @@ private void buildAlertMessageNoGps() {
                 }
             });
     final AlertDialog alert = builder.create();
+    alert.show();
+}
+
+public void payOn(){
+
+    final String finalprice=totalPriceWithGst.getText().toString();
+    final float totalfinalprice=Float.valueOf(finalprice.substring(1,finalprice.length()));
+    AlertDialog.Builder builder = new AlertDialog.Builder(ProductDescription.this);
+    if (paymentMethod.equals("Request")) {
+        builder.setMessage("Your Order Cost is "+finalprice+", click Confirm to place request");
+    }else {
+        builder.setMessage("Your Order Cost is "+finalprice+", click Confirm to place order");
+    }
+    builder.setCancelable(true)
+            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    if (paymentMethod.equals("Request")) {
+                        dialog.dismiss();
+                        requestS.setPaymentStatus("NewRequest");
+                        requestS.setOrderStatus("NewRequest");
+                        productRequest.setRequest(requestS);
+                        productRequestFinal=productRequest;
+                        String str = gson.toJson(productRequest);
+                        CashAlert();
+                    } else {
+                        requestS.setPaymentStatus("paid");
+                        requestS.setOrderStatus("New");
+                        productRequest.setRequest(requestS);
+                        productRequestFinal=productRequest;
+                        String str = gson.toJson(productRequest);
+                        String useremail= sharedPreferences.getString("emailIdUser","");
+                        Log.e("useremail",sharedPreferences.getString("emailIdUser",""));
+                        final String strProductRequests = str;
+                        onBackPressed();
+                        Intent totalAmountPaymentintent = new Intent(ProductDescription.this, RazorPayActivity.class);
+                        totalAmountPaymentintent.putExtra("totalAmountPayment", totalfinalprice);
+                        totalAmountPaymentintent.putExtra("salesVaocherFalg", salesVaocherFalg);
+                        totalAmountPaymentintent.putExtra("classFlag", "placeorder");
+                        totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
+                        startActivity(totalAmountPaymentintent);
+                    }
+                }
+            });
+    AlertDialog alert = builder.create();
     alert.show();
 }
 }

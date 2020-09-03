@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -67,7 +68,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
 
     private static final Object REQUEST_LOCATION =1 ;
     Spinner spinnerUserType;
-    TextView productText,distributorText,textSelect;
+    TextView productText,distributorText,textSelect,userroleEdit;
     FrameLayout photoLL;
     LinearLayout distributorCodeLayout,productIdLayout;
     EditText firstNameEdit,lastNameEdit,phoneEdit,emailEdit,passwordEdit,address1Edit,address2Edit,pincodeEdit,productEdit,password2Edit;
@@ -77,7 +78,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
     protected String latitude, longitude;
     protected boolean gps_enabled, network_enabled;
     private String userLat, userLong;
-
+    CheckBox adminStatusFlag;
     ArrayList<String> userTypeList = new ArrayList<>();
     UserInfo addUser = null;
     String strName = null;
@@ -90,6 +91,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
     String flag="1";
     Button addUserButton;
     String existingUserId = null;
+    Integer positionSpinner=0;
 
     List<String> productNames, productIdList, productPriceList;
     String productDistName = null;
@@ -99,7 +101,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
     ImageView imageView;
     Bitmap uploadBitmap = null;
     String prodId = "";
-    RelativeLayout passwordLayout;
+    RelativeLayout passwordLayout,userroleLayout;
 
     public static AddUserFragment newInstance() {
 
@@ -121,8 +123,10 @@ public class AddUserFragment extends  Fragment implements LocationListener {
         productText = view.findViewById(R.id.productText);
         imageView = view.findViewById(R.id.imageView);
         textSelect = view.findViewById(R.id.textSelect);
+        userroleEdit = view.findViewById(R.id.userroleEdit);
         photoLL = view.findViewById(R.id.photoLL);
         passwordLayout = view.findViewById(R.id.passwordLayout);
+        userroleLayout= view.findViewById(R.id.userroleLayout);
         firstNameEdit = view.findViewById(R.id.firstNameEdit);
         lastNameEdit = view.findViewById(R.id.lastNameEdit);
         phoneEdit = view.findViewById(R.id.phoneEdit);
@@ -133,6 +137,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
         productEdit = view.findViewById(R.id.productEdit);
         password2Edit = view.findViewById(R.id.password2Edit);
         addUserButton = view.findViewById(R.id.addUser);
+        adminStatusFlag= view.findViewById(R.id.adminStatusFlag);
         sharedPreferences = getActivity().getSharedPreferences("water_management",0);
 
         gson = new Gson();
@@ -190,7 +195,9 @@ public class AddUserFragment extends  Fragment implements LocationListener {
             distributorCodeLayout.setVisibility(View.GONE);
         }
         userTypeList.add("Partner");
-        userTypeList.add("Donor/Requester");
+        userTypeList.add("Donor");
+        userTypeList.add("Beneficiary");
+
 
         userAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, userTypeList);
 
@@ -203,21 +210,31 @@ public class AddUserFragment extends  Fragment implements LocationListener {
                 if (userTypeList.get(i).equalsIgnoreCase("Admin")){
                     distributorCodeLayout.setVisibility(View.GONE);
                     productIdLayout.setVisibility(View.GONE);
+                    adminStatusFlag.setVisibility(View.GONE);
                     userRoleId = "1";
-                }else if (userTypeList.get(i).equalsIgnoreCase("roleIdList")){
+                }else if (userTypeList.get(i).equalsIgnoreCase("Facilitator")){
                     distributorCodeLayout.setVisibility(View.GONE);
                     productIdLayout.setVisibility(View.GONE);
                     userRoleId = "2";
+                    adminStatusFlag.setVisibility(View.VISIBLE);
                 }
                 else if (userTypeList.get(i).equalsIgnoreCase("Partner")){
                     distributorCodeLayout.setVisibility(View.GONE);
                     productIdLayout.setVisibility(View.GONE);
+                    adminStatusFlag.setVisibility(View.GONE);
                     userRoleId = "3";
                 }
-                else if (userTypeList.get(i).equalsIgnoreCase("Donor/Requester")){
+                else if (userTypeList.get(i).equalsIgnoreCase("Donor")){
                     distributorCodeLayout.setVisibility(View.GONE);
                     productIdLayout.setVisibility(View.GONE);
+                    adminStatusFlag.setVisibility(View.GONE);
                     userRoleId = "4";
+                }
+                else if (userTypeList.get(i).equalsIgnoreCase("Beneficiary")){
+                    distributorCodeLayout.setVisibility(View.GONE);
+                    productIdLayout.setVisibility(View.GONE);
+                    adminStatusFlag.setVisibility(View.GONE);
+                    userRoleId = "5";
                 }
             }
 
@@ -264,6 +281,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
 
         if (bundle.containsKey("addUser")) {
             addUser = bundle.getParcelable("addUser");
+
             loadExistingUser();
         }
 
@@ -300,6 +318,10 @@ public class AddUserFragment extends  Fragment implements LocationListener {
             pincodeEdit.setText(addUser.getPincode()!=null?addUser.getPincode():"");
             userRoleId = addUser.getUserRoleId();
             distributorStr = addUser.getMappedTo();
+            if(addUser.getUerAdminFlag().equals("1")){
+                adminStatusFlag.setChecked(true);
+            }
+
 
             /*if (addUser.getCustomerProductDetails()!=null && !addUser.getCustomerProductDetails().isEmpty()){
                 if (addUser.getCustomerProductDetails().get(0).getProductId()!=null && !TextUtils.isEmpty(addUser.getCustomerProductDetails().get(0).getProductId())){
@@ -310,10 +332,30 @@ public class AddUserFragment extends  Fragment implements LocationListener {
                 }
 
             }*/
+            userroleLayout.setVisibility(View.VISIBLE);
+            if (userRoleId.equalsIgnoreCase("1")){
+                userroleEdit.setText("Admin");
+            }else  if (userRoleId.equalsIgnoreCase("2")){
+                userroleEdit.setText("Facilitator");
+                adminStatusFlag.setVisibility(View.VISIBLE);
+            }else  if (userRoleId.equalsIgnoreCase("3")){
+                userroleEdit.setText("Partner");
+            }else  if (userRoleId.equalsIgnoreCase("4")){
+                userroleEdit.setText("Donor");
+            }
+            else  if (userRoleId.equalsIgnoreCase("5")){
+                userroleEdit.setText("Beneficiary");
+            }
+
             prodId = addUser.getProductId();
             password2Edit.setText(addUser.getUsrPassword());
             addUserButton.setText("Update user");
             passwordLayout.setVisibility(View.GONE);
+            if(addUser.getUerAdminFlag().equals("1")){
+                adminStatusFlag.setChecked(true);
+            }else {
+                adminStatusFlag.setChecked(false);
+            }
 
             try {
 
@@ -351,6 +393,9 @@ public class AddUserFragment extends  Fragment implements LocationListener {
                 }
                 else if (addUser.getUserRoleId().equals("4")) {
                     spinnerUserType.setSelection(userTypeList.indexOf("Customer"));
+                }
+                else if (addUser.getUserRoleId().equals("5")) {
+                    spinnerUserType.setSelection(userTypeList.indexOf("Beneficiary"));
                 }
             }
 
@@ -445,18 +490,27 @@ public class AddUserFragment extends  Fragment implements LocationListener {
             jsonObject.put("registrationId", JSONObject.NULL);
 
             if (sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1") && addUser == null){
-                jsonObject.put("mappedTo",  sharedPreferences.getString("userid", ""));
+                jsonObject.put("mappedTo",  "1");
             }
             else {
-                jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
+                jsonObject.put("mappedTo", "1");
             }
 
             jsonObject.put("productPrice", productEdit.getText().toString().isEmpty()?JSONObject.NULL:productEdit.getText().toString());
             jsonObject.put("productId", (productDist==null || productDist.isEmpty())? JSONObject.NULL : productDist);
             jsonObject.put("userRoleId", userRoleId);
+//            if(userRoleId.equals("4")){
+                jsonObject.put("usrStatus", "active");
+//            }
+            if(adminStatusFlag.isChecked()){
+                jsonObject.put("userAdminFlag", "1");
+            }else {
+                jsonObject.put("userAdminFlag", "0");
+            }
             jsonObject.put("userLat",userLat);
             jsonObject.put("userLong",userLong);
             requestObject.put("requestData", jsonObject);
+            Log.e("requestData add user",requestObject.toString());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -492,7 +546,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
                         distributorStr = "";
 
                         getAllRegister(false,"");
-
+                        spinnerUserType.setSelection(0);
                         Toast.makeText(getActivity(), distributorResponse.getResponseDescription(), Toast.LENGTH_LONG).show();
 
                         if (addUser!=null && addUser.getUserId()!=null){

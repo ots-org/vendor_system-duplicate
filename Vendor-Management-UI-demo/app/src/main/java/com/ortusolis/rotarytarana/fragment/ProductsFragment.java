@@ -162,6 +162,9 @@ public class ProductsFragment extends Fragment {
             }
         }else {
             getProductsMain();
+            if (progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
         }
 
         gridview.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -194,6 +197,12 @@ public class ProductsFragment extends Fragment {
             if(sharedPreferences.getString("userProductSelect","").equalsIgnoreCase("yes")){
                 progressStatus="yes";
                 getProducts();
+                if (progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+            }else {
+                progressStatus="yes";
+                getProductsMain();
                 if (progressDialog.isShowing()){
                     progressDialog.dismiss();
                 }
@@ -237,9 +246,16 @@ public class ProductsFragment extends Fragment {
                     ProductsResponse responseData = gson.fromJson(response,ProductsResponse.class);
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
+//                        gridview.removeAllViews();
+//                        waterCanAdapter.notifyDataSetInvalidated();
                         waterCanAdapter = new WaterCanAdapter(getActivity(),responseData.getResponseData().getProductDetails(),ProductsFragment.this);
-                        gridview.setAdapter(waterCanAdapter);
                         waterCanAdapter.notifyDataSetChanged();
+                        gridview.setAdapter(waterCanAdapter);
+//                        list.remove(position);
+//                        recycler.removeViewAt(position);
+//                        mAdapter.notifyItemRemoved(position);
+//                        mAdapter.notifyItemRangeChanged(position, list.size());
+
                         if(progressStatus.equals("yes")){
                             progressDialog.dismiss();
                             progressStatus="no";
@@ -316,8 +332,9 @@ public class ProductsFragment extends Fragment {
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
                         waterCanAdapter = new WaterCanAdapter(getActivity(),responseData.getResponseData().getProductDetails(),ProductsFragment.this);
-                        gridview.setAdapter(waterCanAdapter);
+
                         waterCanAdapter.notifyDataSetChanged();
+                        gridview.setAdapter(waterCanAdapter);
                         if(progressStatus.equals("yes")){
                             progressDialog.dismiss();
                             progressStatus="no";
@@ -630,7 +647,7 @@ public class ProductsFragment extends Fragment {
                             productCatagoryIdList.add(productDetailsobject.getString("productId"));
                         }
                         AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
-                        builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose Product Category</font>"));
+                        builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose ProductSub- Category</font>"));
                         builderSingle.setCancelable(false);
                         //First Step: convert ArrayList to an Object array.
                         Object[] objNames = productCatagoryNames.toArray();

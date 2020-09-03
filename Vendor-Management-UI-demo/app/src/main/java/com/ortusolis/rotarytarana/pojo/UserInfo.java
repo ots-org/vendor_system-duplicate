@@ -15,6 +15,7 @@ public class UserInfo implements Parcelable {
     String usrPassword;
     String address1;
     String address2;
+    String addressToBePlaced;
     String pincode;
     String profilePic;
     String registrationId;
@@ -29,6 +30,7 @@ public class UserInfo implements Parcelable {
     String deviceToken;
     String distributorId;
     String contactNo;
+    String userAdminFlag;
     ArrayList<UserInfo> customerProductDetails;
 
     protected UserInfo(Parcel in) {
@@ -40,6 +42,7 @@ public class UserInfo implements Parcelable {
         usrPassword = in.readString();
         address1 = in.readString();
         address2 = in.readString();
+        addressToBePlaced = in.readString();
         pincode = in.readString();
         profilePic = in.readString();
         registrationId = in.readString();
@@ -54,6 +57,7 @@ public class UserInfo implements Parcelable {
         deviceToken = in.readString();
         distributorId = in.readString();
         contactNo = in.readString();
+        userAdminFlag = in.readString();
         customerProductDetails = in.createTypedArrayList(UserInfo.CREATOR);
     }
 
@@ -67,6 +71,7 @@ public class UserInfo implements Parcelable {
         dest.writeString(usrPassword);
         dest.writeString(address1);
         dest.writeString(address2);
+        dest.writeString(addressToBePlaced);
         dest.writeString(pincode);
         dest.writeString(profilePic);
         dest.writeString(registrationId);
@@ -81,6 +86,7 @@ public class UserInfo implements Parcelable {
         dest.writeString(deviceToken);
         dest.writeString(distributorId);
         dest.writeString(contactNo);
+        dest.writeString(userAdminFlag);
         dest.writeTypedList(customerProductDetails);
     }
 
@@ -163,6 +169,14 @@ public class UserInfo implements Parcelable {
 
     public void setAddress2(String address2) {
         this.address2 = address2;
+    }
+
+    public String getAddressToBePlaced() {
+        return addressToBePlaced;
+    }
+
+    public void setAddressToBePlaced(String addressToBePlaced) {
+        this.addressToBePlaced = addressToBePlaced;
     }
 
     public String getPincode() {
@@ -275,6 +289,14 @@ public class UserInfo implements Parcelable {
 
     public void setContactNo(String contactNo) {
         this.contactNo = contactNo;
+    }
+
+    public String getUerAdminFlag() {
+        return userAdminFlag;
+    }
+
+    public void setUerAdminFlag(String userAdminFlag) {
+        this.userAdminFlag= userAdminFlag;
     }
 
     public ArrayList<UserInfo> getCustomerProductDetails() {

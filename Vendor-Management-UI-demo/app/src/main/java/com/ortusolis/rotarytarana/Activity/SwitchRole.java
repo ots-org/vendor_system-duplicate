@@ -73,16 +73,16 @@ public class SwitchRole extends AppCompatActivity {
         if(sharedPreferences.contains("userSwitchRoleId") && sharedPreferences.getString("userSwitchRoleId","").equalsIgnoreCase("1")){
             if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
                 userRole.add("Facilitator");
-                userRole.add("Donor/Requester");
+                userRole.add("Donor");
             }
             else if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
                 userRole.add("Admin");
-                userRole.add("Donor/Requester");
+                userRole.add("Donor");
             }
             else if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
             userRole.add("Admin");
                 userRole.add("Facilitator");
-                userRole.add("Donor/Requester");
+                userRole.add("Donor");
             }
             else {
                 userRole.add("Admin");
@@ -91,14 +91,14 @@ public class SwitchRole extends AppCompatActivity {
         }else {
             if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
                 userRole.add("Facilitator");
-                userRole.add("Donor/Requester");
+                userRole.add("Donor");
             }
             else if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("2")){
-                userRole.add("Donor/Requester");
+                userRole.add("Donor");
             }
             else if(sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
                 userRole.add("Facilitator");
-                userRole.add("Donor/Requester");
+                userRole.add("Donor");
             }
             else {
                 userRole.add("Facilitator");
@@ -179,7 +179,7 @@ public class SwitchRole extends AppCompatActivity {
                 Toast.makeText(this, "Selected role to Partner", Toast.LENGTH_LONG).show();
                 // Whatever you want to happen when the second item gets selected
                 break;
-            case "Donor/Requester":
+            case "Donor":
                 sharedPreferences.edit().putString("userRoleId","4").commit();
                 ReloadFragment();
                 Toast.makeText(this, "Selected role to Customer", Toast.LENGTH_LONG).show();

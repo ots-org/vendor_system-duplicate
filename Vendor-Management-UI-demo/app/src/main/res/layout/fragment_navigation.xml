@@ -53,9 +53,52 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_margin_12"
                     android:text="@string/products"
+                    android:drawableRight="@android:drawable/arrow_down_float"
+                    android:drawableTint="@color/textColorDark"
                     android:textColor="@color/textColorDark"
                     android:textStyle="bold" />
+                <LinearLayout
+                    android:id="@+id/productLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/activity_margin_18"
+                    android:paddingRight="@dimen/activity_margin_4"
+                    android:visibility="gone">
 
+                    <TextView
+                        android:id="@+id/products"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_margin_8"
+                        android:text="@string/addproduct"
+                        android:textColor="@color/textColorDark" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white_pressed" />
+
+                    <TextView
+                        android:id="@+id/SubProducts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_margin_8"
+                        android:text="Add Sub-Category"
+                        android:textColor="@color/textColorDark" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white_pressed" />
+
+                    <TextView
+                        android:id="@+id/confirmRequestProduct"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_margin_8"
+                        android:text=" Approve New Product"
+                        android:textColor="@color/textColorDark" />
+
+                </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -63,117 +106,27 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/masters"
+                android:id="@+id/users"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@android:drawable/arrow_down_float"
-                android:drawableTint="@color/textColorDark"
-                android:padding="@dimen/activity_margin_12"
+                android:padding="@dimen/activity_margin_8"
                 android:text="@string/users"
-                android:textColor="@color/textColorDark"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:id="@+id/mastersLL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/activity_margin_18"
-                android:paddingRight="@dimen/activity_margin_4"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/users"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_margin_8"
-                    android:text="@string/users"
-                    android:textColor="@color/textColorDark" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white_pressed" />
-
-                <TextView
-                    android:id="@+id/products"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_margin_8"
-                    android:text="@string/addproduct"
-                    android:textColor="@color/textColorDark" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white_pressed" />
-
-                <TextView
-                    android:id="@+id/SubProducts"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_margin_8"
-                    android:text="Add Sub-Category"
-                    android:textColor="@color/textColorDark" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white_pressed" />
-
-                <TextView
-                    android:id="@+id/confirmRequestProduct"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_margin_8"
-                    android:text="Confirm Product"
-                    android:textColor="@color/textColorDark" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white_pressed" />
-<!--code raghuram ots-->
-                <TextView
-                    android:id="@+id/changepassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_margin_8"
-                    android:text="@string/changepassword"
-                    android:textColor="@color/textColorDark" />
-            </LinearLayout>
-<!--code raghuram ots-->
+                android:textStyle="bold"
+                android:textColor="@color/textColorDark" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/white_pressed" />
 
             <TextView
-                android:id="@+id/stock"
+                android:id="@+id/updateStock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@android:drawable/arrow_down_float"
-                android:drawableTint="@color/textColorDark"
-                android:padding="@dimen/activity_margin_12"
-                android:text="@string/stock"
-                android:textColor="@color/textColorDark"
-                android:textStyle="bold" />
+                android:padding="@dimen/activity_margin_8"
+                android:text="@string/updatestock"
+                android:textStyle="bold"
+                android:textColor="@color/textColorDark" />
 
-            <LinearLayout
-                android:id="@+id/stockLL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/activity_margin_18"
-                android:paddingRight="@dimen/activity_margin_4"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/updateStock"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_margin_8"
-                    android:text="@string/updatestock"
-                    android:textColor="@color/textColorDark" />
-            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -236,19 +189,6 @@
                     android:textColor="@color/textColorDark"
                     android:visibility="gone" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white_pressed" />
-
-                <TextView
-                    android:id="@+id/scheduler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_margin_8"
-                    android:text="@string/schdeuler"
-                    android:textColor="@color/textColorDark"
-                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"
@@ -487,20 +427,20 @@
                     android:textColor="@color/textColorDark" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/white_pressed" />
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:background="@color/white_pressed" />-->
 
-            <TextView
-                android:id="@+id/changepasswordGlobal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/activity_margin_12"
-                android:text="@string/changepassword"
-                android:textColor="@color/textColorDark"
-                android:visibility="gone"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:id="@+id/changepasswordGlobal"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="@dimen/activity_margin_12"-->
+<!--                android:text="@string/changepassword"-->
+<!--                android:textColor="@color/textColorDark"-->
+<!--                android:visibility="gone"-->
+<!--                android:textStyle="bold" />-->
             <!---->
             <View
                 android:layout_width="match_parent"
@@ -586,7 +526,31 @@
                 android:text="@string/profile"
                 android:textColor="@color/textColorDark"
                 android:textStyle="bold" />
-            <!---->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white_pressed" />
+            <TextView
+                android:id="@+id/changepassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_8"
+                android:text="@string/changepassword"
+                android:textStyle="bold"
+                android:textColor="@color/textColorDark" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white_pressed" />
+            <TextView
+                android:id="@+id/contactUs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_margin_8"
+                android:text="Contact Us"
+                android:textStyle="bold"
+                android:textColor="@color/textColorDark" />
+        <!---->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

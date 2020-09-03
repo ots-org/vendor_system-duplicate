@@ -133,8 +133,10 @@ public class SearchUserFragment extends Fragment {
 
         rolenameList.add("Partner");
         roleIdList.add("3");
-        rolenameList.add("Donor/Requester");
+        rolenameList.add("Donor");
         roleIdList.add("4");
+        rolenameList.add("beneficiary");
+        roleIdList.add("5");
 
         ArrayAdapter roleAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, rolenameList);
 

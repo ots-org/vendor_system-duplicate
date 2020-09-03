@@ -169,7 +169,9 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("status", "newRequest");
+            jsonObject.put("status", "NewRequest");
+            jsonObject.put("assgineId", "string");
+            jsonObject.put("productId", JSONObject.NULL);
             requestObject.put("request",jsonObject);
         }
         catch (Exception e){

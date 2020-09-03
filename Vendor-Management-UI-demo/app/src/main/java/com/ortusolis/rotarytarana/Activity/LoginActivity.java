@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity{
                 builderSingle.setTitle(Html.fromHtml("<font color='#000000'>Choose your choice</font>"));
 
                 // add a radio button list
-                final String[] strOpts = {"Register as Requester/Donor", "Register as Facilitator", "Register as an Partner"}; //, "Register as an admin"
+                final String[] strOpts = {"Register as Donor", "Register as Facilitator", "Register as an Partner"}; //, "Register as an admin"
                 int checkedItem = 0;
                 strName = strOpts[0];
                 builderSingle.setSingleChoiceItems(strOpts, checkedItem, new DialogInterface.OnClickListener() {
@@ -318,6 +318,10 @@ public class LoginActivity extends AppCompatActivity{
 
                     if (responseData.getResponseCode().equalsIgnoreCase("200")) {
                         progressDialog.dismiss();
+                        if(responseData.getResponseData().getUserDetails().getUserRoleId().equals("5")){
+                            Toast.makeText(LoginActivity.this, "No access for this user", Toast.LENGTH_LONG).show();
+                            return;
+                        }
 
                         if (rememberMe.isChecked()) {
                             sharedPreferencesFCM.edit().putString("username", enterUsername.getText().toString()).commit();
@@ -336,8 +340,9 @@ public class LoginActivity extends AppCompatActivity{
                         sharedPreferences.edit().putString("userAddress2",responseData.getResponseData().getUserDetails().getAddress2()).commit();
                         sharedPreferences.edit().putString("userPincode",responseData.getResponseData().getUserDetails().getPincode()).commit();
                         sharedPreferences.edit().putString("password",responseData.getResponseData().getUserDetails().getPassword()).commit();
+                        sharedPreferences.edit().putString("userAdminFlag",responseData.getResponseData().getUserDetails().getUerAdminFlag()).commit();
 
-                        Geocoder coder = new Geocoder(getBaseContext());
+                       Geocoder coder = new Geocoder(getBaseContext());
                         List<Address> address;
                         address = coder.getFromLocationName(responseData.getResponseData().getUserDetails().getAddress1(),5);
                         if(address.size()!=0){

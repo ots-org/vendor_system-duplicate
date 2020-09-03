@@ -91,8 +91,8 @@ public class DonationStatus extends AppCompatActivity {
             EmpAsignRequest();
         }
         donationStatus.add("Select Donation Status");
-        donationStatus.add("Cash");
-        donationStatus.add("Kind");
+        donationStatus.add("Request - Cash");
+        donationStatus.add("Request - Kind");
         donationStatus.add("Direct Cash");
         spinnerStatus.setAdapter(new ArrayAdapter(DonationStatus.this, android.R.layout.simple_spinner_dropdown_item, donationStatus));
         spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -242,7 +242,7 @@ public class DonationStatus extends AppCompatActivity {
                         for (int ProdCategory=0;ProdCategory<productList.length();ProdCategory++){
                             JSONObject productDetailsobject = productList.getJSONObject(ProdCategory);
                             JSONObject productDetailsobjecta = productDetailsobject.getJSONObject("productDetails");
-                            JSONObject userDetailsobject = productDetailsobject.getJSONObject("userDetails");
+                                JSONObject userDetailsobject = productDetailsobject.getJSONObject("userDetails");
                             DonarName[ProdCategory]=userDetailsobject.getString("firstName");
 
                             if(!Status.equals("directDonation")){

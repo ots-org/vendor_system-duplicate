@@ -12,6 +12,7 @@ public class ProductDetails implements Parcelable {
     String productStatus;
     String productqty;
     String productPrice;
+    String productBasePrice;
     String gst;
     String productType;
     String otsProductOpenBalance;
@@ -28,6 +29,7 @@ public class ProductDetails implements Parcelable {
         productStatus = in.readString();
         productqty = in.readString();
         productPrice = in.readString();
+        productBasePrice= in.readString();
         gst = in.readString();
         productType = in.readString();
         otsProductOpenBalance = in.readString();
@@ -46,6 +48,7 @@ public class ProductDetails implements Parcelable {
         dest.writeString(productStatus);
         dest.writeString(productqty);
         dest.writeString(productPrice);
+        dest.writeString(productBasePrice);
         dest.writeString(gst);
         dest.writeString(productType);
         dest.writeString(otsProductOpenBalance);
@@ -126,6 +129,14 @@ public class ProductDetails implements Parcelable {
 
     public void setProductPrice(String productPrice) {
         this.productPrice = productPrice;
+    }
+
+    public String getProductBasePrice() {
+        return productBasePrice;
+    }
+
+    public void setProductBasePrice(String productBasePrice) {
+        this.productBasePrice = productBasePrice;
     }
 
     public String getGst() {

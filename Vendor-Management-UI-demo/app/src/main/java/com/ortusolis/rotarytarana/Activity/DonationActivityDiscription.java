@@ -32,6 +32,7 @@ import com.ortusolis.rotarytarana.NetworkUtility.Constants;
 import com.ortusolis.rotarytarana.NetworkUtility.IResult;
 import com.ortusolis.rotarytarana.NetworkUtility.WebserviceController;
 import com.ortusolis.rotarytarana.R;
+import com.ortusolis.rotarytarana.adapter.DonationAdapter;
 import com.ortusolis.rotarytarana.service.RazorPayActivity;
 
 import org.json.JSONArray;
@@ -45,7 +46,7 @@ public class DonationActivityDiscription extends AppCompatActivity {
     ActionBar action;
     ArrayList<String> finalList;
     ArrayList<String> donationlist;
-    TextView productname,productprice,totalAmount,requiredQuantity;
+    TextView productname,productprice,totalAmount,requiredQuantity,noResult;
     EditText donationQuantity,pan,gst;
     Button decrease,increase,pay;
     Double req,finalRequried;
@@ -55,8 +56,9 @@ public class DonationActivityDiscription extends AppCompatActivity {
     List<String> Beneficiary;
     List<String> orderId;
     List<String> BeneficiaryProductQuantity;
-    LinearLayout requiredQuantityLayout;
+    LinearLayout requiredQuantityLayout,mainLayout;
     SharedPreferences sharedPreferences;
+    String productName,productPrice,addedStock,stock,donationRequestId,productId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,11 +69,19 @@ public class DonationActivityDiscription extends AppCompatActivity {
         productprice= findViewById(R.id.productprice);
         totalAmount= findViewById(R.id.totalAmount);
         pay=findViewById(R.id.Pay);
+        noResult=findViewById(R.id.noResult);
+        mainLayout=findViewById(R.id.mainLayout);
         paymentMethod="";
         Beneficiary = new ArrayList();
         orderId= new ArrayList();
         orderIdBen="any";
         orderQntBen="";
+        productName="";
+        productPrice="0.0";
+        addedStock="0.0";
+        stock="0.0";
+        donationRequestId="";
+        productId="";
         BeneficiaryProductQuantity = new ArrayList();
         Beneficiary.add("Any ");
         donationQuantity= findViewById(R.id.donationQuantity);
@@ -90,10 +100,10 @@ public class DonationActivityDiscription extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Any Beneficiary", Toast.LENGTH_LONG).show();
                     req = 1.0;
                     donationQuantity.setText(req.toString().substring(0, req.toString().length() - 2));
-                    req = Double.valueOf(finalList.get(3)) - Double.valueOf(finalList.get(2));
+                    req = Double.valueOf(stock) - Double.valueOf(addedStock);
                     requiredQuantity.setText(req.toString().substring(0, req.toString().length() - 2));
-                    totalP = Double.valueOf(finalList.get(1)) * Double.valueOf(String.valueOf(donationQuantity.getText()));
-                    totalAmount.setText(totalP.toString());
+                    totalP = Double.valueOf(productPrice) * Double.valueOf(String.valueOf(donationQuantity.getText()));
+                    totalAmount.setText(String.format("%.2f", totalP));
                     requiredQuantityLayout.setVisibility(View.VISIBLE);
                 } else {
                     selctBen = "yes";
@@ -104,8 +114,8 @@ public class DonationActivityDiscription extends AppCompatActivity {
                     req = BeneficiaryQuantity + 0.0;
                     finalRequried = BeneficiaryQuantity + 0.0;
                     donationQuantity.setText(req.toString().substring(0, req.toString().length() - 2));
-                    totalP = Double.valueOf(finalList.get(1)) * Double.valueOf(String.valueOf(donationQuantity.getText()));
-                    totalAmount.setText(totalP.toString());
+                    totalP = Double.valueOf(productPrice) * Double.valueOf(String.valueOf(donationQuantity.getText()));
+                    totalAmount.setText(String.format("%.2f", totalP));
                     requiredQuantityLayout.setVisibility(View.GONE);
                 }
             }
@@ -127,8 +137,8 @@ public class DonationActivityDiscription extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(donationQuantity.getText().toString())) {
-                    totalP=Double.valueOf(finalList.get(1))*Double.valueOf(String.valueOf(donationQuantity.getText()));
-                    totalAmount.setText(totalP.toString());
+                    totalP=Double.valueOf(productPrice)*Double.valueOf(String.valueOf(donationQuantity.getText()));
+                    totalAmount.setText(String.format("%.2f", totalP));
                 }
             }
         });
@@ -172,19 +182,33 @@ public class DonationActivityDiscription extends AppCompatActivity {
         donationlist = new ArrayList<>();
         donationlist.clear();
         finalList = new ArrayList<>();
-        finalList = (ArrayList<String>)getIntent().getSerializableExtra("finalList");
-        productname.setText(finalList.get(0));
-        productprice.setText(finalList.get(1));
-        req=1.0;
-        finalRequried=1.0;
-        donationQuantity.setText(req.toString().substring(0,req.toString().length()-2));
-        req= Double.valueOf(finalList.get(3))-Double.valueOf(finalList.get(2));
-        requiredQuantity.setText(req.toString().substring(0,req.toString().length()-2));
-        req= Double.valueOf(finalList.get(3))-Double.valueOf(finalList.get(2))-Double.valueOf(String.valueOf(donationQuantity.getText()));
-        totalP=Double.valueOf(finalList.get(1))*Double.valueOf(String.valueOf(donationQuantity.getText()));
-        totalAmount.setText(totalP.toString());
+        if(getIntent().hasExtra("finalList")){
+            finalList = (ArrayList<String>)getIntent().getSerializableExtra("finalList");
+            productName=finalList.get(0);
+            productPrice=finalList.get(1);
+            addedStock=finalList.get(2);
+            stock=finalList.get(3);
+            donationRequestId=finalList.get(4);
+            productId=finalList.get(5);
+            productname.setText(productName);
+            productprice.setText(productPrice);
+            req=1.0;
+            finalRequried=1.0;
+            donationQuantity.setText(req.toString().substring(0,req.toString().length()-2));
+            req= Double.valueOf(stock)-Double.valueOf(addedStock);
+            requiredQuantity.setText(req.toString().substring(0,req.toString().length()-2));
+            req= Double.valueOf(stock)-Double.valueOf(addedStock)-Double.valueOf(String.valueOf(donationQuantity.getText()));
+            totalP=Double.valueOf(productPrice)*Double.valueOf(String.valueOf(donationQuantity.getText()));
+            totalAmount.setText(String.format("%.2f", totalP));
 
-        BenifiaryList();
+            BenifiaryList();
+        }else{
+            SingleProductDonation(getIntent().getExtras().getString("productID"));
+        }
+
+
+
+
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -227,9 +251,9 @@ public class DonationActivityDiscription extends AppCompatActivity {
             return;
         }
         donationQuantity.setText(dAmount.toString().substring(0,dAmount.toString().length()-2));
-        req= Double.valueOf(finalList.get(3))-Double.valueOf(finalList.get(2))-Double.valueOf(String.valueOf(donationQuantity.getText()));
-        totalP=Double.valueOf(finalList.get(1))*Double.valueOf(String.valueOf(donationQuantity.getText()));
-        totalAmount.setText(totalP.toString());
+        req= Double.valueOf(stock)-Double.valueOf(addedStock)-Double.valueOf(String.valueOf(donationQuantity.getText()));
+        totalP=Double.valueOf(productPrice)*Double.valueOf(String.valueOf(donationQuantity.getText()));
+        totalAmount.setText(String.format("%.2f", totalP));
     }
     public void Increase(){
         if(donationQuantity.getText().toString().equals("")){
@@ -238,9 +262,9 @@ public class DonationActivityDiscription extends AppCompatActivity {
         }
         Double iAmount=Double.valueOf(String.valueOf(donationQuantity.getText()))+1.0;
         donationQuantity.setText(iAmount.toString().substring(0,iAmount.toString().length()-2));
-        req= Double.valueOf(finalList.get(3))-Double.valueOf(finalList.get(2))-Double.valueOf(String.valueOf(donationQuantity.getText()));
-        totalP=Double.valueOf(finalList.get(1))*Double.valueOf(String.valueOf(donationQuantity.getText()));
-        totalAmount.setText(totalP.toString());
+        req= Double.valueOf(stock)-Double.valueOf(addedStock)-Double.valueOf(String.valueOf(donationQuantity.getText()));
+        totalP=Double.valueOf(productPrice)*Double.valueOf(String.valueOf(donationQuantity.getText()));
+        totalAmount.setText(String.format("%.2f", totalP));
     }
     public void pay(){
 
@@ -260,7 +284,7 @@ public class DonationActivityDiscription extends AppCompatActivity {
             paymentStatus=paymentMethod;
         }
         donationlist.clear();
-        donationlist.add(finalList.get(5));
+        donationlist.add(productId);
         donationlist.add(totalAmount.getText().toString());
         if(donationQuantity.getText().toString().equals("")||donationQuantity.getText().toString().equals("0")){
             donationlist.add("1");
@@ -270,7 +294,7 @@ public class DonationActivityDiscription extends AppCompatActivity {
 
         donationlist.add(requiredQuantity.getText().toString());
         donationlist.add(status);
-        donationlist.add(finalList.get(4));
+        donationlist.add(donationRequestId);
         donationlist.add(paymentStatus);
         donationlist.add(orderIdBen);
         donationlist.add(gst.getText().toString());
@@ -294,7 +318,7 @@ public class DonationActivityDiscription extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("requestId", finalList.get(4));
+            jsonObject.put("requestId", donationRequestId);
             requestObject.put("requestId",jsonObject);
         }
         catch (Exception e){
@@ -345,7 +369,7 @@ public class DonationActivityDiscription extends AppCompatActivity {
 
             JSONObject jsonObject1 = new JSONObject();
 
-            jsonObject1.put("productId", finalList.get(5));
+            jsonObject1.put("productId", productId);
             jsonObject1.put("donorId", sharedPreferences.getString("userid", ""));
             jsonObject1.put("dontaionAmount",totalAmount.getText().toString());
             jsonObject1.put("donatedQty", donationQuantity.getText().toString());
@@ -354,7 +378,7 @@ public class DonationActivityDiscription extends AppCompatActivity {
             jsonObject1.put("requestStatus", status);
             jsonObject1.put("donationStatus", "donationPending");
             jsonObject1.put("donationMethod", "kind");
-            jsonObject1.put("donationRequestId", finalList.get(4));
+            jsonObject1.put("donationRequestId", donationRequestId);
             if (gst.getText().toString().equals("")){
                 jsonObject1.put("otherNumber", JSONObject.NULL);
             }else {
@@ -393,6 +417,69 @@ public class DonationActivityDiscription extends AppCompatActivity {
                 }
                 catch (Exception e){
                     e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void notifyError(VolleyError error) {
+                Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
+            }
+        });
+    }
+
+    public void SingleProductDonation(String ProductID){
+        WebserviceController wss = new WebserviceController(DonationActivityDiscription.this);
+
+        JSONObject requestObject = new JSONObject();
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("status", "NewRequest");
+            jsonObject.put("assgineId", "string");
+            jsonObject.put("productId", ProductID);
+            requestObject.put("request",jsonObject);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        wss.postLoginVolley(Constants.getDonationListBystatus, requestObject.toString(), new IResult() {
+            @Override
+            public void notifySuccess(String response, int statusCode) {
+                try {
+                    Log.e("DonatnList response", response);
+                    JSONObject obj = new JSONObject(response);
+                    JSONObject responseData =obj.getJSONObject("responseData");
+                    JSONArray productList = responseData.getJSONArray("productList");
+//                    productList
+                    obj.getString("responseCode");
+                    if (obj.getString("responseCode").equalsIgnoreCase("200")) {
+                        JSONObject productDetailsobject = productList.getJSONObject(0);
+                        productName=productDetailsobject.getString("productName");
+                        productPrice= productDetailsobject.getString("productPrice");
+                        addedStock=productDetailsobject.getString("addedStock");
+                        stock=productDetailsobject.getString("stock");
+                        donationRequestId=productDetailsobject.getString("donationRequestId");
+                        productId=productDetailsobject.getString("productId");
+                        productname.setText(productName);
+                        productprice.setText(productPrice);
+                        req=1.0;
+                        finalRequried=1.0;
+                        donationQuantity.setText(req.toString().substring(0,req.toString().length()-2));
+                        req= Double.valueOf(stock)-Double.valueOf(addedStock);
+                        requiredQuantity.setText(req.toString().substring(0,req.toString().length()-2));
+                        req= Double.valueOf(stock)-Double.valueOf(addedStock)-Double.valueOf(String.valueOf(donationQuantity.getText()));
+                        totalP=Double.valueOf(productPrice)*Double.valueOf(String.valueOf(donationQuantity.getText()));
+                        totalAmount.setText(String.format("%.2f", totalP));
+
+                        BenifiaryList();
+                    }
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    mainLayout.setVisibility(View.GONE);
+                    noResult.setVisibility(View.VISIBLE);
+                    Toast.makeText(getApplicationContext(), "No request for this Product", Toast.LENGTH_LONG).show();
                 }
             }
 

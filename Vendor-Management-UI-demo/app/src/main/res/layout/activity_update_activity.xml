@@ -11,6 +11,23 @@
         android:layout_height="?actionBarSize"
         android:background="@color/colorPrimary"
         app:titleTextColor="@android:color/white" />
+    <TextView
+        android:id="@+id/noResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/dataisnotavailable"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:layout_margin="@dimen/activity_margin_10"
+        android:textSize="@dimen/text_size_medium"
+        />
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp">
+    </ListView>
 
     <FrameLayout
         android:id="@+id/main_fragment"
