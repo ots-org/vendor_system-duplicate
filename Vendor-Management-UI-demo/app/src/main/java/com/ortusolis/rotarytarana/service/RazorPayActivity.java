@@ -3,7 +3,15 @@ package com.ortusolis.rotarytarana.service;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,17 +25,25 @@ import com.ortusolis.rotarytarana.NetworkUtility.WebserviceController;
 import com.ortusolis.rotarytarana.R;
 import com.ortusolis.rotarytarana.pojo.AssignedResponse;
 import com.ortusolis.rotarytarana.pojo.ProductRequestCart;
+import com.ortusolis.rotarytarana.pojo.UserInfo;
 import com.razorpay.Checkout;
+import com.razorpay.PaymentData;
 import com.razorpay.PaymentResultListener;
+import com.razorpay.PaymentResultWithDataListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RazorPayActivity extends Activity implements PaymentResultListener {
+public class RazorPayActivity extends Activity implements PaymentResultWithDataListener {
     private String TAG = "Pravarthaka";
     String orderID="";
 
@@ -42,7 +58,8 @@ String salesVaocherFalg,productRequestsStr,emailIdUser;
     ArrayList<String> donationlist;
     ArrayList<String> donationCashlist;
     String donation="no";
-    String productId,userId,dontaionAmount,donatedQty,paymentId,presentStock,donationStatus,donationRequestId,requestStatus;
+    UserInfo userInfo;
+    String productId,userId,dontaionAmount,donatedQty,paymentId,presentStock,donationStatus,donationRequestId,requestStatus,productName,BeneficieryName;
 String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,donationCashlistPan;
     //
     @Override
@@ -87,6 +104,8 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
             donationStatus=donationlist.get(6);
 
             totalAmountPayment= Float.valueOf(dontaionAmount);
+            productName=donationlist.get(11);
+            BeneficieryName=donationlist.get(12);
             donation="yes";
             DemoOrderId();
         }
@@ -175,7 +194,7 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
     }
 
     @Override
-    public void onPaymentSuccess(String paymentID) {
+    public void onPaymentSuccess(String paymentID, PaymentData paymentData) {
         paymentId=paymentID;
         if(donation.equals("yes")){
             donationPayment();
@@ -203,7 +222,7 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
     }
 
     @Override
-    public void onPaymentError(int i, String s) {
+    public void onPaymentError(int i, String s, PaymentData paymentData) {
         //Toast.makeText(getApplicationContext(),"payment fail",Toast.LENGTH_SHORT).show();
         Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
         //TODO should move to Near you screen or something relevant . Sabin please see it.
@@ -307,6 +326,18 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
                     Log.e("getPlants response", response);
                     JSONObject obj = new JSONObject(response);
                     if (obj.getString("responseCode").equalsIgnoreCase("200")) {
+                        new Thread(new Runnable() {
+                            public void run(){
+                                try {
+                                    if(BeneficieryName.equals("Any ")){
+                                        BeneficieryName="Beneficiary";
+                                    }
+                                    DonationImage(""+sharedPreferences.getString("userFirstName", "")+" "+sharedPreferences.getString("userLastName", "")+" of "+ sharedPreferences.getString("userAddress1", "")+ " has donated  "+productName +" of worth "+getString(R.string.Rs) + dontaionAmount+" towards "+BeneficieryName.split("\\(")[0]);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
 //                        Toast.makeText(getApplicationContext(),"payment Success",Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -423,6 +454,7 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
                     orderID=obj.getJSONObject("responseData").getJSONArray("orderDetails").getJSONObject(0).getString("orderId");
                     setUpWidgets();
                     startPayment();
+
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -435,5 +467,64 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
 //                Toast.makeText(getApplicationContext(), WebserviceController.returnErrorMessage(error), Toast.LENGTH_LONG).show();
             }
         });
+    }
+    void DonationImage(final String text) throws IOException {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text+" using e-Taarana for Rotary App \n https://play.google.com/store/apps/details?id=com.ortusolis.rotarytarana \n We thank you for this contribution.");
+        startActivity(Intent.createChooser(shareIntent, "share the donation info:"));
+//        share image in social media //
+
+//        Bitmap image = null;
+//        try {
+//            URL url = new URL("http://....");
+//             image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//        } catch(IOException e) {
+//            System.out.println(e);
+//        }
+//        Bitmap icon = image;
+//        Intent share = new Intent(Intent.ACTION_SEND);
+//        share.setType("image/jpeg");
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+//        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+//        try {
+//            f.createNewFile();
+//            FileOutputStream fo = new FileOutputStream(f);
+//            fo.write(bytes.toByteArray());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+//        startActivity(Intent.createChooser(share, "Share Image"));
+
+//        share image in social media //
+
+
+//        final Paint textPaint = new Paint() {
+//            {
+//                setColor(Color.WHITE);
+//                setTextAlign(Paint.Align.LEFT);
+//                setTextSize(20f);
+//                setAntiAlias(true);
+//            }
+//        };
+//        final Rect bounds = new Rect();
+//        textPaint.getTextBounds(text, 0, text.length(), bounds);
+//
+//        final Bitmap bmp = Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.RGB_565); //use ARGB_8888 for better quality
+//        final Canvas canvas = new Canvas(bmp);
+//        canvas.drawText(text, 0, 20f, textPaint);
+//
+//        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"donation");
+//        if (!dir.exists())
+//            dir.mkdirs();
+//
+//        File file = new File(dir, "capture.jpg");
+//
+//        FileOutputStream stream = new FileOutputStream(file); //create your FileOutputStream here
+//        bmp.compress(Bitmap.CompressFormat.PNG, 85, stream);
+//        bmp.recycle();
+//        stream.close();
     }
 }

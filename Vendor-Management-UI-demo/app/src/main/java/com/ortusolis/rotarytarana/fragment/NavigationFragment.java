@@ -1,9 +1,13 @@
 package com.ortusolis.rotarytarana.fragment;
 
+import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -13,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -513,13 +518,76 @@ public class NavigationFragment extends Fragment {
         contactUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("message/rfc822");
-                intent.setPackage("com.google.android.gm");
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"etaarana_support@ortusolis.in"});
-                intent.putExtra(Intent.EXTRA_SUBJECT, "FeedBack");
-                intent.putExtra(Intent.EXTRA_TEXT, "your feedback");
-                startActivity(Intent.createChooser(intent, "Send Email"));
+
+                AlertDialog.Builder alertadd = new AlertDialog.Builder(getContext());
+                alertadd.setTitle("Contact Us:");
+                LayoutInflater factory = LayoutInflater.from(getContext());
+                final View view = factory.inflate(R.layout.layout_share, null);
+                ImageView dialog_whtasapp = view.findViewById(R.id.dialog_whtasapp);
+                ImageView dialog_mail = view.findViewById(R.id.dialog_mail);
+                dialog_whtasapp.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        // your code here
+                        try {
+                            String text = "FeedBack:";// Replace with your message.
+
+                            String toNumber = "919008011333"; // Replace with mobile phone number without +Sign or leading zeros, but with country code
+                            //Suppose your country is India and your phone number is “xxxxxxxxxx”, then you need to send “91xxxxxxxxxx”.
+
+
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+toNumber +"&text="+text));
+                            startActivity(intent);
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                dialog_mail.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        // your code here
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("message/rfc822");
+                        intent.setPackage("com.google.android.gm");
+                        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"etaarana_support@ortusolis.in"});
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "FeedBack");
+                        intent.putExtra(Intent.EXTRA_TEXT, "your feedback");
+                        startActivity(Intent.createChooser(intent, "Send Email"));
+                    }
+                });
+                alertadd.setView(view);
+//                alertadd.setNeutralButton("share", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dlg, int sumthin) {
+//
+//                    }
+//                });
+
+                alertadd.show();
+
+//                Intent intent = new Intent(Intent.ACTION_SEND);
+//                intent.setType("message/rfc822");
+//                intent.setPackage("com.google.android.gm");
+//                intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"etaarana_support@ortusolis.in"});
+//                intent.putExtra(Intent.EXTRA_SUBJECT, "FeedBack");
+//                intent.putExtra(Intent.EXTRA_TEXT, "your feedback");
+//                startActivity(Intent.createChooser(intent, "Send Email"));
+
+
+//                try {
+//                    String text = "FeedBack:";// Replace with your message.
+//
+//                    String toNumber = "917847977404"; // Replace with mobile phone number without +Sign or leading zeros, but with country code
+//                    //Suppose your country is India and your phone number is “xxxxxxxxxx”, then you need to send “91xxxxxxxxxx”.
+//
+//
+//                    Intent intent = new Intent(Intent.ACTION_VIEW);
+//                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+toNumber +"&text="+text));
+//                    startActivity(intent);
+//                }
+//                catch (Exception e){
+//                    e.printStackTrace();
+//                }
 
             }
         });

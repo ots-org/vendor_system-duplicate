@@ -24,8 +24,8 @@ android {
         applicationId "com.ortusolis.rotarytarana"
         minSdkVersion 19 // changed 15 to 18 for gif display //changed to 19
         targetSdkVersion 28
-        versionCode 9
-        versionName "1.8"
+        versionCode 10
+        versionName "1.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "google_maps_key", (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "")
         multiDexEnabled true

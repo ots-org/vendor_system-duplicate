@@ -539,6 +539,7 @@ public class AddUserFragment extends  Fragment implements LocationListener {
                         productEdit.setText("");
                         productText.setText("Select Product");
                         distributorText.setText("Select Facilitator");
+                        adminStatusFlag.setChecked(false);
                         strName = null;
                         strDistName = null;
                         strDist = null;

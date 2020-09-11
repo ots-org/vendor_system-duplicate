@@ -144,7 +144,7 @@ public class WaterCanAdapter extends BaseAdapter {
                 else {
                     AlertDialog.Builder alertDialogCash = new AlertDialog.Builder(context);
                     alertDialogCash.setTitle("Choose Payment Option");
-                    String[] itemsCash = {"Get and Donate","Donate"};
+                    String[] itemsCash = {"Gift","Donate"};
                     int checkedItemCash = 0;
                     paymentMethod="Request";
                     alertDialogCash.setSingleChoiceItems(itemsCash, checkedItemCash, new DialogInterface.OnClickListener() {

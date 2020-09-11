@@ -304,6 +304,8 @@ public class DonationActivityDiscription extends AppCompatActivity {
         }else {
             donationlist.add(orderQntBen);
         }
+        donationlist.add(productName);
+        donationlist.add(spinnerBeneficiary.getSelectedItem().toString());
         onBackPressed();
         Intent donationlistIntent = new Intent(DonationActivityDiscription.this, RazorPayActivity.class);
         donationlistIntent.putExtra("donationlist", donationlist);
