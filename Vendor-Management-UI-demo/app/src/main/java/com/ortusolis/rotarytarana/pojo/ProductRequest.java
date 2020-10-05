@@ -1,8 +1,9 @@
 package com.ortusolis.rotarytarana.pojo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ProductRequest {
+public class ProductRequest implements Serializable {
 
     RequestS request;
 
@@ -14,7 +15,7 @@ public class ProductRequest {
         this.request = request;
     }
 
-    public static class RequestS {
+    public static class RequestS implements Serializable {
 
     String customerId;
     String customerName;
@@ -25,7 +26,9 @@ public class ProductRequest {
     String userLat;
     String userLong;
     String address;
+    String paymentId;
     String paymentStatus;
+    String paymentFlowStatus;
     String assignedId;
     String orderStatus;
     String orderNumber;
@@ -104,6 +107,14 @@ public class ProductRequest {
             this.address = address;
         }
 
+        public String getPaymentId() {
+            return paymentId;
+        }
+
+        public void setPaymentId(String paymentId) {
+            this.paymentId = paymentId;
+        }
+
         public String getPaymentStatus() {
             return paymentStatus;
         }
@@ -112,6 +123,13 @@ public class ProductRequest {
             this.paymentStatus = paymentStatus;
         }
 
+        public String getPaymentFlowStatus() {
+            return paymentFlowStatus;
+        }
+
+        public void setPaymentFlowStatus(String paymentFlowStatus) {
+            this.paymentFlowStatus = paymentFlowStatus;
+        }
 
         public String getAssignedId() {
             return assignedId;
@@ -153,7 +171,7 @@ public class ProductRequest {
             this.productList = productList;
         }
 
-        public static class ProductOrder {
+        public static class ProductOrder implements Serializable {
 
         String ots_delivered_qty;
         String orderProductId;

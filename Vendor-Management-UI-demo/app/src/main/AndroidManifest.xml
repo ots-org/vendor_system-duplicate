@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:visibleToInstantApps="true"
+        android:usesCleartextTraffic="true"
         android:targetSandboxVersion="2"
         android:theme="@style/AppThemeEx">
         <activity android:name="com.ortusolis.rotarytarana.Activity.DonationListStatusDescription"></activity>
@@ -215,9 +216,13 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="86d10b78830c1a0dbcc18c03f0038831e3fd593c" />
-        <meta-data
-            android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_NYxmr2CtwORaZd" />
+<!--        <meta-data-->
+<!--            android:name="com.razorpay.ApiKey"-->
+<!--            android:value="rzp_test_kA2hROKJeaOPQU" />-->
+<!--        android:value="rzp_test_i50l0d4Cja32Mc" />-->
+<!--        android:value="rzp_test_NYxmr2CtwORaZd"  hdfc -->
+
+<!--        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="2346304448952344"/>-->
         <receiver
             android:name="com.ortusolis.rotarytarana.Utility.RestarterBroadcastReceiver"
             android:enabled="true"
@@ -236,7 +241,10 @@
             <intent-filter>
                 <action android:name="com.ortusolis.rotarytarana.location.LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES" />
             </intent-filter>
-        </receiver> <!--  -->
+        </receiver>
+        <!--  -->
+        <receiver android:name="com.ortusolis.rotarytarana.Activity.ApplicationSelectorReceiver"></receiver>
+        <!-- -->
         <service android:name="com.ortusolis.rotarytarana.service.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -254,6 +262,10 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
+<!--        <provider android:authorities="com.facebook.app.FacebookContentProvider{2346304448952344}"-->
+<!--            android:name="com.facebook.FacebookContentProvider"-->
+<!--            android:exported="true"/>-->
     </application>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

@@ -1,8 +1,18 @@
 package com.ortusolis.rotarytarana.service;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.LabeledIntent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,18 +22,32 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.android.volley.VolleyError;
 import com.crashlytics.android.Crashlytics;
+//import com.facebook.share.model.ShareLinkContent;
 import com.google.gson.Gson;
+import com.ortusolis.rotarytarana.Activity.ApplicationSelectorReceiver;
 import com.ortusolis.rotarytarana.Activity.AssignedOrderListActivity;
+import com.ortusolis.rotarytarana.Activity.CardListActivity;
+import com.ortusolis.rotarytarana.Activity.LoginActivity;
+import com.ortusolis.rotarytarana.Activity.RegisterActivity;
 import com.ortusolis.rotarytarana.NetworkUtility.Constants;
 import com.ortusolis.rotarytarana.NetworkUtility.IResult;
 import com.ortusolis.rotarytarana.NetworkUtility.WebserviceController;
 import com.ortusolis.rotarytarana.R;
 import com.ortusolis.rotarytarana.pojo.AssignedResponse;
+import com.ortusolis.rotarytarana.pojo.ProductRequest;
 import com.ortusolis.rotarytarana.pojo.ProductRequestCart;
 import com.ortusolis.rotarytarana.pojo.UserInfo;
 import com.razorpay.Checkout;
@@ -53,6 +77,7 @@ String salesVaocherFalg,productRequestsStr,emailIdUser;
     Gson gson;
     List<ProductRequestCart> productRequestsfinal;
     List<ProductRequestCart> productRequests;
+    ProductRequest productRequest = new ProductRequest();
     public AssignedResponse CashResponseOnly;
     SharedPreferences sharedPreferences;
     ArrayList<String> donationlist;
@@ -60,7 +85,9 @@ String salesVaocherFalg,productRequestsStr,emailIdUser;
     String donation="no";
     UserInfo userInfo;
     String productId,userId,dontaionAmount,donatedQty,paymentId,presentStock,donationStatus,donationRequestId,requestStatus,productName,BeneficieryName;
-String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,donationCashlistPan;
+    String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,donationCashlistPan,donarCompanyName,donorAtgAddress;
+    private Object View;
+
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +116,9 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
             totalAmountPayment = intent.getFloatExtra("totalAmountPayment", 0);
             salesVaocherFalg =intent.getStringExtra("salesVaocherFalg");
             productRequestsStr= intent.getStringExtra("productRequests");
+            productRequest= (ProductRequest) getIntent().getSerializableExtra("productRequestObject");
+            productRequest.getRequest().setPaymentFlowStatus("gift");
+
             DemoOrderId();
         }
         if (getIntent().hasExtra("donationlist")){
@@ -106,6 +136,8 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
             totalAmountPayment= Float.valueOf(dontaionAmount);
             productName=donationlist.get(11);
             BeneficieryName=donationlist.get(12);
+            donarCompanyName=donationlist.get(13);
+            donorAtgAddress=donationlist.get(14);
             donation="yes";
             DemoOrderId();
         }
@@ -118,11 +150,12 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
             paymentId="";
             donationCashlistGST=donationCashlist.get(3);
             totalAmountPayment= Float.valueOf(donationCashlistAmount);
+            dontaionAmount=donationCashlistAmount;
             donation="donationCashlist";
+            donarCompanyName=donationCashlist.get(4);
+            donorAtgAddress=donationCashlist.get(5);
             DemoOrderId();
         }
-//        productRequests= (List<ProductRequestCart>) getIntent().getSerializableExtra("productRequests");
-//        productRequestsfinal=productRequests;
 /*
        Intent intent = new Intent(ProductDescription.this,AddProductActivity.class);
        intent.putExtra("product", getIntent().getExtras().getParcelable("product"));
@@ -144,6 +177,14 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
 
         /** Set your logo here*/
         checkout.setImage(R.drawable.cart);
+        if(donation.equals("yes")){
+            checkout.setKeyID("rzp_test_TQ28uTerb7d5Oj");
+        }else if(donation.equals("donationCashlist")){
+            checkout.setKeyID("rzp_test_TQ28uTerb7d5Oj");
+        }else{
+            checkout.setKeyID("rzp_test_kA2hROKJeaOPQU");
+        }
+
 
         /** Reference to current activity */
         final Activity activity = this;
@@ -196,25 +237,19 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
     @Override
     public void onPaymentSuccess(String paymentID, PaymentData paymentData) {
         paymentId=paymentID;
+        String signature = paymentData.getSignature();
         if(donation.equals("yes")){
-            donationPayment();
+            donationPayment(signature);
+//            onBackPressed();
         }else if(donation.equals("donationCashlist")){
-            donationCashPayment();
+            donationCashPayment(signature);
+//            onBackPressed();
         }
         else{
             sharedPreferences.edit().remove("prodDesc").apply();
             placeOrder();
+            onBackPressed();
         }
-
-
-        onBackPressed();
-//        onBackPressed();
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-////                onBackPressed();
-//            }
-//        },500);
     }
 
     private void finishActivity(){
@@ -232,8 +267,8 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
     void placeOrder(){
 
         WebserviceController wss = new WebserviceController(RazorPayActivity.this);
-
-        String str = productRequestsStr;
+        productRequest.getRequest().setPaymentId(paymentId);
+        String str = gson.toJson(productRequest);
         Log.e("place Request",str);
         wss.postLoginVolley(Constants.insertOrderAndProduct, str, new IResult() {
             @Override
@@ -271,7 +306,7 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
         });
     }
 
-    public void donationPayment(){
+    public void donationPayment( String signature){
         WebserviceController wss = new WebserviceController(RazorPayActivity.this);
 
         JSONObject requestObject = new JSONObject();
@@ -312,6 +347,9 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
             }else {
                 jsonObject1.put("orderQty", donationlist.get(10));
             }
+            jsonObject1.put("companyName", donarCompanyName);
+            jsonObject1.put("atgAddress", donorAtgAddress);
+            jsonObject1.put("paymentFlowStatus", "donation");
                 jsonArray.put(jsonObject1);
                 requestObject.put("request",jsonArray);
         }
@@ -326,6 +364,10 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
                     Log.e("getPlants response", response);
                     JSONObject obj = new JSONObject(response);
                     if (obj.getString("responseCode").equalsIgnoreCase("200")) {
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("donation", ""+sharedPreferences.getString("userFirstName", "")+" "+sharedPreferences.getString("userLastName", "")+" of "+ sharedPreferences.getString("userAddress1", "")+ " has donated  "+productName +" of worth "+getString(R.string.Rs) + dontaionAmount+" towards "+BeneficieryName.split("\\(")[0]+" using e-Taarana for Rotary App \n https://play.google.com/store/apps/details?id=com.ortusolis.rotarytarana \n We thank you for this contribution.");
+                        clipboard.setPrimaryClip(clip);
+//                        Toast.makeText(getApplicationContext(),"Copy successful,paste",Toast.LENGTH_SHORT).show();
                         new Thread(new Runnable() {
                             public void run(){
                                 try {
@@ -338,6 +380,7 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
                                 }
                             }
                         }).start();
+                        onBackPressed();
 //                        Toast.makeText(getApplicationContext(),"payment Success",Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -353,7 +396,7 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
             }
         });
     }
-    public void donationCashPayment(){
+    public void donationCashPayment(String signature){
         WebserviceController wss = new WebserviceController(RazorPayActivity.this);
 
         JSONObject requestObject = new JSONObject();
@@ -384,6 +427,10 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
                 jsonObject1.put("panNumber", donationCashlistPan);
             }
             jsonObject1.put("orderId", "any");
+            jsonObject1.put("companyName", donarCompanyName);
+            jsonObject1.put("atgAddress", donorAtgAddress);
+            jsonObject1.put("paymentFlowStatus", "donation");
+
             jsonArray.put(jsonObject1);
             requestObject.put("request",jsonArray);
         }
@@ -398,6 +445,19 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
                     Log.e("getPlants response", response);
                     JSONObject obj = new JSONObject(response);
                     if (obj.getString("responseCode").equalsIgnoreCase("200")) {
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("donation", ""+sharedPreferences.getString("userFirstName", "")+" "+sharedPreferences.getString("userLastName", "")+" of "+ sharedPreferences.getString("userAddress1", "")+ " has made donation "+getString(R.string.Rs) + dontaionAmount+" using e-Taarana for Rotary App \n https://play.google.com/store/apps/details?id=com.ortusolis.rotarytarana \n We thank you for this contribution.");
+                        clipboard.setPrimaryClip(clip);
+//                        Toast.makeText(getApplicationContext(),"Copy successful,paste",Toast.LENGTH_SHORT).show();
+                        new Thread(new Runnable() {
+                            public void run(){
+                                try {
+                                    DonationImage(""+sharedPreferences.getString("userFirstName", "")+" "+sharedPreferences.getString("userLastName", "")+" of "+ sharedPreferences.getString("userAddress1", "")+ " has made donation "+getString(R.string.Rs) + dontaionAmount);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
 //                        Toast.makeText(getApplicationContext(),"payment Success",Toast.LENGTH_SHORT).show();
                         onBackPressed();
                     }
@@ -428,11 +488,17 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
             float finalAmount= totalAmountPayment * 100;
             Log.d("totalAmountPayment", String.valueOf(finalAmount));
             String amountStr = String.valueOf(finalAmount);
+            amountStr= String.format("%.0f", Float.valueOf(amountStr));
 //            options.put("amount", amountStr.substring(0,amountStr.length()-2));
             jsonObject1.put("distributorId", "customerId_123_randomValue");
-            jsonObject1.put("orderCost", amountStr.substring(0,amountStr.length()-2));
-
-//            jsonArray.put(jsonObject1);
+            jsonObject1.put("orderCost", amountStr);
+            if(donation.equals("yes")){
+                jsonObject1.put("paymentFlowStatus", "donation");
+            }else if(donation.equals("donationCashlist")){
+                jsonObject1.put("paymentFlowStatus", "donation");
+            }else{
+                jsonObject1.put("paymentFlowStatus", "gift");
+            }
 
             requestObject.put("request",jsonObject1);
            Log.e("ssss",requestObject.toString());
@@ -469,62 +535,18 @@ String donationCashlistAmount,donationCashlistDiscription,donationCashlistGST,do
         });
     }
     void DonationImage(final String text) throws IOException {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, text+" using e-Taarana for Rotary App \n https://play.google.com/store/apps/details?id=com.ortusolis.rotarytarana \n We thank you for this contribution.");
-        startActivity(Intent.createChooser(shareIntent, "share the donation info:"));
-//        share image in social media //
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, text+" using e-Taarana for Rotary App \n https://play.google.com/store/apps/details?id=com.ortusolis.rotarytarana \n We thank you for this contribution.");
+        sendIntent.setType("text/plain");
+        Intent receiver = new Intent(this, ApplicationSelectorReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent chooser = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
+            chooser = Intent.createChooser(sendIntent, null, pendingIntent.getIntentSender());
+        }
+        startActivity(chooser);
 
-//        Bitmap image = null;
-//        try {
-//            URL url = new URL("http://....");
-//             image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//        } catch(IOException e) {
-//            System.out.println(e);
-//        }
-//        Bitmap icon = image;
-//        Intent share = new Intent(Intent.ACTION_SEND);
-//        share.setType("image/jpeg");
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-//        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-//        try {
-//            f.createNewFile();
-//            FileOutputStream fo = new FileOutputStream(f);
-//            fo.write(bytes.toByteArray());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-//        startActivity(Intent.createChooser(share, "Share Image"));
-
-//        share image in social media //
-
-
-//        final Paint textPaint = new Paint() {
-//            {
-//                setColor(Color.WHITE);
-//                setTextAlign(Paint.Align.LEFT);
-//                setTextSize(20f);
-//                setAntiAlias(true);
-//            }
-//        };
-//        final Rect bounds = new Rect();
-//        textPaint.getTextBounds(text, 0, text.length(), bounds);
-//
-//        final Bitmap bmp = Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.RGB_565); //use ARGB_8888 for better quality
-//        final Canvas canvas = new Canvas(bmp);
-//        canvas.drawText(text, 0, 20f, textPaint);
-//
-//        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"donation");
-//        if (!dir.exists())
-//            dir.mkdirs();
-//
-//        File file = new File(dir, "capture.jpg");
-//
-//        FileOutputStream stream = new FileOutputStream(file); //create your FileOutputStream here
-//        bmp.compress(Bitmap.CompressFormat.PNG, 85, stream);
-//        bmp.recycle();
-//        stream.close();
     }
+
 }

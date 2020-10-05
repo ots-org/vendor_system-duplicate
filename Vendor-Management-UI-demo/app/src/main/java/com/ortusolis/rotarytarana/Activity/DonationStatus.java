@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -61,6 +62,8 @@ public class DonationStatus extends AppCompatActivity {
     ArrayList<String> donarDonationIdList;
     ArrayList<String> finalList;
     SharedPreferences sharedPreferences;
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +115,12 @@ public class DonationStatus extends AppCompatActivity {
                     case 3:
                         Status="directDonation";
                         break;
+                }
+                if(!Status.equals("")) {
+                    progressDialog = new ProgressDialog(DonationStatus.this);
+                    progressDialog.setMessage("Loading...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                 }
                     DonationStatusList();
             }
@@ -191,6 +200,10 @@ public class DonationStatus extends AppCompatActivity {
             donarDonationIdList.clear();
             finalList.clear();
             list.invalidateViews();
+            progressDialog = new ProgressDialog(DonationStatus.this);
+            progressDialog.setMessage("Loading...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
             DonationStatusList();
         }
     }
@@ -225,11 +238,13 @@ public class DonationStatus extends AppCompatActivity {
             @Override
             public void notifySuccess(String response, int statusCode) {
                 try {
+
                     Log.e("DonatnList response", response);
                     JSONObject obj = new JSONObject(response);
                     JSONObject responseData =obj.getJSONObject("responseData");
                     JSONArray productList = responseData.getJSONArray("donationList");
                     if (obj.getString("responseCode").equalsIgnoreCase("200")) {
+
                         productName= new String[productList.length()];
                         productQuantity= new String[productList.length()];
                         DonarName= new String[productList.length()];
@@ -276,15 +291,18 @@ public class DonationStatus extends AppCompatActivity {
                             DonationListAdapter adapter=new DonationListAdapter(DonationStatus.this, productName, productQuantity,DonarName);
                             list.setAdapter(adapter);
                         }
+                        progressDialog.dismiss();
                     }
                 }
                 catch (Exception e){
+                    progressDialog.dismiss();
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void notifyError(VolleyError error) {
+                progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
             }
         });

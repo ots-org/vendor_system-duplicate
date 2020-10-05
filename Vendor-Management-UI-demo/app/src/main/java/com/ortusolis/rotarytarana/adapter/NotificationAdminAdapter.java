@@ -63,7 +63,18 @@ public class NotificationAdminAdapter extends ArrayAdapter<String> {
         address11.append(address1[position]);
         address21.append(address2[position]);
         pincode1.append(pincode[position]);
-        userRoleId1.append(userRoleId[position]);
+
+        if(userRoleId[position].equals("1")){
+            userRoleId1.append("admin");
+        }else if(userRoleId[position].equals("2")){
+            userRoleId1.append("Facilitator");
+        }else if(userRoleId[position].equals("3")){
+            userRoleId1.append("Partner");
+        }else if(userRoleId[position].equals("4")){
+            userRoleId1.append("Donor");
+        }else {
+            userRoleId1.append("Beneficiary");
+        }
         if(userAdminFlag[position].equals("1")){
             userAdminFlag1.append("Yes");
         }else {

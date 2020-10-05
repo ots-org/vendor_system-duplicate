@@ -63,6 +63,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -599,7 +600,7 @@ final ProductRequest productRequest = new ProductRequest();
 
      void setValues(){
          textName.setText(""+productDetails.getProductName());
-         description.setText("Price "+getString(R.string.Rs)+Float.valueOf(productDetails.getProductPrice()));
+         description.setText("Price "+getString(R.string.Rs)+String.format("%.2f", Float.valueOf(productDetails.getProductPrice())));
          descriptionText.setText(""+productDetails.getProductDescription());
          price = Float.valueOf(productDetails.getProductPrice());
 //         if(productDetails.getProductPrice()!=null && productDetails.getGst() !=null){
@@ -607,8 +608,8 @@ final ProductRequest productRequest = new ProductRequest();
 //             totalPriceWithGst.setText(getString(R.string.Rs)+priceWithGst);
 ////           price = priceWithGst.floatValue();
 //         }
-         totalPriceWithGst.setText(getString(R.string.Rs)+Float.valueOf(productDetails.getProductPrice()));
-         totalPrice.setText(getString(R.string.Rs)+Float.valueOf(productDetails.getProductBasePrice()));
+         totalPriceWithGst.setText(getString(R.string.Rs)+String.format("%.2f", Float.valueOf(productDetails.getProductPrice())));
+         totalPrice.setText(getString(R.string.Rs)+String.format("%.2f", Float.valueOf(productDetails.getProductBasePrice())));
          orderPlaceLayout.setVisibility(View.VISIBLE);
     }
 
@@ -705,8 +706,13 @@ final ProductRequest productRequest = new ProductRequest();
                 requestS.setDistributorId(distributorStr);
                 requestS.setOrderCost((price * quant)+"");
                 requestS.setAddress(sharedPreferences.getString("userAddress1",""));
-                requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile",""));
-                requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile",""));
+                if(sharedPreferences.getString("userlatitudeProfile", "").equals("")){
+                    requestS.setUserLat(sharedPreferences.getString("latitude", ""));
+                    requestS.setUserLong(sharedPreferences.getString("longitude", ""));
+                }else {
+                    requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile", ""));
+                    requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile", ""));
+                }
                 requestS.setAssignedId(null);
                 requestS.setOrderStatus("New");
                 requestS.setOrderNumber("");
@@ -735,8 +741,13 @@ final ProductRequest productRequest = new ProductRequest();
                 requestS.setDistributorId(distributorStr);
                 requestS.setOrderCost((price * quant)+"");
                 requestS.setAddress(sharedPreferences.getString("userAddress1",""));
-                requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile",""));
-                requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile",""));
+                if(sharedPreferences.getString("userlatitudeProfile", "").equals("")){
+                    requestS.setUserLat(sharedPreferences.getString("latitude", ""));
+                    requestS.setUserLong(sharedPreferences.getString("longitude", ""));
+                }else {
+                    requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile", ""));
+                    requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile", ""));
+                }
                 requestS.setAssignedId(null);
                 requestS.setOrderStatus("New");
                 requestS.setOrderNumber("");
@@ -1261,17 +1272,33 @@ final ProductRequest productRequest = new ProductRequest();
                 if (delivaryAddress.equals("Primary")) {
                     input.setText(sharedPreferences.getString("userAddress1", ""));
                     requestS.setAddress(sharedPreferences.getString("userAddress1", ""));
-                    requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile", ""));
-                    requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile", ""));
+                    if(sharedPreferences.getString("userlatitudeProfile", "").equals("")){
+                        requestS.setUserLat(sharedPreferences.getString("latitude", ""));
+                        requestS.setUserLong(sharedPreferences.getString("longitude", ""));
+                    }else {
+                        requestS.setUserLat(sharedPreferences.getString("userlatitudeProfile", ""));
+                        requestS.setUserLong(sharedPreferences.getString("userlangitudeProfile", ""));
+                    }
                 } else if (delivaryAddress.equals("Secondary")) {
                     input.setText(sharedPreferences.getString("userAddress2", ""));
                     requestS.setAddress(sharedPreferences.getString("userAddress2", ""));
-                    requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile", ""));
-                    requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile", ""));
+                    if(sharedPreferences.getString("userlatitudeSecondProfile", "").equals("")){
+                        requestS.setUserLat(sharedPreferences.getString("latitude", ""));
+                        requestS.setUserLong(sharedPreferences.getString("longitude", ""));
+                    }else {
+                        requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile", ""));
+                        requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile", ""));
+                    }
+
                 } else {
                     requestS.setAddress(Address_textbox.getText().toString());
-                    requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile", ""));
-                    requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile", ""));
+                    if(sharedPreferences.getString("userlatitudeSecondProfile", "").equals("")){
+                        requestS.setUserLat(sharedPreferences.getString("latitude", ""));
+                        requestS.setUserLong(sharedPreferences.getString("longitude", ""));
+                    }else {
+                        requestS.setUserLat(sharedPreferences.getString("userlatitudeSecondProfile", ""));
+                        requestS.setUserLong(sharedPreferences.getString("userlangitudeSecondProfile", ""));
+                    }
                 }
                 dialog.dismiss();
                 final String finalprice = totalPriceWithGst.getText().toString();
@@ -1476,7 +1503,9 @@ public void payOn(){
                     if (paymentMethod.equals("Request")) {
                         dialog.dismiss();
                         requestS.setPaymentStatus("NewRequest");
+                        //paymentflowstatus
                         requestS.setOrderStatus("NewRequest");
+                        requestS.setPaymentFlowStatus("gift");
                         productRequest.setRequest(requestS);
                         productRequestFinal=productRequest;
                         String str = gson.toJson(productRequest);
@@ -1484,6 +1513,7 @@ public void payOn(){
                     } else {
                         requestS.setPaymentStatus("paid");
                         requestS.setOrderStatus("New");
+                        //paymentflowstatus
                         productRequest.setRequest(requestS);
                         productRequestFinal=productRequest;
                         String str = gson.toJson(productRequest);
@@ -1496,6 +1526,7 @@ public void payOn(){
                         totalAmountPaymentintent.putExtra("salesVaocherFalg", salesVaocherFalg);
                         totalAmountPaymentintent.putExtra("classFlag", "placeorder");
                         totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
+                        totalAmountPaymentintent.putExtra("productRequestObject",  productRequest);
                         startActivity(totalAmountPaymentintent);
                     }
                 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,7 +48,7 @@ public class DonationActivityDiscription extends AppCompatActivity {
     ArrayList<String> finalList;
     ArrayList<String> donationlist;
     TextView productname,productprice,totalAmount,requiredQuantity,noResult;
-    EditText donationQuantity,pan,gst;
+    EditText donationQuantity,pan,gst,donorName,donorAddress;
     Button decrease,increase,pay;
     Double req,finalRequried;
     Double totalP;
@@ -59,6 +60,7 @@ public class DonationActivityDiscription extends AppCompatActivity {
     LinearLayout requiredQuantityLayout,mainLayout;
     SharedPreferences sharedPreferences;
     String productName,productPrice,addedStock,stock,donationRequestId,productId;
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +90,8 @@ public class DonationActivityDiscription extends AppCompatActivity {
         requiredQuantity= findViewById(R.id.requiredQuantity);
         pan= findViewById(R.id.pan);
         gst= findViewById(R.id.gst);
+        donorName= findViewById(R.id.donorName);
+        donorAddress= findViewById(R.id.donorAddress);
         sharedPreferences = getSharedPreferences("water_management",0);
         spinnerBeneficiary = (Spinner) findViewById(R.id.spinnerBeneficiary);
         selctBen="no";
@@ -175,6 +179,14 @@ public class DonationActivityDiscription extends AppCompatActivity {
                         return;
                     }
                 }
+                if(donorName.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "80G Name cannot be empty ", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(donorAddress.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "80G Address cannot be empty", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 paymentMethod="Payment";
                 pay();
             }
@@ -200,7 +212,8 @@ public class DonationActivityDiscription extends AppCompatActivity {
             req= Double.valueOf(stock)-Double.valueOf(addedStock)-Double.valueOf(String.valueOf(donationQuantity.getText()));
             totalP=Double.valueOf(productPrice)*Double.valueOf(String.valueOf(donationQuantity.getText()));
             totalAmount.setText(String.format("%.2f", totalP));
-
+            donorName.setText(sharedPreferences.getString("username",""));
+            donorAddress.setText(sharedPreferences.getString("userAddress1",""));
             BenifiaryList();
         }else{
             SingleProductDonation(getIntent().getExtras().getString("productID"));
@@ -306,6 +319,8 @@ public class DonationActivityDiscription extends AppCompatActivity {
         }
         donationlist.add(productName);
         donationlist.add(spinnerBeneficiary.getSelectedItem().toString());
+        donationlist.add(donorName.getText().toString());
+        donationlist.add(donorAddress.getText().toString());
         onBackPressed();
         Intent donationlistIntent = new Intent(DonationActivityDiscription.this, RazorPayActivity.class);
         donationlistIntent.putExtra("donationlist", donationlist);
@@ -313,7 +328,10 @@ public class DonationActivityDiscription extends AppCompatActivity {
     }
 
     public void BenifiaryList(){
-
+        progressDialog = new ProgressDialog(DonationActivityDiscription.this);
+        progressDialog.setMessage("Loading..");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         WebserviceController wss = new WebserviceController(DonationActivityDiscription.this);
 
         JSONObject requestObject = new JSONObject();
@@ -331,6 +349,7 @@ public class DonationActivityDiscription extends AppCompatActivity {
             @Override
             public void notifySuccess(String response, int statusCode) {
                 try {
+
                     Log.e("DonatnList response", response);
                     JSONObject obj = new JSONObject(response);
                     JSONObject responseData =obj.getJSONObject("responseData");
@@ -349,14 +368,17 @@ public class DonationActivityDiscription extends AppCompatActivity {
                         }
                         spinnerBeneficiary.setAdapter(new ArrayAdapter(DonationActivityDiscription.this, android.R.layout.simple_spinner_dropdown_item, Beneficiary));
                     }
+                    progressDialog.dismiss();
                 }
                 catch (Exception e){
+                    progressDialog.dismiss();
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void notifyError(VolleyError error) {
+                progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
             }
         });
@@ -398,7 +420,9 @@ public class DonationActivityDiscription extends AppCompatActivity {
             }else {
                 jsonObject1.put("orderQty", orderQntBen);
             }
-
+            jsonObject1.put("companyName", donorName);
+            jsonObject1.put("atgAddress", donorAddress);
+            jsonObject1.put("paymentFlowStatus", "donation");
             jsonArray.put(jsonObject1);
             requestObject.put("request",jsonArray);
         }
@@ -473,7 +497,8 @@ public class DonationActivityDiscription extends AppCompatActivity {
                         req= Double.valueOf(stock)-Double.valueOf(addedStock)-Double.valueOf(String.valueOf(donationQuantity.getText()));
                         totalP=Double.valueOf(productPrice)*Double.valueOf(String.valueOf(donationQuantity.getText()));
                         totalAmount.setText(String.format("%.2f", totalP));
-
+                        donorName.setText(sharedPreferences.getString("username",""));
+                        donorAddress.setText(sharedPreferences.getString("userAddress1",""));
                         BenifiaryList();
                     }
                 }

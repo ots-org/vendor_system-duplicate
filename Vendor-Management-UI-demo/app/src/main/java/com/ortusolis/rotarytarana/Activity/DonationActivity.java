@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.crashlytics.android.Crashlytics;
@@ -33,6 +34,8 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DonationActivity extends AppCompatActivity implements Serializable {
     private Toolbar toolbar;
@@ -54,7 +57,7 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
 
     Button DonateCash,donateButton;
     LinearLayout donationLayout;
-    EditText donarName,donarPhone,donarAmount,donarGst,donarPan,donarDescription;
+    EditText donarName,donarPhone,donarAmount,donarGst,donarPan,donarDescription,donarAddress;
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +82,8 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
         donarAmount=findViewById(R.id.donarAmount);
         donarPan=findViewById(R.id.donarPan);
         donarGst=findViewById(R.id.donarGst);
+        donarName=findViewById(R.id.donarName);
+        donarAddress=findViewById(R.id.donarAddress);
         donarDescription=findViewById(R.id.donarDescription);
         donateButton=findViewById(R.id.donateButton);
         DonateCash.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +125,8 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
                     Log.e("item",list.getItemAtPosition(position).toString());
             }
         });
-
+        donarName.setText(sharedPreferences.getString("username",""));
+        donarAddress.setText(sharedPreferences.getString("userAddress1",""));
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             action = getSupportActionBar();
@@ -222,7 +228,10 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
     }
     boolean validate(){
         boolean valid = true;
+        Pattern mPattern = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]{1}");
 
+        Matcher mMatcher = mPattern.matcher(donarPan.getText().toString());
+        boolean status=mMatcher.matches();
         if (donarAmount.getText().toString().isEmpty()){
             donarAmount.setError("Please Enter Amount");
             valid = false;
@@ -231,8 +240,17 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
             donarDescription.setError("Please Enter Description");
             valid = false;
         }
-        else if (donarPan.getText().toString().isEmpty()&& Integer.parseInt(donarAmount.getText().toString()) > 20000){
+
+        else if ( status==false && Integer.parseInt(donarAmount.getText().toString()) > 20000){
             donarPan.setError("Please Enter Pan Number");
+            valid = false;
+        }
+        else if(donarName.getText().equals("")){
+            donarName.setError("Donor Name cannot be empty ");
+            valid = false;
+        }
+        else if(donarAddress.getText().equals("")){
+            donarAddress.setError("ATG Address cannot be empty");
             valid = false;
         }
         return valid;
@@ -254,6 +272,9 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
             }else {
                 donationCashlist.add(donarGst.getText().toString());
             }
+            donationCashlist.add(donarName.getText().toString());
+            donationCashlist.add(donarAddress.getText().toString());
+
             Intent donationCashIntent = new Intent(DonationActivity.this, RazorPayActivity.class);
             donationCashIntent.putExtra("donationCashlist", donationCashlist);
             startActivity(donationCashIntent);

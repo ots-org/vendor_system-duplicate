@@ -531,11 +531,12 @@ public class NavigationFragment extends Fragment {
                         try {
                             String text = "FeedBack:";// Replace with your message.
 
-                            String toNumber = "919008011333"; // Replace with mobile phone number without +Sign or leading zeros, but with country code
+                            String toNumber = "919686714982"; // Replace with mobile phone number without +Sign or leading zeros, but with country code
                             //Suppose your country is India and your phone number is “xxxxxxxxxx”, then you need to send “91xxxxxxxxxx”.
 
-
                             Intent intent = new Intent(Intent.ACTION_VIEW);
+
+//                            intent.setData(Uri.parse("https://chat.whatsapp.com/JL0mn4FlWgo6iFUISzsEOk"));
                             intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+toNumber +"&text="+text));
                             startActivity(intent);
                         }
@@ -557,37 +558,7 @@ public class NavigationFragment extends Fragment {
                     }
                 });
                 alertadd.setView(view);
-//                alertadd.setNeutralButton("share", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dlg, int sumthin) {
-//
-//                    }
-//                });
-
                 alertadd.show();
-
-//                Intent intent = new Intent(Intent.ACTION_SEND);
-//                intent.setType("message/rfc822");
-//                intent.setPackage("com.google.android.gm");
-//                intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"etaarana_support@ortusolis.in"});
-//                intent.putExtra(Intent.EXTRA_SUBJECT, "FeedBack");
-//                intent.putExtra(Intent.EXTRA_TEXT, "your feedback");
-//                startActivity(Intent.createChooser(intent, "Send Email"));
-
-
-//                try {
-//                    String text = "FeedBack:";// Replace with your message.
-//
-//                    String toNumber = "917847977404"; // Replace with mobile phone number without +Sign or leading zeros, but with country code
-//                    //Suppose your country is India and your phone number is “xxxxxxxxxx”, then you need to send “91xxxxxxxxxx”.
-//
-//
-//                    Intent intent = new Intent(Intent.ACTION_VIEW);
-//                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+toNumber +"&text="+text));
-//                    startActivity(intent);
-//                }
-//                catch (Exception e){
-//                    e.printStackTrace();
-//                }
 
             }
         });
@@ -595,10 +566,8 @@ public class NavigationFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent pushNotification = new Intent(Config.LOGOUT);
                 getActivity().sendBroadcast(pushNotification);
-
                 sharedPreferences.edit().clear().commit();
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();

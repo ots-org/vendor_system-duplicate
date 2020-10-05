@@ -385,7 +385,7 @@ public class CardListActivity extends AppCompatActivity {
         requestS.setOrderCost((String.format("%.02f", totalCost))+"");
 
         requestS.setProductList(productOrders);
-
+        //paymentflow
         productRequest.setRequest(requestS);
         }else {
             float totalCost = 0;
@@ -410,7 +410,9 @@ public class CardListActivity extends AppCompatActivity {
         }else {
             String str = gson.toJson(productRequest);
             if (paymentMethod.equals("Cash")) {
+                productRequest.getRequest().setPaymentFlowStatus("gift");
                 CashAlert(productRequest);
+
             } else {
                 final String strProductRequests = str;
                 onBackPressed();
@@ -419,6 +421,7 @@ public class CardListActivity extends AppCompatActivity {
                 totalAmountPaymentintent.putExtra("totalAmountPayment", totalAmountPayment);
                 totalAmountPaymentintent.putExtra("salesVaocherFalg", salesVaocherFalg);
                 totalAmountPaymentintent.putExtra("classFlag", "cart");
+                totalAmountPaymentintent.putExtra("productRequestObject",  productRequest);
                 totalAmountPaymentintent.putExtra("productRequests", strProductRequests);
                 startActivity(totalAmountPaymentintent);
             }

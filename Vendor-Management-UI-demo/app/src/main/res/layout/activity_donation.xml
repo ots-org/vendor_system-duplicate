@@ -165,6 +165,62 @@
                     android:textColorHint="@color/gray"
                     />
             </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/donarNameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_margin_10"
+                    android:text="80G Name"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/text_size_medium"
+                    />
+                <EditText
+                    android:id="@+id/donarName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin_100"
+                    android:padding="@dimen/activity_margin_10"
+                    android:background="@android:color/transparent"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textColor="@color/textColor"
+                    android:hint="Enter Name"
+                    android:textColorHint="@color/gray"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/donarAddressLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_margin_10"
+                    android:text="80G Address"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/text_size_medium"
+                    />
+                <EditText
+                    android:id="@+id/donarAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin_100"
+                    android:padding="@dimen/activity_margin_10"
+                    android:background="@android:color/transparent"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textColor="@color/textColor"
+                    android:hint="Enter Address"
+                    android:textColorHint="@color/gray"
+                    />
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

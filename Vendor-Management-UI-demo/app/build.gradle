@@ -24,8 +24,8 @@ android {
         applicationId "com.ortusolis.rotarytarana"
         minSdkVersion 19 // changed 15 to 18 for gif display //changed to 19
         targetSdkVersion 28
-        versionCode 10
-        versionName "1.9"
+        versionCode 13
+        versionName "2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "google_maps_key", (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "")
         multiDexEnabled true
@@ -82,7 +82,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services:11.0.4'//signin
     implementation 'com.squareup.picasso:picasso:2.71828'  //Picasso
     implementation "com.google.android.gms:play-services-instantapps:11.0.4" //instant app
-
+//    implementation 'com.facebook.android:facebook-share:[5,6)'
 //    implementation(name:'razorpay-android-3.8.3', ext: 'aar')
     //
 

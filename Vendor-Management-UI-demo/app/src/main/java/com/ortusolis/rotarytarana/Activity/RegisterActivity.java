@@ -404,6 +404,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                 }
             }else{
                 jsonObject.put("usrStatus", "active");
+                jsonObject.put("userAdminFlag", "0");
             }
 
             jsonObject.put("usrPassword", passwordEdit.getText().toString());

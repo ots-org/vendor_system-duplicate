@@ -243,8 +243,8 @@ public class AddProductActivity extends AppCompatActivity {
             catLayout.setVisibility(View.GONE);
             productName.setText(productDetails.getProductName());
             productDescription.setText(productDetails.getProductDescription());
-            finalProductPriceGSTEdit.setText(productDetails.getProductPrice());
-            productPrice.setText(productDetails.getProductBasePrice());
+            finalProductPriceGSTEdit.setText(String.format("%.2f", Float.valueOf(productDetails.getProductPrice())));
+            productPrice.setText(String.format("%.2f", Float.valueOf(productDetails.getProductBasePrice())));
             gst.setText(productDetails.getGst());
 //            if(productDetails.getProductPrice() !=null && productDetails.getGst()!=null){
 //                double finalPrice= Float.parseFloat(productDetails.getProductPrice())- Float.parseFloat(productDetails.getProductPrice())*(Float.parseFloat(productDetails.getGst()) * (0.01));
