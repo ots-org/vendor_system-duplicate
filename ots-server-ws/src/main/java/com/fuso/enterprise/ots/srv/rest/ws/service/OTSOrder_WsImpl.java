@@ -26,6 +26,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetUserDetailsForRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.OrderIdBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateDonationRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
@@ -478,11 +479,29 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	public Response getRazorPayOrder(UpdateOrderDetailsRequest updateOrderDetailsRequest) {
 		Response response = null;
 		try {
-			response = buildResponse(oTSOrderService.getRazorPayOrder(updateOrderDetailsRequest),"Successful");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			try {
+				response = buildResponse(oTSOrderService.getRazorPayOrder(updateOrderDetailsRequest),"Successful");
+			}catch (JSONException e) {
+				System.out.print(e);
+			}
+		} catch(Exception e) {
+			System.out.print(e);
 			e.printStackTrace();
 		}
+		return response;
+	}
+
+	@Override
+	public Response getPaymentDetailsBypaymentId(String paymentId) {
+		Response response = null;
+		response = buildResponse(oTSOrderService.fetchPaymentDetailsByPaymetId(paymentId),"Successful");
+		return response;
+	}
+
+	@Override
+	public Response getOrderDetailsForOrderId(OrderIdBORequest updateOrderDetailsRequest) {
+		Response response = null;
+		response = buildResponse(oTSOrderService.getOrderDetailsForOrderId(updateOrderDetailsRequest),"Successful");
 		return response;
 	}
 }

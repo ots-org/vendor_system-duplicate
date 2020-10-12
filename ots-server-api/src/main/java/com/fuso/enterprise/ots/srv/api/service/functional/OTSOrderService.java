@@ -3,6 +3,7 @@ package com.fuso.enterprise.ots.srv.api.service.functional;
 import java.util.List;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.CompleteOrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.DonationResponseByStatus;
@@ -24,6 +25,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetUserDetailsForRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.OrderIdBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateDonationRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
@@ -35,6 +37,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.GetSchedulerResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetUserDetailsForResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OrderProductBOResponse;
+import com.razorpay.Payment;
 
 public interface OTSOrderService {
 	OrderDetailsBOResponse getOrderBydate(GetOrderBORequest getOrderBORequest);
@@ -68,4 +71,6 @@ public interface OTSOrderService {
 	String updateDonation(UpdateDonationRequest updateDonationRequest);
 	String donateDonation(SaleVocherBoRequest saleVocherBoRequest);
 	OrderDetailsBOResponse getRazorPayOrder(UpdateOrderDetailsRequest updateOrderDetailsRequest) throws JSONException;
+	JSONObject fetchPaymentDetailsByPaymetId(String paymentId);
+	OrderDetails getOrderDetailsForOrderId(OrderIdBORequest updateOrderDetailsRequest);
 }

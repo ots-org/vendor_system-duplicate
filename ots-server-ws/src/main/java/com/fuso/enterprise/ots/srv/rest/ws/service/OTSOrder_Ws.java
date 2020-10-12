@@ -6,6 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +15,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetUserDetailsForRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.OrderIdBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateDonationRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
@@ -211,4 +213,17 @@ public interface OTSOrder_Ws {
 	@ApiOperation(value = "getOrder", notes = "to Get Donation Report By Date", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getRazorPayOrder(UpdateOrderDetailsRequest  updateOrderDetailsRequest);
+	
+	@GET
+    @Path("/fetch-razorpay-details")
+	@ApiOperation(value = "get-userID-users", notes = "This operation will give the paymentDetails by payment id", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getPaymentDetailsBypaymentId(@ApiParam(value = "paymentId", required = true) @NotNull @Valid @QueryParam("paymentId") String userId);
+	
+	@POST
+    @Path("/getOrderDetailsForOrderId")
+	@ApiOperation(value = "getOrder", notes = "get order details for orderId", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getOrderDetailsForOrderId(OrderIdBORequest  updateOrderDetailsRequest);
+	
 }

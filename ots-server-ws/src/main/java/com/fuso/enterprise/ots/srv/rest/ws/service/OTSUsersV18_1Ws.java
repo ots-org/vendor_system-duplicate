@@ -58,7 +58,7 @@ public interface OTSUsersV18_1Ws {
 	
 	@POST
 	@Path("/mappUser")
-	@ApiOperation(value = "mappUser", notes = "This operation will add New user ", response = Response.class)
+	@ApiOperation(value = "mappUser", notes = "This operation map users ", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response mappUser(@ApiParam(value = "request", required = true) @NotNull @Valid MapUsersDataBORequest mapUsersDataBORequest);
 

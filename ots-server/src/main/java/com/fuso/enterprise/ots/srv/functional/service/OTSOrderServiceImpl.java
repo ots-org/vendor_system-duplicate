@@ -1,5 +1,9 @@
 package com.fuso.enterprise.ots.srv.functional.service;
 import java.io.File;
+import org.json.JSONObject;
+import com.razorpay.Payment;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -11,6 +15,7 @@ import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +62,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetUserDetailsForRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.OrderIdBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateDonationRequest;
@@ -91,6 +97,7 @@ import com.fuso.enterprise.ots.srv.server.dao.impl.UserServiceDAOImpl;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsDonationRequestMapping;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsRequestOrder;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsScheduler;
+import com.fuso.enterprise.ots.srv.server.util.EmailUtil;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
 import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
 import com.razorpay.Order;
@@ -139,6 +146,19 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		this.productServiceDAO = productServiceDAO;
 	}
 
+	@Value("${ots.donation.razorpaykey}")
+	public String donationRazorpayKey;
+	
+	@Value("${ots.donation.razorpaysignature}")
+	public String donationRazorpaySignature;
+	
+	@Value("${ots.donation.razorpaykey}")
+	public String giftRazorpayKey;
+	
+	@Value("${ots.donation.razorpaykey}")
+	public String giftRazorpaySignature;
+	
+	
 
 	@Override
 	public OrderDetailsBOResponse getOrderBydate(GetOrderBORequest getOrderBORequest) {
@@ -247,6 +267,12 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 
 	@Override
 	public OrderProductBOResponse insertOrderAndProduct(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
+		try {
+	//		capturePaymentForOrder(addOrUpdateOrderProductBOrequest);
+		}catch(Exception e) {
+			throw new BusinessException(e,ErrorEnumeration.RazorPay_Error);
+		}
+		
 		OrderDetails otsOrderDetails = new OrderDetails();
 		OrderProductBOResponse Response = new OrderProductBOResponse();
 		List<UserDetails> userDetails = new ArrayList<UserDetails>();
@@ -320,9 +346,9 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 						Response = getOrderDiruectSalesVoucher(otsOrderDetails.getOrderId());	
 						try {
 							String notification = "Donation request is in progress";
-							fcmPushNotification.sendPushNotification(user.getDeviceId(),"pravarthaka App" ,notification);
+							fcmPushNotification.sendPushNotification(user.getDeviceId(),"etaarana App" ,notification);
 							notification = "New Donation request";
-							fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"pravarthaka App" ,notification);
+							fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"etaarana App" ,notification);
 						}catch(Exception e) {
 							
 						}
@@ -442,11 +468,11 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				Employee = userServiceDAO.getUserDetails(Integer.parseInt(updateForAssgineBOrequest.getRequest().getAssignedId()));
 
 				String Notification = otsOrderDetails.getOrderNumber()+" have been assigned to you, please click to view the order details ";
-				fcmPushNotification.sendPushNotification(Employee.getDeviceId(),"pravarthaka app" , Notification);
+				fcmPushNotification.sendPushNotification(Employee.getDeviceId(),"etaarana app" , Notification);
 
 				UserDetails customer = userServiceDAO.getUserDetails(Integer.getInteger(otsOrderDetails.getCustomerId()));
 				Notification =" Order Placed : Your order "+ otsOrderDetails.getOrderNumber()+" has been confirmed and will be delivered on or before "+otsOrderDetails.getOrderDeliveryDate();
-				fcmPushNotification.sendPushNotification(customer.getDeviceId(),"pravarthaka app" , Notification);
+				fcmPushNotification.sendPushNotification(customer.getDeviceId(),"etaarana app" , Notification);
 			}catch(Exception e) {
 				return Response;
 			}
@@ -685,12 +711,12 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				UserDetails distributor;
 				distributor = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getDistributorId()));
 				String notification ="The order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+saleVocherBoRequest.getRequest().getDeliverdDate();
-				fcmPushNotification.sendPushNotification(distributor.getDeviceId(),"pravarthaka Apps" , notification);
+				fcmPushNotification.sendPushNotification(distributor.getDeviceId(),"etaarana Apps" , notification);
 
 				UserDetails Customer;
 				Customer = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId()));
 				notification = "Your order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+ saleVocherBoRequest.getRequest().getDeliverdDate();
-				fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"pravarthaka Apps" , notification);
+				fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"etaarana Apps" , notification);
 			}catch(Exception e) {
 				return "Updated";
 			}
@@ -945,9 +971,9 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				Customer = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getCustomerId()));
 				try {
 					String notification = otsOrderDetails.getOrderNumber() + " had been placed by " + Customer.getFirstName()+" "+Customer.getLastName()+" and requested delivery date is "+addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()+" please click here to assign the Employee for order";
-					fcmPushNotification.sendPushNotification(user.getDeviceId(),"pravarthaka App" ,notification);
+					fcmPushNotification.sendPushNotification(user.getDeviceId(),"etaarana App" ,notification);
 					notification = "Order Placed : Your order "+otsOrderDetails.getOrderNumber()+" had been placed";
-					fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"pravarthaka App" ,notification);
+					fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"etaarana App" ,notification);
 				}catch(Exception e) {
 					return Response;
 				}
@@ -1122,6 +1148,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	
 	@Override
 	public String addNewDonation(AddDonationtoRequest addDonationtoRequest) {
+//		captureRazorPayment(addDonationtoRequest) ;
 		//--------------------------- to reduce bulk request---------------------------------------------
 		try {
 			if(addDonationtoRequest.getRequest().get(0).getDonationStatus().equalsIgnoreCase("directDonation")) {
@@ -1259,7 +1286,15 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		// TODO Auto-generated method stub
 		OrderDetailsBOResponse orderDetailsBOResponse = new OrderDetailsBOResponse();
 		try {
-			RazorpayClient razorpay = new RazorpayClient("rzp_test_NYxmr2CtwORaZd", "GEOEnpzemqrQuPlVesUQvLBW");
+			RazorpayClient razorpay = null;
+			if(updateOrderDetailsRequest.getRequest().getPaymentFlowStatus().equalsIgnoreCase("gift")) {
+				razorpay = new RazorpayClient("rzp_test_kA2hROKJeaOPQU", "zNwDTkKrdnkOSaBs43b4N915");
+			//	orderDetails.setRazorPayKey();
+			}else {
+				razorpay = new RazorpayClient("rzp_test_2FBlJsMGXBIWny", "fGb6Oo3Rfv2MFPqFIn8DWj5x");
+			//	orderDetails.setRazorPayKey();
+			}
+			
 			JSONObject orderRequest = new JSONObject();
 			  try {
 				orderRequest.put("amount", updateOrderDetailsRequest.getRequest().getOrderCost());
@@ -1283,10 +1318,113 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		} catch (RazorpayException e) {
 			e.printStackTrace();
 			System.out.println(e);
+			
 		}
 		return orderDetailsBOResponse;
 	}
 
+//	public Payment captureRazorPayment(AddDonationtoRequest addDonationtoRequest) {
+//		Payment payment = null;
+//		RazorpayClient razorpay = null;
+//		try {
+//			if(addDonationtoRequest.getRequest().get(0).getPaymentFlowStatus().equalsIgnoreCase("gift")) {
+//				razorpay = new RazorpayClient("rzp_test_kA2hROKJeaOPQU", "zNwDTkKrdnkOSaBs43b4N915");
+//			}else {
+//				razorpay = new RazorpayClient("rzp_test_TQ28uTerb7d5Oj", "60gpWr3Gqqqxw7VrseSvDWST");
+//			}
+//			  JSONObject captureRequest = new JSONObject();
+//			  Float RazorPayAmount = Float.parseFloat(addDonationtoRequest.getRequest().get(0).getDontaionAmount() ) * 100 ;
+//			  captureRequest.put("amount",RazorPayAmount );
+//			  captureRequest.put("currency", "INR");
+//
+//			  payment   = razorpay.Payments.capture(addDonationtoRequest.getRequest().get(0).getPaymentId(), captureRequest);
+//			  System.out.println(payment.toString());
+//			  
+//			  try {
+//					 List<UserDetails> userDetails = userServiceDAO.getUserIdUsers(addDonationtoRequest.getRequest().get(0).getDonorId());
+//					EmailUtil.sendDonationMail(userDetails.get(0).getEmailId(),"","Etaarana Donation", 
+//							"Dear "+userDetails.get(0).getFirstName() +" \n \n"
+//							+ "Thank you for your generous gift to Rotary"
+//							+ " you have donated " 
+//							+ addDonationtoRequest.getRequest().get(0).getDontaionAmount()
+//							+" INR. \n"
+//							+"You truly make the difference for us, and we are extremely grateful! \n"
+//							+"Thank you");
+//					
+//				}catch(Exception e) {
+//					System.out.print(e);
+//				}
+//			  
+//			}catch (RazorpayException e) {
+//				EmailUtil.sendDonationMail("manoj.vg@ortusolis.com","","Etaarana Error in donation", 
+//						addDonationtoRequest.toString()
+//						+ "captureRazorPayment ---> addNewDonationAPI");
+//			  System.out.println(e.getMessage());
+//			}  catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		
+//		return payment;
+//	}
+//
+//	
+//	public Payment capturePaymentForOrder(AddOrUpdateOrderProductBOrequest addOrUpdateOrderProductBOrequest) {
+//		Payment payment = null;
+//		RazorpayClient razorpay = null;
+//		try {
+//			if(addOrUpdateOrderProductBOrequest.getRequest().getPaymentFlowStatus().equalsIgnoreCase("gift")) {
+//				razorpay = new RazorpayClient("rzp_test_kA2hROKJeaOPQU", "zNwDTkKrdnkOSaBs43b4N915");
+//			}else {
+//				razorpay = new RazorpayClient("rzp_test_TQ28uTerb7d5Oj", "60gpWr3Gqqqxw7VrseSvDWST");
+//			}
+//			  JSONObject captureRequest = new JSONObject();
+//			  Float RazorPayAmount = Float.parseFloat(addOrUpdateOrderProductBOrequest.getRequest().getOrderCost()) * 100 ;
+//			  captureRequest.put("amount",RazorPayAmount );
+//			  captureRequest.put("currency", "INR");
+//
+//			  payment   = razorpay.Payments.capture(addOrUpdateOrderProductBOrequest.getRequest().getPaymentId(), captureRequest);
+//			  System.out.println(payment.toString());
+//			  
+//			} catch (RazorpayException e) {
+//				EmailUtil.sendDonationMail("manoj.vg@ortusolis.com","","Etaarana Error in donation", 
+//						addOrUpdateOrderProductBOrequest.toString()
+//						+ "capturePaymentForOrder ---> insertOrderAPI");
+//			  System.out.println(e.getMessage());
+//			} catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		
+//		return payment;
+//	}
 
+
+	@Override
+	public JSONObject fetchPaymentDetailsByPaymetId(String paymentId) {
+		Payment payment = null;
+		RazorpayClient razorpay;
+		JSONObject paymentDetails = null;
+		try {
+			razorpay = new RazorpayClient("rzp_test_NYxmr2CtwORaZd", "GEOEnpzemqrQuPlVesUQvLBW");
+			payment = razorpay.Payments.fetch(paymentId);
+			paymentDetails = new JSONObject(payment);
+		} catch (RazorpayException e1) {
+			EmailUtil.sendDonationMail("manoj.vg@ortusolis.com","","Etaarana Error in donation", 
+					paymentId
+					+ "fetchPaymentDetailsByPaymetId");
+			e1.printStackTrace();
+		}
+		System.out.print(payment);
+		return paymentDetails;
+	}
+
+
+	@Override
+	public OrderDetails getOrderDetailsForOrderId(OrderIdBORequest updateOrderDetailsRequest) {
+		
+		return orderServiceDAO.getOrderDetailsForOrderId(updateOrderDetailsRequest);
+	}
+	
 
 }

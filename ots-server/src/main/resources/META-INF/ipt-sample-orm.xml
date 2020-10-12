@@ -303,8 +303,6 @@
 			OtsOrder o
 		WHERE 
 			(o.otsOrderDt BETWEEN :FromDate AND :ToDate) 
-		AND
-			(o.otsDistributorId = :otsDistributorId)
 		</query>
 	</named-query>	
 	
@@ -428,8 +426,6 @@
 			OtsOrder o
 		WHERE 
 			(o.otsOrderDt BETWEEN :FromDate AND :ToDate) 
-		AND
-			(o.otsDistributorId = :otsDistributorId)
 		AND
 			o.otsOrderStatus = :otsOrderStatus
 		</query>

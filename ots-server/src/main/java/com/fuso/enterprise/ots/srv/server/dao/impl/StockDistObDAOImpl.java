@@ -77,10 +77,9 @@ public class StockDistObDAOImpl extends AbstractIptDao<OtsStockDistOb, String> i
 			otsStocDist = super.getEntityManager()
 					.createQuery("from OtsStockDistOb where  otsUsersId = ?1 and otsStockDistObStockdt = ?2 and otsProductId = ?3 ", OtsStockDistOb.class)
 					.setParameter(1,otsUsers)
-					.setParameter(2,getProductStockListRequest.getRequestData().getTodaysDate(), TemporalType.DATE)
+					.setParameter(2,getProductStockListRequest.getRequestData().getTodaysDate())
 					.setParameter(3,otsProduct)
 					.getResultList();
-			
 			
    		} catch (NoResultException e) {
 	    	logger.error("Exception while fetching data from DB :"+e.getMessage());

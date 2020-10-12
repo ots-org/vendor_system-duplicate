@@ -108,6 +108,8 @@ public class DonationRequestMappingDAOImpl extends AbstractIptDao<OtsDonationReq
 		donationModelResponse.setDonatedQty(donationRequestMapping.getOtsDonationId().getOtsDonationDonatedqty());
 		donationModelResponse.setDonationId(donationRequestMapping.getOtsDonationId().getOtsDonationId().toString());
 		donationModelResponse.setDonationStatus(donationRequestMapping.getOtsDonationId().getOtsDonationStatus());
+		donationModelResponse.setCompanyName(donationRequestMapping.getOtsDonationId().getOtsDonationCompanyName());
+		donationModelResponse.setAtgAddress(donationRequestMapping.getOtsDonationId().getOtsDonationAtgAddress());
 		donationModelResponse.setDonationMethod(donationRequestMapping.getOtsDonationId().getOtsDonationPaymentMethod());
 		productDetails.setProductName(donationRequestMapping.getOtsRequestProductId().getOtsProductId().getOtsProductName());
 		productDetails.setProductPrice(donationRequestMapping.getOtsRequestProductId().getOtsProductId().getOtsProductPrice().toString());

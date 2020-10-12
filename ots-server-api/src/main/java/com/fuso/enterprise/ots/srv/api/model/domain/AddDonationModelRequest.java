@@ -32,6 +32,14 @@ public class AddDonationModelRequest {
 	
 	private String orderQty;
 	
+	private String razortpay_signature;
+	
+	private String companyName;
+	
+	private String atgAddress;
+	
+	private String paymentFlowStatus;
+	
 	public String getDescription() {
 		return description;
 	}
@@ -150,6 +158,38 @@ public class AddDonationModelRequest {
 
 	public void setOrderQty(String orderQty) {
 		this.orderQty = orderQty;
+	}
+
+	public String getRazortpay_signature() {
+		return razortpay_signature;
+	}
+
+	public void setRazortpay_signature(String razortpay_signature) {
+		this.razortpay_signature = razortpay_signature;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getAtgAddress() {
+		return atgAddress;
+	}
+
+	public void setAtgAddress(String atgAddress) {
+		this.atgAddress = atgAddress;
+	}
+
+	public String getPaymentFlowStatus() {
+		return paymentFlowStatus;
+	}
+
+	public void setPaymentFlowStatus(String paymentFlowStatus) {
+		this.paymentFlowStatus = paymentFlowStatus;
 	}
 	
 }

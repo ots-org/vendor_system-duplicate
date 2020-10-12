@@ -10,19 +10,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
-
-import com.fuso.enterprise.ots.srv.api.model.domain.DonationBoResponse;
 import com.fuso.enterprise.ots.srv.api.model.domain.DonationModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddDonationtoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetDonationByStatusRequest;
-import com.fuso.enterprise.ots.srv.api.service.request.GetDonationReportByDateRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateDonationRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetDonationReportByDateResponse;
 import com.fuso.enterprise.ots.srv.server.dao.DonationServiceDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsDonation;
-import com.fuso.enterprise.ots.srv.server.model.entity.OtsDonationRequestMapping;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.AbstractIptDao;
 
@@ -52,12 +48,14 @@ public class DonationServiceDAOImpl extends AbstractIptDao<OtsDonation, String> 
 				}
 				donation.setOtsDonationPanNumber(addDonationtoRequest.getRequest().get(0).getPanNumber());
 				donation.setOtsDonationOtherNumber(addDonationtoRequest.getRequest().get(0).getOtherNumber());
+				donation.setOtsDonationSignature(addDonationtoRequest.getRequest().get(0).getRazortpay_signature());
+				donation.setOtsDonationAtgAddress(addDonationtoRequest.getRequest().get(0).getAtgAddress());
 				
 				OtsUsers donorsId = new OtsUsers();
 				donorsId.setOtsUsersId(Integer.parseInt(addDonationtoRequest.getRequest().get(i).getDonorId()));
 				donation.setOtsDonorsId(donorsId);
 				donation.setOtsDonationDate(Date.valueOf(now.toLocalDate()));
-				
+				donation.setOtsDonationCompanyName(addDonationtoRequest.getRequest().get(0).getCompanyName());
 				save(donation);
 				super.getEntityManager().flush();
 				donationId = donation.getOtsDonationId().toString();
