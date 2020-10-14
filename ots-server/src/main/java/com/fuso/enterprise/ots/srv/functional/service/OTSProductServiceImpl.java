@@ -194,6 +194,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 	public String addOrUpdateProduct(AddorUpdateProductBORequest addorUpdateProductBORequest) {
 		String path;
 		try {
+			productServiceDAO.addOrUpdateProduct(addorUpdateProductBORequest);
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
@@ -374,7 +375,6 @@ public class OTSProductServiceImpl implements OTSProductService {
 	public String productTransactionReportPdf(List<ProductStockDetail> ProductStockDetailList,String distributorName,String date) {
 		String tableValueString ="";
 		String reportDetails = "<head ><h2 style='text-align:center;'>Product Transaction Report</h2></head>";
-		reportDetails += "<head><h3>Distributor Name :"+distributorName+"</h3></head>";
 		reportDetails += "<head ><h3>Date:"+date+"</h3></head>  </br>";
 		
 		int slno=0;
@@ -436,9 +436,9 @@ public class OTSProductServiceImpl implements OTSProductService {
 		AddProductCategoryAndProductRequest addorUpdateProductBORequest = new AddProductCategoryAndProductRequest();
 		byte[] decodedString = Base64.decodeBase64(base64Excel.getBase64ExcelString().getBytes(StandardCharsets.UTF_8));
 		Random rand = new Random(); 
-		int name = rand.nextInt(1000); 
+		int name = rand.nextInt(10000); 
 		String excelPartFileName = "Product" + name + ".xlsx";
-		String uploadpath = "/home/mobdev/images/rotary/" + excelPartFileName;
+		String uploadpath = "/home/etaarana_support/image/e-tarana/" + excelPartFileName;
 		File dwldsPath = new File(uploadpath);
 		FileOutputStream os;
 		createFolder();

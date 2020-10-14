@@ -7,18 +7,18 @@ import javax.activation.*;
 
 public class EmailUtil {
 	
-	final String username = "etaarana_support@ortusolis.in";
+	final String username = "etaaranas@gmail.com";
 	
 	public static void sendEmailBill(String to,String cc,String sub,String msg,String billFileName,String filePath){   
 		
-		final String username = "etaarana_support@ortusolis.in";
-	    final String password = "lrp7QChWbX";
- 
+		final String username = "etaaranas@gmail.com";
+	    final String password = "sup#taarana@2020";
+
 	    Properties props = new Properties();
 	    props.put("mail.smtp.auth", true);
 	    props.put("mail.smtp.starttls.enable", true);
-	    props.put("mail.smtp.host", "smtp.flockmail.com");
-	    props.put("mail.smtp.port", "465");
+	    props.put("mail.smtp.host", "smtp.gmail.com");
+	    props.put("mail.smtp.port", "587");
 
 	    Session session = Session.getInstance(props,
 	            new javax.mail.Authenticator() {
@@ -29,7 +29,7 @@ public class EmailUtil {
 	    try {
 
 	        Message message = new MimeMessage(session);
-	        message.setFrom(new InternetAddress("etaarana_support@ortusolis.in"));
+	        message.setFrom(new InternetAddress("etaaranas@gmail.com"));
 	        message.setRecipients(Message.RecipientType.TO,
 	                InternetAddress.parse(to));
 	        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
@@ -59,8 +59,8 @@ public class EmailUtil {
 	
 public static void sendOTP(String to,String cc,String sub,String msg){   
 		
-		final String username = "etaarana_support@ortusolis.in";
-		final String password = "lrp7QChWbX";
+		final String username = "etaaranas@gmail.com";
+		final String password = "sup#taarana@2020";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.auth", true);
@@ -77,10 +77,10 @@ public static void sendOTP(String to,String cc,String sub,String msg){
 	    try {
 
 	        Message message = new MimeMessage(session);
-	        message.setFrom(new InternetAddress("etaarana_support@ortusolis.in"));
+	        message.setFrom(new InternetAddress("etaaranas@gmail.com"));
 	        message.setRecipients(Message.RecipientType.TO,
 	                InternetAddress.parse(to));
-	        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
+	    //    message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
 	        message.setSubject(sub);
 	        message.setText(msg);
 	        Transport.send(message);
@@ -90,6 +90,38 @@ public static void sendOTP(String to,String cc,String sub,String msg){
 	  
 	 } 
 	
+public static void sendDonationMail(String to,String cc,String sub,String msg){   
+	
+	final String username = "etaaranas@gmail.com";
+	final String password = "sup#taarana@2020";
+
+    Properties props = new Properties();
+    props.put("mail.smtp.auth", true);
+    props.put("mail.smtp.starttls.enable", true);
+    props.put("mail.smtp.host", "smtp.gmail.com");
+    props.put("mail.smtp.port", "587");
+
+    Session session = Session.getInstance(props,
+            new javax.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(username, password);
+                }
+            });
+    try {
+
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("etaaranas@gmail.com"));
+        message.setRecipients(Message.RecipientType.TO,
+                InternetAddress.parse(to));
+        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
+        message.setSubject(sub);
+        message.setText(msg);
+        Transport.send(message);
+    } catch (MessagingException e) {
+        e.printStackTrace();
+    }
+  
+ } 
 	
 
 }

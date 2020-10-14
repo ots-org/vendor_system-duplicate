@@ -48,7 +48,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "OtsDonation.findByOtsDonationOtherNumber", query = "SELECT o FROM OtsDonation o WHERE o.otsDonationOtherNumber = :otsDonationOtherNumber")
     , @NamedQuery(name = "OtsDonation.findByOtsDonationAddresstopickup", query = "SELECT o FROM OtsDonation o WHERE o.otsDonationAddresstopickup = :otsDonationAddresstopickup")
     , @NamedQuery(name = "OtsDonation.findByOtsDonationForAtg", query = "SELECT o FROM OtsDonation o WHERE o.otsDonationForAtg = :otsDonationForAtg")
-    , @NamedQuery(name = "OtsDonation.findByOtsDonationBeneficiary", query = "SELECT o FROM OtsDonation o WHERE o.otsDonationBeneficiary = :otsDonationBeneficiary")})
+    , @NamedQuery(name = "OtsDonation.findByOtsDonationBeneficiary", query = "SELECT o FROM OtsDonation o WHERE o.otsDonationBeneficiary = :otsDonationBeneficiary")
+    , @NamedQuery(name = "OtsDonation.findByOtsDonationCompanyName", query = "SELECT o FROM OtsDonation o WHERE o.otsDonationCompanyName = :otsDonationCompanyName")
+    , @NamedQuery(name = "OtsDonation.findByOtsDonationSignature", query = "SELECT o FROM OtsDonation o WHERE o.otsDonationSignature = :otsDonationSignature")
+    , @NamedQuery(name = "OtsDonation.findByOtsDonationAtgAddress", query = "SELECT o FROM OtsDonation o WHERE o.otsDonationAtgAddress = :otsDonationAtgAddress")})
 public class OtsDonation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -93,6 +96,15 @@ public class OtsDonation implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_donation_beneficiary")
     private String otsDonationBeneficiary;
+    @Size(max = 45)
+    @Column(name = "ots_donation_company_name")
+    private String otsDonationCompanyName;
+    @Size(max = 45)
+    @Column(name = "ots_donation_signature")
+    private String otsDonationSignature;
+    @Size(max = 45)
+    @Column(name = "ots_donation_atg_address")
+    private String otsDonationAtgAddress;
     @JoinColumn(name = "ots_donors_id", referencedColumnName = "ots_users_id")
     @ManyToOne(optional = false)
     private OtsUsers otsDonorsId;
@@ -213,6 +225,30 @@ public class OtsDonation implements Serializable {
 
     public void setOtsDonationBeneficiary(String otsDonationBeneficiary) {
         this.otsDonationBeneficiary = otsDonationBeneficiary;
+    }
+
+    public String getOtsDonationCompanyName() {
+        return otsDonationCompanyName;
+    }
+
+    public void setOtsDonationCompanyName(String otsDonationCompanyName) {
+        this.otsDonationCompanyName = otsDonationCompanyName;
+    }
+
+    public String getOtsDonationSignature() {
+        return otsDonationSignature;
+    }
+
+    public void setOtsDonationSignature(String otsDonationSignature) {
+        this.otsDonationSignature = otsDonationSignature;
+    }
+
+    public String getOtsDonationAtgAddress() {
+        return otsDonationAtgAddress;
+    }
+
+    public void setOtsDonationAtgAddress(String otsDonationAtgAddress) {
+        this.otsDonationAtgAddress = otsDonationAtgAddress;
     }
 
     public OtsUsers getOtsDonorsId() {

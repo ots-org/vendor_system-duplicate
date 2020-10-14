@@ -99,6 +99,7 @@ public class RequestProductDaoImpl extends AbstractIptDao<OtsRequestProduct, Str
 		productDetails.setStock(requestProduct.getOtsRequestProductStock());
 		productDetails.setProductId(requestProduct.getOtsProductId().getOtsProductId().toString());
 		productDetails.setProductName(requestProduct.getOtsProductId().getOtsProductName());
+		productDetails.setProductImage(requestProduct.getOtsProductId().getOtsProductImage());
 		productDetails.setProductPrice(requestProduct.getOtsProductId().getOtsProductPrice().toString());
 		productDetails.setAddedStock(requestProduct.getOtsRequestProductAddedStock()==null?null:requestProduct.getOtsRequestProductAddedStock());
 		productDetails.setDonationRequestId(requestProduct.getOtsRequestProductId().toString());

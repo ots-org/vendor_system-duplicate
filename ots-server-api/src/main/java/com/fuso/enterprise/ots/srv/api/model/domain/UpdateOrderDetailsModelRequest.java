@@ -11,6 +11,8 @@ public class UpdateOrderDetailsModelRequest {
 	private String DeliveryDate;
 	private String DeliverdDate;
 	private String OrderStatus;
+	private String paymentFlowStatus;
+	
 	public String getOrderId() {
 		return OrderId;
 	}
@@ -70,6 +72,12 @@ public class UpdateOrderDetailsModelRequest {
 	}
 	public void setDeliverdDate(String deliverdDate) {
 		DeliverdDate = deliverdDate;
+	}
+	public String getPaymentFlowStatus() {
+		return paymentFlowStatus;
+	}
+	public void setPaymentFlowStatus(String paymentFlowStatus) {
+		this.paymentFlowStatus = paymentFlowStatus;
 	}	
 	
 }

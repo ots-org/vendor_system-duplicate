@@ -28,6 +28,11 @@ public class DonationModel  implements Comparable {
 	
 	private String donationDescription;
 	
+	private String companyName;
+	
+	private String AtgAddress;
+	
+	
 	public String getDonationStatus() {
 		return donationStatus;
 	}
@@ -137,6 +142,22 @@ public class DonationModel  implements Comparable {
 
 	public void setDonationDescription(String donationDescription) {
 		this.donationDescription = donationDescription;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getAtgAddress() {
+		return AtgAddress;
+	}
+
+	public void setAtgAddress(String atgAddress) {
+		AtgAddress = atgAddress;
 	}
 	
 }

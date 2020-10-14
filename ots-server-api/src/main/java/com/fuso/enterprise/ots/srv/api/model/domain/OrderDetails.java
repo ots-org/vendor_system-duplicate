@@ -69,6 +69,8 @@ public class OrderDetails {
 	 
 	 private String receipt;
 	 
+	 private String razorPayKey;
+	 
 	public String getDonarAddress() {
 		return donarAddress;
 	}
@@ -259,6 +261,14 @@ public class OrderDetails {
 
 	public void setReceipt(String receipt) {
 		this.receipt = receipt;
+	}
+
+	public String getRazorPayKey() {
+		return razorPayKey;
+	}
+
+	public void setRazorPayKey(String razorPayKey) {
+		this.razorPayKey = razorPayKey;
 	}
 
 	 

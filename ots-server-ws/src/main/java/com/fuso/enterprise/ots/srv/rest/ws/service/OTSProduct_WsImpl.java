@@ -1,6 +1,7 @@
 package com.fuso.enterprise.ots.srv.rest.ws.service;
 
 import javax.inject.Inject;
+
 import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.server.util.ResponseWrapper;
+import org.springframework.beans.factory.annotation.Value;
 
 public class OTSProduct_WsImpl implements OTSProduct_Ws {
 
@@ -28,6 +30,9 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
     ResponseWrapper responseWrapper;
     @Inject
     private OTSProductService otsProductService;
+    
+    @Value("${product.percentage.price}")
+	public String productPercentage;
 
     @Override
     public Response getProductList(ProductDetailsBORequest productDetailsBORequest) {
@@ -40,6 +45,17 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
             ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
             try {
                 productDetailsBOResponse = otsProductService.getProductList(productDetailsBORequest);
+                if(!( productDetailsBOResponse.getProductDetails().get(0).getProductStatus().equalsIgnoreCase("pending")||productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("category")||productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("subcategory"))) {
+                	for(int i=0; i< productDetailsBOResponse.getProductDetails().size() ;i++) {
+                        Float finalPrice =	Float.parseFloat(productDetailsBOResponse.getProductDetails().get(i).getProductPrice() ) +( Float.parseFloat(productDetailsBOResponse.getProductDetails().get(i).getProductPrice()) * Float.parseFloat(productPercentage))/100;
+                        productDetailsBOResponse.getProductDetails().get(i).setProductPrice(finalPrice.toString());
+                        Float finalPrice1 =	Float.parseFloat(productDetailsBOResponse.getProductDetails().get(i).getProductBasePrice() ) +( Float.parseFloat(productDetailsBOResponse.getProductDetails().get(i).getProductBasePrice()) * Float.parseFloat(productPercentage))/100;
+                        productDetailsBOResponse.getProductDetails().get(i).setProductBasePrice(finalPrice1.toString());
+                        System.out.println(productDetailsBOResponse.getProductDetails().get(i).getProductId());
+                      }
+                }
+                
+                
                 if (productDetailsBOResponse != null) {
                     logger.info("Inside Event=1012,Class:OTSProduct_WsImpl,Method:getProductList, " +
                         "ProductList Size:" + productDetailsBOResponse.getProductDetails().size());
@@ -51,8 +67,10 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
                     response = responseWrapper.buildResponse(productDetailsBOResponse, "successful");
                 }
             } catch (BusinessException e) {
+            	System.out.println(e);
                 throw new BusinessException(e, ErrorEnumeration.GET_PRODUCT_LIST_FAILURE);
             } catch (Throwable e) {
+            	System.out.println(e);
                 throw new BusinessException(e, ErrorEnumeration.GET_PRODUCT_LIST_FAILURE);
             }
             return response;

@@ -18,6 +18,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOrderByStatusB
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.OrderIdBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
@@ -49,4 +50,5 @@ public interface OrderServiceDAO {
 	List<OrderDetails> GetOrderForDrectSalesVoucheri(String OrderId);
 	String UpdateOrderForRequest(DonationBoResponse donationBoResponse);
 	String donateDonation(SaleVocherBoRequest saleVocherBoRequest);
+	OrderDetails getOrderDetailsForOrderId(OrderIdBORequest updateOrderDetailsRequest);
 }

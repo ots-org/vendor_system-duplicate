@@ -44,7 +44,8 @@ public enum ErrorEnumeration {
 	ERROR_IN_STOCK(100,"err.in.stock"),
 	ERROR_IN_SALEVOUCHER(100,"err.in.salesvoucher"),
 	NO_lOCATION(100,"err.in.location"),
-	No_Donation(100,"err.in.donation")
+	No_Donation(100,"err.in.donation"),
+	RazorPay_Error(100,"err.in.razorpay")
 	;
 	
     ErrorEnumeration(int errorCode, String messageKey) {

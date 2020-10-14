@@ -20,6 +20,7 @@ public class OrderDetailsRequest {
 	private String address;
 	private String paymentId;
 	private String paymentStatus;
+	private String paymentFlowStatus;
 	private List<OrderedProductDetails> ProductList;
 	
 	public String getUserLat() {
@@ -123,6 +124,12 @@ public class OrderDetailsRequest {
 	}
 	public void setPaymentStatus(String paymentStatus) {
 		this.paymentStatus = paymentStatus;
+	}
+	public String getPaymentFlowStatus() {
+		return paymentFlowStatus;
+	}
+	public void setPaymentFlowStatus(String paymentFlowStatus) {
+		this.paymentFlowStatus = paymentFlowStatus;
 	}
 	
 	

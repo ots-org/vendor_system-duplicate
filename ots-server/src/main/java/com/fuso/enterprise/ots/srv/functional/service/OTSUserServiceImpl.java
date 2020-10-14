@@ -453,7 +453,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			Random rand = new Random(); 
 			int otp = rand.nextInt(10000);
 			if(userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getMobileNumber())!=null) {
-				EmailUtil.sendOTP(userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getMobileNumber()).getEmailId(), "maddymadhu541@gmail.com","Water Management OTP", "Your one time password for water management is "+ otp+". This is active for only 5 minutes. Please do not share this with anyone.");
+				EmailUtil.sendOTP(userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getMobileNumber()).getEmailId(), "","Etaarana OTP verification", "Your one time password for Etaarana is "+ otp+" Please do not share this with anyone.");
 				userDetails = userServiceDAO.checkForOTP(forgotPasswordRequest.getRequest().getMobileNumber());
 				forgotPasswordResponse.setOtp(String.valueOf(otp));
 				forgotPasswordResponse.setUserId(userDetails.getUserId());

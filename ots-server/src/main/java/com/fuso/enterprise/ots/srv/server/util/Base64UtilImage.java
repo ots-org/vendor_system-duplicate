@@ -22,13 +22,13 @@ public class Base64UtilImage {
 	public static  String convertBase64toImage(String base64, int name) throws IOException {  
         // TODO Auto-generated method stub  
 		System.out.println("5");
-		String path = "/home/mobdev/images/rotary2/"+name+".png" ;
+		String path = "/home/etaarana_support/image/e-tarana/"+name+".png" ;
         byte[] base64Val=convertToImg(base64);  
 
         writeByteToImageFile(base64Val, path); 
         System.out.println("6");
         System.out.println("Saved the base64 as image in current directory with name image.png"); 
-        path = "http://apps.ortusolis.com:8084/ots/rotary2/"+name+".png";
+        path = "http://etaaranaservices.ortusolis.in:8081/ots/rotary/"+name+".png";
         return path;
    }  
 

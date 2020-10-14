@@ -103,7 +103,10 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
     	List<UserDetails> userDetails = new ArrayList<UserDetails>();
     	UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
     	try{
-	    	OtsUsers userEntity= super.getEntityManager().find(OtsUsers.class, Integer.parseInt(addUserDataBORequest.getRequestData().getUserId()));
+    		
+    		Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("otsUsersId", Integer.parseInt(addUserDataBORequest.getRequestData().getUserId()));
+			OtsUsers userEntity  = super.getResultByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
 	    	
 	    	OtsUserRole otsUserRole = new OtsUserRole();
 			otsUserRole.setOtsUserRoleId(Integer.parseInt(addUserDataBORequest.getRequestData().getUserRoleId()));
@@ -390,7 +393,8 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 		queryParameter.put("otsUsersId",Integer.parseInt(changePasswordRequest.getRequest().getUserID()));
 		userData = super.getResultByNamedQuery("OtsUsers.findByOtsUsersId", queryParameter);
 		
-		userData.setOtsUsersPassword(changePasswordRequest.getRequest().getPasword());
+		String pwd = encryptPassword(changePasswordRequest.getRequest().getPasword());
+		userData.setOtsUsersPassword(pwd);
 		super.getEntityManager().merge(userData);
 		userDetails = convertUserDetailsFromEntityToDomain(userData);
 	}catch(Exception e) {

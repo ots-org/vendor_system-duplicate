@@ -36,6 +36,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBOReq
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OrderDetailsBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.OrderIdBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.SaleVocherBoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
@@ -63,7 +64,6 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 
 	public OrderServiceDAOImpl() {
 		super(OtsOrder.class);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -482,7 +482,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 					}
 					break;
 				case "Distributor":
-					queryParameter.put("otsDistributorId", userId);
+				//	queryParameter.put("otsDistributorId", userId);
 					if(getListOfOrderByDateBORequest.getRequest().getStatus()==null) {
 						orderList  = super.getResultListByNamedQuery("OtsOrder.GetListOfOrderByDateforDistrbutor", queryParameter);
 					}else {
@@ -768,6 +768,18 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		}
 		
 		return "Success";
+	}
+
+	@Override
+	public OrderDetails getOrderDetailsForOrderId(OrderIdBORequest updateOrderDetailsRequest) {
+		OrderDetails orderDetails = new OrderDetails();
+		OtsOrder otsOrder = new OtsOrder();
+		Map<String, Object> queryParameter = new HashMap<>();
+		Integer orderId = Integer.parseInt(updateOrderDetailsRequest.getOrderId().getOrderId());
+		queryParameter.put("otsOrderId", orderId);
+		otsOrder = super.getResultByNamedQuery("OtsOrder.findByOtsOrderId", queryParameter);
+		orderDetails = convertOrderDetailsFromEntityToDomain(otsOrder);
+		return orderDetails;
 	}
 
 }
