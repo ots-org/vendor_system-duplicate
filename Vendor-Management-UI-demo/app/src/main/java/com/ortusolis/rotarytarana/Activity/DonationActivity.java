@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -59,12 +60,13 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
     LinearLayout donationLayout;
     EditText donarName,donarPhone,donarAmount,donarGst,donarPan,donarDescription,donarAddress;
     SharedPreferences sharedPreferences;
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donation);
 
-        Donation();
+//        Donation();
         productNameList = new ArrayList<>();
         productPriceList = new ArrayList<>();
         addedStockList = new ArrayList<>();
@@ -168,7 +170,10 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
         Donation();
     }
     public void Donation(){
-
+        progressDialog = new ProgressDialog(DonationActivity.this);
+        progressDialog.setMessage("Loading..");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         WebserviceController wss = new WebserviceController(DonationActivity.this);
 
         JSONObject requestObject = new JSONObject();
@@ -213,15 +218,19 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
                         }
                         DonationAdapter adapter=new DonationAdapter(DonationActivity.this, productName, productPrice,addedStock,stock);
                         list.setAdapter(adapter);
+
                     }
+                     progressDialog.dismiss();
                 }
                 catch (Exception e){
+                    progressDialog.dismiss();
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void notifyError(VolleyError error) {
+                progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
             }
         });
@@ -241,7 +250,7 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
             valid = false;
         }
 
-        else if ( status==false && Integer.parseInt(donarAmount.getText().toString()) > 20000){
+        else if ( status==false && Integer.parseInt(donarAmount.getText().toString()) > 50000){
             donarPan.setError("Please Enter Pan Number");
             valid = false;
         }

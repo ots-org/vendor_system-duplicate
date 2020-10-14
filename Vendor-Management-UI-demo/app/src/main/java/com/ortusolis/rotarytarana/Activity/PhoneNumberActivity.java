@@ -1,5 +1,6 @@
 package com.ortusolis.rotarytarana.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +32,7 @@ public class PhoneNumberActivity extends AppCompatActivity {
     Button done;
     EditText enterPhoneNumber;
     SharedPreferences sharedPreferences;
+    ProgressDialog progressDialog;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -49,6 +51,11 @@ public class PhoneNumberActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!enterPhoneNumber.getText().toString().isEmpty()) {
+
+                    progressDialog = new ProgressDialog(PhoneNumberActivity.this);
+                    progressDialog.setMessage("Loading...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                     login();
                 }
             }
@@ -76,6 +83,7 @@ public class PhoneNumberActivity extends AppCompatActivity {
             @Override
             public void notifySuccess(String response, int statusCode) {
                 try {
+                    progressDialog.dismiss();
                     Log.e("login response",response);
 
                     ForgotPasswordResponse responseData = new Gson().fromJson(response, ForgotPasswordResponse.class);
@@ -98,6 +106,7 @@ public class PhoneNumberActivity extends AppCompatActivity {
 
             @Override
             public void notifyError(VolleyError error) {
+                progressDialog.dismiss();
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
             }
         });

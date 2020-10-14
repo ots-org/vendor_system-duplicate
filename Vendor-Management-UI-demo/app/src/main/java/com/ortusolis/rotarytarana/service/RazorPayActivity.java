@@ -178,11 +178,13 @@ String salesVaocherFalg,productRequestsStr,emailIdUser;
         /** Set your logo here*/
         checkout.setImage(R.drawable.cart);
         if(donation.equals("yes")){
-            checkout.setKeyID("rzp_test_TQ28uTerb7d5Oj");
+            checkout.setKeyID("rzp_test_efRXqD8KT3N1wL");
         }else if(donation.equals("donationCashlist")){
-            checkout.setKeyID("rzp_test_TQ28uTerb7d5Oj");
+            checkout.setKeyID("rzp_test_efRXqD8KT3N1wL");
+//            checkout.setKeyID("rzp_test_TQ28uTerb7d5Oj");
         }else{
-            checkout.setKeyID("rzp_test_kA2hROKJeaOPQU");
+//            checkout.setKeyID("rzp_test_2FBlJsMGXBIWny");
+            checkout.setKeyID("rzp_test_S5Dx5cZQVEb1NC");
         }
 
 
@@ -202,7 +204,14 @@ String salesVaocherFalg,productRequestsStr,emailIdUser;
              * Merchant Name
              * eg: ACME Corp || HasGeek etc.
              */
-            options.put("name", "ORTUSOLIS TECHNOLOGY SERVICES LLP");
+            if(donation.equals("yes")){
+                options.put("name", "Sreeni");
+            }else if(donation.equals("donationCashlist")){
+                options.put("name", "Sreeni");
+            }else{
+         options.put("name", "ORTUSOLIS TECHNOLOGY SERVICES LLP");
+            }
+
 
             options.put("order_id", orderID);
 //            options.put("signature","razorpay_signature");

@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -127,6 +129,7 @@ public class DonationActivityDiscription extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+
         });
         donationQuantity.addTextChangedListener(new TextWatcher() {
             @Override
@@ -163,7 +166,7 @@ public class DonationActivityDiscription extends AppCompatActivity {
         pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (pan.getText().toString().isEmpty() && Double.parseDouble(totalAmount.getText().toString()) > 20000){
+                if (pan.getText().toString().isEmpty() && Double.parseDouble(totalAmount.getText().toString()) > 50000){
                     pan.setError("Please Enter Pan Number");
                     return;
                 }
@@ -366,7 +369,31 @@ public class DonationActivityDiscription extends AppCompatActivity {
                             JSONObject userDetails = productDetailsobject.getJSONObject("userDetails");
                             Beneficiary.add(userDetails.getString("firstName")+"("+orderDetails.getString("orderId")+")");
                         }
-                        spinnerBeneficiary.setAdapter(new ArrayAdapter(DonationActivityDiscription.this, android.R.layout.simple_spinner_dropdown_item, Beneficiary));
+                        spinnerBeneficiary.setAdapter(new ArrayAdapter(DonationActivityDiscription.this, android.R.layout.simple_spinner_dropdown_item, Beneficiary){
+                            @Override
+                            public boolean isEnabled(int position){
+                                if(position == 0)
+                                {
+                                    // Disable the second item from Spinner
+                                    return true;
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                            @Override
+                            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                                View view = super.getDropDownView(position, convertView, parent);
+                                TextView textview = (TextView) view;
+                                if (position == 0) {
+                                    textview.setTextColor(Color.BLACK);
+                                } else {
+                                    textview.setTextColor(Color.GRAY);
+                                }
+                                return view;
+                            }
+                        });
                     }
                     progressDialog.dismiss();
                 }

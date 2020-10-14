@@ -402,14 +402,30 @@
             android:buttonTint="@color/colorPrimary"
             android:visibility="gone"
             />
-        <CheckBox
-            android:id="@+id/policy"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <CheckBox
+                android:id="@+id/policy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:buttonTint="@color/colorPrimary"
+                android:visibility="visible"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Terms and conditions"
+                />
+        </LinearLayout>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Terms and conditions"
-            android:textColor="@color/black"
-            android:buttonTint="@color/colorPrimary"
-            android:visibility="visible"
+            android:padding="@dimen/activity_margin_10"
+            android:text="click on terms and conditions to see policy"
             />
     </LinearLayout>
     </ScrollView>

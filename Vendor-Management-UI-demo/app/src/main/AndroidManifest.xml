@@ -153,6 +153,7 @@
         <activity
             android:name="com.ortusolis.rotarytarana.Activity.AssignedOrderListActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.ortusolis.rotarytarana.Activity.AssignedVoucherOrderDescription"

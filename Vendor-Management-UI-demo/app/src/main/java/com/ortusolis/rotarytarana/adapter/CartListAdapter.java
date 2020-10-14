@@ -69,7 +69,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.Module
         holder.customeName.setText(Html.fromHtml("<b>Customer Name: </b>"+item.getCustomerName()));
         holder.orderId.setText(Html.fromHtml("<b>Delivery Date: </b>"+item.getDelivaryDate()));
         holder.orderDate.setText(Html.fromHtml("<b>Order Date: </b>"+item.getOrderDate()));
-        holder.orderCost.setText(Html.fromHtml("<b>Order Cost: </b>"+item.getOrderCost()+context.getString(R.string.Rs)));
+        holder.orderCost.setText(Html.fromHtml("<b>Order Cost: </b>"+context.getString(R.string.Rs)+String.format("%.2f", Float.valueOf(item.getOrderCost())*1.0)));
         holder.noOfProducts.setText(Html.fromHtml("<b>No. of Products: </b>"+item.getOrderedQty()));
         Picasso.get().load(item.getProductImageUrl()).into(holder.picture);
 

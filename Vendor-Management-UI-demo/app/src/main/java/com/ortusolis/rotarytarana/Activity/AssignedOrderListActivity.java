@@ -267,15 +267,26 @@ public class AssignedOrderListActivity extends AppCompatActivity {
                             assignedOrderReportAdapter = new AssignedOrderReportAdapter(AssignedOrderListActivity.this, data, new IClickInterfaceAssigned() {
                                 @Override
                                 public void click(AssignedOrderModel item) {
+                                    try {
+
                                     Intent intent = new Intent(AssignedOrderListActivity.this, AssignedVoucherOrderDescription.class);
-                                    intent.putExtra("order",item);
-//                                    intent.putExtra("orderData",);
-                                    if(getIntent().hasExtra("deliverDonation")){
-                                        intent.putExtra("deliverDonation","deliverDonation");
-                                    }else if(getIntent().hasExtra("assignRequest")){
-                                        intent.putExtra("AssignedRequest","AssignedRequest");
+                                    intent.putExtra("order", item);
+                                        Log.e("Intent", "intent start");
+                                    if (getIntent().hasExtra("deliverDonation")) {
+                                        Log.e("Intent", "deliver donaotion");
+                                        intent.putExtra("deliverDonation", "deliverDonation");
+                                    } else if (getIntent().hasExtra("assignRequest")) {
+                                        Log.e("c", "assign request");
+                                        intent.putExtra("AssignedRequest", "AssignedRequest");
                                     }
+                                        Log.e("Intent", "lunch");
                                     startActivityForResult(intent,3533);
+                                        Log.e("Intent", "close");
+//                                    startActivity(intent);
+                                } catch (Exception e){
+                                        Log.e("Intent", e.getMessage());
+                                      e.printStackTrace();
+                                }
                                 }
                             });
                             recyclerView.setAdapter(assignedOrderReportAdapter);

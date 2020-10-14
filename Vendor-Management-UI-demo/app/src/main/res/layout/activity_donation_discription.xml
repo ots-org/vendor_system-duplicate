@@ -204,9 +204,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="PAN Number"
+            android:padding="5dp"
+            android:text="PAN Number(above Rs.50,000)"
             android:textStyle="bold"
             />
+
         <EditText
             android:id="@+id/pan"
             android:layout_width="match_parent"
