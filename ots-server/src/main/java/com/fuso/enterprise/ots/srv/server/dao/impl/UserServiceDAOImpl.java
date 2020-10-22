@@ -255,15 +255,25 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
         List<OtsCustomerProduct> customerProductDetails = new ArrayList(otsUsers.getOtsCustomerProductCollection());
 
 	   	for(int i=0 ; i<customerProductDetails.size() ; i++) {
-	   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
-	   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
-	   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
-	   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
-	   		tempcustomerProductDetails.setProductDefault(customerProductDetails.get(i).getOtsCustomerProductDefault()==null?null:customerProductDetails.get(i).getOtsCustomerProductDefault().toString());
 	   		
-	   		userDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice());
-	   		userDetails.setProductId(customerProductDetails.get(i).getOtsProductId().getOtsProductId().toString());
+	   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
+	   		tempcustomerProductDetails.setProductname(" ");
+	   		tempcustomerProductDetails.setProductPrice(" ");
+	   		tempcustomerProductDetails.setCustomerProductId(" ");
+	   		tempcustomerProductDetails.setProductDefault(" ");
+	   		
+	   		userDetails.setProductPrice(" ");
+	   		userDetails.setProductId(" ");
 	   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
+//	   		CustomerProductDetails tempcustomerProductDetails = new CustomerProductDetails();
+//	   		tempcustomerProductDetails.setProductname(customerProductDetails.get(i).getOtsProductId().getOtsProductName()==null?null:customerProductDetails.get(i).getOtsProductId().getOtsProductName());
+//	   		tempcustomerProductDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice()==null?null:customerProductDetails.get(i).getOtsCustomerProductPrice().toString());
+//	   		tempcustomerProductDetails.setCustomerProductId(customerProductDetails.get(i).getOtsCustomerProductId()==null?null:customerProductDetails.get(i).getOtsCustomerProductId().toString());
+//	   		tempcustomerProductDetails.setProductDefault(customerProductDetails.get(i).getOtsCustomerProductDefault()==null?null:customerProductDetails.get(i).getOtsCustomerProductDefault().toString());
+//	   		
+//	   		userDetails.setProductPrice(customerProductDetails.get(i).getOtsCustomerProductPrice());
+//	   		userDetails.setProductId(customerProductDetails.get(i).getOtsProductId().getOtsProductId().toString());
+//	   		userDetails.getCustomerProductDetails().add(i,tempcustomerProductDetails);
 	   	}
 	   	
 	   	

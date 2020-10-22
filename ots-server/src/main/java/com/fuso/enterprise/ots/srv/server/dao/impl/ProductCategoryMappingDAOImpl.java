@@ -58,7 +58,7 @@ public class ProductCategoryMappingDAOImpl extends AbstractIptDao<OtsProductCate
  	public AddProductCategoryAndProductRequest mapProductAndCategory(
 			AddProductCategoryAndProductRequest addProductAndCategoryRequest) {
 		try {
-			System.out.print("-------------------------SHOULD NOT COME------------------------------------------");
+		//	System.out.print("-------------------------SHOULD NOT COME------------------------------------------");
 			OtsProductCategoryMapping OtsProductCategoryMapping = new OtsProductCategoryMapping();
 			for(int i = 0;i<addProductAndCategoryRequest.getRequestData().getProductDetails().size();i++) {
 				OtsProduct productId = new OtsProduct();
@@ -72,7 +72,7 @@ public class ProductCategoryMappingDAOImpl extends AbstractIptDao<OtsProductCate
 				}catch(Exception e) {
 					
 				}
-				System.out.println(OtsProductCategoryMapping.getOtsProductCategorytMappingId());
+		//		System.out.println(OtsProductCategoryMapping.getOtsProductCategorytMappingId());
 			}
 		}catch(Exception e) {
 			System.out.println(e);

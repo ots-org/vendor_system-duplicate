@@ -80,8 +80,8 @@ public class AirTableDaoImpl extends AbstractIptDao<OtsAirtable, String> impleme
 			//		requestUserList = requestOrderMapingList.stream().map(OtsOrderrequestMapping -> convertRequestOrderEntityTOModel(OtsOrderrequestMapping)).collect(Collectors.toList());
 		
 		}catch(Exception e) {
-			System.out.print("ERROR IN GETTING CURRENT DATA");
-			System.out.print(e);
+	//		System.out.print("ERROR IN GETTING CURRENT DATA");
+	//		System.out.print(e);
 		}
 		
 		try {
@@ -97,8 +97,8 @@ public class AirTableDaoImpl extends AbstractIptDao<OtsAirtable, String> impleme
 			previousairtableModelList = previousAirtableDataList.stream().map(OtsAirtable -> convertAirTabelTOModel(OtsAirtable)).collect(Collectors.toList());
 			todayairtableModelList = processCurrentDayDataWithPrevious (todayairtableModelList,previousairtableModelList);
 		}catch(Exception e) {
-				System.out.print("ERROR IN GETTING PREVIOUS DAY DATA");
-				System.out.print(e);
+		//		System.out.print("ERROR IN GETTING PREVIOUS DAY DATA");
+		//		System.out.print(e);
 		}
 		return todayairtableModelList;
 	}

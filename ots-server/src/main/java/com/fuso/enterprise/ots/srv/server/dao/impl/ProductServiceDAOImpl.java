@@ -290,7 +290,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 			airTableModel.setNewCategoryId(productCat.getOtsProductId().toString());
 			airTableModel.setProductCategoryname("yes");
 		}catch(Exception e) {
-			System.out.println("Erorr");
+	//		System.out.println("Erorr");
 			airTableModel.setTempLevelId("1");
 			airTableModel.setTransactionId(airTableModel.getProductCategoryId());
 			productCat = convertAirTableToCategorySubCategoryAndProduct(airTableModel);
@@ -305,7 +305,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 			airTableModel.setProductSubCategoryName("yes");
 			airTableModel.setProductSubCategoryId(productSubCat.getOtsProductId().toString());
 		}catch(Exception e) {
-			System.out.println("Erorr");
+	//		System.out.println("Erorr");
 			airTableModel.setTempLevelId("2");
 			airTableModel.setTransactionId(airTableModel.getProductSubCategoryId());
 			productSubCat = convertAirTableToCategorySubCategoryAndProduct(airTableModel);
@@ -324,9 +324,9 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 			airTableModel.setPreviousDayFlag("yes");
 		}catch(Exception e) {
 			OtsProduct product = new OtsProduct();
-			System.out.print(e);
+		//	System.out.print(e);
 			airTableModel.setTempLevelId("3");
-			System.out.println("Erorr");
+		//	System.out.println("Erorr");
 			product.setOtsProductName(airTableModel.getProductName());
 			product = convertAirTableToCategorySubCategoryAndProduct(airTableModel);
 			product.setOtsProductAirtableId(airTableModel.getProductId());
@@ -392,7 +392,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 			System.out.println(productDetails.get(0).getProductId());
 			return productDetails;
 		}catch(Exception e) {
-			System.out.print(e);
+		//	System.out.print(e);
 		}
 		return null;
 		

@@ -650,6 +650,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 			if(updateOrderStatusRequest.getRequest().getStatus().equalsIgnoreCase("DoneDonation")) {
 				
 				otsOrder.setOtsOrderDeliveredDt(Date.valueOf(now.toLocalDate()));
+				System.out.print(Date.valueOf(now.toLocalDate()));
 			}
 			otsOrder.setOtsOrderStatus(updateOrderStatusRequest.getRequest().getStatus());
 			super.getEntityManager().merge(otsOrder);

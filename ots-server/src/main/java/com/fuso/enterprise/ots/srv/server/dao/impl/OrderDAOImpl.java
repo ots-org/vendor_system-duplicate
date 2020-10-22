@@ -39,8 +39,8 @@ public class OrderDAOImpl extends AbstractIptDao<OtsOrder, String> implements Or
 		try {
 			logger.info("Inside Event=1015,Class:OrderDAOImpl, Method:getOrderList, getProductStockListRequest:"
 					+ getProductStockListRequest+"otsProductId:"+otsProductId);
-			OtsUsers OtsUsers= new OtsUsers();
-			OtsUsers.setOtsUsersId(Integer.parseInt(getProductStockListRequest.getRequestData().getUserId()));
+	//		OtsUsers OtsUsers= new OtsUsers();
+	//		OtsUsers.setOtsUsersId(Integer.parseInt(getProductStockListRequest.getRequestData().getUserId()));
 			orderList = super.getEntityManager()
 					.createQuery("from OtsOrder where otsOrderDeliveredDt = ?1  ", OtsOrder.class)
 					.setParameter(1,getProductStockListRequest.getRequestData().getTodaysDate(), TemporalType.DATE)

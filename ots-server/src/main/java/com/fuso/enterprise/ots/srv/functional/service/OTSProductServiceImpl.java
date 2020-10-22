@@ -682,6 +682,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 	        addProductBORequest.setRequestData(addProductStock);
 	        productStockDao.addAirtableStock(addProductBORequest);
 	        airTableModel.setAirTableProductCaluclatedStock(finalStock.toString());
+	        System.out.println("stock " + finalStock);
 		    //	        if (Integer.parseInt(airTableModel.getProductStock()) > 0){
 //		         Integer finalStock = Integer.parseInt(airTableModel.getAirTableProductCaluclatedStock()) - Integer.parseInt(String.valueOf(deliverdQty));
 //		         addProductStock.setProductStockQty(finalStock.toString());

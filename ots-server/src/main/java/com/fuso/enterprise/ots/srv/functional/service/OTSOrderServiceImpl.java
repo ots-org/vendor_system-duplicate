@@ -306,9 +306,9 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 					Response = getOrderDiruectSalesVoucher(otsOrderDetails.getOrderId());
 					try {
 						String notification = otsOrderDetails.getOrderNumber() + " had been placed by " + Customer.getFirstName()+" "+Customer.getLastName()+" and requested delivery date is "+addOrUpdateOrderProductBOrequest.getRequest().getDelivaryDate()+" please click here to assign the Employee for order";
-						fcmPushNotification.sendPushNotification(user.getDeviceId(),"pravarthaka App" ,notification);
+						fcmPushNotification.sendPushNotification(user.getDeviceId(),"etaarana Apps" ,notification);
 						notification = "Order Placed : Your order "+otsOrderDetails.getOrderNumber()+" had been placed";
-						fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"pravarthaka App" ,notification);
+						fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"etaarana Apps" ,notification);
 					}catch(Exception e) {
 						return Response;
 					}
@@ -443,7 +443,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			try {
 				UserDetails User;
 				User = userServiceDAO.getUserDetails(Integer.parseInt(updateOrderDetailsRequest.getRequest().getAssignedId()));
-				fcmPushNotification.sendPushNotification(User.getDeviceId(),"pravarthaka Apps" , "order is updated");
+				fcmPushNotification.sendPushNotification(User.getDeviceId(),"etaarana Apps" , "order is updated");
 			}catch(Exception e) {
 				return Response;
 			}
@@ -499,7 +499,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		{
 			getCustomerOutstandingAmt.setCustomerId(OrderDetailsList.get(i).getCustomerId());
 			getCustomerOutstandingAmtBORequest.setRequestData(getCustomerOutstandingAmt);
-			String CustomerAmount = customerOutstandingAmtDAO.getCustomerOutstandingAmt(getCustomerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();
+			String CustomerAmount = "0";// customerOutstandingAmtDAO.getCustomerOutstandingAmt(getCustomerOutstandingAmtBORequest).getCustomerOutstandingAmount().get(0).getCustomerOutstandingAmt();
 
 			List<OrderProductDetails> orderProductDetailsList = orderProductDao.getProductListByOrderId(OrderDetailsList.get(i).getOrderId());
 			List<OrderProductDetails> orderProductDetailsList2 = new ArrayList<OrderProductDetails>();
@@ -1288,10 +1288,11 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		try {
 			RazorpayClient razorpay = null;
 			if(updateOrderDetailsRequest.getRequest().getPaymentFlowStatus().equalsIgnoreCase("gift")) {
-				razorpay = new RazorpayClient("rzp_test_kA2hROKJeaOPQU", "zNwDTkKrdnkOSaBs43b4N915");
+				razorpay = new RazorpayClient("rzp_test_S5Dx5cZQVEb1NC", "ZicA2AsX2rt55gRCWFgwix5R");
 			//	orderDetails.setRazorPayKey();
 			}else {
-				razorpay = new RazorpayClient("rzp_test_2FBlJsMGXBIWny", "fGb6Oo3Rfv2MFPqFIn8DWj5x");
+				//ots account
+				razorpay = new RazorpayClient("rzp_test_efRXqD8KT3N1wL", "a0mAWrRA0T0PZ6rYvbja7BGx");
 			//	orderDetails.setRazorPayKey();
 			}
 			
