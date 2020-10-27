@@ -1288,11 +1288,11 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		try {
 			RazorpayClient razorpay = null;
 			if(updateOrderDetailsRequest.getRequest().getPaymentFlowStatus().equalsIgnoreCase("gift")) {
-				razorpay = new RazorpayClient("rzp_test_S5Dx5cZQVEb1NC", "ZicA2AsX2rt55gRCWFgwix5R");
+				razorpay = new RazorpayClient("rzp_live_xYwX5bsxX1IE1A", "QClXGQUivci89sp41VcOmtqH");
 			//	orderDetails.setRazorPayKey();
 			}else {
 				//ots account
-				razorpay = new RazorpayClient("rzp_test_efRXqD8KT3N1wL", "a0mAWrRA0T0PZ6rYvbja7BGx");
+				razorpay = new RazorpayClient("rzp_live_4uHrzyoxasNhiq", "5WnJcOIvhoYBoxNiomEN57uu");
 			//	orderDetails.setRazorPayKey();
 			}
 			
