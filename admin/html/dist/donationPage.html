@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Donation</title>
+      <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/etaranalogo.jpeg">
+      <!-- Bootstrap Core CSS -->
+      <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <!-- Bootstrap CSS CDN -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+      <!-- Our Custom CSS -->
+      <link rel="stylesheet" href="css/donationStyle.css">
+      <!-- Font Awesome JS -->
+      <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+      <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+      <link href="css/datepicker.css" rel="stylesheet"/>
+      <link href="https://cdn.jsdelivr.net/npm/shareon/dist/shareon.min.css" rel="stylesheet" />
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/solid.css" integrity="sha384-+0VIRx+yz1WBcCTXBkVQYIBVNEFH1eP6Zknm16roZCyeNg2maWEpk/l/KsyFKs7G" crossorigin="anonymous">
+       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/brands.css" integrity="sha384-1KLgFVb/gHrlDGLFPgMbeedi6tQBLcWvyNUN+YKXbD7ZFbjX6BLpMDf0PJ32XJfX" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/fontawesome.css" integrity="sha384-jLuaxTTBR42U2qJ/pm4JRouHkEDHkVqH0T1nyQXn1mZ7Snycpf6Rl25VBNthU4z0" crossorigin="anonymous">
+      <style>
+         .modalScroll{
+         height: 250px;
+         overflow-y: auto;
+         }
+      </style>
+   </head>
+   <body onload="displayDonationStatus()" oncontextmenu="return false">
+      <div class="wrapper">
+         <!-- Sidebar  -->
+         <nav id="sidebar">
+            <div class="sidebar-header">
+               <img src="../plugins/images/etaranalogo.jpeg" alt="home" style="width: 50%; height: 50%;" class="light-logo" />
+            </div>
+            <hr>
+            <ul  class="list-unstyled components" style="margin-top: -2em;" >
+               <li >
+                  <a href="donationPage.html" class="waves-effect"><i class="glyphicon glyphicon-heart-empty" aria-hidden="true"></i><label style="margin-left: 1em;">Donation</label></a>
+               </li>
+               <!-- <li data-toggle="modal" data-target="#donationStatus">
+                  <a  class="waves-effect"><i class="glyphicon glyphicon-inbox" aria-hidden="true"></i><label style="margin-left: 1em;"> Donation Status</label></a>
+                  </li> -->
+               <li data-toggle="modal" data-target="#donationReport">
+                  <a  class="waves-effect"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i><label style="margin-left: 1em;">Donation Report</label></a>
+               </li>
+               <li data-toggle="modal" data-target="#userProfile" onclick="userProfile()">
+                  <a  class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i><label style="margin-left: 1em;">Profile</label></a>
+               </li>
+               <li data-toggle="modal" data-target="#changePassword">
+                  <a  class="waves-effect"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i><label style="margin-left: 1em;">Change Password</label></a>
+               </li>
+               <li data-toggle="modal" data-target="#socialMedia" id="social">
+                  <a  class="waves-effect"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i><label style="margin-left: 1em;">Share</label></a>
+               </li>
+               <li onclick="logout()">
+                  <a  class="waves-effect"><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><label style="margin-left: 1em;">LogOut </label></a>
+               </li>
+               <li>
+               </li>
+               <li>
+               </li>
+               <li>
+               </li>
+               <li>
+               </li>
+               <li>
+               </li>
+            </ul>
+         </nav>
+         <!-- Page Content  -->
+         <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+               <div class="container-fluid">
+                  <button type="button" id="sidebarCollapse" class="btn btn-info">
+                  <i class="fas fa-align-left"></i>
+                  </button>
+               </div>
+            </nav>
+            <div align="center">
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#donationCash" onclick="displayDonation()" >Donate Cash</button>
+            </div>
+            <br>
+            <div>
+               <div id="donationDisplay">
+               </div>
+            </div>
+            <div class="modal fade" id="donationCash" tabindex="-1" role="dialog" aria-labelledby="donationCashLabel" aria-hidden="true" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction ">
+               <div class="modal-dialog" role="document">
+                  <div id="directDonationCash">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <h5 class="modal-title" id="donationCashLabel">Donation</h5>
+                        </button>
+                     </div>
+                     <div class="modal-body">
+                        <div>
+                           <div class="row">
+                              <div class="col-sm" >
+                                 <p> Amount:</p>
+                              </div>
+                              <div class="col-sm" >
+                                 <input type="text" class="form-control" placeholder="Enter Amount" id="directDonationAmount" aria-describedby="basic-addon3">
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm" >
+                                 <p> Pan Number:</p>
+                              </div>
+                              <div class="col-sm" >
+                                 <input type="text" class="form-control" placeholder="Enter Pan Number" id="panCardNumber" aria-describedby="basic-addon3">
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm" >
+                                 <p> GST Number:</p>
+                              </div>
+                              <div class="col-sm" >
+                                 <input type="text" class="form-control" placeholder="Enter GST Number" id="gstNumber" aria-describedby="basic-addon3">
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm" >
+                                 <p> Description:</p>
+                              </div>
+                              <div class="col-sm" >
+                                 <input type="text" class="form-control" placeholder="Enter Description" id="donationDescription" aria-describedby="basic-addon3" required>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="checkPanCardValidity()" >Donate</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
+                     </div>
+                  </div>
+                  </div>
+                  <div id = "sharingSocialMedia">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <h5 class="modal-title" id="socialMediaLabel">Share on Social Media </h5>
+                           </button>
+                        </div>
+                        <div class="modal-body " >
+                           <div class="my-5">
+                              <div class="mb-3">
+                                <div id="shareBlock"></div>
+                              </div>
+                              </div>
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-----------------------------------Onclick of Donation List -------------------------------------------->
+            <div class="modal fade" id="donationListEdit" tabindex="-1" role="dialog" aria-labelledby="donationListEditLabel" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                  <div id="donationPaymentList">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <h5 class="modal-title" id="donationListEditLabel">Donation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                     </div>
+                     <div class="modal-body">
+                        <div style="color: gray;">
+                           <div class="row">
+                              <div class="col-sm" >
+                                 <p> Product Name:</p>
+                              </div>
+                              <div class="col-sm" >
+                                 <p class="form-control"><span id="productName"></span></p>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm" >
+                                 <p> Product Price:</p>
+                              </div>
+                              <div class="col-sm" >
+                                 <p class="form-control"><span id="productPrice"></span></p>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm" >
+                                 <p > Beneficiary:</p>
+                              </div>
+                              <div class="col-sm" id="selectBeneficiary">
+                                 <select class="custom-select" id="benificiarySelection" onchange="displayBenificiary()"  >
+                                    <option selected id="anybenificiary"  value="any"> Any</option>
+                                    <!-- <option value="SelectedBenificiary" id="benificiary" ></option> -->
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="input-group mb-3">
+                              <div class="row">
+                                 <div class="col-sm-6" >
+                                    <p >Donation Quantity:</p>
+                                 </div>
+                                 <div class="col-sm-6" >
+                                    <div class="input-group form-control">
+                                       <span class="input-group-btn">
+                                       <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]" onclick="addDonationQuantity('remove')">
+                                       <span class="glyphicon glyphicon-minus"></span>
+                                       </button>
+                                       </span>
+                                       <input type="text" class="form-control input-number " value="1" min="1" onkeyup="addDonationQuantity('multipy')"  id="addonDonationQuantity"  >
+                                       <span class="input-group-btn">
+                                       <button type="button" class="btn btn-default btn-number" data-type="plus"   data-field="quant[1]" onclick="addDonationQuantity('add')">
+                                       <span class="glyphicon glyphicon-plus"></span>
+                                       </button>
+                                       </span>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row" id="dispalyRequiredQuantity">
+                              <div class="col-sm" >
+                                 <p> Required Quantity:</p>
+                              </div>
+                              <div class="col-sm" >
+                                 <p class="form-control"><span id="requiredQuantity"></span></p>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm" >
+                                 <p> Total Amount:</p>
+                              </div>
+                              <div class="col-sm" >
+                                 <p class="form-control"><span id="totalPrice"></span></p>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm" >
+                                 <p> Pan Number:</p>
+                              </div>
+                              <div class="col-sm" >
+                                 <input type="text" class="form-control" placeholder="Enter Pan Number" id="panNumber" aria-describedby="basic-addon3" required>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm" >
+                                 <p> GST Number:</p>
+                              </div>
+                              <div class="col-sm" >
+                                 <input type="text" class="form-control" placeholder="Enter GST Number" id="gstNumber" aria-describedby="basic-addon3">
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!-- onclick="checkValidation()" -->
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal" >Pay</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
+                     </div>
+                  </div>
+                  </div>
+                  <div id = "shareSocialMedia">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <h5 class="modal-title" id="socialMediaLabel">Share on Social Media </h5>
+                           </button>
+                        </div>
+                        <div class="modal-body " >
+                           <div class="my-5">
+                              <div class="mb-3">
+                                <div id="shareBlock2"></div>
+                              </div>
+                              </div>
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick = "closemodal()">Close</button>        
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!------------------------------ End Of Donation List----------------------------------------------------------->
+         <!----------------------------------Click on PAY Button -------------------------------------------------------->
+         <!-- Modal  for Payment with KIND-->
+         <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+               <div id="displayPaymentType">
+               <div class="modal-content">
+                  <!-- <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                     </div> -->
+                  <div class="modal-body">
+                     <div class="form-check">
+                        <input class="form-check-input" type="radio" name="kindRequest" id="kindRequest" value="option1">
+                        <label class="form-check-label" for="kindRequest" >
+                        Kind
+                        </label>
+                     </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="radio" name="kindRequest" id="paymentRequest" value="option2">
+                        <label class="form-check-label" for="paymentRequest" >
+                        Payment
+                        </label>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-primary" onclick="confirmMethod()">OK</button>
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  </div>
+               </div>
+            </div>
+               
+            </div>
+         </div>
+         <!-----------------------------End Of Donation--------------------------------------------------------->
+         <!---------------------------------------Modal for Donation Report--------------------------------------------------->
+         <div class="modal fade bd-example-modal-lg" id="donationReport" tabindex="-1" role="dialog" aria-labelledby="donationReportLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg " role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="donationReportLabel">Donation Report</h5>
+                     </button>
+                  </div>
+                  <div class="modal-body " >
+                     <div class="" >
+                        <div class="row">
+                           <div class="col-6">
+                              <div class="form-grouped">
+                                 <div>Start Date</div>
+                                 <div class='input-grouped date' id='startDate' >
+                                    <input type='text' class="form-controlled" id="selectStartDate" name="startDate" />
+                                    <span class="input-group-addon"></span>
+                                    </span>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-6">
+                              <div class="form-grouped">
+                                 <div>End Date</div>
+                                 <div class='input-grouped date' id='endDate'>
+                                    <input type='text' class="form-controlled" id="selectEndDate" name="org_endDate" />
+                                    <span class="input-group-addon"></span>
+                                    </span>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <br>
+                        <div align="center">
+                           <button type="button" class="btn btn-primary" onclick="getDonationReport()">Get Report</button>
+                        </div>
+                        <br>
+                        <div  id="donationReportDetails" style="height: 300px; overflow-x: auto; overflow-y: auto;" ></div>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!---------------------------------------End of Donation Report--------------------------------------------------------------------->
+         <!---------------------------------------Modal for Change Password--------------------------------------------------->
+         <div class="modal fade bd-example-modal-lg" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="changePasswordLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg " role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="changePasswordLabel">Change Password</h5>
+                     </button>
+                  </div>
+                  <div class="modal-body " >
+                     <div align="center">
+                        <div class="form-group mx-sm-3 mb-2" style="width: 50%;" >
+                           <input type="password" class="form-control" id="existingPassword" placeholder="Existing Password">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2" style="width: 50%;" align="center">
+                           <input type="password" class="form-control" name = password1 size = 25 id="inputPassword1" placeholder="Enter NewPassword">
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2" style="width: 50%;" align="center">
+                           <input type="password" class="form-control" name = password2 size = 25 id="inputPassword2" placeholder="Re-Enter New Password">
+                        </div>
+                        <div>
+                           <button type="submit" class="btn btn-primary mb-2" onclick="return passwordValidate()">Submit</button>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!--------------------------------------End Of Change Password------------------------------------------------------->
+         
+         <!-- Modal for user profile-->
+         <div class="modal fade" id="userProfile" tabindex="-1" role="dialog"  aria-labelledby="userProfileLabel"  aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h4 class="modal-title" id="donationStatusLabel">User Profile<span id="plan"></span></h4>
+                  </div>
+                  <div class="modal-body modal-bodyhistory">
+                     <div id="paymentHistotyDetailsId">
+                        <div class="row">
+                           <div class="col-sm" >
+                              <p> First Name :</p>
+                           </div>
+                           <div class="col-sm" >
+                              <p class="form-control"><span id="Firstname"></span></p>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm" >
+                              <p> Last Name :</p>
+                           </div>
+                           <div class="col-sm" >
+                              <p class="form-control"><span id="Lastname"></span></p>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm" >
+                              <p> Phone Number:</p>
+                           </div>
+                           <div class="col-sm" >
+                              <p class="form-control"><span id="contactNo"></span></p>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm" >
+                              <p> Email:</p>
+                           </div>
+                           <div class="col-sm" >
+                              <p class="form-control"><span id="emailId"></span></p>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm" >
+                              <p> Address 1 :</p>
+                           </div>
+                           <div class="col-sm" >
+                              <p class="form-control"><span id="address1"></span></p>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm" >
+                              <p> Address 2:</p>
+                           </div>
+                           <div class="col-sm" >
+                              <p class="form-control"><span id="address2"></span></p>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm" >
+                              <p> Pincode :</p>
+                           </div>
+                           <div class="col-sm" >
+                              <p class="form-control"><span id="pincode"></span></p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!--------------------------------------User Profile modal ended-------------------------------------------->
+         <!-- </div> -->
+      </div>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <!-- All Jquery -->
+      <!-- ============================================================== -->
+      <script src="../plugins/bower_components/jquery/dist/jquery.min.js"></script>
+      <!-- Bootstrap Core JavaScript -->
+      <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+      <!-- Menu Plugin JavaScript -->
+      <script src="../plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+      <!--slimscroll JavaScript -->
+      <script src="js/jquery.slimscroll.js"></script>
+      <!--Wave Effects -->
+      <script src="js/waves.js"></script>
+      <!--Counter js -->
+      <script src="../plugins/bower_components/waypoints/lib/jquery.waypoints.js"></script>
+      <script src="../plugins/bower_components/counterup/jquery.counterup.min.js"></script>
+      <!-- chartist chart -->
+      <script src="../plugins/bower_components/chartist-js/dist/chartist.min.js"></script>
+      <script src="../plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+      <!-- Sparkline chart JavaScript -->
+      <script src="../plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+      <!-- Custom Theme JavaScript -->
+      <script src="js/custom.min.js"></script>
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+      <script src="js/jquery.c-share.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+      <script type="text/javascript">
+         $(document).ready(function () {
+             $('#sidebarCollapse').on('click', function () {
+                 $('#sidebar').toggleClass('active');
+             });
+         });
+      </script>
+      <script>
+        
+         var baseUrl = "http://apps.ortusolis.com:8084/ots/api/v18_1/";
+         var array = [];
+         var orderList = [];
+         var benifi =[];
+         var globeMode;
+         var globeDonation;
+         var globStatus;
+         var globtransactionId;
+         var globOrderCost;
+         var globorderId;
+         var globeRazourPayOrderId;
+         var donorSelect =[];
+         var globebenificiayName;
+         // var OrderID =[];
+         var globeProdeList;
+         var globeProdeId;
+         var globeProdeName;
+         var globeProdePrice
+         var globeDonorId;
+         var apiSendpresentStock;
+
+         window.onload = function(){
+            if(localStorage.getItem("loginFlag") == 1){
+               alert("Login Success");
+               displayDonationStatus();
+            }else{
+               window.location.href = "login.html";
+            }
+         }
+         function displayDonationStatus() {
+            { window.history.forward(); }  
+    setTimeout("preventBack()", 0);  
+    window.onunload = function () { null }
+          var data = JSON.stringify({
+              "request":{
+                  "status":"NewRequest"
+                 }
+          });
+          
+          $.ajax({
+             type: "POST",
+             url: baseUrl  + "order/getDonationListBystatus",
+            // url: "http://ec2-13-232-112-42.ap-south-1.compute.amazonaws.com:8082/ots/api/v18_1/users_subscription/getCurrentSubscription",
+             data: data, // now data come in this
+             contentType: "application/json; charset=utf-8",
+             crossDomain: true,
+             dataType: "json",
+             success: function(data) {
+                   if (data.responseCode === 200) {
+                      console.log(data);
+                     if(data.responseData.productList.length !=0){
+                         globeProdeList = data.responseData.productList;
+                         var paymentHistory = '<div class="container-fluid" style="color: rgb(22, 116, 204);">'; 
+                           
+                           for(var i=0;i<globeProdeList.length;i++){
+                              debugger
+                              presentStock = 0;   
+                        globeAddStock = globeProdeList[i].addedStock;
+                        globeStock = globeProdeList[i].stock;
+                        presentStock = globeStock - globeAddStock;
+                               paymentHistory+='<div class="card" ><div class="card-body" onclick="editDonationProduct('+i+')" data-toggle="modal" data-target="#donationListEdit" style="height:180px;">';
+                               paymentHistory+='<div class="row"><div class="col-sm"><img alt="Qries" src="'+ data.responseData.productList[i].productImage+'"width=150" height="150"> </div></div><div style="margin-left:20%; margin-top:-9em;"><div class="row"><div class="col-sm" ><p> Product Name :</p></div><div class="col-sm" ><p><span id="displayProductName">'+data.responseData.productList[i].productName+'</span></p></div></div>';
+                               paymentHistory+='<div class="row"><div class="col-sm" ><p > Product Price :</p></div><div class="col-sm" ><p><span id="displayProductPrice">'+data.responseData.productList[i].productPrice+'</span></p></div></div>';
+                               paymentHistory+='<div class="row"><div class="col-sm" ><p > Requested Quantity :</p></div><div class="col-sm" ><p><span id="displayRequestQuantity">'+presentStock+'</span></p></div></div></div>';
+                               paymentHistory+='</div></div>';
+                               
+                                 }
+                             if(data.responseData.productList.length-1 >i){
+                               paymentHistory+= '<hr>'
+                            }
+                        
+                            paymentHistory+= '</div>';
+                      $('#donationDisplay').html(paymentHistory);
+         
+                     }
+                 }
+         
+         
+                     
+             },
+             error: function(jqXHR, status) {
+                   // error handler
+                   console.log(jqXHR);
+                   $("body").addClass("enableDiv");
+                   //swal({text: "Unable to connect ,please check your network",icon: "warning",button: "OK"});
+             }
+          });
+          }
+         
+          function editDonationProduct(i){
+            $('#shareSocialMedia').hide();
+           console.log(globeDonorId);
+           apiSendpresentStock = globeProdeList[i].stock;
+           globeAddStk = globeProdeList[i].addedStock;
+           globepresentStock = apiSendpresentStock - globeAddStk;
+           globeProdeId = globeProdeList[i].productId;
+           globeProdeName = globeProdeList[i].productName
+           globeProdePrice = globeProdeList[i].productPrice;
+           globeProdeImage = globeProdeList[i].productImage;
+           globeDonorId =  globeProdeList[i].donationRequestId;
+         //   console.log(globeProdeList[i].donationRequestId);
+         
+           var data = JSON.stringify({
+                 "requestId": {
+                   "requestId": globeProdeList[i].donationRequestId
+                 }
+               });
+               console.log(data);
+          $.ajax({
+             type: "POST",
+             url: baseUrl  + "order/getListOfOrderDetailsForRequest",
+            // url: "http://ec2-13-232-112-42.ap-south-1.compute.amazonaws.com:8082/ots/api/v18_1/users_subscription/getCurrentSubscription",
+             data: data, // now data come in this
+             contentType: "application/json; charset=utf-8",
+             crossDomain: true,
+             dataType: "json",
+             success: function(data) {
+               if (data.responseCode === 200) {
+                  console.log(data);
+                     if(data.responseData.requestProductDetails.length !=0){
+                         globeProdeLists = data.responseData.requestProductDetails;
+                         console.log( globeProdeLists);
+               var paymentHistory = '<select class="custom-select" id="benificiarySelection" onchange="displayBenificiary()" >'; 
+                         paymentHistory +='<option selected id="anybenificiary"  value="any"> Any</option>';
+                           for(var i=0;i<globeProdeLists.length;i++){
+                             globeOrderList= globeProdeLists[i].orderDetails.orderdProducts;
+                              for(var j=0; j< globeOrderList.length;j++){
+                              paymentHistory +='<option value="SelectedBenificiary" id="benificiary" >'+globeProdeLists[i].userDetails.firstName+'('+globeProdeLists[i].orderDetails.orderId+')</option>';     
+                              console.log(globeOrderList[j]);
+                              benifi.push(globeProdeLists[i].userDetails.firstName);
+                              array.push(globeOrderList[j].otsOrderedQty);
+                              globeOrderQty = globeOrderList[j].otsOrderedQty;
+                               orderList.push(globeProdeLists[i].orderDetails.orderId);
+                             }
+                           }
+                           paymentHistory+='</select>'; 
+                           $('#selectBeneficiary').html(paymentHistory);            
+                           // $('#benificiary').text(globeProdeLists[i].userDetails.firstName);
+                               
+                              // console.log(globeOrderList[j].otsOrderProductCost);
+                              // console.log(globeProdeLists[i].userDetails.firstName);
+                              }
+                           }
+         
+         
+                     
+             },
+             error: function(jqXHR, status) {
+                   // error handler
+                   console.log(jqXHR);
+                   $("body").addClass("enableDiv");
+                   //swal({text: "Unable to connect ,please check your network",icon: "warning",button: "OK"});
+             }
+          });
+             
+            $('#productName').text(globeProdeList[i].productName);
+            $('#productPrice').text(globeProdeList[i].productPrice);
+            $('#totalPrice').text(globeProdeList[i].productPrice);
+            var requiredQty = globeProdeList[i].stock - globeProdeList[i].addedStock
+            globeAddedStock = globeProdeList[i].addedStock;
+            $('#requiredQuantity').text(requiredQty);
+           
+          }
+         function displayDonation(){
+            $('#sharingSocialMedia').hide();
+
+         }
+         function displayPayment(){
+            
+
+         }
+         displayPayment
+         
+          function displayBenificiary(){
+            var requiredQuantity = document.getElementById("benificiarySelection");
+            var a= requiredQuantity.selectedIndex;
+            var addOn =  parseFloat($('#productPrice').text());
+            var value =  1;
+            globeMode ="any"
+            if(benificiarySelection.value == "any"){
+                     $('#dispalyRequiredQuantity').show();
+                     debugger
+                     // setTimeout(function(){
+                        $('#addonDonationQuantity').val(value);
+                     console.log($('#addonDonationQuantity').text(value));
+                     $('#totalPrice').text(addOn.toFixed(2));
+                     console.log($('#totalPrice').val(addOn));
+                     //  }, 10);
+                     
+                     
+              }else{
+              globeMode ="SelectedBenificiary"
+                   if( benificiarySelection.value == "SelectedBenificiary"){
+                      $('#dispalyRequiredQuantity').hide();
+                      console.log(array[a-1]);
+                      $('#addonDonationQuantity').val(array[a-1]);
+                      var totaladdon  =  parseInt(array[a-1]);
+                      totalBenificiaryAmount = parseFloat(totaladdon * addOn);
+                      $('#totalPrice').text(totalBenificiaryAmount.toFixed(2));
+                      console.log($('#addonDonationQuantity').val(array[a-1]));
+                                 
+                              }
+                           }
+          }
+         //---------------------------------------------------Add Donation Quantity and Order Cost -----------------------------------------------------
+         function addDonationQuantity(flag){
+            var requiredQuantity = document.getElementById("benificiarySelection");
+            var a= requiredQuantity.selectedIndex;
+            var totalBenifi = parseInt(array[a-1]);
+            var addOn =  parseFloat($('#productPrice').text());
+            var multipy = parseFloat($('#productPrice').text());
+            var value =  parseInt($('#addonDonationQuantity').val());
+            var totalPrice =  parseFloat($('#totalPrice').text());
+            if(benificiarySelection.value === "SelectedBenificiary"){
+            //   var value2 =  parseInt(array[a-1]);
+            //addOn = value *  multipy ;
+               if(flag =="add"){
+                  value = value + 1;
+                  $('#addonDonationQuantity').val(value);
+                  console.log(value);
+                  addOn = (addOn + totalPrice) ; 
+                  console.log(addOn) ;
+                  debugger
+               }else if(flag == "remove" && value > totalBenifi){
+                  value = value - 1;
+                  console.log(value);
+                  $('#addonDonationQuantity').val(value);
+                 addOn = totalPrice - addOn  ;
+                 console.log(addOn);
+               } else if(flag == "multipy"){
+                  addOn = (value *  multipy) ;
+                  console.log(addOn) ;
+               }
+              
+         
+            }
+             if(benificiarySelection.value === "any"){
+               if(flag =="add"){
+                  value = value + 1;
+                  $('#addonDonationQuantity').val(value);
+                  addOn = (addOn + totalPrice) ; 
+                  // addon = addon.toFixed(2);   
+               }else if(flag == "remove" && value>1){
+                  value = value - 1;
+                  $('#addonDonationQuantity').val(value);
+                  addOn =(totalPrice - addOn)  ;
+               }else if(flag == "multipy"){; 
+                  addOn = (value *  multipy) ;
+                  console.log(addOn) ;
+               }  
+            }
+            debugger
+            planAmount =  addOn.toFixed(2)  ;
+             $('#totalPrice').text(planAmount);
+         }
+         //-----------------------------------------------------End Of Adding Donation Quantity and Order Cost -------------------------------------------------
+         
+         
+         //--------------------------------------------------------Checking Pan Card Validity----------------------------------------------------
+         function checkPanCardValidity(){
+           debugger
+           if(document.getElementById('directDonationAmount').value == ''){
+                     alert("Please Enter Amount");
+                     return;
+                  }
+           if(document.getElementById('donationDescription').value == ''){
+                     alert("Please Enter Description");
+                     return;
+                  }
+                  
+         if(isNaN((document.getElementById('directDonationAmount').value)||(document.getElementById('directDonationAmount').value == '' ))){
+            
+                  
+            } else{
+               if((parseInt(document.getElementById('directDonationAmount').value)) > 20000){
+                  if(document.getElementById('panCardNumber').value == ''){
+                     alert("Please Enter Pan Number");
+                     return;
+                  }
+               }
+            }
+            getRazourPayByOrderId();
+         }
+         //-------------------------------------------------------End Of Checking Validity----------------------------------------------------------------- 
+          function kindRequest(){
+           var data = JSON.stringify({
+                                       "request": [
+                                         {
+                                           "productId": globeProdeId,
+                                           "donorId": userdata.userId,
+                                           "dontaionAmount": parseFloat($('#totalPrice').text()),
+                                           "donatedQty": document.getElementById("addonDonationQuantity").value,
+                                           "paymentId": "string",
+                                           "presentStock": "string",
+                                           "requestStatus": "newRequest",
+                                           "donationRequestId": globeDonorId,
+                                           "donationStatus": "kind",
+                                           "orderId": document.getElementById("anybenificiary").value,
+                                           "description": "string",
+                                           "panNumber": document.getElementById("panNumber").value,
+                                           "otherNumber": document.getElementById("gstNumber").value,
+                                           "donationMethod": "string",
+                                           "orderQty": ''
+                                         }
+                                       ]
+                                     });
+         
+          $.ajax({
+             type: "POST",
+             url: baseUrl  + "order/addNewDonation",
+            // url: "http://ec2-13-232-112-42.ap-south-1.compute.amazonaws.com:8082/ots/api/v18_1/users_subscription/getCurrentSubscription",
+             data: data, // now data come in this
+             contentType: "application/json; charset=utf-8",
+             crossDomain: true,
+             dataType: "json",
+             success: function(data) {
+                   if (data.responseCode === 200) {
+                    location.href="donationPage.html";
+                 }
+         
+         
+                     
+             },
+             error: function(jqXHR, status) {
+                   // error handler
+                   console.log(jqXHR);
+                   $("body").addClass("enableDiv");
+                   //swal({text: "Unable to connect ,please check your network",icon: "warning",button: "OK"});
+             }
+          });
+          }
+         
+         function  checkValidation(){
+            debugger
+             var requiredQuantity = document.getElementById("benificiarySelection");
+            var a= requiredQuantity.selectedIndex;
+               var value2 =  parseInt(array[a-1]);
+               if(document.getElementById('addonDonationQuantity').value < value2){
+                  alert("Donation Quantity must be Greater than Ordered Quantity");
+                     return;
+                  }
+            if(isNaN((document.getElementById('totalPrice').outerText)||(document.getElementById('totalPrice').outerText == '' ))){
+               var element = document.getElementById('addonDonationQuantity');
+               
+                  if (typeof element !== "undefined" && element.value == '') {
+                     alert("Please enter Donation Quantity");
+                  }
+            } else{
+               if((parseInt(document.getElementById('totalPrice').outerText)) > 20000){
+                  if(document.getElementById('panNumber').value == ''){
+                     alert("Please Enter Pan Number");
+                     // $('#paymentModal').hide();
+                     return;
+                  } else{
+                     getRazourPayByOrderId1();
+                  }  
+               }else{
+                                 if(document.getElementById('kindRequest').checked) { 
+                        kindRequest();
+                     } 
+                     else if(document.getElementById('paymentRequest').checked) { 
+                         getRazourPayByOrderId1();
+                        
+                     } 
+                     else { 
+                     alert("You have not Selected Option");
+         }
+                  }
+                 
+            }
+            
+         }
+          function confirmMethod(){
+           checkValidation();
+            
+          }
+         
+         var globeDonatedQty;
+          function anyPaymentRequest(){
+            totalamt =parseInt($('#totalPrice').text());
+            options.amount = totalamt*100;
+           // globeDonatedQty = parseInt(document.getElementById("addonDonationQuantity").value) + parseInt(globeAddStk) ;
+           globeDonatedQty = document.getElementById("addonDonationQuantity").value ;
+            var statsToSend = "";
+            debugger
+            if(globepresentStock > globeDonatedQty){
+               statsToSend = "newRequest";
+            }else{
+               statsToSend = "closerequest"
+            }
+            alert(statsToSend);
+            var data = JSON.stringify({
+                                       "request": [
+                                         {
+                                           "productId": globeProdeId,
+                                           "donorId": userdata.userId,
+                                           "dontaionAmount": parseFloat($('#totalPrice').text()),
+                                           "donatedQty": globeDonatedQty,
+                                           "paymentId": globtransactionId,
+                                           "presentStock": globepresentStock,
+                                           "requestStatus": statsToSend,
+                                           "donationRequestId": globeDonorId,
+                                           "donationStatus": "Payment",
+                                           "orderId":"any",
+                                           "description": "string",
+                                           "panNumber": document.getElementById("panNumber").value,
+                                           "otherNumber": document.getElementById("gstNumber").value,
+                                           "donationMethod": "cash",
+                                           "orderQty": ''
+                                         }
+                                       ]
+                                     });
+                                     console.log(data);
+                            $.ajax({
+            type: "POST",
+            url: baseUrl + "order/addNewDonation",
+             data: data, // now data come in this
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: "json",
+            success: function(data) {
+                  if (data.responseCode === 200) {
+                     setTimeout(function() {
+                     swal("Paymetn Success!", "Please use Our App @Google play", "success", {
+                        button: "OK",
+                     }).then(function(){
+                        displayDonationStatus();
+                        displaysocial();
+                           $('#displayPaymentType').hide();
+                        $('#donationPaymentList').hide();
+                        $('#shareSocialMedia').show();
+
+                        
+                     //  window.location.href = "donationPage.html";
+                         });
+                            }, 1000);
+                     
+                  }
+                     
+            },
+            error: function(jqXHR, status) {
+                  // error handler
+                  console.log(jqXHR);
+                  $("body").addClass("enableDiv");
+                  swal({text: "Payment Failed! ,please check your network",icon: "warning",button: "OK"}).then(function(){
+                      window.location.href = "donationPage.html";
+                         });;
+            }
+         });
+           
+          }
+         
+         function anyPaymentCloseRequest(){
+            totalamt =parseInt($('#totalPrice').text());
+            options.amount = totalamt*100;
+            // globeDonatedQty = parseInt(document.getElementById("addonDonationQuantity").value) + parseInt(globeAddStk) ; 
+            var data = JSON.stringify({
+                                       "request": [
+                                         {
+                                           "productId": globeProdeId,
+                                           "donorId": userdata.userId,
+                                           "dontaionAmount": parseFloat($('#totalPrice').text()),
+                                           "donatedQty": document.getElementById("addonDonationQuantity").value,
+                                           "paymentId": globtransactionId,
+                                           "presentStock": globepresentStock,
+                                           "requestStatus": "closerequest",
+                                           "donationRequestId": globeDonorId,
+                                           "donationStatus": "Payment",
+                                           "orderId":"any",
+                                           "description": "string",
+                                           "panNumber": document.getElementById("panNumber").value,
+                                           "otherNumber": document.getElementById("gstNumber").value,
+                                           "donationMethod": "cash",
+                                           "orderQty": globeOrderQty
+                                         }
+                                       ]
+                                     });
+                                     console.log(data);
+                                     
+                  $.ajax({
+            type: "POST",
+            url: baseUrl + "order/addNewDonation",
+             data: data, // now data come in this
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: "json",
+            success: function(data) {
+                  if (data.responseCode === 200) {
+                     setTimeout(function() {
+                     swal("Paymetn Success!", "Please use Our App @Google play", "success", {
+                        button: "OK",
+                     }).then(function(){
+                        displayDonationStatus();
+                        displaysocial();
+                        $('#displayPaymentType').hide();
+                        $('#donationPaymentList').hide();
+                        $('#shareSocialMedia').show();
+                     //  window.location.href = "donationPage.html";
+                         });
+                            }, 1000);
+                     
+                  }
+                     
+            },
+            error: function(jqXHR, status) {
+                  // error handler
+                  console.log(jqXHR);
+                  $("body").addClass("enableDiv");
+                  swal({text: "Payment Failed! ,please check your network",icon: "warning",button: "OK"}).then(function(){
+                      window.location.href = "donationPage.html";
+                         });;
+            }
+         });
+         }
+         function paymentRequest(){
+            totalamt =parseInt($('#totalPrice').text());
+            options.amount = totalamt*100;
+            // globeDonatedQty = parseInt(document.getElementById("addonDonationQuantity").value) + parseInt(globeAddStk) ;
+            var data = JSON.stringify({
+                                       "request": [
+                                         {
+                                           "productId": globeProdeId,
+                                           "donorId": userdata.userId,
+                                           "dontaionAmount": parseFloat($('#totalPrice').text()),
+                                           "donatedQty": document.getElementById("addonDonationQuantity").value,
+                                           "paymentId": globtransactionId,
+                                           "presentStock": globepresentStock,
+                                           "requestStatus": "closerequest",
+                                           "donationRequestId": globeDonorId,
+                                           "donationStatus": "Payment",
+                                           "orderId":globeRazourPayOrderId,
+                                           "description": "string",
+                                           "panNumber": document.getElementById("panNumber").value,
+                                           "otherNumber": document.getElementById("gstNumber").value,
+                                           "donationMethod": "cash",
+                                           "orderQty": globeOrderQty
+                                         }
+                                       ]
+                                     });
+                                     console.log(data);
+                                     
+                  $.ajax({
+            type: "POST",
+            url: baseUrl + "order/addNewDonation",
+             data: data, // now data come in this
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: "json",
+            success: function(data) {
+                  if (data.responseCode === 200) {
+                     setTimeout(function() {
+                     swal("Paymetn Success!", "Please use Our App @Google play", "success", {
+                        button: "OK",
+                     }).then(function(){
+                        displayDonationStatus();
+                        displaysocial();
+                        $('#displayPaymentType').hide();
+                        $('#donationPaymentList').hide();
+                        $('#shareSocialMedia').show();
+                     //  window.location.href = "donationPage.html";
+                         });
+                            }, 1000);
+                     
+                  }else{
+                     alert("fail");
+                  }
+                     
+            },
+            error: function(jqXHR, status) {
+                  // error handler
+                  console.log(jqXHR);
+                  $("body").addClass("enableDiv");
+                  swal({text: "Payment Failed! ,please check your network",icon: "warning",button: "OK"});
+            }
+         });
+         }
+         
+         function paymentRequestForBenificiary(){
+            totalamt =parseFloat($('#totalPrice').text());
+            options.amount = totalamt*100;
+            var requiredQuantity = document.getElementById("benificiarySelection");
+             var a= requiredQuantity.selectedIndex;
+             globebenificiayName = benifi[a-1];
+             globeOrderID  = orderList[a-1];
+             globeDonatedQty = document.getElementById("addonDonationQuantity").value ;
+            debugger
+             if(globepresentStock > globeDonatedQty){
+               statsToSend = "newRequest";
+            }else{
+               statsToSend = "closerequest"
+            }
+            var data = JSON.stringify({
+                                       "request": [
+                                         {
+                                           "productId": globeProdeId,
+                                           "donorId": userdata.userId,
+                                           "dontaionAmount": parseFloat($('#totalPrice').text()),
+                                           "donatedQty": globeDonatedQty,
+                                           "paymentId": globtransactionId,
+                                           "presentStock": globepresentStock,
+                                           "requestStatus": statsToSend,
+                                           "donationRequestId": globeDonorId,
+                                           "donationStatus": "Payment",
+                                           "orderId": globeOrderID,
+                                           "description": "string",
+                                           "panNumber": document.getElementById("panNumber").value,
+                                           "otherNumber": document.getElementById("gstNumber").value,
+                                           "donationMethod": "cash",
+                                           "orderQty": globeOrderQty
+                                         }
+                                       ]
+                                     });
+                                     console.log(data);
+                                     
+                  $.ajax({
+            type: "POST",
+            url: baseUrl + "order/addNewDonation",
+             data: data, // now data come in this
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: "json",
+            success: function(data) {
+                  if (data.responseCode === 200) {
+                     setTimeout(function() {
+                     swal("Payment Success!", "Please use Our App @Google play", "success", {
+                        button: "OK",
+                     }).then(function(){
+                        displayDonationStatus();
+                        displaysocial();
+                        $('#displayPaymentType').hide();
+                        $('#donationPaymentList').hide();
+                        $('#shareSocialMedia').show();
+                     //  window.location.href = "donationPage.html";
+                         });
+                            }, 1000);
+                     
+                  }else{
+                     alert("fail");
+                  }
+                     
+            },
+            error: function(jqXHR, status) {
+                  // error handler
+                  console.log(jqXHR);
+                  $("body").addClass("enableDiv");
+                  swal({text: "Payment Failed! ,please check your network",icon: "warning",button: "OK"}).then(function(){
+                      window.location.href = "donationPage.html";
+                         });
+            }
+         });
+         }
+         
+         
+           function getDonationReport(){
+            var data = JSON.stringify({
+              "request":{
+               "userId": userdata.userId,
+               "status": "donorId",
+               "startDate": document.getElementById("selectStartDate").value,
+               "endDate": document.getElementById("selectEndDate").value
+                 }
+                 
+          });
+          console.log(data);
+          $.ajax({
+             type: "POST",
+             url: baseUrl  + "order/getDonationReportByDate",
+            // url: "http://ec2-13-232-112-42.ap-south-1.compute.amazonaws.com:8082/ots/api/v18_1/users_subscription/getCurrentSubscription",
+             data: data, // now data come in this
+             contentType: "application/json; charset=utf-8",
+             crossDomain: true,
+             dataType: "json",
+             success: function(data) {
+                   if (data.responseCode === 200) {
+                      console.log(data.responseData.donationList.length);
+                     if(data.responseData.donationList.length !=0){
+                         globeDonationList = data.responseData.donationList;
+                        
+                         var paymentHistory = '<div class=""><table class="table table-bordered">'; 
+                           paymentHistory += '<thead><tr><th scope="col">Product Name</th><th scope="col">Product Price</th><th scope="col">Donation Amount</th><th scope="col">Product Quantity</th>';
+                              paymentHistory +='<th scope="col">Donor Name</th><th scope="col">Donor Address</th><th scope="col">Donor Status</th><th scope="col">Payment Method</th>  </tr></thead>';
+                              paymentHistory +='<tbody>';
+                           for(var i=0;i<globeDonationList.length;i++){
+                              paymentHistory +='<tr><td>'+globeDonationList[i].productDetails.productName +'</td>'; 
+                              paymentHistory +='<td>'+globeDonationList[i].productDetails.productPrice +'</td>';
+                              paymentHistory +='<td>'+globeDonationList[i].donationAmount +'</td>';
+                              paymentHistory +='<td>'+globeDonationList[i].donatedQty +'</td>';
+                              paymentHistory +='<td>'+globeDonationList[i].userDetails.firstName +'</td>';
+                              paymentHistory +='<td>'+globeDonationList[i].userDetails.address1 +'</td>'; 
+                              paymentHistory +='<td>'+globeDonationList[i].donationStatus +'</td>';
+                              paymentHistory +='<td>'+globeDonationList[i].donationMethod +'</td></tr>';     
+                                    
+         
+                             }
+                             paymentHistory +=' </tbody>'; 
+                           }
+                           paymentHistory+='</table>'; 
+                           
+                             if(globeDonationList.length-1 >i){
+                               paymentHistory+= '<hr>'
+                             }
+                         }
+                            paymentHistory+= '</div>';
+                            console.table(paymentHistory);
+                      $('#donationReportDetails').html(paymentHistory);
+         
+                     
+             },
+             error: function(jqXHR, status) {
+                   // error handler
+                   console.log(jqXHR);
+                   $("body").addClass("enableDiv");
+                   //swal({text: "Unable to connect ,please check your network",icon: "warning",button: "OK"});
+             }
+          });
+           }
+         
+           $(document).ready(function(){     
+         
+           $("#panNumber").change(function () {      
+           var inputvalues = $(this).val();      
+             var regex = /[A-Z]{5}[0-9]{4}[A-Z]{1}$/;    
+             if(!regex.test(inputvalues)){      
+             $("#panNumber").val("");    
+             alert("invalid PAN no");    
+             return regex.test(inputvalues);    
+             }    
+           });      
+            
+         });
+         
+         function passwordValidate() {
+            var confirmExistingPass = document.getElementById("existingPassword").value;
+         var password = document.getElementById("inputPassword1").value;
+         var confirmPassword = document.getElementById("inputPassword2").value;
+         if(document.getElementById('inputPassword2').value == ''){
+                     alert("Please Re-Enter New Password");
+                     return;
+                  }
+         if (password != confirmPassword) {
+            alert("Passwords do not match.");
+            return false;
+         }
+         if(document.getElementById('existingPassword').value == ''){
+                     alert("Please Enter Existing Password");
+                     return;
+                  }
+                  if(document.getElementById('inputPassword1').value == ''){
+                     alert("Please Enter New Password");
+                     return;
+                  }
+                  
+         updatePassword();
+         return true;
+         
+         
+         }
+         
+         function updatePassword(){
+         var data = JSON.stringify({
+               "updatePassword": {
+                  "userId": userdata.userId,
+                  "newPassword":document.getElementById("inputPassword1").value,
+                  "oldPassword": document.getElementById("existingPassword").value
+               }
+               });
+               $.ajax({
+             type: "POST",
+             url: baseUrl  + "users/updatePassword",
+              data: data, // now data come in this
+             contentType: "application/json; charset=utf-8",
+             crossDomain: true,
+             dataType: "json",
+             success: function(data) {
+                  if (data.responseCode === 200) { 
+                     setTimeout(function() {
+                      swal({text: "Password Updated",icon: "success",button: "OK"}).then(function()
+                        {
+                      window.location.href = "donationPage.html";
+                         });
+                            }, 1000);
+                        }else{
+                           setTimeout(function() {
+                  swal({text: "Please check your old password",icon: "warning",button: "OK"});}, 1000);
+                        }
+                        
+                     }, 
+            error: function(jqXHR, status) {
+                  // error handler
+                  console.log(jqXHR);
+                  $("body").addClass("enableDiv");
+                 
+            }
+         });  
+         
+         
+         }
+         var globeDonationOrdercost;
+         function donationPayment(){
+            totalamt = parseFloat(document.getElementById("directDonationAmount").value);
+            options.amount = parseFloat(totalamt*100).toFixed(2);
+            var data = JSON.stringify({
+                  "request": [
+                     {
+                        "productId": globeProdeId,
+                        "donorId": userdata.userId,
+                        "dontaionAmount": totalamt.toFixed(2),
+                        //parseInt(globeDonationOrdercost)/100,
+                        "donatedQty": '',
+                        "paymentId": globtransactionId,
+                        "presentStock": 'string',
+                        "requestStatus": "newRequest",
+                        "donationRequestId": globeDonorId,
+                        "donationStatus": "directDonation",
+                        "orderId": globeRazourPayOrderId,
+                        "description": document.getElementById("donationDescription").value,
+                        "panNumber": document.getElementById("panCardNumber").value,
+                        "otherNumber": document.getElementById("gstNumber").value,
+                        "donationMethod": "string",
+                        "orderQty": "string"
+                     }
+                  ]
+                  });
+                  $.ajax({
+            type: "POST",
+            url: baseUrl + "order/addNewDonation",
+             data: data, // now data come in this
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: "json",
+            success: function(data) {
+                  if (data.responseCode === 200) {
+                     setTimeout(function() {
+                     swal("Paymetn Success!", "Please use Our App @Google play", "success", {
+                        button: "Next",
+                     }).then(function(){
+                        debugger
+                        $('#directDonationCash').hide();
+                        $('#sharingSocialMedia').show();
+               
+                        // socialMedia();
+                        // $('#donationCash').hide();
+                        // $('#socialMedia').show();
+                        // displayDonationStatus();
+                     // window.location.href = "donationPage.html";
+                         });
+                            }, 1000);
+                     
+                  }else{
+                     alert("fail");
+                  }
+                     
+            },
+            error: function(jqXHR, status) {
+                  // error handler
+                  console.log(jqXHR);
+                  $("body").addClass("enableDiv");
+                  swal({text: "Payment Failed! ,please check your network",icon: "warning",button: "OK"});
+            }
+         });
+         }
+
+         function socialMedia(){
+            alert();
+            $('#donationCash').hide();
+            $('#socialMedia').modal('show');
+                        // $('#donationCash').hide();
+                        // $('#').show();
+                     }
+         
+         //--------------------------------------Razour Pay Payment for Direct Doantion -------------------------------------------------------------------------------------------      
+         
+         var options = {
+           
+            "key": "rzp_test_NYxmr2CtwORaZd",
+            "secret": "GEOEnpzemqrQuPlVesUQvLBW",
+            // "key": "rzp_test_WtuloZWROH1r4l", // Enter the Key ID generated from the Dashboard
+            "currency": "INR",
+            "name": "ORTUSOLIS TECHNOLOGY SERVICES LLP",
+            "description": "Ortusolis Subscription model payment",
+            "Merchant_ID" : "FNVXlWHGcpbSIQ",
+            "image": "https://example.com/your_logo",
+            // "order_id": globeRazourPayOrderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response){
+               // globeDonationOrdercost = document.getElementById("directDonationAmount").value * 100;
+               globtransactionId = response.razorpay_payment_id;
+               globKey = "add";
+               globStatus = "active";
+               globUserId = "1";
+               // globorderId = OrderID;
+               console.table("KEY"+globKey);
+               console.table("transactionId"+globtransactionId);
+               console.table("status"+globStatus);
+               console.table("uid"+globUserId);
+                    donationPayment();
+               
+            },
+            "prefill": {
+               "name": "Manoj V G",
+               "email": "example@gmail.com",
+               "contact": "09998837653"
+            },
+            "notes": {
+               "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+               "color": "#0000A0"
+            }
+         };
+         
+         
+         
+         
+         var  globeOrdercost ;
+         function getRazourPayByOrderId(){
+            razourPayAmt = parseFloat(document.getElementById("directDonationAmount").value);
+            debugger;
+            console.log(parseFloat(razourPayAmt) * 100);
+             globeOrdercost = parseFloat(razourPayAmt * 100).toFixed(2) ;
+            var data = JSON.stringify({
+                     "request": {
+                        "distributorId": "2",
+                        "orderCost": parseFloat(globeOrdercost) // cost must be in paisa
+                        }
+                     });
+         
+            $.ajax({
+             type: "POST",
+             url: baseUrl  + "order/getRazorPayOrder",
+              data: data, // now data come in this
+             contentType: "application/json; charset=utf-8",
+             crossDomain: true,
+             dataType: "json",
+             success: function(data) {
+                  if (data.responseCode === 200) {
+         
+                     globeOrderDetails =data.responseData.orderDetails;
+                     globeRazourPayOrderId = globeOrderDetails[0].orderId; 
+                     $('#myModal').modal('toggle');
+                     options.order_id = globeRazourPayOrderId;
+         
+                        var rzp1 = new Razorpay(options);
+                        rzp1.open();
+                  }
+                  
+                     }, 
+            error: function(jqXHR, status) {
+                  // error handler
+                  console.log(jqXHR);
+                  $("body").addClass("enableDiv");
+                  
+            }
+         });  
+         }
+         //-------------------------------------------End of Direct Donation Payment -------------------------------------------------------------------
+         //------------------------------------------------------------Payment for Product Donation -------------------------------------------
+         var options1 = {
+           
+           "key": "rzp_test_NYxmr2CtwORaZd",
+           "secret": "GEOEnpzemqrQuPlVesUQvLBW",
+           // "key": "rzp_test_WtuloZWROH1r4l", // Enter the Key ID generated from the Dashboard
+           "currency": "INR",
+           "name": "ORTUSOLIS TECHNOLOGY SERVICES LLP",
+           "description": "Ortusolis Subscription model payment",
+           "Merchant_ID" : "FNVXlWHGcpbSIQ",
+           "image": "https://example.com/your_logo",
+           // "order_id": globeRazourPayOrderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+           "handler": function (response){
+              // globeDonationOrdercost = document.getElementById("directDonationAmount").value * 100;
+              globtransactionId = response.razorpay_payment_id;
+              globKey = "add";
+              globStatus = "active";
+              globUserId = "1";
+              // globorderId = OrderID;
+              console.table("KEY"+globKey);
+              console.table("Mode"+globeMode);
+              console.table("transactionId"+globtransactionId);
+              console.table("status"+globStatus);
+              // console.table("cost"+globeDonationOrdercost);
+              console.table("uid"+globUserId);
+              if(benificiarySelection.value == "SelectedBenificiary"){
+              if(document.getElementById("benificiarySelection").options.length == 2){
+                 alert(document.getElementById("benificiarySelection").options.length);
+               paymentRequest(); 
+              }else{
+               paymentRequestForBenificiary();
+              }
+              }
+            if(benificiarySelection.value == "any"){
+               debugger
+               console.log(document.getElementById("addonDonationQuantity").value);
+               console.log(parseInt(document.getElementById("addonDonationQuantity").value) < parseInt(globepresentStock));
+               if(parseInt(document.getElementById("addonDonationQuantity").value) < parseInt(globepresentStock)){
+                  anyPaymentRequest();
+               }else{
+                  if(parseInt(document.getElementById("addonDonationQuantity").value) > parseInt(globepresentStock) ){
+                  anyPaymentCloseRequest();
+                  }else {
+                  anyPaymentCloseRequest();
+               }
+               }
+                 
+               }
+                 
+              // console.table("orderId"+globorderId);
+              
+           },
+           "prefill": {
+              "name": "Manoj V G",
+              "email": "example@gmail.com",
+              "contact": "09998837653"
+           },
+           "notes": {
+              "address": "Razorpay Corporate Office"
+           },
+           "theme": {
+              "color": "#0000A0"
+           }
+         };
+         var  globeOrdercost1 ;
+         var razourPayAmt;
+         function getRazourPayByOrderId1(){
+            razourPayAmt = parseFloat($('#totalPrice').text());
+            debugger;
+            console.log(parseFloat(razourPayAmt) * 100);
+             globeOrdercost1 = parseFloat(razourPayAmt * 100).toFixed(2) ;
+             console.log(globeOrdercost1);
+             console.log(parseFloat(globeOrdercost1));
+            var data = JSON.stringify({
+                     "request": {
+                        "distributorId": "2",
+                        "orderCost": parseFloat(globeOrdercost1) // cost must be in paisa
+                        }
+                     });
+            $.ajax({
+             type: "POST",
+             url: baseUrl  + "order/getRazorPayOrder",
+              data: data, // now data come in this
+             contentType: "application/json; charset=utf-8",
+             crossDomain: true,
+             dataType: "json",
+             success: function(data) {
+                  if (data.responseCode === 200) {
+         console.log(data);
+                     globeOrderDetails = data.responseData.orderDetails;
+                     globeRazourPayOrderId = globeOrderDetails[0].orderId;
+                     $('#myModal').modal('toggle');
+                     options1.order_id = globeRazourPayOrderId;
+         
+                        var rzp1 = new Razorpay(options1);
+                        rzp1.open();
+                  }
+                  
+                     }, 
+            error: function(jqXHR, status) {
+                  // error handler
+                  console.log(jqXHR);
+                  $("body").addClass("enableDiv");
+                  
+            }
+         });  
+         }
+         var userdata;
+         var globeuserName;
+         var globeUserAdress;
+         var username;
+         $( document ).ready(function() { 
+         userdata = window.localStorage.getItem("userData");
+         userdata = JSON.parse(userdata);//added code here (balaji)
+         console.log(userdata);
+         username = window.localStorage.setItem("username",userdata.firstName);
+         useraddress = window.localStorage.setItem("useraddress",userdata.address1);
+         usercity = window.localStorage.setItem("usercity",userdata.address2);
+    
+         // globeuserName = userdata.firstName;
+         
+         
+         });
+        
+    
+
+
+         function userProfile(){
+         $('#Firstname').text(userdata.firstName); 
+         $('#Lastname').text(userdata.lastName); 
+         $('#emailId').text(userdata.emailId);
+         $('#address1').text(userdata.address1);
+         $('#address2').text(userdata.address2);
+         $('#contactNo').text(userdata.contactNo);
+         $('#pincode').text(userdata.pincode);
+         console.log(globeuserName);
+         }
+         globeuserName = window.localStorage.getItem("username");
+         globeUserAdress = window.localStorage.getItem("useraddress");
+         globeUserCity = window.localStorage.getItem("usercity");
+        function displaysocial(){
+         console.log(globeuserName);
+         console.log(globeUserAdress);
+         console.log( globeUserCity);
+         console.log(globeProdeName);
+         console.log(globeProdePrice);
+         console.log(globebenificiayName);
+         $('#shareBlock2').cShare({
+      description:  globeuserName,
+      address: globeUserAdress,
+      city : globeUserCity,
+      product: globeProdeName ,
+      productPrice : globeProdePrice,
+      benificary: globebenificiayName,
+                  showButtons: [
+                  'fb',
+                  'twitter',
+                  'pinterest',
+                  'email',
+                  'watsapp'
+                  ]
+               });
+         }
+         
+         function closemodal(){
+            location.href = "donationPage.html";
+         }
+         
+
+
+         $('#shareBlock').cShare({
+      description:  globeuserName,
+      address: globeUserAdress,
+      product: globeProdeName ,
+      productPrice : globeProdePrice,
+      benificary: globebenificiayName,
+      showButtons: [
+        'fb',
+        'twitter',
+        'pinterest',
+        'email',
+        'watsapp'
+      ]
+    });
+
+    
+
+         function logout(){
+            setTimeout(function () { 
+                  swal("Are you sure?",{
+                  button: "OK"
+                  }).then(
+                  function(isConfirm){
+                  if (isConfirm) {
+                     localStorage.clear();
+                    sessionStorage.clear();
+                        preventBack();
+                     window.location.href="login.html";
+                  }
+                  }); }, 3000);
+                     
+                  }
+         function preventBack() { window.history.forward(); }
+         setTimeout("preventBack()", 0);
+         window.onunload = function () { null };
+       
+      </script>
+      <script>
+         jQuery('#startDate').datepicker({
+         // format: 'mm-dd-yyyy',
+         format: 'yyyy-mm-dd',
+         endDate: '0d',
+         autoclose: true
+         }).on("changeDate",function (e) {
+         jQuery('#endDate').datepicker("setStartDate", e.date);
+         });
+         var d = new Date();
+         var now = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+         $('#startDate').datepicker('update', now);
+         
+         jQuery('#endDate').datepicker({
+         // format: 'mm-dd-yyyy',
+         format: 'yyyy-mm-dd',
+         endDate: '0d',
+         autoclose: true
+         }).on("changeDate",function (e) {
+         jQuery('#startDate').datepicker("setEndDate", e.date);
+         });
+         $('#endDate').datepicker('update', now);
+      </script>
+      <script>
+         $('#myModal').on('shown.bs.modal', function () {
+         $('#myInput').trigger('focus')
+         })
+
+         function closemodal(){
+            location.href="donationPage.html";
+         }
+         
+         $('#donationListEdit').on('hidden.bs.modal', function () {
+            location.reload();
+               })
+               
+                $('#donationReport').on('hidden.bs.modal', function () {
+            location.reload();
+               })
+               
+          $('#changePassword').on('hidden.bs.modal', function () {
+            location.reload();
+               })
+
+               $('#donationCash').on('hidden.bs.modal', function () {
+            location.reload();
+               })
+
+      //          window.onbeforeunload = function() {
+      //       return "Data will be lost if you leave the page, are you sure?";
+      // 
+      //       };
+            window.addEventListener('beforeunload', function(event) {
+               // return "Data will be lost if you leave the page, are you sure?";
+               let result = confirm("Changes you made may not be saved.");
+    if (result) {
+      window.location.href ="donationPage.hmtl";
+    }
+    event.returnValue = false; // stay on same page
+               
+      });
+      // window.addEventListener('unload', function(event) {
+      //    window.location.href="login.html";
+      // });
+      debugger
+      $(document).on("keydown", function (e) {
+        if (e.key == "F5" || e.key == "F11" || 
+            (e.ctrlKey == true && (e.key == 'r' || e.key == 'R')) || 
+            e.keyCode == 116 || e.keyCode == 82) {
+
+                   e.preventDefault();
+        }
+    });
+window.onbeforeunload = function() {
+         let result = confirm("Changes you made may not be saved.");
+    if (result) {
+      window.location.href ="donationPage.hmtl";
+    }
+    event.returnValue = false;
+        
+    }
+    document.onkeydown = function(e) {
+  if(event.keyCode == 123) {
+     return false;
+  }
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+     return false;
+  }
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+     return false;
+  }
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+     return false;
+  }
+  if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+     return false;
+  }
+}
+
+//----------------------------Scripting for Sharing Social Media ----------------------------------------------------------
+
+/*!
+ * shareon v1.3.0 by Nikita Karamov
+ * https://shareon.js.org
+ */
+ 
+      </script>
+     
+   </body>
+</html>
