@@ -44,10 +44,11 @@ import java.util.TimerTask;
 
 import com.ortusolis.rotarytarana.R;
 import com.ortusolis.rotarytarana.Utility.AvenuesParams;
-import com.ortusolis.rotarytarana.Utility.Constants;
+//import com.ortusolis.rotarytarana.Utility.Constants;
 import com.ortusolis.rotarytarana.Utility.LoadingDialog;
 import com.ortusolis.rotarytarana.Utility.RSAUtility;
 import com.ortusolis.rotarytarana.Utility.ServiceUtility;
+import com.ortusolis.rotarytarana.Utility.VenderConstants;
 
 
 public class WebViewActivity  extends AppCompatActivity {
@@ -260,7 +261,7 @@ public class WebViewActivity  extends AppCompatActivity {
 
                 String postData = AvenuesParams.ACCESS_CODE + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ACCESS_CODE), "UTF-8") + "&" + AvenuesParams.MERCHANT_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.MERCHANT_ID), "UTF-8") + "&" + AvenuesParams.ORDER_ID + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.ORDER_ID), "UTF-8") + "&" + AvenuesParams.REDIRECT_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.REDIRECT_URL), "UTF-8") + "&" + AvenuesParams.CANCEL_URL + "=" + URLEncoder.encode(mainIntent.getStringExtra(AvenuesParams.CANCEL_URL), "UTF-8") + "&" + AvenuesParams.ENC_VAL + "=" + URLEncoder.encode(encVal, "UTF-8");
 
-                webview.postUrl(Constants.TRANS_URL, postData.getBytes());
+                webview.postUrl(VenderConstants.TRANS_URL, postData.getBytes());
 
             } catch (UnsupportedEncodingException e) {
 

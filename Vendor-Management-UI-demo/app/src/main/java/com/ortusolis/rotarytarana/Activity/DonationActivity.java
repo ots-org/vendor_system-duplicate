@@ -1,10 +1,12 @@
 package com.ortusolis.rotarytarana.Activity;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -112,8 +114,8 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                finalList.clear();
-                // TODO Auto-generated method stub
+                    finalList.clear();
+                    // TODO Auto-generated method stub
                     list.getItemAtPosition(position);
                     finalList.add(productNameList.get(position));
                     finalList.add(productPriceList.get(position));
@@ -123,8 +125,8 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
                     finalList.add(productId.get(position));
                     Intent intent = new Intent(DonationActivity.this, DonationActivityDiscription.class);
                     intent.putExtra("finalList", finalList);
-                    startActivityForResult(intent,3533);
-                    Log.e("item",list.getItemAtPosition(position).toString());
+                    startActivityForResult(intent, 3533);
+                    Log.e("item", list.getItemAtPosition(position).toString());
             }
         });
         donarName.setText(sharedPreferences.getString("username",""));
@@ -265,29 +267,54 @@ public class DonationActivity extends AppCompatActivity implements Serializable 
         return valid;
     }
     public void donationCash(){
-        if(validate()){
-            onBackPressed();
-            donationCashlist.clear();
-            donationCashlist.add(donarAmount.getText().toString());
-            donationCashlist.add(donarDescription.getText().toString());
-            if (donarGst.getText().toString().isEmpty()){
-                donationCashlist.add("");
-            }else {
-                donationCashlist.add(donarPan.getText().toString());
-            }
+        if(validate()) {
+            if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId", "").equalsIgnoreCase("000")) {
+                    loginPage();
+            } else {
+                onBackPressed();
+                donationCashlist.clear();
+                donationCashlist.add(donarAmount.getText().toString());
+                donationCashlist.add(donarDescription.getText().toString());
+                if (donarGst.getText().toString().isEmpty()) {
+                    donationCashlist.add("");
+                } else {
+                    donationCashlist.add(donarPan.getText().toString());
+                }
 
-            if (donarPan.getText().toString().isEmpty()){
-                donationCashlist.add("");
-            }else {
-                donationCashlist.add(donarGst.getText().toString());
-            }
-            donationCashlist.add(donarName.getText().toString());
-            donationCashlist.add(donarAddress.getText().toString());
+                if (donarPan.getText().toString().isEmpty()) {
+                    donationCashlist.add("");
+                } else {
+                    donationCashlist.add(donarGst.getText().toString());
+                }
+                donationCashlist.add(donarName.getText().toString());
+                donationCashlist.add(donarAddress.getText().toString());
 
-            Intent donationCashIntent = new Intent(DonationActivity.this, RazorPayActivity.class);
-            donationCashIntent.putExtra("donationCashlist", donationCashlist);
-            startActivity(donationCashIntent);
+                Intent donationCashIntent = new Intent(DonationActivity.this, RazorPayActivity.class);
+                donationCashIntent.putExtra("donationCashlist", donationCashlist);
+                startActivity(donationCashIntent);
+            }
         }
+    }
+    public void loginPage(){
+        AlertDialog.Builder alertDialogCash = new AlertDialog.Builder(this);
+        alertDialogCash.setTitle("Please Login to  make Donation !!!");
+        alertDialogCash.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
 
+        alertDialogCash.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // navigation
+                Intent intent = new Intent(DonationActivity.this, LoginActivity.class);
+                startActivityForResult(intent,3533);
+            }
+        });
+        AlertDialog alert = alertDialogCash.create();
+        alert.setCanceledOnTouchOutside(false);
+        alert.show();
     }
 }

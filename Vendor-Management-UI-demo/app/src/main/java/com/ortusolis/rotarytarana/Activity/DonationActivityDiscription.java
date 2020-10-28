@@ -182,14 +182,14 @@ public class DonationActivityDiscription extends AppCompatActivity {
                         return;
                     }
                 }
-                if(donorName.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "80G Name cannot be empty ", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if(donorAddress.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "80G Address cannot be empty", Toast.LENGTH_LONG).show();
-                    return;
-                }
+//                if(donorName.getText().toString().isEmpty()){
+//                    Toast.makeText(getApplicationContext(), "80G Name cannot be empty ", Toast.LENGTH_LONG).show();
+//                    return;
+//                }
+//                if(donorAddress.getText().toString().isEmpty()){
+//                    Toast.makeText(getApplicationContext(), "80G Address cannot be empty", Toast.LENGTH_LONG).show();
+//                    return;
+//                }
                 paymentMethod="Payment";
                 pay();
             }
@@ -283,51 +283,54 @@ public class DonationActivityDiscription extends AppCompatActivity {
         totalAmount.setText(String.format("%.2f", totalP));
     }
     public void pay(){
+        if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId", "").equalsIgnoreCase("000")) {
+            loginPage();
+        }else {
+            Integer dQ = Integer.valueOf(String.valueOf(donationQuantity.getText()));
+            Integer rQ = Integer.valueOf(String.valueOf(requiredQuantity.getText()));
 
-        Integer dQ=Integer.valueOf(String.valueOf(donationQuantity.getText()));
-        Integer rQ=Integer.valueOf(String.valueOf(requiredQuantity.getText()));
+            if (dQ > rQ || dQ == rQ || (BeneficiaryProductQuantity.size() == 1 && selctBen.equals("yes"))) {
+                status = "closerequest";
+            } else {
+                status = "newRequest";
+            }
+            if (paymentMethod.equals("Kind")) {
+                paymentStatus = paymentMethod;
+                donationKind();
+                return;
+            } else {
+                paymentStatus = paymentMethod;
+            }
+            donationlist.clear();
+            donationlist.add(productId);
+            donationlist.add(totalAmount.getText().toString());
+            if (donationQuantity.getText().toString().equals("") || donationQuantity.getText().toString().equals("0")) {
+                donationlist.add("1");
+            } else {
+                donationlist.add(donationQuantity.getText().toString());
+            }
 
-        if(dQ>rQ || dQ==rQ||(BeneficiaryProductQuantity.size()==1 && selctBen.equals("yes"))){
-            status="closerequest";
-        }else {
-            status="newRequest";
+            donationlist.add(requiredQuantity.getText().toString());
+            donationlist.add(status);
+            donationlist.add(donationRequestId);
+            donationlist.add(paymentStatus);
+            donationlist.add(orderIdBen);
+            donationlist.add(gst.getText().toString());
+            donationlist.add(pan.getText().toString());
+            if (orderIdBen.equals("any")) {
+                donationlist.add("");
+            } else {
+                donationlist.add(orderQntBen);
+            }
+            donationlist.add(productName);
+            donationlist.add(spinnerBeneficiary.getSelectedItem().toString());
+            donationlist.add(donorName.getText().toString());
+            donationlist.add(donorAddress.getText().toString());
+            onBackPressed();
+            Intent donationlistIntent = new Intent(DonationActivityDiscription.this, RazorPayActivity.class);
+            donationlistIntent.putExtra("donationlist", donationlist);
+            startActivity(donationlistIntent);
         }
-        if(paymentMethod.equals("Kind")){
-            paymentStatus=paymentMethod;
-            donationKind();
-            return;
-        }else {
-            paymentStatus=paymentMethod;
-        }
-        donationlist.clear();
-        donationlist.add(productId);
-        donationlist.add(totalAmount.getText().toString());
-        if(donationQuantity.getText().toString().equals("")||donationQuantity.getText().toString().equals("0")){
-            donationlist.add("1");
-        }else {
-            donationlist.add(donationQuantity.getText().toString());
-        }
-
-        donationlist.add(requiredQuantity.getText().toString());
-        donationlist.add(status);
-        donationlist.add(donationRequestId);
-        donationlist.add(paymentStatus);
-        donationlist.add(orderIdBen);
-        donationlist.add(gst.getText().toString());
-        donationlist.add(pan.getText().toString());
-        if(orderIdBen.equals("any")){
-            donationlist.add("");
-        }else {
-            donationlist.add(orderQntBen);
-        }
-        donationlist.add(productName);
-        donationlist.add(spinnerBeneficiary.getSelectedItem().toString());
-        donationlist.add(donorName.getText().toString());
-        donationlist.add(donorAddress.getText().toString());
-        onBackPressed();
-        Intent donationlistIntent = new Intent(DonationActivityDiscription.this, RazorPayActivity.class);
-        donationlistIntent.putExtra("donationlist", donationlist);
-        startActivity(donationlistIntent);
     }
 
     public void BenifiaryList(){
@@ -542,6 +545,28 @@ public class DonationActivityDiscription extends AppCompatActivity {
                 Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
             }
         });
+    }
+    public void loginPage(){
+        AlertDialog.Builder alertDialogCash = new AlertDialog.Builder(this);
+        alertDialogCash.setTitle("Please Login to  make Donation !!!");
+        alertDialogCash.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alertDialogCash.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // navigation
+                Intent intent = new Intent(DonationActivityDiscription.this, LoginActivity.class);
+                startActivityForResult(intent,3533);
+            }
+        });
+        AlertDialog alert = alertDialogCash.create();
+        alert.setCanceledOnTouchOutside(false);
+        alert.show();
     }
 
 }

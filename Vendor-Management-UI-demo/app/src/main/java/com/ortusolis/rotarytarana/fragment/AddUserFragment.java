@@ -429,6 +429,10 @@ public class AddUserFragment extends  Fragment implements LocationListener {
         else if (address1Edit.getText().toString().isEmpty()){
             address1Edit.setError("Please Enter Address");
             valid = false;
+        }
+        else if (address2Edit.getText().toString().isEmpty()){
+            address2Edit.setError("Please Enter Address");
+            valid = false;
         }else if (password2Edit.getText().toString().isEmpty()){
             password2Edit.setError("Please Enter Password");
             valid = false;

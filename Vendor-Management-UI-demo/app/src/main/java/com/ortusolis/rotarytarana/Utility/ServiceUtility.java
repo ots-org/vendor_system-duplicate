@@ -79,8 +79,8 @@ public class ServiceUtility{
 
     public static String addToPostParams(String paramKey, String paramValue){
         if(paramValue!=null)
-            return paramKey.concat(Constants.PARAMETER_EQUALS).concat(paramValue)
-                    .concat(Constants.PARAMETER_SEP);
+            return paramKey.concat(VenderConstants.PARAMETER_EQUALS).concat(paramValue)
+                    .concat(VenderConstants.PARAMETER_SEP);
         return "";
     }
 

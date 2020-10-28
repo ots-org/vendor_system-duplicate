@@ -210,14 +210,25 @@ final ProductRequest productRequest = new ProductRequest();
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("000")) {
+                    Intent intent = new Intent(ProductDescription.this,LoginActivity.class);
+                    startActivity(intent);
+                }else {
                     insertOrderAndProducttoCart();
+                }
             }
         });
 
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertOrderAndProduct(false);
+                if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("000")) {
+                    Intent intent = new Intent(ProductDescription.this,LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    insertOrderAndProduct(false);
+                }
+
             }
         });
 
@@ -327,6 +338,13 @@ final ProductRequest productRequest = new ProductRequest();
             customeLinearLayoutView.setVisibility(View.GONE);
             customerStr = sharedPreferences.getString("userid","");
             customerStrName = sharedPreferences.getString("username","");
+        }
+        if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("000")){
+            customerLayout.setVisibility(View.GONE);
+            salesVoucher.setVisibility(View.GONE);
+            customeLinearLayoutView.setVisibility(View.GONE);
+//            customerStr = sharedPreferences.getString("userid","");
+//            customerStrName = sharedPreferences.getString("username","");
         }
         if(sharedPreferences.contains("userSwitchRoleId") && sharedPreferences.getString("userSwitchRoleId","").equalsIgnoreCase("2")){
             customeLinearLayoutView.setVisibility(View.VISIBLE);

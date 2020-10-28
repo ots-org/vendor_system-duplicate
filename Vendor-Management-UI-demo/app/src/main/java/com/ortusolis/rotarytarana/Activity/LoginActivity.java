@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity{
     String currentLanguage = "en", currentLang;
     ProgressDialog progressDialog;
     //
-    TextView register,forgotPassword,lang,ots;
+    TextView register,forgotPassword,lang,ots,skip;
     Button login;
     LinearLayout rootView;
     CheckBox rememberMe;
@@ -96,6 +96,7 @@ public class LoginActivity extends AppCompatActivity{
         rootView = findViewById(R.id.rootView);
         rememberMe = findViewById(R.id.rememberMe);
         ots = findViewById(R.id.ots);
+        skip = findViewById(R.id.skip);
         gson = new Gson();
         v= this.findViewById(android.R.id.content);
         sharedPreferences = getSharedPreferences("water_management",0);
@@ -166,7 +167,15 @@ public class LoginActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sharedPreferences.edit().putString("userRoleId","000").commit();
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

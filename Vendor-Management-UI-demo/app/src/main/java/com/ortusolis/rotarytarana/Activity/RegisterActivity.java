@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     ActionBar action;
     EditText firstNameEdit, lastNameEdit, phoneEdit, emailEdit, passwordEdit, confirmpasswordEdit, address1Edit, address2Edit, pincodeEdit;
     LinearLayout customerLayout, employeeRemoveLayout, distributorCodeLayoutLL;
-    TextView productText, distributorCodeEdit;
+    TextView productText, distributorCodeEdit,termsandConditions;
     protected LocationManager locationManager;
     protected LocationListener locationListener;
     protected String latitude, longitude;
@@ -116,6 +116,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         distributorCodeLayoutLL = findViewById(R.id.distributorCodeLayoutLL);
         adminAccess = findViewById(R.id.adminAccess);
         policy = findViewById(R.id.policy);
+        termsandConditions = findViewById(R.id.termsandConditions);
         setSupportActionBar(mToolbar);
         gson = new Gson();
         userNames = new ArrayList<>();
@@ -124,12 +125,12 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         productIdList = new ArrayList<>();
         bundle = getIntent().getExtras();
         sharedPreferences = getSharedPreferences(Config.SHARED_PREF,0);
-        policy.setOnClickListener(new View.OnClickListener() {
+        termsandConditions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Uri uri = Uri.parse("https://www.ortusolis.com/"); // missing 'http://' will cause crashed
-//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                startActivity(intent);
+                        Uri uri = Uri.parse("https://www.etaarana.in/etaarana%20web%20and%20app%20Terms%20and%20Conditions.htm"); // missing 'http://' will cause crashed
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
             }
         });
         if (getSupportActionBar() != null) {
@@ -204,6 +205,10 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         }
         else if (address1Edit.getText().toString().isEmpty()){
             address1Edit.setError("Please Enter Address");
+            valid = false;
+        }
+        else if (address2Edit.getText().toString().isEmpty()){
+            address2Edit.setError("Please Enter Address");
             valid = false;
         }
         else if (pincodeEdit.getText().toString().isEmpty() || pincodeEdit.getText().toString().length() < 6){

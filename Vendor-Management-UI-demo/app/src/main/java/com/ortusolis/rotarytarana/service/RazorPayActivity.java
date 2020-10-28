@@ -176,15 +176,18 @@ String salesVaocherFalg,productRequestsStr,emailIdUser;
         Checkout checkout = new Checkout();
 
         /** Set your logo here*/
-        checkout.setImage(R.drawable.cart);
+
         if(donation.equals("yes")){
-            checkout.setKeyID("rzp_test_efRXqD8KT3N1wL");
+            checkout.setKeyID("rzp_live_4uHrzyoxasNhiq");
+            checkout.setImage(R.drawable.rotarylogo);
         }else if(donation.equals("donationCashlist")){
-            checkout.setKeyID("rzp_test_efRXqD8KT3N1wL");
+            checkout.setKeyID("rzp_live_4uHrzyoxasNhiq");
+            checkout.setImage(R.drawable.rotarylogo);
 //            checkout.setKeyID("rzp_test_TQ28uTerb7d5Oj");
         }else{
 //            checkout.setKeyID("rzp_test_2FBlJsMGXBIWny");
-            checkout.setKeyID("rzp_test_S5Dx5cZQVEb1NC");
+            checkout.setKeyID("rzp_live_xYwX5bsxX1IE1A");
+            checkout.setImage(R.drawable.logo);
         }
 
 
@@ -205,9 +208,10 @@ String salesVaocherFalg,productRequestsStr,emailIdUser;
              * eg: ACME Corp || HasGeek etc.
              */
             if(donation.equals("yes")){
-                options.put("name", "Sreeni");
+                options.put("name", "Shreenis");
+//                options.pu
             }else if(donation.equals("donationCashlist")){
-                options.put("name", "Sreeni");
+                options.put("name", "Shreenis");
             }else{
          options.put("name", "ORTUSOLIS TECHNOLOGY SERVICES LLP");
             }

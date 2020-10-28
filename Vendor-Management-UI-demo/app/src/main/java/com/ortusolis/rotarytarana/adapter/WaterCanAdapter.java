@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.ortusolis.rotarytarana.Activity.AddProductActivity;
 import com.ortusolis.rotarytarana.Activity.DonationActivityDiscription;
+import com.ortusolis.rotarytarana.Activity.LoginActivity;
 import com.ortusolis.rotarytarana.Activity.ProductDescription;
 import com.ortusolis.rotarytarana.NetworkUtility.Constants;
 import com.ortusolis.rotarytarana.NetworkUtility.IResult;
@@ -134,7 +135,11 @@ public class WaterCanAdapter extends BaseAdapter {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
+                if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("000")) {
+                    loginPage();
+//                    Intent intent = new Intent(context, LoginActivity.class);
+//                    context.startActivity(intent);
+                }else if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("1")){
 
                 }else if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("3")){
 
@@ -208,22 +213,26 @@ public class WaterCanAdapter extends BaseAdapter {
                                             e.printStackTrace();
                                         }
                                     } else {
-                                        Intent intent = new Intent(context, DonationActivityDiscription.class);
-                                        Pair[] views = new Pair[]{
-                                                new Pair<View, String>(picture, "object_image"),
-                                                new Pair<View, String>(name, "object_name"),
-                                                new Pair<View, String>(description, "object_description")
-                                        };
+                                        if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("000")) {
+                                            Intent intent = new Intent(context, LoginActivity.class);
+                                            context.startActivity(intent);
+                                        } else {
+                                            Intent intent = new Intent(context, DonationActivityDiscription.class);
+                                            Pair[] views = new Pair[]{
+                                                    new Pair<View, String>(picture, "object_image"),
+                                                    new Pair<View, String>(name, "object_name"),
+                                                    new Pair<View, String>(description, "object_description")
+                                            };
 
-                                        intent.putExtra("productID", mData.get(position).getProductId());
-                                        ActivityOptionsCompat options = ActivityOptionsCompat.
-                                                makeSceneTransitionAnimation((Activity) context, views);
+                                            intent.putExtra("productID", mData.get(position).getProductId());
+                                            ActivityOptionsCompat options = ActivityOptionsCompat.
+                                                    makeSceneTransitionAnimation((Activity) context, views);
 
-                                        try {
-                                            context.startActivity(intent, options.toBundle());
-                                        }
-                                        catch (Exception e){
-                                            e.printStackTrace();
+                                            try {
+                                                context.startActivity(intent, options.toBundle());
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
                                         }
                                     }
 //                                }
@@ -403,6 +412,28 @@ public class WaterCanAdapter extends BaseAdapter {
                 stringBuilder.append("");
             }
         });
+    }
+    public void loginPage(){
+        AlertDialog.Builder alertDialogCash = new AlertDialog.Builder(context);
+        alertDialogCash.setTitle("Please Login to  make Donation !!!");
+        alertDialogCash.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alertDialogCash.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // navigation
+                Intent intent = new Intent(context, LoginActivity.class);
+                context.startActivity(intent);
+            }
+        });
+        AlertDialog alert = alertDialogCash.create();
+        alert.setCanceledOnTouchOutside(false);
+        alert.show();
     }
 
 }

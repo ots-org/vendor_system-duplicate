@@ -180,25 +180,27 @@ public class UserProfileActivity extends AppCompatActivity implements OnMapReady
                 LatLng latLng2 = new LatLng(Double.parseDouble(sharedPreferences.getString("userlatitudeSecondProfile","")),Double.parseDouble(sharedPreferences.getString("userlangitudeSecondProfile","")));
                 mapLocator(latLng1,latLng2);
             }else {
-                Address location=address.get(0);
-                location.getLatitude();
-                location.getLongitude();
-                p1First = new LatLng(location.getLatitude(), location.getLongitude() );
-                p1 = new Barcode.GeoPoint((double) (location.getLatitude() * 1E6),
-                        (double) (location.getLongitude() * 1E6));
-                Address locationSecond=addressSecond.get(0);
-                locationSecond.getLatitude();
-                locationSecond.getLongitude();
-                p1Second= new LatLng(locationSecond.getLatitude(), locationSecond.getLongitude() );
-                p2 = new Barcode.GeoPoint((double) (locationSecond.getLatitude() * 1E6),
-                        (double) (locationSecond.getLongitude() * 1E6));
-                LatLng latLng1 = new LatLng(p1First.latitude, p1First.longitude);
-                LatLng latLng2 = new LatLng(p1Second.latitude, p1Second.longitude);
-                lat= p1First.latitude+"";
-                lng=p1First.longitude+"";
-                latSecond= p1Second.latitude+"";
-                lngSecond=p1Second.longitude+"";
-                mapLocator(latLng1,latLng2 );
+                if (address.size()!=0 && addressSecond.size()!=0) {
+                    Address location = address.get(0);
+                    location.getLatitude();
+                    location.getLongitude();
+                    p1First = new LatLng(location.getLatitude(), location.getLongitude());
+                    p1 = new Barcode.GeoPoint((double) (location.getLatitude() * 1E6),
+                            (double) (location.getLongitude() * 1E6));
+                    Address locationSecond = addressSecond.get(0);
+                    locationSecond.getLatitude();
+                    locationSecond.getLongitude();
+                    p1Second = new LatLng(locationSecond.getLatitude(), locationSecond.getLongitude());
+                    p2 = new Barcode.GeoPoint((double) (locationSecond.getLatitude() * 1E6),
+                            (double) (locationSecond.getLongitude() * 1E6));
+                    LatLng latLng1 = new LatLng(p1First.latitude, p1First.longitude);
+                    LatLng latLng2 = new LatLng(p1Second.latitude, p1Second.longitude);
+                    lat = p1First.latitude + "";
+                    lng = p1First.longitude + "";
+                    latSecond = p1Second.latitude + "";
+                    lngSecond = p1Second.longitude + "";
+                    mapLocator(latLng1, latLng2);
+                }
             }
 
         } catch (IOException e) {

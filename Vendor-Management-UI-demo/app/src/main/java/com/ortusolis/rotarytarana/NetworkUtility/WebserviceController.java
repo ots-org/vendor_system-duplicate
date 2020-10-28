@@ -33,7 +33,7 @@ public class WebserviceController {
 	ProgressDialog pDialog;
 	WebControllerInterface myInterface;
 	int mStatusCode = 0;
-	private static final int MY_SOCKET_TIMEOUT_MS = 60000;
+	private static final int MY_SOCKET_TIMEOUT_MS = 600000;
 
 	public WebserviceController(Context context) {
 		this.context = context;

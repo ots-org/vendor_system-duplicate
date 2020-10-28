@@ -33,6 +33,7 @@ import com.ortusolis.rotarytarana.NetworkUtility.IResult;
 import com.ortusolis.rotarytarana.NetworkUtility.WebserviceController;
 import com.ortusolis.rotarytarana.R;
 import com.ortusolis.rotarytarana.Utility.CommonFunctions;
+import com.ortusolis.rotarytarana.Utility.VenderConstants;
 import com.ortusolis.rotarytarana.adapter.AssignedOrderGridAdapter;
 import com.ortusolis.rotarytarana.pojo.AssignedOrderModel;
 import com.ortusolis.rotarytarana.pojo.DistributorResponse;
@@ -112,10 +113,13 @@ public class AssignedVoucherOrderDescription extends AppCompatActivity {
         assignEmpLoyee = findViewById(R.id.assignEmpLoyee);
         employeeSelectionLL = findViewById(R.id.employeeSelectionLL);
 
-        if (getIntent().hasExtra("order")){
-            assignedOrderModel = getIntent().getParcelableExtra("order");
+//        if (getIntent().hasExtra("order")){
+//            assignedOrderModel = getIntent().getParcelableExtra("order");
+            assignedOrderModel = VenderConstants.assignedOrderModel;
             data = assignedOrderModel.getOrderdProducts();
-        }
+              VenderConstants.assignedOrderModel=null;
+//        assignedOrderModel.setOrderdProducts(null);
+//        }
 
         setSupportActionBar(mToolbar);
 

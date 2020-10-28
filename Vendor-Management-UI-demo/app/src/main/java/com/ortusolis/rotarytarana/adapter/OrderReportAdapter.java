@@ -200,9 +200,11 @@ public class OrderReportAdapter extends RecyclerView.Adapter<OrderReportAdapter.
             JSONObject jsonObject = new JSONObject();
             try {
                 if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId", "").equalsIgnoreCase("3")) {
-                    jsonObject.put("mappedTo", sharedPreferences.getString("distId", ""));
+//                    jsonObject.put("mappedTo", sharedPreferences.getString("distId", ""));
+                    jsonObject.put("mappedTo","1");
                 } else {
-                    jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
+//                    jsonObject.put("mappedTo", sharedPreferences.getString("userid", ""));
+                    jsonObject.put("mappedTo","1");
                 }
 
                 requestObject.put("requestData", jsonObject);

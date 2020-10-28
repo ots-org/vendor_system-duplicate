@@ -32,6 +32,7 @@ import com.ortusolis.rotarytarana.NetworkUtility.Constants;
 import com.ortusolis.rotarytarana.NetworkUtility.IResult;
 import com.ortusolis.rotarytarana.NetworkUtility.WebserviceController;
 import com.ortusolis.rotarytarana.R;
+import com.ortusolis.rotarytarana.Utility.VenderConstants;
 import com.ortusolis.rotarytarana.adapter.AssignedOrderReportAdapter;
 import com.ortusolis.rotarytarana.pojo.AssignedOrderModel;
 import com.ortusolis.rotarytarana.pojo.AssignedResponse;
@@ -212,7 +213,7 @@ public class AssignedOrderListActivity extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    getAssginedOrder(employeeStr);
+//                    getAssginedOrder(employeeStr);
                 }
             },2000);
         }
@@ -234,102 +235,110 @@ public class AssignedOrderListActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-            WebserviceController wss = new WebserviceController(AssignedOrderListActivity.this);
-            JSONObject requestObject = new JSONObject();
-            JSONObject jsonObject = new JSONObject();
-            try {
-                if(assignRequest.equals("yes")){
-                    jsonObject.put("status", "assigneeRequest");
-                }else if(assignRequest.equals("deliverDonation")){
-                    jsonObject.put("status", "AssignedRequestToEmployee");
-                }
-                else {
-                    jsonObject.put("status", "Assigned");
-                }
-                jsonObject.put("employeeId", userId);
-                requestObject.put("request", jsonObject);
-
-            } catch (Exception e) {
-                e.printStackTrace();
+        WebserviceController wss = new WebserviceController(AssignedOrderListActivity.this);
+        JSONObject requestObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            if(assignRequest.equals("yes")){
+                jsonObject.put("status", "assigneeRequest");
+            }else if(assignRequest.equals("deliverDonation")){
+                jsonObject.put("status", "AssignedRequestToEmployee");
+//                jsonObject.put("status", "Assigned");
             }
+            else {
+                jsonObject.put("status", "Assigned");
+            }
+            jsonObject.put("employeeId", userId);
+            requestObject.put("request", jsonObject);
 
-            wss.postLoginVolley(Constants.getAssginedOrder, requestObject.toString(), new IResult() {
-                @Override
-                public void notifySuccess(String response, int statusCode) {
-                    try {
-                        Log.e("login response", response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-                        AssignedResponse responseData = gson.fromJson(response, AssignedResponse.class);
+        wss.postLoginVolley(Constants.getAssginedOrder, requestObject.toString(), new IResult() {
+            @Override
+            public void notifySuccess(String response, int statusCode) {
+                try {
+                    Log.e("login response", response);
 
-                        if (responseData.getResponseCode().equalsIgnoreCase("200")) {
+                    AssignedResponse responseData = gson.fromJson(response, AssignedResponse.class);
 
-                            data = responseData.getResponseData().getOrderList();
-                            assignedOrderReportAdapter = new AssignedOrderReportAdapter(AssignedOrderListActivity.this, data, new IClickInterfaceAssigned() {
-                                @Override
-                                public void click(AssignedOrderModel item) {
-                                    try {
+                    if (responseData.getResponseCode().equalsIgnoreCase("200")) {
 
-                                    Intent intent = new Intent(AssignedOrderListActivity.this, AssignedVoucherOrderDescription.class);
-                                    intent.putExtra("order", item);
-                                        Log.e("Intent", "intent start");
-                                    if (getIntent().hasExtra("deliverDonation")) {
-                                        Log.e("Intent", "deliver donaotion");
-                                        intent.putExtra("deliverDonation", "deliverDonation");
-                                    } else if (getIntent().hasExtra("assignRequest")) {
-                                        Log.e("c", "assign request");
-                                        intent.putExtra("AssignedRequest", "AssignedRequest");
-                                    }
-                                        Log.e("Intent", "lunch");
-                                    startActivityForResult(intent,3533);
-                                        Log.e("Intent", "close");
-//                                    startActivity(intent);
-                                } catch (Exception e){
-                                        Log.e("Intent", e.getMessage());
-                                      e.printStackTrace();
-                                }
-                                }
-                            });
-                            recyclerView.setAdapter(assignedOrderReportAdapter);
-                            progressDialog.dismiss();
-                            assignedOrderReportAdapter.notifyDataSetChanged();
-
-                            if (responseData.getResponseData().getOrderList().isEmpty()){
-                                noResult.setVisibility(View.VISIBLE);
+                        data = responseData.getResponseData().getOrderList();
+                        assignedOrderReportAdapter = new AssignedOrderReportAdapter(AssignedOrderListActivity.this, data, new IClickInterfaceAssigned() {
+                            @Override
+                            public void click(AssignedOrderModel item) {
+                                callNewIntent(item);
                             }
-                            else {
-                                noResult.setVisibility(View.GONE);
-                            }
+                        });
+                        recyclerView.setAdapter(assignedOrderReportAdapter);
 
-                            for (int i=0;i<data.size();i++){
-                                if (data.get(i).getOrderId().equalsIgnoreCase(orderId)){
-                                    loadedOnce = true;
-                                    Intent intent = new Intent(AssignedOrderListActivity.this, AssignedVoucherOrderDescription.class);
-                                    intent.putExtra("order",data.get(i));
-                                    startActivityForResult(intent,3533);
-                                    return;
-                                }
-                            }
-                        }
-                        else {
-                            progressDialog.dismiss();
-                            if (assignedOrderReportAdapter!=null)
-                            assignedOrderReportAdapter.clearAll();
+                        assignedOrderReportAdapter.notifyDataSetChanged();
+
+                        if (responseData.getResponseData().getOrderList().isEmpty()){
                             noResult.setVisibility(View.VISIBLE);
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+                        else {
+                            noResult.setVisibility(View.GONE);
+                        }
 
-                @Override
-                public void notifyError(VolleyError error) {
+                        for (int i=0;i<data.size();i++){
+                            if (data.get(i).getOrderId().equalsIgnoreCase(orderId)){
+                                loadedOnce = true;
+                                Intent intent = new Intent(AssignedOrderListActivity.this, AssignedVoucherOrderDescription.class);
+                                intent.putExtra("order",data.get(i));
+                                startActivityForResult(intent,3533);
+                                return;
+                            }
+                        }
+                        progressDialog.dismiss();
+                    }
+                    else {
+                        progressDialog.dismiss();
+                        if (assignedOrderReportAdapter!=null)
+                            assignedOrderReportAdapter.clearAll();
+                             noResult.setVisibility(View.VISIBLE);
+                         }
+                } catch (Exception e) {
                     progressDialog.dismiss();
-                    if (assignedOrderReportAdapter!=null)
-                        assignedOrderReportAdapter.clearAll();
-                    noResult.setVisibility(View.VISIBLE);
-                    Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
+                    e.printStackTrace();
                 }
-            });
+            }
+
+            @Override
+            public void notifyError(VolleyError error) {
+                progressDialog.dismiss();
+                if (assignedOrderReportAdapter!=null)
+                    assignedOrderReportAdapter.clearAll();
+                noResult.setVisibility(View.VISIBLE);
+                Crashlytics.logException(new Throwable(WebserviceController.returnErrorJson(error)));
+            }
+        });
+    }
+
+    private void callNewIntent(AssignedOrderModel item) {
+        try {
+            Intent intent = new Intent(AssignedOrderListActivity.this, AssignedVoucherOrderDescription.class);
+            VenderConstants.assignedOrderModel = item;
+            //intent.putExtra("order", item);
+            Log.e("Intent item", item.getAddressToBePlaced());
+            Log.e("Intent", "intent start");
+            if (getIntent().hasExtra("deliverDonation")) {
+                Log.e("Intent", "deliver donaotion");
+                intent.putExtra("deliverDonation", "deliverDonation");
+            } else if (getIntent().hasExtra("assignRequest")) {
+                Log.e("c", "assign request");
+                intent.putExtra("AssignedRequest", "AssignedRequest");
+            }
+            Log.e("Intent", "lunch");
+            startActivityForResult(intent,3533);
+            Log.e("Intent", "close");
+//             startActivity(intent);
+        } catch (Exception e){
+            Log.e("Intent", e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     void getAllRegisterEmployee(){

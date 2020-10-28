@@ -187,6 +187,31 @@ public class NavigationFragment extends Fragment {
             billsHeader.setVisibility(View.GONE);
             updateStock.setVisibility(View.GONE);
         }
+        else if (sharedPreferences.contains("userRoleId") && sharedPreferences.getString("userRoleId","").equalsIgnoreCase("000")) {
+            userRole = "Visitor";
+            notification.setVisibility(View.GONE);
+            assign.setVisibility(View.GONE);
+            users.setVisibility(View.GONE);
+            reportsHeader.setVisibility(View.GONE);
+            myOrder.setVisibility(View.GONE);
+            myRequests.setVisibility(View.GONE);
+            customerLedgerReport.setVisibility(View.GONE);
+            customerOutstandingReport.setVisibility(View.GONE);
+            generateBill.setVisibility(View.GONE);
+            donationReportCustomer.setVisibility(View.GONE);
+            requestProductCustomer.setVisibility(View.GONE);
+            requestProductCustomerView.setVisibility(View.GONE);
+            assignRequest.setVisibility(View.GONE);
+            empAssignRequest.setVisibility(View.GONE);
+            donationStatus.setVisibility(View.GONE);
+            billsHeader.setVisibility(View.GONE);
+            updateStock.setVisibility(View.GONE);
+//            donation.setVisibility(View.GONE);
+            profile.setVisibility(View.GONE);
+            logout.setVisibility(View.GONE);
+            ordersHeader.setVisibility(View.GONE);
+            changepassword.setVisibility(View.GONE);
+        }
         else {
             ordersHeader.setVisibility(View.GONE);
             billsHeader.setVisibility(View.GONE);
