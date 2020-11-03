@@ -133,6 +133,12 @@ public class OTSProductServiceImpl implements OTSProductService {
 			//productDetailsBOResponse = mapUserProductDAO.getProductDetailsForDistributor(productDetailsBOResponse);	
 		}else if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("product")) {
 			productDetailsBOResponse = productCategoryMappingDAO.getProductListBySubcategory(productDetailsBORequest);
+		}else if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("pagination")){
+			productServiceDAO.getPaginatedProduct(productDetailsBORequest);
+		}else if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("singleProduct")) {
+			List<ProductDetails> ProductDetails = new ArrayList<ProductDetails> ();
+			ProductDetails.add(productServiceDAO.getProductDetils(productDetailsBORequest.getRequestData().getSearchvalue()));
+			productDetailsBOResponse.setProductDetails(ProductDetails);
 		}else{
 			int loop=0;
 			System.out.print("data-1");

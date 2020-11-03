@@ -14,6 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.AirTableModel;
@@ -396,5 +399,28 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		}
 		return null;
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProductDetails> getPaginatedProduct(ProductDetailsBORequest productDetailsBORequest) {
+		try {
+			Map<String, Object> inParamMap = new HashMap<String, Object>();		
+			
+			SqlParameterSource in = new MapSqlParameterSource(inParamMap);
+			
+			SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("ots_getPaginationOfProduct");
+			
+			Map<String, Object> simpleJdbcCallResult = simpleJdbcCall.execute();
+			System.out.println(simpleJdbcCallResult.toString());
+			List<Map<String, Object>> out = (List<Map<String, Object>>) simpleJdbcCallResult.get("#result-set-1");
+			
+			
+		
+			
+		}catch(Exception e) {
+				System.out.print(e);
+		}
+		return null;
 	}
 }
