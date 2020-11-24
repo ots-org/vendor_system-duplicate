@@ -41,6 +41,8 @@ public class ProductDetails {
 	 
 	 private String productBasePrice;
 	 
+	 private String distributorId;
+	 
 	public String getProductId() {
 		return productId;
 	}
@@ -151,6 +153,14 @@ public class ProductDetails {
 
 	public void setProductBasePrice(String productBasePrice) {
 		this.productBasePrice = productBasePrice;
+	}
+
+	public String getDistributorId() {
+		return distributorId;
+	}
+
+	public void setDistributorId(String distributorId) {
+		this.distributorId = distributorId;
 	}
 
 }

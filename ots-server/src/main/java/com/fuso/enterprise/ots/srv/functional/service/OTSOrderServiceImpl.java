@@ -275,20 +275,20 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		
 		OrderDetails otsOrderDetails = new OrderDetails();
 		OrderProductBOResponse Response = new OrderProductBOResponse();
-		List<UserDetails> userDetails = new ArrayList<UserDetails>();
-		RequestBOUserBySearch requestBOUserBySearch = new RequestBOUserBySearch();	
-		GetUserDetailsBORequest userDetailsBORequest = new GetUserDetailsBORequest();
+//		List<UserDetails> userDetails = new ArrayList<UserDetails>();
+//		RequestBOUserBySearch requestBOUserBySearch = new RequestBOUserBySearch();	
+//		GetUserDetailsBORequest userDetailsBORequest = new GetUserDetailsBORequest();
+//		
+//		userDetailsBORequest.setUserLat(addOrUpdateOrderProductBOrequest.getRequest().getUserLat());
+//		userDetailsBORequest.setUserLong(addOrUpdateOrderProductBOrequest.getRequest().getUserLong());
+//		requestBOUserBySearch.setRequestData(userDetailsBORequest);
+//		if(addOrUpdateOrderProductBOrequest.getRequest().getOrderStatus().equalsIgnoreCase("new")) {
+//			userDetails = userServiceUtilityDAO.findNearestDistributor(requestBOUserBySearch);
+//		}else {
+//			userDetails = userServiceDAO.getUserIdUsers("1");
+//		}
 		
-		userDetailsBORequest.setUserLat(addOrUpdateOrderProductBOrequest.getRequest().getUserLat());
-		userDetailsBORequest.setUserLong(addOrUpdateOrderProductBOrequest.getRequest().getUserLong());
-		requestBOUserBySearch.setRequestData(userDetailsBORequest);
-		if(addOrUpdateOrderProductBOrequest.getRequest().getOrderStatus().equalsIgnoreCase("new")) {
-			userDetails = userServiceUtilityDAO.findNearestDistributor(requestBOUserBySearch);
-		}else {
-			userDetails = userServiceDAO.getUserIdUsers("1");
-		}
-		
-		addOrUpdateOrderProductBOrequest.getRequest().setDistributorId(userDetails.get(0).getUserId());
+		addOrUpdateOrderProductBOrequest.getRequest().setDistributorId(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId());
 		
 		UserDetails user = new UserDetails();
 		user = userServiceDAO.getUserDetails(Integer.parseInt(addOrUpdateOrderProductBOrequest.getRequest().getDistributorId()));
@@ -1288,12 +1288,16 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		try {
 			RazorpayClient razorpay = null;
 			if(updateOrderDetailsRequest.getRequest().getPaymentFlowStatus().equalsIgnoreCase("gift")) {
-				razorpay = new RazorpayClient("rzp_live_xYwX5bsxX1IE1A", "QClXGQUivci89sp41VcOmtqH");
-			//	orderDetails.setRazorPayKey();
+				System.out.println("key "+donationRazorpayKey+"donationRazorpaySignature "+donationRazorpaySignature);
+				razorpay = new RazorpayClient(donationRazorpayKey,donationRazorpaySignature);
+				orderDetailsBOResponse.setRazorPayKey(donationRazorpayKey);
+				//	orderDetails.setRazorPayKey();
 			}else {
 				//ots account
-				razorpay = new RazorpayClient("rzp_live_4uHrzyoxasNhiq", "5WnJcOIvhoYBoxNiomEN57uu");
+				System.out.println("key "+donationRazorpayKey+"donationRazorpaySignature "+donationRazorpaySignature);
+				razorpay = new RazorpayClient(donationRazorpayKey,donationRazorpaySignature);
 			//	orderDetails.setRazorPayKey();
+				orderDetailsBOResponse.setRazorPayKey(donationRazorpayKey);
 			}
 			
 			JSONObject orderRequest = new JSONObject();
@@ -1407,7 +1411,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		RazorpayClient razorpay;
 		JSONObject paymentDetails = null;
 		try {
-			razorpay = new RazorpayClient("rzp_test_NYxmr2CtwORaZd", "GEOEnpzemqrQuPlVesUQvLBW");
+			razorpay = new RazorpayClient("rzp_test_oGbRsq49chxYFD", "LBC49xder65RbkAysqN0hv3j");
 			payment = razorpay.Payments.fetch(paymentId);
 			paymentDetails = new JSONObject(payment);
 		} catch (RazorpayException e1) {

@@ -6,7 +6,21 @@ public class GetProductDetails {
 	String distributorId;
 	String customerId;
 	String status;
+	String maxRange;
+	String minRange;
 	
+	public String getMaxRange() {
+		return maxRange;
+	}
+	public void setMaxRange(String maxRange) {
+		this.maxRange = maxRange;
+	}
+	public String getMinRange() {
+		return minRange;
+	}
+	public void setMinRange(String minRange) {
+		this.minRange = minRange;
+	}
 	public String getStatus() {
 		return status;
 	}

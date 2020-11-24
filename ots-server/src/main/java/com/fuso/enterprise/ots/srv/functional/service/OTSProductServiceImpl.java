@@ -113,7 +113,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 		if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("category")) {
 			//---------------------to get list of all category-------------------------------------
 			productDetailsBOResponse = productServiceDAO.getProductCategory(productDetailsBORequest);
-		}else if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("subcategory")){
+		}else if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("subcategory")||productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("subcategoryRange")){
 			//---------------------to get list of all sub-category for main category---------------
 			productMappingModel = productCategoryMappingDAO.getProductListByProductCategory(productDetailsBORequest);
 			List<ProductDetails> productDetailsList = new ArrayList<ProductDetails>();
@@ -139,9 +139,25 @@ public class OTSProductServiceImpl implements OTSProductService {
 			List<ProductDetails> ProductDetails = new ArrayList<ProductDetails> ();
 			ProductDetails.add(productServiceDAO.getProductDetils(productDetailsBORequest.getRequestData().getSearchvalue()));
 			productDetailsBOResponse.setProductDetails(ProductDetails);
+		}else if(productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("getAllProductForCategory")||productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("getAllProductForCategoryRange")) {
+			// List of mapped sub categories
+			List<ProductCategoryProductMappingModel> productCategoryProductMappingModel = new ArrayList<ProductCategoryProductMappingModel> ();
+			productCategoryProductMappingModel = productCategoryMappingDAO.getProductListByProductCategory(productDetailsBORequest);
+			//List of product for sub category
+			List<ProductDetails> productDetailsList = new ArrayList<ProductDetails> ();
+			for(int i=0;i<productCategoryProductMappingModel.size();i++) {
+				productDetailsBORequest.getRequestData().setSearchvalue(productCategoryProductMappingModel.get(i).getProductId());
+				ProductDetailsBOResponse productDetailsBOResponse2 = new ProductDetailsBOResponse();
+				productDetailsBOResponse2 = productCategoryMappingDAO.getProductListBySubcategory(productDetailsBORequest);
+				
+				for(int j=0;j<productDetailsBOResponse2.getProductDetails().size();j++) {
+					productDetailsList.add(productDetailsBOResponse2.getProductDetails().get(j));
+				}
+			}
+			
+			productDetailsBOResponse.setProductDetails(productDetailsList);
 		}else{
 			int loop=0;
-			System.out.print("data-1");
 			List<CustomerProductDetails> customerProductDetails = new ArrayList<CustomerProductDetails>();
 			List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
 			List<GetProductBOStockResponse> productStockvalue = new ArrayList<GetProductBOStockResponse>();
@@ -179,7 +195,6 @@ public class OTSProductServiceImpl implements OTSProductService {
 				productDetailsBOResponse = productServiceDAO.getProductList(productDetailsBORequest);
 			}
 			else{
-				System.out.print("3");
 				productStockvalue = productStockDao.getProductStockByUid(productDetailsBORequest.getRequestData().getDistributorId());
 				for(int i=0;i<productStockvalue.size();i++) {
 					productDetails.add(i,productServiceDAO.getProductDetils(productStockvalue.get(i).getProductId()));
@@ -188,12 +203,12 @@ public class OTSProductServiceImpl implements OTSProductService {
 				}
 			}
 		}
-		System.out.print(productDetailsBOResponse.getProductDetails().size());
 
 	}catch(Exception e) {
+		System.out.print("error");
 		System.out.println(e);
 	}
-				return productDetailsBOResponse;
+		return productDetailsBOResponse;
 	}
 
 	@Override

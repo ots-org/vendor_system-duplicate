@@ -110,6 +110,9 @@ public class OtsProduct implements Serializable {
     @JoinColumn(name = "ots_product_level_id", referencedColumnName = "ots_product_level_id")
     @ManyToOne(optional = false)
     private OtsProductLevel otsProductLevelId;
+    @JoinColumn(name = "ots_distributor_id", referencedColumnName = "ots_users_id")
+    @ManyToOne
+    private OtsUsers otsDistributorId;
     @OneToMany(mappedBy = "otsProductId")
     private Collection<OtsRegistration> otsRegistrationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductCategoryId")
@@ -286,6 +289,14 @@ public class OtsProduct implements Serializable {
 
     public void setOtsProductLevelId(OtsProductLevel otsProductLevelId) {
         this.otsProductLevelId = otsProductLevelId;
+    }
+
+    public OtsUsers getOtsDistributorId() {
+        return otsDistributorId;
+    }
+
+    public void setOtsDistributorId(OtsUsers otsDistributorId) {
+        this.otsDistributorId = otsDistributorId;
     }
 
     @XmlTransient

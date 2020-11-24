@@ -90,7 +90,7 @@ public class OtsDonation implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_donation_addresstopickup")
     private String otsDonationAddresstopickup;
-    @Size(max = 45)
+    @Size(max = 300)
     @Column(name = "ots_donation_for_atg")
     private String otsDonationForAtg;
     @Size(max = 45)
@@ -102,7 +102,7 @@ public class OtsDonation implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_donation_signature")
     private String otsDonationSignature;
-    @Size(max = 45)
+    @Size(max = 300)
     @Column(name = "ots_donation_atg_address")
     private String otsDonationAtgAddress;
     @JoinColumn(name = "ots_donors_id", referencedColumnName = "ots_users_id")
