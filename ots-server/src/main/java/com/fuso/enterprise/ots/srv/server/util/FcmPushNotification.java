@@ -8,7 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FcmPushNotification {
-    public final static String AUTH_KEY_FCM = "AAAASd-8ZH0:APA91bGUCyZOtTeV7tC8gFl6U_2j0AgKqvWVJdS7nz8HSmSjrC9QuDhmJbNVsXoPuUO1M18bp6CgCE7Oq3QADbEfPINIIAV0INvcmc_nG0l7w63RHlEcenaQgm8_pNm9QTah0t-LAwEG";
+    public final static String AUTH_KEY_FCM = "AAAAVu0DWNU:APA91bGAqzKDyGSmu_mG8iB2BngvGMmrv_VetdG6yhxr9jvFAX-ZzNwXQW22bTR9vbJ8X00u50eeHIn9Cjm9JzuCtKyVzpw0_MPFpkrftj4SyaS_MLVCjpev6uqPzHWr9AY5xJhAFgYU";
     public final static String API_URL_FCM = "https://fcm.googleapis.com/fcm/send";
 
     public static String sendPushNotification(String deviceToken,String title,String message)
