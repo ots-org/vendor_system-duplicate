@@ -37,6 +37,7 @@
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsDonation</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRequestProduct</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsOrderrequestMapping</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductWishlist</class>
 
    <!---OTS ORM FILES -->
 

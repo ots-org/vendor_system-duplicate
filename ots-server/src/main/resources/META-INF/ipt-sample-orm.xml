@@ -616,4 +616,12 @@
 			o.otsAssgineId = :otsAssgineId
 		</query>
 	</named-query>  
+	<named-query name="OtsProductWishlist.getWhishListByCustomerId">
+		<query>SELECT o 
+		FROM 
+			OtsProductWishlist o	
+		WHERE  	
+			o.otsCustomerId = :otsCustomerId
+		</query>
+	</named-query>  
 </entity-mappings>

@@ -25,6 +25,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserMapping;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddWishListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
@@ -43,11 +44,13 @@ import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationRespo
 import com.fuso.enterprise.ots.srv.api.service.response.ForgotPasswordResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.GetwishListResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
 import com.fuso.enterprise.ots.srv.server.dao.CustomerOutstandingAmtDAO;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
+import com.fuso.enterprise.ots.srv.server.dao.OtsProductWishlistDAO;
 import com.fuso.enterprise.ots.srv.server.dao.ProductServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserMapDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserRegistrationDao;
@@ -71,9 +74,10 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	private FcmPushNotification fcmPushNotification;
 	private CustomerOutstandingAmtDAO customerOutstandingAmtDAO;
 	private ProductServiceDAO productServiceDAO;
+	private OtsProductWishlistDAO otsProductWishlistDAO;
 	@Inject
 	public OTSUserServiceImpl(UserServiceDAO userServiceDAO,UserMapDAO userMapDAO,UserServiceUtilityDAO userServiceUtilityDAO,UserRegistrationDao userRegistrationDao,ProductServiceDAO productServiceDAO,
-			MapUserProductDAO mapUserProductDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO) {
+			MapUserProductDAO mapUserProductDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,OtsProductWishlistDAO otsProductWishlistDAO) {
 		this.userServiceDAO=userServiceDAO;
 		this.userMapDAO=userMapDAO;
 		this.userServiceUtilityDAO = userServiceUtilityDAO;
@@ -81,6 +85,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		this.mapUserProductDAO=mapUserProductDAO;
 		this.customerOutstandingAmtDAO = customerOutstandingAmtDAO;
 		this.productServiceDAO = productServiceDAO;
+		this.otsProductWishlistDAO = otsProductWishlistDAO;
 	}
 
 	@Override
@@ -529,6 +534,16 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	
 	return encodedString;	
 		
+	}
+
+	@Override
+	public String addWishList(AddWishListRequest addWishListRequest) {
+		return otsProductWishlistDAO.addWishList(addWishListRequest);
+	}
+
+	@Override
+	public List<GetwishListResponse> getwishList(AddWishListRequest addWishListRequest) {
+		return otsProductWishlistDAO.getwishList(addWishListRequest);
 	}
 
 	

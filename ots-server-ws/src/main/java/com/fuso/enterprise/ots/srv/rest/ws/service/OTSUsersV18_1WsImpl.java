@@ -16,6 +16,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.LoginAuthenticationModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddWishListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
@@ -387,6 +388,20 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		}catch(Exception e) {
 			response = responseWrapper.buildResponse("Some thing went wrong");
 		}
+		return response;
+	}
+
+	@Override
+	public Response addWishList(AddWishListRequest addWishListRequest) {
+		Response response = null;
+		response = buildResponse(200,otsUserService.addWishList(addWishListRequest));
+		return response;
+	}
+
+	@Override
+	public Response getWishList(AddWishListRequest addWishListRequest) {
+		Response response = null;
+		response = buildResponse(otsUserService.getwishList(addWishListRequest),"success");
 		return response;
 	}
 

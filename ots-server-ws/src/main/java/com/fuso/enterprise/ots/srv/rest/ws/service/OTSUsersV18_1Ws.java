@@ -21,6 +21,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddWishListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
@@ -134,5 +135,18 @@ public interface OTSUsersV18_1Ws {
 	@ApiOperation(value = "updatePassword", notes = "This operation will update user password ", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response updatePassword(@ApiParam(value = "request", required = true) @NotNull @Valid UpdatePasswordRequest updatePasswordRequest);
+
+	
+	@POST
+	@Path("/addWishList")
+	@ApiOperation(value = "addWishList", notes = "This operation will add the wish list product of the customer", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response addWishList(@ApiParam(value = "request", required = true) @NotNull @Valid AddWishListRequest addWishListRequest);
+
+	@POST
+	@Path("/getWishList")
+	@ApiOperation(value = "addWishList", notes = "This operation will get the wish list product of the customer", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getWishList(@ApiParam(value = "request", required = true) @NotNull @Valid AddWishListRequest addWishListRequest);
 
 }
