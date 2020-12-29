@@ -6,9 +6,11 @@ import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import com.fuso.enterprise.ots.srv.api.model.domain.DonationResponseByStatus;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSOrderService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddDonationtoRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddOrUpdateOnlyOrderProductRequest;
@@ -49,6 +51,8 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	ResponseWrapper responseWrapper ;
 	
+	@Value("${product.percentage.price}")
+	public String productPercentage;
 	
 	public Response buildResponse(Object data,String description) {
 		ResponseWrapper wrapper = new ResponseWrapper(200,description, data);
@@ -416,7 +420,13 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 	@Override
 	public Response getDonationListBystatus(GetDonationByStatusRequest donationByStatusRequest) {
 		Response response;
-		response = buildResponse(oTSOrderService.getDonationListBystatus(donationByStatusRequest),"Successful");
+		DonationResponseByStatus donationResponseByStatus = oTSOrderService.getDonationListBystatus(donationByStatusRequest);
+		for(int i=0;i<donationResponseByStatus.getProductList().size();i++) {
+			Float finalPrice =	Float.parseFloat(donationResponseByStatus.getProductList().get(i).getProductPrice() ) +( Float.parseFloat(donationResponseByStatus.getProductList().get(i).getProductPrice()) * Float.parseFloat(productPercentage))/100;
+			
+			donationResponseByStatus.getProductList().get(i).setProductPrice(String.format("%.2f", finalPrice));
+		}
+		response = buildResponse(donationResponseByStatus,"Successful");
 		return response;
 	}
 
