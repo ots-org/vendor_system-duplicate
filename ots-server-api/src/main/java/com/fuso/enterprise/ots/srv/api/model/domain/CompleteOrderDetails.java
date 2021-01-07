@@ -62,6 +62,8 @@ public class CompleteOrderDetails {
 	 @Size(max = 20)
 	 private String orderAmountReceived;
 	 
+	 private String orderBasePrice;
+	 
 	public String getOrderAmountReceived() {
 		return orderAmountReceived;
 	}
@@ -223,5 +225,13 @@ public class CompleteOrderDetails {
 
 	public void setEmployeeDetails(UserDetails employeeDetails) {
 		this.employeeDetails = employeeDetails;
+	}
+
+	public String getOrderBasePrice() {
+		return orderBasePrice;
+	}
+
+	public void setOrderBasePrice(String orderBasePrice) {
+		this.orderBasePrice = orderBasePrice;
 	}
 }
