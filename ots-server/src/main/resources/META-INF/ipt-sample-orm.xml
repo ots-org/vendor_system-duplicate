@@ -622,6 +622,50 @@
 			OtsProductWishlist o	
 		WHERE  	
 			o.otsCustomerId = :otsCustomerId
+			
 		</query>
 	</named-query>  
+	<named-query name="OtsProductWishlist.getWhishListByCustomerIdAndProductId">
+		<query>SELECT o 
+		FROM 
+			OtsProductWishlist o	
+		WHERE  	
+			o.otsCustomerId = :otsCustomerId
+			AND
+			o.otsProductId = :otsProductId
+		</query>
+	</named-query>  
+	 <named-query name="OtsCart.getCartListByCustomerIdAndProductId">
+		<query>SELECT o 
+		FROM 
+			OtsCart o	
+		WHERE  	
+			o.otsCustomerId = :otsCustomerId
+			AND
+			o.otsProductId = :otsProductId
+		</query>
+	</named-query>  
+	<named-query name="OtsCart.getCartListByCustomerId">
+		<query>SELECT o 
+		FROM 
+			OtsCart o	
+		WHERE  	
+			o.otsCustomerId = :otsCustomerId
+			
+		</query>
+	</named-query>  
+	<named-query name="OtsCart.getCartListByCustomerIdProductIdAndQuantity">
+		<query>SELECT o 
+		FROM 
+			OtsCart o	
+		WHERE  	
+			o.otsCustomerId = :otsCustomerId
+			AND
+			o.otsProductId = :otsProductId
+			AND
+			o.otsCartQty = :otsCartQty
+		</query>
+	</named-query>   
+	
+	
 </entity-mappings>

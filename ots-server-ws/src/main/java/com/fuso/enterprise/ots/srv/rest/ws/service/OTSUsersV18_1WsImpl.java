@@ -28,12 +28,13 @@ import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OutstandingCustomerResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddToCartRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ForgotPasswordResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
-
+import com.fuso.enterprise.ots.srv.api.service.response.GetwishListResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
@@ -404,5 +405,43 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		response = buildResponse(otsUserService.getwishList(addWishListRequest),"success");
 		return response;
 	}
+	@Override
+	public Response addToCart(AddToCartRequest addToCartRequest) {
+		Response response = null;
+		response = buildResponse(200,otsUserService.addToCart(addToCartRequest));
+		return response;
+	}
+	@Override
+	public Response getCartList(AddToCartRequest addToCartRequest) {
+		Response response = null;
+		try{
+		response = buildResponse(otsUserService.getcartList(addToCartRequest),"success");
+		}catch (Exception e) {
+			response =responseWrapper. buildResponse("Cart is Empty,Please continue shopping.. ");
+		}
+		return response;
+	}
 
+	@Override
+	public Response removeFromCartList(AddToCartRequest addToCartRequest) {
+		Response response = null;
+		response = buildResponse(200,otsUserService.removeFromCart(addToCartRequest));
+		return response;
+	}
+
+	@Override
+	public Response removeFromWishList(AddWishListRequest addWishListRequest) {
+		Response response = null;
+		GetwishListResponse getwishListResponse = new GetwishListResponse();
+		response = buildResponse(200,otsUserService.removeFromWishList(addWishListRequest));
+		return response;
+		
+	}
+
+	@Override
+	public Response emptyCartList(AddToCartRequest addToCartRequest) {
+		Response response = null;
+		response = buildResponse(200,otsUserService.emptyCart(addToCartRequest));
+		return response;
+	}
 }

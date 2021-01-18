@@ -17,10 +17,12 @@ import java.util.List;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddToCartRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ForgotPasswordResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.GetcartListResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetwishListResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
@@ -64,5 +66,15 @@ public interface OTSUserService {
 	String addWishList(AddWishListRequest addWishListRequest) ;
 	
 	List<GetwishListResponse> getwishList(AddWishListRequest addWishListRequest) ;
+	
+	String removeFromWishList(AddWishListRequest addWishListRequest) ;
+	
+	String addToCart(AddToCartRequest addToCartRequest) ;
+	
+	List<GetcartListResponse> getcartList(AddToCartRequest addToCartRequest) ;
+	
+	String removeFromCart(AddToCartRequest addToCartRequest) ;
+
+	String emptyCart(AddToCartRequest addToCartRequest);
 	
 }

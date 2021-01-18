@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddToCartRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
@@ -143,10 +144,43 @@ public interface OTSUsersV18_1Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response addWishList(@ApiParam(value = "request", required = true) @NotNull @Valid AddWishListRequest addWishListRequest);
 
+
 	@POST
 	@Path("/getWishList")
-	@ApiOperation(value = "addWishList", notes = "This operation will get the wish list product of the customer", response = Response.class)
+	@ApiOperation(value = "getWishList", notes = "This operation will get the wish list product of the customer", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getWishList(@ApiParam(value = "request", required = true) @NotNull @Valid AddWishListRequest addWishListRequest);
+	
+	@POST
+	@Path("/removeFromWishList")
+	@ApiOperation(value = "removeFromWishList", notes = "This operation will get the cart list product of the customer", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response removeFromWishList(@ApiParam(value = "request", required = true) @NotNull @Valid AddWishListRequest addWishListRequest);
+
+	@POST
+	@Path("/addToCart")
+	@ApiOperation(value = "addToCart", notes = "This operation will add the cart list product of the customer", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response addToCart(@ApiParam(value = "request", required = true) @NotNull @Valid AddToCartRequest addToCartRequest);
+
+	
+	@POST
+	@Path("/getCartList")
+	@ApiOperation(value = "getCartList", notes = "This operation will get the cart list product of the customer", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getCartList(@ApiParam(value = "request", required = true) @NotNull @Valid AddToCartRequest addToCartRequest);
+
+
+	@POST
+	@Path("/removeFromCartList")
+	@ApiOperation(value = "removeFromCartList", notes = "This operation will get the cart list product of the customer", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response removeFromCartList(@ApiParam(value = "request", required = true) @NotNull @Valid AddToCartRequest addToCartRequest);
+
+	@POST
+	@Path("/emptyCartList")
+	@ApiOperation(value = "removeFromCartList", notes = "This operation will empty the cart list ", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response emptyCartList(@ApiParam(value = "request", required = true) @NotNull @Valid AddToCartRequest addToCartRequest);
 
 }

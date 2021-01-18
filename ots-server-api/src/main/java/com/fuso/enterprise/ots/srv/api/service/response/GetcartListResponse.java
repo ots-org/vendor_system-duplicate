@@ -2,15 +2,17 @@ package com.fuso.enterprise.ots.srv.api.service.response;
 
 import java.math.BigDecimal;
 
-public class GetwishListResponse {
-	
-	private Integer productId;
+public class GetcartListResponse {
 
 	private String productName;
 	
 	private String productImage;
 	
 	private BigDecimal productPrice;
+	
+	private Integer otsCartQty;
+	
+	private BigDecimal totalPrice;
 
 	public String getProductName() {
 		return productName;
@@ -36,12 +38,21 @@ public class GetwishListResponse {
 		this.productPrice = productPrice;
 	}
 
-	public Integer getProductId() {
-		return productId;
+	public Integer getOtsCartQty() {
+		return otsCartQty;
 	}
 
-	public void setProductId(Integer productId) {
-		this.productId = productId;
+	public void setOtsCartQty(Integer otsCartQty) {
+		this.otsCartQty = otsCartQty;
 	}
 
+	public BigDecimal getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(BigDecimal totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	
+	
 }

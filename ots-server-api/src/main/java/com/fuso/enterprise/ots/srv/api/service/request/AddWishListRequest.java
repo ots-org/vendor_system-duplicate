@@ -4,14 +4,15 @@ import com.fuso.enterprise.ots.srv.api.model.domain.AddWishListRequestModel;
 
 public class AddWishListRequest {
 
-	private AddWishListRequestModel addWishListRequestModel;
+	private AddWishListRequestModel requestData;
 
-	public AddWishListRequestModel getAddWishListRequestModel() {
-		return addWishListRequestModel;
+	public AddWishListRequestModel getRequestData() {
+		return requestData;
 	}
 
-	public void setAddWishListRequestModel(AddWishListRequestModel addWishListRequestModel) {
-		this.addWishListRequestModel = addWishListRequestModel;
+	public void setRequestData(AddWishListRequestModel requestData) {
+		this.requestData = requestData;
 	}
+
 	
 }

@@ -24,42 +24,52 @@ public class OtsProductWishlistDAOImpl extends AbstractIptDao<OtsProductWishlist
 	}
 
 	@Override
-	public String addWishList(AddWishListRequest addWishListRequest) {
-		OtsProductWishlist otsProductWishlist = new OtsProductWishlist();
-
-	
+	public String addWishList(AddWishListRequest addWishListRequest) {	
+		
+		Map<String, Object> queryParameter = new HashMap<>();
 		OtsProduct productId = new OtsProduct();
-		productId.setOtsProductId(addWishListRequest.getAddWishListRequestModel().getProductId());
-		otsProductWishlist.setOtsProductId(productId);
+		productId.setOtsProductId(addWishListRequest.getRequestData().getProductId());
+		queryParameter.put("otsProductId",productId);
 		
 		OtsUsers customerId = new OtsUsers();
-		customerId.setOtsUsersId(addWishListRequest.getAddWishListRequestModel().getCustomerId());
-		otsProductWishlist.setOtsCustomerId(customerId);
+		customerId.setOtsUsersId(addWishListRequest.getRequestData().getCustomerId());
+		queryParameter.put("otsCustomerId",customerId);
 		
-		try {
+		OtsProductWishlist otsProductWishlist = new OtsProductWishlist();
+		try{
+		otsProductWishlist = super.getResultByNamedQuery("OtsProductWishlist.getWhishListByCustomerIdAndProductId", queryParameter);
+		return "product already added to wishlist";
+		}catch (Exception e) {
+			otsProductWishlist.setOtsProductId(productId);
+			otsProductWishlist.setOtsCustomerId(customerId);
 			super.getEntityManager().merge(otsProductWishlist);
-		}catch(Exception e) {
-			System.out.println(e);
+			return "success";
 		}
 		
+		//System.out.println(otsProductWishlist.getOtsProductId());
 		
-		return "success";
+		//return "success";
 	}
+	
+
+	
 
 	@Override
 	public List<GetwishListResponse> getwishList(AddWishListRequest addWishListRequest) {
 		List<OtsProductWishlist> otsProductWishlist = new ArrayList<OtsProductWishlist>();
 		List<GetwishListResponse> getwishListResponseList= new ArrayList<GetwishListResponse>();
 		OtsUsers customerId = new OtsUsers();
-		customerId.setOtsUsersId(addWishListRequest.getAddWishListRequestModel().getCustomerId());
+		customerId.setOtsUsersId(addWishListRequest.getRequestData().getCustomerId());
 		
 		Map<String, Object> queryParameter = new HashMap<>();
 		queryParameter.put("otsCustomerId",customerId);
 		otsProductWishlist = super.getResultListByNamedQuery("OtsProductWishlist.getWhishListByCustomerId", queryParameter);
 		
 		System.out.println(otsProductWishlist.get(0).getOtsCustomerId().getOtsUsersFirstname());
+	
 		getwishListResponseList = otsProductWishlist.stream().map(productWishlist -> convertEntityToModel(productWishlist)).collect(Collectors.toList());
-		//todayairtableDataList.stream().map(OtsAirtable -> convertAirTabelTOModel(OtsAirtable)).collect(Collectors.toList());
+		
+		
 		
 		return getwishListResponseList;
 	}
@@ -67,8 +77,39 @@ public class OtsProductWishlistDAOImpl extends AbstractIptDao<OtsProductWishlist
 	
 	GetwishListResponse convertEntityToModel(OtsProductWishlist productWishlist) {
 		GetwishListResponse getwishListResponse = new GetwishListResponse();
+		getwishListResponse.setProductId(productWishlist.getOtsProductId().getOtsProductId());
 		getwishListResponse.setProductName(productWishlist.getOtsProductId().getOtsProductName());
+		getwishListResponse.setProductImage(productWishlist.getOtsProductId().getOtsProductImage());
+		getwishListResponse.setProductPrice(productWishlist.getOtsProductId().getOtsProductPrice());
 		return getwishListResponse;
+	}
+
+	@Override
+	public String removeFromWishList(AddWishListRequest addWishListRequest) {
+		Map<String, Object> queryParameter = new HashMap<>();
+		OtsProductWishlist otsProductWishlist = new OtsProductWishlist();
+
+		
+		OtsProduct productId = new OtsProduct();
+		productId.setOtsProductId(addWishListRequest.getRequestData().getProductId());
+		queryParameter.put("otsProductId",productId);
+		//otsProductWishlist.setOtsProductId(productId);
+		
+		OtsUsers customerId = new OtsUsers();
+		customerId.setOtsUsersId(addWishListRequest.getRequestData().getCustomerId());
+		queryParameter.put("otsCustomerId",customerId);
+		//otsProductWishlist.setOtsCustomerId(customerId);
+		try {
+			otsProductWishlist = super.getResultByNamedQuery("OtsProductWishlist.getWhishListByCustomerIdAndProductId", queryParameter);
+			//return "product already added to wislist";
+			
+			super.getEntityManager().remove(otsProductWishlist);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "No data found";
+		}
+		
+		return "success";
 	}
 
 }
