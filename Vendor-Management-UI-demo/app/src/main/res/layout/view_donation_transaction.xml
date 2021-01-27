@@ -70,7 +70,7 @@
             android:id="@+id/donationFirstName"
             android:layout_width="@dimen/activity_margin_100"
             android:layout_height="wrap_content"
-            android:text="Customer Name"
+            android:text="Donor Name"
             android:gravity="center"
             android:padding="@dimen/activity_margin_4"
             />
@@ -83,7 +83,7 @@
             android:id="@+id/donationAddress1"
             android:layout_width="@dimen/activity_margin_100"
             android:layout_height="wrap_content"
-            android:text="Customer Address"
+            android:text="Donor Address"
             android:gravity="center"
             android:padding="@dimen/activity_margin_4"
             />
@@ -96,7 +96,7 @@
             android:id="@+id/donationStatus"
             android:layout_width="@dimen/activity_margin_100"
             android:layout_height="wrap_content"
-            android:text="Customer Status"
+            android:text="Donor Status"
             android:gravity="center"
             android:padding="@dimen/activity_margin_4"
             />

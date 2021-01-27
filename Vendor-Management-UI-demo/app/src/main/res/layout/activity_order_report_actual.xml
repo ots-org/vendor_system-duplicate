@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Select Customer"
+            android:text="Select Donor"
             android:gravity="right"
             android:textStyle="bold"
             android:padding="@dimen/activity_margin_8"

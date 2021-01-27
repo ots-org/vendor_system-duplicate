@@ -193,7 +193,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:visibility="gone"
                     android:background="@color/white_pressed" />
 
                 <TextView
@@ -202,7 +201,6 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_margin_8"
                     android:text="@string/placetheorder"
-                    android:visibility="gone"
                     android:textColor="@color/textColorDark" />
 
                 <LinearLayout
@@ -220,8 +218,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="0dp"
-                        android:paddingLeft="0dp"
                         android:padding="@dimen/activity_margin_8"
                         android:text="@string/myorders"
                         android:textColor="@color/textColorDark" />
@@ -269,7 +265,6 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_margin_8"
                     android:text="@string/assigntheRequest"
-                    android:visibility="gone"
                     android:textColor="@color/textColorDark" />
                 <View
                     android:layout_width="match_parent"

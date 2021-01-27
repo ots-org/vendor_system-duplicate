@@ -71,7 +71,7 @@
                         android:textColor="@color/gray"
                         android:layout_margin="@dimen/activity_margin_8"
                         />
-                    <com.ortusolis.evenkart.Utility.SwitchButton
+                    <com.ortusolis.etaaranavkf.Utility.SwitchButton
                         android:id="@+id/switchButton"
                         android:layout_width="100dp"
                         android:layout_height="50dp"

@@ -37,7 +37,7 @@
       android:layout_weight="1.3"
       android:orientation="vertical"
       >
-      <com.ortusolis.evenkart.Utility.SquareImageView
+      <com.ortusolis.etaaranavkf.Utility.SquareImageView
           android:id="@+id/picture"
           android:layout_width="match_parent"
           android:layout_height="match_parent"

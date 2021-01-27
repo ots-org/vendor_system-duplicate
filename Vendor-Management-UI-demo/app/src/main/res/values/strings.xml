@@ -7,7 +7,7 @@
         <item quantity="one">One location reported</item>
         <item quantity="other">%d locations reported</item>
     </plurals>
-    <string name="app_name">e-Venkart</string>
+    <string name="app_name">Vision Karnataka Foundation</string>
     <string name="water_distribution">Water distribution</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="new_user">New User?</string>
@@ -17,7 +17,7 @@
     <string name="notification">Notifications</string>
     <string name="users">Add/Search/Modify Users</string>
     <string name="stock">Stock</string>
-    <string name="orders">Orders</string>
+    <string name="orders">Orders And Requests</string>
     <string name="bills">Bills</string>
     <string name="reports">Reports</string>
     <string name="logout">Logout</string>
@@ -25,12 +25,12 @@
     <string name="profile">My Profile</string>
     <string name="donation">Give Donation</string>
     <string name="products">Products</string>
-    <string name="customer">Customer</string>
+    <string name="customer">Beneficiary</string>
     <string name="searchProduct">Search Product here..</string>
     <string name="productcategory">Product Category</string>
     <string name="selectProductcategory">Select Product Category</string>
     <string name="selectproduct">Select Product</string>
-    <string name="selectcustomer">Select Customer</string>
+    <string name="selectcustomer">Select Beneficiary</string>
     <string name="startdate">Start Date :</string>
     <string name="selectdate">Select Date</string>
     <string name="enddate">End Date :</string>
@@ -52,7 +52,7 @@
     <string name="address2">Enter Address</string>
     <string name="pincode">Enter Pincode</string>
     <string name="distributorcode">Distributor Code</string>
-    <string name="selectdistributor">Select Distributor</string>
+    <string name="selectdistributor">Select Facilitator</string>
     <string name="confirmpassword">Confirm Password</string>
     <string name="typeofproduct">Select product</string>
     <string name="enterpassword">Enter Password</string>
@@ -83,15 +83,15 @@
     <string name="deliverydate">Delivery Date</string>
     <string name="ordercost">Order Cost</string>
     <string name="orderstatus">Order Status</string>
-    <string name="customername">Customer Name</string>
+    <string name="customername">Donor Name</string>
     <string name="amountrecieved">Amount Recieved</string>
     <string name="outstandingbalance">Outsatnding Balance</string>
     <string name="noorders">No orders</string>
 
     <string name="employee">Employee</string>
-    <string name="selectemployee">Select Employee</string>
+    <string name="selectemployee">Select Partner</string>
     <string name="nonotifications">No Notifications</string>
-    <string name="assignemployee">Assign Employee</string>
+    <string name="assignemployee">Assign Partner</string>
     <string name="cancelorder">Cancel</string>
     <!--<string name="closeorder">Close order</string>-->
     <string name="assigntheorder">Assign</string>
@@ -102,8 +102,8 @@
     <string name="closeorder">Close</string>
 
     <string name="entername">Enter Name</string>
-    <string name="customerid">Customer Id</string>
-    <string name="entercustomerid">Enter Customer Id</string>
+    <string name="customerid">Donor Id</string>
+    <string name="entercustomerid">Enter Donor Id</string>
     <string name="numberofcans">Number of cans</string>
     <string name="enternumberofcans">Enter number of cans</string>
     <string name="cansreceived">Can Received</string>
@@ -114,7 +114,7 @@
     <string name="enteramount">Enter Amount</string>
     <string name="generatebill">Generate Bill</string>
     <string name="exportasexcel">Export as Excel</string>
-    <string name="buy">Buy</string>
+    <string name="buy">Donate</string>
     <string name="active">Active :</string>
     <string name="schedule">Schedule</string>
     <string name="price">Price $30.00</string>
@@ -159,8 +159,8 @@
     <string name="returnquan">Return Quantity :1</string>
     <string name="amount">Total Amount :$20</string>
     <string name="transactiondate">Transaction Date:</string>
-    <string name="viewemployees">View Employees</string>
-    <string name="viewcustomers">View Customer</string>
+    <string name="viewemployees">View Partners</string>
+    <string name="viewcustomers">View Donor</string>
 
     <string name="stockaddition">Stock Addition</string>
     <string name="openingbalance">Opening Balance</string>
@@ -183,7 +183,7 @@
     <string name="userstatus">User Status</string>
     <string name="adduser">Add user</string>
 
-    <string name="newcustomer">New Customer</string>
+    <string name="newcustomer">New Donor</string>
     <string name="davidstone">David Stone</string>
     <string name="paymentmethod">Payment Method</string>
     <string name="selectpayment">Select Payment Method</string>
@@ -232,7 +232,7 @@
     <string name="billcost">Bill Cost</string>
     <string name="billdate">Bill date</string>
     <string name="billnumber">Bill Number</string>
-    <string name="newusercust">New User register as Customer</string>
+    <string name="newusercust">New User register as Donor</string>
     <string name="details">Please check user’s details and assign distribution</string>
     <string name="transferto">Transfer To</string>
     <string name="assign">Assign</string>
@@ -254,8 +254,8 @@
     <string name="productreport">Product Transaction Report</string>
     <string name="orderreport">Order Report</string>
     <string name="billreport">Bill Report</string>
-    <string name="customerledger">Customer Ledger Report</string>
-    <string name="customeroutstanding">Customer Outstanding Report</string>
+    <string name="customerledger">Donor Ledger Report</string>
+    <string name="customeroutstanding">Donor Outstanding Report</string>
     <string name="donationReport">Donation Report</string>
 
 

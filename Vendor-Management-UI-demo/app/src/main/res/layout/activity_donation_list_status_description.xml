@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_margin_10"
-                    android:text="Customer Name"
+                    android:text="Donor Name"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/text_size_medium"
                     />
@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_margin_10"
-                    android:text="Customer Address"
+                    android:text="Donor Address"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/text_size_medium" />
 
@@ -110,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_margin_10"
-                    android:text="Customer Phone Number"
+                    android:text="Donor Phone Number"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/text_size_medium" />
                 <TextView
@@ -142,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_margin_10"
-                    android:text="Customer Quantity"
+                    android:text="Donor Quantity"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/text_size_medium" />
                 <TextView
@@ -173,7 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_margin_10"
-                    android:text="Customer Amount"
+                    android:text="Donor Amount"
                     android:textColor="@color/textColor"
                     android:textSize="@dimen/text_size_medium"
                     />

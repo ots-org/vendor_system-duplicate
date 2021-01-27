@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.ortusolis.evenkart.pojo.** { *; }
+-keep class com.ortusolis.etaaranavkf.pojo.** { *; }
 
 # Keep GSON stuff
 -keep class sun.misc.Unsafe { *; }

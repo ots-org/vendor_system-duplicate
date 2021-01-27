@@ -84,10 +84,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/activity_margin_10"
-                android:text="PAN Number"
+                android:text="PAN Number (above Rs.50,000)"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_medium"
                 />
+
             <EditText
                 android:id="@+id/donarPan"
                 android:layout_width="wrap_content"

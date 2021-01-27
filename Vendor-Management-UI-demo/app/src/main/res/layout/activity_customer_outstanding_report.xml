@@ -41,7 +41,7 @@
                 android:layout_alignParentRight="true"
                 android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/colorPrimary"
-                android:text="Select Distributor"
+                android:text="Select Facilitator"
                 />
         </RelativeLayout>
         <View

@@ -67,7 +67,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="imagePath" value="C:\Users\user\AndroidStudioProjects\e-venkart market place\Vendor-Management-UI-demo\app\src\main\res\drawable\white_image.png" />
+                                                <entry key="imagePath" value="C:\Users\user\AndroidStudioProjects\e-taarana vkf\Vendor-Management-UI-demo\app\src\main\res\drawable\white_image.png" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -90,7 +90,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\user\AndroidStudioProjects\e-venkart market place\Vendor-Management-UI-demo\app\src\main\res\drawable\evenkart_logo.png" />
+                                                <entry key="imagePath" value="C:\Users\user\AndroidStudioProjects\e-taarana vkf\Vendor-Management-UI-demo\app\src\main\res\drawable\vkf_logo.PNG" />
                                                 <entry key="scalingPercent" value="59" />
                                               </map>
                                             </option>
@@ -119,11 +119,6 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
-                                    </map>
-                                  </option>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="outputName" value="ic_launcher_ortu" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -300,11 +295,6 @@
                 </map>
               </option>
             </PersistentState>
-          </value>
-        </entry>
-        <entry key="vectorWizard">
-          <value>
-            <PersistentState />
           </value>
         </entry>
       </map>
