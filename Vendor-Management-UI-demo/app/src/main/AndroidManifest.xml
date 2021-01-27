@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ortusolis.rotarytarana"
+    package="com.ortusolis.rotarytaranaadmin"
     xmlns:dist="http://schemas.android.com/apk/distribution">
 
     <dist:module dist:instant="true" />
     <application
-        android:name="com.ortusolis.rotarytarana.Activity.WaterApp"
+        android:name="com.ortusolis.rotarytaranaadmin.Activity.WaterApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,20 +14,22 @@
         android:supportsRtl="true"
         android:visibleToInstantApps="true"
         android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
+        android:resizeableActivity="false"
         android:targetSandboxVersion="2"
         android:theme="@style/AppThemeEx">
-        <activity android:name="com.ortusolis.rotarytarana.Activity.DonationListStatusDescription"></activity>
-        <activity android:name="com.ortusolis.rotarytarana.Activity.DonationStatus" />
-        <activity android:name="com.ortusolis.rotarytarana.Activity.ConfirmRequest" />
-        <activity android:name="com.ortusolis.rotarytarana.Activity.DonationReport" />
-        <activity android:name="com.ortusolis.rotarytarana.Activity.DonationActivityDiscription" />
-        <activity android:name="com.ortusolis.rotarytarana.Activity.DonationActivity" />
-        <activity android:name="com.ortusolis.rotarytarana.Activity.UserProfileActivity" />
-        <activity android:name="com.ortusolis.rotarytarana.Activity.AddSubCategory" />
-        <activity android:name="com.ortusolis.rotarytarana.Activity.SwitchRole" />
-        <activity android:name="com.ortusolis.rotarytarana.Activity.SplashScreenWaterOts" />
+        <activity android:name="com.ortusolis.rotarytaranaadmin.Activity.DonationListStatusDescription"></activity>
+        <activity android:name="com.ortusolis.rotarytaranaadmin.Activity.DonationStatus" />
+        <activity android:name="com.ortusolis.rotarytaranaadmin.Activity.ConfirmRequest" />
+        <activity android:name="com.ortusolis.rotarytaranaadmin.Activity.DonationReport" />
+        <activity android:name="com.ortusolis.rotarytaranaadmin.Activity.DonationActivityDiscription" />
+        <activity android:name="com.ortusolis.rotarytaranaadmin.Activity.DonationActivity" />
+        <activity android:name="com.ortusolis.rotarytaranaadmin.Activity.UserProfileActivity" />
+        <activity android:name="com.ortusolis.rotarytaranaadmin.Activity.AddSubCategory" />
+        <activity android:name="com.ortusolis.rotarytaranaadmin.Activity.SwitchRole" />
+        <activity android:name="com.ortusolis.rotarytaranaadmin.Activity.SplashScreenWaterOts" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.SplashScreenActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.SplashScreenActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,68 +38,67 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.LoginActivity"
-            android:screenOrientation="portrait" >
-         </activity>
-        <activity
-            android:name="com.ortusolis.rotarytarana.Activity.RegisterActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.MainActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.DistributorActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.OTPActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.DistributorActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.NotificationActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.OTPActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.OrderActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.NotificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.PasswordActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.OrderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.PhoneNumberActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.PasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.HomeActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.PhoneNumberActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.CreatePlant"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.ViewPlant"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.CreatePlant"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.ManualScreen"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.ViewPlant"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.DistributorAct"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.ManualScreen"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.CustomerAct"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.DistributorAct"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.BillListActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.CustomerAct"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.StackReportActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.BillListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.TrackActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.StackReportActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.ReportActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.TrackActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.UpdateProductStockActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.ReportActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.PlantGridActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.UpdateProductStockActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.PlantGridActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <meta-data
@@ -105,98 +106,98 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.ProductDescription"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.ProductDescription"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.UserActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.UserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.AddProductActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.AddProductActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.MapsMarkerActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.MapsMarkerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.UpdateUserActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.UpdateUserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.ProductTransactionReportActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.ProductTransactionReportActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.OrderListActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.OrderListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.OrderDescription"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.OrderDescription"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.BillDescription"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.BillDescription"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.EmployeeOrderAssignedListActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.EmployeeOrderAssignedListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.AssignedOrderDescription"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.AssignedOrderDescription"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.CardListActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.CardListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.OrderReportActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.OrderReportActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.ProductDetailReportActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.ProductDetailReportActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.BillReportActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.BillReportActivity"
             android:screenOrientation="portrait" /> <!--  -->
         <!--  -->
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.AssignedOrderListActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.AssignedOrderListActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.AssignedVoucherOrderDescription"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.AssignedVoucherOrderDescription"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.CustomerLedgerReportActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.CustomerLedgerReportActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.CustomerOutstandingReportActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.CustomerOutstandingReportActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.MyBillActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.MyBillActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.StatusListActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.StatusListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.MybillsDescription"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.MybillsDescription"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.SchedulerActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.SchedulerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.TransferOrderActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.TransferOrderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.ListMappedUsersList"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.ListMappedUsersList"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ortusolis.rotarytarana.cropper.CropImageActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.cropper.CropImageActivity"
             android:screenOrientation="portrait" /> <!--  -->
         <activity
-            android:name="com.ortusolis.rotarytarana.service.RazorPayActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.service.RazorPayActivity"
             android:screenOrientation="portrait" /> <!--  -->
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.InitialScreenActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.InitialScreenActivity"
             android:screenOrientation="portrait" /> <!--  -->
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.StatusActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.StatusActivity"
             android:screenOrientation="portrait" /> <!--  -->
         <activity
-            android:name="com.ortusolis.rotarytarana.Activity.WebViewActivity"
+            android:name="com.ortusolis.rotarytaranaadmin.Activity.WebViewActivity"
             android:screenOrientation="portrait" /> <!--  -->
         <meta-data
             android:name="com.google.android.gms.version"
@@ -226,7 +227,7 @@
 
 <!--        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="2346304448952344"/>-->
         <receiver
-            android:name="com.ortusolis.rotarytarana.Utility.RestarterBroadcastReceiver"
+            android:name="com.ortusolis.rotarytaranaadmin.Utility.RestarterBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:label="RestartServiceWhenStopped">
@@ -238,27 +239,27 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.ortusolis.rotarytarana.location.LocationUpdatesBroadcastReceiver"
+            android:name="com.ortusolis.rotarytaranaadmin.location.LocationUpdatesBroadcastReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.ortusolis.rotarytarana.location.LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES" />
             </intent-filter>
         </receiver>
         <!--  -->
-        <receiver android:name="com.ortusolis.rotarytarana.Activity.ApplicationSelectorReceiver"></receiver>
+        <receiver android:name="com.ortusolis.rotarytaranaadmin.Activity.ApplicationSelectorReceiver"></receiver>
         <!-- -->
-        <service android:name="com.ortusolis.rotarytarana.service.MyFirebaseMessagingService">
+        <service android:name="com.ortusolis.rotarytaranaadmin.service.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service> <!--  -->
-        <service android:name="com.ortusolis.rotarytarana.service.MyFirebaseInstanceIDService">
+        <service android:name="com.ortusolis.rotarytaranaadmin.service.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name="com.ortusolis.rotarytarana.location.LocationUpdatesIntentService"
+            android:name="com.ortusolis.rotarytaranaadmin.location.LocationUpdatesIntentService"
             android:exported="false" />
 
         <uses-library

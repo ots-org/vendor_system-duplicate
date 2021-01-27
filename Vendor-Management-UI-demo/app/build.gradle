@@ -19,17 +19,18 @@ repositories {
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
     defaultConfig {
-        applicationId "com.ortusolis.rotarytarana"
+        applicationId "com.ortusolis.rotarytaranaadmin"
         minSdkVersion 19 // changed 15 to 18 for gif display //changed to 19
-        targetSdkVersion 30
-        versionCode 23
-        versionName "3.4"
+        targetSdkVersion 29
+        versionCode 5
+        versionName "1.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "google_maps_key", (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "")
         multiDexEnabled true
         resConfigs "en", "kn"
+
     }
     useLibrary 'org.apache.http.legacy'
 
@@ -69,7 +70,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services:11.0.4'
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
-//    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
+    //    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 
 
     // Import the BoM for the Firebase platform
@@ -78,10 +79,6 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
 //    implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
-
-
-
-
     implementation 'com.google.firebase:firebase-messaging:11.0.4'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.github.david-serrano:locationprovider:1.2'

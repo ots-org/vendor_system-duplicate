@@ -194,6 +194,7 @@
                 android:textSize="@dimen/text_size_small"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:visibility="gone"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 />

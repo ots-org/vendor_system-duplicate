@@ -268,7 +268,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/activity_margin_10"
-                android:text="Final Product Price"
+                android:text="Base Price"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_medium"
                 />
@@ -282,11 +282,41 @@
                 android:layout_marginStart="180sp"
                 android:textSize="@dimen/text_size_medium"
                 android:textColor="@color/textColor"
-                android:hint="Enter Final Product price"
+                android:hint="Enter Base price"
                 android:textColorHint="@color/gray"
                 android:inputType="numberDecimal"
                 />
         </RelativeLayout>
+
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@android:color/white"-->
+<!--            android:id="@+id/finalBasePriceLayoutProduct"-->
+<!--            >-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="@dimen/activity_margin_10"-->
+<!--                android:text="Final Base Price"-->
+<!--                android:textColor="@color/textColor"-->
+<!--                android:textSize="@dimen/text_size_medium"-->
+<!--                />-->
+<!--            <EditText-->
+<!--                android:id="@+id/finalBasePriceGSTEdit"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="@dimen/activity_margin_100"-->
+<!--                android:padding="@dimen/activity_margin_10"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                android:layout_marginStart="180sp"-->
+<!--                android:textSize="@dimen/text_size_medium"-->
+<!--                android:textColor="@color/textColor"-->
+<!--                android:hint="Enter Final Base price"-->
+<!--                android:textColorHint="@color/gray"-->
+<!--                android:inputType="numberDecimal"-->
+<!--                />-->
+<!--        </RelativeLayout>-->
 
         <View
             android:layout_width="match_parent"

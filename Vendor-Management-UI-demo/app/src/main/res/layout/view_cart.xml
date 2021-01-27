@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="@dimen/activity_margin_8">
-            <com.ortusolis.rotarytarana.Utility.SquareImageView
+            <com.ortusolis.rotarytaranaadmin.Utility.SquareImageView
                 android:id="@+id/picture"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
