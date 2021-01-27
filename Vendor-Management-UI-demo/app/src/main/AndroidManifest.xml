@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ortusolis.evenkart"
+    xmlns:dist="http://schemas.android.com/apk/distribution">
+
+    <dist:module dist:instant="true" />
+    <application
+        android:name="com.ortusolis.evenkart.Activity.WaterApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher_ortu"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:visibleToInstantApps="true"
+        android:usesCleartextTraffic="true"
+        android:targetSandboxVersion="2"
+        android:theme="@style/AppThemeEx">
+        <activity android:name="com.ortusolis.evenkart.Activity.DonationListStatusDescription"></activity>
+        <activity android:name="com.ortusolis.evenkart.Activity.DonationStatus" />
+        <activity android:name="com.ortusolis.evenkart.Activity.ConfirmRequest" />
+        <activity android:name="com.ortusolis.evenkart.Activity.DonationReport" />
+        <activity android:name="com.ortusolis.evenkart.Activity.DonationActivityDiscription" />
+        <activity android:name="com.ortusolis.evenkart.Activity.DonationActivity" />
+        <activity android:name="com.ortusolis.evenkart.Activity.UserProfileActivity" />
+        <activity android:name="com.ortusolis.evenkart.Activity.AddSubCategory" />
+        <activity android:name="com.ortusolis.evenkart.Activity.SwitchRole" />
+        <activity android:name="com.ortusolis.evenkart.Activity.SplashScreenWaterOts" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.SplashScreenActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.DistributorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.OTPActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.NotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.OrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.PasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.PhoneNumberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.CreatePlant"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.ViewPlant"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.ManualScreen"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.DistributorAct"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.CustomerAct"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.BillListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.StackReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.TrackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.ReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.UpdateProductStockActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.PlantGridActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.ProductDescription"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.UserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.AddProductActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.MapsMarkerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.UpdateUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.ProductTransactionReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.OrderListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.OrderDescription"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.BillDescription"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.EmployeeOrderAssignedListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.AssignedOrderDescription"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.CardListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.OrderReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.ProductDetailReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.BillReportActivity"
+            android:screenOrientation="portrait" /> <!--  -->
+        <!--  -->
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.AssignedOrderListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.AssignedVoucherOrderDescription"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.CustomerLedgerReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.CustomerOutstandingReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.MyBillActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.StatusListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.MybillsDescription"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.SchedulerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.TransferOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.ListMappedUsersList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ortusolis.evenkart.cropper.CropImageActivity"
+            android:screenOrientation="portrait" /> <!--  -->
+        <activity
+            android:name="com.ortusolis.evenkart.service.RazorPayActivity"
+            android:screenOrientation="portrait" /> <!--  -->
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.InitialScreenActivity"
+            android:screenOrientation="portrait" /> <!--  -->
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.StatusActivity"
+            android:screenOrientation="portrait" /> <!--  -->
+        <activity
+            android:name="com.ortusolis.evenkart.Activity.WebViewActivity"
+            android:screenOrientation="portrait" /> <!--  -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <!--
+<service
+            android:name="com.ortusolis.water_distribution.service.UserService"
+            android:enabled="true"
+            android:process=":waterdist"
+            />
+        -->
+        <!-- Firebase Notifications -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="100213" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBlbMWQ3nywenMiPxJ8GJ41EAaUCqJDT3o" /> <!-- ./Firebase Notifications -->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="86d10b78830c1a0dbcc18c03f0038831e3fd593c" />
+<!--        <meta-data-->
+<!--            android:name="com.razorpay.ApiKey"-->
+<!--            android:value="rzp_test_kA2hROKJeaOPQU" />-->
+<!--        android:value="rzp_test_i50l0d4Cja32Mc" />-->
+<!--        android:value="rzp_test_NYxmr2CtwORaZd"  hdfc -->
+
+<!--        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="2346304448952344"/>-->
+        <receiver
+            android:name="com.ortusolis.evenkart.Utility.RestarterBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+            <intent-filter>
+                <action android:name="com.ionsales.RestartIntent" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.SCREEN_ON" />
+                <action android:name="android.intent.action.SCREEN_OFF" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.ortusolis.evenkart.location.LocationUpdatesBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.ortusolis.evenkart.location.LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES" />
+            </intent-filter>
+        </receiver>
+        <!--  -->
+        <receiver android:name="com.ortusolis.evenkart.Activity.ApplicationSelectorReceiver"></receiver>
+        <!-- -->
+        <service android:name="com.ortusolis.evenkart.service.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service> <!--  -->
+        <service android:name="com.ortusolis.evenkart.service.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.ortusolis.evenkart.location.LocationUpdatesIntentService"
+            android:exported="false" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+<!--        <provider android:authorities="com.facebook.app.FacebookContentProvider{2346304448952344}"-->
+<!--            android:name="com.facebook.FacebookContentProvider"-->
+<!--            android:exported="true"/>-->
+    </application>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+</manifest>

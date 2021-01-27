@@ -1,0 +1,301 @@
+<resources>
+    <!--<string name="app_name">PRA-VARTHAKA</string>
+    <string name="water_distribution">PRA-VARTHAKA</string>-->
+
+    <plurals name="num_locations_reported">
+        <item quantity="zero">No location reported</item>
+        <item quantity="one">One location reported</item>
+        <item quantity="other">%d locations reported</item>
+    </plurals>
+    <string name="app_name">e-Venkart</string>
+    <string name="water_distribution">Water distribution</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="new_user">New User?</string>
+    <string name="register">Register</string>
+    <string name="home">Home</string>
+    <string name="firstName">First Name</string>
+    <string name="notification">Notifications</string>
+    <string name="users">Add/Search/Modify Users</string>
+    <string name="stock">Stock</string>
+    <string name="orders">Orders</string>
+    <string name="bills">Bills</string>
+    <string name="reports">Reports</string>
+    <string name="logout">Logout</string>
+    <string name="switchRoleLan">Switch Role</string>
+    <string name="profile">My Profile</string>
+    <string name="donation">Give Donation</string>
+    <string name="products">Products</string>
+    <string name="customer">Customer</string>
+    <string name="searchProduct">Search Product here..</string>
+    <string name="productcategory">Product Category</string>
+    <string name="selectProductcategory">Select Product Category</string>
+    <string name="selectproduct">Select Product</string>
+    <string name="selectcustomer">Select Customer</string>
+    <string name="startdate">Start Date :</string>
+    <string name="selectdate">Select Date</string>
+    <string name="enddate">End Date :</string>
+    <string name="generatepdf">Generate PDF</string>
+    <string name="getreport">Get Report</string>
+    <string name="rememberme">Remember Me</string>
+    <string name="enterusername">Enter Phone Number</string>
+    <string name="enterfirstName">Enter First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="enterlastName">Enter Last Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="enterphone_number">Enter Phone Number</string>
+    <string name="email_id">Email ID</string>
+    <string name="enteremail_id">Enter Email ID</string>
+    <string name="password">Password</string>
+    <string name="address1">Enter Address</string>
+    <string name="primaryAddress">Primary Address</string>
+    <string name="secondaryAddress">Secondary Address</string>
+    <string name="address2">Enter Address</string>
+    <string name="pincode">Enter Pincode</string>
+    <string name="distributorcode">Distributor Code</string>
+    <string name="selectdistributor">Select Distributor</string>
+    <string name="confirmpassword">Confirm Password</string>
+    <string name="typeofproduct">Select product</string>
+    <string name="enterpassword">Enter Password</string>
+    <string name="area">Area</string>
+    <string name="login">Login</string>
+    <string name="enterarea">Enter Area</string>
+    <string name="plant_name">Plant Name</string>
+    <string name="enterplant_name">Enter Plant Name</string>
+    <string name="otp_verification">OTP Verification</string>
+    <string name="enter_verification_code">Enter verification Code which has been sent to your Email Id</string>
+    <string name="plant">Plant</string>
+    <string name="refresh">Refresh</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="current_temperature">Current Temperature</string>
+    <string name="humidity">Humidity</string>
+    <string name="soil_moisture">Soil Moisture</string>
+    <string name="recommendation">Recommendation</string>
+    <string name="please_add_water">Please Add water to the plant.</string>
+    <string name="by_tapping_verify">By tapping Verify Phone Number, an SMS may be sent. Message &amp; data rates may apply.</string>
+    <string name="weather_forecast">Weather Forecast</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="Rs">\u20B9</string>
+    <string name="pick_image_intent_chooser_title">Select source</string>
+    <string name="ordernumber">Order Number</string>
+    <string name="orderdate">Order Date</string>
+    <string name="deliverydate">Delivery Date</string>
+    <string name="ordercost">Order Cost</string>
+    <string name="orderstatus">Order Status</string>
+    <string name="customername">Customer Name</string>
+    <string name="amountrecieved">Amount Recieved</string>
+    <string name="outstandingbalance">Outsatnding Balance</string>
+    <string name="noorders">No orders</string>
+
+    <string name="employee">Employee</string>
+    <string name="selectemployee">Select Employee</string>
+    <string name="nonotifications">No Notifications</string>
+    <string name="assignemployee">Assign Employee</string>
+    <string name="cancelorder">Cancel</string>
+    <!--<string name="closeorder">Close order</string>-->
+    <string name="assigntheorder">Assign</string>
+    <string name="assigntheRequest">Assign Request</string>
+    <string name="dataisnotavailable">Data is not Available</string>
+    <string name="orderid">Order Id</string>
+    <string name="deliverytime">Select Delivery Time</string>
+    <string name="closeorder">Close</string>
+
+    <string name="entername">Enter Name</string>
+    <string name="customerid">Customer Id</string>
+    <string name="entercustomerid">Enter Customer Id</string>
+    <string name="numberofcans">Number of cans</string>
+    <string name="enternumberofcans">Enter number of cans</string>
+    <string name="cansreceived">Can Received</string>
+    <string name="entercanreceived">Enter can Received</string>
+    <string name="totalamount">Total Amount</string>
+    <string name="entertotalamount">Enter Total Amount</string>
+    <string name="payableamount">Payable Amount</string>
+    <string name="enteramount">Enter Amount</string>
+    <string name="generatebill">Generate Bill</string>
+    <string name="exportasexcel">Export as Excel</string>
+    <string name="buy">Buy</string>
+    <string name="active">Active :</string>
+    <string name="schedule">Schedule</string>
+    <string name="price">Price $30.00</string>
+    <string name="name">Name</string>
+    <string name="objectname">Object Name</string>
+    <string name="object_description">Object_Description</string>
+    <string name="editproduct">Edit product</string>
+    <string name="objectimage">Object_Image</string>
+    <string name="verify">Verify</string>
+    <string name="resendcode">Resend code</string>
+    <string name="enternewpassword">Enter New Password</string>
+    <string name="reenternewpassword">Re-enter New Password</string>
+    <string name="submit">Submit</string>
+    <string name="existingpassword">Existing Password</string>
+
+    <string name="nutrientsavailable">Nutrients Available</string>
+    <string name="typicalvaluesper100ml">Typical values per 100ml</string>
+    <string name="potessium">Potessium 0.1mg</string>
+    <string name="magnesium">Magnesium 0.2mg</string>
+    <string name="orderquantity">Order Quantity</string>
+    <string name="returnquantity">Return Quantity</string>
+    <string name="deliverytype">Delivery Type</string>
+    <string name="cashondelivery">Cash on Delivery</string>
+    <string name="distributor">Distributor</string>
+    <string name="selectdeliverydate">Select Delivery Date</string>
+    <string name="repeat">Repeat</string>
+    <string name="daily">Daily</string>
+    <string name="selectstarttime">Select Start Time</string>
+    <string name="selectendtime">Select End Time</string>
+    <string name="selectstartdate">Select Start Date</string>
+    <string name="selectenddate">Select End Date</string>
+    <string name="addtocart">Add to cart</string>
+    <string name="salesvoucher">Sales Voucher</string>
+    <string name="placetheorder">Place the order</string>
+    <string name="totalprice">Total Price</string>
+    <string name="productname">Product Name</string>
+
+    <string name="selectdeliverytime">Select Delivery Time</string>
+    <string name="order">Order ID :12345</string>
+    <string name="orderplaceddate">Order placed date: 12/08/2018</string>
+    <string name="quantity">Quantity :1</string>
+    <string name="returnquan">Return Quantity :1</string>
+    <string name="amount">Total Amount :$20</string>
+    <string name="transactiondate">Transaction Date:</string>
+    <string name="viewemployees">View Employees</string>
+    <string name="viewcustomers">View Customer</string>
+
+    <string name="stockaddition">Stock Addition</string>
+    <string name="openingbalance">Opening Balance</string>
+    <string name="orderdelivered">Order Delivered</string>
+    <string name="closingbalance">Closing Balance</string>
+    <string name="updatestock"> Update Stock</string>
+    <string name="updateSwitchRole">Update Switch Role</string>
+
+    <string name="purchasedcans">No. of Purchased cans</string>
+    <string name="enternumber">Enter no.</string>
+    <string name="soldcans">No. of sold cans</string>
+    <string name="remainingcans">Remaining cans</string>
+    <string name="createsalesvoucher">Create Sales voucher</string>
+
+    <string name="enterpincode">Enter Pincode</string>
+    <string name="enteraddress1">Enter Primary Address</string>
+    <string name="enteraddress2">Enter Secondary Address</string>
+    <string name="productprice">Product Price(INR)</string>
+    <string name="enterproductprice">Enter Product Price</string>
+    <string name="userstatus">User Status</string>
+    <string name="adduser">Add user</string>
+
+    <string name="newcustomer">New Customer</string>
+    <string name="davidstone">David Stone</string>
+    <string name="paymentmethod">Payment Method</string>
+    <string name="selectpayment">Select Payment Method</string>
+    <string name="reject">Reject</string>
+    <string name="approve">Approve</string>
+
+    <string name="deliveryquantity">Delivery Quantity</string>
+    <string name="outstandingcan">Outstanding can</string>
+    <string name="balancecan">Balance can</string>
+    <string name="update">Update</string>
+    <string name="addSubProduct">Add Sub Product</string>
+
+    <string name="delivereddate">Delivered Date:</string>
+    <string name="outstandingamoount">Outstanding Amount</string>
+    <string name="amountreceived">Amount Received</string>
+    <string name="balanceamount">Balance Amount</string>
+    <string name="closeoreder">Close order</string>
+    <string name="weekly">Weekly</string>
+
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="cancel">Cancel</string>
+    <string name="noproducts">No Products</string>
+    <string name="factoryaddress">Factory Address</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="myprofile">My profile</string>
+    <string name="plantname">Plant Name</string>
+    <string name="plantdescription">Plant Description</string>
+    <string name="print">Print</string>
+    <string name="search">Search</string>
+    <string name="presentstock">Present Stock</string>
+    <string name="addquantity">Add Quantity</string>
+    <string name="enterquantity">Enter Quantity</string>
+    <string name="selectuser">Select User!</string>
+    <string name="unit">Unit/quantity</string>
+    <string name="rate">Rate</string>
+    <string name="Description">Description</string>
+    <string name="cashrecieved">Cash Recieved</string>
+    <string name="emptycan">Empty can recieved</string>
+    <string name="billcost">Bill Cost</string>
+    <string name="billdate">Bill date</string>
+    <string name="billnumber">Bill Number</string>
+    <string name="newusercust">New User register as Customer</string>
+    <string name="details">Please check user’s details and assign distribution</string>
+    <string name="transferto">Transfer To</string>
+    <string name="assign">Assign</string>
+    <string name="checkout">Checkout</string>
+    <string name="total">Total:</string>
+    <string name="sgst">SGST%</string>
+    <string name="cgst">CGST%</string>
+    <string name="fromdate">From Date:</string>
+    <string name="todate">To Date:</string>
+    <string name="billno">Bill no:</string>
+    <string name="distributorname">Distributor Name</string>
+
+    <string name="schdeuler">Scheduler</string>
+    <string name="myorders">My Orders</string>
+    <string name="transferorders">Transfer Orders</string>
+    <string name="changepassword">Change Password</string>
+    <string name="addproduct">Add Product</string>
+    <string name="mybills">My Bills</string>
+    <string name="productreport">Product Transaction Report</string>
+    <string name="orderreport">Order Report</string>
+    <string name="billreport">Bill Report</string>
+    <string name="customerledger">Customer Ledger Report</string>
+    <string name="customeroutstanding">Customer Outstanding Report</string>
+    <string name="donationReport">Donation Report</string>
+
+
+    <string name="crop_image_activity_title"></string>
+    <string name="crop_image_menu_rotate_left">Rotate counter clockwise</string>
+    <string name="crop_image_menu_rotate_right">Rotate</string>
+    <string name="crop_image_menu_crop">Crop</string>
+    <string name="crop_image_menu_flip">Flip</string>
+    <string name="crop_image_menu_flip_horizontally">Flip horizontally</string>
+    <string name="crop_image_menu_flip_vertically">Flip vertically</string>
+    <string name="crop_image_activity_no_permissions">Cancelling, required permissions are not granted</string>
+
+    <string name="default_channel">Default channel</string>
+
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+    <string name="settings">Settings</string>
+    <string name="ok">OK</string>
+    <string-array name="Language_array">
+        <item>English</item>
+        <item>Kannada</item>
+    </string-array>
+
+
+        <string name="access_code">AVPR93HG37AQ36RPQA</string>
+
+        <string name="pay_button">Pay</string>
+
+        <string name="merchant_id">265087</string>
+
+        <string name="currency">INR</string>
+
+<!--        <string name="amount">Amount</string>-->
+
+        <string name="redirect_url">https://test.ccavenue.com/transaction/initTrans</string>
+
+        <string name="cancel_url">Cancel Url</string>
+
+        <string name="rsa_url">https://test.ccavenue.com/transaction/transaction.do</string>
+
+
+</resources>
