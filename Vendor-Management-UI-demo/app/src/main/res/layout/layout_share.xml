@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@+id/dialog_whtasapp"
+        android:layout_width="184dp"
+        android:layout_height="196dp"
+        android:paddingTop="@dimen/activity_margin_18"
+        android:src="@drawable/whatsapp1" />
+
+    <ImageView
+        android:id="@+id/dialog_mail"
+        android:layout_width="wrap_content"
+        android:layout_height="226dp"
+        android:src="@drawable/email_icon" />
+
+</LinearLayout>
