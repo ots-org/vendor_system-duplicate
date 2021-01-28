@@ -2,6 +2,7 @@ package com.fuso.enterprise.ots.srv.server.dao.impl;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -405,23 +407,53 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ProductDetails> getPaginatedProduct(ProductDetailsBORequest productDetailsBORequest) {
+		List<ProductDetails> productList = new ArrayList<ProductDetails>();
 		try {
-			Map<String, Object> inParamMap = new HashMap<String, Object>();		
+			Map<String, Object> inParamMap = new HashMap<String, Object>();				
 			
 			SqlParameterSource in = new MapSqlParameterSource(inParamMap);
+			inParamMap.put("starton", productDetailsBORequest.getRequestData().getStartOn());
+			inParamMap.put("bsize", productDetailsBORequest.getRequestData().getSize());
+			inParamMap.put("productLevel", productDetailsBORequest.getRequestData().getProductLevel());
 			
-			SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("ots_getPaginationOfProduct");
+			SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+					.withProcedureName("getproductpagination")
+					.withoutProcedureColumnMetaDataAccess();
 			
-			Map<String, Object> simpleJdbcCallResult = simpleJdbcCall.execute();
-			System.out.println(simpleJdbcCallResult.toString());
+			simpleJdbcCall.addDeclaredParameter(new SqlParameter("starton", Types.INTEGER));
+			simpleJdbcCall.addDeclaredParameter(new SqlParameter("bsize", Types.INTEGER));
+			simpleJdbcCall.addDeclaredParameter(new SqlParameter("productLevel", Types.INTEGER));
+			
+			Map<String, Object> simpleJdbcCallResult = simpleJdbcCall.execute(inParamMap);
 			List<Map<String, Object>> out = (List<Map<String, Object>>) simpleJdbcCallResult.get("#result-set-1");
 			
-			
+			for(int i=0;i<out.size();i++) {
+				OtsProduct otsProduct = new OtsProduct();
+				otsProduct.setOtsProductId(Integer.parseInt(out.get(i).get("ots_product_id").toString()));
+				otsProduct.setOtsProductName(out.get(i).get("ots_product_name")==null?"":out.get(i).get("ots_product_name").toString());
+				otsProduct.setOtsProductDescription(out.get(0).get("ots_product_description")==null?"":out.get(i).get("ots_product_description").toString());
+				if(out.get(i).get("ots_product_price")!=null) {
+					BigDecimal productPrice = new BigDecimal(out.get(i).get("ots_product_price").toString());
+					otsProduct.setOtsProductPrice(productPrice);
+				}else {
+					BigDecimal productPrice = new BigDecimal(0);
+					otsProduct.setOtsProductPrice(productPrice);
+				}
+				OtsProductLevel otsProductLevel = new OtsProductLevel();
+				otsProductLevel.setOtsProductName("");
+				otsProduct.setOtsProductLevelId(otsProductLevel);
+				otsProduct.setOtsProductStatus(out.get(i).get("ots_product_status")==null?"":out.get(i).get("ots_product_status").toString());
+				otsProduct.setOtsProductImage(out.get(i).get("ots_product_image")==null?"":out.get(i).get("ots_product_image").toString());
+				otsProduct.setOtsProductType(out.get(i).get("ots_product_type")==null?"":out.get(i).get("ots_product_type").toString());
+				otsProduct.setOtsProductGst(out.get(i).get("ots_product_gst")==null?"":out.get(i).get("ots_product_gst").toString());
+				otsProduct.setOtsProductThresholdDay(out.get(i).get("ots_product_threshold_day")==null?"":out.get(i).get("ots_product_threshold_day").toString());
+				otsProduct.setOtsProductBasePrice(out.get(i).get("ots_product_base_price")==null?"":out.get(i).get("ots_product_base_price").toString());
 		
-			
+				productList.add(convertProductDetailsFromEntityToDomain(otsProduct));
+			}
 		}catch(Exception e) {
 				System.out.print(e);
 		}
-		return null;
+		return productList;
 	}
 }

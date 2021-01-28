@@ -1,6 +1,7 @@
 package com.fuso.enterprise.ots.srv.server.dao;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.AirTableModel;

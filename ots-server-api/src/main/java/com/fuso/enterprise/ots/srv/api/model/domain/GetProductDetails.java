@@ -7,8 +7,23 @@ public class GetProductDetails {
 	String customerId;
 	String status;
 	String maxRange;
-	String minRange;
+	private String minRange;
+	private String productLevel;
+	private String size;
+	private String startOn;
 	
+	public String getProductLevel() {
+		return productLevel;
+	}
+	public void setProductLevel(String productLevel) {
+		this.productLevel = productLevel;
+	}
+	public String getSize() {
+		return size;
+	}
+	public void setSize(String size) {
+		this.size = size;
+	}
 	public String getMaxRange() {
 		return maxRange;
 	}
@@ -50,5 +65,11 @@ public class GetProductDetails {
 	}
 	public void setSearchvalue(String searchvalue) {
 		this.searchvalue = searchvalue;
+	}
+	public String getStartOn() {
+		return startOn;
+	}
+	public void setStartOn(String startOn) {
+		this.startOn = startOn;
 	}
 }
