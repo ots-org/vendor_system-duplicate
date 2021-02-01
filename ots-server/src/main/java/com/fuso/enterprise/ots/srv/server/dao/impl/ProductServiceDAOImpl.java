@@ -415,6 +415,8 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 			inParamMap.put("starton", productDetailsBORequest.getRequestData().getStartOn());
 			inParamMap.put("bsize", productDetailsBORequest.getRequestData().getSize());
 			inParamMap.put("productLevel", productDetailsBORequest.getRequestData().getProductLevel());
+			inParamMap.put("productcategoryid", productDetailsBORequest.getRequestData().getSearchvalue());
+			inParamMap.put("productstatus", productDetailsBORequest.getRequestData().getProcedureKey());
 			
 			SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
 					.withProcedureName("getproductpagination")
@@ -423,10 +425,12 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 			simpleJdbcCall.addDeclaredParameter(new SqlParameter("starton", Types.INTEGER));
 			simpleJdbcCall.addDeclaredParameter(new SqlParameter("bsize", Types.INTEGER));
 			simpleJdbcCall.addDeclaredParameter(new SqlParameter("productLevel", Types.INTEGER));
+			simpleJdbcCall.addDeclaredParameter(new SqlParameter("productcategoryid", Types.INTEGER));
+			simpleJdbcCall.addDeclaredParameter(new SqlParameter("productstatus", Types.VARCHAR));
 			
 			Map<String, Object> simpleJdbcCallResult = simpleJdbcCall.execute(inParamMap);
 			List<Map<String, Object>> out = (List<Map<String, Object>>) simpleJdbcCallResult.get("#result-set-1");
-			
+			System.out.println(out);
 			for(int i=0;i<out.size();i++) {
 				OtsProduct otsProduct = new OtsProduct();
 				otsProduct.setOtsProductId(Integer.parseInt(out.get(i).get("ots_product_id").toString()));

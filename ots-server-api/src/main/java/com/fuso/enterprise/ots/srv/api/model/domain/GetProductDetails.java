@@ -11,6 +11,7 @@ public class GetProductDetails {
 	private String productLevel;
 	private String size;
 	private String startOn;
+	private String procedureKey;
 	
 	public String getProductLevel() {
 		return productLevel;
@@ -71,5 +72,11 @@ public class GetProductDetails {
 	}
 	public void setStartOn(String startOn) {
 		this.startOn = startOn;
+	}
+	public String getProcedureKey() {
+		return procedureKey;
+	}
+	public void setProcedureKey(String procedureKey) {
+		this.procedureKey = procedureKey;
 	}
 }
