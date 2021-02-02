@@ -724,4 +724,50 @@ public class OTSProductServiceImpl implements OTSProductService {
 		}
 		return airtableModelList;
 	}
+	/*shreekant*/
+	@Override
+	public ProductDetailsBOResponse getAllProductDetails() {
+		
+		ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
+	try {
+	
+			
+			List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
+			
+				try {
+			//		customerProductDetails = mapUserProductDAO.getCustomerProductDetailsByCustomerId(productDetailsBORequest.getRequestData().getCustomerId());
+					
+					productDetails=productServiceDAO.getAllProductDetils();
+				productDetailsBOResponse.setProductDetails(productDetails);
+				System.out.println(productDetails);
+				} catch (Exception e) {
+					throw new BusinessException(e.getMessage(), e);
+				}
+			
+			
+			
+		
+		System.out.print(productDetailsBOResponse.getProductDetails().size());
+
+	}catch(Exception e) {
+		System.out.println(e);
+	}
+				return productDetailsBOResponse;
+	}
+	@Override
+	public ProductDetailsBOResponse getProductDetails(ProductDetailsBORequest productDetailsBORequest) {
+		try {
+		ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
+		List<ProductDetails> ProductDetails = new ArrayList<ProductDetails> ();
+		ProductDetails.add(productServiceDAO.getProductDetils(productDetailsBORequest.getRequestData().getProductId()));
+		productDetailsBOResponse.setProductDetails(ProductDetails);
+		return productDetailsBOResponse;
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+	}
+
+	/************/
+	
+
 }

@@ -7,6 +7,7 @@ import org.jvnet.hk2.annotations.Service;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,16 +29,19 @@ import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OutstandingCustomerResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddReviewAndRatingRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddToCartRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ForgotPasswordResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.GetcartListResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetwishListResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.common.exception.ErrorEnumeration;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsOrder;
 import com.fuso.enterprise.ots.srv.server.util.ResponseWrapper;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdatePassword;
@@ -49,6 +53,9 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	ResponseWrapper responseWrapper ;
 	@Inject
 	private OTSUserService otsUserService;
+	
+	 @Value("${product.percentage.price}")
+		public String productPercentage;
 
 	@Override
 	public Response getUserIDUsers(String userId) {
@@ -396,15 +403,23 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	public Response addWishList(AddWishListRequest addWishListRequest) {
 		Response response = null;
 		response = buildResponse(200,otsUserService.addWishList(addWishListRequest));
+		
+		//response = otsUserService.checkForUserExistsOrNot(addWishListRequest);
+		
 		return response;
 	}
 
 	@Override
 	public Response getWishList(AddWishListRequest addWishListRequest) {
 		Response response = null;
+		try{
 		response = buildResponse(otsUserService.getwishList(addWishListRequest),"success");
+		}catch (Exception e) {
+			response =responseWrapper. buildResponse("Empty WishList ");
+		}
 		return response;
 	}
+	
 	@Override
 	public Response addToCart(AddToCartRequest addToCartRequest) {
 		Response response = null;
@@ -415,8 +430,16 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	public Response getCartList(AddToCartRequest addToCartRequest) {
 		Response response = null;
 		try{
-		response = buildResponse(otsUserService.getcartList(addToCartRequest),"success");
+			
+			GetcartListResponse getcartListResponse= new GetcartListResponse(); 
+			response = buildResponse(otsUserService.getcartList(addToCartRequest),"success");
+	
+			 Float finalPrice1 =	Float.parseFloat(getcartListResponse.getProductPrice() ) +( Float.parseFloat(getcartListResponse.getProductPrice()) * Float.parseFloat(productPercentage))/100;
+			 getcartListResponse.setProductPrice(finalPrice1.toString());
+    
+		
 		}catch (Exception e) {
+			System.out.println("***********"+e);
 			response =responseWrapper. buildResponse("Cart is Empty,Please continue shopping.. ");
 		}
 		return response;
@@ -434,6 +457,7 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		Response response = null;
 		GetwishListResponse getwishListResponse = new GetwishListResponse();
 		response = buildResponse(200,otsUserService.removeFromWishList(addWishListRequest));
+		
 		return response;
 		
 	}
@@ -443,5 +467,24 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		Response response = null;
 		response = buildResponse(200,otsUserService.emptyCart(addToCartRequest));
 		return response;
+	}
+	/*Shreekant Rathod 29-1-2021*/
+	@Override
+	public Response addReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest) {
+		
+		Response response = null;
+		OtsOrder order= new OtsOrder();
+		//try{
+		/*if(order.getOtsOrderStatus().toString().equalsIgnoreCase("DELIVERED"))
+		{*/
+		response = buildResponse(200,otsUserService.addReviewAndRating(addReviewAndRatingRequest));
+		return response;
+		/*}else{
+			response =responseWrapper. buildResponse("Product is not Delivered ");
+			return response;
+		}}catch (Exception e) {
+			System.out.println("*******"+ e.toString());
+		}
+		return response;*/
 	}
 }

@@ -15,28 +15,107 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.fuso.enterprise.ots.srv.api.service.request.AddReviewAndRatingRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddToCartRequest;
 
 import com.fuso.enterprise.ots.srv.api.service.response.GetcartListResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.CartDAO;
-
-
+import com.fuso.enterprise.ots.srv.server.dao.ReviewAndRatingDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsCart;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsOrder;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsProductWishlist;
+import com.fuso.enterprise.ots.srv.server.model.entity.OtsRatingReview;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.AbstractIptDao;
 
 @Repository
-public class CartDAOImpl extends AbstractIptDao<OtsCart, String> implements CartDAO {
+public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, String> implements ReviewAndRatingDAO {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
-	public CartDAOImpl() {
-		super(OtsCart.class);
+	public ReviewAndRatingDAOImpl() {
+		super(OtsRatingReview.class);
+	}
+
+	@Override
+	public String addReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest) {
+		Map<String, Object> queryParameter = new HashMap<>();
+	
+		OtsProduct productId = new OtsProduct();
+		productId.setOtsProductId(addReviewAndRatingRequest.getRequestData().getProductId());
+		queryParameter.put("otsProductId",productId);
+		
+		OtsUsers customerId = new OtsUsers();
+		customerId.setOtsUsersId(addReviewAndRatingRequest.getRequestData().getCustomerId());
+		queryParameter.put("otsCustomerId",customerId);
+		
+		OtsRatingReview ratingReview = new OtsRatingReview();
+		ratingReview.setOtsProductId(productId);
+		ratingReview.setOtsCustomerId(customerId);
+		ratingReview.setOtsRatingReviewId(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewId());
+		ratingReview.setOtsRatingReviewTitle(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewTitle());
+		ratingReview.setOtsRatingReviewComment(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewComment());
+		ratingReview.setOtsRatingReviewRating(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewRating());
+		ratingReview.setOtsRatingReviewStatus(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewStatus());
+		ratingReview.setOtsRatingReviewAddedDate(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewAddedDate());
+		
+		OtsOrder orderId= new OtsOrder();
+		/*orderId.setOtsOrderId(addReviewAndRatingRequest.getRequestData().getOrderId());
+		queryParameter.put("otsOrderId",orderId);*/
+		//queryParameter.put("otsCartQty",cart);
+		
+		orderId.setOtsOrderId(addReviewAndRatingRequest.getRequestData().getOrderId());
+		ratingReview.setOtsOrderId(orderId);
+		//	OtsCart cart;
+		if(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewId()!=0){
+			ratingReview.setOtsRatingReviewId(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewId());
+		}
+		try{
+			
+			//ratingReview = super.getResultByNamedQuery("OtsRatingReview.getReviewAndRatingByCustomerIdAndProductId", queryParameter);
+			/*if(addToCartRequest.getRequestData().getOtsCartQty()>=1){
+			int oldQuantity=cart.getOtsCartQty();
+			int TotalQuantity=oldQuantity+(addToCartRequest.getRequestData().getOtsCartQty());
+			cart.setOtsCartQty(TotalQuantity);
+				super.getEntityManager().merge(cart);
+				return "success";
+				
+			}else{*/
+			OtsOrder order= new OtsOrder();
+			order.getOtsOrderStatus();
+			
+			System.out.println(order.getOtsOrderStatus()+"**********************");
+			//if(orderId.getOtsOrderId().getOtsOrderStatus().toString().equalsIgnoreCase("DELIVERED"))
+				//	{
+				
+				super.getEntityManager().merge(ratingReview);
+				return "Thanks for your review comments";
+					/*}else{
+						return "Product is not Delivered";
+					}*/
+			
+				
+			//}
+				
+			//}
+			
+			}catch (Exception e) {
+				System.out.println("*******"+ e.toString());
+				/*if(addToCartRequest.getRequestData().getOtsCartQty()>=1){
+				cart.setOtsProductId(productId);
+				cart.setOtsCustomerId(customerId);
+				
+				super.getEntityManager().merge(cart);
+				}
+				return "success";
+			}
+	       */
+	}
+		return "Thanks for your review comments";
 	}
 	
-	@Override
+	/*@Override
 	public String addToCart(AddToCartRequest addToCartRequest) {
 		Map<String, Object> queryParameter = new HashMap<>();
 		
@@ -83,10 +162,10 @@ public class CartDAOImpl extends AbstractIptDao<OtsCart, String> implements Cart
 			}
 	       
 	}
-
+*/
 	
 	
-	@Override
+	/*@Override
 	public List<GetcartListResponse> getcartList(AddToCartRequest addToCartRequest) {
 		
 		List<OtsCart> cart = new ArrayList<OtsCart>();
@@ -196,7 +275,7 @@ public class CartDAOImpl extends AbstractIptDao<OtsCart, String> implements Cart
 			}
 		return "success";
 	}
-
+*/
 
 	
 }

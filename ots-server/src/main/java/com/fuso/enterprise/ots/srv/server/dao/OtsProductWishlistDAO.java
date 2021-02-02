@@ -7,7 +7,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.GetwishListResponse;
 
 public interface OtsProductWishlistDAO {
 
-String addWishList(AddWishListRequest addWishListRequest);
+	String addWishList(AddWishListRequest addWishListRequest);
 	
 	List<GetwishListResponse> getwishList(AddWishListRequest addWishListRequest);
 	

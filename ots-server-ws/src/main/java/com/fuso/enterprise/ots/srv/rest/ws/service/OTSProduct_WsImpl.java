@@ -267,5 +267,32 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 		
 		return response;
 	}
+	 /***************shreekant rathod************/
+	@Override
+	public Response getAllProductDetails() {
+		  try {
+	            Response response = null;
+	            response = responseWrapper.buildResponse(otsProductService.getAllProductDetails(), "Successful");
+	            return response;
+	        } catch (BusinessException e) {
+	            throw new BusinessException(e.getMessage(), e);
+	        } catch (Throwable e) {
+	            throw new BusinessException(e.getMessage(), e);
+	        }
+	}
+
+	@Override
+	public Response getProductDetails(ProductDetailsBORequest productDetailsBORequest) {
+		 try {
+		Response response = null;
+        response = responseWrapper.buildResponse(otsProductService.getProductDetails(productDetailsBORequest), "Successful");
+        return response;
+    } catch (BusinessException e) {
+        throw new BusinessException(e.getMessage(), e);
+    } catch (Throwable e) {
+        throw new BusinessException(e.getMessage(), e);
+    }
+		
+	}
 
 }

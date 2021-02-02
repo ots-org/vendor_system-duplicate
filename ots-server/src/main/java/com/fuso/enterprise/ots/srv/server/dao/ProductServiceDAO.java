@@ -35,4 +35,8 @@ public interface ProductServiceDAO {
 	List<ProductDetails> getProductDetilsByTransactionId(String productName);
 	
 	List<ProductDetails> getPaginatedProduct(ProductDetailsBORequest productDetailsBORequest);
+
+	/*********shreekant****/
+	List<ProductDetails>  getAllProductDetils();
+/*******************/
 }

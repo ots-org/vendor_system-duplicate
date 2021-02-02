@@ -7,11 +7,25 @@ public class GetProductDetails {
 	String customerId;
 	String status;
 	String maxRange;
-	private String minRange;
-	private String productLevel;
+	String minRange;
+	String productId;
+private String productLevel;
 	private String size;
 	private String startOn;
 	private String procedureKey;
+	
+	public String getProductLevel() {
+		return productLevel;
+	}
+	public void setProductLevel(String productLevel) {
+		this.productLevel = productLevel;
+	}
+	public String getSize() {
+		return size;
+	}
+	public void setSize(String size) {
+		this.size = size;
+	}
 	
 	public String getProductLevel() {
 		return productLevel;
@@ -67,16 +81,21 @@ public class GetProductDetails {
 	public void setSearchvalue(String searchvalue) {
 		this.searchvalue = searchvalue;
 	}
+	public String getProductId() {
+		return productId;
+	}
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
 	public String getStartOn() {
 		return startOn;
 	}
 	public void setStartOn(String startOn) {
 		this.startOn = startOn;
 	}
-	public String getProcedureKey() {
+    public String getProcedureKey() {
 		return procedureKey;
 	}
 	public void setProcedureKey(String procedureKey) {
 		this.procedureKey = procedureKey;
-	}
-}
+	}}

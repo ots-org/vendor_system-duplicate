@@ -3,16 +3,29 @@ package com.fuso.enterprise.ots.srv.api.service.response;
 import java.math.BigDecimal;
 
 public class GetcartListResponse {
-
+	
+	private String productId;
+	
 	private String productName;
 	
 	private String productImage;
 	
-	private BigDecimal productPrice;
+	//private BigDecimal productPrice;
+	private String productPrice;
 	
 	private Integer otsCartQty;
 	
 	private BigDecimal totalPrice;
+	
+	
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
 
 	public String getProductName() {
 		return productName;
@@ -30,11 +43,12 @@ public class GetcartListResponse {
 		this.productImage = productImage;
 	}
 
-	public BigDecimal getProductPrice() {
+	
+	public String getProductPrice() {
 		return productPrice;
 	}
 
-	public void setProductPrice(BigDecimal productPrice) {
+	public void setProductPrice(String productPrice) {
 		this.productPrice = productPrice;
 	}
 

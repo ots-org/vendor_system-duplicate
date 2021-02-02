@@ -165,6 +165,16 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		productDetails.setThreshHold(otsProduct.getOtsProductThresholdDay()==null?null:otsProduct.getOtsProductThresholdDay());
 		productDetails.setDistributorId(otsProduct.getOtsDistributorId()==null?null:otsProduct.getOtsDistributorId().getOtsUsersId().toString());
 		productDetails.setProductBasePrice(otsProduct.getOtsProductBasePrice());
+		productDetails.setMultiProductImage1(otsProduct.getOtsMultiProductImage1()==null?null:otsProduct.getOtsMultiProductImage1());
+		productDetails.setMultiProductImage2(otsProduct.getOtsMultiProductImage2()==null?null:otsProduct.getOtsMultiProductImage2());
+		productDetails.setMultiProductImage3(otsProduct.getOtsMultiProductImage3()==null?null:otsProduct.getOtsMultiProductImage3());
+		productDetails.setMultiProductImage4(otsProduct.getOtsMultiProductImage4()==null?null:otsProduct.getOtsMultiProductImage4());
+		productDetails.setMultiProductImage5(otsProduct.getOtsMultiProductImage5()==null?null:otsProduct.getOtsMultiProductImage5());
+		productDetails.setMultiProductImage6(otsProduct.getOtsMultiProductImage6()==null?null:otsProduct.getOtsMultiProductImage6());
+		productDetails.setMultiProductImage7(otsProduct.getOtsMultiProductImage7()==null?null:otsProduct.getOtsMultiProductImage7());
+		productDetails.setMultiProductImage8(otsProduct.getOtsMultiProductImage8()==null?null:otsProduct.getOtsMultiProductImage8());
+		productDetails.setMultiProductImage9(otsProduct.getOtsMultiProductImage9()==null?null:otsProduct.getOtsMultiProductImage9());
+		productDetails.setMultiProductImage10(otsProduct.getOtsMultiProductImage10()==null?null:otsProduct.getOtsMultiProductImage10());
 		return productDetails;
 	}
 
@@ -460,4 +470,33 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		}
 		return productList;
 	}
+
+	//shreekant
+		@Override
+		public List<ProductDetails> getAllProductDetils() {
+			List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
+			try {
+				
+				
+				
+				List<OtsProduct> productList = new ArrayList<OtsProduct>();
+				Map<String, Object> queryParameter = new HashMap<>();
+				OtsProductLevel productLevelId = new OtsProductLevel();
+				productLevelId.setOtsProductLevelId(3);
+				queryParameter.put("status","active");
+				queryParameter.put("otsProductLevelId", productLevelId);
+               // productList  = super.getResultListByNamedQuery("OtsProduct.findAllProduct",queryParameter);
+				productList = super.getResultListByNamedQuery("OtsProduct.findAllProduct", queryParameter);
+			//	productDetails = convertProductDetailsFromEntityToDomain(otsProduct);
+				productDetails =  productList.stream().map(otsProduct -> convertProductDetailsFromEntityToDomain(otsProduct)).collect(Collectors.toList());
+				System.out.println(productDetails);
+			}catch(Exception e) {
+				System.out.print(e);
+				return null;
+			}
+		return productDetails;
+		}
+		/***************************/
+		
+		
 }

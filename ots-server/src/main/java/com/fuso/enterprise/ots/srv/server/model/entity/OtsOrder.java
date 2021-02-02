@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lenovo
+ * @author SABBABU
  */
 @Entity
 @Table(name = "ots_order")
@@ -54,8 +54,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "OtsOrder.findByOtsOrderLat", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderLat = :otsOrderLat")
     , @NamedQuery(name = "OtsOrder.findByOtsOrderLong", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderLong = :otsOrderLong")
     , @NamedQuery(name = "OtsOrder.findByOtsOrderPayementId", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderPayementId = :otsOrderPayementId")
-    , @NamedQuery(name = "OtsOrder.findByOtsOrderPaymentStatus", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderPaymentStatus = :otsOrderPaymentStatus")
-    , @NamedQuery(name = "OtsOrder.findByOtsOrderBasePrice", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderBasePrice = :otsOrderBasePrice")})
+    , @NamedQuery(name = "OtsOrder.findByOtsOrderPaymentStatus", query = "SELECT o FROM OtsOrder o WHERE o.otsOrderPaymentStatus = :otsOrderPaymentStatus")})
 public class OtsOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -114,9 +113,6 @@ public class OtsOrder implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_order_payment_status")
     private String otsOrderPaymentStatus;
-    @Size(max = 45)
-    @Column(name = "ots_order_base_price")
-    private String otsOrderBasePrice;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsOrderId")
     private Collection<OtsOrderProduct> otsOrderProductCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsOrderId")
@@ -136,9 +132,6 @@ public class OtsOrder implements Serializable {
     @JoinColumn(name = "ots_assigned_id", referencedColumnName = "ots_users_id")
     @ManyToOne
     private OtsUsers otsAssignedId;
-    @JoinColumn(name = "ots_order_created_by", referencedColumnName = "ots_users_id")
-    @ManyToOne
-    private OtsUsers otsOrderCreatedBy;
 
     public OtsOrder() {
     }
@@ -291,14 +284,6 @@ public class OtsOrder implements Serializable {
         this.otsOrderPaymentStatus = otsOrderPaymentStatus;
     }
 
-    public String getOtsOrderBasePrice() {
-        return otsOrderBasePrice;
-    }
-
-    public void setOtsOrderBasePrice(String otsOrderBasePrice) {
-        this.otsOrderBasePrice = otsOrderBasePrice;
-    }
-
     @XmlTransient
     public Collection<OtsOrderProduct> getOtsOrderProductCollection() {
         return otsOrderProductCollection;
@@ -357,14 +342,6 @@ public class OtsOrder implements Serializable {
         this.otsAssignedId = otsAssignedId;
     }
 
-    public OtsUsers getOtsOrderCreatedBy() {
-        return otsOrderCreatedBy;
-    }
-
-    public void setOtsOrderCreatedBy(OtsUsers otsOrderCreatedBy) {
-        this.otsOrderCreatedBy = otsOrderCreatedBy;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -387,7 +364,7 @@ public class OtsOrder implements Serializable {
 
     @Override
     public String toString() {
-        return "com.supreme.enterprise.ots.srv.server.model.entity.OtsOrder[ otsOrderId=" + otsOrderId + " ]";
+        return "com.fuso.enterprise.ots.srv.server.model.entity.OtsOrder[ otsOrderId=" + otsOrderId + " ]";
     }
     
 }

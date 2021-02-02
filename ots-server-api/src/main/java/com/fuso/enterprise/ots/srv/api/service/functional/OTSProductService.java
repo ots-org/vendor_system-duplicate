@@ -45,4 +45,12 @@ public interface OTSProductService {
 	String addAirTabelData(AirTableRequest airTableRequest);
 
 	List<AirTableModel> airTabelCaluclation(GetProductStockListRequest todaysDate);
+
+	/*shreekant rathod*/
+	ProductDetailsBOResponse getAllProductDetails();
+	/*************/
+	
+	/*shreekant rathod*/
+	ProductDetailsBOResponse getProductDetails(ProductDetailsBORequest productDetailsBORequest);
+	/*************/
 }

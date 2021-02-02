@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.persistence.NoResultException;
+
 import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddWishListRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetwishListResponse;
+import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.OtsProductWishlistDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsProductWishlist;
@@ -50,8 +53,6 @@ public class OtsProductWishlistDAOImpl extends AbstractIptDao<OtsProductWishlist
 		
 		//return "success";
 	}
-	
-
 	
 
 	@Override

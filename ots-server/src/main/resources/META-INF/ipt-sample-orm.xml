@@ -554,6 +554,8 @@
 				o.otsProductStatus = :status
 		</query>
 	</named-query>
+	
+	<!-- shreekant.rathod -->
 	<named-query name="OtsRequestProduct.getNewRequestProduct">
 		<query>SELECT o 
 		FROM 
@@ -635,7 +637,7 @@
 			o.otsProductId = :otsProductId
 		</query>
 	</named-query>  
-	 <named-query name="OtsCart.getCartListByCustomerIdAndProductId">
+	<named-query name="OtsCart.getCartListByCustomerIdAndProductId">
 		<query>SELECT o 
 		FROM 
 			OtsCart o	
@@ -665,7 +667,17 @@
 			AND
 			o.otsCartQty = :otsCartQty
 		</query>
-	</named-query>   
+	</named-query>  
 	
-	
+	<!-- Shreekant Rathod 1-2-2021 -->
+	<named-query name="OtsRatingReview.getReviewAndRatingByCustomerIdAndProductId">
+		<query>SELECT o 
+		FROM 
+			OtsRatingReview o	
+		WHERE  	
+			o.otsCustomerId = :otsCustomerId
+			AND
+			o.otsProductId = :otsProductId
+		</query>
+	</named-query>  
 </entity-mappings>

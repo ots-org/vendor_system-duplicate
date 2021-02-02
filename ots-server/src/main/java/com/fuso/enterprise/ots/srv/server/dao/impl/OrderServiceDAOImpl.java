@@ -250,6 +250,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		
 		otsOrder.setOtsOrderBasePrice(addOrUpdateOrderProductBOrequest.getRequest().getBasePrice());
 		
+		
 		if(addOrUpdateOrderProductBOrequest.getRequest().getAssignedId()==null)
 		{
 			otsOrder.setOtsAssignedId(null);

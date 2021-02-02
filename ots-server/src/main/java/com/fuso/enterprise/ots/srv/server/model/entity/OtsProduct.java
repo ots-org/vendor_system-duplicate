@@ -99,6 +99,54 @@ public class OtsProduct implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_product_base_price")
     private String otsProductBasePrice;
+    
+    /*Multiple Product Image*/ 
+    /*shreekant.rathod 29-dec-2020*/
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "ots_multi_product_image1")
+    private String otsMultiProductImage1;
+    
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "ots_multi_product_image2")
+    private String otsMultiProductImage2;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "ots_multi_product_image3")
+    private String otsMultiProductImage3;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "ots_multi_product_image4")
+    private String otsMultiProductImage4;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "ots_multi_product_image5")
+    private String otsMultiProductImage5;
+    
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "ots_multi_product_image6")
+    private String otsMultiProductImage6;
+    
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "ots_multi_product_image7")
+    private String otsMultiProductImage7;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "ots_multi_product_image8")
+    private String otsMultiProductImage8;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "ots_multi_product_image9")
+    private String otsMultiProductImage9;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "ots_multi_product_image10")
+    private String otsMultiProductImage10;
+    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
@@ -246,13 +294,100 @@ public class OtsProduct implements Serializable {
     public void setOtsProductBasePrice(String otsProductBasePrice) {
         this.otsProductBasePrice = otsProductBasePrice;
     }
+    
+    /*shreekant.rathod 29-dec-2020*/
+    
 
     @XmlTransient
     public Collection<OtsProductStockHistory> getOtsProductStockHistoryCollection() {
         return otsProductStockHistoryCollection;
     }
 
-    public void setOtsProductStockHistoryCollection(Collection<OtsProductStockHistory> otsProductStockHistoryCollection) {
+    public String getOtsMultiProductImage1() {
+		return otsMultiProductImage1;
+	}
+
+	public void setOtsMultiProductImage1(String otsMultiProductImage1) {
+		this.otsMultiProductImage1 = otsMultiProductImage1;
+	}
+
+	public String getOtsMultiProductImage2() {
+		return otsMultiProductImage2;
+	}
+
+	public void setOtsMultiProductImage2(String otsMultiProductImage2) {
+		this.otsMultiProductImage2 = otsMultiProductImage2;
+	}
+
+	public String getOtsMultiProductImage3() {
+		return otsMultiProductImage3;
+	}
+
+	public void setOtsMultiProductImage3(String otsMultiProductImage3) {
+		this.otsMultiProductImage3 = otsMultiProductImage3;
+	}
+
+	public String getOtsMultiProductImage4() {
+		return otsMultiProductImage4;
+	}
+
+	public void setOtsMultiProductImage4(String otsMultiProductImage4) {
+		this.otsMultiProductImage4 = otsMultiProductImage4;
+	}
+
+	public String getOtsMultiProductImage5() {
+		return otsMultiProductImage5;
+	}
+
+	public void setOtsMultiProductImage5(String otsMultiProductImage5) {
+		this.otsMultiProductImage5 = otsMultiProductImage5;
+	}
+
+	public String getOtsMultiProductImage6() {
+		return otsMultiProductImage6;
+	}
+
+	public void setOtsMultiProductImage6(String otsMultiProductImage6) {
+		this.otsMultiProductImage6 = otsMultiProductImage6;
+	}
+
+	public String getOtsMultiProductImage7() {
+		return otsMultiProductImage7;
+	}
+
+	public void setOtsMultiProductImage7(String otsMultiProductImage7) {
+		this.otsMultiProductImage7 = otsMultiProductImage7;
+	}
+
+	public String getOtsMultiProductImage8() {
+		return otsMultiProductImage8;
+	}
+
+	public void setOtsMultiProductImage8(String otsMultiProductImage8) {
+		this.otsMultiProductImage8 = otsMultiProductImage8;
+	}
+
+	public String getOtsMultiProductImage9() {
+		return otsMultiProductImage9;
+	}
+
+	public void setOtsMultiProductImage9(String otsMultiProductImage9) {
+		this.otsMultiProductImage9 = otsMultiProductImage9;
+	}
+
+	public String getOtsMultiProductImage10() {
+		return otsMultiProductImage10;
+	}
+
+	public void setOtsMultiProductImage10(String otsMultiProductImage10) {
+		this.otsMultiProductImage10 = otsMultiProductImage10;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setOtsProductStockHistoryCollection(Collection<OtsProductStockHistory> otsProductStockHistoryCollection) {
         this.otsProductStockHistoryCollection = otsProductStockHistoryCollection;
     }
 

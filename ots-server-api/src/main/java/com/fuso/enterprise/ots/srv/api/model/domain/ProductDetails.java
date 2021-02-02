@@ -43,6 +43,36 @@ public class ProductDetails {
 	 
 	 private String distributorId;
 	 
+	 @Size(max = 1500)
+	 private String multiProductImage1;
+	 
+	 @Size(max = 1500)
+	 private String multiProductImage2;
+	 
+	 @Size(max = 1500)
+	 private String multiProductImage3;
+	 
+	 @Size(max = 1500)
+	 private String multiProductImage4;
+	 
+	 @Size(max = 1500)
+	 private String multiProductImage5;
+	 
+	 @Size(max = 1500)
+	 private String multiProductImage6;
+	 
+	 @Size(max = 1500)
+	 private String multiProductImage7;
+	 
+	 @Size(max = 1500)
+	 private String multiProductImage8;
+	 
+	 @Size(max = 1500)
+	 private String multiProductImage9;
+	 
+	 @Size(max = 1500)
+	 private String multiProductImage10;
+	 
 	public String getProductId() {
 		return productId;
 	}
@@ -162,5 +192,87 @@ public class ProductDetails {
 	public void setDistributorId(String distributorId) {
 		this.distributorId = distributorId;
 	}
+
+	public String getMultiProductImage1() {
+		return multiProductImage1;
+	}
+
+	public void setMultiProductImage1(String multiProductImage1) {
+		this.multiProductImage1 = multiProductImage1;
+	}
+
+	public String getMultiProductImage2() {
+		return multiProductImage2;
+	}
+
+	public void setMultiProductImage2(String multiProductImage2) {
+		this.multiProductImage2 = multiProductImage2;
+	}
+
+	public String getMultiProductImage3() {
+		return multiProductImage3;
+	}
+
+	public void setMultiProductImage3(String multiProductImage3) {
+		this.multiProductImage3 = multiProductImage3;
+	}
+
+	public String getMultiProductImage4() {
+		return multiProductImage4;
+	}
+
+	public void setMultiProductImage4(String multiProductImage4) {
+		this.multiProductImage4 = multiProductImage4;
+	}
+
+	public String getMultiProductImage5() {
+		return multiProductImage5;
+	}
+
+	public void setMultiProductImage5(String multiProductImage5) {
+		this.multiProductImage5 = multiProductImage5;
+	}
+
+	public String getMultiProductImage6() {
+		return multiProductImage6;
+	}
+
+	public void setMultiProductImage6(String multiProductImage6) {
+		this.multiProductImage6 = multiProductImage6;
+	}
+
+	public String getMultiProductImage7() {
+		return multiProductImage7;
+	}
+
+	public void setMultiProductImage7(String multiProductImage7) {
+		this.multiProductImage7 = multiProductImage7;
+	}
+
+	public String getMultiProductImage8() {
+		return multiProductImage8;
+	}
+
+	public void setMultiProductImage8(String multiProductImage8) {
+		this.multiProductImage8 = multiProductImage8;
+	}
+
+	public String getMultiProductImage9() {
+		return multiProductImage9;
+	}
+
+	public void setMultiProductImage9(String multiProductImage9) {
+		this.multiProductImage9 = multiProductImage9;
+	}
+
+	public String getMultiProductImage10() {
+		return multiProductImage10;
+	}
+
+	public void setMultiProductImage10(String multiProductImage10) {
+		this.multiProductImage10 = multiProductImage10;
+	}
+	
+	
 
 }

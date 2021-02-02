@@ -1,4 +1,4 @@
-	package com.fuso.enterprise.ots.srv.rest.ws.service;
+package com.fuso.enterprise.ots.srv.rest.ws.service;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddReviewAndRatingRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddToCartRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
@@ -144,7 +145,6 @@ public interface OTSUsersV18_1Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response addWishList(@ApiParam(value = "request", required = true) @NotNull @Valid AddWishListRequest addWishListRequest);
 
-
 	@POST
 	@Path("/getWishList")
 	@ApiOperation(value = "getWishList", notes = "This operation will get the wish list product of the customer", response = Response.class)
@@ -182,5 +182,12 @@ public interface OTSUsersV18_1Ws {
 	@ApiOperation(value = "removeFromCartList", notes = "This operation will empty the cart list ", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response emptyCartList(@ApiParam(value = "request", required = true) @NotNull @Valid AddToCartRequest addToCartRequest);
+	
+	/*Shreekant Rathod 29-1-2021*/
+	@POST
+	@Path("/addReviewAndRating")
+	@ApiOperation(value = "addReviewAndRating", notes = "This operation will add the review and rating of  product from the customer", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response addReviewAndRating(@ApiParam(value = "request", required = true) @NotNull @Valid AddReviewAndRatingRequest addReviewAndRatingRequest);
 
 }

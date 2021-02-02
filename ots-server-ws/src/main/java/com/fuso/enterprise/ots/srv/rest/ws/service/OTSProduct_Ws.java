@@ -36,6 +36,23 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin
 public interface OTSProduct_Ws {
 	
+	
+	/************shreekant*********/
+	@POST
+    @Path("/getAllProductDetails")
+	@ApiOperation(value = "getAllProductDetails", notes = "Getting getAllProductDetails ", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getAllProductDetails();
+	
+	/*******************************/
+	/************shreekant*********/
+	@POST
+    @Path("/getProductDetails")
+	@ApiOperation(value = "getAllProductDetails", notes = "Getting getProductDetailsbyProductId ", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getProductDetails(@ApiParam(value = "request") ProductDetailsBORequest  productDetailsBORequest);
+	
+	/*******************************/
 	@POST
     @Path("/getProductList")
 	@ApiOperation(value = "getProductList", notes = "Getting getProductList Request Based On Product Name and Id", response = Response.class)

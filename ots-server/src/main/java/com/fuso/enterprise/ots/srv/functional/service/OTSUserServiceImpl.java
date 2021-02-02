@@ -40,6 +40,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdatePasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddReviewAndRatingRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddToCartRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ForgotPasswordResponse;
@@ -55,6 +56,7 @@ import com.fuso.enterprise.ots.srv.server.dao.CustomerOutstandingAmtDAO;
 import com.fuso.enterprise.ots.srv.server.dao.MapUserProductDAO;
 import com.fuso.enterprise.ots.srv.server.dao.OtsProductWishlistDAO;
 import com.fuso.enterprise.ots.srv.server.dao.ProductServiceDAO;
+import com.fuso.enterprise.ots.srv.server.dao.ReviewAndRatingDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserMapDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserRegistrationDao;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
@@ -79,9 +81,11 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	private ProductServiceDAO productServiceDAO;
 	private OtsProductWishlistDAO otsProductWishlistDAO;
 	private CartDAO cartDAO;
+	private ReviewAndRatingDAO reviewAndRatingDAO;
+	
 	@Inject
 	public OTSUserServiceImpl(UserServiceDAO userServiceDAO,UserMapDAO userMapDAO,UserServiceUtilityDAO userServiceUtilityDAO,UserRegistrationDao userRegistrationDao,ProductServiceDAO productServiceDAO,
-			MapUserProductDAO mapUserProductDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,OtsProductWishlistDAO otsProductWishlistDAO,CartDAO cartDAO) {
+			MapUserProductDAO mapUserProductDAO,CustomerOutstandingAmtDAO customerOutstandingAmtDAO,OtsProductWishlistDAO otsProductWishlistDAO,CartDAO cartDAO,ReviewAndRatingDAO reviewAndRatingDAO) {
 		this.userServiceDAO=userServiceDAO;
 		this.userMapDAO=userMapDAO;
 		this.userServiceUtilityDAO = userServiceUtilityDAO;
@@ -91,6 +95,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		this.productServiceDAO = productServiceDAO;
 		this.otsProductWishlistDAO = otsProductWishlistDAO;
 		this.cartDAO=cartDAO;
+		this.reviewAndRatingDAO=reviewAndRatingDAO;
 	}
 
 	@Override
@@ -578,4 +583,12 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		return cartDAO.emptyCart(addToCartRequest);
 	}
 
+	/*Shreekant Rathod 29-1-2021*/
+	@Override
+	public String addReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest) {
+		return reviewAndRatingDAO.addReviewAndRating(addReviewAndRatingRequest);
+	}
+
+	
+	
 }

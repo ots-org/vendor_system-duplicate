@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
+import com.fuso.enterprise.ots.srv.api.service.request.AddReviewAndRatingRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddToCartRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
@@ -77,4 +78,6 @@ public interface OTSUserService {
 
 	String emptyCart(AddToCartRequest addToCartRequest);
 	
+/* Shreekant Rathod 29-1-2021 */
+	String addReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest);
 }
