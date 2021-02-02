@@ -473,18 +473,21 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	public Response addReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest) {
 		
 		Response response = null;
-		OtsOrder order= new OtsOrder();
-		//try{
-		/*if(order.getOtsOrderStatus().toString().equalsIgnoreCase("DELIVERED"))
-		{*/
+		//OtsOrder order= new OtsOrder();
 		response = buildResponse(200,otsUserService.addReviewAndRating(addReviewAndRatingRequest));
 		return response;
-		/*}else{
-			response =responseWrapper. buildResponse("Product is not Delivered ");
-			return response;
-		}}catch (Exception e) {
-			System.out.println("*******"+ e.toString());
+	}
+
+	@Override
+	public Response getReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest) {
+		Response response = null;
+		try{
+			 
+			response = buildResponse(otsUserService.getReviewAndRating(addReviewAndRatingRequest),"success");	
+		}catch (Exception e) {
+			System.out.println("***********"+e);
+			response =responseWrapper. buildResponse(" No Review ");
 		}
-		return response;*/
+		return response;
 	}
 }

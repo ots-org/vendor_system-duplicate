@@ -46,6 +46,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationRespo
 import com.fuso.enterprise.ots.srv.api.service.response.ForgotPasswordResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetCustomerOutstandingAmtBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.GetReviewAndRatingResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetcartListResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetwishListResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
@@ -588,7 +589,11 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	public String addReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest) {
 		return reviewAndRatingDAO.addReviewAndRating(addReviewAndRatingRequest);
 	}
-
+	@Override
+	public List<GetReviewAndRatingResponse> getReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest) {
+		
+		return reviewAndRatingDAO.getReviewAndRating(addReviewAndRatingRequest);
+	}
 	
 	
 }

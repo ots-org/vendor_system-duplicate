@@ -190,4 +190,9 @@ public interface OTSUsersV18_1Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response addReviewAndRating(@ApiParam(value = "request", required = true) @NotNull @Valid AddReviewAndRatingRequest addReviewAndRatingRequest);
 
+	@POST
+	@Path("/getReviewAndRating")
+	@ApiOperation(value = "getCartList", notes = "This operation will get the review and rating list product of the customer", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getReviewAndRating(@ApiParam(value = "request", required = true) @NotNull @Valid AddReviewAndRatingRequest addReviewAndRatingRequest);
 }

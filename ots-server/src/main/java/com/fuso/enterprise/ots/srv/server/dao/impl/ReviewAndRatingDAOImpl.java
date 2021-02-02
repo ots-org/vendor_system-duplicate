@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.service.request.AddReviewAndRatingRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddToCartRequest;
-
+import com.fuso.enterprise.ots.srv.api.service.response.GetReviewAndRatingResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetcartListResponse;
 import com.fuso.enterprise.ots.srv.common.exception.BusinessException;
 import com.fuso.enterprise.ots.srv.server.dao.CartDAO;
@@ -72,98 +72,60 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 			ratingReview.setOtsRatingReviewId(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewId());
 		}
 		try{
-			
-			//ratingReview = super.getResultByNamedQuery("OtsRatingReview.getReviewAndRatingByCustomerIdAndProductId", queryParameter);
-			/*if(addToCartRequest.getRequestData().getOtsCartQty()>=1){
-			int oldQuantity=cart.getOtsCartQty();
-			int TotalQuantity=oldQuantity+(addToCartRequest.getRequestData().getOtsCartQty());
-			cart.setOtsCartQty(TotalQuantity);
-				super.getEntityManager().merge(cart);
-				return "success";
-				
-			}else{*/
-			OtsOrder order= new OtsOrder();
-			order.getOtsOrderStatus();
-			
-			System.out.println(order.getOtsOrderStatus()+"**********************");
-			//if(orderId.getOtsOrderId().getOtsOrderStatus().toString().equalsIgnoreCase("DELIVERED"))
-				//	{
-				
 				super.getEntityManager().merge(ratingReview);
-				return "Thanks for your review comments";
-					/*}else{
-						return "Product is not Delivered";
-					}*/
-			
-				
-			//}
-				
-			//}
+				//return "Thanks for your review comments";
 			
 			}catch (Exception e) {
 				System.out.println("*******"+ e.toString());
-				/*if(addToCartRequest.getRequestData().getOtsCartQty()>=1){
-				cart.setOtsProductId(productId);
-				cart.setOtsCustomerId(customerId);
-				
-				super.getEntityManager().merge(cart);
-				}
-				return "success";
-			}
-	       */
 	}
 		return "Thanks for your review comments";
 	}
-	
-	/*@Override
-	public String addToCart(AddToCartRequest addToCartRequest) {
-		Map<String, Object> queryParameter = new HashMap<>();
+
+	@Override
+	public List<GetReviewAndRatingResponse> getReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest) {
 		
-		OtsProduct productId = new OtsProduct();
-		productId.setOtsProductId(addToCartRequest.getRequestData().getProductId());
-		queryParameter.put("otsProductId",productId);
+	List<OtsRatingReview> ratingReviews = new ArrayList<OtsRatingReview>();
 		
+		List<GetReviewAndRatingResponse> getReviewAndRatingResponses= new ArrayList<GetReviewAndRatingResponse>();
+		try {
 		OtsUsers customerId = new OtsUsers();
-		customerId.setOtsUsersId(addToCartRequest.getRequestData().getCustomerId());
-		queryParameter.put("otsCustomerId",customerId);
+		//customerId.setOtsUsersId(addReviewAndRatingRequest.getRequestData().getCustomerId());
+		OtsProduct productId = new OtsProduct();
+		productId.setOtsProductId(addReviewAndRatingRequest.getRequestData().getProductId());
 		
-		OtsCart cart = new OtsCart();
-		cart.setOtsCartQty(addToCartRequest.getRequestData().getOtsCartQty());
-		//queryParameter.put("otsCartQty",cart);
+		Map<String, Object> queryParameter = new HashMap<>();
+		queryParameter.put("otsProductId",productId);
+		//queryParameter.put("otsCustomerId",customerId);
 		
-		//	OtsCart cart;
-		if(addToCartRequest.getRequestData().getOtsCartId()!=0){
-			cart.setOtsCartId(addToCartRequest.getRequestData().getOtsCartId());
-		}
-		try{
-			
-			cart = super.getResultByNamedQuery("OtsCart.getCartListByCustomerIdAndProductId", queryParameter);
-			if(addToCartRequest.getRequestData().getOtsCartQty()>=1){
-			int oldQuantity=cart.getOtsCartQty();
-			int TotalQuantity=oldQuantity+(addToCartRequest.getRequestData().getOtsCartQty());
-			cart.setOtsCartQty(TotalQuantity);
-				super.getEntityManager().merge(cart);
-				return "success";
-			}else{
-				super.getEntityManager().remove(cart);
-				return "success";
-			}
-				
-			//}
-			
-			}catch (Exception e) {
-				if(addToCartRequest.getRequestData().getOtsCartQty()>=1){
-				cart.setOtsProductId(productId);
-				cart.setOtsCustomerId(customerId);
-				
-				super.getEntityManager().merge(cart);
-				}
-				return "success";
-			}
-	       
+		
+		ratingReviews = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByProductId", queryParameter);
+		System.out.println(ratingReviews.get(0).getOtsCustomerId().getOtsUsersFirstname());
+		
+		getReviewAndRatingResponses = ratingReviews.stream().map(ratingReview -> convertEntityToModel(ratingReview)).collect(Collectors.toList());
+		
+		return getReviewAndRatingResponses;
+		//return getcartListResponseList;
+		}catch (NoResultException e) {
+	        	logger.error("Exception while fetching data from DB :"+e.getMessage());
+	    		e.printStackTrace();
+	        	throw new BusinessException("review and rating list is empty", e);
+	        }
+		
 	}
-*/
 	
+	
+	GetReviewAndRatingResponse convertEntityToModel(OtsRatingReview ratingReview) {
+		GetReviewAndRatingResponse getreviewAndRatingResponse = new GetReviewAndRatingResponse();
+		getreviewAndRatingResponse.setProductId(ratingReview.getOtsProductId().getOtsProductId().toString());
+		getreviewAndRatingResponse.setProductName(ratingReview.getOtsProductId().getOtsProductName());
+		getreviewAndRatingResponse.setOtsRatingReviewId(ratingReview.getOtsRatingReviewId());
+		getreviewAndRatingResponse.setOtsRatingReviewTitle(ratingReview.getOtsRatingReviewTitle());
+		getreviewAndRatingResponse.setOtsRatingReviewRating(ratingReview.getOtsRatingReviewRating());
+		getreviewAndRatingResponse.setOtsRatingReviewComment(ratingReview.getOtsRatingReviewComment());
+		
+		
+		return getreviewAndRatingResponse;
+	}
 	
 	/*@Override
 	public List<GetcartListResponse> getcartList(AddToCartRequest addToCartRequest) {

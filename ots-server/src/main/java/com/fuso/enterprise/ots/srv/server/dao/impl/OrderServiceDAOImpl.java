@@ -165,7 +165,7 @@ public class OrderServiceDAOImpl extends AbstractIptDao<OtsOrder, String> implem
 		orderDetails.setAddress(otsOrder.getOtsOrderAddress());
 		orderDetails.setPaymentStatus(otsOrder.getOtsOrderPaymentStatus()==null?"":otsOrder.getOtsOrderPaymentStatus());
 		orderDetails.setPaymentId(otsOrder.getOtsOrderPayementId()==null?null:otsOrder.getOtsOrderPayementId());
-		orderDetails.setBasePrice(otsOrder.getOtsOrderBasePrice());
+	//	orderDetails.setBasePrice(otsOrder.getOtsOrderBasePrice());
 		if(otsOrder.getOtsDonationId()!=null) {
 			orderDetails.setDonatorId(otsOrder.getOtsDonationId().getOtsDonorsId().getOtsUsersId().toString());
 			orderDetails.setDonationId(otsOrder.getOtsDonationId().getOtsDonationId()==null?null:otsOrder.getOtsDonationId().toString());
