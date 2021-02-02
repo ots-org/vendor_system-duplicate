@@ -434,8 +434,8 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 			GetcartListResponse getcartListResponse= new GetcartListResponse(); 
 			response = buildResponse(otsUserService.getcartList(addToCartRequest),"success");
 	
-			 Float finalPrice1 =	Float.parseFloat(getcartListResponse.getProductPrice() ) +( Float.parseFloat(getcartListResponse.getProductPrice()) * Float.parseFloat(productPercentage))/100;
-			 getcartListResponse.setProductPrice(finalPrice1.toString());
+			/* Float finalPrice1 =	Float.parseFloat(getcartListResponse.getProductPrice() ) +( Float.parseFloat(getcartListResponse.getProductPrice()) * Float.parseFloat(productPercentage))/100;
+			 getcartListResponse.setProductPrice(finalPrice1.toString());*/
     
 		
 		}catch (Exception e) {
