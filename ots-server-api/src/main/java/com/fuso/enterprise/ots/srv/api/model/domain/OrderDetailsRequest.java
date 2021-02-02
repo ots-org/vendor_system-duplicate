@@ -21,6 +21,7 @@ public class OrderDetailsRequest {
 	private String paymentId;
 	private String paymentStatus;
 	private String paymentFlowStatus;
+	private String basePrice;
 	private List<OrderedProductDetails> ProductList;
 	
 	public String getUserLat() {
@@ -130,6 +131,12 @@ public class OrderDetailsRequest {
 	}
 	public void setPaymentFlowStatus(String paymentFlowStatus) {
 		this.paymentFlowStatus = paymentFlowStatus;
+	}
+	public String getBasePrice() {
+		return basePrice;
+	}
+	public void setBasePrice(String basePrice) {
+		this.basePrice = basePrice;
 	}
 	
 	
