@@ -23,6 +23,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ForgotPasswordResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.GetReviewAndRatingResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetcartListResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetwishListResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
@@ -80,4 +81,7 @@ public interface OTSUserService {
 	
 /* Shreekant Rathod 29-1-2021 */
 	String addReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest);
+	
+	List<GetReviewAndRatingResponse> getReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest);
+
 }

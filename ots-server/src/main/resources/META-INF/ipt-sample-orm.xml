@@ -670,14 +670,12 @@
 	</named-query>  
 	
 	<!-- Shreekant Rathod 1-2-2021 -->
-	<named-query name="OtsRatingReview.getReviewAndRatingByCustomerIdAndProductId">
+	<named-query name="OtsRatingReview.getReviewAndRatingByProductId">
 		<query>SELECT o 
 		FROM 
 			OtsRatingReview o	
 		WHERE  	
-			o.otsCustomerId = :otsCustomerId
-			AND
 			o.otsProductId = :otsProductId
 		</query>
-	</named-query>  
+	</named-query>   
 </entity-mappings>

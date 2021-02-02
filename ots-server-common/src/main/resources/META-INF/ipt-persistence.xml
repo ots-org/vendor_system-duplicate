@@ -39,6 +39,7 @@
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsOrderrequestMapping</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductWishlist</class>
 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsCart</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRatingReview</class>
    <!---OTS ORM FILES -->
 
 	<mapping-file>META-INF/ipt-sample-orm.xml</mapping-file>
