@@ -71,8 +71,6 @@ public class OrderDetails {
 	 
 	 private String razorPayKey;
 	 
-	 private String basePrice;
-	 
 	public String getDonarAddress() {
 		return donarAddress;
 	}
@@ -271,14 +269,6 @@ public class OrderDetails {
 
 	public void setRazorPayKey(String razorPayKey) {
 		this.razorPayKey = razorPayKey;
-	}
-
-	public String getBasePrice() {
-		return basePrice;
-	}
-
-	public void setBasePrice(String basePrice) {
-		this.basePrice = basePrice;
 	}
 
 	 

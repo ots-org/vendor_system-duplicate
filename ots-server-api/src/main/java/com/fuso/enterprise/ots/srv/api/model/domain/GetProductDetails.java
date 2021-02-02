@@ -9,36 +9,7 @@ public class GetProductDetails {
 	String maxRange;
 	String minRange;
 	String productId;
-private String productLevel;
-	private String size;
-	private String startOn;
-	private String procedureKey;
 	
-	public String getProductLevel() {
-		return productLevel;
-	}
-	public void setProductLevel(String productLevel) {
-		this.productLevel = productLevel;
-	}
-	public String getSize() {
-		return size;
-	}
-	public void setSize(String size) {
-		this.size = size;
-	}
-	
-	public String getProductLevel() {
-		return productLevel;
-	}
-	public void setProductLevel(String productLevel) {
-		this.productLevel = productLevel;
-	}
-	public String getSize() {
-		return size;
-	}
-	public void setSize(String size) {
-		this.size = size;
-	}
 	public String getMaxRange() {
 		return maxRange;
 	}
@@ -87,15 +58,5 @@ private String productLevel;
 	public void setProductId(String productId) {
 		this.productId = productId;
 	}
-	public String getStartOn() {
-		return startOn;
-	}
-	public void setStartOn(String startOn) {
-		this.startOn = startOn;
-	}
-    public String getProcedureKey() {
-		return procedureKey;
-	}
-	public void setProcedureKey(String procedureKey) {
-		this.procedureKey = procedureKey;
-	}}
+	
+}
