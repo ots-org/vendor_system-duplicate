@@ -1,5 +1,8 @@
 package com.fuso.enterprise.ots.srv.rest.ws.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
@@ -27,6 +30,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.response.LoginUserResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.MapUsersDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.OutstandingCustomerResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.ProductDetailsBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserDataBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddReviewAndRatingRequest;
@@ -36,6 +40,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.ApproveRegistrationResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.ForgotPasswordResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetNewRegistrationResponse;
+import com.fuso.enterprise.ots.srv.api.service.response.GetReviewAndRatingResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetcartListResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetwishListResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.UserRegistrationResponce;
@@ -468,12 +473,12 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		response = buildResponse(200,otsUserService.emptyCart(addToCartRequest));
 		return response;
 	}
-	/*Shreekant Rathod 29-1-2021*/
+
 	@Override
 	public Response addReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest) {
 		
 		Response response = null;
-		//OtsOrder order= new OtsOrder();
+		
 		response = buildResponse(200,otsUserService.addReviewAndRating(addReviewAndRatingRequest));
 		return response;
 	}
@@ -482,11 +487,28 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	public Response getReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest) {
 		Response response = null;
 		try{
-			 
-			response = buildResponse(otsUserService.getReviewAndRating(addReviewAndRatingRequest),"success");	
+			
+			response = buildResponse(otsUserService.getReviewAndRating(addReviewAndRatingRequest),"success");
+			
 		}catch (Exception e) {
 			System.out.println("***********"+e);
 			response =responseWrapper. buildResponse(" No Review ");
+		}
+		return response;
+	}
+
+	@Override
+	public Response updateReviewAndStatus(AddReviewAndRatingRequest addReviewAndRatingRequest) {
+		Response response = null;
+		try {
+			if(otsUserService.updateReviewAndStatus(addReviewAndRatingRequest).equalsIgnoreCase("200")) {
+				response = buildResponse(200,"status updated");
+				
+			}else {
+				response = buildResponse(600,"please check your request");
+			}
+		}catch(Exception e) {
+			response = responseWrapper.buildResponse("Some thing went wrong");
 		}
 		return response;
 	}
