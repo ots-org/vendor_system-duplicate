@@ -81,7 +81,8 @@ public interface OTSUserService {
 	
 /* Shreekant Rathod 29-1-2021 */
 	String addReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest);
-	
+
 	List<GetReviewAndRatingResponse> getReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest);
 
+	String updateReviewAndStatus(AddReviewAndRatingRequest addReviewAndRatingRequest);
 }

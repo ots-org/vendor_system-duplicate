@@ -101,7 +101,7 @@ public class CartDAOImpl extends AbstractIptDao<OtsCart, String> implements Cart
 		//cart = super.getResultListByNamedQuery("OtsCart.getCartListByCustomerId", queryParameter);
 		
 		cart = super.getResultListByNamedQuery("OtsCart.getCartListByCustomerId", queryParameter);
-		System.out.println(cart.get(0).getOtsCustomerId().getOtsUsersFirstname());
+		//System.out.println(cart.get(0).getOtsCustomerId().getOtsUsersFirstname());
 		
 		getcartListResponseList = cart.stream().map(cartlist -> convertEntityToModel(cartlist)).collect(Collectors.toList());
 		

@@ -15,9 +15,5 @@ public interface ReviewAndRatingDAO {
 
 	List<GetReviewAndRatingResponse> getReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest);
 
-	/*
-	String removeFromCart(AddToCartRequest addToCartRequest);
-
-	String emptyCart(AddToCartRequest addToCartRequest);
-	*/
+	String updateReviewAndStatus(AddReviewAndRatingRequest addReviewAndRatingRequest);
 }

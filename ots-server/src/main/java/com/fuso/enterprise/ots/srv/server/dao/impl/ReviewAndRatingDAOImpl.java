@@ -60,11 +60,7 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 		ratingReview.setOtsRatingReviewStatus(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewStatus());
 		ratingReview.setOtsRatingReviewAddedDate(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewAddedDate());
 		
-		OtsOrder orderId= new OtsOrder();
-		/*orderId.setOtsOrderId(addReviewAndRatingRequest.getRequestData().getOrderId());
-		queryParameter.put("otsOrderId",orderId);*/
-		//queryParameter.put("otsCartQty",cart);
-		
+		OtsOrder orderId= new OtsOrder();	
 		orderId.setOtsOrderId(addReviewAndRatingRequest.getRequestData().getOrderId());
 		ratingReview.setOtsOrderId(orderId);
 		//	OtsCart cart;
@@ -73,7 +69,7 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 		}
 		try{
 				super.getEntityManager().merge(ratingReview);
-				//return "Thanks for your review comments";
+			
 			
 			}catch (Exception e) {
 				System.out.println("*******"+ e.toString());
@@ -87,29 +83,48 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 	List<OtsRatingReview> ratingReviews = new ArrayList<OtsRatingReview>();
 		
 		List<GetReviewAndRatingResponse> getReviewAndRatingResponses= new ArrayList<GetReviewAndRatingResponse>();
-		try {
+	//	try {
 		OtsUsers customerId = new OtsUsers();
-		//customerId.setOtsUsersId(addReviewAndRatingRequest.getRequestData().getCustomerId());
+		customerId.setOtsUsersId(Integer.parseInt(addReviewAndRatingRequest.getRequestData().getSearchvalue()));
 		OtsProduct productId = new OtsProduct();
-		productId.setOtsProductId(addReviewAndRatingRequest.getRequestData().getProductId());
+		productId.setOtsProductId(Integer.parseInt(addReviewAndRatingRequest.getRequestData().getSearchvalue()));
+		OtsRatingReview ratingReviewStatus= new OtsRatingReview();
+		//Map<String, Object> queryParameter = new HashMap<>();
+		
+		
+		//queryParameter.put("otsCustomerId",customerId);
+		String searchKey=addReviewAndRatingRequest.getRequestData().getSearchKey();
+		//String seachValue=addReviewAndRatingRequest.getRequestData().getSearchvalue();
 		
 		Map<String, Object> queryParameter = new HashMap<>();
-		queryParameter.put("otsProductId",productId);
-		//queryParameter.put("otsCustomerId",customerId);
 		
+		try{
+            switch(searchKey){
+	            case "Product":
+	            					queryParameter.put("otsProductId",productId);
+	            					queryParameter.put("otsRatingReviewStatus", (addReviewAndRatingRequest.getRequestData().getOtsRatingReviewStatus()));
+	            					ratingReviews  = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByProductIdAndStatus", queryParameter);
+	            					//ratingReviews = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByProductId", queryParameter);
+	            				    break;
+	            case "customer":
+								 	queryParameter.put("otsCustomerId", customerId);
+								 	queryParameter.put("otsRatingReviewStatus", (addReviewAndRatingRequest.getRequestData().getOtsRatingReviewStatus()));
+								 	ratingReviews = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByCustomerIdAndStatus", queryParameter);
+								    break;
+	            default:
+									return null;
+            }
 		
-		ratingReviews = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByProductId", queryParameter);
-		System.out.println(ratingReviews.get(0).getOtsCustomerId().getOtsUsersFirstname());
-		
-		getReviewAndRatingResponses = ratingReviews.stream().map(ratingReview -> convertEntityToModel(ratingReview)).collect(Collectors.toList());
+			getReviewAndRatingResponses = ratingReviews.stream().map(ratingReview -> convertEntityToModel(ratingReview)).collect(Collectors.toList());
 		
 		return getReviewAndRatingResponses;
-		//return getcartListResponseList;
+		
 		}catch (NoResultException e) {
 	        	logger.error("Exception while fetching data from DB :"+e.getMessage());
 	    		e.printStackTrace();
 	        	throw new BusinessException("review and rating list is empty", e);
 	        }
+		//return getReviewAndRatingResponses;
 		
 	}
 	
@@ -122,122 +137,40 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 		getreviewAndRatingResponse.setOtsRatingReviewTitle(ratingReview.getOtsRatingReviewTitle());
 		getreviewAndRatingResponse.setOtsRatingReviewRating(ratingReview.getOtsRatingReviewRating());
 		getreviewAndRatingResponse.setOtsRatingReviewComment(ratingReview.getOtsRatingReviewComment());
+		getreviewAndRatingResponse.setOtsRatingReviewStatus(ratingReview.getOtsRatingReviewStatus());
+		getreviewAndRatingResponse.setOtsRatingReviewAddedDate(ratingReview.getOtsRatingReviewAddedDate().toString());
+		OtsUsers customerName=new OtsUsers();
+		
+		getreviewAndRatingResponse.setCustomerName(customerName.getOtsUsersFirstname());
+		getreviewAndRatingResponse.setOrderId(ratingReview.getOtsOrderId().getOtsOrderId().toString());
 		
 		
 		return getreviewAndRatingResponse;
 	}
-	
-	/*@Override
-	public List<GetcartListResponse> getcartList(AddToCartRequest addToCartRequest) {
-		
-		List<OtsCart> cart = new ArrayList<OtsCart>();
-		
-		List<GetcartListResponse> getcartListResponseList= new ArrayList<GetcartListResponse>();
-		try {
-		OtsUsers customerId = new OtsUsers();
-		customerId.setOtsUsersId(addToCartRequest.getRequestData().getCustomerId());
-		
-		Map<String, Object> queryParameter = new HashMap<>();
-		queryParameter.put("otsCustomerId",customerId);
-		//cart = super.getResultListByNamedQuery("OtsCart.getCartListByCustomerId", queryParameter);
-		
-		cart = super.getResultListByNamedQuery("OtsCart.getCartListByCustomerId", queryParameter);
-		System.out.println(cart.get(0).getOtsCustomerId().getOtsUsersFirstname());
-		
-		getcartListResponseList = cart.stream().map(cartlist -> convertEntityToModel(cartlist)).collect(Collectors.toList());
-		
-		return getcartListResponseList;
-		//return getcartListResponseList;
-		}catch (NoResultException e) {
-	        	logger.error("Exception while fetching data from DB :"+e.getMessage());
-	    		e.printStackTrace();
-	        	throw new BusinessException("cart list is empty", e);
-	        }
-		
-	}
-	
-	
-	GetcartListResponse convertEntityToModel(OtsCart cartlist) {
-		GetcartListResponse getcartListResponse = new GetcartListResponse();
-		getcartListResponse.setProductId(cartlist.getOtsProductId().getOtsProductId().toString());
-		getcartListResponse.setProductName(cartlist.getOtsProductId().getOtsProductName());
-		getcartListResponse.setProductImage(cartlist.getOtsProductId().getOtsProductImage());
-		getcartListResponse.setProductPrice(cartlist.getOtsProductId().getOtsProductPrice().toString());
-		getcartListResponse.setOtsCartQty(cartlist.getOtsCartQty());
-		 BigDecimal totalCost = BigDecimal.ZERO;
-		Integer Quantity=cartlist.getOtsCartQty();
-		BigDecimal price=cartlist.getOtsProductId().getOtsProductPrice();
-		BigDecimal itemCost=price.multiply(new BigDecimal(Quantity));
-		 totalCost=totalCost.add(itemCost);
-		 getcartListResponse.setTotalPrice(totalCost);
-		return getcartListResponse;
-	}
 
 	@Override
-	public String removeFromCart(AddToCartRequest addToCartRequest) {
+	public String updateReviewAndStatus(AddReviewAndRatingRequest addReviewAndRatingRequest) {
 		
-		Map<String, Object> queryParameter = new HashMap<>();
-		OtsCart cart = new OtsCart();
-
 		
-		OtsProduct productId = new OtsProduct();
-		productId.setOtsProductId(addToCartRequest.getRequestData().getProductId());
-		queryParameter.put("otsProductId",productId);
-		//otsProductWishlist.setOtsProductId(productId);
-		
-		OtsUsers customerId = new OtsUsers();
-		customerId.setOtsUsersId(addToCartRequest.getRequestData().getCustomerId());
-		queryParameter.put("otsCustomerId",customerId);
-		//otsProductWishlist.setOtsCustomerId(customerId);
 		try {
-			int TotalQuantity=0;
-			cart = super.getResultByNamedQuery("OtsCart.getCartListByCustomerIdAndProductId", queryParameter);
-			//return "product already added to wislist";
-				int oldQuantity=cart.getOtsCartQty();
-				 TotalQuantity=oldQuantity-(addToCartRequest.getRequestData().getOtsCartQty());
-				cart.setOtsCartQty(TotalQuantity);
-				
-			 if(addToCartRequest.getRequestData().getOtsCartQty()==0){
-				super.getEntityManager().remove(cart);
-				return "success";
-			}else if(TotalQuantity>=1)
-			{
-		super.getEntityManager().merge(cart);
-		return "success";
-		}else{
-				super.getEntityManager().remove(cart);
-				return "success";
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-			return "No data found";
-		}
+		OtsRatingReview otsRatingReview = new OtsRatingReview();
+		Map<String, Object> queryParameter = new HashMap<>();
+		queryParameter.put("otsRatingReviewId",(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewId()));
+		otsRatingReview = super.getResultByNamedQuery("OtsRatingReview.getReviewAndRatingByReviewAndRatingId", queryParameter);
 		
-	//	return "success";
 	
+		otsRatingReview.setOtsRatingReviewStatus(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewStatus());
+			super.getEntityManager().merge(otsRatingReview);
+			//userDetails = convertUserDetailsFromEntityToDomain(userData);
+	}catch(Exception e) {
+		System.out.println(e);
+		return "Not updated";
 	}
-
-	@Override
-	public String emptyCart(AddToCartRequest addToCartRequest) {
-		
-		List<OtsCart> cart = new ArrayList<OtsCart>();
-		OtsUsers customerId = new OtsUsers();
-		customerId.setOtsUsersId(addToCartRequest.getRequestData().getCustomerId());
-		
-		Map<String, Object> queryParameter = new HashMap<>();
-		queryParameter.put("otsCustomerId",customerId);
-		cart = super.getResultListByNamedQuery("OtsCart.getCartListByCustomerId", queryParameter);
-		try {
-		 for (OtsCart otsCart:cart )
-			 super.getEntityManager().remove(otsCart);
-			
-			return "success";
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-		return "success";
+		return "200";
 	}
-*/
+	
+	
+	
 
 	
 }

@@ -4,6 +4,10 @@ import java.util.Date;
 
 public class AddReviewAndRatingRequestModel {
 	
+	String searchKey;
+	
+	String searchvalue;
+	
 	private Integer productId;
 	
 	private Integer customerId;
@@ -94,7 +98,21 @@ public class AddReviewAndRatingRequestModel {
 		this.orderId = orderId;
 	}
 
-	
+	public String getSearchKey() {
+		return searchKey;
+	}
+
+	public void setSearchKey(String searchKey) {
+		this.searchKey = searchKey;
+	}
+
+	public String getSearchvalue() {
+		return searchvalue;
+	}
+
+	public void setSearchvalue(String searchvalue) {
+		this.searchvalue = searchvalue;
+	}
 
 	
 	

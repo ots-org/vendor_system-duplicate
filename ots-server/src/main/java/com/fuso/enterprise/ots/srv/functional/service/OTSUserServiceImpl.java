@@ -594,6 +594,11 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		
 		return reviewAndRatingDAO.getReviewAndRating(addReviewAndRatingRequest);
 	}
+
+	@Override
+	public String updateReviewAndStatus(AddReviewAndRatingRequest addReviewAndRatingRequest) {
+		return reviewAndRatingDAO.updateReviewAndStatus(addReviewAndRatingRequest);
+	}
 	
 	
 }
