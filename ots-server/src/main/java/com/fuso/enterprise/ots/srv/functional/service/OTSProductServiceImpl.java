@@ -28,6 +28,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.codec.binary.Base64;
@@ -80,6 +81,10 @@ import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
 @Service
 @Transactional
 public class OTSProductServiceImpl implements OTSProductService {
+	
+	 @Value("${ots.excelpath}")
+		public String excelPath;
+	
 	private ProductStockDao productStockDao;
 	private ProductStockHistoryDao productStockHistoryDao;
 	private ProductServiceDAO productServiceDAO;
@@ -459,7 +464,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 		Random rand = new Random(); 
 		int name = rand.nextInt(10000); 
 		String excelPartFileName = "Product" + name + ".xlsx";
-		String uploadpath = "/home/etaarana_support/image/e-tarana/" + excelPartFileName;
+		String uploadpath = excelPath + excelPartFileName;
 		File dwldsPath = new File(uploadpath);
 		FileOutputStream os;
 		createFolder();
@@ -472,32 +477,35 @@ public class OTSProductServiceImpl implements OTSProductService {
 			Workbook workbook;
 			workbook = WorkbookFactory.create(new File(uploadpath));
 			Sheet product = workbook.getSheetAt(0); 
-//			------------------------------------READ ALL IMAGES---------------------------------------------
-			List lst = workbook.getAllPictures();
-			
-			for(int i=1;i<product.getLastRowNum();i++)
+			for(int i=1;i<=product.getLastRowNum();i++)
 			{
-				
-//				PictureData pict = (PictureData) lst.get(i);
-//				byte[] data = pict.getData();
-//				FileOutputStream out = new FileOutputStream("C:\\product\\data\\img.jpg");
-//				out.write(data);
-//				out.close();
-				
-//				------------------------------------Fetching and getting image---------------------------------------------				
 				Row ro = product.getRow(i);
 				ProductDetails productDetails = new ProductDetails();
-				productDetails.setProductName(ro.getCell(0).toString());
-				productDetails.setProductDescription(ro.getCell(1).toString());
-				productDetails.setProductPrice(ro.getCell(2).toString());
-				productDetails.setProductType(ro.getCell(3).toString());
-				productDetails.setProductLevel("3");
-			//	productDetails.setProductImage(ImageToBase64("C:\\product\\data\\img.jpg"));
-				productDetails.setProductStatus("active");
-				productDetails.setProductId("string");
-				
 				//-----------------------setting request object-----------------------
+				
 				List<ProductDetails> productDetailsListvalue = new ArrayList<ProductDetails>(); 
+				productDetails.setProductId("string");
+				productDetails.setDistributorId("1");
+				productDetails.setProductDescription(ro.getCell(3).toString());
+				productDetails.setProductPrice(ro.getCell(4).toString());
+				productDetails.setThreshHold(ro.getCell(5).toString());
+				productDetails.setProductBasePrice(ro.getCell(6).toString());
+				productDetails.setProductName(ro.getCell(1).toString());
+				productDetails.setProductStatus("active");
+				productDetails.setProductImage(ro.getCell(7).toString());
+				productDetails.setGst(ro.getCell(5).toString());
+				
+				productDetails.setMultiProductImage1(ro.getCell(8).toString());
+				productDetails.setMultiProductImage2(ro.getCell(9).toString());
+				productDetails.setMultiProductImage3(ro.getCell(10).toString());
+				productDetails.setMultiProductImage4(ro.getCell(11).toString());
+				productDetails.setMultiProductImage5(ro.getCell(12).toString());
+				productDetails.setMultiProductImage6(ro.getCell(13).toString());
+				productDetails.setMultiProductImage7(ro.getCell(14).toString());
+				productDetails.setMultiProductImage8(ro.getCell(15).toString());
+				productDetails.setMultiProductImage9(ro.getCell(16).toString());
+				productDetails.setMultiProductImage10(ro.getCell(17).toString());
+				productDetails.setProductLevel("3");
 				productDetailsListvalue.add(productDetails);
 				AddProductCategoryAndProductModelRequest AddProductCategoryAndProductModelRequest = new AddProductCategoryAndProductModelRequest();
 				AddProductCategoryAndProductModelRequest.setProductDetails(productDetailsListvalue);
@@ -509,8 +517,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 				addProductAndCategoryRequest.setRequestData(AddProductCategoryAndProductModelRequest);
 				
 				addProductAndCategory(addProductAndCategoryRequest);
-				//productServiceDAO.addOrUpdateProduct(addorUpdateProductBORequest);
-				//System.out.print(productDetails.getProductName()+productDetails.getProductImage());
+				
 			}
 				return "Data Uploaded";
 			}catch(Exception e) {
@@ -579,6 +586,18 @@ public class OTSProductServiceImpl implements OTSProductService {
 					productDetails.setProductPrice(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductPrice());
 					productDetails.setProductLevel(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductLevel());
 					productDetails.setProductBasePrice(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductBasePrice());
+					
+					productDetails.setProductImage(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductImage());
+					productDetails.setMultiProductImage1(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage1());
+					productDetails.setMultiProductImage2(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage2());
+					productDetails.setMultiProductImage3(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage3());
+					productDetails.setMultiProductImage4(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage4());
+					productDetails.setMultiProductImage5(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage5());
+					productDetails.setMultiProductImage6(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage6());
+					productDetails.setMultiProductImage7(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage7());
+					productDetails.setMultiProductImage8(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage8());
+					productDetails.setMultiProductImage9(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage9());
+					productDetails.setMultiProductImage10(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage10());
 					addorUpdateProductBORequest.setRequestData(productDetails);
 					addOrUpdateProduct(addorUpdateProductBORequest);
 					
@@ -600,6 +619,18 @@ public class OTSProductServiceImpl implements OTSProductService {
 			productDetails.setProductBasePrice(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductBasePrice());
 			productDetails.setProductLevel(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductLevel());
 			productDetails.setGst(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getGst());
+			
+			productDetails.setMultiProductImage1(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage1());
+			productDetails.setMultiProductImage2(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage2());
+			productDetails.setMultiProductImage3(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage3());
+			productDetails.setMultiProductImage4(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage4());
+			productDetails.setMultiProductImage5(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage5());
+			productDetails.setMultiProductImage6(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage6());
+			productDetails.setMultiProductImage7(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage7());
+			productDetails.setMultiProductImage8(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage8());
+			productDetails.setMultiProductImage9(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage9());
+			productDetails.setMultiProductImage10(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getMultiProductImage10());
+			
 			addorUpdateProductBORequest.setRequestData(productDetails);
 			addOrUpdateProduct(addorUpdateProductBORequest);
 		}

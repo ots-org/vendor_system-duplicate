@@ -124,17 +124,30 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 			otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
 			otsProduct.setOtsProductType(addorUpdateProductBORequest.getRequestData().getProductType());
 			otsProduct.setOtsProductThresholdDay(addorUpdateProductBORequest.getRequestData().getThreshHold());
+		
+			otsProduct.setOtsProductImage(addorUpdateProductBORequest.getRequestData().getProductImage());
+			otsProduct.setOtsMultiProductImage1(addorUpdateProductBORequest.getRequestData().getMultiProductImage1());
+			otsProduct.setOtsMultiProductImage2(addorUpdateProductBORequest.getRequestData().getMultiProductImage2());
+			otsProduct.setOtsMultiProductImage3(addorUpdateProductBORequest.getRequestData().getMultiProductImage3());
+			otsProduct.setOtsMultiProductImage4(addorUpdateProductBORequest.getRequestData().getMultiProductImage4());
+			otsProduct.setOtsMultiProductImage5(addorUpdateProductBORequest.getRequestData().getMultiProductImage5());
+			otsProduct.setOtsMultiProductImage6(addorUpdateProductBORequest.getRequestData().getMultiProductImage6());
+			otsProduct.setOtsMultiProductImage7(addorUpdateProductBORequest.getRequestData().getMultiProductImage7());
+			otsProduct.setOtsMultiProductImage8(addorUpdateProductBORequest.getRequestData().getMultiProductImage8());
+			otsProduct.setOtsMultiProductImage9(addorUpdateProductBORequest.getRequestData().getMultiProductImage9());
+			otsProduct.setOtsMultiProductImage10(addorUpdateProductBORequest.getRequestData().getMultiProductImage10());
+			
 			OtsProductLevel productLevel = new OtsProductLevel();
 			productLevel.setOtsProductLevelId(Integer.parseInt(addorUpdateProductBORequest.getRequestData().getProductLevel()));
 			otsProduct.setOtsProductLevelId(productLevel);
 			
 			try {
 				otsProduct = super.getEntityManager().merge(otsProduct);
-				if(addorUpdateProductBORequest.getRequestData().getProductImage() !=null) {
-					String image = Base64UtilImage.convertBase64toImage(addorUpdateProductBORequest.getRequestData().getProductImage(),otsProduct.getOtsProductId());
-					otsProduct.setOtsProductImage(image);
-					super.getEntityManager().merge(otsProduct);
-				}
+//				if(addorUpdateProductBORequest.getRequestData().getProductImage() !=null) {
+//					String image = Base64UtilImage.convertBase64toImage(addorUpdateProductBORequest.getRequestData().getProductImage(),otsProduct.getOtsProductId());
+//					otsProduct.setOtsProductImage(image);
+//					super.getEntityManager().merge(otsProduct);
+//				}
 				
 			}catch (NoResultException e) {
 				logger.error("Exception while Inserting data to DB :"+e.getMessage());
@@ -158,6 +171,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		productDetails.setProductDescription(otsProduct.getOtsProductDescription()==null?null:otsProduct.getOtsProductDescription());
 		productDetails.setProductPrice(otsProduct.getOtsProductPrice()==null?null:otsProduct.getOtsProductPrice().toString());
 		productDetails.setProductStatus(otsProduct.getOtsProductStatus()==null?null:otsProduct.getOtsProductStatus());
+		productDetails.setProductLevel("3");
 		productDetails.setProductImage(otsProduct.getOtsProductImage()==null?null:otsProduct.getOtsProductImage());
 		productDetails.setProductType(otsProduct.getOtsProductType()==null?null:otsProduct.getOtsProductType());
 		productDetails.setProductLevel(otsProduct.getOtsProductLevelId().getOtsProductName()==null?null:otsProduct.getOtsProductLevelId().getOtsProductName());
@@ -275,14 +289,27 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 				OtsProduct.setOtsProductDescription(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductDescription());
 				OtsProduct.setOtsProductStatus(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductStatus());
 				OtsProduct.setOtsProductType(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductType());
+				
+				OtsProduct.setOtsProductImage(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductImage());
+				OtsProduct.setOtsMultiProductImage1(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage1());
+				OtsProduct.setOtsMultiProductImage2(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage2());
+				OtsProduct.setOtsMultiProductImage3(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage3());
+				OtsProduct.setOtsMultiProductImage4(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage4());
+				OtsProduct.setOtsMultiProductImage5(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage5());
+				OtsProduct.setOtsMultiProductImage6(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage6());
+				OtsProduct.setOtsMultiProductImage7(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage7());
+				OtsProduct.setOtsMultiProductImage8(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage8());
+				OtsProduct.setOtsMultiProductImage9(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage9());
+				OtsProduct.setOtsMultiProductImage10(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage10());
+				
 				save(OtsProduct);
 				super.getEntityManager().flush();
 				System.out.print(addProductAndCategoryRequest.getRequestData().getKey());
-				if(addProductAndCategoryRequest.getRequestData().getKey().equalsIgnoreCase("subAndProd")&&addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductImage()!=null) {
-					String image = Base64UtilImage.convertBase64toImage(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductImage(),OtsProduct.getOtsProductId());
-					OtsProduct.setOtsProductImage(image);
-					save(OtsProduct);
-				}
+//				if(addProductAndCategoryRequest.getRequestData().getKey().equalsIgnoreCase("subAndProd")&&addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductImage()!=null) {
+//					String image = Base64UtilImage.convertBase64toImage(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductImage(),OtsProduct.getOtsProductId());
+//					OtsProduct.setOtsProductImage(image);
+//					save(OtsProduct);
+//				}
 				productDetails = convertProductDetailsFromEntityToDomain(OtsProduct); 
 				productList.add(productDetails) ;
 			}
