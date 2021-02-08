@@ -486,12 +486,12 @@ public class OTSProductServiceImpl implements OTSProductService {
 				List<ProductDetails> productDetailsListvalue = new ArrayList<ProductDetails>(); 
 				productDetails.setProductId("string");
 				productDetails.setDistributorId("1");
-				productDetails.setProductDescription(ro.getCell(3).toString());
-				productDetails.setProductPrice(ro.getCell(4).toString());
-				productDetails.setThreshHold(ro.getCell(5).toString());
+				productDetails.setProductDescription(ro.getCell(2).toString());
+				productDetails.setProductPrice(ro.getCell(3).toString());
+				productDetails.setThreshHold(ro.getCell(4).toString());
 				productDetails.setProductBasePrice(ro.getCell(6).toString());
 				productDetails.setProductName(ro.getCell(1).toString());
-				productDetails.setProductStatus("active");
+				productDetails.setProductStatus(ro.getCell(18).toString());
 				productDetails.setProductImage(ro.getCell(7).toString());
 				productDetails.setGst(ro.getCell(5).toString());
 				
