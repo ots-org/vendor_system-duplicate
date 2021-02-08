@@ -55,6 +55,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AirTableRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.NotifyProductForCustomerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductBulkUploadRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
@@ -74,6 +75,7 @@ import com.fuso.enterprise.ots.srv.server.dao.ProductStockDao;
 import com.fuso.enterprise.ots.srv.server.dao.ProductStockHistoryDao;
 import com.fuso.enterprise.ots.srv.server.dao.StockDistObDAO;
 import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
+import com.fuso.enterprise.ots.srv.server.dao.impl.NotifyCustomerDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsOrder;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsStockDistOb;
 import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
@@ -96,8 +98,11 @@ public class OTSProductServiceImpl implements OTSProductService {
 	private MapUserProductDAO mapUserProductDAO;
 	private ProductCategoryMappingDAO productCategoryMappingDAO;
 	private AirTableDao airTableDao;
+	private NotifyCustomerDAO notifyCustomerDAO;
+	
+	
 	@Inject
-	public OTSProductServiceImpl(AirTableDao airTableDao,ProductServiceDAO productServiceDAO,ProductCategoryMappingDAO productCategoryMappingDAO,ProductStockDao productStockDao,ProductStockHistoryDao productStockHistoryDao,StockDistObDAO stockDistObDAO,OrderDAO orderDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO,OrderServiceDAO orderServiceDAO,MapUserProductDAO mapUserProductDAO) {
+	public OTSProductServiceImpl(AirTableDao airTableDao,ProductServiceDAO productServiceDAO,ProductCategoryMappingDAO productCategoryMappingDAO,ProductStockDao productStockDao,ProductStockHistoryDao productStockHistoryDao,StockDistObDAO stockDistObDAO,OrderDAO orderDAO,OrderProductDAO orderProductDAO,UserServiceDAO userServiceDAO,OrderServiceDAO orderServiceDAO,MapUserProductDAO mapUserProductDAO,NotifyCustomerDAO notifyCustomerDAO) {
 		this.productServiceDAO=productServiceDAO;
 		this.productStockDao = productStockDao;
 		this.productStockHistoryDao=productStockHistoryDao;
@@ -109,6 +114,7 @@ public class OTSProductServiceImpl implements OTSProductService {
 		this.mapUserProductDAO = mapUserProductDAO;
 		this.productCategoryMappingDAO = productCategoryMappingDAO;
 		this.airTableDao = airTableDao;
+		this.notifyCustomerDAO = notifyCustomerDAO;
 	}
 	@Override
 	public ProductDetailsBOResponse getProductList(ProductDetailsBORequest productDetailsBORequest) {
@@ -788,17 +794,24 @@ public class OTSProductServiceImpl implements OTSProductService {
 	@Override
 	public ProductDetailsBOResponse getProductDetails(ProductDetailsBORequest productDetailsBORequest) {
 		try {
-		ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
-		List<ProductDetails> ProductDetails = new ArrayList<ProductDetails> ();
-		ProductDetails.add(productServiceDAO.getProductDetils(productDetailsBORequest.getRequestData().getProductId()));
-		productDetailsBOResponse.setProductDetails(ProductDetails);
-		return productDetailsBOResponse;
+			ProductDetailsBOResponse productDetailsBOResponse = new ProductDetailsBOResponse();
+			List<ProductDetails> ProductDetails = new ArrayList<ProductDetails> ();
+			ProductDetails.add(productServiceDAO.getProductDetils(productDetailsBORequest.getRequestData().getProductId()));
+			productDetailsBOResponse.setProductDetails(ProductDetails);
+			return productDetailsBOResponse;
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 	}
-
-	/************/
+	
+	@Override
+	public String notifyProductForCustomer(NotifyProductForCustomerRequest notifyProductForCustomerRequest) {
+		try {
+			return notifyCustomerDAO.notifyProductForCustomer(notifyProductForCustomerRequest);
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+	}
 	
 
 }

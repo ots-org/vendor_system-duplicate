@@ -20,6 +20,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AirTableRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.NotifyProductForCustomerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductBulkUploadRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
@@ -127,6 +128,12 @@ public interface OTSProduct_Ws {
 	@ApiOperation(value = "get-userID-users", notes = "this will do internal caluclation of air tabel", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response airTabelCaluclation(GetProductStockListRequest airTableRequest);
+
+	@POST
+    @Path("/notifyProductForCustomer")
+	@ApiOperation(value = "get-userID-users", notes = "this will do internal caluclation of air tabel", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response notifyProductForCustomer(@ApiParam(value = "request", required = true) @NotNull @Valid NotifyProductForCustomerRequest notifyProductForCustomerRequest);
 
 	
 }

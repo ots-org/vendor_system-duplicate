@@ -710,7 +710,6 @@
 			
 		</query>
 	</named-query>  
-	
 	<named-query name="OtsRatingReview.getReviewAndRatingByReviewAndRatingId">
 		<query>SELECT o 
 		FROM 
@@ -719,4 +718,15 @@
 			o.otsRatingReviewId = :otsRatingReviewId
 		</query>
 	</named-query>  
+	<named-query name="OtsNotifyCustomer.getNotifyProductDetails">
+		<query>SELECT o 
+		FROM 
+			OtsNotifyCustomer o	
+		WHERE  	
+			o.otsUsersId = :otsUsersId
+		AND
+			o.otsProductId = :otsProductId
+		</query>
+	</named-query>  
+	
 </entity-mappings>

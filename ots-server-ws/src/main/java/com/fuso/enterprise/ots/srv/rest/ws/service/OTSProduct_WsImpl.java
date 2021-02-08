@@ -13,6 +13,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AirTableRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.NotifyProductForCustomerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductBulkUploadRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
@@ -283,16 +284,34 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
 
 	@Override
 	public Response getProductDetails(ProductDetailsBORequest productDetailsBORequest) {
-		 try {
-		Response response = null;
-        response = responseWrapper.buildResponse(otsProductService.getProductDetails(productDetailsBORequest), "Successful");
-        return response;
-    } catch (BusinessException e) {
-        throw new BusinessException(e.getMessage(), e);
-    } catch (Throwable e) {
-        throw new BusinessException(e.getMessage(), e);
-    }
+		try {
+			Response response = null;
+	        response = responseWrapper.buildResponse(otsProductService.getProductDetails(productDetailsBORequest), "Successful");
+	        return response;
+	    } catch (BusinessException e) {
+	        throw new BusinessException(e.getMessage(), e);
+	    } catch (Throwable e) {
+	        throw new BusinessException(e.getMessage(), e);
+	    }
 		
+	}
+
+	@Override
+	public Response notifyProductForCustomer(NotifyProductForCustomerRequest notifyProductForCustomerRequest) {
+		try {
+			System.out.println("data");
+			Response response = null;
+			if(otsProductService.notifyProductForCustomer(notifyProductForCustomerRequest)==null) {
+				response = responseWrapper.buildResponse("already existes", "Successful");
+			}else {
+				response = responseWrapper.buildResponse("Successful", "Successful");
+			}
+	        return response;
+	    } catch (BusinessException e) {
+	        throw new BusinessException(e.getMessage(), e);
+	    } catch (Throwable e) {
+	        throw new BusinessException(e.getMessage(), e);
+	    }
 	}
 
 }

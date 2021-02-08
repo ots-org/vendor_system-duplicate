@@ -10,6 +10,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AirTableRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.NotifyProductForCustomerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductBulkUploadRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ProductDetailsBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateProductStatusRequest;
@@ -53,4 +54,6 @@ public interface OTSProductService {
 	/*shreekant rathod*/
 	ProductDetailsBOResponse getProductDetails(ProductDetailsBORequest productDetailsBORequest);
 	/*************/
+	
+	String notifyProductForCustomer(NotifyProductForCustomerRequest notifyProductForCustomerRequest);
 }
