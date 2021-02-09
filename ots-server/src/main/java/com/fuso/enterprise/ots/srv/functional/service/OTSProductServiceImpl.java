@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -78,6 +79,7 @@ import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.impl.NotifyCustomerDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsOrder;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsStockDistOb;
+import com.fuso.enterprise.ots.srv.server.util.EmailUtil;
 import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
 
 @Service
@@ -639,6 +641,23 @@ public class OTSProductServiceImpl implements OTSProductService {
 			
 			addorUpdateProductBORequest.setRequestData(productDetails);
 			addOrUpdateProduct(addorUpdateProductBORequest);
+			
+			List<Map<String, Object>> customerList = notifyCustomerDAO.getNotifyProductForCustomer(Integer.parseInt(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductId()));
+			if(customerList!=null) {
+				if(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductStatus().equalsIgnoreCase("active")) {
+					for(int j=0;j<customerList.size();j++) {
+						System.out.println("sent");
+						String msg = "The product is available now in Etaarana, please order your product";
+						try {
+							EmailUtil.productNotification(customerList.get(j).get("ots_users_emailid").toString(), " ", "Product available", msg);
+						}catch(Exception e) {
+							
+						}
+						
+					}	
+				}
+			}
+			
 		}
 		return null;
 	}

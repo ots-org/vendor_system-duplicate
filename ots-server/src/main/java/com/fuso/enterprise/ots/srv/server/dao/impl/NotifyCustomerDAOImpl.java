@@ -1,8 +1,14 @@
 package com.fuso.enterprise.ots.srv.server.dao.impl;
 
+import java.sql.Types;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockListRequest;
@@ -15,6 +21,9 @@ import com.fuso.enterprise.ots.srv.server.util.AbstractIptDao;
 @Repository
 public class NotifyCustomerDAOImpl extends AbstractIptDao<OtsNotifyCustomer, String> implements NotifyCustomerDAO{
 
+	@Autowired
+    private JdbcTemplate jdbcTemplate;
+	
 	public NotifyCustomerDAOImpl() {
 		super(OtsNotifyCustomer.class);
 	}
@@ -43,6 +52,25 @@ public class NotifyCustomerDAOImpl extends AbstractIptDao<OtsNotifyCustomer, Str
 			notifyCustomer.setOtsProductId(productId);
 			super.getEntityManager().merge(notifyCustomer);
 			return "success";
+		}
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> getNotifyProductForCustomer(Integer productId) {
+		
+		Map<String, Object> inParamMap = new HashMap<String, Object>();	
+		inParamMap.put("productId", productId);
+		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+				.withProcedureName("getNotifyCustomerProduct")
+				.withoutProcedureColumnMetaDataAccess();
+		simpleJdbcCall.addDeclaredParameter(new SqlParameter("productId", Types.INTEGER));
+		Map<String, Object> simpleJdbcCallResult = simpleJdbcCall.execute(inParamMap);
+		List<Map<String, Object>> out = (List<Map<String, Object>>) simpleJdbcCallResult.get("#result-set-1");
+		if(out.isEmpty()) {
+			return null;
+		}else {
+			return out;
 		}
 		
 	}

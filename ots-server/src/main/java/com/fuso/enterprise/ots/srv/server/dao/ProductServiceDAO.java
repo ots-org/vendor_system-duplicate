@@ -38,5 +38,6 @@ public interface ProductServiceDAO {
 
 	/*********shreekant****/
 	List<ProductDetails>  getAllProductDetils();
-/*******************/
+	/*******************/
+	
 }

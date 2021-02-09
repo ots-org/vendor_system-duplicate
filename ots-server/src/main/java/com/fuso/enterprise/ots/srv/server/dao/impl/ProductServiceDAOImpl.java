@@ -44,6 +44,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 
 	@Autowired
     private JdbcTemplate jdbcTemplate;
+	
     public ProductServiceDAOImpl() {
 		super(OtsProduct.class);
     }
@@ -448,7 +449,6 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		try {
 			Map<String, Object> inParamMap = new HashMap<String, Object>();				
 			
-			SqlParameterSource in = new MapSqlParameterSource(inParamMap);
 			inParamMap.put("starton", productDetailsBORequest.getRequestData().getStartOn());
 			inParamMap.put("bsize", productDetailsBORequest.getRequestData().getSize());
 			inParamMap.put("productLevel", productDetailsBORequest.getRequestData().getProductLevel());
@@ -503,9 +503,6 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		public List<ProductDetails> getAllProductDetils() {
 			List<ProductDetails> productDetails = new ArrayList<ProductDetails>();
 			try {
-				
-				
-				
 				List<OtsProduct> productList = new ArrayList<OtsProduct>();
 				Map<String, Object> queryParameter = new HashMap<>();
 				OtsProductLevel productLevelId = new OtsProductLevel();

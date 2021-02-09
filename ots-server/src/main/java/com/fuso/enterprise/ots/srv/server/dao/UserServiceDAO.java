@@ -35,4 +35,5 @@ public interface UserServiceDAO {
 	UserDataBOResponse updateUser(AddUserDataBORequest addUserDataBORequest);
 
 	String updatePassword(UpdatePasswordRequest updatePasswordRequest);
+	
 }
