@@ -2,6 +2,7 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.fuso.enterprise.ots.srv.api.model.domain.BalanceCan;
@@ -67,10 +69,15 @@ import com.fuso.enterprise.ots.srv.server.model.entity.OtsUserMapping;
 import com.fuso.enterprise.ots.srv.server.util.EmailUtil;
 import com.fuso.enterprise.ots.srv.server.util.FcmPushNotification;
 import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
+import com.fuso.enterprise.ots.srv.server.util.SmsApi;
 
 @Service
 @Transactional
 public class OTSUserServiceImpl implements  OTSUserService{
+	
+	@Value("${product.percentage.price}")
+	public String productPercentage;
+
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	private UserServiceDAO userServiceDAO;
 	private UserMapDAO userMapDAO;
@@ -554,7 +561,13 @@ public class OTSUserServiceImpl implements  OTSUserService{
 
 	@Override
 	public List<GetwishListResponse> getwishList(AddWishListRequest addWishListRequest) {
-		return otsProductWishlistDAO.getwishList(addWishListRequest);
+		List<GetwishListResponse> wishList = otsProductWishlistDAO.getwishList(addWishListRequest);
+		for(int i=0;i<wishList.size();i++) {
+			Float result =	Float.parseFloat(wishList.get(i).getProductPrice().toString()) + ((Float.parseFloat(wishList.get(i).getProductPrice().toString())* Float.parseFloat(productPercentage))/100);
+			BigDecimal resultBigDecimal = new BigDecimal(result);
+			wishList.get(i).setProductPrice(resultBigDecimal);
+		}
+		return wishList;
 	}
 
 	@Override
@@ -598,6 +611,19 @@ public class OTSUserServiceImpl implements  OTSUserService{
 	@Override
 	public String updateReviewAndStatus(AddReviewAndRatingRequest addReviewAndRatingRequest) {
 		return reviewAndRatingDAO.updateReviewAndStatus(addReviewAndRatingRequest);
+	}
+
+	@Override
+	public UserDetails loginWithOtp(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
+		UserDetails userDetails = new UserDetails();
+		userDetails = userServiceDAO.checkForOTP(loginAuthenticationBOrequest.getRequestData().getPhoneNumber());
+		
+		Random rand = new Random(); 
+		int otp = rand.nextInt(10000); 
+		userDetails.setOtp(String.valueOf(otp));
+		SmsApi.callSms("manoj.vg@ortusolis.com", loginAuthenticationBOrequest.getRequestData().getPhoneNumber(),String.valueOf(otp));
+		
+		return userDetails;
 	}
 	
 	

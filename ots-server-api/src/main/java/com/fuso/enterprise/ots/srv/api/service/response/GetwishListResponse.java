@@ -11,6 +11,8 @@ public class GetwishListResponse {
 	private String productImage;
 	
 	private BigDecimal productPrice;
+	
+	private String productBasePrice;
 
 	public String getProductName() {
 		return productName;
@@ -43,5 +45,15 @@ public class GetwishListResponse {
 	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}
+
+	public String getProductBasePrice() {
+		return productBasePrice;
+	}
+
+	public void setProductBasePrice(String productBasePrice) {
+		this.productBasePrice = productBasePrice;
+	}
+
+
 
 }

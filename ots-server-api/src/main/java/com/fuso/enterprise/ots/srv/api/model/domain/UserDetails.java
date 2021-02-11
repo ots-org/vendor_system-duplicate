@@ -75,6 +75,8 @@ public class UserDetails implements Comparable{
 	 private Double distance;
 	 
 	 private String userAdminFlag;
+	 
+	 private String otp;
 
 	public String getUserLat() {
 		return userLat;
@@ -278,6 +280,14 @@ public class UserDetails implements Comparable{
 
 	public void setUserAdminFlag(String userAdminFlag) {
 		this.userAdminFlag = userAdminFlag;
+	}
+
+	public String getOtp() {
+		return otp;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
 	}
   
 	

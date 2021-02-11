@@ -201,4 +201,11 @@ public interface OTSUsersV18_1Ws {
 	@ApiOperation(value = "updateReviewAndStatus", notes = "This operation will update updateReviewAndStatus ", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response updateReviewAndStatus(@ApiParam(value = "request", required = true) @NotNull @Valid AddReviewAndRatingRequest addReviewAndRatingRequest);
+
+	@POST
+	@Path("/loginWithOtp")
+	@ApiOperation(value = "loginWithOtp", notes = "This operation will send otp to mobile number", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response loginWithOtp(@ApiParam(value = "request", required = true) @NotNull @Valid LoginAuthenticationBOrequest loginAuthenticationBOrequest);
+
 }

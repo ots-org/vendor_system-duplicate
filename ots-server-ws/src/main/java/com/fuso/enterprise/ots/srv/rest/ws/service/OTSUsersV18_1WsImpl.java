@@ -512,4 +512,10 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		}
 		return response;
 	}
+
+	@Override
+	public Response loginWithOtp(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
+		
+		return null;
+	}
 }

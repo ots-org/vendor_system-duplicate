@@ -16,6 +16,7 @@ import com.fuso.enterprise.ots.srv.api.service.response.OutstandingCustomerRespo
 import java.util.List;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddReviewAndRatingRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddToCartRequest;
@@ -85,4 +86,6 @@ public interface OTSUserService {
 	List<GetReviewAndRatingResponse> getReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest);
 
 	String updateReviewAndStatus(AddReviewAndRatingRequest addReviewAndRatingRequest);
+	
+	UserDetails loginWithOtp(LoginAuthenticationBOrequest loginAuthenticationBOrequest);
 }

@@ -82,6 +82,7 @@ public class OtsProductWishlistDAOImpl extends AbstractIptDao<OtsProductWishlist
 		getwishListResponse.setProductName(productWishlist.getOtsProductId().getOtsProductName());
 		getwishListResponse.setProductImage(productWishlist.getOtsProductId().getOtsProductImage());
 		getwishListResponse.setProductPrice(productWishlist.getOtsProductId().getOtsProductPrice());
+		getwishListResponse.setProductBasePrice(productWishlist.getOtsProductId().getOtsProductBasePrice());
 		return getwishListResponse;
 	}
 
