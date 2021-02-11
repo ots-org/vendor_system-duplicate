@@ -577,8 +577,15 @@ public class OTSUserServiceImpl implements  OTSUserService{
 
 	@Override
 	public List<GetcartListResponse> getcartList(AddToCartRequest addToCartRequest) {
-		GetcartListResponse getcartListResponse= new GetcartListResponse();
-		return cartDAO.getcartList(addToCartRequest);
+		/*GetcartListResponse getcartListResponse= new GetcartListResponse();
+		return cartDAO.getcartList(addToCartRequest);*/
+		List<GetcartListResponse> cartList = cartDAO.getcartList(addToCartRequest);
+		for(int i=0;i<cartList.size();i++) {
+			Float result =	Float.parseFloat(cartList.get(i).getProductPrice().toString()) + ((Float.parseFloat(cartList.get(i).getProductPrice().toString())* Float.parseFloat(productPercentage))/100);
+			BigDecimal resultBigDecimal = new BigDecimal(result);
+			cartList.get(i).setProductPrice(resultBigDecimal);
+		}
+		return cartList;
 	}
 
 	@Override

@@ -121,7 +121,7 @@ public class CartDAOImpl extends AbstractIptDao<OtsCart, String> implements Cart
 		getcartListResponse.setProductId(cartlist.getOtsProductId().getOtsProductId().toString());
 		getcartListResponse.setProductName(cartlist.getOtsProductId().getOtsProductName());
 		getcartListResponse.setProductImage(cartlist.getOtsProductId().getOtsProductImage());
-		getcartListResponse.setProductPrice(cartlist.getOtsProductId().getOtsProductPrice().toString());
+		getcartListResponse.setProductPrice(cartlist.getOtsProductId().getOtsProductPrice());
 		getcartListResponse.setOtsCartQty(cartlist.getOtsCartQty());
 		 BigDecimal totalCost = BigDecimal.ZERO;
 		Integer Quantity=cartlist.getOtsCartQty();
