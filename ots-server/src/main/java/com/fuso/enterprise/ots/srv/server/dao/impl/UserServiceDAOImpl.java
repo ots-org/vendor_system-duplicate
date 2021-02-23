@@ -21,6 +21,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerDetailsForLoginRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdatePassword;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdatePasswordRequest;
@@ -124,6 +125,10 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 			userEntity.setOtsUsersLat(addUserDataBORequest.getRequestData().getUserLat()); 
 			userEntity.setOtsUsersLong(addUserDataBORequest.getRequestData().getUserLong());
 			userEntity.setOtsUsersAdminFlag(addUserDataBORequest.getRequestData().getUserAdminFlag());
+
+			userEntity.setOtsusersgoogleId(addUserDataBORequest.getRequestData().getGoogleId());
+			userEntity.setOtsusersfacebookId(addUserDataBORequest.getRequestData().getFaceBookId());
+			
 	    	super.getEntityManager().merge(userEntity);
 			super.getEntityManager().flush();
 			
@@ -147,11 +152,17 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
     	}else {
     		password = encryptPassword("Password");
     	}
-    	 
+    	 OtsUsers userEntity = new OtsUsers();
 		 List<UserDetails> userDetails = new ArrayList<UserDetails>();
 		 UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
+		 try {
+			Map<String, Object> queryParameter = new HashMap<>();
+ 			queryParameter.put("otsUsersContactNo", addUserDataBORequest.getRequestData().getContactNo());
+ 			userEntity  = super.getResultByNamedQuery("OtsUsers.findByOtsUsersContactNo", queryParameter);
+		 }catch(Exception e) {
+			 System.out.println(e);
+		 }
 	 		try{
-		 		OtsUsers userEntity=new OtsUsers();
 				userEntity.setOtsUsersFirstname(addUserDataBORequest.getRequestData().getFirstName());
 				userEntity.setOtsUsersLastname(addUserDataBORequest.getRequestData().getLastName());
 				userEntity.setOtsUsersAddr1(addUserDataBORequest.getRequestData().getAddress1());
@@ -170,7 +181,9 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 				userEntity.setOtsUsersLat(addUserDataBORequest.getRequestData().getUserLat());
 				userEntity.setOtsUsersLong(addUserDataBORequest.getRequestData().getUserLong());
 				userEntity.setOtsUsersAdminFlag(addUserDataBORequest.getRequestData().getUserAdminFlag());
-				
+			
+				userEntity.setOtsusersfacebookId(addUserDataBORequest.getRequestData().getFaceBookId());
+				userEntity.setOtsusersgoogleId(addUserDataBORequest.getRequestData().getGoogleId());
 				OtsRegistration otsRegistration = new OtsRegistration();
 
 				if(addUserDataBORequest.getRequestData().getRegistrationId()!=null ) {
@@ -190,7 +203,6 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 							super.getEntityManager().merge(userEntity);
 							super.getEntityManager().flush();
 						}catch(Exception e) {
-							userEntity.setOtsUsersId(null);
 							super.getEntityManager().persist(userEntity);
 							super.getEntityManager().flush();
 						}
@@ -481,5 +493,20 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 	public String encryptPassword(String password) {
 		String pw_hash = BCrypt.hashpw(password, BCrypt.gensalt());
 		return pw_hash;
+	}
+
+	@Override
+	public UserDetails getCustomerDetailsForLogin(CustomerDetailsForLoginRequest customerDetailsForLoginRequest) {
+		OtsUsers userData = new OtsUsers();
+		UserDetails userDetails = new UserDetails();
+		try {
+			Map<String, Object> queryParameter = new HashMap<>();
+			queryParameter.put("loginId",customerDetailsForLoginRequest.getRequestData().getLogInID());
+			userData = super.getResultByNamedQuery("OtsUsers.GetDetailsOnLogin", queryParameter);
+		    userDetails =  convertUserDetailsFromEntityToDomainwithCustomerproductforLogin(userData);
+		}catch(Exception e) {
+			return null;
+		}
+		return userDetails;
 	}
 }

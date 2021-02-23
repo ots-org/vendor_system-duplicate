@@ -77,6 +77,26 @@ public class UserDetails implements Comparable{
 	 private String userAdminFlag;
 	 
 	 private String otp;
+	 
+	 private String googleId;
+	 
+	 private String faceBookId;
+
+	public String getGoogleId() {
+		return googleId;
+	}
+
+	public void setGoogleId(String googleId) {
+		this.googleId = googleId;
+	}
+
+	public String getFaceBookId() {
+		return faceBookId;
+	}
+
+	public void setFaceBookId(String faceBookId) {
+		this.faceBookId = faceBookId;
+	}
 
 	public String getUserLat() {
 		return userLat;

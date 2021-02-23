@@ -728,5 +728,16 @@
 			o.otsProductId = :otsProductId
 		</query>
 	</named-query>  
-	
+	<named-query name="OtsUsers.GetDetailsOnLogin">
+		<query>SELECT o 
+		FROM 
+			OtsUsers o	
+		WHERE  	
+			o.otsUsersContactNo = :loginId
+		OR
+			o.otsusersgoogleId =  :loginId
+		OR 
+			o.otsusersfacebookId =:loginId
+		</query>
+	</named-query>  
 </entity-mappings>

@@ -632,6 +632,11 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		
 		return userDetails;
 	}
+
+	@Override
+	public UserDetails getCustomerDetailsForLogin(CustomerDetailsForLoginRequest customerDetailsForLoginRequest) {
+		return userServiceDAO.getCustomerDetailsForLogin(customerDetailsForLoginRequest);
+	}
 	
 	
 }

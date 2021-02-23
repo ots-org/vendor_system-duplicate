@@ -55,7 +55,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "OtsUsers.findByOtsUsersLat", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersLat = :otsUsersLat")
     , @NamedQuery(name = "OtsUsers.findByOtsUserPannumber", query = "SELECT o FROM OtsUsers o WHERE o.otsUserPannumber = :otsUserPannumber")
     , @NamedQuery(name = "OtsUsers.findByOtsUsersRotarynumber", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersRotarynumber = :otsUsersRotarynumber")
-    , @NamedQuery(name = "OtsUsers.findByOtsUsersAdminFlag", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersAdminFlag = :otsUsersAdminFlag")})
+    , @NamedQuery(name = "OtsUsers.findByOtsUsersAdminFlag", query = "SELECT o FROM OtsUsers o WHERE o.otsUsersAdminFlag = :otsUsersAdminFlag")
+    , @NamedQuery(name = "OtsUsers.findByOtsusersgoogleId", query = "SELECT o FROM OtsUsers o WHERE o.otsusersgoogleId = :otsusersgoogleId")
+    , @NamedQuery(name = "OtsUsers.findByOtsusersfacebookId", query = "SELECT o FROM OtsUsers o WHERE o.otsusersfacebookId = :otsusersfacebookId")})
 public class OtsUsers implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -119,6 +121,12 @@ public class OtsUsers implements Serializable {
     @Size(max = 1)
     @Column(name = "ots_users_admin_flag")
     private String otsUsersAdminFlag;
+    @Size(max = 45)
+    @Column(name = "ots_users_googleId")
+    private String otsusersgoogleId;
+    @Size(max = 45)
+    @Column(name = "ots_users_facebookId")
+    private String otsusersfacebookId;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
     private OtsUserMapping otsUserMapping;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUsersId")
@@ -335,6 +343,22 @@ public class OtsUsers implements Serializable {
 
     public void setOtsUsersAdminFlag(String otsUsersAdminFlag) {
         this.otsUsersAdminFlag = otsUsersAdminFlag;
+    }
+
+    public String getOtsusersgoogleId() {
+        return otsusersgoogleId;
+    }
+
+    public void setOtsusersgoogleId(String otsusersgoogleId) {
+        this.otsusersgoogleId = otsusersgoogleId;
+    }
+
+    public String getOtsusersfacebookId() {
+        return otsusersfacebookId;
+    }
+
+    public void setOtsusersfacebookId(String otsusersfacebookId) {
+        this.otsusersfacebookId = otsusersfacebookId;
     }
 
     public OtsUserMapping getOtsUserMapping() {

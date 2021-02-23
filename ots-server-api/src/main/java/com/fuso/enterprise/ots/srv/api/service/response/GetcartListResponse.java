@@ -10,8 +10,8 @@ public class GetcartListResponse {
 	
 	private String productImage;
 	
-	private BigDecimal productPrice;
-	
+	//private BigDecimal productPrice;
+	private String productPrice;
 	
 	private Integer otsCartQty;
 	
@@ -44,13 +44,11 @@ public class GetcartListResponse {
 	}
 
 	
-	
-
-	public BigDecimal getProductPrice() {
+	public String getProductPrice() {
 		return productPrice;
 	}
 
-	public void setProductPrice(BigDecimal productPrice) {
+	public void setProductPrice(String productPrice) {
 		this.productPrice = productPrice;
 	}
 

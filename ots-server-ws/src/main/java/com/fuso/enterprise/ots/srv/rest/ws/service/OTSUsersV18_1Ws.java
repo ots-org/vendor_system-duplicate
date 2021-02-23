@@ -20,20 +20,17 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddReviewAndRatingRequest
 import com.fuso.enterprise.ots.srv.api.service.request.AddToCartRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MappedToBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.OutstandingRequest;
-import com.fuso.enterprise.ots.srv.api.service.request.UserRegistrationBORequest;
-
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddWishListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerDetailsForLoginRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.MapUsersDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.RequestBOUserBySearch;
-import com.fuso.enterprise.ots.srv.api.service.request.UpdatePassword;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdatePasswordRequest;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -207,5 +204,11 @@ public interface OTSUsersV18_1Ws {
 	@ApiOperation(value = "loginWithOtp", notes = "This operation will send otp to mobile number", response = Response.class)
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response loginWithOtp(@ApiParam(value = "request", required = true) @NotNull @Valid LoginAuthenticationBOrequest loginAuthenticationBOrequest);
+
+	@POST
+	@Path("/getCustomerDetailsForLogin")
+	@ApiOperation(value = "loginWithOtp", notes = "This operation will send otp to mobile number", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response getCustomerDetailsForLogin(@ApiParam(value = "request", required = true) @NotNull @Valid CustomerDetailsForLoginRequest customerDetailsForLoginRequest);
 
 }

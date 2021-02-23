@@ -18,11 +18,13 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.LoginAuthenticationModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.RejectUserModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.functional.OTSUserService;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddWishListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerDetailsForLoginRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
@@ -517,5 +519,22 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	public Response loginWithOtp(LoginAuthenticationBOrequest loginAuthenticationBOrequest) {
 		
 		return null;
+	}
+
+	@Override
+	public Response getCustomerDetailsForLogin(CustomerDetailsForLoginRequest customerDetailsForLoginRequest) {
+		Response response = null;
+		try {
+			UserDetails userDetails = new UserDetails();
+			userDetails = otsUserService.getCustomerDetailsForLogin(customerDetailsForLoginRequest);
+			if(userDetails !=null) {
+				response = buildResponse(userDetails,"success");
+			}else {
+				response = responseWrapper.buildResponse(600,"user not found");
+			}
+		}catch(Exception e) {
+			response = responseWrapper.buildResponse(600,"user not found");
+		}
+		return response;
 	}
 }

@@ -4,6 +4,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddWishListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerDetailsForLoginRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
@@ -88,4 +89,6 @@ public interface OTSUserService {
 	String updateReviewAndStatus(AddReviewAndRatingRequest addReviewAndRatingRequest);
 	
 	UserDetails loginWithOtp(LoginAuthenticationBOrequest loginAuthenticationBOrequest);
+	
+	UserDetails getCustomerDetailsForLogin(CustomerDetailsForLoginRequest customerDetailsForLoginRequest);
 }

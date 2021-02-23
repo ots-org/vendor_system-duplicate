@@ -6,6 +6,7 @@ import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddNewBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerDetailsForLoginRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.LoginAuthenticationBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdatePassword;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdatePasswordRequest;
@@ -36,4 +37,5 @@ public interface UserServiceDAO {
 
 	String updatePassword(UpdatePasswordRequest updatePasswordRequest);
 	
+	UserDetails getCustomerDetailsForLogin(CustomerDetailsForLoginRequest customerDetailsForLoginRequest);
 }
