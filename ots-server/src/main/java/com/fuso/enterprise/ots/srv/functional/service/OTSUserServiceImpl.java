@@ -30,6 +30,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.AddUserDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddWishListRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ApproveRegistrationBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ChangePasswordRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.CustomerDetailsForLoginRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.CustomerProductDataBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.ForgotPasswordRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetCustomerOutstandingAmtBORequest;
@@ -583,7 +584,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 		for(int i=0;i<cartList.size();i++) {
 			Float result =	Float.parseFloat(cartList.get(i).getProductPrice().toString()) + ((Float.parseFloat(cartList.get(i).getProductPrice().toString())* Float.parseFloat(productPercentage))/100);
 			BigDecimal resultBigDecimal = new BigDecimal(result);
-			cartList.get(i).setProductPrice(resultBigDecimal);
+			cartList.get(i).setProductPrice(resultBigDecimal.toString());
 		}
 		return cartList;
 	}
