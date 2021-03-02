@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 import com.fuso.enterprise.ots.srv.api.service.request.AddReviewAndRatingRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.AddToCartRequest;
 import com.fuso.enterprise.ots.srv.api.service.response.GetReviewAndRatingResponse;
@@ -100,7 +101,7 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 		
 		try{
             switch(searchKey){
-	            case "Product":
+	            case "product":
 	            					queryParameter.put("otsProductId",productId);
 	            					queryParameter.put("otsRatingReviewStatus", (addReviewAndRatingRequest.getRequestData().getOtsRatingReviewStatus()));
 	            					ratingReviews  = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByProductIdAndStatus", queryParameter);
@@ -131,6 +132,7 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 	
 	GetReviewAndRatingResponse convertEntityToModel(OtsRatingReview ratingReview) {
 		GetReviewAndRatingResponse getreviewAndRatingResponse = new GetReviewAndRatingResponse();
+		
 		getreviewAndRatingResponse.setProductId(ratingReview.getOtsProductId().getOtsProductId().toString());
 		getreviewAndRatingResponse.setProductName(ratingReview.getOtsProductId().getOtsProductName());
 		getreviewAndRatingResponse.setOtsRatingReviewId(ratingReview.getOtsRatingReviewId());
@@ -138,16 +140,36 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 		getreviewAndRatingResponse.setOtsRatingReviewRating(ratingReview.getOtsRatingReviewRating());
 		getreviewAndRatingResponse.setOtsRatingReviewComment(ratingReview.getOtsRatingReviewComment());
 		getreviewAndRatingResponse.setOtsRatingReviewStatus(ratingReview.getOtsRatingReviewStatus());
-		getreviewAndRatingResponse.setOtsRatingReviewAddedDate(ratingReview.getOtsRatingReviewAddedDate().toString());
-		OtsUsers customerName=new OtsUsers();
-		
-		getreviewAndRatingResponse.setCustomerName(customerName.getOtsUsersFirstname());
+		getreviewAndRatingResponse.setOtsRatingReviewAddedDate(ratingReview.getOtsRatingReviewAddedDate().toString());	
+		UserDetails userDetails = new UserDetails();
+		userDetails = convertUserDetailsFromEntityToDomain(ratingReview.getOtsCustomerId());
+		getreviewAndRatingResponse.setCustomerName(userDetails.getFirstName());
 		getreviewAndRatingResponse.setOrderId(ratingReview.getOtsOrderId().getOtsOrderId().toString());
 		
 		
 		return getreviewAndRatingResponse;
 	}
 
+	   private UserDetails convertUserDetailsFromEntityToDomain(OtsUsers otsUsers) {
+	        UserDetails userDetails = new UserDetails();
+	        userDetails.setUserId(otsUsers.getOtsUsersId()==null?null:otsUsers.getOtsUsersId().toString());
+	        userDetails.setFirstName(otsUsers.getOtsUsersFirstname()==null?null:otsUsers.getOtsUsersFirstname());
+	        userDetails.setLastName(otsUsers.getOtsUsersLastname()==null?null:otsUsers.getOtsUsersLastname());
+			userDetails.setContactNo(otsUsers.getOtsUsersContactNo()==null?null:otsUsers.getOtsUsersContactNo());
+	        userDetails.setAddress1(otsUsers.getOtsUsersAddr1()==null?null:otsUsers.getOtsUsersAddr1());
+	        userDetails.setAddress2(otsUsers.getOtsUsersAddr2()==null?null:otsUsers.getOtsUsersAddr2());
+	        userDetails.setPincode(otsUsers.getOtsUsersPincode()==null?null:otsUsers.getOtsUsersPincode());
+	        userDetails.setUserRoleId(otsUsers.getOtsUserRoleId().getOtsUserRoleId()==null?null:otsUsers.getOtsUserRoleId().getOtsUserRoleId().toString());
+	        userDetails.setEmailId(otsUsers.getOtsUsersEmailid()==null?null:otsUsers.getOtsUsersEmailid());
+	        userDetails.setProfilePic(otsUsers.getOtsUsersProfilePic()==null?null:otsUsers.getOtsUsersProfilePic());
+	        userDetails.setUsrStatus(otsUsers.getOtsUsersStatus()==null?null:otsUsers.getOtsUsersStatus());
+	        userDetails.setUsrPassword(otsUsers.getOtsUsersPassword()==null?null:otsUsers.getOtsUsersPassword());
+	        userDetails.setDeviceId(otsUsers.getOtsDeviceToken()==null?null:otsUsers.getOtsDeviceToken());
+	        userDetails.setMappedTo(otsUsers.getOtsUserMapping()==null?null:otsUsers.getOtsUserMapping().getOtsMappedTo().toString());
+	        userDetails.setUserAdminFlag(otsUsers.getOtsUsersAdminFlag()==null?null:otsUsers.getOtsUsersAdminFlag());
+	        return userDetails;
+	    }
+	   
 	@Override
 	public String updateReviewAndStatus(AddReviewAndRatingRequest addReviewAndRatingRequest) {
 		

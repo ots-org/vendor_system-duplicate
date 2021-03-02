@@ -419,8 +419,18 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	@Override
 	public Response getWishList(AddWishListRequest addWishListRequest) {
 		Response response = null;
+		
 		try{
-		response = buildResponse(otsUserService.getwishList(addWishListRequest),"success");
+			List<GetwishListResponse> getwishListResponse =new ArrayList<>(); 
+			getwishListResponse=otsUserService.getwishList(addWishListRequest);
+			if(getwishListResponse.size()==0)
+			{
+				response =responseWrapper. buildResponse("Empty WishList ");
+			}else
+			{
+				response = buildResponse(otsUserService.getwishList(addWishListRequest),"success");
+			}
+		
 		}catch (Exception e) {
 			response =responseWrapper. buildResponse("Empty WishList ");
 		}
@@ -438,13 +448,14 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		Response response = null;
 		try{
 			
-			GetcartListResponse getcartListResponse= new GetcartListResponse(); 
+			List<GetcartListResponse> getcartListResponse= new ArrayList<GetcartListResponse>();
+			getcartListResponse=otsUserService.getcartList(addToCartRequest);
+			if(getcartListResponse.size()==0)
+			{
+				response =responseWrapper. buildResponse("Cart is Empty,Please continue shopping..  ");
+			}else{
 			response = buildResponse(otsUserService.getcartList(addToCartRequest),"success");
-	
-			/* Float finalPrice1 =	Float.parseFloat(getcartListResponse.getProductPrice() ) +( Float.parseFloat(getcartListResponse.getProductPrice()) * Float.parseFloat(productPercentage))/100;
-			 getcartListResponse.setProductPrice(finalPrice1.toString());*/
-    
-		
+			}
 		}catch (Exception e) {
 			System.out.println("***********"+e);
 			response =responseWrapper. buildResponse("Cart is Empty,Please continue shopping.. ");
@@ -489,12 +500,17 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 	public Response getReviewAndRating(AddReviewAndRatingRequest addReviewAndRatingRequest) {
 		Response response = null;
 		try{
-			
+			List<GetReviewAndRatingResponse> getReviewAndRating= new ArrayList<>();
+			getReviewAndRating=otsUserService.getReviewAndRating(addReviewAndRatingRequest);
+			if(getReviewAndRating.size()==0)
+			{
+				response =responseWrapper. buildResponse(" No Review and Rating");
+			}else{
 			response = buildResponse(otsUserService.getReviewAndRating(addReviewAndRatingRequest),"success");
-			
+			}
 		}catch (Exception e) {
 			System.out.println("***********"+e);
-			response =responseWrapper. buildResponse(" No Review ");
+			response =responseWrapper. buildResponse(" No Review and Rating ");
 		}
 		return response;
 	}
