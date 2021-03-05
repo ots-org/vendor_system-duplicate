@@ -47,6 +47,8 @@ public class AirTableModel {
 	
 	private String currentDayStock;
 	
+	private String productDescription;
+	
 	private List<String> productImageList;
 	
 	public String getNewCategoryId() {
@@ -223,6 +225,14 @@ public class AirTableModel {
 
 	public void setCurrentDayStock(String currentDayStock) {
 		this.currentDayStock = currentDayStock;
+	}
+
+	public String getProductDescription() {
+		return productDescription;
+	}
+
+	public void setProductDescription(String productDescription) {
+		this.productDescription = productDescription;
 	}
 	
 	

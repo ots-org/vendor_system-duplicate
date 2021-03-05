@@ -6,6 +6,7 @@
 package com.fuso.enterprise.ots.srv.server.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,18 +18,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author SABBABU
+ * @author lenovo
  */
 @Entity
 @Table(name = "ots_orderrequest_mapping")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "OtsOrderrequestMapping.findAll", query = "SELECT o FROM OtsOrderrequestMapping o")
-    , @NamedQuery(name = "OtsOrderrequestMapping.findByOtsOrderrequestMappingId", query = "SELECT o FROM OtsOrderrequestMapping o WHERE o.otsOrderrequestMappingId = :otsOrderrequestMappingId")})
+    , @NamedQuery(name = "OtsOrderrequestMapping.findByOtsOrderrequestMappingId", query = "SELECT o FROM OtsOrderrequestMapping o WHERE o.otsOrderrequestMappingId = :otsOrderrequestMappingId")
+    , @NamedQuery(name = "OtsOrderrequestMapping.findByOtsDonationDate", query = "SELECT o FROM OtsOrderrequestMapping o WHERE o.otsDonationDate = :otsDonationDate")
+    , @NamedQuery(name = "OtsOrderrequestMapping.findByOtsOrderrequestMappingcol", query = "SELECT o FROM OtsOrderrequestMapping o WHERE o.otsOrderrequestMappingcol = :otsOrderrequestMappingcol")})
 public class OtsOrderrequestMapping implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,6 +43,12 @@ public class OtsOrderrequestMapping implements Serializable {
     @Basic(optional = false)
     @Column(name = "ots_orderrequest_mapping_id")
     private Integer otsOrderrequestMappingId;
+    @Column(name = "ots_donation_date")
+    @Temporal(TemporalType.DATE)
+    private Date otsDonationDate;
+    @Size(max = 45)
+    @Column(name = "ots_orderrequest_mappingcol")
+    private String otsOrderrequestMappingcol;
     @JoinColumn(name = "ots_order_id", referencedColumnName = "ots_order_id")
     @ManyToOne(optional = false)
     private OtsOrder otsOrderId;
@@ -57,6 +69,22 @@ public class OtsOrderrequestMapping implements Serializable {
 
     public void setOtsOrderrequestMappingId(Integer otsOrderrequestMappingId) {
         this.otsOrderrequestMappingId = otsOrderrequestMappingId;
+    }
+
+    public Date getOtsDonationDate() {
+        return otsDonationDate;
+    }
+
+    public void setOtsDonationDate(Date otsDonationDate) {
+        this.otsDonationDate = otsDonationDate;
+    }
+
+    public String getOtsOrderrequestMappingcol() {
+        return otsOrderrequestMappingcol;
+    }
+
+    public void setOtsOrderrequestMappingcol(String otsOrderrequestMappingcol) {
+        this.otsOrderrequestMappingcol = otsOrderrequestMappingcol;
     }
 
     public OtsOrder getOtsOrderId() {

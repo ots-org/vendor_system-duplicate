@@ -178,7 +178,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		productDetails.setProductLevel(otsProduct.getOtsProductLevelId().getOtsProductName()==null?null:otsProduct.getOtsProductLevelId().getOtsProductName());
 		productDetails.setGst(otsProduct.getOtsProductGst()==null?"0":otsProduct.getOtsProductGst());
 		productDetails.setThreshHold(otsProduct.getOtsProductThresholdDay()==null?null:otsProduct.getOtsProductThresholdDay());
-		productDetails.setDistributorId(otsProduct.getOtsDistributorId()==null?null:otsProduct.getOtsDistributorId().getOtsUsersId().toString());
+	//	productDetails.setDistributorId(otsProduct.getOtsDistributorId()==null?null:otsProduct.getOtsDistributorId().getOtsUsersId().toString());
 		productDetails.setProductBasePrice(otsProduct.getOtsProductBasePrice());
 		productDetails.setMultiProductImage1(otsProduct.getOtsMultiProductImage1()==null?null:otsProduct.getOtsMultiProductImage1());
 		productDetails.setMultiProductImage2(otsProduct.getOtsMultiProductImage2()==null?null:otsProduct.getOtsMultiProductImage2());

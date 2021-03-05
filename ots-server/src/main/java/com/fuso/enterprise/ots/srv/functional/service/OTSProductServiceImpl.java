@@ -1,11 +1,14 @@
 package com.fuso.enterprise.ots.srv.functional.service;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
-
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -79,6 +82,7 @@ import com.fuso.enterprise.ots.srv.server.dao.UserServiceDAO;
 import com.fuso.enterprise.ots.srv.server.dao.impl.NotifyCustomerDAO;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsOrder;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsStockDistOb;
+import com.fuso.enterprise.ots.srv.server.util.Base64UtilImage;
 import com.fuso.enterprise.ots.srv.server.util.EmailUtil;
 import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
 
@@ -86,8 +90,11 @@ import com.fuso.enterprise.ots.srv.server.util.OTSUtil;
 @Transactional
 public class OTSProductServiceImpl implements OTSProductService {
 	
-	 @Value("${ots.excelpath}")
-		public String excelPath;
+	@Value("${ots.excelpath}")
+	public String excelPath;
+	
+	@Value("${ots.imagepath}")
+	public String imagePath;
 	
 	private ProductStockDao productStockDao;
 	private ProductStockHistoryDao productStockHistoryDao;
@@ -226,7 +233,6 @@ public class OTSProductServiceImpl implements OTSProductService {
 
 	@Override
 	public String addOrUpdateProduct(AddorUpdateProductBORequest addorUpdateProductBORequest) {
-		String path;
 		try {
 			productServiceDAO.addOrUpdateProduct(addorUpdateProductBORequest);
 		} catch (Exception e) {
@@ -344,7 +350,6 @@ public class OTSProductServiceImpl implements OTSProductService {
 
 			for(int i=0;i<totalProductDetails.size();i++) {
 				if(totalProductDetails.get(i).getStatus()!="YES") {
-				OrderDetails orderDetails = new OrderDetails();
 				int totalProductPrice = 0;
 				Integer TotalproductQty = 0;
 
@@ -397,7 +402,6 @@ public class OTSProductServiceImpl implements OTSProductService {
 
 	@Override
 	public String UpdateProductStatus(UpdateProductStatusRequest updateProductStatusRequestModel) {
-		String path;
 		try {
 			productServiceDAO.UpdateProductStatus(updateProductStatusRequestModel);
 
@@ -667,8 +671,39 @@ public class OTSProductServiceImpl implements OTSProductService {
 	}
 	@Override
 	public String addAirTabelData(AirTableRequest airTableRequest) {
-		return airTableDao.addAirTabelData(airTableRequest);
+		try {
+			for(int i=0;i<airTableRequest.getAirTabel().size();i++ ) {
+				URL url = new URL(airTableRequest.getAirTabel().get(i).getProductImage());
+				Image image = ImageIO.read(url); 
+				
+				BufferedImage bufferedImage = Base64UtilImage.toBufferedImage(image);
+				
+				String imagePathToStore = imagePath + airTableRequest.getAirTabel().get(i).getProductId() + ".jpeg";
+				System.out.println(imagePathToStore);
+				ImageIO.write(bufferedImage, "jpeg", new File(imagePathToStore));
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				ImageWriter writer = (ImageWriter) ImageIO.getImageWritersByFormatName("jpeg").next();
+				
+				ImageWriteParam param = writer.getDefaultWriteParam();
+				param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+				param.setCompressionQuality(0.9f);
+				
+				writer.setOutput(ImageIO.createImageOutputStream(os));
+				writer.write(null, new IIOImage((RenderedImage) image, null, null), param);
+				writer.dispose();
+				
+				String productImagePath = "http://45.130.229.77:8095/ots/etaarana/"+airTableRequest.getAirTabel().get(i).getProductId() + ".jpeg";
+				airTableRequest.getAirTabel().get(i).getProductImageList().add(0, productImagePath);
+			}
+			return airTableDao.addAirTabelData(airTableRequest);
+		} catch (IOException e) {
+			System.out.println(e);
+		}catch (Exception e) {
+			System.out.println(e);
+		}
+		return "success";
 	}
+	
 	@Override
 	public List<AirTableModel> airTabelCaluclation(GetProductStockListRequest airTableRequest) {
 		List<AirTableModel> airtableModelList = airTableDao.airTabelCaluclation(airTableRequest);

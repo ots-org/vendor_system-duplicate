@@ -115,7 +115,7 @@ public class ProductCategoryMappingDAOImpl extends AbstractIptDao<OtsProductCate
 		productDetails.setProductType(customerProduct.getOtsProductId().getOtsProductType()==null?null:customerProduct.getOtsProductId().getOtsProductType());
 		productDetails.setGst(customerProduct.getOtsProductId().getOtsProductGst()==null?null:customerProduct.getOtsProductId().getOtsProductGst());
 		productDetails.setProductBasePrice(customerProduct.getOtsProductId().getOtsProductBasePrice()==null?null:customerProduct.getOtsProductId().getOtsProductBasePrice());
-		productDetails.setDistributorId(customerProduct.getOtsProductCategoryId().getOtsDistributorId()==null?null:customerProduct.getOtsProductCategoryId().getOtsDistributorId().getOtsUsersId().toString());
+	//	productDetails.setDistributorId(customerProduct.getOtsProductCategoryId().getOtsDistributorId()==null?null:customerProduct.getOtsProductCategoryId().getOtsDistributorId().getOtsUsersId().toString());
 		return productDetails;
 	}
 }

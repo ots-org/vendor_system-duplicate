@@ -57,6 +57,7 @@ public class AirTableDaoImpl extends AbstractIptDao<OtsAirtable, String> impleme
 				airtable.setOtsAirtableTransactionId(airTableData.getProductId());
 				airtable.setOtsAirtableAddedDate(airTableData.getAddedDate());
 				airtable.setOtsairtableproductImage(airTableData.getProductImageList().get(0));
+				airtable.setOtsAirtableDescription(airTableData.getProductDescription());
 				save(airtable);
 			}
 		}catch(Exception e) {

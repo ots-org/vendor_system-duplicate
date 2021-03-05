@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.fuso.enterprise.ots.srv.server.model.entity;
 
 import java.io.Serializable;
@@ -21,19 +25,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Shreekant Rathod 1-2-2021
+ * @author lenovo
  */
 @Entity
 @Table(name = "ots_rating_review")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OtsRatingReview.findAll", query = "SELECT o FROM OtsRatingReview o"),
-    @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewId", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewId = :otsRatingReviewId"),
-    @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewComment", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewComment = :otsRatingReviewComment"),
-    @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewRating", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewRating = :otsRatingReviewRating"),
-    @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewStatus", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewStatus = :otsRatingReviewStatus"),
-    @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewTitle", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewTitle = :otsRatingReviewTitle"),
-    @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewAddedDate", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewAddedDate = :otsRatingReviewAddedDate")})
+    @NamedQuery(name = "OtsRatingReview.findAll", query = "SELECT o FROM OtsRatingReview o")
+    , @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewId", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewId = :otsRatingReviewId")
+    , @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewComment", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewComment = :otsRatingReviewComment")
+    , @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewRating", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewRating = :otsRatingReviewRating")
+    , @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewStatus", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewStatus = :otsRatingReviewStatus")
+    , @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewTitle", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewTitle = :otsRatingReviewTitle")
+    , @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewAddedDate", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewAddedDate = :otsRatingReviewAddedDate")})
 public class OtsRatingReview implements Serializable {
 
     private static final long serialVersionUID = 1L;

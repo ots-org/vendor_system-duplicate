@@ -6,10 +6,8 @@
 package com.fuso.enterprise.ots.srv.server.model.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,17 +17,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SABBABU
+ * @author lenovo
  */
 @Entity
 @Table(name = "ots_subscription_order_history")
@@ -69,8 +65,6 @@ public class OtsSubscriptionOrderHistory implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_subscription_name")
     private String otsSubscriptionName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsSubscriptionOrderHistoryId")
-    private Collection<OtsSubscriptionOrderroledetails> otsSubscriptionOrderroledetailsCollection;
     @JoinColumn(name = "ots_users_id", referencedColumnName = "ots_users_id")
     @ManyToOne(optional = false)
     private OtsUsers otsUsersId;
@@ -136,15 +130,6 @@ public class OtsSubscriptionOrderHistory implements Serializable {
 
     public void setOtsSubscriptionName(String otsSubscriptionName) {
         this.otsSubscriptionName = otsSubscriptionName;
-    }
-
-    @XmlTransient
-    public Collection<OtsSubscriptionOrderroledetails> getOtsSubscriptionOrderroledetailsCollection() {
-        return otsSubscriptionOrderroledetailsCollection;
-    }
-
-    public void setOtsSubscriptionOrderroledetailsCollection(Collection<OtsSubscriptionOrderroledetails> otsSubscriptionOrderroledetailsCollection) {
-        this.otsSubscriptionOrderroledetailsCollection = otsSubscriptionOrderroledetailsCollection;
     }
 
     public OtsUsers getOtsUsersId() {

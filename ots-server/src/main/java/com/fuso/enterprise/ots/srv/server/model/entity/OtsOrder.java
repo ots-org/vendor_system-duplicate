@@ -114,11 +114,13 @@ public class OtsOrder implements Serializable {
     @Size(max = 45)
     @Column(name = "ots_order_payment_status")
     private String otsOrderPaymentStatus;
-    @Size(max = 45)
+    @Size(max = 255)
     @Column(name = "ots_order_base_price")
     private String otsOrderBasePrice;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsOrderId")
     private Collection<OtsOrderProduct> otsOrderProductCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsOrderId")
+    private Collection<OtsRatingReview> otsRatingReviewCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsOrderId")
     private Collection<OtsOrderrequestMapping> otsOrderrequestMappingCollection;
     @JoinColumn(name = "ots_bill_id", referencedColumnName = "ots_bill_id")
@@ -309,6 +311,15 @@ public class OtsOrder implements Serializable {
     }
 
     @XmlTransient
+    public Collection<OtsRatingReview> getOtsRatingReviewCollection() {
+        return otsRatingReviewCollection;
+    }
+
+    public void setOtsRatingReviewCollection(Collection<OtsRatingReview> otsRatingReviewCollection) {
+        this.otsRatingReviewCollection = otsRatingReviewCollection;
+    }
+
+    @XmlTransient
     public Collection<OtsOrderrequestMapping> getOtsOrderrequestMappingCollection() {
         return otsOrderrequestMappingCollection;
     }
@@ -387,7 +398,7 @@ public class OtsOrder implements Serializable {
 
     @Override
     public String toString() {
-        return "com.supreme.enterprise.ots.srv.server.model.entity.OtsOrder[ otsOrderId=" + otsOrderId + " ]";
+        return "com.fuso.enterprise.ots.srv.server.model.entity.OtsOrder[ otsOrderId=" + otsOrderId + " ]";
     }
     
 }

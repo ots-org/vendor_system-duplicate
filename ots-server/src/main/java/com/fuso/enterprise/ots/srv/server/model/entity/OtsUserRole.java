@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author SABBABU
+ * @author lenovo
  */
 @Entity
 @Table(name = "ots_user_role")
@@ -65,8 +65,6 @@ public class OtsUserRole implements Serializable {
     private Date otsUserRoleCreated;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
     private Collection<OtsUsers> otsUsersCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
-    private Collection<OtsSubscriptionOrderroledetails> otsSubscriptionOrderroledetailsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
     private Collection<OtsRegistration> otsRegistrationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsUserRoleId")
@@ -134,15 +132,6 @@ public class OtsUserRole implements Serializable {
 
     public void setOtsUsersCollection(Collection<OtsUsers> otsUsersCollection) {
         this.otsUsersCollection = otsUsersCollection;
-    }
-
-    @XmlTransient
-    public Collection<OtsSubscriptionOrderroledetails> getOtsSubscriptionOrderroledetailsCollection() {
-        return otsSubscriptionOrderroledetailsCollection;
-    }
-
-    public void setOtsSubscriptionOrderroledetailsCollection(Collection<OtsSubscriptionOrderroledetails> otsSubscriptionOrderroledetailsCollection) {
-        this.otsSubscriptionOrderroledetailsCollection = otsSubscriptionOrderroledetailsCollection;
     }
 
     @XmlTransient

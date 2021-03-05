@@ -1,5 +1,7 @@
 package com.fuso.enterprise.ots.srv.server.util;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,6 +11,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.fuso.enterprise.ots.srv.api.model.domain.Base64ByteImage;
 import com.fuso.enterprise.ots.srv.api.model.domain.ZipBase64Images;
@@ -16,6 +19,8 @@ import com.fuso.enterprise.ots.srv.api.model.domain.ZipBase64Images;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
+
+	
 
 public class Base64UtilImage {
 	
@@ -32,11 +37,27 @@ public class Base64UtilImage {
         return path;
    }  
 
+	public static BufferedImage toBufferedImage(Image img)
+	{
+	    if (img instanceof BufferedImage)
+	    {
+	        return (BufferedImage) img;
+	    }
+
+	    // Create a buffered image with transparency
+	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+	    // Draw the image on to the buffered image
+	    Graphics2D bGr = bimage.createGraphics();
+	    bGr.drawImage(img, 0, 0, null);
+	    bGr.dispose();
+
+	    // Return the buffered image
+	    return bimage;
+	}
+	
 	 public static void writeByteToImageFile(byte[] imgBytes, String imgFileName) throws IOException  
      {  
-		  System.out.println("5-next");
-		  System.out.println("image filename"+imgBytes);
-		  System.out.println("image filename"+imgFileName);
           File imgFile = new File(imgFileName);  
           BufferedImage img = ImageIO.read(new ByteArrayInputStream(imgBytes));  
           ImageIO.write(img, "png", imgFile);  
