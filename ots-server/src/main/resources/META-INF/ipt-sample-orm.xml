@@ -676,8 +676,6 @@
 			OtsRatingReview o	
 		WHERE  	
 			o.otsProductId = :otsProductId
-			AND
-			o.otsRatingReviewStatus = :otsRatingReviewStatus
 		</query>
 	</named-query>
 	<named-query name="OtsRatingReview.getReviewAndRatingByCustomerIdAndStatus">
@@ -686,8 +684,6 @@
 			OtsRatingReview o	
 		WHERE  	
 			o.otsCustomerId = :otsCustomerId
-				AND
-			o.otsRatingReviewStatus = :otsRatingReviewStatus
 		</query>
 	</named-query>  
 	

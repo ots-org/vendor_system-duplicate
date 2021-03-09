@@ -84,32 +84,23 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 	List<OtsRatingReview> ratingReviews = new ArrayList<OtsRatingReview>();
 		
 		List<GetReviewAndRatingResponse> getReviewAndRatingResponses= new ArrayList<GetReviewAndRatingResponse>();
-	//	try {
 		OtsUsers customerId = new OtsUsers();
 		customerId.setOtsUsersId(Integer.parseInt(addReviewAndRatingRequest.getRequestData().getSearchvalue()));
 		OtsProduct productId = new OtsProduct();
 		productId.setOtsProductId(Integer.parseInt(addReviewAndRatingRequest.getRequestData().getSearchvalue()));
 		OtsRatingReview ratingReviewStatus= new OtsRatingReview();
-		//Map<String, Object> queryParameter = new HashMap<>();
 		
-		
-		//queryParameter.put("otsCustomerId",customerId);
 		String searchKey=addReviewAndRatingRequest.getRequestData().getSearchKey();
-		//String seachValue=addReviewAndRatingRequest.getRequestData().getSearchvalue();
-		
 		Map<String, Object> queryParameter = new HashMap<>();
 		
 		try{
             switch(searchKey){
 	            case "product":
 	            					queryParameter.put("otsProductId",productId);
-	            					queryParameter.put("otsRatingReviewStatus", (addReviewAndRatingRequest.getRequestData().getOtsRatingReviewStatus()));
 	            					ratingReviews  = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByProductIdAndStatus", queryParameter);
-	            					//ratingReviews = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByProductId", queryParameter);
-	            				    break;
+	            					break;
 	            case "customer":
 								 	queryParameter.put("otsCustomerId", customerId);
-								 	queryParameter.put("otsRatingReviewStatus", (addReviewAndRatingRequest.getRequestData().getOtsRatingReviewStatus()));
 								 	ratingReviews = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByCustomerIdAndStatus", queryParameter);
 								    break;
 	            default:
