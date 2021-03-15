@@ -168,7 +168,7 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 		try {
 		OtsRatingReview otsRatingReview = new OtsRatingReview();
 		Map<String, Object> queryParameter = new HashMap<>();
-		queryParameter.put("otsRatingReviewId",(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewId()));
+		//queryParameter.put("otsRatingReviewId",(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewId());
 		otsRatingReview = super.getResultByNamedQuery("OtsRatingReview.getReviewAndRatingByReviewAndRatingId", queryParameter);
 		
 	

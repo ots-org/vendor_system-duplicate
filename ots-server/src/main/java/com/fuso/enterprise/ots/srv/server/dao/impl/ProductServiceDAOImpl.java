@@ -190,6 +190,8 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		productDetails.setMultiProductImage8(otsProduct.getOtsMultiProductImage8()==null?null:otsProduct.getOtsMultiProductImage8());
 		productDetails.setMultiProductImage9(otsProduct.getOtsMultiProductImage9()==null?null:otsProduct.getOtsMultiProductImage9());
 		productDetails.setMultiProductImage10(otsProduct.getOtsMultiProductImage10()==null?null:otsProduct.getOtsMultiProductImage10());
+		productDetails.setProductRating(otsProduct.getOtsProductRating()==null?null:otsProduct.getOtsProductRating().toString());
+		productDetails.setProductRatingCount(otsProduct.getOtsProductRatingCount()==null?null:otsProduct.getOtsProductRatingCount().toString());
 		return productDetails;
 	}
 
@@ -489,7 +491,9 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 				otsProduct.setOtsProductGst(out.get(i).get("ots_product_gst")==null?"":out.get(i).get("ots_product_gst").toString());
 				otsProduct.setOtsProductThresholdDay(out.get(i).get("ots_product_threshold_day")==null?"":out.get(i).get("ots_product_threshold_day").toString());
 				otsProduct.setOtsProductBasePrice(out.get(i).get("ots_product_base_price")==null?"":out.get(i).get("ots_product_base_price").toString());
-		
+				otsProduct.setOtsProductRatingCount(out.get(i).get("ots_product_rating_count")==null?0:Integer.parseInt(out.get(i).get("ots_product_rating_count").toString()));
+				otsProduct.setOtsProductRating(out.get(i).get("ots_product_rating")==null?0:Float.parseFloat(out.get(i).get("ots_product_rating").toString()));
+				
 				productList.add(convertProductDetailsFromEntityToDomain(otsProduct));
 			}
 		}catch(Exception e) {

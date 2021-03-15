@@ -107,9 +107,10 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 				response = responseWrapper.buildResponse(UserDataBOResponse,"User Details are already present In DB");
 			}
 		}catch (BusinessException e){
-			throw new BusinessException(e, ErrorEnumeration.USR_REGISTER_failure);
+			response = responseWrapper.buildResponse("200","error");
 	    }catch (Throwable e) {
-	    	throw new BusinessException(e, ErrorEnumeration.USR_REGISTER_failure);	    }
+	    	response = responseWrapper.buildResponse(UserDataBOResponse,"User Details are already present In DB");
+	    }
 		return response;
 	}
 
@@ -233,9 +234,9 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 					response = buildResponse(600,"Password is Incorrect");
 				}
 			}catch(BusinessException e) {
-				throw new BusinessException(e,ErrorEnumeration.USER_NOT_EXISTS);
+				response = buildResponse(600,"user already exists");
 			}catch(Throwable e) {
-				throw new BusinessException(e,ErrorEnumeration.USER_NOT_EXISTS);
+				response = buildResponse(600,"user already exists");
 			}
 		
 			return response;

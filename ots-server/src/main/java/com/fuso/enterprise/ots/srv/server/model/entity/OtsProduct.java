@@ -50,7 +50,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "OtsProduct.findByOtsProductGst", query = "SELECT o FROM OtsProduct o WHERE o.otsProductGst = :otsProductGst")
     , @NamedQuery(name = "OtsProduct.findByOtsProductProducerName", query = "SELECT o FROM OtsProduct o WHERE o.otsProductProducerName = :otsProductProducerName")
     , @NamedQuery(name = "OtsProduct.findByOtsProductAirtableId", query = "SELECT o FROM OtsProduct o WHERE o.otsProductAirtableId = :otsProductAirtableId")
-    , @NamedQuery(name = "OtsProduct.findByOtsProductBasePrice", query = "SELECT o FROM OtsProduct o WHERE o.otsProductBasePrice = :otsProductBasePrice")})
+    , @NamedQuery(name = "OtsProduct.findByOtsProductBasePrice", query = "SELECT o FROM OtsProduct o WHERE o.otsProductBasePrice = :otsProductBasePrice")
+    , @NamedQuery(name = "OtsProduct.findByOtsProductRatingCount", query = "SELECT o FROM OtsProduct o WHERE o.otsProductRatingCount = :otsProductRatingCount")
+    , @NamedQuery(name = "OtsProduct.findByOtsProductRating", query = "SELECT o FROM OtsProduct o WHERE o.otsProductRating = :otsProductRating")})
 public class OtsProduct implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -139,6 +141,10 @@ public class OtsProduct implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "ots_multi_product_image10")
     private String otsMultiProductImage10;
+    @Column(name = "ots_product_rating_count")
+    private Integer otsProductRatingCount;
+    @Column(name = "ots_product_rating")
+    private Float otsProductRating;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
     private Collection<OtsProductStockHistory> otsProductStockHistoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "otsProductId")
@@ -373,6 +379,22 @@ public class OtsProduct implements Serializable {
 
     public void setOtsMultiProductImage10(String otsMultiProductImage10) {
         this.otsMultiProductImage10 = otsMultiProductImage10;
+    }
+
+    public Integer getOtsProductRatingCount() {
+        return otsProductRatingCount;
+    }
+
+    public void setOtsProductRatingCount(Integer otsProductRatingCount) {
+        this.otsProductRatingCount = otsProductRatingCount;
+    }
+
+    public Float getOtsProductRating() {
+        return otsProductRating;
+    }
+
+    public void setOtsProductRating(Float otsProductRating) {
+        this.otsProductRating = otsProductRating;
     }
 
     @XmlTransient

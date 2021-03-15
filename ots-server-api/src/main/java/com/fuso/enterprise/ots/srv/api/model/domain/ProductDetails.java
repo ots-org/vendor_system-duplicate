@@ -73,6 +73,28 @@ public class ProductDetails {
 	 @Size(max = 1500)
 	 private String multiProductImage10;
 	 
+	 @Size(max = 1500)
+	 private String productRatingCount;
+	 
+	 @Size(max = 1500)
+	 private String productRating;
+	 
+	public String getProductRatingCount() {
+		return productRatingCount;
+	}
+
+	public void setProductRatingCount(String productRatingCount) {
+		this.productRatingCount = productRatingCount;
+	}
+
+	public String getProductRating() {
+		return productRating;
+	}
+
+	public void setProductRating(String productRating) {
+		this.productRating = productRating;
+	}
+
 	public String getProductId() {
 		return productId;
 	}

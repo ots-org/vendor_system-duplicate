@@ -48,7 +48,7 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
                 productDetailsBOResponse = otsProductService.getProductList(productDetailsBORequest);
                 if(!( productDetailsBOResponse.getProductDetails().get(0).getProductStatus().equalsIgnoreCase("pending")||productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("category")||productDetailsBORequest.getRequestData().getSearchKey().equalsIgnoreCase("subcategory"))) {
                 	for(int i=0; i< productDetailsBOResponse.getProductDetails().size() ;i++) { 
-                		Float finalPrice =	Float.parseFloat(productDetailsBOResponse.getProductDetails().get(i).getProductPrice() ) +( Float.parseFloat(productDetailsBOResponse.getProductDetails().get(i).getProductPrice()) * Float.parseFloat(productPercentage))/100;
+                		Float finalPrice =	Float.parseFloat(productDetailsBOResponse.getProductDetails().get(i).getProductPrice()) +(Float.parseFloat(productDetailsBOResponse.getProductDetails().get(i).getProductPrice()) * Float.parseFloat(productPercentage))/100;
                         if(productDetailsBORequest.getRequestData().getSearchKey().contains("range")||productDetailsBORequest.getRequestData().getSearchKey().contains("Range")) {
                         	productDetailsBOResponse.getProductDetails().get(i).setProductPrice(finalPrice.toString());
                             Float finalPrice1 =	Float.parseFloat(productDetailsBOResponse.getProductDetails().get(i).getProductBasePrice() ) +( Float.parseFloat(productDetailsBOResponse.getProductDetails().get(i).getProductBasePrice()) * Float.parseFloat(productPercentage))/100;
@@ -58,7 +58,6 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
                             Float finalPrice1 =	Float.parseFloat(productDetailsBOResponse.getProductDetails().get(i).getProductBasePrice() ) +( Float.parseFloat(productDetailsBOResponse.getProductDetails().get(i).getProductBasePrice()) * Float.parseFloat(productPercentage))/100;
                             productDetailsBOResponse.getProductDetails().get(i).setProductBasePrice(finalPrice1.toString());
                         }
-                		
                 	}
                 }
                 
@@ -73,11 +72,10 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
                     response = responseWrapper.buildResponse(productDetailsBOResponse, "successful");
                 }
             } catch (BusinessException e) {
-            	System.out.println(e);
-                throw new BusinessException(e, ErrorEnumeration.GET_PRODUCT_LIST_FAILURE);
+            	 response = buildResponse(600, "No product");
             } catch (Throwable e) {
-            	System.out.println(e);
-                throw new BusinessException(e, ErrorEnumeration.GET_PRODUCT_LIST_FAILURE);
+            	System.out.print(e);
+                 response = buildResponse(600, "No product");
             }
             return response;
         } else {
