@@ -687,6 +687,17 @@
 		</query>
 	</named-query>  
 	
+	<named-query name="OtsRatingReview.getReviewAndRatingByCustomerProductIdAndStatus">
+		<query>SELECT o 
+		FROM 
+			OtsRatingReview o	
+		WHERE  	
+			o.otsCustomerId = :otsCustomerId
+		AND
+			o.otsProductId = :otsProductId
+		</query>
+	</named-query>  
+	
 	
 	<named-query name="OtsRatingReview.getReviewAndRatingByProductId">
 		<query>SELECT o 
@@ -694,7 +705,6 @@
 			OtsRatingReview o	
 		WHERE  	
 			o.otsProductId = :otsProductId
-			
 		</query>
 	</named-query>
 	<named-query name="OtsRatingReview.getReviewAndRatingByCustomerId">

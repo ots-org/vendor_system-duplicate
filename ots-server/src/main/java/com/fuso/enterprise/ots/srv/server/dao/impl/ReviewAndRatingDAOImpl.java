@@ -84,27 +84,42 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 	List<OtsRatingReview> ratingReviews = new ArrayList<OtsRatingReview>();
 		
 		List<GetReviewAndRatingResponse> getReviewAndRatingResponses= new ArrayList<GetReviewAndRatingResponse>();
-		OtsUsers customerId = new OtsUsers();
-		customerId.setOtsUsersId(Integer.parseInt(addReviewAndRatingRequest.getRequestData().getSearchvalue()));
-		OtsProduct productId = new OtsProduct();
-		productId.setOtsProductId(Integer.parseInt(addReviewAndRatingRequest.getRequestData().getSearchvalue()));
+		
 		OtsRatingReview ratingReviewStatus= new OtsRatingReview();
 		
 		String searchKey=addReviewAndRatingRequest.getRequestData().getSearchKey();
 		Map<String, Object> queryParameter = new HashMap<>();
-		
+		OtsProduct productId = new OtsProduct();
+		OtsUsers customerId = new OtsUsers();
 		try{
             switch(searchKey){
 	            case "product":
-	            					queryParameter.put("otsProductId",productId);
-	            					ratingReviews  = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByProductIdAndStatus", queryParameter);
-	            					break;
+				            	
+				        		productId.setOtsProductId(Integer.parseInt(addReviewAndRatingRequest.getRequestData().getSearchvalue()));
+	            				queryParameter.put("otsProductId",productId);
+	            				ratingReviews  = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByProductIdAndStatus", queryParameter);
+	            				break;
 	            case "customer":
-								 	queryParameter.put("otsCustomerId", customerId);
-								 	ratingReviews = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByCustomerIdAndStatus", queryParameter);
-								    break;
+				            	
+			    				customerId.setOtsUsersId(Integer.parseInt(addReviewAndRatingRequest.getRequestData().getSearchvalue()));
+								queryParameter.put("otsCustomerId", customerId);
+						    	ratingReviews = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByCustomerIdAndStatus", queryParameter);
+						    	break;
+	            case "customer_product":
+	            	
+				            
+				        		productId.setOtsProductId(addReviewAndRatingRequest.getRequestData().getProductId());
+			    				queryParameter.put("otsProductId",productId);
+			    				
+			    				customerId.setOtsUsersId(addReviewAndRatingRequest.getRequestData().getCustomerId());
+								queryParameter.put("otsCustomerId", customerId);
+								
+							 	queryParameter.put("otsCustomerId", customerId);
+							 	queryParameter.put("otsProductId",productId);
+							 	ratingReviews = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByCustomerProductIdAndStatus", queryParameter);
+							 	break;
 	            default:
-									return null;
+					return null;
             }
 		
 			getReviewAndRatingResponses = ratingReviews.stream().map(ratingReview -> convertEntityToModel(ratingReview)).collect(Collectors.toList());
