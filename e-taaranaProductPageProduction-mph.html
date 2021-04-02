@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+      
+      <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
+
+<link rel="stylesheet" href="mainDynamic.css">
+
+</head>
+<style type="text/css">
+
+
+  .carousel-item {
+  height: 65vh;
+  min-height: 350px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+  padding-right: 5%;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+/* Create two equal columns that floats next to each other */
+.column1 {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  /*height: 300px;  Should be removed. Only for demonstration */
+}
+.column2 {
+  float: left; 
+  width: 80%;
+  padding: 10px;
+  /*height: 300px;  Should be removed. Only for demonstration */
+}
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+  .card-body{
+    width: 120%;
+  }
+  .productsClass{
+    width: 80%;
+    margin-left: 10%;
+  }
+  .row{
+    margin-top: 5%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+.scrolling-wrapper{
+  overflow-x: auto;
+}
+.card-title {
+  font-family: Poppins;
+    font-size: 14px;
+    margin-bottom: 1%;
+}
+.card{
+  width:200px;border: none
+}
+
+.card-img-top{
+  width:100%;height: 200px;
+}
+.card-body{
+  margin-top: -6%;
+  margin-left: -6%
+}
+.btn-group{
+  border-color: #07D99F;
+  border-width: 1px;
+  margin-right: -10%;
+  height: 30px;
+  width: 50%;
+   margin-top: -8%;
+   border-style: solid;
+   border-radius: 13px;
+   float: right;
+}
+
+.btn-size{
+border-color: #e7e7e7;
+font-size: xx-small;
+padding-left: 10%;
+padding-right: 10%;
+border-color: #D4D4D4;
+padding-top: 1px;
+padding-bottom: 1px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+ .dropdown.show button::after {
+    transform:rotate(180deg);
+  }
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 75%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+
+ background-color: rgba(0,250,154, .4);
+}
+
+.imageClass:hover .overlay {
+  opacity: 1;
+}
+
+.imageClass .btn {
+  position: absolute;
+  top: 8%;
+  right: -5%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color:#07D99F ;
+  border-radius: 50%;
+  color: white;
+  font-size: 16px;
+  /*padding: 12px 24px;*/
+  border: none;
+  cursor: pointer;
+  /*border-radius: 5px;*/
+  text-align: center;
+  padding: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+.picture:hover .imageClass .btn:after {
+opacity:1;
+}
+
+.HeartButtonClass{
+  background-color: grey;
+  font-size: small;
+}
+</style>
+<script type="text/javascript">
+
+  function subCategory() {
+  document.getElementById('Sub-Category-Id').style.display  = 'block';
+  document.getElementById('Sub-Category-Value').style.display  = 'block';
+}
+</script>
+    <script>
+        $(document).ready(function() {
+        debugger
+        // document.getElementById("includedContentFooter").innerHTML='<object type="text/html" data="footer.html" ></object>';
+        // $("#includedContentHeader").load("C:\\Users\\user\\Documents\\web e-taarana dev\\header.html"); 
+        // $("#includedContentFooter").load("file:///C:/Users/user/Documents/web%20e-taarana%20dev/footer.html"); 
+
+        $("tr:even").css("background-color", "#eeeeee");
+        $("tr:odd").css("background-color", "#ffffff");
+
+         $('#productTable').DataTable();
+         $('#productTable1').DataTable();
+         $('#productTable2').DataTable();
+         $('#productTable3').DataTable();
+         $('#productTable4').DataTable();
+
+         $('#productPageAttributeTableSelect').text("1kg");
+         $('#productPageAttributeTableSelect1').text("1kg");
+         $('#productPageAttributeTableSelect2').text("1kg");
+         $('#productPageAttributeTableSelect3').text("1kg");
+         $('#productPageAttributeTableSelect4').text("1kg");
+         $('#productPageAttributeTableSelect5').text("1kg");
+         $('#productPageAttributeTableSelect6').text("1kg");
+         $('#productPageAttributeTableSelect7').text("1kg");
+         $('#productPageAttributeTableSelect8').text("1kg");
+         $('#productPageAttributeTableSelect9').text("1kg");
+
+          $('#productPageAttributeTable a').click(function(){
+            $('#productPageAttributeTableSelect').text($(this).text());
+          }); 
+
+          $('#productPageAttributeTable1 a').click(function(){
+            $('#productPageAttributeTableSelect1').text($(this).text());
+          }); 
+
+          $('#productPageAttributeTable2 a').click(function(){
+            $('#productPageAttributeTableSelect2').text($(this).text());
+          }); 
+
+          $('#productPageAttributeTable3 a').click(function(){
+            $('#productPageAttributeTableSelect3').text($(this).text());
+          }); 
+
+          $('#productPageAttributeTable4 a').click(function(){
+             $('#productPageAttributeTableSelect4').text($(this).text());
+          }); 
+
+          $('#productPageAttributeTable5 a').click(function(){
+            $('#productPageAttributeTableSelect5').text($(this).text());
+          }); 
+
+          $('#productPageAttributeTable6 a').click(function(){
+            $('#productPageAttributeTableSelect6').text($(this).text());
+          }); 
+
+          $('#productPageAttributeTable7 a').click(function(){
+            $('#productPageAttributeTableSelect7').text($(this).text());
+          }); 
+          
+          $('#productPageAttributeTable8 a').click(function(){
+            $('#productPageAttributeTableSelect8').text($(this).text());
+          }); 
+
+          $('#productPageAttributeTable9 a').click(function(){
+            $('#productPageAttributeTableSelect9').text($(this).text());
+          }); 
+
+          $("#selectAll").click(function(){
+              $('.GroceryItem').not(this).prop('checked', this.checked);
+          });
+
+
+
+             function increment() {
+                document.getElementById('demoInput').stepUp();
+             }
+             function decrement() {
+                document.getElementById('demoInput').stepDown();
+             }
+
+        var elements = document.getElementsByClassName('HeartButtonClass');
+        for (var i = 0; i < elements.length; i++) {
+                elements[i].style.backgroundColor="grey";
+            }
+
+          $('.HeartButtonClass').click(function() {
+          var elements = document.getElementsByClassName('HeartButtonClass');
+            for (var i = 0; i < elements.length; i++) {
+              var color = $( this ).css( "background-color" );
+              if(color=='rgb(128, 128, 128)'){
+
+                this.style.backgroundColor="#07D99F";
+              }
+              else{
+                this.style.backgroundColor="grey";
+              }
+            }
+
+
+        });
+
+
+
+          $("#st1").hover(function() {
+              $(".fa-star").css("color", "black");
+              $("#st1").css("color", "yellow");
+
+          });
+          $("#st2").hover(function() {
+              $(".fa-star").css("color", "black");
+              $("#st1, #st2").css("color", "yellow");
+
+          });
+          $("#st3").hover(function() {
+              $(".fa-star").css("color", "black")
+              $("#st1, #st2, #st3").css("color", "yellow");
+
+          });
+          $("#st4").hover(function() {
+              $(".fa-star").css("color", "black");
+              $("#st1, #st2, #st3, #st4").css("color", "yellow");
+
+          });
+          $("#st5").hover(function() {
+              $(".fa-star").css("color", "black");
+              $("#st1, #st2, #st3, #st4, #st5").css("color", "yellow");
+
+          });
+        });
+    </script>
+<body style="font-family: Poppins">
+<!--   <div id="includedContentHeader"></div> -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top"  style="font-size: small;">
+  <div class="container" style="opacity: 1;">
+    <a class="navbar-brand" href="#">
+    <img src="subhaksha.jpg" alt="Logo" style="width:150px;">
+  </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+ <div class="collapse navbar-collapse justify-content-stretch" id="navbarResponsive" >
+      <ul class="nav navbar-nav navbar-center" style="margin-left: 30%">
+        <li class="nav-item  homeclass" style="margin: 10px;">
+          <a class="nav-link" href="#">Home
+                <span class="sr-only">(current)</span>
+              </a>
+        </li>
+        <li class="nav-item homeclass" style="margin: 10px;">
+          <a class="nav-link" href="#"  style="color: #17a2b8">Products</a>
+        </li>
+        <li class="nav-item homeclass" style="margin: 10px;">
+          <a class="nav-link" href="#">About Us</a>
+        </li>
+        <li class="nav-item homeclass" style="margin: 10px;">
+          <a class="nav-link" href="https://etaarana.in/test/contact/">Contact Us</a>
+        </li>
+      </ul>
+    </div>
+     <!-- Non-collapsing right-side icons -->
+      <div class="navbar-header navbar-right pull-right">
+        <ul class="nav pull-right">
+          <input type="text" name="search" id="searchboxid" placeholder="Search.." style="outline: none;border: none;display: none">
+          <li class="pull-right" onclick="searchbox()"  style="margin: 15px"><a href="#">
+           <!-- <img style="max-width:32; vertical-align:middle;" src="e_tarana.jpg">  -->
+            <i class="fa fa-search" aria-hidden="true" style="color: grey;opacity: .7"></i>
+          </a></li>
+          <li class="pull-right" style="margin: 15px"><a href="#">
+            <!-- <img style="max-width:32; vertical-align:middle;" src="e_tarana.jpg"> -->
+            <i class="fa fa-heart" aria-hidden="true" style="color: grey;opacity: .7"> </i> 
+          </a></li>
+          <li class="pull-right" style="margin: 15px"><a href="#">
+            <!-- <img style="max-width:32; vertical-align:middle;" src="e_tarana.jpg"> -->
+            <i class="fa fa-shopping-cart" aria-hidden="true" style="color: grey;opacity: .7"></i> 
+          </a></li>
+
+          <li class="pull-right" style="margin: 15px"><a href="#">
+            <!-- <img style="max-width:32; vertical-align:middle;" src="e_tarana.jpg"> -->
+            <i class="fa fa-user" aria-hidden="true" style="color: grey;opacity: .7"> </i> 
+          </a></li>
+            
+        </ul>
+      </div> 
+  </div>
+</nav>
+
+
+<div class="row" style="padding-top: 5%;padding-bottom: 2%">
+  <div class="col-3" style="margin-top: 8px">
+    <i class="fa fa-home" style="font-size: 15px;color: #B2B2B2;padding-left: 30%"></i><span style="color: #B2B2B2;font: normal normal normal 13px/39px Poppins">/Products</span>
+  </div>
+ <!--  <div class="col-6">
+    <span style="font: normal normal 300 25px/53px Poppins; ">Sarees</span><span style="font: normal normal 300 25px/53px Poppins;
+    color: #D8D8D8">(133)</span>
+  </div>
+   <div class="col-3" style="margin-top: 20px;margin-left: -3%; display: flex;flex-direction: row;">
+    <span style="font-size: 10px;font-weight: bold;"> Show products:</span>
+    <div class="dropdown">
+  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="border-color: #D8D8D8;font-size: 10px;margin-top: -10px;margin-left: 10px;border-radius: 10px;font-weight: bold;">
+    30
+  </button>
+  <div class="dropdown-menu" style="font-size: 10px;font-weight: bold;">
+    <a class="dropdown-item" href="#">Link 1</a>
+    <a class="dropdown-item" href="#">Link 2</a>
+    <a class="dropdown-item" href="#">Link 3</a>
+  </div>
+</div>
+
+  <span style="font-size: 10px;font-weight: bold;margin-left: 20px"> Sort:</span>
+    <div class="dropdown">
+  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="border-color: #D8D8D8;font-size: 10px;margin-top: -10px;margin-left: 10px;border-radius: 10px;font-weight: bold;">
+    polupar
+  </button>
+  <div class="dropdown-menu" style="font-size: 10px;font-weight: bold;">
+    <a class="dropdown-item" href="#">Link 1</a>
+    <a class="dropdown-item" href="#">Link 2</a>
+    <a class="dropdown-item" href="#">Link 3</a>
+  </div>
+</div>
+</div> -->
+  </div>
+</div>
+
+
+
+  <!-- <div class="container"> -->
+
+    <div class="row" >
+
+      <div class="col-sm-12" style="background-color:white;margin-left: 4%;font-size: small;font-family: Poppins;">
+     <div class="container">
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" style="color: black" data-toggle="tab" href="#Grocery">Grocery</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" style="color: black" data-toggle="tab" href="#home">Home made products</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" style="color: black" data-toggle="tab" href="#menu1">Home made snaks & sweets</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" style="color: black" data-toggle="tab" href="#menu2">Health Drink Mix</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" style="color: black" data-toggle="tab" href="#menu3">Products in the pipeline</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+      <div id="Grocery" class="container tab-pane active"><br>
+      <div class="row">
+                                       <div class="col-12">
+                                          <table id="productTable" class="table table-image">
+                                             <thead>
+                                                <tr>
+                                                   <th scope="col">Sl.No&nbsp; <input type="checkbox" id="selectAll" style="margin-top: 1%" name="selectAll" value="Bike"></th>
+                                                   <th scope="col">Product Name</th>
+                                                   <th scope="col">Product Price</th>
+                                                   <th scope="col">Quantity</th>
+                                                   <th scope="col">Unit</th>
+                                                   <th scope="col">Total</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                 <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                    <button type="button" class="btn btn-info">Add to Cart</button>
+    <!-- </div> -->
+    </div>
+    <div id="home" class="container tab-pane fade"><br>
+      <div class="row">
+                                       <div class="col-12">
+                                          <table id="productTable1" class="table table-image">
+                                             <thead>
+                                                <tr>
+                                                   <th scope="col">Sl.No</th>
+                                                   <th scope="col">Product Name</th>
+                                                   <th scope="col">Product Price</th>
+                                                   <th scope="col">Quantity</th>
+                                                   <th scope="col">Unit</th>
+                                                   <th scope="col">Total</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                 <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                     <button type="button" class="btn btn-info">Place Order</button>
+    <!-- </div> -->
+    </div>
+    <div id="menu1" class="container tab-pane fade"><br>
+       <div class="row">
+                                       <div class="col-12">
+                                          <table id="productTable2" class="table table-image">
+                                             <thead>
+                                                <tr>
+                                                   <th scope="col">Sl.No</th>
+                                                   <th scope="col">Product Name</th>
+                                                   <th scope="col">Product Price</th>
+                                                   <th scope="col">Quantity                                                   </th>
+                                                   <th scope="col">Unit
+                                                     
+                                                   </th>
+                                                   <th scope="col">Total</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                  <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                 <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                     <button type="button" class="btn btn-info">Place Order</button>
+    </div>
+    <div id="menu2" class="container tab-pane fade"><br>
+        <div class="row">
+                                       <div class="col-12">
+                                          <table id="productTable3" class="table table-image">
+                                             <thead>
+                                                <tr>
+                                                   <th scope="col">Sl.No</th>
+                                                   <th scope="col">Product Name</th>
+                                                   <th scope="col">Product Price</th>
+                                                   <th scope="col">Quantity                                                   </th>
+                                                   <th scope="col">Unit
+                                                     
+                                                   </th>
+                                                   <th scope="col">Total</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                 <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                 <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                     <button type="button" class="btn btn-info">Place Order</button>
+    </div>
+     <div id="menu3" class="container tab-pane fade"><br>
+        <div class="row">
+                                       <div class="col-12">
+                                          <table id="productTable4" class="table table-image">
+                                             <thead>
+                                                <tr>
+                                                   <th scope="col">Sl.No</th>
+                                                   <th scope="col">Product Name</th>
+                                                   <th scope="col">Product Price</th>
+                                                   <th scope="col">Quantity                                                   </th>
+                                                   <th scope="col">Unit
+                                                     
+                                                   </th>
+                                                   <th scope="col">Total</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                 <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                                 <tr>
+                                                   <td scope="row"><span>1</span> &nbsp; <input type="checkbox" class="GroceryItem" id="vehicle1" style="margin-top: 1%" name="vehicle1" value="Bike"></td>
+                                                   <td contenteditable='false'><a  href="#">Dry Land Ragi Flour</a></td>
+                                                   <td contenteditable='false'>10</td>
+                                                   <td contenteditable='false'>
+                                                     <button type="button" class="btn" onclick="decrement()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-left: 0%;padding-right: 7px;padding-left: 7px">-</button>
+                                                    <input type="text" style="width:70px" id="quantity" name="quantity" = value="1">
+                                                    <button type="button" class="btn" onclick="increment()" style="background-color: lightgrey;padding-top: 0px;padding-bottom: 0px;margin-right: 0%;padding-right: 5px;padding-left: 5px">+</button>
+                                                   </td>
+                                                   <td contenteditable='true'>50garms
+                                                   </td>
+                                                   <td contenteditable='false'>20</td>
+                                                 </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                     <button type="button" class="btn btn-info">Place Order</button>
+    </div>
+  </div>
+       
+<!--     <div>
+       <p style="float: right;font-family: Poppins;font-size: x-small;font-weight: bold;padding-top: 5px">NEXT</p>
+      <ul class="pagination" style="font-family: Poppins;font-size: x-small;justify-content: center;">
+        <li class="page-item"><a class="page-link" href="#" style="color: #000000">Page</a></li>
+        <li class="page-item"><a class="page-link" href="#" style="color: #07D99F">1</a></li>
+        <li class="page-item"><a class="page-link" href="#" style="color: #000000">2</a></li>
+        <li class="page-item"><a class="page-link" href="#" style="color: #000000">3</a></li>
+      </ul>
+
+    </div> -->
+      </div>
+
+    </div>
+  <!-- </div> -->
+
+
+
+ <hr> 
+<!-- <div id="includedContentFooter"></div> -->
+<div class="col-12" style="font-size: small;">
+<footer class="page-footer font-small unique-color-dark" >
+
+  
+
+  <!-- Footer Links -->
+  <div class="container text-center text-md-left mt-5">
+
+    <!-- Grid row -->
+    <div class="row mt-3">
+
+      <!-- Grid column -->
+      <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+
+        <!-- Content -->
+        <!-- <h6 class="text-uppercase font-weight-bold">Company name</h6> -->
+        <!-- <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;"> -->
+        <img src="subhaksha.jpg" alt="Logo" style="width:100px;">
+        <p style="font-size: 10px">Subaksha - A Donation Platform That connects Producers, Donors & Beneficiaries</p>
+        <i style="margin-top: 10%; padding: 10px;color: grey;opacity: .7" class="fa fa-facebook-f"></i><i style="padding: 10px;color: grey;opacity: .7"  class="fa fa-whatsapp"></i>
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-2 col-lg-3 col-xl-3 mx-auto mb-4" style="padding-left: 10%">
+
+        <!-- Links -->
+        <h6 style="font-size: 10px" class="text-uppercase font-weight-bold">Navigation</h6>
+        <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+         <ul class="list-unstyled" style="font-size: 10px">
+          <li>
+            Recent Causes
+          </li>
+          <li>
+           How you can help?
+          </li>
+          <li>
+             Gallery
+          </li>
+          <li>
+             Meet our partners
+          </li>
+        </ul>
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-3 col-lg-2 col-xl-3 mx-auto mb-4" style="padding-left: 10%">
+
+        <!-- Links -->
+        <h6 style="font-size: 10px" class="text-uppercase font-weight-bold">Useful Links</h6>
+        <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+      <ul class="list-unstyled"style="font-size: 10px">
+          <li>
+            <a href="http://etaarana.in/Privacy%20Policy%20-%20eTaarana.htm" class="text-dark">Privacy policy</a> 
+          </li>
+          <li>
+            <a href="https://www.etaarana.in/etaarana%20web%20and%20app%20Terms%20and%20Conditions.htm" class="text-dark">Terms and Conditions</a> 
+          </li>
+          <li>
+             <a href="http://etaarana.in/Refund%20and%20Cancellation%20-%20eTaarana.htm" class="text-dark">Refund and Cancellation Policy</a> 
+          </li><!-- 
+          <li>
+             Cancellation Policy 
+          </li> -->
+          <li>
+           <a href="https://www.ortusolis.com/"></a> www.ortusolis.com
+          </li>
+        </ul>
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4" style="padding-left: 10%">
+
+        <!-- Links -->
+        <h6 style="font-size: 10px" class="text-uppercase font-weight-bold">Contact</h6>
+        <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+       <ul class="list-unstyled" style="font-size: 10px">
+          <li>
+            support@subaksha.in 
+          </li>
+          <li>
+           Hotline:+91 98455 21283
+          </li>
+          <li>
+             Link 1
+          </li>
+          <li>
+             Link 1
+          </li>
+        </ul>
+
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row -->
+
+  </div>
+  <!-- Footer Links -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3" style="font-size: 10px;color: grey">©2020-21 Ortusolis Technology Services LLP
+  </div>
+  <!-- Copyright -->
+
+</footer>
+</div>
+</body>
+</html>
