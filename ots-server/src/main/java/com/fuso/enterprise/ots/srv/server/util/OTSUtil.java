@@ -13,7 +13,7 @@ public class OTSUtil {
 	
 	public static void generatePDFFromHTML(String html ,String billNo) {
 		try {
-			OutputStream file = new FileOutputStream(new File("C:\\template\\OtsBill-"+billNo+".pdf"));
+			OutputStream file = new FileOutputStream(new File("bill.pdf"));
 			Document document = new Document();
 		    PdfWriter.getInstance(document, file);
 		    document.open();

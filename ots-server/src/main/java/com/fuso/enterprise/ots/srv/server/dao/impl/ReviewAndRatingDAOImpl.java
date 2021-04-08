@@ -114,10 +114,15 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 			    				customerId.setOtsUsersId(addReviewAndRatingRequest.getRequestData().getCustomerId());
 								queryParameter.put("otsCustomerId", customerId);
 								
-							 	queryParameter.put("otsCustomerId", customerId);
-							 	queryParameter.put("otsProductId",productId);
 							 	ratingReviews = super.getResultListByNamedQuery("OtsRatingReview.getReviewAndRatingByCustomerProductIdAndStatus", queryParameter);
 							 	break;
+	            case "order":
+	            	OtsOrder orderId = new OtsOrder();
+	            	orderId.setOtsOrderId(addReviewAndRatingRequest.getRequestData().getOrderId());
+	           		queryParameter.put("otsOrderId",orderId);
+					
+				 	ratingReviews = super.getResultListByNamedQuery("OtsRatingReview.getOrderWiseRating", queryParameter);
+				 	break;
 	            default:
 					return null;
             }

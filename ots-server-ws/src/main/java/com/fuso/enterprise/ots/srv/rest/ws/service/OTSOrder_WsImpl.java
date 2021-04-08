@@ -514,5 +514,13 @@ public class OTSOrder_WsImpl implements OTSOrder_Ws{
 		response = buildResponse(oTSOrderService.getOrderDetailsForOrderId(updateOrderDetailsRequest),"Successful");
 		return response;
 	}
+
+	@Override
+	public Response testBill(String userId) {
+		Response response = null;
+	
+		//response = buildResponse(oTSOrderService.getPDFForSalesVoucher("1","12-01-2012","Manoj","shivamogga","online"),"Successful");
+		return response;
+	}
 }
  

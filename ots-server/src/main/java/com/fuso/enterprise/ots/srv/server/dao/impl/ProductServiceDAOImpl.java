@@ -165,6 +165,39 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 		return  responseData;
 	}
 	
+	private ProductDetails convertProductDetailsFromEntityToDomainWithRating(OtsProduct otsProduct,List<Map<String, Object>> productReviewAndRating) {
+		ProductDetails productDetails = new ProductDetails();
+		productDetails.setProductId(otsProduct.getOtsProductId()==null?null:otsProduct.getOtsProductId().toString());
+		productDetails.setProductName(otsProduct.getOtsProductName()==null?null:otsProduct.getOtsProductName());
+		productDetails.setProductDescription(otsProduct.getOtsProductDescription()==null?null:otsProduct.getOtsProductDescription());
+		productDetails.setProductPrice(otsProduct.getOtsProductPrice()==null?null:otsProduct.getOtsProductPrice().toString());
+		productDetails.setProductStatus(otsProduct.getOtsProductStatus()==null?null:otsProduct.getOtsProductStatus());
+		productDetails.setProductLevel("3");
+		productDetails.setProductImage(otsProduct.getOtsProductImage()==null?null:otsProduct.getOtsProductImage());
+		productDetails.setProductType(otsProduct.getOtsProductType()==null?null:otsProduct.getOtsProductType());
+		productDetails.setProductLevel(otsProduct.getOtsProductLevelId().getOtsProductName()==null?null:otsProduct.getOtsProductLevelId().getOtsProductName());
+		productDetails.setGst(otsProduct.getOtsProductGst()==null?"0":otsProduct.getOtsProductGst());
+		productDetails.setThreshHold(otsProduct.getOtsProductThresholdDay()==null?null:otsProduct.getOtsProductThresholdDay());
+	//	productDetails.setDistributorId(otsProduct.getOtsDistributorId()==null?null:otsProduct.getOtsDistributorId().getOtsUsersId().toString());
+		productDetails.setProductBasePrice(otsProduct.getOtsProductBasePrice());
+		productDetails.setMultiProductImage1(otsProduct.getOtsMultiProductImage1()==null?null:otsProduct.getOtsMultiProductImage1());
+		productDetails.setMultiProductImage2(otsProduct.getOtsMultiProductImage2()==null?null:otsProduct.getOtsMultiProductImage2());
+		productDetails.setMultiProductImage3(otsProduct.getOtsMultiProductImage3()==null?null:otsProduct.getOtsMultiProductImage3());
+		productDetails.setMultiProductImage4(otsProduct.getOtsMultiProductImage4()==null?null:otsProduct.getOtsMultiProductImage4());
+		productDetails.setMultiProductImage5(otsProduct.getOtsMultiProductImage5()==null?null:otsProduct.getOtsMultiProductImage5());
+		productDetails.setMultiProductImage6(otsProduct.getOtsMultiProductImage6()==null?null:otsProduct.getOtsMultiProductImage6());
+		productDetails.setMultiProductImage7(otsProduct.getOtsMultiProductImage7()==null?null:otsProduct.getOtsMultiProductImage7());
+		productDetails.setMultiProductImage8(otsProduct.getOtsMultiProductImage8()==null?null:otsProduct.getOtsMultiProductImage8());
+		productDetails.setMultiProductImage9(otsProduct.getOtsMultiProductImage9()==null?null:otsProduct.getOtsMultiProductImage9());
+		productDetails.setMultiProductImage10(otsProduct.getOtsMultiProductImage10()==null?null:otsProduct.getOtsMultiProductImage10());
+		productDetails.setProductRating(otsProduct.getOtsProductRating()==null?null:otsProduct.getOtsProductRating().toString());
+		productDetails.setProductRatingCount(otsProduct.getOtsProductRatingCount()==null?null:otsProduct.getOtsProductRatingCount().toString());
+		productDetails.setRatingAndReview(productReviewAndRating);
+		
+		return productDetails;
+	}
+
+	
 	private ProductDetails convertProductDetailsFromEntityToDomain(OtsProduct otsProduct) {
 		ProductDetails productDetails = new ProductDetails();
 		productDetails.setProductId(otsProduct.getOtsProductId()==null?null:otsProduct.getOtsProductId().toString());
@@ -493,8 +526,23 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 				otsProduct.setOtsProductBasePrice(out.get(i).get("ots_product_base_price")==null?"":out.get(i).get("ots_product_base_price").toString());
 				otsProduct.setOtsProductRatingCount(out.get(i).get("ots_product_rating_count")==null?0:Integer.parseInt(out.get(i).get("ots_product_rating_count").toString()));
 				otsProduct.setOtsProductRating(out.get(i).get("ots_product_rating")==null?0:Float.parseFloat(out.get(i).get("ots_product_rating").toString()));
+				//------------------------GET DYNAMIC ATTRIBUTE FOR A PRODUCT-------------------------------------------------
 				
-				productList.add(convertProductDetailsFromEntityToDomain(otsProduct));
+				Map<String, Object> inParamMapForDynamicProductAttribute = new HashMap<String, Object>();
+				inParamMapForDynamicProductAttribute.put("productId", Integer.parseInt(out.get(i).get("ots_product_id").toString()));
+				
+				SimpleJdbcCall simpleJdbcCallForProductAttribute = new SimpleJdbcCall(jdbcTemplate)
+						.withProcedureName("getEachProductReviewAndRating")
+						.withoutProcedureColumnMetaDataAccess();
+				
+				simpleJdbcCallForProductAttribute.addDeclaredParameter(new SqlParameter("productId", Types.INTEGER));
+				
+				Map<String, Object> simpleJdbcCallResultForProductAttribute = simpleJdbcCallForProductAttribute.execute(inParamMapForDynamicProductAttribute);
+				List<Map<String, Object>> productRating = (List<Map<String, Object>>) simpleJdbcCallResultForProductAttribute.get("#result-set-1");
+				
+				//------------------------END OF GET DYNAMIC ATTRIBUTE FOR A PRODUCT------------------------------------------
+				
+				productList.add(convertProductDetailsFromEntityToDomainWithRating(otsProduct,productRating));
 			}
 		}catch(Exception e) {
 				System.out.print(e);

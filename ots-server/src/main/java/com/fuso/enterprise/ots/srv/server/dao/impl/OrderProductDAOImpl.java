@@ -91,11 +91,11 @@ public class OrderProductDAOImpl extends AbstractIptDao<OtsOrderProduct, String>
 			try {  
 				Map<String, Object> queryParameter = new HashMap<>();
 				OtsOrder otsOrder = new OtsOrder();
-				System.out.println("+orderDetails.getOrderId()+"+orderDetails.getOrderId());
 				otsOrder.setOtsOrderId(Integer.parseInt(orderDetails.getOrderId()));
 				queryParameter.put("otsOrderId",otsOrder);
 				
 				OrderList = super.getResultListByNamedQuery("OtsOrderProduct.GetOrderByDistrubutorIdAndStatus", queryParameter);
+				
 			}catch(Exception e){
 				e.printStackTrace();
 				logger.error("ERROR IN INSERTING PRODUCT TO ORDER-PRODUCT TABLE"+e.getMessage());

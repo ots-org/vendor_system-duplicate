@@ -746,4 +746,12 @@
 			o.otsusersfacebookId =:loginId
 		</query>
 	</named-query>  
+	<named-query name="OtsRatingReview.getOrderWiseRating">
+		<query>SELECT o 
+		FROM 
+			OtsRatingReview o	
+		WHERE  	
+			o.otsOrderId = :otsOrderId
+		</query>
+	</named-query>
 </entity-mappings>

@@ -24,13 +24,17 @@ import com.fuso.enterprise.ots.srv.api.model.domain.CustomerProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.DonationBoResponse;
 import com.fuso.enterprise.ots.srv.api.model.domain.DonationResponseByStatus;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetCustomerOutstandingAmt;
+import com.fuso.enterprise.ots.srv.api.model.domain.GetProductDetailsForBillModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.GetProductRequestModel;
+import com.fuso.enterprise.ots.srv.api.model.domain.ListOfOrderId;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsAndProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetails;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderProductDetailsSaleVocher;
 import com.fuso.enterprise.ots.srv.api.model.domain.OrderedProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetails;
+import com.fuso.enterprise.ots.srv.api.model.domain.ProductDetailsList;
 import com.fuso.enterprise.ots.srv.api.model.domain.SaleVocherModelRequest;
 import com.fuso.enterprise.ots.srv.api.model.domain.SchedulerResponceOrderModel;
 import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
@@ -53,6 +57,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.GetDonationReportByDateRe
 import com.fuso.enterprise.ots.srv.api.service.request.GetListOfOrderByDateBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderBORequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetOrderByStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.request.GetProductDetailsForBillRequst;
 import com.fuso.enterprise.ots.srv.api.service.request.GetProductStockRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetSchedulerRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.GetUserDetailsForRequest;
@@ -62,6 +67,7 @@ import com.fuso.enterprise.ots.srv.api.service.request.UpdateDonationRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateForAssgineBOrequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderDetailsRequest;
 import com.fuso.enterprise.ots.srv.api.service.request.UpdateOrderStatusRequest;
+import com.fuso.enterprise.ots.srv.api.service.response.BillProductDetailsResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetDonationReportByDateResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetListOfOrderByDateBOResponse;
 import com.fuso.enterprise.ots.srv.api.service.response.GetSchedulerResponse;
@@ -151,8 +157,15 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 	@Value("${ots.donation.razorpaykey}")
 	public String giftRazorpaySignature;
 	
+	@Value("${companyforbill}")
+	public String companyNameForBill;
 	
-
+	@Value("${companyAddress1}")
+	public String companyAddress1;
+	
+	@Value("${gstNo}")
+	public String gstNo;
+	
 	@Override
 	public OrderDetailsBOResponse getOrderBydate(GetOrderBORequest getOrderBORequest) {
 		try {
@@ -701,6 +714,14 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				
 			}
 			try {
+				System.out.println("----------------");
+				getPDFForSalesVoucher(saleVocherBoRequest,orderDetails);
+				System.out.println("----------------");
+			}catch(Exception e) {
+				System.out.println("sales voucher"+e);
+			}
+			
+			try {
 				UserDetails distributor;
 				distributor = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getDistributorId()));
 				String notification ="The order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+saleVocherBoRequest.getRequest().getDeliverdDate();
@@ -710,14 +731,19 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 				Customer = userServiceDAO.getUserDetails(Integer.parseInt(orderDetails.getCustomerId()));
 				notification = "Your order "+orderDetails.getOrderNumber()+" has been successfully delivered on "+ saleVocherBoRequest.getRequest().getDeliverdDate();
 				fcmPushNotification.sendPushNotification(Customer.getDeviceId(),"etaarana Apps" , notification);
+				
+				
 			}catch(Exception e) {
 				return "Updated";
 			}
-		}catch (BusinessException e) {
+		}catch (Exception e) {
+			
 			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
 		} catch (Throwable e) {
 			throw new BusinessException(e, ErrorEnumeration.GET_SALE_VOCHER);
 		}
+		
+			
 		return "Updated";
 	}
 
@@ -1424,5 +1450,81 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 		return orderServiceDAO.getOrderDetailsForOrderId(updateOrderDetailsRequest);
 	}
 	
-
+	public String getPDFForSalesVoucher(SaleVocherBoRequest saleVocherBoRequest,OrderDetails orderDetails) {
+		try {
+			String billPdf = null;
+			System.out.println("1");
+			String productList = "";
+			Float totalAmount = new Float(0) ;
+			for(int i=0;i<saleVocherBoRequest.getRequest().getOrderProductlist().size();i++) {
+				ProductDetails productDetails = productServiceDAO.getProductDetils(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProdcutId());
+			    Float unitAmount = Float.parseFloat(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost()) * Float.parseFloat(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost());
+			    totalAmount = totalAmount +  unitAmount;
+			    productList += "<tr>\r\n" + 
+						"			<td style=\" width: 5% ;  border: 1px solid black;\">"+i+1+"</td>\r\n" + 
+						"			<td style=\" width: 45%;  border: 1px solid black;\">"+productDetails.getProductName()+"</td>\r\n" + 
+						"			<td style=\" width: 10%;  border: 1px solid black;\">"+saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getOrderQty()+"</td>\r\n" + 
+						"			<td style=\" width: 20%;  border: 1px solid black;\">"+saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost()+"</td>\r\n" + 
+						"			<td style=\" width: 20%;  border: 1px solid black;\">"+unitAmount+"</td>\r\n" + 
+						"         </tr>\r\n" ;
+			}
+			UserDetails userDetails = userServiceDAO.getUserDetails(Integer.parseInt(saleVocherBoRequest.getRequest().getCustomerId()));
+			billPdf = "<html>\r\n" + 
+					"   <body>\r\n" + 
+					"      <table style=\"width: 100%; border: 1px solid black;\">\r\n" + 
+					"         <tr style=\"border: 1px solid black;\">\r\n" + 
+					"			<td rowspan=\"3\" style=\"border: 1px solid black; border: 1px solid blacktext-align: left; width: 50%; padding-left: 10px; \">\r\n" + 
+					"				<h3>company address :</br>"+  companyNameForBill  +"</h3>\r\n" + 
+					"				"+ companyAddress1 +", \r\n" +  
+					"				<br>India.</td>\r\n" + 
+					"			<td style=\"border: 1px solid black;\" colspan=\"2\">INVOICE</td>\r\n" + 
+					"         </tr>\r\n" + 
+					"			\r\n" + 
+					"		 <tr style=\"border: 1px solid black;\">\r\n" + 
+					"			<td style=\"border: 1px solid black;text-align: left; width: 25%; padding-left: 10px;\">Bill NO.</td>\r\n" + 
+					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\">"+" "+"</td>\r\n" + 
+					"         </tr>\r\n" + 
+					"		 <tr>\r\n" + 
+					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\">Date</td>\r\n" + 
+					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\">"+saleVocherBoRequest.getRequest().getDeliverdDate()+"</td>\r\n" + 
+					"         </tr>\r\n" + 
+					"		 <tr>\r\n" + 
+					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\" style=\"text-align: left; width: 50%; padding-left: 10px;\" rowspan=\"3\"> \r\n" + 
+					"				customer name : "+userDetails.getFirstName()+" "+userDetails.getLastName()+"\r\n" + 
+					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\" style=\"text-align: left; width: 25%; padding-left: 10px;\">Address</td>\r\n" + 
+					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\">"+userDetails.getAddress1()+"</td>	\r\n" + 
+					"         </tr>\r\n" + 
+					"		 <tr>\r\n" + 
+					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\"style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\" style=\"text-align: left; width: 25%; padding-left: 10px;\">Payment status</td>\r\n" + 
+					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\">"+orderDetails.getPaymentStatus()+"</td>\r\n" + 
+					"         </tr>\r\n" + 
+					"		 <tr>\r\n" + 
+					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\" style=\"text-align: left; width: 25%; padding-left: 10px;\" colspan=\"2\">GSTN: "+gstNo+"</td>\r\n" + 
+					"         </tr>\r\n" + 
+					"      </table>\r\n" + 
+					"	   <table style=\"width: 100%; border: 1px solid black;\" >	 \r\n" + 
+					"		 <tr>\r\n" + 
+					"			<th style=\" width: 5% ;  border: 1px solid black;\">SL NO</th>\r\n" + 
+					"			<th style=\" width: 45%;  border: 1px solid black;\">PRODUCT</th>\r\n" + 
+					"			<th style=\" width: 10%;  border: 1px solid black;\">QTY</th>\r\n" + 
+					"			<th style=\" width: 20%;  border: 1px solid black;\">UNIT PRICE</th>\r\n" + 
+					"			<th style=\" width: 20%;  border: 1px solid black;\">AMOUNT</th>\r\n" + 
+					"         </tr>\r\n" + 
+							productList+
+					"		 <tr>\r\n" + 
+					"			<td colspan=\"4\"style=\" width: 5%;  border: 1px solid black; \">TOTAL + GST</td>\r\n" + 
+					"			<td style=\" width: 5%;  border: 1px solid black; \">"+totalAmount+"</td>\r\n" + 
+					"         </tr>\r\n" + 
+					"      </table>\r\n" + 
+					"   </body>\r\n" + 
+					"</html>";
+			OTSUtil.generatePDFFromHTML(billPdf, "bill.pdf");
+			EmailUtil.sendEmailBill("manojvg95@gmail.com", "manojvg95@gmail.com", "INVOICE" +
+	                "", "Please find the attachment for your water can bill generated", "bill.pdf", "bill.pdf");
+			return billPdf;
+        } catch (Exception e) {
+        	System.out.println(e);
+            throw new BusinessException(e.getMessage(), e);
+        }
+	}
 }

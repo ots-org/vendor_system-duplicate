@@ -226,4 +226,10 @@ public interface OTSOrder_Ws {
 	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
 	Response getOrderDetailsForOrderId(OrderIdBORequest  updateOrderDetailsRequest);
 	
+	@GET
+    @Path("/test-bill")
+	@ApiOperation(value = "test-order", notes = "This operation will give the list of user based on test", response = Response.class)
+	@ApiResponses(value = { @ApiResponse(code = 0, message = "SUCCESS") })
+	Response testBill(@ApiParam(value = "test", required = true) @NotNull @Valid @QueryParam("test") String userId);
+	
 }

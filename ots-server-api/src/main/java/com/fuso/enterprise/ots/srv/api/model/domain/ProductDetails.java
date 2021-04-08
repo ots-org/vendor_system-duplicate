@@ -1,5 +1,8 @@
 package com.fuso.enterprise.ots.srv.api.model.domain;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -78,6 +81,8 @@ public class ProductDetails {
 	 
 	 @Size(max = 1500)
 	 private String productRating;
+	 
+	 private List<Map<String, Object>> ratingAndReview;
 	 
 	public String getProductRatingCount() {
 		return productRatingCount;
@@ -294,7 +299,13 @@ public class ProductDetails {
 	public void setMultiProductImage10(String multiProductImage10) {
 		this.multiProductImage10 = multiProductImage10;
 	}
-	
-	
+
+	public List<Map<String, Object>> getRatingAndReview() {
+		return ratingAndReview;
+	}
+
+	public void setRatingAndReview(List<Map<String, Object>> ratingAndReview) {
+		this.ratingAndReview = ratingAndReview;
+	}
 
 }
