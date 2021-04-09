@@ -17,7 +17,7 @@ public class GetcartListResponse {
 	
 	private BigDecimal totalPrice;
 	
-	
+	private String productDescription;
 
 	public String getProductId() {
 		return productId;
@@ -66,6 +66,14 @@ public class GetcartListResponse {
 
 	public void setTotalPrice(BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public String getProductDescription() {
+		return productDescription;
+	}
+
+	public void setProductDescription(String productDescription) {
+		this.productDescription = productDescription;
 	}
 	
 	

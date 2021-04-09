@@ -326,7 +326,7 @@ public class ProductServiceDAOImpl extends AbstractIptDao<OtsProduct, String> im
 				OtsProduct.setOtsProductStatus(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductStatus());
 				OtsProduct.setOtsProductType(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductType());
 				
-				OtsProduct.setOtsProductImage(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getProductImage());
+				OtsProduct.setOtsProductImage("https://i.ibb.co/y8kyL72/1-03-1.png");
 				OtsProduct.setOtsMultiProductImage1(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage1());
 				OtsProduct.setOtsMultiProductImage2(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage2());
 				OtsProduct.setOtsMultiProductImage3(addProductAndCategoryRequest.getRequestData().getProductDetails().get(i).getMultiProductImage3());

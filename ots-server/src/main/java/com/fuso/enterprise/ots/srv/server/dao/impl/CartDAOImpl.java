@@ -118,17 +118,18 @@ public class CartDAOImpl extends AbstractIptDao<OtsCart, String> implements Cart
 	
 	GetcartListResponse convertEntityToModel(OtsCart cartlist) {
 		GetcartListResponse getcartListResponse = new GetcartListResponse();
+		try {
+			getcartListResponse.setProductDescription(cartlist.getOtsProductId().getOtsProductDescription());
+		}catch(Exception e) {
+			
+		}
+		
 		getcartListResponse.setProductId(cartlist.getOtsProductId().getOtsProductId().toString());
 		getcartListResponse.setProductName(cartlist.getOtsProductId().getOtsProductName());
 		getcartListResponse.setProductImage(cartlist.getOtsProductId().getOtsProductImage());
 		getcartListResponse.setProductPrice(cartlist.getOtsProductId().getOtsProductPrice().toString());
 		getcartListResponse.setOtsCartQty(cartlist.getOtsCartQty());
-		 BigDecimal totalCost = BigDecimal.ZERO;
-		Integer Quantity=cartlist.getOtsCartQty();
-		BigDecimal price=cartlist.getOtsProductId().getOtsProductPrice();
-		BigDecimal itemCost=price.multiply(new BigDecimal(Quantity));
-		 totalCost=totalCost.add(itemCost);
-		 getcartListResponse.setTotalPrice(totalCost);
+		 
 		return getcartListResponse;
 	}
 
