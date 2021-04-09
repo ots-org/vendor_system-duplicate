@@ -14,6 +14,14 @@
       
       <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 
+<!-- 
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.jqueryui.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/scroller/2.0.3/css/scroller.jqueryui.min.css">
+       -->
+
+
+
 
 <link rel="stylesheet" href="mainDynamic.css">
 
@@ -202,7 +210,14 @@ opacity:1;
         $("tr:even").css("background-color", "#eeeeee");
         $("tr:odd").css("background-color", "#ffffff");
 
-         $('#productTable').DataTable();
+         $('#productTable').DataTable(
+         {
+        deferRender:    true,
+        scrollY:        200,
+        scrollX: true,
+        scrollCollapse: true,
+        scroller:       true
+    });
          $('#productTable1').DataTable();
          $('#productTable2').DataTable();
          $('#productTable3').DataTable();
@@ -446,7 +461,7 @@ opacity:1;
       <div id="Grocery" class="container tab-pane active"><br>
       <div class="row">
                                        <div class="col-12">
-                                          <table id="productTable" class="table table-image">
+                                          <table id="productTable" class="display nowrap" style="width:100%">
                                              <thead>
                                                 <tr>
                                                    <th scope="col">Sl.No&nbsp; <input type="checkbox" id="selectAll" style="margin-top: 1%" name="selectAll" value="Bike"></th>
