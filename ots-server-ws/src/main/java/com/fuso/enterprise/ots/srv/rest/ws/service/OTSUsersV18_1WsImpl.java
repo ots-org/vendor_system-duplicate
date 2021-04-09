@@ -234,9 +234,9 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 					response = buildResponse(600,"Password is Incorrect");
 				}
 			}catch(BusinessException e) {
-				response = buildResponse(600,"user not exists/server DB connection error");
+				response = buildResponse(600,"User not Exist/ Server DB Connection Error");
 			}catch(Throwable e) {
-				response = buildResponse(600,"user not exists/server DB connection error");
+				response = buildResponse(600,"User not Exist/ Server DB Connection Error");
 			}
 		
 			return response;

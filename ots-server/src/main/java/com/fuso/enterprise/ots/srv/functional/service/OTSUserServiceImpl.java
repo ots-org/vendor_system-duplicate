@@ -338,7 +338,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 			}
 			return loginUserResponse;
             } catch (Exception e) {
-            	throw new BusinessException(e,ErrorEnumeration.USER_NOT_EXISTS);
+            	return null;
 		}
 	}
 
@@ -484,6 +484,7 @@ public class OTSUserServiceImpl implements  OTSUserService{
 				return  forgotPasswordResponse;
 			}
 		}catch(Exception e) {
+			System.out.println(e);
 			return	null;
 		}
 		return  forgotPasswordResponse;
