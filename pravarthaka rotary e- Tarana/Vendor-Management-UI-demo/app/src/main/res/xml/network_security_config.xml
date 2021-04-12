@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">45.130.229.77</domain>
+        <trust-anchors>
+            <certificates src="@raw/xxxsolutionscom"/>
+        </trust-anchors>
+<!--        <trust-anchors>-->
+<!--            <certificates src="@raw/xxxsolutionscom" />-->
+<!--        </trust-anchors>-->
+    </domain-config>
+
+<!--    <base-config cleartextTrafficPermitted="true" />-->
+
+
+</network-security-config>
