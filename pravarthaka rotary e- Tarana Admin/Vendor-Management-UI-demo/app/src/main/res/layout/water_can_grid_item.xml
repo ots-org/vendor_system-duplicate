@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/activity_margin_4"
+    app:cardElevation="@dimen/cardview_default_elevation"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardBackgroundColor="@color/white"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="160dp">
+
+            <com.ortusolis.subhaksha.Utility.SquareImageView
+                android:id="@+id/picture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:transitionName="@string/objectimage" />
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/editProduct"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="right"-->
+<!--                android:padding="@dimen/activity_margin_10"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                android:textSize="@dimen/text_size_large"-->
+<!--                android:gravity="center"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:src="@android:drawable/ic_menu_edit"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                android:layout_margin="@dimen/activity_margin_6"-->
+<!--                android:text="@string/editproduct"-->
+<!--                />-->
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingLeft="@dimen/activity_margin_10"
+                    android:paddingTop="@dimen/activity_margin_6"
+                    android:paddingRight="@dimen/activity_margin_10"
+                    android:text="@string/name"
+                    android:textColor="@color/textColor"
+                    android:transitionName="@string/objectname" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:transitionName="@string/object_description"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:paddingLeft="@dimen/activity_margin_10"
+                    android:paddingRight="@dimen/activity_margin_10"
+                    android:paddingTop="@dimen/activity_margin_2"
+                    android:paddingBottom="@dimen/activity_margin_2"
+                    android:layout_marginBottom="@dimen/activity_margin_10"
+                    android:gravity="left"
+                    android:text="@string/price"
+                    android:textColor="@color/gray"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/editProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="@dimen/activity_margin_6"
+                    android:background="@android:color/transparent"
+                    android:gravity="right"
+                    android:padding="@dimen/activity_margin_10"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:text="@string/editproduct"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_large" />
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/activity_margin_8"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey_300"
+                android:padding="@dimen/activity_margin_8"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/activeLL"
+                android:visibility="gone"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/active"
+                    />
+            <ImageView
+                android:id="@+id/checkBoxImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/checkbox_off_background"
+                />
+            </LinearLayout>
+            <Button
+            android:id="@+id/buyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_light_primary"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/buy"
+            android:textAllCaps="false"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:layout_gravity="center"
+            android:paddingTop="@dimen/activity_margin_6"
+            android:paddingBottom="@dimen/activity_margin_6"
+            android:paddingLeft="@dimen/activity_margin_18"
+            android:paddingRight="@dimen/activity_margin_18"
+            />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+</FrameLayout>
