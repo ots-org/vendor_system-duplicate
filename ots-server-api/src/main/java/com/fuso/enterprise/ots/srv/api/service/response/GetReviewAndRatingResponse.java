@@ -25,6 +25,8 @@ public class GetReviewAndRatingResponse {
 	
 	private String otsRatingReviewAddedDate;
 	
+	private String reviewImg;
+	
 	public String getOrderId() {
 		return orderId;
 	}
@@ -106,6 +108,14 @@ public void setOtsRatingReviewAddedDate(String otsRatingReviewAddedDate) {
 
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+
+	public String getReviewImg() {
+		return reviewImg;
+	}
+
+	public void setReviewImg(String reviewImg) {
+		this.reviewImg = reviewImg;
 	}
 
 

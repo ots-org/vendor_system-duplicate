@@ -159,6 +159,7 @@ public class UserServiceDAOImpl extends AbstractIptDao<OtsUsers, String> impleme
 			Map<String, Object> queryParameter = new HashMap<>();
  			queryParameter.put("otsUsersContactNo", addUserDataBORequest.getRequestData().getContactNo());
  			userEntity  = super.getResultByNamedQuery("OtsUsers.findByOtsUsersContactNo", queryParameter);
+			return null;
 		 }catch(Exception e) {
 			 System.out.println(e);
 		 }

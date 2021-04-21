@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.persistence.NoResultException;
@@ -30,6 +31,7 @@ import com.fuso.enterprise.ots.srv.server.model.entity.OtsProductWishlist;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsRatingReview;
 import com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers;
 import com.fuso.enterprise.ots.srv.server.util.AbstractIptDao;
+import com.fuso.enterprise.ots.srv.server.util.Base64UtilImage;
 
 @Repository
 public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, String> implements ReviewAndRatingDAO {
@@ -60,6 +62,18 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 		ratingReview.setOtsRatingReviewRating(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewRating());
 		ratingReview.setOtsRatingReviewStatus(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewStatus());
 		ratingReview.setOtsRatingReviewAddedDate(addReviewAndRatingRequest.getRequestData().getOtsRatingReviewAddedDate());
+		
+		try {
+			if(addReviewAndRatingRequest.getRequestData().getReviewImage()!=null) {
+				 Random rand = new Random();
+				 int rand_int1 = rand.nextInt(1000000);
+			     String path = Base64UtilImage.convertBase64toImage(addReviewAndRatingRequest.getRequestData().getReviewImage(), rand_int1);
+			     ratingReview.setOtsRatingReviewImg(path);
+			}
+		}catch(Exception e){
+			
+		}
+		
 		
 		OtsOrder orderId= new OtsOrder();	
 		orderId.setOtsOrderId(addReviewAndRatingRequest.getRequestData().getOrderId());
@@ -156,7 +170,7 @@ public class ReviewAndRatingDAOImpl extends AbstractIptDao<OtsRatingReview, Stri
 		userDetails = convertUserDetailsFromEntityToDomain(ratingReview.getOtsCustomerId());
 		getreviewAndRatingResponse.setCustomerName(userDetails.getFirstName());
 		getreviewAndRatingResponse.setOrderId(ratingReview.getOtsOrderId().getOtsOrderId().toString());
-		
+		getreviewAndRatingResponse.setReviewImg(ratingReview.getOtsRatingReviewImg());
 		
 		return getreviewAndRatingResponse;
 	}

@@ -90,26 +90,26 @@ public class OTSUsersV18_1WsImpl implements OTSUsersV18_1Ws{
 		Response response = null;
 		logger.info("Inside Event=1004,Class:OTSUsersV18_1WsImpl, Method:addNewUser, UserDataBORequest:"
 				+ addUserDataBORequest.getRequestData().getFirstName());
-		UserDataBOResponse UserDataBOResponse = new UserDataBOResponse();
+		UserDataBOResponse userDataBOResponse = new UserDataBOResponse();
 		try{
 			if(!(addUserDataBORequest.getRequestData().getUserRoleId().equalsIgnoreCase("2")||addUserDataBORequest.getRequestData().getUserRoleId().equalsIgnoreCase("1"))) {
 				addUserDataBORequest.getRequestData().setUserLat("0");
 				addUserDataBORequest.getRequestData().setUserLong("0");
 			}
 			
-			UserDataBOResponse = otsUserService.checkForUserExistsOrNot(addUserDataBORequest);
-			if (UserDataBOResponse != null) {
+			userDataBOResponse = otsUserService.checkForUserExistsOrNot(addUserDataBORequest);
+			if (userDataBOResponse != null) {
 				logger.info("Inside Event=1004,Class:OTSUsersV18_1WsImpl,Method:addNewUser, " + "UserList Size:"
-						+ UserDataBOResponse.getUserDetails().size());
-				response = responseWrapper.buildResponse(UserDataBOResponse,"successful");
+						+ userDataBOResponse.getUserDetails().size());
+				response = responseWrapper.buildResponse(userDataBOResponse,"successful");
 			}else
 			{
-				response = responseWrapper.buildResponse(UserDataBOResponse,"User Details are already present In DB");
+				response = responseWrapper.buildResponse(userDataBOResponse,"User Details are already present In DB");
 			}
 		}catch (BusinessException e){
-			response = responseWrapper.buildResponse("200","error");
+			response = responseWrapper.buildResponse("200","User Details are already present In DB");
 	    }catch (Throwable e) {
-	    	response = responseWrapper.buildResponse(UserDataBOResponse,"User Details are already present In DB");
+	    	response = responseWrapper.buildResponse(userDataBOResponse,"User Details are already present In DB");
 	    }
 		return response;
 	}

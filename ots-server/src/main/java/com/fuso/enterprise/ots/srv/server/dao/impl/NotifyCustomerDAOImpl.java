@@ -67,6 +67,7 @@ public class NotifyCustomerDAOImpl extends AbstractIptDao<OtsNotifyCustomer, Str
 		simpleJdbcCall.addDeclaredParameter(new SqlParameter("productId", Types.INTEGER));
 		Map<String, Object> simpleJdbcCallResult = simpleJdbcCall.execute(inParamMap);
 		List<Map<String, Object>> out = (List<Map<String, Object>>) simpleJdbcCallResult.get("#result-set-1");
+		System.out.print(out);
 		if(out.isEmpty()) {
 			return null;
 		}else {

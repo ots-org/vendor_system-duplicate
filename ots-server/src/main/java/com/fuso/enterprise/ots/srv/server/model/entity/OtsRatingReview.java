@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewRating", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewRating = :otsRatingReviewRating")
     , @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewStatus", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewStatus = :otsRatingReviewStatus")
     , @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewTitle", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewTitle = :otsRatingReviewTitle")
-    , @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewAddedDate", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewAddedDate = :otsRatingReviewAddedDate")})
+    , @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewAddedDate", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewAddedDate = :otsRatingReviewAddedDate")
+    , @NamedQuery(name = "OtsRatingReview.findByOtsRatingReviewImg", query = "SELECT o FROM OtsRatingReview o WHERE o.otsRatingReviewImg = :otsRatingReviewImg")})
 public class OtsRatingReview implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -60,6 +61,9 @@ public class OtsRatingReview implements Serializable {
     @Column(name = "ots_rating_review_added_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date otsRatingReviewAddedDate;
+    @Size(max = 200)
+    @Column(name = "ots_rating_review_img")
+    private String otsRatingReviewImg;
     @JoinColumn(name = "ots_order_id", referencedColumnName = "ots_order_id")
     @ManyToOne(optional = false)
     private OtsOrder otsOrderId;
@@ -123,6 +127,14 @@ public class OtsRatingReview implements Serializable {
 
     public void setOtsRatingReviewAddedDate(Date otsRatingReviewAddedDate) {
         this.otsRatingReviewAddedDate = otsRatingReviewAddedDate;
+    }
+
+    public String getOtsRatingReviewImg() {
+        return otsRatingReviewImg;
+    }
+
+    public void setOtsRatingReviewImg(String otsRatingReviewImg) {
+        this.otsRatingReviewImg = otsRatingReviewImg;
     }
 
     public OtsOrder getOtsOrderId() {

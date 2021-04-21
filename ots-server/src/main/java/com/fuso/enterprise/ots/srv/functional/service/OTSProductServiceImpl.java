@@ -651,11 +651,11 @@ public class OTSProductServiceImpl implements OTSProductService {
 				if(addProductAndCategoryRequest.getRequestData().getProductDetails().get(0).getProductStatus().equalsIgnoreCase("active")) {
 					for(int j=0;j<customerList.size();j++) {
 						System.out.println("sent");
-						String msg = "The product is available now in Etaarana, please order your product";
+						String msg = "The product is available now in Subhaksha, please order your product";
 						try {
 							EmailUtil.productNotification(customerList.get(j).get("ots_users_emailid").toString(), " ", "Product available", msg);
 						}catch(Exception e) {
-							
+							System.out.print(e);
 						}
 						
 					}	

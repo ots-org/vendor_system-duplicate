@@ -1458,7 +1458,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			Float totalAmount = new Float(0) ;
 			for(int i=0;i<saleVocherBoRequest.getRequest().getOrderProductlist().size();i++) {
 				ProductDetails productDetails = productServiceDAO.getProductDetils(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProdcutId());
-			    Float unitAmount = Float.parseFloat(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost()) * Float.parseFloat(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost());
+			    Float unitAmount = Float.parseFloat(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost()) * Integer.parseInt(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getOrderQty());
 			    totalAmount = totalAmount +  unitAmount;
 			    productList += "<tr>\r\n" + 
 						"			<td style=\" width: 5% ;  border: 1px solid black;\">"+i+1+"</td>\r\n" + 
@@ -1519,7 +1519,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 					"   </body>\r\n" + 
 					"</html>";
 			OTSUtil.generatePDFFromHTML(billPdf, "bill.pdf");
-			EmailUtil.sendEmailBill("manojvg95@gmail.com", "manojvg95@gmail.com", "INVOICE" +
+			EmailUtil.sendEmailBill(userDetails.getEmailId(), "", "INVOICE - Subhaksha" +
 	                "", "Please find the attachment for your water can bill generated", "bill.pdf", "bill.pdf");
 			return billPdf;
         } catch (Exception e) {

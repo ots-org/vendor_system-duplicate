@@ -7,17 +7,17 @@ import javax.activation.*;
 
 public class EmailUtil {
 	
-	final String username = "etaaranas@gmail.com";
+	final String username = "support@microproducershub.com";
 	
 	public static void sendEmailBill(String to,String cc,String sub,String msg,String billFileName,String filePath){   
 		
-		final String username = "etaaranas@gmail.com";
-	    final String password = "sup#taarana@2020";
+		final String username = "support@microproducershub.com";
+	    final String password = "Otssupport@20@!";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.auth", true);
-	    props.put("mail.smtp.starttls.enable", true);
-	    props.put("mail.smtp.host", "smtp.gmail.com");
+	    props.put("mail.smtp.starttls.enable", false);
+	    props.put("mail.smtp.host", "mail.microproducershub.com");
 	    props.put("mail.smtp.port", "587");
 
 	    Session session = Session.getInstance(props,
@@ -29,7 +29,7 @@ public class EmailUtil {
 	    try {
 
 	        Message message = new MimeMessage(session);
-	        message.setFrom(new InternetAddress("etaaranas@gmail.com"));
+	        message.setFrom(new InternetAddress("support@microproducershub.com"));
 	        message.setRecipients(Message.RecipientType.TO,
 	                InternetAddress.parse(to));
 	        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
@@ -59,13 +59,13 @@ public class EmailUtil {
 	
 public static void sendOTP(String to,String cc,String sub,String msg){   
 		
-		final String username = "etaaranas@gmail.com";
-		final String password = "sup#taarana@2020";
+		final String username = "support@microproducershub.com";
+		final String password = "Otssupport@20@!";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.auth", true);
-	    props.put("mail.smtp.starttls.enable", true);
-	    props.put("mail.smtp.host", "smtp.gmail.com");
+	    props.put("mail.smtp.starttls.enable", false);
+	    props.put("mail.smtp.host", "mail.microproducershub.com");
 	    props.put("mail.smtp.port", "587");
 
 	    Session session = Session.getInstance(props,
@@ -77,7 +77,7 @@ public static void sendOTP(String to,String cc,String sub,String msg){
 	    try {
 
 	        Message message = new MimeMessage(session);
-	        message.setFrom(new InternetAddress("etaaranas@gmail.com"));
+	        message.setFrom(new InternetAddress("support@microproducershub.com"));
 	        message.setRecipients(Message.RecipientType.TO,
 	                InternetAddress.parse(to));
 	    //    message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
@@ -92,13 +92,13 @@ public static void sendOTP(String to,String cc,String sub,String msg){
 	
 public static void sendDonationMail(String to,String cc,String sub,String msg){   
 	
-	final String username = "etaaranas@gmail.com";
-	final String password = "sup#taarana@2020";
+	final String username = "support@microproducershub.com";
+	final String password = "Otssupport@20@!";
 
     Properties props = new Properties();
     props.put("mail.smtp.auth", true);
-    props.put("mail.smtp.starttls.enable", true);
-    props.put("mail.smtp.host", "smtp.gmail.com");
+    props.put("mail.smtp.starttls.enable", false);
+    props.put("mail.smtp.host", "mail.microproducershub.com");
     props.put("mail.smtp.port", "587");
 
     Session session = Session.getInstance(props,
@@ -110,7 +110,7 @@ public static void sendDonationMail(String to,String cc,String sub,String msg){
     try {
 
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("etaaranas@gmail.com"));
+        message.setFrom(new InternetAddress("support@microproducershub.com"));
         message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(to));
         message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
@@ -125,13 +125,13 @@ public static void sendDonationMail(String to,String cc,String sub,String msg){
 	
 public static void productNotification(String to,String cc,String sub,String msg){   
 	
-	final String username = "etaaranas@gmail.com";
-	final String password = "sup#taarana@2020";
+	final String username = "support@microproducershub.com";
+	final String password = "Otssupport@20@!";
 
     Properties props = new Properties();
     props.put("mail.smtp.auth", true);
-    props.put("mail.smtp.starttls.enable", true);
-    props.put("mail.smtp.host", "smtp.gmail.com");
+    props.put("mail.smtp.starttls.enable", false);
+    props.put("mail.smtp.host", "mail.microproducershub.com");
     props.put("mail.smtp.port", "587");
 
     Session session = Session.getInstance(props,
@@ -143,7 +143,7 @@ public static void productNotification(String to,String cc,String sub,String msg
     try {
 
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("etaaranas@gmail.com"));
+        message.setFrom(new InternetAddress("support@microproducershub.com"));
         message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(to));
         message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));

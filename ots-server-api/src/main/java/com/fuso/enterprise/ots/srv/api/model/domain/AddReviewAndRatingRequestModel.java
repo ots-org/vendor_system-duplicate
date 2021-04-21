@@ -26,6 +26,8 @@ public class AddReviewAndRatingRequestModel {
 	
 	private Date otsRatingReviewAddedDate;
 	
+	private String reviewImage;
+	
 	public Integer getCustomerId() {
 		return customerId;
 	}
@@ -112,6 +114,14 @@ public class AddReviewAndRatingRequestModel {
 
 	public void setSearchvalue(String searchvalue) {
 		this.searchvalue = searchvalue;
+	}
+
+	public String getReviewImage() {
+		return reviewImage;
+	}
+
+	public void setReviewImage(String reviewImage) {
+		this.reviewImage = reviewImage;
 	}
 
 	
