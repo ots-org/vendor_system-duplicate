@@ -150,7 +150,8 @@ public class OTSProduct_WsImpl implements OTSProduct_Ws {
                 GetProductStockListBOResponse = otsProductService.getProductStockList(getProductStockListRequest);
                 if (!GetProductStockListBOResponse.getProductStockDetail().isEmpty()) {
 
-                    response = responseWrapper.buildResponse(GetProductStockListBOResponse, "successful");
+                    response = responseWrapper
+                    		.buildResponse(GetProductStockListBOResponse, "successful");
                 } else {
                     response = responseWrapper
                         .buildResponse("We do not have DATA for this Request,please check the input");

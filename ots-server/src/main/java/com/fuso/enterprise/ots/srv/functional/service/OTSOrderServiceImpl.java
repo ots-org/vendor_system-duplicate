@@ -1456,28 +1456,32 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 			System.out.println("1");
 			String productList = "";
 			Float totalAmount = new Float(0) ;
+			int counter =0;
 			for(int i=0;i<saleVocherBoRequest.getRequest().getOrderProductlist().size();i++) {
 				ProductDetails productDetails = productServiceDAO.getProductDetils(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProdcutId());
 			    Float unitAmount = Float.parseFloat(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost()) * Integer.parseInt(saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getOrderQty());
 			    totalAmount = totalAmount +  unitAmount;
+			    counter++;
 			    productList += "<tr>\r\n" + 
-						"			<td style=\" width: 5% ;  border: 1px solid black;\">"+i+1+"</td>\r\n" + 
+						"			<td style=\" width: 5% ;  border: 1px solid black;\">"+counter+"</td>\r\n" + 
 						"			<td style=\" width: 45%;  border: 1px solid black;\">"+productDetails.getProductName()+"</td>\r\n" + 
 						"			<td style=\" width: 10%;  border: 1px solid black;\">"+saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getOrderQty()+"</td>\r\n" + 
 						"			<td style=\" width: 20%;  border: 1px solid black;\">"+saleVocherBoRequest.getRequest().getOrderProductlist().get(i).getProductCost()+"</td>\r\n" + 
 						"			<td style=\" width: 20%;  border: 1px solid black;\">"+unitAmount+"</td>\r\n" + 
 						"         </tr>\r\n" ;
 			}
+			String[] parts = saleVocherBoRequest.getRequest().getDeliverdDate().toString().split(" ");
+			String date = parts[0]+" "+parts[1]+" "+parts[2];
 			UserDetails userDetails = userServiceDAO.getUserDetails(Integer.parseInt(saleVocherBoRequest.getRequest().getCustomerId()));
 			billPdf = "<html>\r\n" + 
-					"   <body>\r\n" + 
+					"   <body>\r\n<head style=\\\"border: 1px solid black; border: 1px solid blacktext-align: center; \\\">INVOICE</head>" + 
 					"      <table style=\"width: 100%; border: 1px solid black;\">\r\n" + 
 					"         <tr style=\"border: 1px solid black;\">\r\n" + 
 					"			<td rowspan=\"3\" style=\"border: 1px solid black; border: 1px solid blacktext-align: left; width: 50%; padding-left: 10px; \">\r\n" + 
-					"				<h3>company address :</br>"+  companyNameForBill  +"</h3>\r\n" + 
+					"				<h3>company address</br>"+  companyNameForBill  +"</h3>\r\n" + 
 					"				"+ companyAddress1 +", \r\n" +  
 					"				<br>India.</td>\r\n" + 
-					"			<td style=\"border: 1px solid black;\" colspan=\"2\">INVOICE</td>\r\n" + 
+					"			<td style=\"border: 1px solid black;\" colspan=\"2\"></td>\r\n" + 
 					"         </tr>\r\n" + 
 					"			\r\n" + 
 					"		 <tr style=\"border: 1px solid black;\">\r\n" + 
@@ -1486,7 +1490,7 @@ public class OTSOrderServiceImpl implements OTSOrderService {
 					"         </tr>\r\n" + 
 					"		 <tr>\r\n" + 
 					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\">Date</td>\r\n" + 
-					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\">"+saleVocherBoRequest.getRequest().getDeliverdDate()+"</td>\r\n" + 
+					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\">"+date+"</td>\r\n" + 
 					"         </tr>\r\n" + 
 					"		 <tr>\r\n" + 
 					"			<td style=\" border: 1px solid black; text-align: left; width: 25%; padding-left: 10px;\" style=\"text-align: left; width: 50%; padding-left: 10px;\" rowspan=\"3\"> \r\n" + 
