@@ -1,0 +1,43 @@
+<!-- ANIMATION --COMPONENT 10 -->
+<ion-grid class="ion-no-padding" *ngIf="data && data.items">
+  <ion-row>
+    <ion-col size="12">
+    <div class="background-size"
+    [ngStyle]="{'background-image': 'url(' + data.headerImage + ')'}">
+      <!--Social Shere-->
+      <div class="ion-float-right ion-margin-end ion-margin-top">
+          <i class="icon {{data.iconLike}} icon-small"
+          (click)="onLikeFunc(data, $event)"></i>
+          <i class="icon {{data.iconFavorite}} icon-small"
+          (click)="onFavoriteFunc(data, $event)"></i>
+          <i  class="icon {{data.iconShare}} icon-small"
+          (click)="onShareFunc(data, $event)"></i>
+      </div>
+      <!--Title parallax-->
+      <h2 class="text-size-xl ion-text-center" *ngIf="data != null">
+        {{data.title}}</h2>
+    </div>
+    </ion-col>
+    <ion-col class="ion-no-padding" size="12">
+      <ion-list class="ion-no-margin" lines="none"
+      appAnimateItems className="fadeInRight">
+        <ion-item  *ngFor="let item of data.items"
+        class="animation-normal opacity-0"
+          (click)="onItemClickFunc(item, $event)">
+          <!--Content Avatar-->
+          <ion-avatar slot="start">
+              <img [src]="item.image">
+          </ion-avatar>
+          <!-- Ttile and Subtitle -->
+          <ion-label>
+            <h2 class="text-size-xs">{{item.title}}</h2>
+            <h3 class="text-size-sm ion-text-uppercase">
+              {{item.description}}</h3>
+          </ion-label>
+          <!--Content Icon-->
+          <i slot="end" class="icon {{item.icon}} icon-medium"></i>
+          </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-grid>

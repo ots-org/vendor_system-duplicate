@@ -1,0 +1,26 @@
+ion-list-header {
+  height: 160px;
+  position: relative;
+
+  &::before {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    pointer-events: none;
+    mix-blend-mode: var(--cs-mode-image);
+    background: var(--cs-gradient-linear);
+    z-index: 5;
+  }
+
+  ion-searchbar {
+    z-index: 999;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}

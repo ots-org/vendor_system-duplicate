@@ -1,0 +1,13 @@
+ion-card {
+  height: 150px;
+  border-radius: 0;
+  ion-card-content {
+    position: relative;
+    background: rgba(36, 36, 36, 0.40);
+
+    h2,
+    .icon-small {
+      color: var(--cs-text-primary, #ffffff);
+    }
+  }
+}

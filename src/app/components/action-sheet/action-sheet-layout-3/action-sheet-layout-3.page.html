@@ -1,0 +1,30 @@
+<!-- ACTION SHEET --COMPONENT 3-->
+<ion-content>
+  <ion-grid class="ion-no-padding" *ngIf="data != null">
+    <ion-row *ngIf="data != null">
+      <!-- Cards Full Image-->
+      <ion-col size="12" size-md="6" *ngFor="let item of data.items">
+        <!-- Card Big Image-->
+        <ion-card class="box-shadow" (click)="onItemClickFunc(item, $event)">
+          <!-- <ion-card-header> -->
+          <ion-item lines="none">
+            <ion-label>
+              <!-- Card Categoty-->
+              <span class="text-size-sm ion-text-uppercase">{{item.category}}</span>
+              <!-- Card Title-->
+              <h2 class="text-size-xs">{{item.title}}</h2>
+              <!-- Card Subtitle-->
+              <h4 class="text-size-sm">{{item.subtitle}}</h4>
+            </ion-label>
+            <!-- Share Button --->
+            <ion-fab-button slot="end" (click)="presentActionSheet(data, $event)">
+              <ion-icon class="icon-medium" [name]="data.shareIcon"></ion-icon>
+            </ion-fab-button>
+          </ion-item>
+          <!-- Images-->
+          <ion-img [src]="item.image"></ion-img>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,12 @@
+ion-button {
+  .active {
+    color: var(--cs-icon-color-primary, #00c0e8) !important;
+  }
+}
+
+.social-share {
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}

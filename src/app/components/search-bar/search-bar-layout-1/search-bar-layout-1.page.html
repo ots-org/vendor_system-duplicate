@@ -1,0 +1,23 @@
+<!-- Theme Search Bars - Simple -->
+<ion-grid class="ion-no-padding" *ngIf="viewEntered">
+  <ion-row *ngIf="data != null">
+    <!-- List -->
+    <ion-col size="12">
+      <ion-list class="ion-no-margin" lines="none">
+        <ion-list-header class="ion-no-padding">
+          <ion-searchbar [(ngModel)]="search" (ionInput)="onTextChangeFunc($event)">
+          </ion-searchbar>
+        </ion-list-header>
+        <!-- strict -->
+        <ion-item *ngFor="let item of data.items | filter:search"
+          (click)="onItemClickFunc(item, $event)">
+          <ion-label>
+            <h2 class="text-size-xs">{{item.title}}</h2>
+            <h2 class="text-size-sm">{{item.description}}</h2>
+          </ion-label>
+          <i slot="end" class="icon {{item.icon}} icon-small"></i>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-grid>

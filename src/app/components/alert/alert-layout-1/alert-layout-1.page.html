@@ -1,0 +1,15 @@
+<!-- ALERT --COMPONENT 1 -->
+<ion-grid>
+  <ion-row>
+    <ion-col size="12" size-md="6" *ngFor="let item of data.items"
+    (click)="presentAlert(item, $event)">
+      <ion-card class="box-shadow ion-padding">
+        <ion-img [src]="item.image"></ion-img>
+        <ion-card-content class="ion-no-padding">
+          <h2 class="text-size-xs ion-padding-top">{{item.title}}</h2>
+          <p class="text-size-p ion-padding-top">{{item.description}}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>

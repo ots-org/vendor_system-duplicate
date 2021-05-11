@@ -1,0 +1,70 @@
+<!-- ANIMATION --COMPONENT 9 -->
+<ion-grid *ngIf="data && data.items">
+  <ion-row>
+    <ion-col size="12">
+      <ion-card class="ion-text-center">
+        <ion-item lines="none">
+          <ion-avatar slot="start">
+            <img [src]="data.image" alt="">
+          </ion-avatar>
+          <ion-label>
+            <h1 class="text-size-xs">{{data.title}}</h1>
+            <p class="text-size-p ion-text-wrap">{{data.subtitle}}</p>
+          </ion-label>
+        </ion-item>
+        <div class="social-share">
+          <!-- Followers-->
+          <ion-item lines="none" (click)="buttonClick()">
+            <ion-label class="">
+              <span class="span-small font-bold">{{data.valueFollowers}}</span>
+              <div class="clearfix"></div>
+              <h2 class="text-size-sm">{{data.followers}}</h2>
+            </ion-label>
+          </ion-item>
+          <!-- Following -->
+          <ion-item lines="none" (click)="buttonClick()">
+            <ion-label class="ion-text-center">
+              <span class="span-small font-bold">{{data.valueFollowing}}</span>
+              <div class="clearfix"></div>
+              <h2 class="text-size-sm">{{data.following}}</h2>
+            </ion-label>
+          </ion-item>
+          <!-- Post -->
+          <ion-item lines="none" (click)="buttonClick()">
+            <ion-label class="ion-text-center">
+              <span class="span-small font-bold">{{data.valuePosts}}</span>
+              <div class="clearfix"></div>
+              <h2 class="text-size-sm">{{data.posts}}</h2>
+            </ion-label>
+          </ion-item>
+        </div>
+      </ion-card>
+      <!-- Name Category -->
+      <h1 class="span-medium ion-text-center ion-text-uppercase ion-padding-top">
+        {{data.category}}</h1>
+    </ion-col>
+  </ion-row>
+  <ion-row appAnimateItems className="slideInUp">
+    <ion-col size="12" size-md="6" class="ion-text-center"
+    *ngFor="let item of data.items;let i = index"
+      (click)="onItemClickFunc(item, $event)" class="animation-normal opacity-0">
+      <ion-card class="ion-padding ion-text-center">
+        <ion-img [src]="item.backgroundCard" alt=""></ion-img>
+        <ion-card-content>
+          <span class="span-small io0n-text-uppercase">{{item.category}}</span>
+          <h1 class="ion-padding-top text-size-xs">{{item.title}}</h1>
+        </ion-card-content>
+        <ion-button class="button-icon "(click)="onLikeFunc(item, $event)">
+          <ion-icon slot="start" [ngClass]="{'active' : item.like.isActive}"
+          [name]="item.like.icon"></ion-icon>
+          {{item.like.text}}
+        </ion-button>
+        <ion-button class="button-icon" (click)="onCommentFunc(item, $event)">
+          <ion-icon slot="start" [ngClass]="{'active' : item.comment.isActive}"
+          [name]="item.comment.icon"></ion-icon>
+          {{item.comment.number}} {{item.comment.text}}
+        </ion-button>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>

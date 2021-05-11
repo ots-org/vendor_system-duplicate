@@ -1,0 +1,34 @@
+/*  Theme Action Sheet - News
+===========================================*/
+// Settings Big Image
+.background-size {
+  height: 300px;
+  position: relative;
+  background-color: var(--cs-blandModes-secondary, #ffffff);
+  background-blend-mode: luminosity;
+
+  &::before {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    pointer-events: none;
+    mix-blend-mode: var(--cs-mode-image);
+    background: var(--cs-gradient-linear);
+  }
+
+  ion-item {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    h1,
+    span {
+      color: var(--cs-text-primary, #ffffff);;
+    }
+  }
+}

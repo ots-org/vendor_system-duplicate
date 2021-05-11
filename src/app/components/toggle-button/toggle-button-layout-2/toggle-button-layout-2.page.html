@@ -1,0 +1,26 @@
+<!--Themes Simple -->
+<ion-row>
+  <ion-col size="12">
+    <ion-list  lines="none">
+      <!-- Header-title -->
+      <ion-list-header>
+        <h1 class="text-size-xl ion-text-capitalize">
+          {{data.listTitle}}</h1>
+      </ion-list-header>
+      <!-- List -->
+      <ion-item *ngFor="let entry of data.items" >
+
+        <ion-label>
+          <h3 class="ion-float-start text-size-xs">
+            {{entry.title}}</h3>
+          <h3 class="ion-float-end ion-text-uppercase text-size-xs">
+            {{entry.subtitle}}</h3>
+        </ion-label>
+        <ion-toggle slot="start" [value]="entry.id"
+        (ionChange)="onItemClickFunc(entry)"
+        [checked]="entry.isChecked">
+        </ion-toggle>
+      </ion-item>
+    </ion-list>
+  </ion-col>
+</ion-row>

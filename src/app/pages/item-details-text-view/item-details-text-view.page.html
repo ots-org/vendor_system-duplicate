@@ -1,0 +1,87 @@
+<ion-app>
+  <!--- Header -->
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/"></ion-back-button>
+      </ion-buttons>
+      <ion-title>All</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <!--- Content text exapmles  --->
+  <ion-content class="ion-padding">
+    <ion-grid>
+      <ion-col size="12">
+        <ion-list>
+        <div class="title-components ion-text-uppercase ion-padding-bottom text-size-lg">Typography examples:</div>
+        <h1 class="text-size-xl">This is example of h1 title.</h1>
+        <h2 class="text-size-lg">And this is example of h2 title/subtitle.</h2>
+        <h3 class="text-size-md">Example of h3 subtitle is also here.</h3>
+        <h4 class="text-size-xs">And h4 subtitle example is here.</h4>
+        <h5 class="text-size-sm">h5 subtitle is like this!</h5>
+        <h6 class="text-size-sm">And h6 at the end usualy same as h6.</h6>
+        <p class="text-size-p">This is example of paragraph text.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco
+          laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+        <!--- SPAN EXAMPLES  --->
+        <div class="title-components ion-text-uppercase ion-padding-vertical text-size-lg ion-margin-bottom">SPAN EXAMPLES:</div>
+        <span class="block text-size-sm ion-margin-top">Span small</span>
+        <span class="span-small">Small span: $555, 31.12.2016., 4.84 (35 reviews)</span>
+
+        <span class="block text-size-sm ion-margin-top">Span medium</span>
+        <span class="span-medium">Medium span: $555, 31.12.2016.</span>
+
+        <span class="block text-size-sm ion-margin-top">Span large</span>
+        <span class="span-large">Large span: $555, 31.12.2016.</span>
+
+        <!--- BUTTON EXAMPLE  --->
+        <div class="title-components ion-text-uppercase ion-padding-vertical text-size-lg ion-margin-bottom">Button examples:</div>
+        <ion-row>
+          <ion-col size="12" size-md="6">
+            <ion-button class="default-button">
+              Default button
+            </ion-button>
+          </ion-col>
+          <ion-col size="12" size-md="6">
+            <ion-button class="button-icon" fill="clear">
+              <ion-icon class="icon-small "slot="start" name="star"></ion-icon>
+              Button with icon
+            </ion-button>
+          </ion-col>
+          <ion-col size="12" size-md="6">
+            <ion-button class="button-round" shape="round" fill="outline">
+              Outline button
+            </ion-button>
+            <div class="clearfix"></div>
+          </ion-col>
+          <ion-col size="12" size-md="6">
+            <ion-button class="clear-button" fill="clear">
+                Clear button
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <!--- ICON EXAMPLES  --->
+        <div class="title-components ion-text-uppercase ion-padding-vertical text-size-lg ion-margin-bottom">ICON EXAMPLES:</div>
+        <span class="block ion-padding-vertical text-size-sm">Small</span>
+        <i class="icon icon-thumb-up icon-small"></i>
+        <i class="icon icon-heart icon-small"></i>
+        <i class="icon icon-share-variant icon-small"></i>
+        <div class="clerfix"></div>
+        <span class="block ion-padding-vertical text-size-sm">Medium</span>
+        <i class="icon icon-thumb-up icon-medium"></i>
+        <i class="icon icon-heart icon-medium"></i>
+        <i class="icon icon-share-variant icon-medium"></i>
+        <div class="clerfix"></div>
+        <span class="block ion-padding-vertical text-size-sm">Large</span>
+        <i class="icon icon-thumb-up icon-large"></i>
+        <i class="icon icon-heart icon-large"></i>
+        <i class="icon icon-share-variant icon-large"></i>
+        </ion-list>
+
+      </ion-col>
+    </ion-grid>
+  </ion-content>
+  </ion-app>

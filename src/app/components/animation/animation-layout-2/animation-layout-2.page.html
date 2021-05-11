@@ -1,0 +1,53 @@
+<!-- ANIMATION--COMPONENT 2 -->
+<ion-grid class="ion-no-padding" *ngIf="data && data.items">
+  <ion-row>
+    <ion-col size="12">
+      <!--Add ClassName For Animation-->
+      <ion-list appAnimateItems className="fadeInLeft">
+        <!--Header-->
+        <ion-list-header class="background-size"
+        [ngStyle]="{'background-image': 'url(' + data.headerImage + ')'}"
+        *ngIf="data.headerImage != null">
+          <ion-item full lines="none" class="ion-no-padding">
+            <!-- Title and Subtitle -->
+            <ion-label>
+              <h1 class="text-size-xl ion-text-wrap">{{data.title}}</h1>
+              <h2 class="text-size-xs ion-no-margin ion-text-wrap">
+                {{data.description}}</h2>
+            </ion-label>
+            <div slot="end" class="ion-text-right">
+              <!--Header Button Price---->
+              <span class="span-medium">{{data.price}}</span>
+              <!--Header Button Procead---->
+              <ion-button class="button-round ion-margin-bottom" expand="full"
+              shape="round" fill="outline">
+                {{data.buttonText}}
+              </ion-button>
+            </div>
+          </ion-item>
+        </ion-list-header>
+          <!-- Content With Animatin-->
+          <ion-item lines="full" *ngFor="let item of data.items"
+          class="animation-normal opacity-0 ion-no-padding"
+          (click)="onItemClickFunc(item, $event)">
+            <!-- Avatar -->
+            <ion-thumbnail slot="start">
+              <img [src]="item.image">
+            </ion-thumbnail>
+            <ion-label class="ion-padding-end">
+              <h2 class="ion-text-wrap">
+                {{item.title}}</h2>
+              <h3 class="text-wrap ion-margin-bottom">
+                {{item.shipping}}</h3>
+              <div class="span-small text-right ion-margin-top">
+                {{item.oldPrice}}</div>
+              <div class="span-medium text-size-md ion-text-right">
+                {{item.newPrice}}</div>
+              <h3 class="text-size-sm ion-padding-left">
+                {{item.seller}}</h3>
+            </ion-label>
+          </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-grid>

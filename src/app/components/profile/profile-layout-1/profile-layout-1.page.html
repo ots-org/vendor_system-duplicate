@@ -1,0 +1,35 @@
+<!--Theme Profile - Profie With Avatar-->
+<ion-grid *ngIf="data != null">
+  <ion-col size="12">
+    <ion-card class="ion-padding ion-text-center">
+      <ion-avatar>
+        <img [src]="data.image" alt="">
+      </ion-avatar>
+      <ion-card-content>
+        <h1 class="text-size-lg">{{data.title}}</h1>
+        <p class="text-size-p">{{data.subtitle}}</p>
+      </ion-card-content>
+    </ion-card>
+    <h2 class="ion-text-center text-size-xl ion-text-uppercase">
+      {{data.category}}</h2>
+  </ion-col>
+  <ion-col size="12" class="ion-text-center" *ngFor="let item of data.items" (click)="onItemClickFunc(item, $event)">
+    <ion-card class="ion-padding">
+      <ion-card-content class="ion-text-center">
+        <span class="span-small">{{item.category}}</span>
+        <h2 class="text-size-xs ion-text-wrap ion-padding-top">
+          {{item.title}}</h2>
+      </ion-card-content>
+      <ion-button class="button-icon" (click)="onLikeFunc(item, $event)">
+        <ion-icon slot="start" [ngClass]="{'active' : item.like.isActive}" [name]="item.like.icon">
+        </ion-icon>
+        {{item.like.text}}
+      </ion-button>
+      <ion-button class="button-icon" (click)="onCommentFunc(item, $event)">
+        <ion-icon slot="start" [ngClass]="{'active' : item.comment.isActive}" [name]="item.comment.icon">
+        </ion-icon>
+        {{item.comment.number}} {{item.comment.text}}
+      </ion-button>
+    </ion-card>
+  </ion-col>
+</ion-grid>

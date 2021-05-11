@@ -1,0 +1,32 @@
+ion-grid,
+ion-row{
+  height: 100%;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes animationLogo {
+    0% {top: 30%; opacity: 0;}
+    100%{top: 50%;; opacity: 1;}
+}
+
+@keyframes animationLogo {
+  0% {top: 30%; opacity: 0;}
+  100%{top: 50%;; opacity: 1;}
+}
+
+.logo {
+  position: absolute;
+  display: block;
+  width: 80px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-animation: animationLogo 3s;
+  /* Safari 4+ */
+  -moz-animation: animationLogo 3s;
+  /* Fx 5+ */
+  -o-animation: animationLogo 3s;
+  /* Opera 12+ */
+  animation: animationLogo 3s;
+  animation-fill-mode: forwards;
+  /* IE 10+, Fx 29+ */
+}

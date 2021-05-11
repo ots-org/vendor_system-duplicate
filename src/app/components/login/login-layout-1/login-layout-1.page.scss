@@ -1,0 +1,26 @@
+:host {
+  --img-logo: 80px;
+}
+
+ion-grid,
+ion-row {
+  height: 100%;
+  background: var(--cs-background-primary, #fff);
+}
+
+ion-img {
+  width: var(--img-logo);
+  text-align: center;
+  margin: 0 auto;
+}
+
+ion-item {
+  ion-input {
+    --padding-end: 8px;
+  }
+ ion-icon {
+   position: absolute;
+   right: 0;
+   bottom: 8px
+  }
+}

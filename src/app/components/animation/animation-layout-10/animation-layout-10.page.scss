@@ -1,0 +1,37 @@
+/* Style component 10
+========================================================*/
+.background-size {
+  height: 40vh;
+  position: relative;
+  background-color: var(--cs-blandModes-secondary, #ffffff);
+  background-blend-mode: luminosity;
+
+  &::before {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    pointer-events: none;
+    mix-blend-mode: var(--cs-mode-image);
+    background: var(--cs-gradient-linear);
+  }
+
+  .icon-small {
+    color: var(--cs-icon-color-secondary, #ffffff) !important;
+    position: relative;
+    z-index: 999;
+  }
+  /* Parallax Title
+   =============================================*/
+  h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 9999;
+    color: var(--cs-text-primary, #ffffff);
+    transform: translate(-50%, -50%);
+  }
+}

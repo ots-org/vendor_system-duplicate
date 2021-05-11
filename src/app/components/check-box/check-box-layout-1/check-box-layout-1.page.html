@@ -1,0 +1,13 @@
+<!-- CHECK BOX --COMPONENT 1 -->
+<ion-grid class="ion-no-padding">
+  <ion-row>
+    <ion-col size="12">
+      <ion-list lines="none">
+        <ion-item *ngFor="let entry of data" (click)="onItemClickFunc(entry)">
+          <ion-label class="text-size-xs">{{entry.title}}</ion-label>
+          <ion-checkbox slot="start" [(ngModel)]="entry.isChecked"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-grid>

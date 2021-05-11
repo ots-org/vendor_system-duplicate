@@ -1,0 +1,51 @@
+/* Style component 2
+=========================================*/
+ion-grid,
+ion-row,
+ion-col {
+  height: 100%;
+  overflow: hidden;
+
+  ion-slides {
+    height: calc(100% - 95px);
+    overflow: visible;
+    position: relative;
+
+    .background-size {
+      height: 100%;
+      width: 100%;
+      position: relative;
+      background-color: var(--cs-blandModes-secondary, #ffffff);
+      background-blend-mode: luminosity;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+
+       &::before {
+         content: "";
+         display: block;
+         height: 100%;
+         width: 100%;
+         top: 0;
+         left: 0;
+         position: absolute;
+         pointer-events: none;
+         mix-blend-mode: var(--cs-mode-image);
+         background: var(--cs-gradient-linear);
+       }
+
+      h1 {
+        color: var(--cs-text-primary, #ffffff);
+        z-index: 999;
+        position: relative;
+      }
+    }
+  }
+}
+
+ .button-navigation {
+   background-color: var(--cs-background-accent, #0090d0);
+ }
+.default-button {
+  margin-top: 50px;
+}

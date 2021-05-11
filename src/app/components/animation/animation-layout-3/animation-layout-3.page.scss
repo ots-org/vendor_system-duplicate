@@ -1,0 +1,21 @@
+/* Style component 3
+========================================================*/
+ion-item {
+  ion-thumbnail {
+    width: 140px;
+    height: 200px;
+    margin: 0 10px 0 0;
+    --border-radius: 4px;
+  }
+
+  ion-card-content {
+    height: 100%;
+    position: relative;
+
+    .social-share {
+      position: absolute;
+      bottom: 0;
+      right: 10px;
+    }
+  }
+}

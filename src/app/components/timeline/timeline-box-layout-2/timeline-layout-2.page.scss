@@ -1,0 +1,44 @@
+/*  #Style Time Line -- Timeline With Avatar
+===========================================*/
+:host{
+  --size-ion-thumbnail: 120px !important;
+}
+
+ion-thumbnail {
+  margin: 8px;
+  height: var(--size-ion-thumbnail);
+  width: var(--size-ion-thumbnail);
+}
+
+.item-thumbnail {
+  overflow: visible;
+  position: relative;
+
+  &:after {
+    content: "";
+    width: 2px;
+    top: 15px;
+    left: -21px;
+    bottom: -22px;
+    position: absolute;
+    background-color: var(--cs-background-secondary, #f7f7f7);
+  }
+
+  &:before {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--cs-background-accent, #0090d0);
+    top: 5px;
+    left: -27px;
+    position: absolute;
+    z-index: 999;
+}
+}
+
+ion-col > .item-thumbnail:last-child {
+    &:after {
+    display: none;
+    }
+}

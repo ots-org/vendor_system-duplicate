@@ -1,0 +1,36 @@
+ion-slides {
+  height: 40vh;
+  // Settings Background
+  .background-size {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: var(--cs-blandModes-secondary, #ffffff);
+    background-blend-mode: luminosity;
+
+     &::before {
+       content: "";
+       display: block;
+       height: 100%;
+       width: 100%;
+       top: 0;
+       left: 0;
+       position: absolute;
+       pointer-events: none;
+       mix-blend-mode: var(--cs-mode-image);
+       background: var(--cs-gradient-linear);
+     }
+     // Card Settings
+     ion-card {
+       width: 320px;
+       margin: 0 auto;
+
+       // Settings Text
+       h1, h2 {
+         color: var(--cs-text-primary, #ffffff);
+         z-index: 999;
+         position: relative;
+       }
+     }
+  }
+}

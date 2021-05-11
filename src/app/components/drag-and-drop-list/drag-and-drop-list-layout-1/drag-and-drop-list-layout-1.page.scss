@@ -1,0 +1,20 @@
+/* Style component 1
+========================================================*/
+
+ion-list-header {
+  --background: var(--cs-background-accent, #0090d0);
+
+  ion-item {
+    width: 100%;
+
+    .text-size-xl,
+    .text-size-xs {
+      color: var(--cs-text-primary, #ffffff);
+    }
+  }
+
+  .icon-medium,
+  .span-medium {
+    color: var(--cs-icon-color-primary, #00c0e8);
+  }
+}

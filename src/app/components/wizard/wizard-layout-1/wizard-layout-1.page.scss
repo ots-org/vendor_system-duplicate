@@ -1,0 +1,54 @@
+/* Settings Wizard
+===========================================*/
+
+ion-grid {
+  height: 100%;
+
+  ion-slides {
+    height: 100%;
+    width: 100%;
+    position: relative;
+
+    &::before {
+      content: "";
+      display: block;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      position: absolute;
+      pointer-events: none;
+      mix-blend-mode: var(--cs-mode-image);
+      background: var(--cs-gradient-linear);
+    }
+    /* Settings Color And Font Size
+  ===========================================*/
+    ion-card {
+      padding: 0 25px;
+      width: 100%;
+
+      .text-size-lg,
+      .text-size-xs {
+        color: var(--cs-text-primary, #ffffff);
+      }
+    }
+  }
+
+  .button-navigation {
+    margin-top: -60px;
+    margin-left: 20px;
+    margin-right: 30px;
+
+    ion-button {
+      --color: var(--cs-text-primary, #ffffff) !important;
+      z-index: 9;
+      padding: 10px 15px;
+      position: relative;
+      text-transform: uppercase;
+      --background-hover: transparent !important;
+      --color-hover: var(--cs-text-primary, #ffffff) !important;
+      --color-activated: var(--cs-text-primary, #ffffff) !important;
+      --color-focused: var(--cs-text-primary, #ffffff) !important;
+    }
+  }
+}

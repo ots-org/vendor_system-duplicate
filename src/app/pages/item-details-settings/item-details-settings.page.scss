@@ -1,0 +1,17 @@
+.settings-page {
+  .button-round {
+    height: auto;
+    --padding-top: 5px !important;
+    --padding-bottom: 7px !important;
+
+    h2 {
+      font-size: 12px;
+      font-weight: 800 !important;
+    }
+    span {
+    color: #b2b2b2;
+    letter-spacing: 0;
+    font-weight: 100;
+    }
+  }
+}

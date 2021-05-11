@@ -1,0 +1,69 @@
+<!-- Theme Segment - Segment List -->
+<ion-page class="ion-page" *ngIf="viewEntered">
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="data != null" class="ion-text-capitalize">
+      {{data.toolbarTitle}}</ion-title>
+  </ion-toolbar>
+  <!--Segment Section -->
+  <ion-toolbar class="ion-no-padding" *ngIf="data != null">
+    <ion-segment scrollable [(ngModel)]="selectedItem">
+      <ion-segment-button class="ion-text-capitalize" value="Page1">
+        <ion-label>{{data.segmentButton1}}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button class="ion-text-capitalize" value="Page2">
+        <ion-label>{{data.segmentButton2}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Content-->
+<ion-content>
+  <ion-grid class="ion-no-padding" *ngIf="data != null">
+    <!--- SETTINGS PAGE1 SCREEN -->
+    <ion-row *ngIf="isEnabled('Page1') && data.page1 != null">
+      <ion-col size="12">
+        <!-- Header Image -->
+        <div class="background-size"
+        [ngStyle]="{'background-image': 'url(' + data.page1.background + ')'}"></div>
+        <ion-item lines="none"  *ngFor="let item of data.page1.items"
+          (click)="onItemClickFunc(item, $event)">
+          <ion-avatar slot="start">
+            <img [src]="item.image" alt="">
+          </ion-avatar>
+          <ion-label>
+            <h2 class="text-size-xs">{{item.title}}</h2>
+            <h3 class="text-size-sm">{{item.category}}</h3>
+          </ion-label>
+          <span slot="end" class="span-small">{{item.price}}</span>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <!--- SETTINGS PAGE2 SCREEN -->
+    <ion-row *ngIf="isEnabled('Page2') && data.page2 != null">
+      <ion-col size="12">
+        <!-- Header Image -->
+        <div class="background-size"
+        [ngStyle]="{'background-image': 'url(' + data.page2.background + ')'}"></div>
+        <ion-item lines="none"  *ngFor="let item of data.page2.items"
+          (click)="onItemClickFunc(item, $event)">
+          <ion-avatar slot="start">
+            <img [src]="item.image" alt="">
+          </ion-avatar>
+          <ion-label>
+            <h2 class="text-size-xs">{{item.title}}</h2>
+            <h3 class="text-size-sm">{{item.category}}</h3>
+          </ion-label>
+          <span slot="end" class="span-small">{{item.price}}</span>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>
+</ion-page>

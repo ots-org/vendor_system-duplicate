@@ -1,0 +1,13 @@
+/*  #GMAPS + Location  Details
+================================================*/
+  .sebm-google-map-container {
+    height: 250px;
+}
+
+ion-card {
+  --background: var(--cs-background-primary, #ffffff);
+
+  .icon-medium {
+    display: inline-block !important;
+  }
+}
