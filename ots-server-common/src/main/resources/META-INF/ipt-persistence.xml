@@ -10,12 +10,43 @@
     <validation-mode>AUTO</validation-mode>
 
     <!-- IPT ENTITY CLASSES -->
-    
-    <class>com.fuso.enterprise.ots.srv.server.model.entity.Users</class>
-    
-    <!---OTS ORM FILES -->
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUsers</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRegistration</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUserRole</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsUserMapping</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsCustomerProduct</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProduct</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductStock</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductStockHistory</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsBill</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsOrder</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsOrderProduct</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsStockDistOb</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsLatLon</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsCustomerOutstanding</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRequestOrder</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsScheduler</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionOrderHistory</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionOrder</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionOrderroledetails</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSubscriptionRoleMapping</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductCategoryMapping</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductLevel</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsAirtable</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsDonationRequestMapping</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsDonation</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRequestProduct</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsOrderrequestMapping</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsProductWishlist</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsCart</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsRatingReview</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsNotifyCustomer</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSeller</class>
+	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsSellerProductMapping</class>
+ 	<class>com.fuso.enterprise.ots.srv.server.model.entity.OtsOrderLastdeliverddetails</class>
+   <!---OTS ORM FILES -->
 
-   
+	<mapping-file>META-INF/ipt-sample-orm.xml</mapping-file>
 	
   </persistence-unit>
 

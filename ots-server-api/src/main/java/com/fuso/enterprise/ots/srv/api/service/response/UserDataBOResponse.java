@@ -6,14 +6,16 @@ import com.fuso.enterprise.ots.srv.api.model.domain.UserDetails;
 
 public class UserDataBOResponse {
 	
-	List<UserDetails> userdetails;
+	List<UserDetails> userDetails;
 
-	public List<UserDetails> getUserdetails() {
-		return userdetails;
+	public List<UserDetails> getUserDetails() {
+		return userDetails;
 	}
 
-	public void setUserdetails(List<UserDetails> userdetails) {
-		this.userdetails = userdetails;
+	public void setUserDetails(List<UserDetails> userDetails) {
+		this.userDetails = userDetails;
 	}
+
+	
 	
 }
