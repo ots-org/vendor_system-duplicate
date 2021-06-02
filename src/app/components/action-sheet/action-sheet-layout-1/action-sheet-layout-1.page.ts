@@ -21,21 +21,21 @@ export class ActionSheetLayout1Page implements OnChanges {
     this.data = changes['data'].currentValue;
   }
 
-  onItemClickFunc(item): void {
+  onItemClickFunc(item,event): void {
     if (event) {
       event.stopPropagation();
     }
     this.onItemClick.emit(item);
   }
 
-  onProceedFunc(item): void {
+  onProceedFunc(item,event): void {
     if (event) {
       event.stopPropagation();
     }
     this.onProceed.emit(item);
   }
 
-  async presentActionSheet(item) {
+  async presentActionSheet(item,event) {
     if (event) {
       event.stopPropagation();
     }

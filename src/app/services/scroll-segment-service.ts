@@ -631,9 +631,9 @@ export class ScrollSegmentService implements IService {
     return {
       'toolbarTitle': 'Scroll Segment Icon With Text Bottom',
       "segmentHeader": [
-        { "text": "Profile", "icon": "person-circle" },
+        { "text": "ProductList", "icon": "reader" },
         { "text": "Commnets", "icon": "chatbox-ellipses" },
-        { "text": "Review", "icon": "reader" }
+        { "text": "Profile", "icon": "person-circle" }
       ],
       // Data Page 1
       "page1": {

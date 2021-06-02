@@ -34,8 +34,11 @@ import { environment } from '../environments/environment';
   entryComponents: [],
   imports: [
     AngularFireModule.initializeApp(AppSettings.FIREBASE_CONFIG),
-    AngularFireDatabaseModule, AngularFireAuthModule,
-    BrowserModule, HttpModule, HttpClientModule,
+    AngularFireDatabaseModule, 
+    AngularFireAuthModule,
+    BrowserModule, 
+    HttpModule, 
+    HttpClientModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     SuperTabsModule.forRoot(),
@@ -43,8 +46,11 @@ import { environment } from '../environments/environment';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
-    StatusBar, BarcodeScanner,
-    SplashScreen, ToastService, LoadingService,
+    StatusBar, 
+    BarcodeScanner,
+    SplashScreen, 
+    ToastService, 
+    LoadingService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],

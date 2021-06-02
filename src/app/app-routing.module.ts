@@ -163,7 +163,12 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./pages/item-details-settings/item-details-settings.module').then(m => m.ItemDetailsSettingsPageModule)
+  },
+  {
+    path: 'hometest',
+    loadChildren: () => import('./pages/hometest/hometest.module').then( m => m.HomeTestPageModule)
   }
+
 ];
 
 @NgModule({

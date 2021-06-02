@@ -303,7 +303,7 @@ export class MenuService implements IService {
     return {
       'background': 'assets/imgs/background/16.jpg',
       'image': 'assets/imgs/logo/login-3.png',
-      'title': 'Ionic UI - Billy Theme'
+      'title': 'E-taarana'
     };
   }
 

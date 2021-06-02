@@ -10,7 +10,7 @@ export class ScrollSegmentLayout4Page implements OnChanges, AfterViewInit {
   @Output() onItemClick = new EventEmitter();
   @Output() onFollowClick = new EventEmitter();
   @Output() onMessageClick = new EventEmitter();
-
+  @Output() onCategoryClick = new EventEmitter();
   viewEntered = false;
 
   constructor() { }
@@ -25,24 +25,31 @@ export class ScrollSegmentLayout4Page implements OnChanges, AfterViewInit {
     }
   }
 
-  onItemClickFunc(item): void {
+  onItemClickFunc(item,event): void {
     if (event) {
       event.stopPropagation();
     }
     this.onItemClick.emit(item);
   }
 
-  onFollowFunc() {
+  onFollowFunc(event) {
     if (event) {
       event.stopPropagation();
     }
     this.onFollowClick.emit();
   }
 
-  onMessageFunc() {
+  onMessageFunc(event) {
     if (event) {
       event.stopPropagation();
     }
     this.onMessageClick.emit();
+  }
+
+  onCategoryClickFun(item, event){
+    if (event) {
+      event.stopPropagation();
+    }
+      this.onCategoryClick.emit(item);
   }
 }
