@@ -1,0 +1,47 @@
+
+<ion-content scrollEvents="true" parallax-header *ngIf="data != null">
+  <div class="background-size header-image"
+    [ngStyle]="{'background-image': 'url(' + data.headerImage + ')'}">
+  </div>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col size="12">
+        <ion-item lines="none">
+          <ion-label class="ion-text-center">
+            <div class="rates" *ngFor="let item of data.iconsStars;let i = index"
+              (click)="onRatesFunc(data.iconsStars, i, $event)">
+              <i *ngIf="item.isActive" class="icon {{item.iconActive}} icon-medium"></i>
+              <i *ngIf="!item.isActive" class="icon {{item.iconInactive}} icon-medium"></i>
+            </div>
+            <div class="clearfix"></div>
+            <div class="span-small ion-text-center ion-margin-bottom">{{data.reviews}}</div>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label class="ion-text-wrap" slot="start">
+            <h1 class="text-size-xl">{{data.title}}</h1>
+          </ion-label>
+          <i slot="end" class="icon {{data.iconLike}} icon-small"
+          (click)="onLikeFunc(data, $event)"></i>
+          <i slot="end" class="icon {{data.iconFavorite}} icon-small"
+          (click)="onFavoriteFunc(data, $event)"></i>
+          <i slot="end" class="icon {{data.iconShare}} icon-small"
+          (click)="onShareFunc(data, $event)"></i>
+        </ion-item>
+        <!--Info-->
+        <div class="ion-padding-start" *ngFor="let item of data.items;let i = index"
+        (click)="onItemClickFunc(item, $event)">
+          <span class="span-small font-bold">{{item.name}}</span>
+          <span class="span-small">{{item.value}}</span>
+        </div>
+        <!-- Description-->
+        <div class="ion-text-wrap ion-padding-start">
+          <p class="text-size-p">{{data.description}}</p>
+          <p class="text-size-p">{{data.description3}}</p>
+          <p class="text-size-p">{{data.description2}}</p>
+          <p class="text-size-p">{{data.description4}}</p>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,35 @@
+<!--- Theme Parallax Basic -->
+<!--- Header Big Image-->
+<ion-content scrollEvents="true" parallax-header *ngIf="data != null">
+    <div class="header-image background-size"
+        [ngStyle]="{'background-image': 'url(' + data.headerImage + ')'}">
+        <!--- Header Avatar -->
+        <ion-avatar *ngIf="data != null">
+            <img [src]="data.avatar" />
+        </ion-avatar>
+    </div>
+    <!-- Content -->
+    <ion-grid class="ion-no-padding" *ngIf="data != null">
+      <ion-row>
+        <ion-col size="12">
+          <ion-list class="ion-no-margin "lines="none">
+            <ion-item  *ngFor="let item of data.items"
+              (click)="onItemClickFunc(item, $event)">
+                <!-- Content Avatar -->
+                <ion-avatar slot="start">
+                  <img [src]="item.image">
+                </ion-avatar>
+                <!-- Content Title -->
+                <ion-label>
+                  <h2 class="text-size-xs">{{item.title}}</h2>
+                </ion-label>
+                <!-- Content Icon -->
+                <i slot="end" class="icon icon-small"
+                  (click)="onFavoriteFunc(item, $event)"
+                  [ngClass]="{'icon-heart': item.favorite, 'icon-heart-outline': !item.favorite}"></i>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+</ion-content>

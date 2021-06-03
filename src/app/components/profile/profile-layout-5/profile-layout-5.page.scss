@@ -1,0 +1,23 @@
+:host{
+  --cs-size-avatar: 120px;
+}
+
+/* Settings Card
+=========================================*/
+ion-card {
+  ion-avatar {
+    width: var(--cs-size-avatar) !important;
+    height: var(--cs-size-avatar) !important;
+    margin: 15px auto 20px;
+    border: 2px solid var(--cs-background-primary, #ffffff);
+  }
+}
+
+/* Social Share
+=========================================*/
+.social-share {
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}

@@ -1,0 +1,109 @@
+<!-- Theme Segment - Segment List -->
+<ion-page class="ion-page" *ngIf="viewEntered">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title *ngIf="data != null" class="ion-text-capitalize">
+        {{data.toolbarTitle}}</ion-title>
+    </ion-toolbar>
+    <div  class="start items_container">
+      <h2>Categories</h2>
+      <div class="items_row">
+        <div class="item" (click)="onCategoryClickFun(item, $event)" *ngFor="let item of data.category">
+          <ion-img style="height: 147px" [src]="item.image" >
+          </ion-img>
+          <div class="item_details">
+            <h3>{{item.productName}}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-header>
+
+  <!-- Content-->
+  <ion-content>
+    <super-tabs>
+      <super-tabs-toolbar slot="bottom" >
+        <super-tab-button *ngFor="let item of data.segmentHeader;">
+          <ion-icon class="icon-small" [name]="item.icon"></ion-icon>
+          <ion-label class="ion-text-capitalize">{{item.text}}</ion-label>
+        </super-tab-button>
+      </super-tabs-toolbar>
+      <super-tabs-container>
+
+        <super-tab style="position: fixed;">
+          
+          <!--- SETTINGS PAGE1 SCREEN -->
+          <ion-grid  >
+            <h2>Product List</h2>
+            <ion-row class="border-radius">
+              <ion-col class="box-shadow  ion-grid-column-padding card-header-image" size="6"  *ngFor="let item of data.page2.items">
+              <ion-img style="height:147px" [src]="item.image" >
+              </ion-img>
+                <span  class="text-size-xs font-regular ">
+                  {{item.productName | slice:0:20 }}</span>
+                  
+                   <ion-button class="button-round ion-margin-top" (click)="onItemClickFunc(item, $event)"
+                      fill="outline" shape="round" >{{data.button}}
+                    </ion-button>
+
+              </ion-col>
+             
+            </ion-row>
+          </ion-grid>
+          <ion-grid class="page1" *ngIf="data != null && data.page1 != null">
+            <ion-row>
+              <ion-col size="12">
+                <!-- List -->
+                <ion-list lines="none">
+                  <!-- List header -->
+                  <ion-list-header class="ion-padding-start ion-padding-bottom">
+                    <span class="text-size-xs font-regular ion-text-capitalize">{{data.page2.allComments}}</span>
+                  </ion-list-header>
+                  <ion-item class="ion-margin border-radius box-shadow" lines="none" *ngFor="let item of data.page2.items" (click)="onItemClickFunc(item, $event)">
+                    <!-- Avatar -->
+                    <ion-avatar slot="start">
+                      <img [src]="item.image">
+                    </ion-avatar>
+                    <ion-label>
+                      <div class="title-section">
+                        <!-- Avatar title -->
+                        <!-- <h3 class="text-size-md font-bold">
+                          {{item.name}}</h3> -->
+                        <!-- Time -->
+                        
+                      </div>
+                      <div class="icon-star-section ion-padding-bottom">
+                        <span class="text-size-xs font-regular">
+                          {{item.productName}}</span>
+                        <!-- Icon Rating Star -->
+                        <ion-icon class="icon-small" *ngFor="let item of item.iconsStars;let i = index" slot="start" [name]="item.icon"></ion-icon>
+                      </div>
+                      <!-- Description -->
+                      <h3 class="text-size-xs font-regular ion-text-wrap">
+                        {{item.description}}
+                      </h3>
+                      <!-- Button like -->
+                      <ion-button class="button-icon ion-text-capitalize">
+                        <ion-icon class="icon-small" slot="start" [name]="item.iconLike"></ion-icon>
+                        {{item.buttonLike}}
+                      </ion-button>
+                      <!-- Button dislike -->
+                      <ion-button class="button-icon ion-text-capitalize">
+                        <ion-icon class="icon-small" slot="start" [name]="item.iconDislike"></ion-icon>
+                        {{item.buttonDislike}}
+                      </ion-button>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </super-tab>
+
+      </super-tabs-container>
+    </super-tabs>
+  </ion-content>
+</ion-page>

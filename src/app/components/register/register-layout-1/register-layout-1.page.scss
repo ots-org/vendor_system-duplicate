@@ -1,0 +1,29 @@
+:host{
+  --img-logo: 50px;
+  --color-text: var(--cs-text-secondary, #0090d0)
+}
+
+ion-grid,
+ion-row {
+  height: 100%;
+  background: var(--cs-background-primary, #fff);
+}
+
+h1 {
+  color: var(--color-text, var(--cs-text-secondary, #0090d0));
+}
+
+ion-img {
+  width: var(--img-logo);
+}
+
+ion-item {
+  ion-input {
+    --padding-end: 8px;
+  }
+ ion-icon {
+   position: absolute;
+   right: 0;
+   bottom: 8px
+  }
+}

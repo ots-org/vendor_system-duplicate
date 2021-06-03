@@ -1,0 +1,34 @@
+/*  # Style Time Line -- Timeline With Cards
+===========================================*/
+ion-card {
+    overflow: visible;
+    position: relative;
+
+    &:after {
+      content: "";
+      width: 2px;
+      top: 15px;
+      left: -30px;
+      bottom: -30px;
+      position: absolute;
+      background-color: var(--cs-background-secondary, #f7f7f7);
+    }
+
+    &:before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--cs-background-accent, #0090d0);
+      top: 15px;
+      left: -36px;
+      position: absolute;
+      z-index: 999;
+  }
+}
+
+ion-col > ion-card:last-child {
+    &:after {
+    display: none;
+    }
+}

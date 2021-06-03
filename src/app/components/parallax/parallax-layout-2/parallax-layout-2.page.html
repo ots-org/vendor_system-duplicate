@@ -1,0 +1,49 @@
+<!--- Theme Parallax Product -->
+<!--- Header Big Image -->
+<ion-content scrollEvents="true" parallax-header *ngIf="data != null">
+  <div class="header-image ion-padding background-size"
+  [ngStyle]="{'background-image': 'url(' + data.headerImage + ')'}">
+    <div class="text-block">
+      <div class="ion-float-start">
+        <!--- Parallax Subtitle -->
+        <h2 class="text-size-xs ion-no-margin" *ngIf="data != null">
+          {{data.title}}</h2>
+        <!--- Parallax Title -->
+        <h1 class="text-size-xl ion-no-margin" *ngIf="data != null">
+          {{data.description}}</h1>
+      </div>
+      <!--- Social icon -->
+      <div class="ion-padding-top ion-float-end" *ngIf="data != null">
+        <i class="icon {{data.iconLike}} icon-small"
+        (click)="onLikeFunc(data, $event)"></i>
+        <i class="icon {{data.iconFavorite}} icon-small"
+        (click)="onFavoriteFunc(data, $event)"></i>
+        <i class="icon {{data.iconShare}} icon-small"
+        (click)="onShareFunc(data, $event)"></i>
+      </div>
+    </div>
+  </div>
+  <!--Content-->
+  <ion-grid class="ion-no-padding" *ngIf="data != null">
+    <ion-row>
+      <ion-col size="12">
+        <ion-list class="ion-no-margin" lines="none">
+          <ion-item  *ngFor="let item of data.items;let i = index"
+          (click)="onItemClickFunc(item, $event)">
+            <!--Content Avatar-->
+            <ion-avatar slot="start">
+              <img [src]="item.image">
+            </ion-avatar>
+            <!--Title and Subtitle -->
+            <ion-label>
+              <h2 class="text-size-lg">
+                {{item.title}}</h2>
+              <h3 class="text-size-sm ion-text-wrap">
+                {{item.description}}</h3>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

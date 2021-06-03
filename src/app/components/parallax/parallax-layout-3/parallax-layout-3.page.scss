@@ -1,0 +1,34 @@
+:host {
+  --img-size: 120px;
+}
+
+/* Parallax Basic
+========================================*/
+.background-size {
+  height: 40vh;
+  position: relative;
+  background-color: var(--cs-blandModes-secondary, #ffffff);
+  background-blend-mode: luminosity;
+
+   &::before {
+     content: "";
+     display: block;
+     height: 100%;
+     width: 100%;
+     top: 0;
+     left: 0;
+     position: absolute;
+     pointer-events: none;
+     mix-blend-mode: var(--cs-mode-image);
+     background: var(--cs-gradient-linear);
+   }
+
+   ion-avatar {
+     position: absolute;
+     left: 50%;
+     width: var(--img-size, 120px);
+     height: var(--img-size, 120px);
+     top: 50%;
+     transform: translate(-50%, -50%);
+   }
+}

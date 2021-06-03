@@ -1,0 +1,18 @@
+<!-- ANIMATION --COMPONENT 7 -->
+<ion-grid class="ion-no-padding" *ngIf="data != null">
+  <ion-row>
+    <ion-col size="12">
+      <ion-list lines="none" appAnimateItems className="bounceInRight">
+        <ion-item *ngFor="let entry of data;" class="animation-normal opacity-0"
+        (click)="onItemClickFunc(entry)">
+          <!-- Avatar Image -->
+          <ion-avatar slot="start">
+            <img [src]="entry.image">
+          </ion-avatar>
+          <!-- Avatar Title -->
+          <ion-label class="text-size-xs">{{entry.title}}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-grid>

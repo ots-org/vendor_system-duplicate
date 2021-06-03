@@ -1,0 +1,26 @@
+ion-button {
+  .active {
+    color: var(--cs-icon-color-primary, #00c0e8) !important;
+  }
+}
+
+ion-slides {
+  overflow: visible;
+
+  ion-card {
+    width: 100%;
+  }
+}
+
+ion-avatar {
+  height: 120px !important;
+  width: 120px !important;
+  margin: 0 auto !important;
+}
+
+.social-share {
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}

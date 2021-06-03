@@ -1,0 +1,30 @@
+/* Style component 2
+========================================================*/
+ion-grid {
+  height: 100%;
+
+  ion-row {
+    height: 100%;
+  }
+}
+
+.icon-rating {
+  display: flex;
+  justify-content: center;
+}
+
+.textarea {
+  min-height: 280px;
+  height: calc(100% - 250px);
+
+  ion-item {
+    height: calc(100% - 30px);
+    width: 100% !important;
+    display: -webkit-inline-box;
+
+    ion-textarea {
+      height: calc(100% - 50px);
+      width: 100% !important;
+    }
+  }
+}

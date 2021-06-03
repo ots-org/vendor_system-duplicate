@@ -1,0 +1,36 @@
+<!-- ANIMATION --COMPONENT 4 -->
+<ion-grid class="ion-no-padding" *ngIf="data && data.items">
+  <ion-row appAnimateItems className="zoomIn">
+    <ion-col size="12" size-md="6" *ngFor="let item of data.items"
+    class="animation-normal opacity-0">
+      <ion-card class="ion-text-start box-shadow ion-padding-bottom"
+      (click)="onItemClickFunc(item, $event)">
+        <div class="card-header-image">
+          <!--Card image-->
+          <ion-img class="images-filter" [src]="item.image"></ion-img>
+          <!--Card title-->
+          <h2 class="title-card text-size-xs">{{item.titleHeader}}</h2>
+        </div>
+        <!--Card content-->
+        <ion-card-content class="transparent">
+          <!--Card subtitle-->
+          <ion-card-title class="ion-padding-top">
+            <h1 class="text-size-sm">{{item.title}}</h1>
+          </ion-card-title>
+          <!--Card description-->
+          <p class="text-size-p ion-padding-top">{{item.description}}</p>
+        </ion-card-content>
+        <!--Button share-->
+        <ion-button shape="round" class="button-round" fill="outline"
+        (click)="onShareFunc(item, $event)">
+          {{item.shareButton}}
+        </ion-button>
+        <!--Button explore-->
+        <ion-button shape="round" class="button-round" fill="outline"
+        (click)="onExploreFunc(item, $event)">
+          {{item.button}}
+        </ion-button>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>

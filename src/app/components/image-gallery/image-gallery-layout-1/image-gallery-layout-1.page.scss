@@ -1,0 +1,20 @@
+ion-card {
+  height: 150px;
+  border-radius: 0;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  ion-card-content {
+    padding-top: 0;
+    padding-bottom: 0;
+    position: relative;
+    width: 100%;
+    background: rgba(36, 36, 36, 0.40);
+
+    h2,
+    h3,
+    .icon-small {
+      color: var(--cs-text-primary, #ffffff);
+    }
+  }
+}

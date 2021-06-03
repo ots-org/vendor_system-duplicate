@@ -1,0 +1,28 @@
+.card-image {
+  position: relative;
+
+  &::before {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    pointer-events: none;
+    mix-blend-mode: var(--cs-mode-image);
+    background: var(--cs-gradient-linear);
+    z-index: 5;
+  }
+
+  img {
+      width: 100% !important;
+  }
+  h2 {
+      position: absolute;
+      left: 16px;
+      bottom: 20px;
+      z-index: 999;
+      color: var(--cs-text-primary, #ffffff);
+  }
+}

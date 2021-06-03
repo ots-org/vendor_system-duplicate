@@ -1,0 +1,77 @@
+/* Style component 1
+========================================================*/
+
+:host{
+  --size-ion-thumbnail: 160px !important;
+  --size-ion-small-thumbnail: 120px !important;
+}
+/* Settings Header */
+
+.collapsible-header {
+  ion-thumbnail {
+    height: var(--size-ion-thumbnail);
+    width: var(--size-ion-thumbnail);
+  }
+
+  ion-label {
+    margin: 8px;
+    position: absolute;
+    top: 0;
+  }
+
+  .icon-small {
+    color: var(--cs-text-secondary);
+  }
+
+  .social-share {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+  }
+}
+/* Settings Accordion "OPEN" */
+
+.item-accordion {
+  -moz-transition: all 400ms;
+  -ms-transition: all 400ms;
+  -o-transition: all 400ms;
+  -webkit-transition: all 400ms;
+  transition: all 400ms;
+  max-height: 0;
+  display: block !important;
+  overflow: hidden;
+  background: var(--cs-gradient-linear);
+
+  ion-item {
+    ion-thumbnail {
+      --border-radius: 4px;
+      height: var(--size-ion-small-thumbnail);
+      width: var(--size-ion-small-thumbnail);
+      margin: 8px 8px 8px 0;
+    }
+
+    .icon-medium,
+    .text-size-sm,
+    .text-size-xs {
+      color: var(--cs-text-primary);
+    }
+  }
+
+  ion-item:last-child {
+    padding-bottom: 8px;
+  }
+
+  ion-item:first-child {
+    padding-top: 8px;
+  }
+
+  &.active {
+    -moz-transition: all 400ms;
+    -ms-transition: all 400ms;
+    -o-transition: all 400ms;
+    -webkit-transition: all 400ms;
+    transition: all 400ms;
+    overflow: visible;
+    max-height: 999px;
+  }
+}

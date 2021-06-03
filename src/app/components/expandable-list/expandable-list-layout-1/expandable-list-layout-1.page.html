@@ -1,0 +1,62 @@
+<!-- EXPANDABLE --COMPONENT 1 -->
+<ion-grid class="ion-no-padding">
+  <ion-row *ngIf="data != null">
+    <ion-col size="12">
+      <!-- Header List Big Image -->
+      <ion-list class="ion-no-margin">
+        <ul class="collapsible ion-no-margin ion-no-padding">
+          <li *ngFor="let group of data.items;">
+            <!-- List big image Header -->
+            <div class="collapsible-header ion-no-padding"
+            (click)="toggleGroup(group)">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-thumbnail class="ion-no-margin" slot="start">
+                  <ion-img [src]="group.image" [alt]="group.title"></ion-img>
+                </ion-thumbnail>
+                <ion-label>
+                  <h2 class="text-size-xs ion-text-nowrap">
+                    {{group.title}}</h2>
+                  <h3 class="text-size-sm ion-text-nowrap">
+                    {{group.description}}</h3>
+                </ion-label>
+                <!--SOCIAL SHARE -->
+                <div class="social-share">
+                  <i class="icon {{group.iconLike}} icon-small"
+                  (click)="onLikeFunc(group, $event)"></i>
+                  <i class="icon {{group.iconFavorite}} icon-small"
+                  (click)="onFavoriteFunc(group, $event)"></i>
+                  <i class="icon {{group.iconShare}} icon-small"
+                  (click)="onShareFunc(group, $event)"></i>
+                </div>
+              </ion-item>
+            </div><!-- End List big image Header -->
+            <!-- LIST OPEN ACCORDIAN BODY  -->
+            <div class="item-accordion" [ngClass]="{'active': group.show }"
+            [hidden]="!group.show">
+              <ion-item lines="none" class="transparent"
+                *ngFor="let item of group.items;"
+                (click)="onItemClickFunc(item, $event)">
+
+                <!-- Avatar -->
+                <ion-thumbnail slot="start">
+                  <img [src]="item.image" [alt]="item.title" />
+                </ion-thumbnail>
+                <ion-label>
+                  <!-- Subtitle Title -->
+                  <h2 class="text-size-xs  ion-text-nowrap">
+                    {{item.title}}</h2>
+                  <!-- Subtitle Subtitle -->
+                  <h3 class="text-size-sm ion-text-nowrap">
+                    {{item.description}}</h3>
+                </ion-label>
+                <!-- ICON -->
+                <i slot="end" class="icon {{item.iconPlay}} icon-medium"></i>
+              </ion-item>
+            </div>
+            <!-- End List big image Body -->
+          </li>
+        </ul>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-grid>

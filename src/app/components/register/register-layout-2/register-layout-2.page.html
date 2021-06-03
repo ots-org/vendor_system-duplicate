@@ -1,0 +1,64 @@
+<!-- Themes Register + logo -->
+<ion-grid *ngIf="data != null">
+    <ion-row class="ion-align-items-center">
+        <ion-col class="ion-padding" size="12" size-md="10" push-md="1">
+            <!---Logo-->
+            <ion-img class="ion-float-end "[src]="data.logo"
+            *ngIf="data.logo != null"></ion-img>
+          </ion-col>
+                      <!---Input field username-->
+          <ion-col class="ion-padding" size="12" size-md="10" push-md="1">
+            <ion-item class="ion-no-padding transparent input">
+                <ion-label class="text-size-xs" position="floating">{{data.username}}
+                </ion-label>
+                <ion-input required type="text" [(ngModel)]="item.username">
+                </ion-input>
+                <ion-icon *ngIf="!isUsernameValid" class="icon-small" name="remove-circle">
+                </ion-icon>
+            </ion-item>
+            <!---Input field password-->
+            <ion-item class="ion-no-padding transparent input">
+                <ion-label class="text-size-xs" position="floating">{{data.password}}
+                </ion-label>
+                <ion-input required type="password"
+                    [(ngModel)]="item.password">
+                </ion-input>
+                <ion-icon *ngIf="!isPasswordValid" class="icon-small" name="remove-circle">
+                </ion-icon>
+            </ion-item>
+            <!---Input field email-->
+            <ion-item class="ion-no-padding transparent input">
+                <ion-label class="text-size-xs" position="floating">{{data.email}}
+                </ion-label>
+                <ion-input required type="email"
+                    pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+                    required [(ngModel)]="item.email">
+                </ion-input>
+                <ion-icon *ngIf="!isEmailValid" class="icon-small" name="remove-circle">
+                </ion-icon>
+            </ion-item>
+            <!---Input field country-->
+            <ion-item class="ion-no-padding transparent input">
+                <ion-label class="text-size-xs" position="floating">{{data.country}}
+                </ion-label>
+                <ion-input required type="text" pattern="[a-zA-Z ]*" required
+                    [(ngModel)]="item.country"></ion-input>
+                <ion-icon *ngIf="!isCountryValid" class="icon-small" name="remove-circle">
+                </ion-icon>
+            </ion-item>
+            <!---Input field city-->
+            <ion-item class="ion-no-padding transparent input">
+                <ion-label class="text-size-xs" position="floating">{{data.city}}
+                </ion-label>
+                <ion-input required type="text" pattern="[a-zA-Z ]*" required
+                    [(ngModel)]="item.city"></ion-input>
+                <ion-icon *ngIf="!isCityValid" class="icon-small" name="remove-circle"></ion-icon>
+            </ion-item>
+            <!---Register button-->
+            <ion-button class="ion-float-end clear-button ion-margin-top"
+            fill="clear" shape="round" (click)="onRegisterFunc()">
+              {{data.submit}}
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-grid>

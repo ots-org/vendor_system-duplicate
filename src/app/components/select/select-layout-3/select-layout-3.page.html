@@ -1,0 +1,8 @@
+<ion-item lines="none" class="ion-margin-bottom" *ngIf="data != null">
+    <ion-label class="text-size-xs">{{data.title}}</ion-label>
+    <ion-select class="text-size-xs" [(ngModel)]="data.selectedItem" multiple="false" interface="action-sheet"
+        (ionChange)="onChangeFunc($event)">
+        <ion-select-option *ngFor="let item of data.items" [value]="item.id">{{item.title}}
+        </ion-select-option>
+    </ion-select>
+</ion-item>

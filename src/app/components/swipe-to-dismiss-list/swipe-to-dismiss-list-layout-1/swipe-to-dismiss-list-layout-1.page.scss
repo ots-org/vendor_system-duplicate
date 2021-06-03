@@ -1,0 +1,19 @@
+/* Style component 1
+========================================================*/
+
+ion-item-divider {
+  --background: var(--cs-background-accent, #0090d0);
+
+  .text-size-xl,
+  .text-size-xs {
+    color: var(--cs-text-primary, #fff);
+  }
+
+  .icon-small {
+    color: var(--cs-text-primary, #fff) !important;
+  }
+
+  .span-medium {
+    color: var(--cs-text-primary, #fff);
+  }
+}

@@ -1,0 +1,50 @@
+<!-- FORMS --COMPONENT 3 -->
+<ion-grid class="ion-padding" *ngIf="data != null">
+   <ion-row>
+      <!-- Full Name -->
+      <ion-col size="12">
+        <ion-item class="ion-no-padding transparent input">
+          <ion-label class="text-size-sm" position="floating">
+            {{data.firstName}}</ion-label>
+            <ion-input type="text" [(ngModel)]="item.firstName"></ion-input>
+         </ion-item>
+         <!-- Last Name -->
+         <ion-item class="ion-no-padding transparent input">
+           <ion-label class="text-size-sm" position="floating">
+             {{data.lastName}}</ion-label>
+            <ion-input type="text" [(ngModel)]="item.lastName"></ion-input>
+         </ion-item>
+         <!-- Address Line 1 -->
+         <ion-item class="ion-no-padding transparent input">
+           <ion-label class="text-size-sm" position="floating">
+             {{data.addressLine1}}</ion-label>
+            <ion-input type="text" [(ngModel)]="item.address1"></ion-input>
+         </ion-item>
+         <!-- Address Line 2 -->
+         <ion-item class="ion-no-padding transparent input">
+           <ion-label class="text-size-sm" position="floating">
+             {{data.addressLine2}}</ion-label>
+            <ion-input type="text" [(ngModel)]="item.address2"></ion-input>
+         </ion-item>
+         <!-- City -->
+         <ion-item class="ion-no-padding transparent input">
+           <ion-label class="text-size-sm" position="floating">
+             {{data.city}}</ion-label>
+            <ion-input type="text" [(ngModel)]="item.city"></ion-input>
+         </ion-item>
+         <!-- Zip Code -->
+         <ion-item class="ion-no-padding transparent input">
+           <ion-label class="text-size-sm" position="floating">
+             {{data.zipCode}}</ion-label>
+            <ion-input type="number" [(ngModel)]="item.zipCode"></ion-input>
+         </ion-item>
+      </ion-col>
+      <!-- Button Write Comment -->
+      <ion-col size="12" class="ion-text-end">
+         <ion-button shape="round" class="button-round ion-margin-top"
+            fill="outline" (click)="onSubmitFunc($event)">
+            {{data.button}}
+         </ion-button>
+      </ion-col>
+   </ion-row>
+</ion-grid>

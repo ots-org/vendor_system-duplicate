@@ -1,0 +1,35 @@
+<!-- GOOGLE CARD --COMPONENT 1 -->
+<ion-grid class="ion-no-padding" *ngIf="data != null">
+  <ion-row>
+    <ion-col size="12" *ngFor="let item of data.items">
+      <ion-card class="ion-padding box-shadow" (click)="onItemClickFunc(item, $event)" >
+        <!--Card images-->
+        <ion-item class="ion-no-padding transparent" lines="none">
+          <ion-thumbnail slot="start">
+            <ion-img style="height: 2%;" class="images-filter" [src]="item.image"></ion-img>
+          </ion-thumbnail>
+          <!--Card-content-->
+          <ion-label class="ion-text-end">
+            <h2 class="text-size-xs">{{item.title}}</h2>
+            <!--Description-->
+            <h3 class="text-size-sm">{{item.description}}</h3>
+            <h3 class="text-size-sm">{{item.shortDescription}}</h3>
+            <p class="text-size-p ion-padding-top ion-text-wrap">{{item.longDescription}}</p>
+            <!---Social Share-->
+            <div class="social-share ion-margin-top">
+              <!-- Socila Like -->
+              <i ng-if="group.iconLike" class="icon {{item.iconLike}} icon-small"
+              (click)="onLikeFunc(item, $event)"></i>
+              <!-- Socila Favorits -->
+              <i ng-if="item.iconFavorite" class="icon {{item.iconFavorite}} icon-small"
+              (click)="onFavoriteFunc(item, $event)"></i>
+              <!-- Socila Share -->
+              <i ng-if="item.iconShare" class="icon {{item.iconShare}} icon-small"
+              (click)="onShareFunc(item, $event)"></i>
+            </div>
+          </ion-label>
+        </ion-item>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>

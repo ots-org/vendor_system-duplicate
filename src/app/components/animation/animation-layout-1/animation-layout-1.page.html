@@ -1,0 +1,14 @@
+<!-- ANIMATION --COMPONENT 1 -->
+<ion-grid class="ion-no-padding" *ngIf="data != null">
+  <ion-row>
+    <ion-col size="12">
+      <ion-list lines="none" appAnimateItems className="fadeInUp">
+        <ion-item *ngFor="let entry of data" (click)="onItemClickFunc(entry)"
+        class="animation-normal opacity-0">
+          <ion-label class="text-size-xs">{{entry.title}}</ion-label>
+          <ion-checkbox slot="start" [(ngModel)]="entry.isChecked"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-grid>

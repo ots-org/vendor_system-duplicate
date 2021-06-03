@@ -1,0 +1,86 @@
+<!-- lOGIN FROMA --COMPONENT 1 -->
+<ion-page class="ion-page">
+  <!-- Header -->
+  <ion-header>
+    <ion-toolbar class="box-shadow">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/"></ion-back-button>
+      </ion-buttons>
+      <ion-title class="ion-text-uppercase">{{data.headerTitle}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <!-- Content -->
+  <ion-content>
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col class="ion-padding" size="12" size-md="10" push-md="1">
+          <ion-button fill="clear" class="clear-button ion-float-right"
+          (click)="onSkipFunc()">{{data.skip}}</ion-button>
+          <div clearfix></div>
+          <!---Logo-->
+          <ion-img [src]="data.logo"></ion-img>
+        </ion-col>
+        <ion-col class="ion-padding" size="12" size-md="10" push-md="1">
+          <!---Input field username-->
+          <ion-item class="ion-no-padding input">
+            <ion-label  class="text-size-xs" position="floating">{{data.username}}
+            </ion-label>
+            <ion-input required type="text" [(ngModel)]="item.username">
+            </ion-input>
+            <ion-icon *ngIf="!isUsernameValid" class="icon-small" name="remove-circle">
+            </ion-icon>
+          </ion-item>
+          <!---Input field password-->
+          <ion-item class="ion-no-padding input">
+            <ion-label class="text-size-xs" position="floating">{{data.password}}
+            </ion-label>
+            <ion-input required type="password" [(ngModel)]="item.password">
+            </ion-input>
+            <ion-icon *ngIf="!isPasswordValid" class="icon-small" name="remove-circle">
+            </ion-icon>
+          </ion-item>
+        </ion-col>
+        <ion-col class="ion-padding" size="12" size-md="10" push-md="1">
+          <ion-row class="ion-padding-top ion-margin-top">
+            <ion-col size="6" class="ion-no-padding ion-align-self-start">
+              <!---Login ion-button-->
+              <ion-button class="button-round ion-text-capitalize" expand="full" shape="round"
+              fill="outline" (click)="onLoginFunc()">
+                {{data.login}}</ion-button>
+            </ion-col>
+            <ion-col size="6" class="ion-no-padding ion-align-self-start">
+              <!---Register ion-button-->
+              <ion-button class="button-round ion-text-capitalize" expand="full" shape="round"
+              fill="outline" (click)="onRegisterFunc()">
+                {{data.register}}</ion-button>
+            </ion-col>
+            <!---Share Section-->
+            <ion-col size="6" class="ion-no-padding ion-align-self-start ion-margin-top">
+              <!---Facebook ion-button-->
+              <ion-button expand="full" class="button-round facebook" shape="round"
+              fill="outline" (click)="onFacebookFunc()">
+                {{data.btnFacebook}}
+              </ion-button>
+              <!---Twitter ion-button-->
+              <ion-button expand="full" class="button-round twitter" shape="round"
+              fill="outline" (click)="onTwitterFunc()">{{data.btnTwitter}}
+              </ion-button>
+            </ion-col>
+            <ion-col size="6" class="ion-no-padding ion-align-self-start ion-margin-top">
+              <!---Google ion-button-->
+              <ion-button expand="full" class="button-round google" shape="round"
+              fill="outline" (click)="onGoogleFunc()">{{data.btnGoogle}}
+              </ion-button>
+              <!---Pinterest ion-button-->
+              <ion-button expand="full" class="button-round pinterest" shape="round"
+              fill="outline" (click)="onPinterestFunc()">
+                {{data.btnPinterest}}
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+        <!---End Share Section-->
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</ion-page>

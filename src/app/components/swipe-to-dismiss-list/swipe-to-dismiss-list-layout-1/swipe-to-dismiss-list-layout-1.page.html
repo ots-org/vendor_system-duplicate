@@ -1,0 +1,53 @@
+<!-- SWIPE TO DISMISS --COMPONENT 1 -->
+<ion-grid class="ion-no-padding" *ngIf="data != null">
+  <ion-row>
+    <ion-col size="12" class="ion-no-padding">
+      <ion-list #dynamicList>
+        <!-- Header List -->
+        <ion-item-divider lines="none" class="ion-no-padding transparent">
+          <!--Header Icon-->
+          <i slot="start" class="icon {{data.iconPlay}} icon-large"></i>
+          <ion-label>
+            <!--Header Title-->
+            <h1 class="text-size-xl">{{data.title}}</h1>
+            <!--Header Subitle-->
+            <h2 class="text-size-xs">{{data.description}}</h2>
+            <!--Header ShortDescription-->
+            <span class="span-medium">{{data.shortDescription}}</span>
+          </ion-label>
+          <i slot="end" class="icon icon-thumb-up icon-small" (click)="onLikeFunc(data, $event)"></i>
+          <i slot="end" class="icon icon-heart icon-small" (click)="onFavoriteFunc(data, $event)"></i>
+          <i slot="end" class="icon icon-share-variant icon-small ion-margin-end" (click)="onShareFunc(data, $event)"></i>
+        </ion-item-divider>
+        <!-- Content List -->
+        <ion-item-sliding #sliding (click)="onItemClickFunc(item, $event)" disabled="false" *ngFor="let item of data.items">
+          <ion-item lines="none" >
+
+            <!--Avatar -->
+            <ion-avatar slot="start">
+              <img [src]="item.image">
+            </ion-avatar>
+            <ion-label>
+              <!-- Title -->
+              <h2 class="text-size-xs ion-text-wrap">{{item.title}}</h2>
+              <!-- Subtitle -->
+              <h3 class="text-size-sm ion-text-wrap text-uppercase">{{item.description}}</h3>
+            </ion-label>
+            <!-- ShortDescription -->
+            <span slot="end" class="span-small">{{item.shortDescription}}</span>
+            <!-- Icon play -->
+            <i slot="end" class="icon icon-play icon-medium"></i>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option (click)="onDeleteFunc(item, $event)">
+              <i class="icon {{item.iconDelate}} icon-medium"></i>
+            </ion-item-option>
+            <ion-item-option (click)="onUndoFunc($event)">
+              <i class="icon {{item.iconUndo}} icon-medium"></i>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-grid>

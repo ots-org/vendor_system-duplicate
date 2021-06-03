@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>RTL TEST</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="settings-page">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item lines="none">
+          <ion-lable class="text-size-xs">Testing our application with Rtl (enable)</ion-lable>
+          <ion-checkbox slot="end" [(ngModel)]="isRTLEnabled" (ionChange)="ionChangeRTL($event)"></ion-checkbox>
+        </ion-item>
+        <ion-item lines="none">
+            <h1 class="text-size-lg">After changing rtl, please restart app.</h1>
+        </ion-item>
+
+        <!--- Button color combination -->
+        <ion-col size="12">
+          <ion-button class="ion-margin-top button-round" expand="full" shape="round" fill="outline" (click)="changeTheme('blue')">
+            <ion-label>
+              <h2>Blue</h2>
+              <span class="ion-text-capitalize text-size-sm">Trust, Dependable Strenght</span>
+            </ion-label>
+        </ion-button>
+          <ion-button class="ion-margin-top button-round" expand="full" shape="round" fill="outline" (click)="changeTheme('blue-gradient-1')">
+            <ion-label>
+              <h2>Blue gradient 1</h2>
+              <span class="ion-text-capitalize text-size-sm">Trust gradient 1, Dependable Strenght</span>
+            </ion-label>
+          </ion-button>
+          <ion-button class="ion-margin-top button-round" expand="full" shape="round" fill="outline" (click)="changeTheme('blue-gradient-2')">
+            <ion-label>
+              <h2>Blue gradient 2</h2>
+              <span class="ion-text-capitalize text-size-sm">Trust gradient 2, Dependable Strenght</span>
+            </ion-label>
+          </ion-button>
+          <ion-button class="ion-margin-top button-round" expand="full" shape="round" fill="outline" (click)="changeTheme('blue-gradient-3')">
+            <ion-label>
+              <h2>Blue gradient 3</h2>
+              <span class="ion-text-capitalize text-size-sm">Trust gradient 3, Dependable Strenght</span>
+            </ion-label>
+          </ion-button>
+          <ion-button class="ion-margin-top button-round" expand="full" shape="round" fill="outline" (click)="changeTheme('dark-gray')">
+            <ion-label>
+              <h2>DARK GRAY</h2>
+              <span class="ion-text-capitalize text-size-sm">Balance, Calm</span>
+            </ion-label>
+          </ion-button>
+          <ion-button class="ion-margin-top button-round" expand="full" shape="round" fill="outline" (click)="changeTheme('green')">
+            <ion-label>
+              <h2>GREEN</h2>
+              <span class="ion-text-capitalize text-size-sm">Peaceful, Growth Health</span>
+            </ion-label>
+          </ion-button>
+          <ion-button class="ion-margin-top button-round" expand="full" shape="round" fill="outline" (click)="changeTheme('purple')">
+            <ion-label>
+              <h2>PURPLE</h2>
+              <span class="ion-text-capitalize text-size-sm">Creative, Imaginitive Wise</span>
+            </ion-label>
+          </ion-button>
+          <ion-button class="ion-margin-top button-round" expand="full" shape="round" fill="outline" (click)="changeTheme('red')">
+            <ion-label>
+              <h2>RED</h2>
+              <span class="ion-text-capitalize text-size-sm">Ecxitement, Youtfull Bold</span>
+            </ion-label>
+          </ion-button>
+          <ion-button class="ion-margin-top button-round" expand="full" shape="round" fill="outline" (click)="changeTheme('orange')">
+            <ion-label>
+              <h2>ORANGE</h2>
+              <span class="ion-text-capitalize text-size-sm">Frendly, Cheerfull confidence</span>
+            </ion-label>
+          </ion-button>
+          <ion-button class="ion-margin-top button-round" expand="full" shape="round" fill="outline" (click)="changeTheme('yellow')">
+            <ion-label>
+              <h2>YELLOW</h2>
+              <span class="ion-text-capitalize text-size-sm">Optimism, Clarity Warmth</span>
+            </ion-label>
+          </ion-button>
+        </ion-col>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

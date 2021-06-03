@@ -1,0 +1,41 @@
+<!-- Content -->
+<ion-grid size="12" class="ion-padding">
+  <ion-row *ngIf="data != null">
+    <ion-col size="12" class="ion-text-center">
+      <ion-img [src]="data.images" alt=""></ion-img>
+    </ion-col>
+    <ion-col size="12">
+      <!-- Card Number -->
+      <ion-item lines="full" class="ion-no-padding input">
+        <ion-label class="text-size-sm "position="fixed">
+          {{data.cardNumber}}</ion-label>
+        <ion-input type="number" [(ngModel)]="cardItem.cardNumber"></ion-input>
+      </ion-item>
+      <!-- Card Holder -->
+      <ion-item lines="full" class="ion-no-padding input">
+        <ion-label class="text-size-sm" position="fixed">
+          {{data.cardHolder}}</ion-label>
+        <ion-input type="text" [(ngModel)]="cardItem.cardHolder"></ion-input>
+      </ion-item>
+      <!-- Card Data -->
+      <ion-item lines="full" class="ion-no-padding input">
+        <ion-label class="text-size-sm" position="fixed">
+          {{data.experienceDate}}</ion-label>
+        <ion-datetime display-format="MM/YY" [(ngModel)]="cardItem.birth"
+          [ngModelOptions]="{standalone: true}"></ion-datetime>
+      </ion-item>
+      <!-- Card Code -->
+      <ion-item lines="full" class="ion-no-padding input">
+        <ion-label class="text-size-sm" position="fixed">
+          {{data.code}}</ion-label>
+        <ion-input type="number" [(ngModel)]="cardItem.code"></ion-input>
+      </ion-item>
+      <ion-button class="button-round ion-float-end ion-margin-top" shape="round"
+        fill="outline"
+        *ngIf="data != null"
+        (click)="onPayFunc()">
+        {{data.button}}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
