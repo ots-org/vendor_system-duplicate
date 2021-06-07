@@ -25,7 +25,7 @@
     <hibernate.framework.version>5.1.0.Final</hibernate.framework.version>
     <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
     <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
-    <logback.dependency.version>1.1.2</logback.dependency.version>
+    <logback.dependency.version>1.2.0</logback.dependency.version>
     <junit.framework.version>4.11</junit.framework.version>
     <mssql.driver.version>6.4.0.jre8</mssql.driver.version>
     <aspectj.dependency.version>1.8.6</aspectj.dependency.version>
