@@ -34,7 +34,7 @@
     <javax.ws.rs.version>2.0.1</javax.ws.rs.version>
     <jackson.datatype.jsr310.version>2.4.0</jackson.datatype.jsr310.version>
     <cxf.rest.framework.version>3.1.5</cxf.rest.framework.version>
-    <java.melody.version>1.58.0</java.melody.version>
+    <java.melody.version>1.74.0</java.melody.version>
     <sl4j.logging.framework.version>1.7.19</sl4j.logging.framework.version>
     <janino.version>3.0.6</janino.version>
     <java.validation.dependency.version>1.1.0.Final</java.validation.dependency.version>
