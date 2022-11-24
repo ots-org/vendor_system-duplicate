@@ -22,7 +22,7 @@
   <!-- Dependency libraries versions -->
   <properties>
     <spring.framework.version>4.2.5.RELEASE</spring.framework.version>
-    <hibernate.framework.version>5.1.0.Final</hibernate.framework.version>
+    <hibernate.framework.version>5.3.20.Final</hibernate.framework.version>
     <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
     <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
     <logback.dependency.version>1.1.2</logback.dependency.version>
